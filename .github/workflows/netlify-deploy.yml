@@ -23,11 +23,27 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          CI: true
 
-      - name: Deploy to Netlify (CLI)
-        run: npx --yes netlify-cli deploy --dir=dist --prod --message "GitHub Actions deploy"
+      - name: Verify build output
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "❌ Build failed: dist directory not found"
+            exit 1
+          fi
+          if [ ! -f "dist/index.html" ]; then
+            echo "❌ Build failed: index.html not found"
+            exit 1
+          fi
+          echo "✅ Build output verified"
+
+      - name: Deploy to Netlify
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --dir=dist --prod --message "GitHub Actions deploy from commit ${{ github.sha }}"
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: 2e1340e1-a896-4fa3-98a6-fe2df3136ef4
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
 
