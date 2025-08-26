@@ -26,7 +26,7 @@ const MyPlants = () => {
     return (
       <div className="min-h-screen bg-background font-poppins">
         <Navigation />
-        <main className="pt-20">
+        <main>
           <section className="py-8 bg-background">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               {/* Header Skeleton */}
@@ -63,7 +63,7 @@ const MyPlants = () => {
   return (
     <div className="min-h-screen bg-background font-poppins">
       <Navigation />
-      <main className="pt-20">
+      <main>
         <MyPlantsCollection />
       </main>
       <Footer />

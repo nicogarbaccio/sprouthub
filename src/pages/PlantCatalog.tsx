@@ -6,7 +6,7 @@ const PlantCatalogPage = () => {
   return (
     <div className="min-h-screen bg-background font-poppins">
       <Navigation />
-      <main className="pt-20">
+      <main>
         <PlantCatalog />
       </main>
       <Footer />
