@@ -13,6 +13,7 @@ import {
   Target,
   Activity,
 } from "lucide-react";
+import { calculateWateringSchedule } from "@/utils/watering-schedule";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -234,23 +235,36 @@ const Dashboard = () => {
     ? `Welcome back, ${firstName}!`
     : "Welcome back, plant parent!";
 
-  // Calculate care statistics
+  // Calculate care statistics using the new watering calculation utility
   const totalPlants = plants.length;
-  const plantsWithoutWateringData = plants.filter(
-    (plant) => !plant.latest_watering
-  ).length;
 
-  const plantsNeedingWaterToday = plants.filter((plant) => {
-    if (!plant.latest_watering || !plant.days_since_watering) return false;
-    const wateringSchedule = plant.suggested_watering_days || 7;
-    return plant.days_since_watering >= wateringSchedule;
-  }).length;
+  const careStats = plants.reduce(
+    (stats, plant) => {
+      const wateringCalc = calculateWateringSchedule(plant);
 
-  const overduePlants = plants.filter((plant) => {
-    if (!plant.latest_watering || !plant.days_since_watering) return false;
-    const wateringSchedule = plant.suggested_watering_days || 7;
-    return plant.days_since_watering > wateringSchedule;
-  }).length;
+      if (wateringCalc.hasUnknownWateringDate) {
+        stats.plantsWithoutWateringData++;
+      } else if (wateringCalc.isOverdue) {
+        stats.overduePlants++;
+        stats.plantsNeedingWaterToday++;
+      } else if (
+        wateringCalc.daysUntilWatering === 0 ||
+        wateringCalc.isPostponed
+      ) {
+        stats.plantsNeedingWaterToday++;
+      }
+
+      return stats;
+    },
+    {
+      plantsWithoutWateringData: 0,
+      plantsNeedingWaterToday: 0,
+      overduePlants: 0,
+    }
+  );
+
+  const { plantsWithoutWateringData, plantsNeedingWaterToday, overduePlants } =
+    careStats;
 
   const recentlyAddedCount = plants.filter((plant) => {
     const plantDate = new Date(plant.created_at);
@@ -260,16 +274,34 @@ const Dashboard = () => {
     return daysDiff <= 7;
   }).length;
 
-  // Get plants needing water today (for task list)
+  // Get plants needing water today (for task list) using the new utility
   const plantsNeedingWater = plants
     .filter((plant) => {
-      if (!plant.latest_watering || !plant.days_since_watering) return false;
-      const wateringSchedule = plant.suggested_watering_days || 7;
-      return plant.days_since_watering >= wateringSchedule;
+      const wateringCalc = calculateWateringSchedule(plant);
+      return (
+        !wateringCalc.hasUnknownWateringDate &&
+        (wateringCalc.isOverdue ||
+          wateringCalc.daysUntilWatering === 0 ||
+          wateringCalc.isPostponed)
+      );
     })
-    .sort(
-      (a, b) => (b.days_since_watering || 0) - (a.days_since_watering || 0)
-    );
+    .sort((a, b) => {
+      const calcA = calculateWateringSchedule(a);
+      const calcB = calculateWateringSchedule(b);
+
+      // Sort by priority: overdue first (by how overdue), then due today, then postponed
+      if (calcA.isOverdue && calcB.isOverdue) {
+        return calcA.daysUntilWatering - calcB.daysUntilWatering; // More overdue first (more negative)
+      }
+      if (calcA.isOverdue && !calcB.isOverdue) return -1;
+      if (!calcA.isOverdue && calcB.isOverdue) return 1;
+
+      // Both not overdue, prioritize due today over postponed
+      if (calcA.daysUntilWatering === 0 && calcB.isPostponed) return -1;
+      if (calcA.isPostponed && calcB.daysUntilWatering === 0) return 1;
+
+      return 0; // Equal priority
+    });
 
   // Get recent activities (recently watered plants)
   const recentlyWateredPlants = plants
@@ -470,9 +502,7 @@ const Dashboard = () => {
                 ) : (
                   <div className="space-y-3">
                     {plantsNeedingWater.slice(0, 5).map((plant) => {
-                      const isOverdue =
-                        plant.days_since_watering! >
-                        (plant.suggested_watering_days || 7);
+                      const wateringCalc = calculateWateringSchedule(plant);
                       return (
                         <div
                           key={plant.id}
@@ -497,9 +527,17 @@ const Dashboard = () => {
                             </div>
                           </div>
                           <div className="flex items-center space-x-2">
-                            {isOverdue ? (
+                            {wateringCalc.isOverdue ? (
                               <Badge className="text-xs bg-sprout-error text-white">
-                                {plant.days_since_watering} days overdue
+                                {Math.abs(wateringCalc.daysUntilWatering)} days
+                                overdue
+                              </Badge>
+                            ) : wateringCalc.isPostponed ? (
+                              <Badge
+                                variant="secondary"
+                                className="text-xs bg-sprout-water/20 text-sprout-water"
+                              >
+                                Postponed
                               </Badge>
                             ) : (
                               <Badge variant="secondary" className="text-xs">
@@ -782,16 +820,25 @@ const Dashboard = () => {
                   </div>
                   <Badge
                     className={`text-xs ${
-                      plant.days_since_watering! >
-                      (plant.suggested_watering_days || 7)
+                      calculateWateringSchedule(plant).isOverdue
                         ? "bg-sprout-error text-white"
+                        : calculateWateringSchedule(plant).isPostponed
+                        ? "bg-sprout-water/20 text-sprout-water"
                         : "bg-secondary text-secondary-foreground"
                     }`}
                   >
-                    {plant.days_since_watering! >
-                    (plant.suggested_watering_days || 7)
-                      ? `${plant.days_since_watering} days overdue`
-                      : "Due today"}
+                    {(() => {
+                      const calc = calculateWateringSchedule(plant);
+                      if (calc.isOverdue) {
+                        return `${Math.abs(
+                          calc.daysUntilWatering
+                        )} days overdue`;
+                      } else if (calc.isPostponed) {
+                        return "Postponed";
+                      } else {
+                        return "Due today";
+                      }
+                    })()}
                   </Badge>
                 </div>
               ))}

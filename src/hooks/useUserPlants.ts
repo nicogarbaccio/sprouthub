@@ -211,7 +211,7 @@ export const useUserPlants = () => {
         .from('watering_records')
         .select('*')
         .eq('plant_id', plantId)
-        .like('notes', '%Watering postponed%')
+        .like('notes', '%POSTPONEMENT:%')
         .gt('watered_at', new Date().toISOString());
 
       if (fetchError) throw fetchError;

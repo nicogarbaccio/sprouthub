@@ -101,8 +101,8 @@ sprouthub is a comprehensive plant care tracker that helps you manage your indoo
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/sprouthub-bloom-tracker.git
-cd sprouthub-bloom-tracker
+git clone https://github.com/your-username/sprouthub.git
+cd sprouthub
 
 # Install dependencies
 npm install
@@ -180,7 +180,7 @@ npm run test:unit:cov
 
 ### Current Test Coverage
 
-**159 comprehensive unit tests** across 5 test suites with **99.81% statement coverage** and **100% function coverage**.
+**188 comprehensive unit tests** across 6 test suites with **99.81% statement coverage** and **100% function coverage**.
 
 #### **Overwatering Risk Assessment** (`src/utils/__tests__/overwatering.test.ts`)
 **8 tests** - Smart watering risk calculation algorithm:
@@ -191,6 +191,19 @@ npm run test:unit:cov
 - ✅ **Interval Analysis** - Validates average watering interval calculations
 - ✅ **Edge Cases** - Handles empty records, future dates, boundary conditions
 - ✅ **Window Constraints** - Tests 2-30 day window limits
+
+#### **Watering Schedule Management** (`src/utils/__tests__/watering-schedule.test.ts`)
+**29 tests** - Core watering schedule calculations and postponement functionality:
+
+- ✅ **Schedule Calculation** - Days until watering for healthy, overdue, and due plants
+- ✅ **Postponement Logic** - Future-dated watering records and status transitions
+- ✅ **Bug Prevention** - Prevents "push to tomorrow" from restarting watering schedules
+- ✅ **Status Progression** - Correct transitions from postponed to due states
+- ✅ **Edge Cases** - Null data, corrupted values, extreme intervals, malformed dates
+- ✅ **Integration Logic** - Dashboard statistics, room organization, plant card displays
+- ✅ **Date Calculations** - Next watering dates, time differences, timezone handling
+- ✅ **Component Integration** - Plant prioritization, status badges, task sorting
+- ✅ **Data Integrity** - Consistent calculations, error handling, graceful degradation
 
 #### **Smart Watering Schedule** (`src/utils/__tests__/smartWateringSchedule.test.ts`)
 **34 tests** - Environmental factor calculations and smart scheduling:
@@ -241,8 +254,8 @@ npm run test:unit:cov
 - **Statement Coverage**: 99.81%
 - **Branch Coverage**: 98.4%
 - **Function Coverage**: 100%
-- **Total Test Files**: 5
-- **Total Test Cases**: 159
+- **Total Test Files**: 6
+- **Total Test Cases**: 188
 - **Mocking Strategy**: Vi.js for external dependencies and time-based testing
 - **Edge Case Coverage**: Comprehensive null/undefined, boundary, and error scenarios
 
@@ -313,8 +326,9 @@ supabase/
 
 src/utils/__tests__/    # Comprehensive unit test suite
 ├── overwatering.test.ts         # Overwatering risk calculation (8 tests)
+├── watering-schedule.test.ts    # Core watering schedule logic (29 tests)
 ├── smartWateringSchedule.test.ts # Smart watering algorithms (34 tests)
-├── auth-validation.test.ts       # Form validation security (46 tests)
+├── auth-validation.test.ts      # Form validation security (46 tests)
 ├── rooms.test.ts               # Plant organization utilities (32 tests)
 └── toast-helpers.test.ts       # User notification system (39 tests)
 ```

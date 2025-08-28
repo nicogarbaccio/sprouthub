@@ -13,12 +13,28 @@ import WateringHistoryDialog from "./WateringHistoryDialog";
 import { useUserPlants, UserPlant } from "@/hooks/useUserPlants";
 import { useAuth } from "@/contexts/AuthContext";
 import { groupPlantsByRoom } from "@/utils/rooms";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  calculateWateringSchedule,
+  getNextWateringDate as getNextWateringDateUtil,
+  isPlantOverdue,
+} from "@/utils/watering-schedule";
 
 const MyPlantsCollection = () => {
   const { user } = useAuth();
-  const { plants, loading, fetchPlants, waterPlant, postponeWatering, overwateringByPlantId } =
-    useUserPlants();
+  const {
+    plants,
+    loading,
+    fetchPlants,
+    waterPlant,
+    postponeWatering,
+    overwateringByPlantId,
+  } = useUserPlants();
   const [editingPlant, setEditingPlant] = useState<UserPlant | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -88,25 +104,33 @@ const MyPlantsCollection = () => {
     );
   }
 
-  const overdueCount = plants.filter((plant) => {
-    if (!plant.days_since_watering || !plant.latest_watering) return false;
-    const wateringSchedule = plant.suggested_watering_days || 7;
-    return plant.days_since_watering > wateringSchedule;
-  }).length;
+  // Calculate plant statistics using the new watering calculation utility
+  const plantStats = plants.reduce(
+    (stats, plant) => {
+      const wateringCalc = calculateWateringSchedule(plant);
 
-  const dueToday = plants.filter((plant) => {
-    if (!plant.days_since_watering || !plant.latest_watering) return false;
-    const wateringSchedule = plant.suggested_watering_days || 7;
-    return plant.days_since_watering >= wateringSchedule;
-  }).length;
+      if (wateringCalc.hasUnknownWateringDate) {
+        stats.unknownWateringCount++;
+      } else if (wateringCalc.isOverdue) {
+        stats.overdueCount++;
+        stats.dueToday++;
+      } else if (
+        wateringCalc.daysUntilWatering === 0 ||
+        wateringCalc.isPostponed
+      ) {
+        stats.dueToday++;
+      }
 
-  const unknownWateringCount = plants.filter(
-    (plant) => !plant.latest_watering
-  ).length;
+      return stats;
+    },
+    { overdueCount: 0, dueToday: 0, unknownWateringCount: 0 }
+  );
+
+  const { overdueCount, dueToday, unknownWateringCount } = plantStats;
 
   const overwateringCount = plants.filter((p) => {
     const risk = overwateringByPlantId[p.id];
-    return risk && risk.level !== 'none';
+    return risk && risk.level !== "none";
   }).length;
 
   // Room statistics
@@ -153,20 +177,18 @@ const MyPlantsCollection = () => {
     });
   };
 
+  // Wrapper functions for backward compatibility with RoomSection
   const getNextWateringDate = (
     lastWatered: string | undefined,
     daysAgo: number | undefined,
     wateringSchedule: number
   ) => {
-    if (!lastWatered || daysAgo === undefined) {
-      return "Unknown";
-    }
-
-    const lastWateredDate = new Date(lastWatered);
-    const nextWatering = new Date(lastWateredDate);
-    nextWatering.setDate(nextWatering.getDate() + wateringSchedule);
-
-    return formatDate(nextWatering.toISOString());
+    return getNextWateringDateUtil(
+      lastWatered,
+      daysAgo,
+      wateringSchedule,
+      formatDate
+    );
   };
 
   const isOverdue = (
@@ -174,9 +196,7 @@ const MyPlantsCollection = () => {
     wateringSchedule: number,
     hasLastWatered: boolean
   ) => {
-    return (
-      hasLastWatered && daysAgo !== undefined && daysAgo > wateringSchedule
-    );
+    return isPlantOverdue(daysAgo, wateringSchedule, hasLastWatered);
   };
 
   return (
@@ -222,7 +242,10 @@ const MyPlantsCollection = () => {
                       </TooltipTrigger>
                       <TooltipContent>
                         <p className="max-w-xs">
-                          We flag possible overwatering when a plant is watered 2+ times within its suggested window (e.g., 7 days), or when the average interval is less than half the suggested days.
+                          We flag possible overwatering when a plant is watered
+                          2+ times within its suggested window (e.g., 7 days),
+                          or when the average interval is less than half the
+                          suggested days.
                         </p>
                       </TooltipContent>
                     </Tooltip>

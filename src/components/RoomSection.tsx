@@ -7,6 +7,10 @@ import EmptyRoomState from "./EmptyRoomState";
 import { UserPlant } from "@/hooks/useUserPlants";
 import { getRoomIcon, getRoomLabel, getRoomTheme } from "@/utils/rooms";
 import type { OverwateringRisk } from "@/utils/overwatering";
+import {
+  calculateWateringSchedule,
+  getNextWateringDate as getNextWateringDateUtil,
+} from "@/utils/watering-schedule";
 
 interface RoomSectionProps {
   roomKey: string;
@@ -49,41 +53,30 @@ const RoomSection = ({
   const roomIcon = getRoomIcon(roomKey);
   const roomTheme = getRoomTheme(roomKey);
 
-  // Calculate room statistics
-  const overdueCount = plants.filter((plant) => {
-    if (
-      plant.days_since_watering === null ||
-      plant.days_since_watering === undefined ||
-      !plant.latest_watering
-    )
-      return false;
-    const wateringSchedule = plant.suggested_watering_days || 7;
-    return plant.days_since_watering > wateringSchedule;
-  }).length;
+  // Calculate room statistics using the new watering schedule utility
+  const roomStats = plants.reduce(
+    (stats, plant) => {
+      const wateringCalc = calculateWateringSchedule(plant);
 
-  const dueTodayCount = plants.filter((plant) => {
-    if (
-      plant.days_since_watering === null ||
-      plant.days_since_watering === undefined ||
-      !plant.latest_watering
-    )
-      return false;
-    const wateringSchedule = plant.suggested_watering_days || 7;
-    return plant.days_since_watering === wateringSchedule;
-  }).length;
+      if (wateringCalc.hasUnknownWateringDate) {
+        stats.unknownCount++;
+      } else if (wateringCalc.isPostponed) {
+        // Postponed plants are considered "due today" since they need attention
+        stats.dueTodayCount++;
+      } else if (wateringCalc.isOverdue) {
+        stats.overdueCount++;
+      } else if (wateringCalc.daysUntilWatering === 0) {
+        stats.dueTodayCount++;
+      } else if (wateringCalc.daysUntilWatering > 0) {
+        stats.healthyCount++;
+      }
 
-  const healthyCount = plants.filter((plant) => {
-    if (
-      plant.days_since_watering === null ||
-      plant.days_since_watering === undefined ||
-      !plant.latest_watering
-    )
-      return false;
-    const wateringSchedule = plant.suggested_watering_days || 7;
-    return plant.days_since_watering < wateringSchedule;
-  }).length;
+      return stats;
+    },
+    { overdueCount: 0, dueTodayCount: 0, healthyCount: 0, unknownCount: 0 }
+  );
 
-  const unknownCount = plants.filter((plant) => !plant.latest_watering).length;
+  const { overdueCount, dueTodayCount, healthyCount, unknownCount } = roomStats;
 
   // Room health status
   const getRoomHealthStatus = () => {
@@ -229,16 +222,8 @@ const RoomSection = ({
         <CascadingGrid
           items={plants}
           renderItem={(plant) => {
-            const wateringSchedule = plant.suggested_watering_days || 7;
-            const hasLastWatered = !!plant.latest_watering;
-
-            // Check if this plant's watering was postponed (watering date is in the future)
-            // Since waterPlant now cleans up postponement records, any future date is a valid postponement
-            const latestWateringDate = plant.latest_watering
-              ? new Date(plant.latest_watering)
-              : null;
-            const now = new Date();
-            const isPostponed = latestWateringDate && latestWateringDate > now;
+            // Use the new watering schedule calculation utility
+            const wateringCalc = calculateWateringSchedule(plant);
 
             return (
               <MyPlantCard
@@ -256,25 +241,21 @@ const RoomSection = ({
                     : "Unknown"
                 }
                 lastWateredDate={plant.latest_watering}
-                nextWateringDue={getNextWateringDate(
+                nextWateringDue={getNextWateringDateUtil(
                   plant.latest_watering,
                   plant.days_since_watering,
-                  wateringSchedule
+                  plant.suggested_watering_days || 7,
+                  formatDate
                 )}
-                isOverdue={isOverdue(
-                  plant.days_since_watering,
-                  wateringSchedule,
-                  hasLastWatered
-                )}
-                daysUntilWatering={
-                  plant.days_since_watering !== null &&
-                  plant.days_since_watering !== undefined
-                    ? wateringSchedule - plant.days_since_watering
-                    : 999 // Large number = not due for a long time when no watering data
+                isOverdue={wateringCalc.isOverdue}
+                daysUntilWatering={wateringCalc.daysUntilWatering}
+                hasUnknownWateringDate={wateringCalc.hasUnknownWateringDate}
+                isPostponed={wateringCalc.isPostponed}
+                overwatering={
+                  overwateringByPlantId
+                    ? overwateringByPlantId[plant.id]
+                    : undefined
                 }
-                hasUnknownWateringDate={!hasLastWatered}
-                isPostponed={isPostponed}
-                overwatering={overwateringByPlantId ? overwateringByPlantId[plant.id] : undefined}
                 onWater={() => onWaterPlant(plant.id)}
                 onEdit={() => onEditPlant(plant)}
                 onPostpone={
