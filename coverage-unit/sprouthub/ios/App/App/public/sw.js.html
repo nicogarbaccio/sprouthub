@@ -1,0 +1,88 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for sprouthub/ios/App/App/public/sw.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../../index.html">All files</a> / <a href="index.html">sprouthub/ios/App/App/public</a> sw.js</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >if(!self.define){let e,i={};const n=(n,c)=&gt;(n=new URL(n+".js",c).href,i[n]||new Promise((i=&gt;{if("document"in self){const e=document.createElement("script");e.src=n,e.onload=i,document.head.appendChild(e)}else e=n,importScripts(n),i()})).then((()=&gt;{let e=i[n];if(!e)throw new Error(`Module ${n} didn’t register its module`);return e})));self.define=(c,s)=&gt;{const r=e||("document"in self?document.currentScript.src:"")||location.href;if(i[r])return;let o={};const d=e=&gt;n(e,r),a={module:{uri:r},exports:o,require:d};i[r]=Promise.all(c.map((e=&gt;a[e]||d(e)))).then((e=&gt;(s(...e),o)))}}define(["./workbox-1f723fb5"],(function(e){"use strict";self.skipWaiting(),e.clientsClaim(),e.precacheAndRoute([{url:"apple-touch-icon.png",revision:"b7e1d9c950ddccc0536263e3df919ffa"},{url:"assets/browser-DTcyHfCk.js",revision:null},{url:"assets/index-B0J5C7l2.js",revision:null},{url:"assets/index-D-fpbuq8.css",revision:null},{url:"favicon.ico",revision:"566e64364d6957715dc11845f4800700"},{url:"icon-128.png",revision:"87d460a03bce7ec12e3e72bec9636e1e"},{url:"icon-144.png",revision:"0973f411f5b1678270963e45b67ce1f1"},{url:"icon-152.png",revision:"c905f55f11d12c40d288c534257694c0"},{url:"icon-192.png",revision:"40fa990970d110eea7e4ff7d8cd22717"},{url:"icon-384.png",revision:"6e38fe8d196d469c30f8c90182ab89ea"},{url:"icon-512.png",revision:"88726745cf617b378922e81238b1266e"},{url:"icon-512.svg",revision:"76889810d1e0992d80ed39d0c00fb3ce"},{url:"icon-72.png",revision:"dd1123e4a45fd4c2cdb1a79982506143"},{url:"icon-96.png",revision:"3c6a96a1b58599469c095f264e151440"},{url:"icon-base.svg",revision:"a8e05bee0c44a41e9c94ded393cf5c3d"},{url:"index.html",revision:"6e46b02e7a1520affe6d6af692c67659"},{url:"placeholder.svg",revision:"35707bd9960ba5281c72af927b79291f"},{url:"registerSW.js",revision:"1872c500de691dce40960bb85481de07"},{url:"apple-touch-icon.png",revision:"b7e1d9c950ddccc0536263e3df919ffa"},{url:"favicon.ico",revision:"566e64364d6957715dc11845f4800700"},{url:"icon-128.png",revision:"87d460a03bce7ec12e3e72bec9636e1e"},{url:"icon-144.png",revision:"0973f411f5b1678270963e45b67ce1f1"},{url:"icon-152.png",revision:"c905f55f11d12c40d288c534257694c0"},{url:"icon-192.png",revision:"40fa990970d110eea7e4ff7d8cd22717"},{url:"icon-384.png",revision:"6e38fe8d196d469c30f8c90182ab89ea"},{url:"icon-512.png",revision:"88726745cf617b378922e81238b1266e"},{url:"icon-72.png",revision:"dd1123e4a45fd4c2cdb1a79982506143"},{url:"icon-96.png",revision:"3c6a96a1b58599469c095f264e151440"},{url:"robots.txt",revision:"f9dff89adf98833e676de2205921996a"},{url:"manifest.webmanifest",revision:"b901f7ab9eaaa5e9e1596ea088dcd232"}],{}),e.cleanupOutdatedCaches(),e.registerRoute(new e.NavigationRoute(e.createHandlerBoundToURL("index.html"))),e.registerRoute(/^https:\/\/.*\.supabase\.co\/.*/i,new e.NetworkFirst({cacheName:"supabase-api-cache",plugins:[new e.ExpirationPlugin({maxEntries:100,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:png|jpg|jpeg|svg|webp)$/,new e.CacheFirst({cacheName:"images-cache",plugins:[new e.ExpirationPlugin({maxEntries:60,maxAgeSeconds:2592e3})]}),"GET"),e.registerRoute(/\.(?:js|css)$/,new e.StaleWhileRevalidate({cacheName:"static-resources",plugins:[]}),"GET")}));<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2025-08-28T00:27:11.729Z
+            </div>
+        <script src="../../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../../sorter.js"></script>
+        <script src="../../../../../block-navigation.js"></script>
+    </body>
+</html>
+    

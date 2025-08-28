@@ -39,7 +39,7 @@ sprouthub is a comprehensive plant care tracker that helps you manage your indoo
 
 ### 🛠️ Developer Experience
 - **Type Safety:** Full TypeScript implementation with strict type checking
-- **Modern Testing:** E2E testing with Selenium WebDriver for reliable quality assurance
+- **Modern Testing:** Unit testing with Vitest for reliable quality assurance
 - **Component Library:** Consistent UI with shadcn/ui and Radix UI primitives
 - **Code Quality:** ESLint, Prettier, and automated formatting
 - **Performance Optimized:** Code splitting, lazy loading, and optimized bundles
@@ -81,7 +81,6 @@ sprouthub is a comprehensive plant care tracker that helps you manage your indoo
 - **Image Optimization** - WebP format and responsive images
 
 ### Testing & Quality
-- **[Selenium WebDriver](https://selenium.dev/)** - End-to-end testing across browsers
 - **[Vitest](https://vitest.dev/)** - Fast unit and integration testing
 - **[ESLint](https://eslint.org/)** - Code linting and quality enforcement
 - **[TypeScript ESLint](https://typescript-eslint.io/)** - TypeScript-specific linting rules
@@ -163,34 +162,89 @@ Database migrations are located in the `supabase/migrations/` directory.
 
 ## 🧪 Testing
 
-### End-to-End Testing
+### Unit Testing
 ```bash
-# Run all E2E tests
-npm run test
+# Run all unit tests
+npm test
 # or
-npm run test:e2e
+npm run test:unit
 
 # Run tests in watch mode
 npm run test:watch
+# or
+npm run test:unit:watch
 
-# Run specific test suites
-npm run test:basic       # Core functionality
-npm run test:homepage    # Landing page tests
-npm run test:auth        # Authentication tests  
-npm run test:catalog     # Catalog functionality
-
-# Run with manual debugging
-npm run test:manual
+# Run tests with coverage report
+npm run test:unit:cov
 ```
 
-### Test Coverage
-- **Authentication flows** - Login, signup, logout
-- **Plant management** - Adding, editing, deleting plants
-- **Care tracking** - Logging care activities and postpone functionality
-- **Smart watering** - Environmental factor calculations and recommendations
-- **Room organization** - Room management and statistics
-- **Responsive design** - Mobile and desktop layouts
-- **Catalog search** - Advanced filtering and search functionality
+### Current Test Coverage
+
+**159 comprehensive unit tests** across 5 test suites with **99.81% statement coverage** and **100% function coverage**.
+
+#### **Overwatering Risk Assessment** (`src/utils/__tests__/overwatering.test.ts`)
+**8 tests** - Smart watering risk calculation algorithm:
+
+- ✅ **Risk Level Calculation** - Validates `none`, `low`, `high` risk assessment
+- ✅ **Watering Frequency Analysis** - Tests sliding window logic for recent waterings
+- ✅ **Postponement Handling** - Ensures postponed waterings are excluded from risk
+- ✅ **Interval Analysis** - Validates average watering interval calculations
+- ✅ **Edge Cases** - Handles empty records, future dates, boundary conditions
+- ✅ **Window Constraints** - Tests 2-30 day window limits
+
+#### **Smart Watering Schedule** (`src/utils/__tests__/smartWateringSchedule.test.ts`)
+**34 tests** - Environmental factor calculations and smart scheduling:
+
+- ✅ **Factor Calculations** - Plant size, light level, temperature, humidity adjustments
+- ✅ **Seasonal Adjustments** - Winter dormancy, summer growth, spring/fall transitions
+- ✅ **Care Style Adaptation** - Frequent, balanced, minimal care preferences
+- ✅ **Soil Type Effects** - Draining, regular, moisture-retaining soil impacts
+- ✅ **Confidence Scoring** - High/medium/low confidence based on adjustment magnitude
+- ✅ **Complex Combinations** - Multi-factor scenarios and extreme conditions
+- ✅ **Boundary Testing** - 2-45 day limits, baseline calculations
+- ✅ **Season Detection** - Month-based season calculation with date mocking
+- ✅ **Label Generation** - User-friendly factor descriptions and ranges
+
+#### **Authentication Validation** (`src/utils/__tests__/auth-validation.test.ts`)
+**46 tests** - Form validation and security checks:
+
+- ✅ **Password Security** - Length requirements, special characters, matching validation
+- ✅ **Email Validation** - Format checking, domain validation, special character handling
+- ✅ **Username Requirements** - Length validation, character restrictions
+- ✅ **Combined Scenarios** - Multiple field validation, error aggregation
+- ✅ **Edge Cases** - Empty fields, whitespace, case sensitivity
+- ✅ **Error Detection** - Comprehensive error checking utility validation
+
+#### **Room Management** (`src/utils/__tests__/rooms.test.ts`)
+**32 tests** - Plant organization and room utilities:
+
+- ✅ **Room Labels** - Known room formatting, custom room handling, fallback scenarios
+- ✅ **Icon Management** - Room icon retrieval, fallback icons, null handling
+- ✅ **Theme System** - Room-specific themes, dark mode support, fallback themes
+- ✅ **Plant Grouping** - Room-based organization, sorting logic, unassigned handling
+- ✅ **Data Integrity** - Null room values, NO_ROOM_VALUE constant, generic object support
+- ✅ **Sorting Logic** - Alphabetical room ordering with unassigned last
+
+#### **Toast Notifications** (`src/utils/__tests__/toast-helpers.test.ts`)
+**39 tests** - User feedback and notification system:
+
+- ✅ **Plant Actions** - Add, update, delete, care reminder notifications
+- ✅ **Watering Events** - Record, schedule, postpone, overdue, error notifications
+- ✅ **Authentication** - Sign in/up/out success and error messages
+- ✅ **Profile Management** - Update, password change, error handling
+- ✅ **General Utilities** - Save, delete, info, warning, error notifications
+- ✅ **Image Upload** - Success, file size, type validation, error handling
+- ✅ **Consistency Validation** - Emoji usage, variant assignments, message formatting
+
+### Test Quality Metrics
+
+- **Statement Coverage**: 99.81%
+- **Branch Coverage**: 98.4%
+- **Function Coverage**: 100%
+- **Total Test Files**: 5
+- **Total Test Cases**: 159
+- **Mocking Strategy**: Vi.js for external dependencies and time-based testing
+- **Edge Case Coverage**: Comprehensive null/undefined, boundary, and error scenarios
 
 ## 🎨 Code Style & Quality
 
@@ -257,14 +311,12 @@ supabase/
 ├── functions/         # Edge functions
 └── migrations/        # Database migrations
 
-tests/                 # End-to-end tests
-└── selenium/         # Selenium WebDriver tests
-    ├── auth.spec.ts      # Authentication tests
-    ├── basic.spec.ts     # Core functionality tests
-    ├── homepage.spec.ts  # Homepage tests
-    ├── plant-catalog.spec.ts  # Catalog and search tests
-    ├── selenium.config.ts     # Test configuration
-    └── README.md         # Testing documentation
+src/utils/__tests__/    # Comprehensive unit test suite
+├── overwatering.test.ts         # Overwatering risk calculation (8 tests)
+├── smartWateringSchedule.test.ts # Smart watering algorithms (34 tests)
+├── auth-validation.test.ts       # Form validation security (46 tests)
+├── rooms.test.ts               # Plant organization utilities (32 tests)
+└── toast-helpers.test.ts       # User notification system (39 tests)
 ```
 
 ## 🌍 Deployment
