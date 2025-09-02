@@ -18,6 +18,12 @@ interface AuthContextType {
     password: string
   ) => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<void>;
+  resetPassword: (email: string) => Promise<{ error: AuthError | null }>;
+  verifyResetToken: (
+    email: string,
+    token: string,
+    newPassword: string
+  ) => Promise<{ error: AuthError | null }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -41,6 +47,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
+      // Prevent auto-login for password recovery sessions
+      if (event === "PASSWORD_RECOVERY") {
+        // Don't set user/session for recovery - require manual password reset
+        console.log("Password recovery detected - preventing auto-login");
+        setLoading(false);
+        return;
+      }
+
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
@@ -177,6 +191,52 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const resetPassword = async (email: string) => {
+    // Send OTP to email for password reset
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
+    return { error };
+  };
+
+  const verifyResetToken = async (
+    email: string,
+    token: string,
+    newPassword: string
+  ) => {
+    try {
+      // First verify the OTP token
+      const { error: verifyError } = await supabase.auth.verifyOtp({
+        email,
+        token,
+        type: "recovery",
+      });
+
+      if (verifyError) {
+        return { error: verifyError };
+      }
+
+      // If OTP is valid, update the password
+      const { error: updateError } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (updateError) {
+        return { error: updateError };
+      }
+
+      // Sign out after password reset to prevent auto-login
+      await supabase.auth.signOut();
+
+      return { error: null };
+    } catch (err) {
+      console.error("Password reset error:", err);
+      return {
+        error: {
+          message: "An unexpected error occurred. Please try again.",
+        } as AuthError,
+      };
+    }
+  };
+
   const value: AuthContextType = {
     user,
     session,
@@ -184,6 +244,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     signUp,
     signIn,
     signOut,
+    resetPassword,
+    verifyResetToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

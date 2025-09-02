@@ -163,6 +163,27 @@ export const authToast = {
       description: "There was an error signing you out. Please try again.",
       variant: "error",
     }),
+
+  resetPasswordSent: () =>
+    toast({
+      title: `${TOAST_EMOJIS.success.general} Reset Email Sent`,
+      description: "Check your email for password reset instructions",
+      variant: "success",
+    }),
+
+  resetPasswordError: (error: string) =>
+    toast({
+      title: `${TOAST_EMOJIS.error.failed} Reset Failed`,
+      description: error,
+      variant: "error",
+    }),
+
+  passwordUpdated: () =>
+    toast({
+      title: `${TOAST_EMOJIS.success.general} Password Updated`,
+      description: "Your password has been updated successfully",
+      variant: "success",
+    }),
 };
 
 /**

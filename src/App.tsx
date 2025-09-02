@@ -8,6 +8,8 @@ import { ProfileDataProvider } from "@/contexts/ProfileDataContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import PlantCatalogPage from "./pages/PlantCatalog";
 import PlantDetails from "./pages/PlantDetails";
 import MyPlants from "./pages/MyPlants";
@@ -30,6 +32,8 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/plant-catalog" element={<PlantCatalogPage />} />
                 <Route
                   path="/plant-details/:plantName"

@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { authToast } from "@/utils/toast-helpers";
+import { Link } from "react-router-dom";
 import type { ToastProps } from "@/components/ui/toast";
 
 /**
@@ -81,6 +82,17 @@ export const SignInForm: React.FC<SignInFormProps> = ({
           </Button>
         </div>
       </div>
+
+      <div className="flex items-center justify-between">
+        <div></div>
+        <Link
+          to="/forgot-password"
+          className="text-sm text-sprout-cream hover:text-sprout-light dark:hover:text-sprout-pale transition-colors"
+        >
+          Forgot password?
+        </Link>
+      </div>
+
       <Button
         type="submit"
         className="w-full bg-sprout-light hover:bg-sprout-medium text-sprout-white"
