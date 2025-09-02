@@ -1,7 +1,10 @@
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Droplets, AlertTriangle, Edit, Clock, History } from "lucide-react";
 import type { OverwateringRisk } from "@/utils/overwatering";
+import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import PlantImage from "@/components/ui/plant-image";
+import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
 
 interface MyPlantCardProps {
   id: string;
@@ -15,6 +18,7 @@ interface MyPlantCardProps {
   daysUntilWatering: number;
   hasUnknownWateringDate: boolean;
   isPostponed?: boolean; // If the latest watering record is a postponement
+  suggestedWateringDays?: number; // For overwatering warning calculation
   onWater: () => void;
   onEdit: () => void;
   onPostpone?: () => void;
@@ -33,15 +37,30 @@ const MyPlantCard = ({
   daysUntilWatering,
   hasUnknownWateringDate,
   isPostponed,
+  suggestedWateringDays = 7,
   onWater,
   onEdit,
   onPostpone,
   onViewHistory,
   overwatering,
 }: MyPlantCardProps) => {
+  const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
+
   const isOverwateringActive = !!(
     overwatering && overwatering.level !== "none"
   );
+
+  // Check if we should show overwatering warning
+  const { showWarning: showOverwateringWarning, daysSinceLastWatered } =
+    shouldShowOverwateringWarning(lastWateredDate, suggestedWateringDays);
+
+  const handleWaterClick = () => {
+    setShowWaterConfirmation(true);
+  };
+
+  const handleConfirmWater = () => {
+    onWater();
+  };
   const getStatusColor = () => {
     if (hasUnknownWateringDate)
       return "bg-neutral-500 text-white border-neutral-500";
@@ -220,7 +239,7 @@ const MyPlantCard = ({
         onPostpone ? (
           <div className="space-y-2">
             <Button
-              onClick={onWater}
+              onClick={handleWaterClick}
               className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
             >
               <Droplets className="w-4 h-4 mr-2" />
@@ -237,7 +256,7 @@ const MyPlantCard = ({
           </div>
         ) : (
           <Button
-            onClick={onWater}
+            onClick={handleWaterClick}
             className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
           >
             <Droplets className="w-4 h-4 mr-2" />
@@ -245,6 +264,15 @@ const MyPlantCard = ({
           </Button>
         )}
       </div>
+
+      <WaterConfirmationDialog
+        open={showWaterConfirmation}
+        onOpenChange={setShowWaterConfirmation}
+        onConfirm={handleConfirmWater}
+        plantName={name}
+        showOverwateringWarning={showOverwateringWarning}
+        daysSinceLastWatered={daysSinceLastWatered}
+      />
     </div>
   );
 };

@@ -16,6 +16,8 @@ import {
 import { useSwipe, useHaptic } from "@/hooks/use-touch";
 import { cn } from "@/lib/utils";
 import PlantImage from "@/components/ui/plant-image";
+import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
+import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 
 interface MobilePlantCardProps {
   plant: {
@@ -28,6 +30,7 @@ interface MobilePlantCardProps {
     care_difficulty?: "easy" | "medium" | "hard";
     light_requirement?: "low" | "medium" | "high";
     is_favorite?: boolean;
+    suggested_watering_days?: number;
   };
   onWater?: (plantId: string) => void;
   onFavorite?: (plantId: string) => void;
@@ -52,6 +55,7 @@ export function MobilePlantCard({
     null
   );
   const [showActions, setShowActions] = useState(false);
+  const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
   const { lightImpact, mediumImpact, success } = useHaptic();
 
   const swipeHandlers = useSwipe(
@@ -88,10 +92,18 @@ export function MobilePlantCard({
   );
 
   const handleWater = () => {
-    onWater?.(plant.id);
-    success();
+    setShowWaterConfirmation(true);
     setShowActions(false);
   };
+
+  const handleConfirmWater = () => {
+    onWater?.(plant.id);
+    success();
+  };
+
+  // Check if we should show overwatering warning
+  const { showWarning: showOverwateringWarning, daysSinceLastWatered } = 
+    shouldShowOverwateringWarning(plant.last_watered, plant.suggested_watering_days || 7);
 
   const handleFavorite = () => {
     onFavorite?.(plant.id);
@@ -373,5 +385,14 @@ export function PlantQuickActions({
         <Camera className="w-4 h-4" />
       </Button>
     </div>
+
+    <WaterConfirmationDialog
+      open={showWaterConfirmation}
+      onOpenChange={setShowWaterConfirmation}
+      onConfirm={handleConfirmWater}
+      plantName={plant.name}
+      showOverwateringWarning={showOverwateringWarning}
+      daysSinceLastWatered={daysSinceLastWatered}
+    />
   );
 }

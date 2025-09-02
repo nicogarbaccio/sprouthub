@@ -53,4 +53,40 @@ export function computeOverwateringRisk(params: {
   return { level, count, windowDays, avgIntervalDays };
 }
 
+/**
+ * Determines if a plant was recently watered and should show overwatering warning
+ * @param lastWatered - The last watered date string
+ * @param suggestedWateringDays - The plant's suggested watering schedule
+ * @returns Object with warning flag and days since last watered
+ */
+export function shouldShowOverwateringWarning(
+  lastWatered: string | null | undefined,
+  suggestedWateringDays: number = 7
+): { showWarning: boolean; daysSinceLastWatered?: number } {
+  if (!lastWatered) {
+    return { showWarning: false };
+  }
+
+  const lastWateredDate = new Date(lastWatered);
+  const now = new Date();
+  
+  // Skip if the last watered date is in the future (postponed)
+  if (lastWateredDate > now) {
+    return { showWarning: false };
+  }
+
+  const timeDiff = now.getTime() - lastWateredDate.getTime();
+  const daysSinceLastWatered = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+  // Show warning if watered within the last 2 days OR if watering too frequently
+  // compared to the suggested schedule (less than 50% of suggested days)
+  const tooRecent = daysSinceLastWatered <= 2;
+  const tooFrequent = daysSinceLastWatered < (suggestedWateringDays * 0.5);
+  
+  return {
+    showWarning: tooRecent || tooFrequent,
+    daysSinceLastWatered,
+  };
+}
+
 

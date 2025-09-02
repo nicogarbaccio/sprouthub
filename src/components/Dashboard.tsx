@@ -45,6 +45,8 @@ import { useUserPlants } from "@/hooks/useUserPlants";
 import { useProfile } from "@/hooks/useProfile";
 import AddPlantDialog from "./AddPlantDialog";
 import PlantImage from "@/components/ui/plant-image";
+import WaterConfirmationDialog from "./WaterConfirmationDialog";
+import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import { format, formatDistanceToNow } from "date-fns";
 
 const Dashboard = () => {
@@ -53,6 +55,17 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isBulkWaterDialogOpen, setIsBulkWaterDialogOpen] = useState(false);
+  const [waterConfirmation, setWaterConfirmation] = useState<{
+    show: boolean;
+    plantId: string;
+    plantName: string;
+    lastWatered?: string;
+    suggestedWateringDays?: number;
+  }>({
+    show: false,
+    plantId: "",
+    plantName: "",
+  });
 
   const isLoading = loading || isLoadingProfile;
 
@@ -323,11 +336,26 @@ const Dashboard = () => {
     )
     .slice(0, 4);
 
-  const handleQuickWater = async (plantId: string, plantName: string) => {
-    const success = await waterPlant(plantId, `Quick watered from dashboard`);
+  const handleQuickWater = (plantId: string, plantName: string) => {
+    const plant = plants.find((p) => p.id === plantId);
+    setWaterConfirmation({
+      show: true,
+      plantId,
+      plantName,
+      lastWatered: plant?.latest_watering,
+      suggestedWateringDays: plant?.suggested_watering_days || 7,
+    });
+  };
+
+  const handleConfirmQuickWater = async () => {
+    const success = await waterPlant(
+      waterConfirmation.plantId,
+      `Quick watered from dashboard`
+    );
     if (success) {
       // Optionally show a success message or update UI
     }
+    setWaterConfirmation({ show: false, plantId: "", plantName: "" });
   };
 
   const handleBulkWater = async () => {
@@ -856,6 +884,27 @@ const Dashboard = () => {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+
+        <WaterConfirmationDialog
+          open={waterConfirmation.show}
+          onOpenChange={(open) =>
+            setWaterConfirmation({ ...waterConfirmation, show: open })
+          }
+          onConfirm={handleConfirmQuickWater}
+          plantName={waterConfirmation.plantName}
+          showOverwateringWarning={
+            shouldShowOverwateringWarning(
+              waterConfirmation.lastWatered,
+              waterConfirmation.suggestedWateringDays
+            ).showWarning
+          }
+          daysSinceLastWatered={
+            shouldShowOverwateringWarning(
+              waterConfirmation.lastWatered,
+              waterConfirmation.suggestedWateringDays
+            ).daysSinceLastWatered
+          }
+        />
       </div>
     </div>
   );
