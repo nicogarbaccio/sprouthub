@@ -16,6 +16,7 @@ import {
 import { useSwipe, useHaptic } from "@/hooks/use-touch";
 import { cn } from "@/lib/utils";
 import PlantImage from "@/components/ui/plant-image";
+import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 
@@ -56,6 +57,7 @@ export function MobilePlantCard({
   );
   const [showActions, setShowActions] = useState(false);
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
+  const [showFullscreenImage, setShowFullscreenImage] = useState(false);
   const { lightImpact, mediumImpact, success } = useHaptic();
 
   const swipeHandlers = useSwipe(
@@ -206,12 +208,24 @@ export function MobilePlantCard({
           <div className="flex items-start space-x-4">
             {/* Plant Image */}
             <div className="flex-shrink-0">
-              <div className="w-16 h-16 rounded-lg bg-gray-100 overflow-hidden">
+              <div 
+                className="w-16 h-16 rounded-lg bg-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow duration-200"
+                onClick={() => plant.image_url && setShowFullscreenImage(true)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if ((e.key === 'Enter' || e.key === ' ') && plant.image_url) {
+                    e.preventDefault();
+                    setShowFullscreenImage(true);
+                  }
+                }}
+                aria-label={plant.image_url ? `View ${plant.name} image in fullscreen` : undefined}
+              >
                 {plant.image_url ? (
                   <PlantImage
                     src={plant.image_url}
                     alt={plant.name}
-                    className="w-full h-full"
+                    className="w-full h-full transition-transform duration-200 hover:scale-105"
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
@@ -317,6 +331,23 @@ export function MobilePlantCard({
           </div>
         </div>
       )}
+
+      <WaterConfirmationDialog
+        open={showWaterConfirmation}
+        onOpenChange={setShowWaterConfirmation}
+        onConfirm={handleConfirmWater}
+        plantName={plant.name}
+        showOverwateringWarning={showOverwateringWarning}
+        daysSinceLastWatered={daysSinceLastWatered}
+      />
+
+      <FullscreenImageModal
+        isOpen={showFullscreenImage}
+        onClose={() => setShowFullscreenImage(false)}
+        imageSrc={plant.image_url || ""}
+        imageAlt={plant.name}
+        plantName={plant.name}
+      />
     </div>
   );
 }

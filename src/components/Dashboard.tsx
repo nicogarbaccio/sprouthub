@@ -46,6 +46,7 @@ import { useProfile } from "@/hooks/useProfile";
 import AddPlantDialog from "./AddPlantDialog";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "./WaterConfirmationDialog";
+import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import { format, formatDistanceToNow } from "date-fns";
 
@@ -64,6 +65,17 @@ const Dashboard = () => {
   }>({
     show: false,
     plantId: "",
+    plantName: "",
+  });
+  const [fullscreenImage, setFullscreenImage] = useState<{
+    show: boolean;
+    src: string;
+    alt: string;
+    plantName: string;
+  }>({
+    show: false,
+    src: "",
+    alt: "",
     plantName: "",
   });
 
@@ -356,6 +368,15 @@ const Dashboard = () => {
       // Optionally show a success message or update UI
     }
     setWaterConfirmation({ show: false, plantId: "", plantName: "" });
+  };
+
+  const handleImageClick = (imageSrc: string, plantName: string) => {
+    setFullscreenImage({
+      show: true,
+      src: imageSrc,
+      alt: plantName,
+      plantName,
+    });
   };
 
   const handleBulkWater = async () => {
@@ -776,15 +797,37 @@ const Dashboard = () => {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {favoritePlants.map((plant) => (
-                    <div key={plant.id} className="group cursor-pointer">
-                      <div className="aspect-square bg-plant-neutral dark:bg-plant-neutral rounded-lg overflow-hidden mb-2">
+                    <div key={plant.id} className="group">
+                      <div
+                        className="aspect-square bg-plant-neutral dark:bg-plant-neutral rounded-lg overflow-hidden mb-2 cursor-pointer hover:shadow-lg transition-all duration-300"
+                        onClick={() =>
+                          handleImageClick(
+                            plant.image ||
+                              "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop",
+                            plant.nickname
+                          )
+                        }
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            handleImageClick(
+                              plant.image ||
+                                "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop",
+                              plant.nickname
+                            );
+                          }
+                        }}
+                        aria-label={`View ${plant.nickname} image in fullscreen`}
+                      >
                         <PlantImage
                           src={
                             plant.image ||
                             "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop"
                           }
                           alt={plant.nickname}
-                          className="w-full h-full object-cover transition-transform duration-300"
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                       </div>
                       <p className="text-sm font-medium text-foreground text-center">
@@ -904,6 +947,16 @@ const Dashboard = () => {
               waterConfirmation.suggestedWateringDays
             ).daysSinceLastWatered
           }
+        />
+
+        <FullscreenImageModal
+          isOpen={fullscreenImage.show}
+          onClose={() =>
+            setFullscreenImage({ show: false, src: "", alt: "", plantName: "" })
+          }
+          imageSrc={fullscreenImage.src}
+          imageAlt={fullscreenImage.alt}
+          plantName={fullscreenImage.plantName}
         />
       </div>
     </div>

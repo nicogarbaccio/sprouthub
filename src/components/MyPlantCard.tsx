@@ -5,6 +5,7 @@ import type { OverwateringRisk } from "@/utils/overwatering";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
+import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 
 interface MyPlantCardProps {
   id: string;
@@ -45,6 +46,7 @@ const MyPlantCard = ({
   overwatering,
 }: MyPlantCardProps) => {
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
+  const [showFullscreenImage, setShowFullscreenImage] = useState(false);
 
   const isOverwateringActive = !!(
     overwatering && overwatering.level !== "none"
@@ -126,7 +128,25 @@ const MyPlantCard = ({
   return (
     <div className="bg-card rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-border">
       <div className="relative">
-        <PlantImage src={image} alt={name} className="w-full h-40" />
+        <div
+          className="cursor-pointer group"
+          onClick={() => setShowFullscreenImage(true)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setShowFullscreenImage(true);
+            }
+          }}
+          aria-label={`View ${name} image in fullscreen`}
+        >
+          <PlantImage
+            src={image}
+            alt={name}
+            className="w-full h-40 transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
         <div
           className={`absolute top-3 right-3 transition-opacity duration-200 ${
             isOverwateringActive
@@ -272,6 +292,14 @@ const MyPlantCard = ({
         plantName={name}
         showOverwateringWarning={showOverwateringWarning}
         daysSinceLastWatered={daysSinceLastWatered}
+      />
+
+      <FullscreenImageModal
+        isOpen={showFullscreenImage}
+        onClose={() => setShowFullscreenImage(false)}
+        imageSrc={image}
+        imageAlt={name}
+        plantName={name}
       />
     </div>
   );

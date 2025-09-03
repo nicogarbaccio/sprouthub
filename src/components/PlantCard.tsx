@@ -1,6 +1,8 @@
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Droplets, Sun, Clock, Plus, Eye, LogIn } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
+import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 
 interface PlantCardProps {
   name: string;
@@ -29,6 +31,7 @@ const PlantCard = ({
   isAuthenticated = false,
   onSignInToAdd,
 }: PlantCardProps) => {
+  const [showFullscreenImage, setShowFullscreenImage] = useState(false);
   const getCareColor = (level: string) => {
     switch (level) {
       case "Easy":
@@ -48,11 +51,25 @@ const PlantCard = ({
       data-testid="plant-card"
     >
       <div className="relative">
-        <PlantImage
-          src={image}
-          alt={name}
-          className="w-full h-48 transition-transform duration-300"
-        />
+        <div
+          className="cursor-pointer group"
+          onClick={() => setShowFullscreenImage(true)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              setShowFullscreenImage(true);
+            }
+          }}
+          aria-label={`View ${name} image in fullscreen`}
+        >
+          <PlantImage
+            src={image}
+            alt={name}
+            className="w-full h-48 transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
         <div className="absolute top-3 right-3">
           <span
             className={`px-2 py-1 rounded-full text-xs font-medium ${getCareColor(
@@ -120,6 +137,14 @@ const PlantCard = ({
           )}
         </div>
       </div>
+
+      <FullscreenImageModal
+        isOpen={showFullscreenImage}
+        onClose={() => setShowFullscreenImage(false)}
+        imageSrc={image}
+        imageAlt={name}
+        plantName={name}
+      />
     </div>
   );
 };
