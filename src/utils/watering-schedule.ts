@@ -38,9 +38,11 @@ export function calculateWateringSchedule(plant: PlantWateringInfo): WateringCal
 
   // If the plant is postponed (latest watering is in the future)
   if (isPostponed) {
-    // Calculate days until the postponed date
-    const timeDiff = latestWateringDate.getTime() - now.getTime();
-    const daysUntilPostponedDate = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    // Calculate days until the postponed date using calendar days
+    const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const postponedDate = new Date(latestWateringDate.getFullYear(), latestWateringDate.getMonth(), latestWateringDate.getDate());
+    const timeDiff = postponedDate.getTime() - nowDate.getTime();
+    const daysUntilPostponedDate = Math.round(timeDiff / (1000 * 60 * 60 * 24));
     
     return {
       daysUntilWatering: Math.max(0, daysUntilPostponedDate),
@@ -66,8 +68,11 @@ export function calculateWateringSchedule(plant: PlantWateringInfo): WateringCal
   }
 
   // Fallback: calculate manually if days_since_watering is not available
-  const timeDiff = now.getTime() - latestWateringDate.getTime();
-  const daysSinceWatering = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+  // Use calendar days instead of precise time differences for historical dates
+  const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const wateredDate = new Date(latestWateringDate.getFullYear(), latestWateringDate.getMonth(), latestWateringDate.getDate());
+  const timeDiff = nowDate.getTime() - wateredDate.getTime();
+  const daysSinceWatering = Math.round(timeDiff / (1000 * 60 * 60 * 24));
   const daysUntilWatering = wateringSchedule - daysSinceWatering;
   const isOverdue = daysUntilWatering < 0;
 
