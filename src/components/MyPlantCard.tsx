@@ -66,8 +66,8 @@ const MyPlantCard = ({
   const getStatusColor = () => {
     if (hasUnknownWateringDate)
       return "bg-neutral-500 text-white border-neutral-500";
-    if (isPostponed) return "bg-sprout-water text-white border-sprout-water";
     if (isOverdue) return "bg-red-500 text-white border-red-500";
+    if (isPostponed) return "bg-sprout-water text-white border-sprout-water";
 
     if (daysUntilWatering === 0) {
       // Check if truly just watered vs due today
@@ -97,8 +97,8 @@ const MyPlantCard = ({
 
   const getStatusText = () => {
     if (hasUnknownWateringDate) return "Unknown schedule";
-    if (isPostponed) return "Postponed until tomorrow";
     if (isOverdue) return `Overdue by ${Math.abs(daysUntilWatering)} days`;
+    if (isPostponed) return "Postponed until tomorrow";
 
     // Check if plant was watered within the last day (show "Watered today")
     if (daysUntilWatering === 0) {
@@ -197,9 +197,7 @@ const MyPlantCard = ({
       </div>
 
       <div className="p-5">
-        <h3 className="text-lg font-semibold text-foreground mb-1 font-poppins">
-          {name}
-        </h3>
+        <h3 className="text-lg font-semibold text-foreground mb-1 ">{name}</h3>
         <p className="text-sm text-muted-foreground mb-4">{plantType}</p>
 
         {hasUnknownWateringDate && (
