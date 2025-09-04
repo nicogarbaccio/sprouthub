@@ -3,8 +3,8 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { cn } from "@/lib/utils";
 
 interface ThemeAwareLogoProps {
-  className?: string;
-  alt?: string;
+ className?: string;
+ alt?: string;
 }
 
 /**
@@ -14,16 +14,16 @@ interface ThemeAwareLogoProps {
  * based on the current theme. Provides consistent branding across theme changes.
  */
 export const ThemeAwareLogo: React.FC<ThemeAwareLogoProps> = ({
-  className = "h-8 w-auto",
-  alt = "SproutHub Logo",
+ className = "h-8 w-auto",
+ alt = "SproutHub Logo",
 }) => {
-  const { actualTheme } = useTheme();
+ const { actualTheme } = useTheme();
 
-  // Use LogoDark.svg for dark mode (cream color #dfc490)
-  // Use LogoLight.svg for light mode (green color #4a6741)
-  const logoSrc = actualTheme === "dark" ? "/LogoDark.svg" : "/LogoLight.svg";
+ // Use LogoDark.svg for dark mode (cream color #dfc490)
+ // Use LogoLight.svg for light mode (green color #4a6741)
+ const logoSrc = actualTheme === "dark" ? "/LogoDark.svg" : "/LogoLight.svg";
 
-  return <img src={logoSrc} alt={alt} className={cn(className)} />;
+ return <img src={logoSrc} alt={alt} className={cn(className)} />;
 };
 
 export default ThemeAwareLogo;

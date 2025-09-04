@@ -428,6 +428,11 @@ We use conventional commits for automated versioning:
 - Follow TypeScript and React best practices
 - Ensure responsive design works on all devices
 
+## 📚 Additional Documentation
+
+- [Smart Watering System](docs/smart-watering-system.md) - Comprehensive guide to the intelligent watering features and algorithms
+- [Password Reset Flow](docs/password-reset-flow.md) - Detailed documentation of the password reset functionality
+
 ## 📄 License
 MIT License - see [LICENSE](LICENSE) file for details.
 
