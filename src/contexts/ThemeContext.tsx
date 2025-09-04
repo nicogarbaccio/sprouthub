@@ -29,58 +29,58 @@ export function ThemeProvider({
  ...props
 }: ThemeProviderProps) {
  const [theme, setTheme] = useState<Theme>(
-  () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
+ () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
  );
  const [actualTheme, setActualTheme] = useState<"light" | "dark">("light");
 
  useEffect(() => {
-  const root = window.document.documentElement;
+ const root = window.document.documentElement;
 
-  root.classList.remove("light", "dark");
+ root.classList.remove("light", "dark");
 
-  let resolvedTheme: "light" | "dark";
+ let resolvedTheme: "light" | "dark";
 
-  if (theme === "system") {
-   resolvedTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-  } else {
-   resolvedTheme = theme;
-  }
+ if (theme === "system") {
+  resolvedTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+  ? "dark"
+  : "light";
+ } else {
+  resolvedTheme = theme;
+ }
 
-  root.classList.add(resolvedTheme);
-  setActualTheme(resolvedTheme);
+ root.classList.add(resolvedTheme);
+ setActualTheme(resolvedTheme);
  }, [theme]);
 
  useEffect(() => {
-  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+ const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-  const handleChange = () => {
-   if (theme === "system") {
-    const resolvedTheme = mediaQuery.matches ? "dark" : "light";
-    document.documentElement.classList.remove("light", "dark");
-    document.documentElement.classList.add(resolvedTheme);
-    setActualTheme(resolvedTheme);
-   }
-  };
+ const handleChange = () => {
+  if (theme === "system") {
+  const resolvedTheme = mediaQuery.matches ? "dark" : "light";
+  document.documentElement.classList.remove("light", "dark");
+  document.documentElement.classList.add(resolvedTheme);
+  setActualTheme(resolvedTheme);
+  }
+ };
 
-  mediaQuery.addEventListener("change", handleChange);
-  return () => mediaQuery.removeEventListener("change", handleChange);
+ mediaQuery.addEventListener("change", handleChange);
+ return () => mediaQuery.removeEventListener("change", handleChange);
  }, [theme]);
 
  const value = {
-  theme,
-  setTheme: (theme: Theme) => {
-   localStorage.setItem(storageKey, theme);
-   setTheme(theme);
-  },
-  actualTheme,
+ theme,
+ setTheme: (theme: Theme) => {
+  localStorage.setItem(storageKey, theme);
+  setTheme(theme);
+ },
+ actualTheme,
  };
 
  return (
-  <ThemeProviderContext.Provider {...props} value={value}>
-   {children}
-  </ThemeProviderContext.Provider>
+ <ThemeProviderContext.Provider {...props} value={value}>
+  {children}
+ </ThemeProviderContext.Provider>
  );
 }
 
@@ -88,7 +88,7 @@ export const useTheme = () => {
  const context = useContext(ThemeProviderContext);
 
  if (context === undefined)
-  throw new Error("useTheme must be used within a ThemeProvider");
+ throw new Error("useTheme must be used within a ThemeProvider");
 
  return context;
 };

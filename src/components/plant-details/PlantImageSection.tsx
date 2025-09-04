@@ -7,13 +7,13 @@ interface PlantImageSectionProps {
 
 const PlantImageSection = ({ image, name }: PlantImageSectionProps) => {
  return (
-  <div>
-   <PlantImage
-    src={image}
-    alt={name}
-    className="w-full h-96 rounded-2xl shadow-lg"
-   />
-  </div>
+ <div>
+  <PlantImage
+  src={image}
+  alt={name}
+  className="w-full h-96 rounded-2xl shadow-lg"
+  />
+ </div>
  );
 };
 

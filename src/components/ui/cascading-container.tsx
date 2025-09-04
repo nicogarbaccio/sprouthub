@@ -17,14 +17,14 @@ export const CascadingContainer = ({
  if (!isVisible) return null;
 
  return (
-  <div
-   className={cn("animate-slide-up", className)}
-   style={{
-    animationDelay: `${delay}ms`,
-    animationFillMode: "both",
-   }}
-  >
-   {children}
-  </div>
+ <div
+  className={cn("animate-slide-up", className)}
+  style={{
+  animationDelay: `${delay}ms`,
+  animationFillMode: "both",
+  }}
+ >
+  {children}
+ </div>
  );
 };

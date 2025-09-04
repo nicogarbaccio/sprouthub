@@ -16,14 +16,14 @@ export const useScrollToTop = ({
  offset = 0,
 }: UseScrollToTopProps) => {
  useEffect(() => {
-  if (!isEnabled || currentPage === 1) return;
+ if (!isEnabled || currentPage === 1) return;
 
-  // Smooth scroll to top with optional offset
-  const targetPosition = offset;
-  
-  window.scrollTo({
-   top: targetPosition,
-   behavior: 'smooth',
-  });
+ // Smooth scroll to top with optional offset
+ const targetPosition = offset;
+ 
+ window.scrollTo({
+  top: targetPosition,
+  behavior: 'smooth',
+ });
  }, [currentPage, isEnabled, offset]);
 }; 

@@ -23,31 +23,31 @@ export interface FormData {
  */
 export const validateSignUpForm = (formData: FormData): ValidationErrors => {
  const errors: ValidationErrors = {
-  password: "",
-  confirmPassword: "",
-  username: "",
-  email: "",
+ password: "",
+ confirmPassword: "",
+ username: "",
+ email: "",
  };
 
  // Password validation
  if (formData.password.length < 6) {
-  errors.password = "Password must be at least 6 characters long";
+ errors.password = "Password must be at least 6 characters long";
  }
 
  // Confirm password validation
  if (formData.password !== formData.confirmPassword) {
-  errors.confirmPassword = "Passwords don't match";
+ errors.confirmPassword = "Passwords don't match";
  }
 
  // Username validation (basic)
  if (formData.username.length < 3) {
-  errors.username = "Username must be at least 3 characters long";
+ errors.username = "Username must be at least 3 characters long";
  }
 
  // Email validation (basic)
  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
  if (!emailRegex.test(formData.email)) {
-  errors.email = "Please enter a valid email address";
+ errors.email = "Please enter a valid email address";
  }
 
  return errors;

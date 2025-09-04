@@ -36,8 +36,20 @@ export default {
 					'BlinkMacSystemFont',
 					'"SF Pro Display"',
 					'"SF Pro Text"',
+					'"Segoe UI"',
+					'Roboto',
+					'"Helvetica Neue"',
+					'Arial',
 					'sans-serif'
 				],
+			},
+			fontWeight: {
+				'thin': '100',
+				'light': '300',
+				'normal': '400',
+				'medium': '500',
+				'semibold': '600',
+				'bold': '700',
 			},
 			colors: {
 				// Brand Palette

@@ -60,14 +60,14 @@ const MyPlantCard = ({
   setShowWaterConfirmation(true);
  };
 
- const handleConfirmWater = () => {
-  onWater();
- };
- const getStatusColor = () => {
-  if (hasUnknownWateringDate)
-   return "bg-neutral-500 text-white border-neutral-500";
-  if (isPostponed) return "bg-sprout-water text-white border-sprout-water";
-  if (isOverdue) return "bg-red-500 text-white border-red-500";
+  const handleConfirmWater = () => {
+    onWater();
+  };
+  const getStatusColor = () => {
+    if (hasUnknownWateringDate)
+      return "bg-neutral-500 text-white border-neutral-500";
+    if (isOverdue) return "bg-red-500 text-white border-red-500";
+    if (isPostponed) return "bg-sprout-water text-white border-sprout-water";
 
   if (daysUntilWatering === 0) {
    // Check if truly just watered vs due today
@@ -91,9 +91,10 @@ const MyPlantCard = ({
   if (daysUntilWatering <= 2)
    return "bg-orange-500 text-white border-orange-500";
 
-  // Not due for 3+ days - show sprout-success green
-  return "bg-sprout-success text-white border-sprout-success";
- };
+  const getStatusText = () => {
+    if (hasUnknownWateringDate) return "Unknown schedule";
+    if (isOverdue) return `Overdue by ${Math.abs(daysUntilWatering)} days`;
+    if (isPostponed) return "Postponed until tomorrow";
 
  const getStatusText = () => {
   if (hasUnknownWateringDate) return "Unknown schedule";
@@ -125,27 +126,109 @@ const MyPlantCard = ({
   return `Water in ${daysUntilWatering} days`;
  };
 
- return (
-  <div className="bg-card rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden border border-border">
-   <div className="relative">
-    <div
-     className="cursor-pointer group"
-     onClick={() => setShowFullscreenImage(true)}
-     role="button"
-     tabIndex={0}
-     onKeyDown={(e) => {
-      if (e.key === "Enter" || e.key === " ") {
-       e.preventDefault();
-       setShowFullscreenImage(true);
-      }
-     }}
-     aria-label={`View ${name} image in fullscreen`}
-    >
-     <PlantImage
-      src={image}
-      alt={name}
-      className="w-full h-40 transition-transform duration-300 group-hover:scale-105"
-     />
+      <div className="p-5">
+        <h3 className="text-lg font-semibold text-foreground mb-1 ">{name}</h3>
+        <p className="text-sm text-muted-foreground mb-4">{plantType}</p>
+
+        {hasUnknownWateringDate && (
+          <div className="flex items-center gap-2 p-2 bg-sprout-cream/20 border border-sprout-cream/40 rounded-md mb-4">
+            <AlertTriangle className="h-4 w-4 text-sprout-dark" />
+            <p className="text-xs text-sprout-dark">
+              Last watering date unknown - please water and record or edit the
+              plant details
+            </p>
+          </div>
+        )}
+
+        <div className="space-y-2 mb-4">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Last watered:</span>
+            <span className="text-foreground font-medium">{lastWatered}</span>
+          </div>
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Next watering:</span>
+            <span className="text-foreground font-medium">
+              {nextWateringDue}
+            </span>
+          </div>
+          {overwatering && overwatering.level !== "none" && (
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">Frequency</span>
+              <span className="text-foreground">
+                {overwatering.count} in {overwatering.windowDays}d
+                {overwatering.avgIntervalDays
+                  ? ` • avg ${overwatering.avgIntervalDays}d`
+                  : ""}
+              </span>
+            </div>
+          )}
+
+          {/* View History Button */}
+          {onViewHistory && (
+            <div className="pt-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={onViewHistory}
+                className="w-full text-xs text-sprout-cream hover:text-sprout-white hover:bg-sprout-medium/20 dark:text-sprout-cream dark:hover:text-sprout-white dark:hover:bg-sprout-light/10 font-medium border border-sprout-cream/20 hover:border-sprout-cream/40"
+              >
+                <History className="w-3 h-3 mr-1" />
+                View Watering History
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Show postpone option only when plant is due/overdue AND has watering history */}
+        {daysUntilWatering <= 0 &&
+        !isPostponed &&
+        !hasUnknownWateringDate &&
+        lastWateredDate &&
+        onPostpone ? (
+          <div className="space-y-2">
+            <Button
+              onClick={handleWaterClick}
+              className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
+            >
+              <Droplets className="w-4 h-4 mr-2" />
+              Water Now
+            </Button>
+            <Button
+              onClick={onPostpone}
+              variant="outline"
+              className="w-full rounded-xl font-medium border-sprout-water/30 text-sprout-water hover:bg-sprout-water/10"
+            >
+              <Clock className="w-4 h-4 mr-2" />
+              Push to Tomorrow
+            </Button>
+          </div>
+        ) : (
+          <Button
+            onClick={handleWaterClick}
+            className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
+          >
+            <Droplets className="w-4 h-4 mr-2" />
+            Water Now
+          </Button>
+        )}
+      </div>
+
+      <WaterConfirmationDialog
+        open={showWaterConfirmation}
+        onOpenChange={setShowWaterConfirmation}
+        onConfirm={handleConfirmWater}
+        plantName={name}
+        showOverwateringWarning={showOverwateringWarning}
+        daysSinceLastWatered={daysSinceLastWatered}
+      />
+
+      <FullscreenImageModal
+        isOpen={showFullscreenImage}
+        onClose={() => setShowFullscreenImage(false)}
+        imageSrc={image}
+        imageAlt={name}
+        plantName={name}
+      />
     </div>
     <div
      className={`absolute top-3 right-3 transition-opacity duration-200 ${

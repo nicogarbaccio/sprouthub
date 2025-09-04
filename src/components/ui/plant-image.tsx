@@ -29,16 +29,16 @@ interface PlantImageProps {
  *
  * // With custom styling
  * <PlantImage
- *  src={plant.image}
- *  alt={plant.name}
- *  className="w-full h-48 rounded-lg"
+ * src={plant.image}
+ * alt={plant.name}
+ * className="w-full h-48 rounded-lg"
  * />
  *
  * // With custom fallback
  * <PlantImage
- *  src={plant.image}
- *  alt={plant.name}
- *  fallbackSrc="https://example.com/custom-placeholder.jpg"
+ * src={plant.image}
+ * alt={plant.name}
+ * fallbackSrc="https://example.com/custom-placeholder.jpg"
  * />
  * ```
  */
@@ -52,27 +52,27 @@ const PlantImage = ({
  const [isLoading, setIsLoading] = useState(true);
 
  const handleError = () => {
-  setHasError(true);
-  setIsLoading(false);
+ setHasError(true);
+ setIsLoading(false);
  };
 
  const handleLoad = () => {
-  setIsLoading(false);
+ setIsLoading(false);
  };
 
  return (
-  <div className={cn("relative overflow-hidden", className)}>
-   <img
-    src={hasError ? fallbackSrc : src}
-    alt={alt}
-    className="w-full h-full object-cover"
-    onError={handleError}
-    onLoad={handleLoad}
-   />
-   {isLoading && (
-    <div className="absolute inset-0 bg-plant-neutral animate-pulse" />
-   )}
-  </div>
+ <div className={cn("relative overflow-hidden", className)}>
+  <img
+  src={hasError ? fallbackSrc : src}
+  alt={alt}
+  className="w-full h-full object-cover"
+  onError={handleError}
+  onLoad={handleLoad}
+  />
+  {isLoading && (
+  <div className="absolute inset-0 bg-plant-neutral animate-pulse" />
+  )}
+ </div>
  );
 };
 

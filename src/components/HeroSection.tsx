@@ -12,7 +12,7 @@ const HeroSection = () => {
     <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-start">
      <div className="text-center lg:text-left mb-6 sm:mb-8 lg:mb-0 lg:pt-8">
       <h1
-       className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground dark:text-sprout-white mb-6  leading-tight"
+       className="text-4xl md:text-5xl lg:text-6xl font-medium text-foreground dark:text-sprout-white mb-6 leading-tight"
        data-testid="hero-title"
       >
        Your plants deserve the
@@ -21,7 +21,7 @@ const HeroSection = () => {
         best care
        </span>
       </h1>
-      <p className="text-lg text-sprout-neutral-dark/80 dark:text-sprout-neutral mb-8  max-w-2xl mx-auto lg:mx-0">
+      <p className="text-lg text-sprout-neutral-dark/80 dark:text-sprout-neutral mb-8 max-w-2xl mx-auto lg:mx-0 font-light">
        Never forget to water your plants again. Track care schedules,
        browse plant guides, and build your perfect indoor garden with{" "}
        <span className="text-sprout-success dark:text-sprout-cream font-bold">

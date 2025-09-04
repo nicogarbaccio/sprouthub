@@ -4,13 +4,13 @@ import Footer from "@/components/Footer";
 
 const PlantCatalogPage = () => {
  return (
-  <div className="min-h-screen bg-background ">
-   <Navigation />
-   <main>
-    <PlantCatalog />
-   </main>
-   <Footer />
-  </div>
+ <div className="min-h-screen bg-background ">
+  <Navigation />
+  <main>
+  <PlantCatalog />
+  </main>
+  <Footer />
+ </div>
  );
 };
 

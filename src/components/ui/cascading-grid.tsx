@@ -8,11 +8,11 @@ interface CascadingGridProps<T> {
  className?: string;
  itemDelay?: number;
  cols?: {
-  default: number;
-  sm?: number;
-  md?: number;
-  lg?: number;
-  xl?: number;
+ default: number;
+ sm?: number;
+ md?: number;
+ lg?: number;
+ xl?: number;
  };
 }
 
@@ -24,22 +24,22 @@ export function CascadingGrid<T>({
  cols = { default: 1, md: 2, lg: 3, xl: 4 },
 }: CascadingGridProps<T>) {
  const gridCols = cn(
-  `grid gap-6`,
-  cols.default === 1 ? "grid-cols-1" : `grid-cols-${cols.default}`,
-  cols.sm && `sm:grid-cols-${cols.sm}`,
-  cols.md && `md:grid-cols-${cols.md}`,
-  cols.lg && `lg:grid-cols-${cols.lg}`,
-  cols.xl && `xl:grid-cols-${cols.xl}`,
-  className
+ `grid gap-6`,
+ cols.default === 1 ? "grid-cols-1" : `grid-cols-${cols.default}`,
+ cols.sm && `sm:grid-cols-${cols.sm}`,
+ cols.md && `md:grid-cols-${cols.md}`,
+ cols.lg && `lg:grid-cols-${cols.lg}`,
+ cols.xl && `xl:grid-cols-${cols.xl}`,
+ className
  );
 
  return (
-  <div className={gridCols}>
-   {items.map((item, index) => (
-    <CascadingContainer key={index} delay={index * itemDelay}>
-     {renderItem(item, index)}
-    </CascadingContainer>
-   ))}
-  </div>
+ <div className={gridCols}>
+  {items.map((item, index) => (
+  <CascadingContainer key={index} delay={index * itemDelay}>
+   {renderItem(item, index)}
+  </CascadingContainer>
+  ))}
+ </div>
  );
 }

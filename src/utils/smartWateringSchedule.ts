@@ -31,111 +31,111 @@ export const calculateSmartWateringSchedule = (
  
  // Plant size adjustments (affects how much water the plant can store)
  switch (factors.plantSize) {
-  case 'small':
-   adjustment -= 1;
-   reasons.push('Small plants have less soil volume and dry out faster');
-   break;
-  case 'large':
-   adjustment += 2;
-   reasons.push('Large plants have more soil volume and retain moisture longer');
-   break;
-  case 'medium':
-   // No adjustment - baseline
-   break;
+ case 'small':
+  adjustment -= 1;
+  reasons.push('Small plants have less soil volume and dry out faster');
+  break;
+ case 'large':
+  adjustment += 2;
+  reasons.push('Large plants have more soil volume and retain moisture longer');
+  break;
+ case 'medium':
+  // No adjustment - baseline
+  break;
  }
  
  // Light level adjustments (affects photosynthesis and water consumption)
  switch (factors.lightLevel) {
-  case 'high':
-   adjustment += 1;
-   reasons.push('High light increases photosynthesis and water evaporation');
-   break;
-  case 'low':
-   adjustment -= 1;
-   reasons.push('Low light reduces plant metabolism and water consumption');
-   break;
-  case 'medium':
-   // No adjustment - baseline
-   break;
+ case 'high':
+  adjustment += 1;
+  reasons.push('High light increases photosynthesis and water evaporation');
+  break;
+ case 'low':
+  adjustment -= 1;
+  reasons.push('Low light reduces plant metabolism and water consumption');
+  break;
+ case 'medium':
+  // No adjustment - baseline
+  break;
  }
  
  // Temperature effects (affects evaporation rate)
  switch (factors.temperature) {
-  case 'warm':
-   adjustment += 1;
-   reasons.push('Warm temperatures increase evaporation rate');
-   break;
-  case 'cool':
-   adjustment -= 1;
-   reasons.push('Cool temperatures slow down water evaporation');
-   break;
-  case 'normal':
-   // No adjustment - baseline
-   break;
+ case 'warm':
+  adjustment += 1;
+  reasons.push('Warm temperatures increase evaporation rate');
+  break;
+ case 'cool':
+  adjustment -= 1;
+  reasons.push('Cool temperatures slow down water evaporation');
+  break;
+ case 'normal':
+  // No adjustment - baseline
+  break;
  }
  
  // Humidity effects (affects transpiration rate)
  switch (factors.humidity) {
-  case 'dry':
-   adjustment += 2;
-   reasons.push('Dry air increases water loss through transpiration');
-   break;
-  case 'humid':
-   adjustment -= 1;
-   reasons.push('High humidity reduces water loss');
-   break;
-  case 'normal':
-   // No adjustment - baseline
-   break;
+ case 'dry':
+  adjustment += 2;
+  reasons.push('Dry air increases water loss through transpiration');
+  break;
+ case 'humid':
+  adjustment -= 1;
+  reasons.push('High humidity reduces water loss');
+  break;
+ case 'normal':
+  // No adjustment - baseline
+  break;
  }
  
  // Seasonal adjustments (affects growth cycles)
  switch (factors.season) {
-  case 'winter':
-   adjustment += 3;
-   reasons.push('Winter dormancy significantly reduces water needs');
-   break;
-  case 'summer':
-   adjustment -= 1;
-   reasons.push('Summer growth phase increases water consumption');
-   break;
-  case 'spring':
-   // Active growing season but moderate
-   break;
-  case 'fall':
-   adjustment += 1;
-   reasons.push('Fall season begins to slow plant metabolism');
-   break;
+ case 'winter':
+  adjustment += 3;
+  reasons.push('Winter dormancy significantly reduces water needs');
+  break;
+ case 'summer':
+  adjustment -= 1;
+  reasons.push('Summer growth phase increases water consumption');
+  break;
+ case 'spring':
+  // Active growing season but moderate
+  break;
+ case 'fall':
+  adjustment += 1;
+  reasons.push('Fall season begins to slow plant metabolism');
+  break;
  }
  
  // Care style preferences (user behavior adaptation)
  switch (factors.careStyle) {
-  case 'frequent':
-   adjustment -= 1;
-   reasons.push('Adjusted for hands-on care preference');
-   break;
-  case 'minimal':
-   adjustment += 1;
-   reasons.push('Adjusted for low-maintenance care style');
-   break;
-  case 'balanced':
-   // No adjustment - baseline
-   break;
+ case 'frequent':
+  adjustment -= 1;
+  reasons.push('Adjusted for hands-on care preference');
+  break;
+ case 'minimal':
+  adjustment += 1;
+  reasons.push('Adjusted for low-maintenance care style');
+  break;
+ case 'balanced':
+  // No adjustment - baseline
+  break;
  }
  
  // Soil type effects (affects drainage and moisture retention)
  switch (factors.soilType) {
-  case 'draining':
-   adjustment -= 1;
-   reasons.push('Well-draining soil dries out faster');
-   break;
-  case 'retaining':
-   adjustment += 2;
-   reasons.push('Moisture-retaining soil stays wet longer');
-   break;
-  case 'regular':
-   // No adjustment - baseline
-   break;
+ case 'draining':
+  adjustment -= 1;
+  reasons.push('Well-draining soil dries out faster');
+  break;
+ case 'retaining':
+  adjustment += 2;
+  reasons.push('Moisture-retaining soil stays wet longer');
+  break;
+ case 'regular':
+  // No adjustment - baseline
+  break;
  }
  
  // Calculate final recommendation with bounds
@@ -145,19 +145,19 @@ export const calculateSmartWateringSchedule = (
  let confidence: 'low' | 'medium' | 'high';
  const adjustmentMagnitude = Math.abs(adjustment);
  if (adjustmentMagnitude <= 2) {
-  confidence = 'high';
+ confidence = 'high';
  } else if (adjustmentMagnitude <= 4) {
-  confidence = 'medium';
+ confidence = 'medium';
  } else {
-  confidence = 'low';
+ confidence = 'low';
  }
  
  return {
-  recommendedDays,
-  baseDays,
-  adjustmentReasons: reasons,
-  totalAdjustment: adjustment,
-  confidence
+ recommendedDays,
+ baseDays,
+ adjustmentReasons: reasons,
+ totalAdjustment: adjustment,
+ confidence
  };
 };
 
@@ -179,39 +179,39 @@ export const getCurrentSeason = (): WateringFactors['season'] => {
  */
 export const getFactorLabels = () => ({
  plantSize: {
-  small: 'Small (up to 6")',
-  medium: 'Medium (6" to 2 feet)',
-  large: 'Large (2+ feet)'
+ small: 'Small (up to 6")',
+ medium: 'Medium (6" to 2 feet)',
+ large: 'Large (2+ feet)'
  },
  lightLevel: {
-  low: 'Low Light (North windows, far from windows)',
-  medium: 'Medium Light (East/West windows, filtered)',
-  high: 'High Light (South windows, direct sun)'
+ low: 'Low Light (North windows, far from windows)',
+ medium: 'Medium Light (East/West windows, filtered)',
+ high: 'High Light (South windows, direct sun)'
  },
  temperature: {
-  cool: 'Cool (60-70°F)',
-  normal: 'Normal (70-75°F)',
-  warm: 'Warm (75°F+)'
+ cool: 'Cool (60-70°F)',
+ normal: 'Normal (70-75°F)',
+ warm: 'Warm (75°F+)'
  },
  humidity: {
-  dry: 'Dry (< 40%)',
-  normal: 'Normal (40-60%)',
-  humid: 'Humid (60%+)'
+ dry: 'Dry (< 40%)',
+ normal: 'Normal (40-60%)',
+ humid: 'Humid (60%+)'
  },
  season: {
-  winter: 'Winter (Dormant period)',
-  spring: 'Spring (Active growth)',
-  summer: 'Summer (Peak growth)',
-  fall: 'Fall (Slowing growth)'
+ winter: 'Winter (Dormant period)',
+ spring: 'Spring (Active growth)',
+ summer: 'Summer (Peak growth)',
+ fall: 'Fall (Slowing growth)'
  },
  careStyle: {
-  frequent: 'I like to check plants frequently',
-  balanced: 'I prefer balanced care routine',
-  minimal: 'I want low-maintenance schedules'
+ frequent: 'I like to check plants frequently',
+ balanced: 'I prefer balanced care routine',
+ minimal: 'I want low-maintenance schedules'
  },
  soilType: {
-  regular: 'Regular potting mix',
-  draining: 'Well-draining/succulent mix',
-  retaining: 'Moisture-retaining mix'
+ regular: 'Regular potting mix',
+ draining: 'Well-draining/succulent mix',
+ retaining: 'Moisture-retaining mix'
  }
 }); 

@@ -38,120 +38,120 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
  hasProfileChanges,
 }) => {
  const getInitials = () => {
-  return `${profileData.first_name.charAt(0)}${profileData.last_name.charAt(
-   0
-  )}`.toUpperCase();
+ return `${profileData.first_name.charAt(0)}${profileData.last_name.charAt(
+  0
+ )}`.toUpperCase();
  };
 
  return (
-  <Card>
-   <CardHeader>
-    <div className="flex items-center space-x-2">
-     <User className="w-5 h-5" />
-     <CardTitle>Profile Information</CardTitle>
-    </div>
-    <CardDescription>
-     Update your personal information and avatar
-    </CardDescription>
-   </CardHeader>
-   <CardContent className="space-y-4">
-    <div className="space-y-4">
-     <div className="flex justify-center">
-      <Avatar className="w-24 h-24 border-2 border-border shadow-lg">
-       <AvatarImage
-        src={profileData.avatar_url}
-        className="rounded-full"
-       />
-       <AvatarFallback className="text-lg font-semibold bg-sprout-pale dark:bg-sprout-medium text-sprout-primary dark:text-white rounded-full">
-        {getInitials()}
-       </AvatarFallback>
-      </Avatar>
-     </div>
+ <Card>
+  <CardHeader>
+  <div className="flex items-center space-x-2">
+   <User className="w-5 h-5" />
+   <CardTitle>Profile Information</CardTitle>
+  </div>
+  <CardDescription>
+   Update your personal information and avatar
+  </CardDescription>
+  </CardHeader>
+  <CardContent className="space-y-4">
+  <div className="space-y-4">
+   <div className="flex justify-center">
+   <Avatar className="w-24 h-24 border-2 border-border shadow-lg">
+    <AvatarImage
+    src={profileData.avatar_url}
+    className="rounded-full"
+    />
+    <AvatarFallback className="text-lg font-semibold bg-sprout-pale dark:bg-sprout-medium text-sprout-primary dark:text-white rounded-full">
+    {getInitials()}
+    </AvatarFallback>
+   </Avatar>
+   </div>
 
-     <ImageUpload
-      value={profileData.avatar_url || ""}
-      onChange={(url) =>
-       setProfileData((prev) => ({ ...prev, avatar_url: url }))
-      }
-      label="Profile Picture"
-      placeholder="Upload or enter avatar URL"
-      showPreview={false}
-     />
-    </div>
+   <ImageUpload
+   value={profileData.avatar_url || ""}
+   onChange={(url) =>
+    setProfileData((prev) => ({ ...prev, avatar_url: url }))
+   }
+   label="Profile Picture"
+   placeholder="Upload or enter avatar URL"
+   showPreview={false}
+   />
+  </div>
 
-    <Separator />
+  <Separator />
 
-    <div className="grid grid-cols-2 gap-4">
-     <div className="space-y-2">
-      <Label htmlFor="first_name">First Name</Label>
-      <Input
-       id="first_name"
-       value={profileData.first_name}
-       onChange={(e) =>
-        setProfileData((prev) => ({
-         ...prev,
-         first_name: e.target.value,
-        }))
-       }
-       placeholder="Enter your first name"
-      />
-     </div>
+  <div className="grid grid-cols-2 gap-4">
+   <div className="space-y-2">
+   <Label htmlFor="first_name">First Name</Label>
+   <Input
+    id="first_name"
+    value={profileData.first_name}
+    onChange={(e) =>
+    setProfileData((prev) => ({
+     ...prev,
+     first_name: e.target.value,
+    }))
+    }
+    placeholder="Enter your first name"
+   />
+   </div>
 
-     <div className="space-y-2">
-      <Label htmlFor="last_name">Last Name</Label>
-      <Input
-       id="last_name"
-       value={profileData.last_name}
-       onChange={(e) =>
-        setProfileData((prev) => ({
-         ...prev,
-         last_name: e.target.value,
-        }))
-       }
-       placeholder="Enter your last name"
-      />
-     </div>
-    </div>
+   <div className="space-y-2">
+   <Label htmlFor="last_name">Last Name</Label>
+   <Input
+    id="last_name"
+    value={profileData.last_name}
+    onChange={(e) =>
+    setProfileData((prev) => ({
+     ...prev,
+     last_name: e.target.value,
+    }))
+    }
+    placeholder="Enter your last name"
+   />
+   </div>
+  </div>
 
-    <div className="space-y-2">
-     <Label htmlFor="username">Username</Label>
-     <Input
-      id="username"
-      value={profileData.username}
-      onChange={(e) =>
-       setProfileData((prev) => ({ ...prev, username: e.target.value }))
-      }
-      placeholder="Enter your username"
-     />
-    </div>
+  <div className="space-y-2">
+   <Label htmlFor="username">Username</Label>
+   <Input
+   id="username"
+   value={profileData.username}
+   onChange={(e) =>
+    setProfileData((prev) => ({ ...prev, username: e.target.value }))
+   }
+   placeholder="Enter your username"
+   />
+  </div>
 
-    <div className="space-y-2">
-     <Label htmlFor="email">Email</Label>
-     <Input
-      id="email"
-      type="email"
-      value={profileData.email}
-      disabled
-      className="bg-muted"
-     />
-     <p className="text-sm text-muted-foreground/70">
-      Email cannot be changed from here
-     </p>
-    </div>
+  <div className="space-y-2">
+   <Label htmlFor="email">Email</Label>
+   <Input
+   id="email"
+   type="email"
+   value={profileData.email}
+   disabled
+   className="bg-muted"
+   />
+   <p className="text-sm text-muted-foreground/70">
+   Email cannot be changed from here
+   </p>
+  </div>
 
-    <Button
-     onClick={handleUpdateProfile}
-     disabled={isLoading || !hasProfileChanges()}
-     className={`w-full font-medium ${
-      hasProfileChanges() && !isLoading
-       ? "bg-sprout-success hover:bg-sprout-success/90 text-white"
-       : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-not-allowed"
-     }`}
-    >
-     {isLoading ? "Updating..." : "Update Profile"}
-    </Button>
-   </CardContent>
-  </Card>
+  <Button
+   onClick={handleUpdateProfile}
+   disabled={isLoading || !hasProfileChanges()}
+   className={`w-full font-medium ${
+   hasProfileChanges() && !isLoading
+    ? "bg-sprout-success hover:bg-sprout-success/90 text-white"
+    : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-not-allowed"
+   }`}
+  >
+   {isLoading ? "Updating..." : "Update Profile"}
+  </Button>
+  </CardContent>
+ </Card>
  );
 };
 
