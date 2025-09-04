@@ -129,7 +129,7 @@ const MyPlantCard = ({
     <>
       <div className="relative bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
         <div
-          className="cursor-pointer"
+          className="cursor-pointer relative"
           onClick={() => setShowFullscreenImage(true)}
         >
           <PlantImage
@@ -138,6 +138,62 @@ const MyPlantCard = ({
             className="w-full h-48 object-cover"
             fallbackClassName="w-full h-48 flex items-center justify-center bg-muted"
           />
+
+          {/* Edit Button - positioned on image */}
+          <Button
+            size="sm"
+            variant="secondary"
+            className="absolute bottom-3 right-3 bg-card/90 hover:bg-card hover:shadow-md border border-border shadow-sm transition-all duration-200 backdrop-blur-sm"
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent triggering the fullscreen image modal
+              onEdit();
+            }}
+          >
+            <Edit className="w-4 h-4" />
+          </Button>
+
+          {/* Status Badge - Top Right of image */}
+          <div
+            className={`absolute top-3 right-3 transition-opacity duration-200 ${
+              isOverwateringActive
+                ? "opacity-0 pointer-events-none"
+                : "opacity-100"
+            }`}
+            aria-hidden={isOverwateringActive}
+          >
+            <span
+              className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor()}`}
+            >
+              {isPostponed && <Clock className="w-3 h-3 inline mr-1" />}
+              {(isOverdue || hasUnknownWateringDate) && !isPostponed && (
+                <AlertTriangle className="w-3 h-3 inline mr-1" />
+              )}
+              {getStatusText()}
+            </span>
+          </div>
+
+          {/* Overwatering Warning Badge - Top Left of image */}
+          <div
+            className={`absolute top-3 left-3 transition-opacity duration-200 ${
+              isOverwateringActive
+                ? "opacity-100"
+                : "opacity-0 pointer-events-none"
+            }`}
+            aria-hidden={!isOverwateringActive}
+          >
+            <span
+              className={`px-3 py-1 rounded-full text-xs font-medium border ${
+                overwatering?.level === "high"
+                  ? "bg-red-600 text-white border-red-600"
+                  : "bg-orange-500 text-white border-orange-500"
+              }`}
+            >
+              <AlertTriangle className="w-3 h-3 inline mr-1" />
+              {overwatering?.level === "high"
+                ? "Possible overwatering"
+                : "Watch watering"}
+            </span>
+          </div>
         </div>
 
         <div className="p-5">
@@ -228,76 +284,6 @@ const MyPlantCard = ({
             </Button>
           )}
         </div>
-
-        <WaterConfirmationDialog
-          open={showWaterConfirmation}
-          onOpenChange={setShowWaterConfirmation}
-          onConfirm={handleConfirmWater}
-          plantName={name}
-          showOverwateringWarning={showOverwateringWarning}
-          daysSinceLastWatered={daysSinceLastWatered}
-        />
-
-        <FullscreenImageModal
-          isOpen={showFullscreenImage}
-          onClose={() => setShowFullscreenImage(false)}
-          imageSrc={image}
-          imageAlt={name}
-          plantName={name}
-        />
-
-        {/* Status Badge - Top Right */}
-        <div
-          className={`absolute top-3 right-3 transition-opacity duration-200 ${
-            isOverwateringActive
-              ? "opacity-0 pointer-events-none"
-              : "opacity-100"
-          }`}
-          aria-hidden={isOverwateringActive}
-        >
-          <span
-            className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor()}`}
-          >
-            {isPostponed && <Clock className="w-3 h-3 inline mr-1" />}
-            {(isOverdue || hasUnknownWateringDate) && !isPostponed && (
-              <AlertTriangle className="w-3 h-3 inline mr-1" />
-            )}
-            {getStatusText()}
-          </span>
-        </div>
-
-        {/* Overwatering Warning Badge - Top Left */}
-        <div
-          className={`absolute top-3 left-3 transition-opacity duration-200 ${
-            isOverwateringActive
-              ? "opacity-100"
-              : "opacity-0 pointer-events-none"
-          }`}
-          aria-hidden={!isOverwateringActive}
-        >
-          <span
-            className={`px-3 py-1 rounded-full text-xs font-medium border ${
-              overwatering?.level === "high"
-                ? "bg-red-600 text-white border-red-600"
-                : "bg-orange-500 text-white border-orange-500"
-            }`}
-          >
-            <AlertTriangle className="w-3 h-3 inline mr-1" />
-            {overwatering?.level === "high"
-              ? "Possible overwatering"
-              : "Watch watering"}
-          </span>
-        </div>
-
-        {/* Edit Button */}
-        <Button
-          size="sm"
-          variant="secondary"
-          className="absolute bottom-3 right-3 bg-card hover:bg-card/80 border border-border shadow-sm transition-all duration-200"
-          onClick={onEdit}
-        >
-          <Edit className="w-4 h-4" />
-        </Button>
       </div>
 
       <WaterConfirmationDialog
