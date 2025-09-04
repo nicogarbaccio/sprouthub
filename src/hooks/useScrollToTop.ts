@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 
 interface UseScrollToTopProps {
-  currentPage: number;
-  isEnabled?: boolean;
-  offset?: number;
+ currentPage: number;
+ isEnabled?: boolean;
+ offset?: number;
 }
 
 /**
@@ -11,19 +11,19 @@ interface UseScrollToTopProps {
  * Provides smooth scrolling experience during pagination
  */
 export const useScrollToTop = ({
-  currentPage,
-  isEnabled = true,
-  offset = 0,
+ currentPage,
+ isEnabled = true,
+ offset = 0,
 }: UseScrollToTopProps) => {
-  useEffect(() => {
-    if (!isEnabled || currentPage === 1) return;
+ useEffect(() => {
+  if (!isEnabled || currentPage === 1) return;
 
-    // Smooth scroll to top with optional offset
-    const targetPosition = offset;
-    
-    window.scrollTo({
-      top: targetPosition,
-      behavior: 'smooth',
-    });
-  }, [currentPage, isEnabled, offset]);
+  // Smooth scroll to top with optional offset
+  const targetPosition = offset;
+  
+  window.scrollTo({
+   top: targetPosition,
+   behavior: 'smooth',
+  });
+ }, [currentPage, isEnabled, offset]);
 }; 

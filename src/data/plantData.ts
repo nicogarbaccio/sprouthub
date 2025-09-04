@@ -8,9 +8,9 @@ import { treesLargePlants } from './plants/trees-large';
 import { otherPlants } from './plants/other-categories';
 import { airPlants } from './plants/air-plants';
 import { 
-  getUniqueCategories as getUniqueCategoriesUtil, 
-  getUniqueCareLevels as getUniqueCareLevelsUtil, 
-  getUniqueLightRequirements as getUniqueLightRequirementsUtil 
+ getUniqueCategories as getUniqueCategoriesUtil, 
+ getUniqueCareLevels as getUniqueCareLevelsUtil, 
+ getUniqueLightRequirements as getUniqueLightRequirementsUtil 
 } from './utils';
 
 // Re-export the Plant interface for backward compatibility
@@ -18,13 +18,13 @@ export type { Plant };
 
 // Combine all plant arrays
 export const plants: Plant[] = [
-  ...floweringPlants,
-  ...tropicalPlants,
-  ...succulents,
-  ...hangingTrailingPlants,
-  ...treesLargePlants,
-  ...otherPlants,
-  ...airPlants
+ ...floweringPlants,
+ ...tropicalPlants,
+ ...succulents,
+ ...hangingTrailingPlants,
+ ...treesLargePlants,
+ ...otherPlants,
+ ...airPlants
 ];
 
 // Re-export utility functions with plants array applied

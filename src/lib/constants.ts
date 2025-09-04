@@ -14,11 +14,11 @@ export const DEFAULT_CARE_LEVEL = "Easy" as const;
  * Plant categories
  */
 export const PLANT_CATEGORIES = [
-  "Trees & Large Plants",
-  "Flowering Plants", 
-  "Succulents & Cacti",
-  "Hanging & Trailing Plants",
-  "Prayer Plants",
-  "Palms",
-  "Small Plants"
+ "Trees & Large Plants",
+ "Flowering Plants", 
+ "Succulents & Cacti",
+ "Hanging & Trailing Plants",
+ "Prayer Plants",
+ "Palms",
+ "Small Plants"
 ] as const; 
