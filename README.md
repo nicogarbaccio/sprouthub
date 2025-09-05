@@ -26,6 +26,17 @@ sprouthub is a comprehensive plant care tracker that helps you manage your indoo
 - **Care Style Adaptation:** Adapts to your care style (frequent, balanced, or minimal)
 - **Status Tracking:** Real-time status updates ("Just watered", "Due today", "Overdue", "Postponed")
 
+### 🍂 Seasonal Schedule Review System
+- **Automatic Seasonal Detection:** Intelligently detects seasonal transitions using multi-factor weather analysis
+- **Smart Schedule Suggestions:** Generates personalized watering schedule recommendations based on weather patterns and plant history
+- **Schedule Versioning:** Maintains complete history of seasonal adjustments with performance tracking
+- **Gentle Notifications:** Non-intrusive banner notifications with flexible snooze options
+- **Learning Algorithm:** Improves suggestions over time based on user behavior and plant performance
+- **Historical Insights:** View seasonal patterns and schedule effectiveness across years
+- **Batch Operations:** Review and update multiple plants simultaneously
+- **Custom Overrides:** Modify suggestions while maintaining intelligent reasoning
+- **Confidence Scoring:** Transparent confidence levels for all seasonal recommendations
+
 ### 📱 Modern User Experience
 - **Progressive Web App (PWA):** Install and use like a native app on any device
 - **Native iOS App:** Full Capacitor integration for native iOS functionality and App Store distribution
