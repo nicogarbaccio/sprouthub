@@ -139,7 +139,7 @@ export function ScheduleHistoryCard({
         
         {/* Show preview when collapsed */}
         {!isExpanded && (
-          <div className="mt-2 text-sm text-gray-600">
+          <div className="mt-2 text-sm text-sprout-light dark:text-sprout-light">
             {isLoading ? (
               "Loading..."
             ) : hasAnyHistory ? (
@@ -154,21 +154,21 @@ export function ScheduleHistoryCard({
       {isExpanded && (
         <CardContent>
           {isLoading ? (
-            <div className="flex items-center justify-center py-8 text-gray-500">
+            <div className="flex items-center justify-center py-8 text-sprout-medium dark:text-sprout-light">
               <div className="animate-spin mr-2">
                 <Sparkles className="h-5 w-5" />
               </div>
               Loading history...
             </div>
           ) : !hasAnyHistory ? (
-            <div className="text-center py-8 text-gray-500">
-              <Calendar className="h-8 w-8 mx-auto mb-3 opacity-50" />
-              <p className="text-base font-medium mb-2">No schedule history yet</p>
+            <div className="text-center py-8 text-sprout-medium dark:text-sprout-light">
+              <Calendar className="h-8 w-8 mx-auto mb-3 text-sprout-medium dark:text-sprout-light opacity-60" />
+              <p className="text-base font-medium mb-2 text-sprout-dark dark:text-sprout-white">No schedule history yet</p>
               <p className="text-sm mb-4 max-w-md mx-auto leading-relaxed">
                 This section tracks how your watering schedule changes with the seasons. 
                 History will appear when you adjust schedules or when seasonal recommendations are applied.
               </p>
-              <div className="text-xs text-gray-400 space-y-1">
+              <div className="text-xs text-sprout-medium dark:text-sprout-light space-y-1 opacity-80">
                 <p>• Seasonal schedule adjustments</p>
                 <p>• Smart watering recommendations</p>
                 <p>• Manual schedule changes</p>
