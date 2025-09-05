@@ -136,6 +136,19 @@ export function ScheduleHistoryCard({
             </span>
           </Button>
         </div>
+        
+        {/* Show preview when collapsed */}
+        {!isExpanded && (
+          <div className="mt-2 text-sm text-gray-600">
+            {isLoading ? (
+              "Loading..."
+            ) : hasAnyHistory ? (
+              `Seasonal watering adjustments for ${plantName}`
+            ) : (
+              "Track seasonal watering schedule changes over time"
+            )}
+          </div>
+        )}
       </CardHeader>
 
       {isExpanded && (
@@ -149,11 +162,18 @@ export function ScheduleHistoryCard({
             </div>
           ) : !hasAnyHistory ? (
             <div className="text-center py-8 text-gray-500">
-              <Calendar className="h-8 w-8 mx-auto mb-2 opacity-50" />
-              <p className="text-sm">No seasonal schedule history yet</p>
-              <p className="text-xs mt-1">
-                History will appear as you make seasonal adjustments
+              <Calendar className="h-8 w-8 mx-auto mb-3 opacity-50" />
+              <p className="text-base font-medium mb-2">No schedule history yet</p>
+              <p className="text-sm mb-4 max-w-md mx-auto leading-relaxed">
+                This section tracks how your watering schedule changes with the seasons. 
+                History will appear when you adjust schedules or when seasonal recommendations are applied.
               </p>
+              <div className="text-xs text-gray-400 space-y-1">
+                <p>• Seasonal schedule adjustments</p>
+                <p>• Smart watering recommendations</p>
+                <p>• Manual schedule changes</p>
+                <p>• Weather-based modifications</p>
+              </div>
             </div>
           ) : (
             <div className="space-y-4">
