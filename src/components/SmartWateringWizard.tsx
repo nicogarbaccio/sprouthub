@@ -106,7 +106,7 @@ export const SmartWateringWizard = ({
     soilType: undefined,
   }));
   const [result, setResult] = useState<SmartScheduleResult | null>(null);
-  const [enableWeatherData, setEnableWeatherData] = useState(true);
+  const [enableWeatherData, setEnableWeatherData] = useState(false);
   const [showLocationDialog, setShowLocationDialog] = useState(false);
   const [weatherMappingReasons, setWeatherMappingReasons] = useState<string[]>(
     []
