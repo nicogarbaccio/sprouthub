@@ -23,10 +23,10 @@ export const useSmartWateringPreferences = () => {
  setIsLoading(true);
  try {
   const { data, error } = await supabase
-  .from('user_watering_preferences')
-  .select('*')
-  .eq('user_id', user.id)
-  .single();
+    .from('user_watering_preferences')
+    .select('*')
+    .eq('user_id', user.id)
+    .maybeSingle();
 
   if (error && error.code !== 'PGRST116') {
   // PGRST116 is "no rows returned" - not an actual error

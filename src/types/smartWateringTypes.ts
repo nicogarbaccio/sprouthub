@@ -9,6 +9,9 @@ export interface UserWateringPreferences {
  default_care_style: WateringFactors['careStyle'];
  default_soil_type: WateringFactors['soilType'];
  location?: string;
+ use_weather_data?: boolean;
+ manual_location?: string;
+ last_weather_update?: string;
  created_at?: string;
  updated_at?: string;
 }

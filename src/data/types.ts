@@ -14,4 +14,5 @@ export interface Plant {
  humidity?: string;
  careInstructions?: string[];
  commonProblems?: string[];
+ isOutdoorPlant?: boolean; // Added for weather-based rain delay feature
 }

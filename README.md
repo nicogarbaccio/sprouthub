@@ -15,7 +15,12 @@ sprouthub is a comprehensive plant care tracker that helps you manage your indoo
 
 ### 🧠 Smart Watering System
 - **Intelligent Scheduling:** AI-powered watering recommendations based on environmental factors
+- **Weather Integration:** Real-time weather data automatically adjusts temperature, humidity, and seasonal factors
+- **Location-Based Intelligence:** Uses GPS or manual location to get accurate local weather conditions
+- **Rain Delay Feature:** Automatically delays watering for outdoor plants when rain is expected (>60% probability)
 - **Environmental Factors:** Considers plant size, light levels, temperature, humidity, season, and soil type
+- **Extreme Weather Adjustments:** Handles heat waves, cold snaps, and extreme humidity conditions
+- **Fallback System:** Graceful degradation to estimated weather data when API is unavailable
 - **User Preferences:** Save and reuse personal watering preferences across all plants
 - **Postpone Feature:** Smart postpone functionality for plants that don't need water yet
 - **Care Style Adaptation:** Adapts to your care style (frequent, balanced, or minimal)
@@ -82,6 +87,7 @@ sprouthub is a comprehensive plant care tracker that helps you manage your indoo
 
 ### Testing & Quality
 - **[Vitest](https://vitest.dev/)** - Fast unit and integration testing
+- **Weather Integration Tests** - Comprehensive testing for weather mapping, API integration, and rain delay logic
 - **[ESLint](https://eslint.org/)** - Code linting and quality enforcement
 - **[TypeScript ESLint](https://typescript-eslint.io/)** - TypeScript-specific linting rules
 
@@ -122,6 +128,11 @@ cp .env.example .env.local
    - Create a new project at [supabase.com](https://supabase.com)
    - Add your Supabase URL and anon key to `.env.local`
    - Run the database migrations (see Database Setup below)
+
+3. Configure weather API (optional):
+   - Get a free API key from [OpenWeatherMap](https://openweathermap.org/api)
+   - Add `VITE_OPENWEATHER_API_KEY=your_api_key_here` to `.env.local`
+   - Weather features will use fallback data if API key is not provided
 
 ### Running the Development Server
 ```bash
@@ -217,6 +228,17 @@ npm run test:unit:cov
 - ✅ **Boundary Testing** - 2-45 day limits, baseline calculations
 - ✅ **Season Detection** - Month-based season calculation with date mocking
 - ✅ **Label Generation** - User-friendly factor descriptions and ranges
+
+#### **Weather Integration** (`src/utils/__tests__/weatherMapping.test.ts`)
+**24 tests** - Weather data integration and mapping:
+
+- ✅ **Weather-to-Factor Mapping** - Temperature, humidity, and season conversion
+- ✅ **Custom Threshold Support** - Configurable temperature and humidity ranges
+- ✅ **Weather Summary Generation** - User-friendly weather descriptions
+- ✅ **Rain Delay Logic** - Outdoor plant watering delay based on rain probability
+- ✅ **Extreme Weather Adjustments** - Heat waves, cold snaps, extreme humidity
+- ✅ **Daylight Hour Calculations** - Seasonal adjustments based on actual daylight
+- ✅ **Fallback Data Creation** - Graceful degradation when weather API unavailable
 
 #### **Authentication Validation** (`src/utils/__tests__/auth-validation.test.ts`)
 **46 tests** - Form validation and security checks:
@@ -430,6 +452,7 @@ We use conventional commits for automated versioning:
 
 ## 📚 Additional Documentation
 
+- [Plant Care Schedules](docs/plant-care-schedules.md) - Complete documentation of watering schedule algorithms, overwatering detection, and smart recommendations
 - [Smart Watering System](docs/smart-watering-system.md) - Comprehensive guide to the intelligent watering features and algorithms
 - [Password Reset Flow](docs/password-reset-flow.md) - Detailed documentation of the password reset functionality
 

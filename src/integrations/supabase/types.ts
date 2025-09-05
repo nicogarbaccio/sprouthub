@@ -47,6 +47,7 @@ export type Database = {
    created_at: string
    id: string
    image: string | null
+   is_outdoor_plant: boolean | null
    nickname: string
    plant_type: string
    room: string | null
@@ -58,6 +59,7 @@ export type Database = {
    created_at?: string
    id?: string
    image?: string | null
+   is_outdoor_plant?: boolean | null
    nickname: string
    plant_type: string
    room?: string | null
@@ -69,6 +71,7 @@ export type Database = {
    created_at?: string
    id?: string
    image?: string | null
+   is_outdoor_plant?: boolean | null
    nickname?: string
    plant_type?: string
    room?: string | null
@@ -87,8 +90,11 @@ export type Database = {
    default_soil_type: string
    default_temperature: string
    id: string
+   last_weather_update: string | null
    location: string | null
+   manual_location: string | null
    updated_at: string | null
+   use_weather_data: boolean | null
    user_id: string
   }
   Insert: {
@@ -99,8 +105,11 @@ export type Database = {
    default_soil_type: string
    default_temperature: string
    id?: string
+   last_weather_update?: string | null
    location?: string | null
+   manual_location?: string | null
    updated_at?: string | null
+   use_weather_data?: boolean | null
    user_id: string
   }
   Update: {
@@ -111,8 +120,11 @@ export type Database = {
    default_soil_type?: string
    default_temperature?: string
    id?: string
+   last_weather_update?: string | null
    location?: string | null
+   manual_location?: string | null
    updated_at?: string | null
+   use_weather_data?: boolean | null
    user_id?: string
   }
   Relationships: []
