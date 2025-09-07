@@ -146,7 +146,7 @@ const MyPlantDetails = () => {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Skeleton className="h-10 w-32 mb-8" />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <Skeleton className="h-80 w-full rounded-lg" />
+              <Skeleton className="aspect-square max-w-md mx-auto lg:mx-0 w-full rounded-lg" />
               <div className="space-y-6">
                 <Skeleton className="h-8 w-3/4" />
                 <Skeleton className="h-6 w-1/2" />
@@ -211,7 +211,7 @@ const MyPlantDetails = () => {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 opacity-0">
             <div className="h-10 w-32 mb-8" />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="h-80" />
+              <div className="aspect-square max-w-md mx-auto lg:mx-0" />
               <div className="space-y-6">
                 <div className="h-32" />
                 <div className="h-24" />
@@ -242,12 +242,12 @@ const MyPlantDetails = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             <CascadingContainer delay={100}>
-              <div className="relative">
+              <div className="relative aspect-square max-w-md mx-auto lg:mx-0">
                 <PlantImage
                   src={plant.image || ""}
                   alt={plant.nickname}
-                  className="w-full h-80 object-cover rounded-lg"
-                  fallbackClassName="w-full h-80 flex items-center justify-center bg-muted rounded-lg"
+                  className="w-full h-full object-cover rounded-lg shadow-md"
+                  fallbackClassName="w-full h-full flex items-center justify-center bg-muted rounded-lg shadow-md"
                 />
                 
                 {/* Status Badge */}
