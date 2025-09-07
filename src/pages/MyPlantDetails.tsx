@@ -145,16 +145,22 @@ const MyPlantDetails = () => {
         <div className="pt-16 min-h-[calc(100vh-4rem)]">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Skeleton className="h-10 w-32 mb-8" />
+            
+            {/* Header skeleton */}
+            <div className="text-center lg:text-left mb-8">
+              <Skeleton className="h-9 w-48 mx-auto lg:mx-0 mb-2" />
+              <Skeleton className="h-6 w-32 mx-auto lg:mx-0 mb-4" />
+              <div className="flex justify-center lg:justify-start gap-2">
+                <Skeleton className="h-6 w-20 rounded-full" />
+              </div>
+            </div>
+            
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <Skeleton className="aspect-square max-w-md mx-auto lg:mx-0 w-full rounded-lg" />
-              <div className="space-y-6">
-                <Skeleton className="h-8 w-3/4" />
-                <Skeleton className="h-6 w-1/2" />
-                <div className="space-y-4">
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <Skeleton key={i} className="h-16 w-full" />
-                  ))}
-                </div>
+              <div className="space-y-4">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <Skeleton key={i} className="h-32 w-full rounded-lg" />
+                ))}
               </div>
             </div>
           </div>
@@ -210,9 +216,18 @@ const MyPlantDetails = () => {
         <div className="pt-16 min-h-[calc(100vh-4rem)]">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 opacity-0">
             <div className="h-10 w-32 mb-8" />
+            
+            {/* Header placeholder */}
+            <div className="mb-8">
+              <div className="h-9 mb-2" />
+              <div className="h-6 mb-4" />
+              <div className="h-6" />
+            </div>
+            
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="aspect-square max-w-md mx-auto lg:mx-0" />
-              <div className="space-y-6">
+              <div className="space-y-4">
+                <div className="h-32" />
                 <div className="h-32" />
                 <div className="h-24" />
               </div>
@@ -240,8 +255,32 @@ const MyPlantDetails = () => {
             </Button>
           </CascadingContainer>
 
+          {/* Plant Header */}
+          <CascadingContainer delay={100}>
+            <div className="text-center lg:text-left mb-8">
+              <h1 className="text-3xl font-bold text-foreground mb-2">
+                {plant.nickname}
+              </h1>
+              <p className="text-lg text-muted-foreground mb-4">
+                {plant.plant_type}
+              </p>
+              
+              <div className="flex flex-wrap justify-center lg:justify-start gap-2">
+                {plant.room && (
+                  <Badge variant="secondary">
+                    <MapPin className="w-3 h-3 mr-1" />
+                    {plant.room}
+                  </Badge>
+                )}
+                {plant.is_outdoor_plant && (
+                  <Badge variant="secondary">Outdoor Plant</Badge>
+                )}
+              </div>
+            </div>
+          </CascadingContainer>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <CascadingContainer delay={100}>
+            <CascadingContainer delay={200}>
               <div className="relative aspect-square max-w-md mx-auto lg:mx-0">
                 <PlantImage
                   src={plant.image || ""}
@@ -270,30 +309,8 @@ const MyPlantDetails = () => {
             </CascadingContainer>
 
             <div className="space-y-6">
-              <CascadingContainer delay={200}>
-                <div>
-                  <h1 className="text-3xl font-bold text-foreground mb-2">
-                    {plant.nickname}
-                  </h1>
-                  <p className="text-lg text-muted-foreground mb-4">
-                    {plant.plant_type}
-                  </p>
-                  
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {plant.room && (
-                      <Badge variant="secondary">
-                        <MapPin className="w-3 h-3 mr-1" />
-                        {plant.room}
-                      </Badge>
-                    )}
-                    {plant.is_outdoor_plant && (
-                      <Badge variant="secondary">Outdoor Plant</Badge>
-                    )}
-                  </div>
-                </div>
-              </CascadingContainer>
 
-              <CascadingContainer delay={300}>
+              <CascadingContainer delay={250}>
                 <div className="grid grid-cols-1 gap-4">
                   <Card>
                     <CardHeader className="pb-3">
@@ -354,7 +371,7 @@ const MyPlantDetails = () => {
                 </div>
               </CascadingContainer>
 
-              <CascadingContainer delay={400}>
+              <CascadingContainer delay={300}>
                 <div className="space-y-3">
                   {/* Primary Action Buttons */}
                   {canPostpone ? (
