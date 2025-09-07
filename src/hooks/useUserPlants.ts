@@ -309,14 +309,42 @@ export const useUserPlants = () => {
  fetchPlants();
  }, [user]);
 
+ const deletePlant = async (plantId: string) => {
+  try {
+   const { error } = await supabase
+    .from('user_plants')
+    .delete()
+    .eq('id', plantId);
+
+   if (error) throw error;
+
+   toast({
+    title: 'Success',
+    description: 'Plant deleted successfully',
+   });
+   
+   fetchPlants();
+   return true;
+  } catch (error) {
+   console.error('Error deleting plant:', error);
+   toast({
+    title: 'Error',
+    description: 'Failed to delete plant',
+    variant: 'destructive',
+   });
+   return false;
+  }
+ };
+
  return {
- plants,
- loading,
- overwateringByPlantId,
- fetchPlants,
- addPlant,
- waterPlant,
- postponeWatering,
- checkOverwatering,
+  plants,
+  loading,
+  overwateringByPlantId,
+  fetchPlants,
+  addPlant,
+  waterPlant,
+  postponeWatering,
+  deletePlant,
+  checkOverwatering,
  };
 };

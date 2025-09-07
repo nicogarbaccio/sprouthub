@@ -13,6 +13,7 @@ import ResetPassword from "./pages/ResetPassword";
 import PlantCatalogPage from "./pages/PlantCatalog";
 import PlantDetails from "./pages/PlantDetails";
 import MyPlants from "./pages/MyPlants";
+import MyPlantDetails from "./pages/MyPlantDetails";
 import Profile from "./pages/Profile";
 import SkeletonDemo from "./pages/SkeletonDemo";
 import ToastDemo from "./components/ToastDemo";
@@ -40,6 +41,7 @@ const App = () => (
      element={<PlantDetails />}
     />
     <Route path="/my-plants" element={<MyPlants />} />
+    <Route path="/my-plants/:plantId" element={<MyPlantDetails />} />
     <Route path="/profile" element={<Profile />} />
     <Route path="/skeleton-demo" element={<SkeletonDemo />} />
     <Route path="/toast-demo" element={<ToastDemo />} />

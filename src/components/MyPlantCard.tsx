@@ -6,6 +6,7 @@ import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
+import { useNavigate } from "react-router-dom";
 
 interface MyPlantCardProps {
   id: string;
@@ -28,6 +29,7 @@ interface MyPlantCardProps {
 }
 
 const MyPlantCard = ({
+  id,
   name,
   plantType,
   image,
@@ -45,6 +47,7 @@ const MyPlantCard = ({
   onViewHistory,
   overwatering,
 }: MyPlantCardProps) => {
+  const navigate = useNavigate();
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
 
@@ -62,6 +65,11 @@ const MyPlantCard = ({
 
   const handleConfirmWater = () => {
     onWater();
+  };
+
+  const handleNameClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate(`/my-plants/${id}`);
   };
   const getStatusColor = () => {
     if (hasUnknownWateringDate)
@@ -197,8 +205,13 @@ const MyPlantCard = ({
         </div>
 
         <div className="p-5">
-          <h3 className="text-lg font-semibold text-foreground mb-1 ">
-            {name}
+          <h3 className="text-lg font-semibold text-foreground mb-1">
+            <button
+              onClick={handleNameClick}
+              className="text-left hover:text-sprout-water transition-colors duration-200 cursor-pointer underline-offset-4 hover:underline"
+            >
+              {name}
+            </button>
           </h3>
           <p className="text-sm text-muted-foreground mb-4">{plantType}</p>
 
