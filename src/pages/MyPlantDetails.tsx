@@ -151,8 +151,8 @@ const MyPlantDetails = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="pt-16 min-h-[calc(100vh-4rem)]">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="pt-20 min-h-[calc(100vh-5rem)]">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <Skeleton className="h-10 w-32 mb-4" />
             
             {/* Header skeleton */}
@@ -236,8 +236,8 @@ const MyPlantDetails = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <div className="pt-16 min-h-[calc(100vh-4rem)]">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 opacity-0">
+        <div className="pt-20 min-h-[calc(100vh-5rem)]">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0">
             <div className="h-10 w-32 mb-4" />
             
             {/* Header placeholder */}
@@ -280,8 +280,8 @@ const MyPlantDetails = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      <div className="pt-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="pt-20">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <CascadingContainer delay={0}>
             <Button
               variant="ghost"
