@@ -152,19 +152,19 @@ const MyPlantDetails = () => {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="pt-16 min-h-[calc(100vh-4rem)]">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <Skeleton className="h-10 w-32 mb-8" />
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <Skeleton className="h-10 w-32 mb-4" />
             
             {/* Header skeleton */}
-            <div className="text-center lg:text-left mb-8">
+            <div className="text-center lg:text-left mb-6">
               <Skeleton className="h-9 w-48 mx-auto lg:mx-0 mb-2" />
-              <Skeleton className="h-6 w-32 mx-auto lg:mx-0 mb-4" />
+              <Skeleton className="h-6 w-32 mx-auto lg:mx-0 mb-3" />
               <div className="flex justify-center lg:justify-start gap-2">
                 <Skeleton className="h-6 w-20 rounded-full" />
               </div>
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               <Skeleton className="aspect-square max-w-md mx-auto lg:mx-0 w-full rounded-lg" />
               <div className="space-y-4">
                 {Array.from({ length: 3 }).map((_, i) => (
@@ -174,7 +174,7 @@ const MyPlantDetails = () => {
             </div>
             
             {/* Care information skeleton */}
-            <div className="mb-8">
+            <div className="mb-6">
               <div className="grid grid-cols-2 gap-4">
                 {Array.from({ length: 4 }).map((_, i) => (
                   <Skeleton key={i} className="h-20 w-full rounded-lg" />
@@ -237,17 +237,17 @@ const MyPlantDetails = () => {
       <div className="min-h-screen bg-background">
         <Navigation />
         <div className="pt-16 min-h-[calc(100vh-4rem)]">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 opacity-0">
-            <div className="h-10 w-32 mb-8" />
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 opacity-0">
+            <div className="h-10 w-32 mb-4" />
             
             {/* Header placeholder */}
-            <div className="mb-8">
+            <div className="mb-6">
               <div className="h-9 mb-2" />
-              <div className="h-6 mb-4" />
+              <div className="h-6 mb-3" />
               <div className="h-6" />
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               <div className="aspect-square max-w-md mx-auto lg:mx-0" />
               <div className="space-y-4">
                 <div className="h-32" />
@@ -257,7 +257,7 @@ const MyPlantDetails = () => {
             </div>
             
             {/* Care information placeholder */}
-            <div className="mb-8">
+            <div className="mb-6">
               <div className="grid grid-cols-2 gap-4">
                 <div className="h-20" />
                 <div className="h-20" />
@@ -281,12 +281,12 @@ const MyPlantDetails = () => {
     <div className="min-h-screen bg-background">
       <Navigation />
       <div className="pt-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <CascadingContainer delay={0}>
             <Button
               variant="ghost"
               onClick={() => navigate("/my-plants")}
-              className="mb-6"
+              className="mb-4"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to My Plants
@@ -295,11 +295,11 @@ const MyPlantDetails = () => {
 
           {/* Plant Header */}
           <CascadingContainer delay={100}>
-            <div className="text-center lg:text-left mb-8">
+            <div className="text-center lg:text-left mb-6">
               <h1 className="text-3xl font-bold text-foreground mb-2">
                 {plant.nickname}
               </h1>
-              <p className="text-lg text-muted-foreground mb-4">
+              <p className="text-lg text-muted-foreground mb-3">
                 {plant.plant_type}
               </p>
               
@@ -317,7 +317,7 @@ const MyPlantDetails = () => {
             </div>
           </CascadingContainer>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <CascadingContainer delay={200}>
               <div className="relative aspect-square max-w-md mx-auto lg:mx-0">
                 <PlantImage
@@ -472,7 +472,7 @@ const MyPlantDetails = () => {
 
           {/* Plant Care Information */}
           <CascadingContainer delay={350}>
-            <div className="mb-8">
+            <div className="mb-6">
               <PlantCareGrid
                 wateringFrequency={catalogPlant?.wateringFrequency || "Weekly"}
                 suggestedWateringDays={plant.suggested_watering_days || catalogPlant?.suggestedWateringDays || 7}
