@@ -18,6 +18,9 @@ export interface UserPlant {
  is_outdoor_plant?: boolean;
  created_at: string;
  updated_at: string;
+ // Postponement fields
+ postponement_date?: string;
+ postponement_notes?: string;
 }
 
 export const useUserPlants = () => {
@@ -35,14 +38,42 @@ export const useUserPlants = () => {
  }
 
  try {
-  const { data, error } = await supabase
+  // First get all plants
+  const { data: plantsData, error: plantsError } = await supabase
   .from('plants_with_watering_info')
   .select('*')
   .eq('user_id', user.id)
   .order('created_at', { ascending: false });
 
-  if (error) throw error;
-  const result = data || [];
+  if (plantsError) throw plantsError;
+  
+  // Then get postponement data for all plants
+  const plantIds = (plantsData || []).map(p => p.id);
+  let postponementData: any[] = [];
+  
+  if (plantIds.length > 0) {
+    const { data: postponements, error: postponementError } = await supabase
+    .from('watering_records')
+    .select('plant_id, watered_at, notes')
+    .in('plant_id', plantIds)
+    .like('notes', '%POSTPONEMENT:%')
+    .gt('watered_at', new Date().toISOString())
+    .order('watered_at', { ascending: false });
+
+    if (postponementError) throw postponementError;
+    postponementData = postponements || [];
+  }
+
+  // Combine plants with their postponement data
+  const result = (plantsData || []).map(plant => {
+    const postponement = postponementData.find(p => p.plant_id === plant.id);
+    return {
+      ...plant,
+      postponement_date: postponement?.watered_at,
+      postponement_notes: postponement?.notes,
+    };
+  });
+  
   setPlants(result);
 
   // After plants load, fetch recent watering records once and compute risk per plant

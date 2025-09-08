@@ -297,12 +297,11 @@ const Dashboard = () => {
       } else if (wateringCalc.isOverdue) {
         stats.overduePlants++;
         stats.plantsNeedingWaterToday++;
-      } else if (
-        wateringCalc.daysUntilWatering === 0 ||
-        wateringCalc.isPostponed
-      ) {
+      } else if (wateringCalc.daysUntilWatering === 0) {
+        // Only count plants that are actually due today, not postponed ones
         stats.plantsNeedingWaterToday++;
       }
+      // Note: postponed plants are intentionally not counted as "needing water today"
 
       return stats;
     },
@@ -330,25 +329,20 @@ const Dashboard = () => {
       const wateringCalc = calculateWateringSchedule(plant);
       return (
         !wateringCalc.hasUnknownWateringDate &&
-        (wateringCalc.isOverdue ||
-          wateringCalc.daysUntilWatering === 0 ||
-          wateringCalc.isPostponed)
+        (wateringCalc.isOverdue || wateringCalc.daysUntilWatering === 0)
+        // Note: postponed plants are excluded from today's task list
       );
     })
     .sort((a, b) => {
       const calcA = calculateWateringSchedule(a);
       const calcB = calculateWateringSchedule(b);
 
-      // Sort by priority: overdue first (by how overdue), then due today, then postponed
+      // Sort by priority: overdue first (by how overdue), then due today
       if (calcA.isOverdue && calcB.isOverdue) {
         return calcA.daysUntilWatering - calcB.daysUntilWatering; // More overdue first (more negative)
       }
       if (calcA.isOverdue && !calcB.isOverdue) return -1;
       if (!calcA.isOverdue && calcB.isOverdue) return 1;
-
-      // Both not overdue, prioritize due today over postponed
-      if (calcA.daysUntilWatering === 0 && calcB.isPostponed) return -1;
-      if (calcA.isPostponed && calcB.daysUntilWatering === 0) return 1;
 
       return 0; // Equal priority
     });
@@ -618,13 +612,6 @@ const Dashboard = () => {
                               <Badge className="text-xs bg-sprout-error text-white">
                                 {Math.abs(wateringCalc.daysUntilWatering)} days
                                 overdue
-                              </Badge>
-                            ) : wateringCalc.isPostponed ? (
-                              <Badge
-                                variant="secondary"
-                                className="text-xs bg-sprout-water/20 text-sprout-water"
-                              >
-                                Postponed
                               </Badge>
                             ) : (
                               <Badge variant="secondary" className="text-xs">

@@ -20,16 +20,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { 
-  ArrowLeft, 
-  Droplets, 
-  Edit, 
-  Trash2, 
-  History, 
+import {
+  ArrowLeft,
+  Droplets,
+  Edit,
+  Trash2,
+  History,
   Clock,
   MapPin,
   Calendar,
-  AlertTriangle
+  AlertTriangle,
 } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
@@ -45,8 +45,16 @@ const MyPlantDetails = () => {
   const { plantId } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { plants, loading, overwateringByPlantId, waterPlant, postponeWatering, deletePlant, fetchPlants } = useUserPlants();
-  
+  const {
+    plants,
+    loading,
+    overwateringByPlantId,
+    waterPlant,
+    postponeWatering,
+    deletePlant,
+    fetchPlants,
+  } = useUserPlants();
+
   const [isLoading, setIsLoading] = useState(true);
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
@@ -54,14 +62,18 @@ const MyPlantDetails = () => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   // Find the specific plant
-  const plant = plants.find(p => p.id === plantId);
+  const plant = plants.find((p) => p.id === plantId);
   const overwatering = plant ? overwateringByPlantId[plant.id] : undefined;
 
   // Find matching plant data from catalog for care information
-  const catalogPlant = plant ? catalogPlants.find(catalogP => 
-    catalogP.name.toLowerCase() === plant.plant_type.toLowerCase() ||
-    catalogP.botanicalName.toLowerCase() === plant.plant_type.toLowerCase()
-  ) : undefined;
+  const catalogPlant = plant
+    ? catalogPlants.find(
+        (catalogP) =>
+          catalogP.name.toLowerCase() === plant.plant_type.toLowerCase() ||
+          catalogP.botanicalName.toLowerCase() ===
+            plant.plant_type.toLowerCase()
+      )
+    : undefined;
 
   useEffect(() => {
     // Simulate loading state while data is being fetched
@@ -81,7 +93,9 @@ const MyPlantDetails = () => {
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !user) {
-      navigate('/auth?redirect=' + encodeURIComponent(window.location.pathname));
+      navigate(
+        "/auth?redirect=" + encodeURIComponent(window.location.pathname)
+      );
     }
   }, [user, loading, navigate]);
 
@@ -118,32 +132,38 @@ const MyPlantDetails = () => {
     if (plant) {
       const success = await deletePlant(plant.id);
       if (success) {
-        navigate('/my-plants');
+        navigate("/my-plants");
       }
     }
     setShowDeleteConfirmation(false);
   };
 
   const getStatusInfo = () => {
-    if (!plant) return { color: 'bg-gray-500', text: 'Unknown' };
-    
-    const daysUntilWatering = plant.days_since_watering 
+    if (!plant) return { color: "bg-gray-500", text: "Unknown" };
+
+    const daysUntilWatering = plant.days_since_watering
       ? (plant.suggested_watering_days || 7) - plant.days_since_watering
       : 0;
 
     if (daysUntilWatering < 0) {
-      return { 
-        color: 'bg-red-500 text-white', 
-        text: `Overdue by ${Math.abs(daysUntilWatering)} days` 
+      return {
+        color: "bg-red-500 text-white",
+        text: `Overdue by ${Math.abs(daysUntilWatering)} days`,
       };
     }
     if (daysUntilWatering === 0) {
-      return { color: 'bg-orange-500 text-white', text: 'Due today' };
+      return { color: "bg-orange-500 text-white", text: "Due today" };
     }
     if (daysUntilWatering <= 2) {
-      return { color: 'bg-orange-500 text-white', text: `Due in ${daysUntilWatering} days` };
+      return {
+        color: "bg-orange-500 text-white",
+        text: `Due in ${daysUntilWatering} days`,
+      };
     }
-    return { color: 'bg-sprout-success text-white', text: `Due in ${daysUntilWatering} days` };
+    return {
+      color: "bg-sprout-success text-white",
+      text: `Due in ${daysUntilWatering} days`,
+    };
   };
 
   // Show loading skeleton
@@ -154,7 +174,7 @@ const MyPlantDetails = () => {
         <main className="py-8">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <Skeleton className="h-10 w-32 mb-6" />
-            
+
             {/* Header skeleton */}
             <div className="text-center lg:text-left mb-6">
               <Skeleton className="h-9 w-48 mx-auto lg:mx-0 mb-2" />
@@ -163,7 +183,7 @@ const MyPlantDetails = () => {
                 <Skeleton className="h-6 w-20 rounded-full" />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               <Skeleton className="aspect-square max-w-md mx-auto lg:mx-0 w-full rounded-lg" />
               <div className="space-y-4">
@@ -172,7 +192,7 @@ const MyPlantDetails = () => {
                 ))}
               </div>
             </div>
-            
+
             {/* Care information skeleton */}
             <div className="mb-6">
               <div className="grid grid-cols-2 gap-4">
@@ -181,7 +201,7 @@ const MyPlantDetails = () => {
                 ))}
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Skeleton className="h-64 w-full rounded-lg" />
               <Skeleton className="h-64 w-full rounded-lg" />
@@ -205,7 +225,8 @@ const MyPlantDetails = () => {
                 Plant Not Found
               </h1>
               <p className="text-muted-foreground mb-6">
-                The plant you're looking for doesn't exist or you don't have access to it.
+                The plant you're looking for doesn't exist or you don't have
+                access to it.
               </p>
               <Button onClick={() => navigate("/my-plants")}>
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -220,17 +241,20 @@ const MyPlantDetails = () => {
   }
 
   const statusInfo = getStatusInfo();
-  const daysUntilWatering = plant.days_since_watering 
+  const daysUntilWatering = plant.days_since_watering
     ? (plant.suggested_watering_days || 7) - plant.days_since_watering
     : 0;
-  
+
   const isOverdue = daysUntilWatering < 0;
   const isDueToday = daysUntilWatering === 0;
   const canPostpone = (isOverdue || isDueToday) && plant.latest_watering;
 
   // Check if we should show overwatering warning
   const { showWarning: showOverwateringWarning, daysSinceLastWatered } =
-    shouldShowOverwateringWarning(plant.latest_watering, plant.suggested_watering_days || 7);
+    shouldShowOverwateringWarning(
+      plant.latest_watering,
+      plant.suggested_watering_days || 7
+    );
 
   if (!isReady) {
     return (
@@ -239,14 +263,14 @@ const MyPlantDetails = () => {
         <main className="py-8">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0">
             <div className="h-10 w-32 mb-6" />
-            
+
             {/* Header placeholder */}
             <div className="mb-6">
               <div className="h-9 mb-2" />
               <div className="h-6 mb-3" />
               <div className="h-6" />
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               <div className="aspect-square max-w-md mx-auto lg:mx-0" />
               <div className="space-y-4">
@@ -255,7 +279,7 @@ const MyPlantDetails = () => {
                 <div className="h-24" />
               </div>
             </div>
-            
+
             {/* Care information placeholder */}
             <div className="mb-6">
               <div className="grid grid-cols-2 gap-4">
@@ -265,7 +289,7 @@ const MyPlantDetails = () => {
                 <div className="h-20" />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="h-64" />
               <div className="h-64" />
@@ -302,7 +326,7 @@ const MyPlantDetails = () => {
               <p className="text-lg text-muted-foreground mb-3">
                 {plant.plant_type}
               </p>
-              
+
               <div className="flex flex-wrap justify-center lg:justify-start gap-2">
                 {plant.room && (
                   <Badge variant="secondary">
@@ -326,7 +350,7 @@ const MyPlantDetails = () => {
                   className="w-full h-full object-cover rounded-lg shadow-md"
                   fallbackClassName="w-full h-full flex items-center justify-center bg-muted rounded-lg shadow-md"
                 />
-                
+
                 {/* Status Badge */}
                 <Badge className={`absolute top-4 right-4 ${statusInfo.color}`}>
                   {statusInfo.text}
@@ -334,20 +358,23 @@ const MyPlantDetails = () => {
 
                 {/* Overwatering Warning */}
                 {overwatering && overwatering.level !== "none" && (
-                  <Badge className={`absolute top-4 left-4 ${
-                    overwatering.level === "high"
-                      ? "bg-red-600 text-white border-red-600"
-                      : "bg-orange-500 text-white border-orange-500"
-                  }`}>
+                  <Badge
+                    className={`absolute top-4 left-4 ${
+                      overwatering.level === "high"
+                        ? "bg-red-600 text-white border-red-600"
+                        : "bg-orange-500 text-white border-orange-500"
+                    }`}
+                  >
                     <AlertTriangle className="w-3 h-3 mr-1" />
-                    {overwatering.level === "high" ? "Overwatering Risk" : "Watch Watering"}
+                    {overwatering.level === "high"
+                      ? "Overwatering Risk"
+                      : "Watch Watering"}
                   </Badge>
                 )}
               </div>
             </CascadingContainer>
 
             <div className="space-y-6">
-
               <CascadingContainer delay={250}>
                 <div className="grid grid-cols-1 gap-4">
                   <Card>
@@ -361,10 +388,12 @@ const MyPlantDetails = () => {
                         <div className="flex justify-between">
                           <span className="text-sm">Last watered:</span>
                           <span className="font-medium">
-                            {plant.latest_watering 
-                              ? formatDistanceToNow(new Date(plant.latest_watering), { addSuffix: true })
-                              : "Never"
-                            }
+                            {plant.latest_watering
+                              ? formatDistanceToNow(
+                                  new Date(plant.latest_watering),
+                                  { addSuffix: true }
+                                )
+                              : "Never"}
                           </span>
                         </div>
                         <div className="flex justify-between">
@@ -394,13 +423,17 @@ const MyPlantDetails = () => {
                         <div className="flex justify-between">
                           <span className="text-sm">Added:</span>
                           <span className="font-medium">
-                            {formatDistanceToNow(new Date(plant.created_at), { addSuffix: true })}
+                            {formatDistanceToNow(new Date(plant.created_at), {
+                              addSuffix: true,
+                            })}
                           </span>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-sm">Last updated:</span>
                           <span className="font-medium">
-                            {formatDistanceToNow(new Date(plant.updated_at), { addSuffix: true })}
+                            {formatDistanceToNow(new Date(plant.updated_at), {
+                              addSuffix: true,
+                            })}
                           </span>
                         </div>
                       </div>
@@ -442,17 +475,11 @@ const MyPlantDetails = () => {
 
                   {/* Secondary Action Buttons */}
                   <div className="grid grid-cols-3 gap-2">
-                    <Button
-                      variant="outline"
-                      onClick={handleEditClick}
-                    >
+                    <Button variant="outline" onClick={handleEditClick}>
                       <Edit className="w-4 h-4 mr-1" />
                       Edit
                     </Button>
-                    <Button
-                      variant="outline"
-                      onClick={handleViewHistory}
-                    >
+                    <Button variant="outline" onClick={handleViewHistory}>
                       <History className="w-4 h-4 mr-1" />
                       History
                     </Button>
@@ -475,8 +502,14 @@ const MyPlantDetails = () => {
             <div className="mb-6">
               <PlantCareGrid
                 wateringFrequency={catalogPlant?.wateringFrequency || "Weekly"}
-                suggestedWateringDays={plant.suggested_watering_days || catalogPlant?.suggestedWateringDays || 7}
-                lightRequirement={catalogPlant?.lightRequirement || "Bright Indirect Light"}
+                suggestedWateringDays={
+                  plant.suggested_watering_days ||
+                  catalogPlant?.suggestedWateringDays ||
+                  7
+                }
+                lightRequirement={
+                  catalogPlant?.lightRequirement || "Bright Indirect Light"
+                }
                 temperature={catalogPlant?.temperature || "65-75°F (18-24°C)"}
                 humidity={catalogPlant?.humidity || "40-60%"}
               />
@@ -485,19 +518,23 @@ const MyPlantDetails = () => {
 
           <CascadingContainer delay={400}>
             <PlantCareCards
-              careInstructions={catalogPlant?.careInstructions || [
-                "Water when top inch of soil feels dry",
-                "Place in appropriate light conditions",
-                "Maintain proper humidity levels",
-                "Remove dead or yellowing leaves",
-                "Fertilize during growing season"
-              ]}
-              commonProblems={catalogPlant?.commonProblems || [
-                "Overwatering: Yellow leaves and root rot",
-                "Underwatering: Wilting and dry soil",
-                "Poor lighting: Leggy growth or leaf drop",
-                "Low humidity: Brown leaf tips"
-              ]}
+              careInstructions={
+                catalogPlant?.careInstructions || [
+                  "Water when top inch of soil feels dry",
+                  "Place in appropriate light conditions",
+                  "Maintain proper humidity levels",
+                  "Remove dead or yellowing leaves",
+                  "Fertilize during growing season",
+                ]
+              }
+              commonProblems={
+                catalogPlant?.commonProblems || [
+                  "Overwatering: Yellow leaves and root rot",
+                  "Underwatering: Wilting and dry soil",
+                  "Poor lighting: Leggy growth or leaf drop",
+                  "Low humidity: Brown leaf tips",
+                ]
+              }
             />
           </CascadingContainer>
         </div>
@@ -530,12 +567,17 @@ const MyPlantDetails = () => {
         plantName={plant.nickname}
       />
 
-      <AlertDialog open={showDeleteConfirmation} onOpenChange={setShowDeleteConfirmation}>
+      <AlertDialog
+        open={showDeleteConfirmation}
+        onOpenChange={setShowDeleteConfirmation}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Plant</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{plant.nickname}"? This action cannot be undone and will remove all watering history for this plant.
+              Are you sure you want to delete "{plant.nickname}"? This action
+              cannot be undone and will remove all watering history for this
+              plant.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

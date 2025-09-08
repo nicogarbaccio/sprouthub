@@ -105,7 +105,11 @@ const MyPlantCard = ({
 
   const getStatusText = () => {
     if (hasUnknownWateringDate) return "Unknown schedule";
-    if (isPostponed) return "Postponed until tomorrow";
+    if (isPostponed) {
+      if (daysUntilWatering === 0) return "Postponed until later today";
+      if (daysUntilWatering === 1) return "Postponed until tomorrow";
+      return `Postponed for ${daysUntilWatering} days`;
+    }
     if (isOverdue) return `Overdue by ${Math.abs(daysUntilWatering)} days`;
 
     // Check if plant was watered within the last day (show "Watered today")
