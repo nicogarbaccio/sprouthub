@@ -27,7 +27,6 @@ import {
   Trash2,
   History,
   Clock,
-  MapPin,
   Calendar,
   AlertTriangle,
 } from "lucide-react";
@@ -37,9 +36,12 @@ import EditPlantDialog from "@/components/EditPlantDialog";
 import WateringHistoryDialog from "@/components/WateringHistoryDialog";
 import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
+import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import { formatDistanceToNow } from "date-fns";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import { plants as catalogPlants } from "@/data/plantData";
+import { calculateWateringSchedule } from "@/utils/watering-schedule";
+import { getRoomIcon, getRoomLabel } from "@/utils/rooms";
 
 const MyPlantDetails = () => {
   const { plantId } = useParams();
@@ -60,6 +62,7 @@ const MyPlantDetails = () => {
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showHistoryDialog, setShowHistoryDialog] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [showFullscreenImage, setShowFullscreenImage] = useState(false);
 
   // Find the specific plant
   const plant = plants.find((p) => p.id === plantId);
@@ -141,16 +144,44 @@ const MyPlantDetails = () => {
   const getStatusInfo = () => {
     if (!plant) return { color: "bg-gray-500", text: "Unknown" };
 
-    const daysUntilWatering = plant.days_since_watering
-      ? (plant.suggested_watering_days || 7) - plant.days_since_watering
-      : 0;
+    const wateringCalc = calculateWateringSchedule(plant);
+    const {
+      daysUntilWatering,
+      isOverdue,
+      isPostponed,
+      hasUnknownWateringDate,
+    } = wateringCalc;
 
-    if (daysUntilWatering < 0) {
+    if (hasUnknownWateringDate) {
+      return { color: "bg-neutral-500 text-white", text: "Unknown schedule" };
+    }
+
+    if (isPostponed) {
+      if (daysUntilWatering === 0) {
+        return {
+          color: "bg-sprout-water text-white",
+          text: "Postponed until later today",
+        };
+      }
+      if (daysUntilWatering === 1) {
+        return {
+          color: "bg-sprout-water text-white",
+          text: "Postponed until tomorrow",
+        };
+      }
+      return {
+        color: "bg-sprout-water text-white",
+        text: `Postponed for ${daysUntilWatering} days`,
+      };
+    }
+
+    if (isOverdue) {
       return {
         color: "bg-red-500 text-white",
         text: `Overdue by ${Math.abs(daysUntilWatering)} days`,
       };
     }
+
     if (daysUntilWatering === 0) {
       return { color: "bg-orange-500 text-white", text: "Due today" };
     }
@@ -241,13 +272,13 @@ const MyPlantDetails = () => {
   }
 
   const statusInfo = getStatusInfo();
-  const daysUntilWatering = plant.days_since_watering
-    ? (plant.suggested_watering_days || 7) - plant.days_since_watering
-    : 0;
+  const wateringCalc = calculateWateringSchedule(plant);
+  const { daysUntilWatering, isOverdue, isPostponed, hasUnknownWateringDate } =
+    wateringCalc;
 
-  const isOverdue = daysUntilWatering < 0;
-  const isDueToday = daysUntilWatering === 0;
-  const canPostpone = (isOverdue || isDueToday) && plant.latest_watering;
+  const isDueToday = daysUntilWatering === 0 && !isPostponed;
+  const canPostpone =
+    (isOverdue || isDueToday) && !isPostponed && plant.latest_watering;
 
   // Check if we should show overwatering warning
   const { showWarning: showOverwateringWarning, daysSinceLastWatered } =
@@ -330,8 +361,8 @@ const MyPlantDetails = () => {
               <div className="flex flex-wrap justify-center lg:justify-start gap-2">
                 {plant.room && (
                   <Badge variant="secondary">
-                    <MapPin className="w-3 h-3 mr-1" />
-                    {plant.room}
+                    <span className="mr-1">{getRoomIcon(plant.room)}</span>
+                    {getRoomLabel(plant.room)}
                   </Badge>
                 )}
                 {plant.is_outdoor_plant && (
@@ -341,53 +372,66 @@ const MyPlantDetails = () => {
             </div>
           </CascadingContainer>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-            <CascadingContainer delay={200}>
-              <div className="relative aspect-square max-w-md mx-auto lg:mx-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:items-start">
+            <div className="relative max-w-md mx-auto lg:mx-0 lg:max-w-none">
+              <div
+                className="cursor-pointer group"
+                onClick={() => setShowFullscreenImage(true)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setShowFullscreenImage(true);
+                  }
+                }}
+                aria-label={`View ${plant.nickname} image in fullscreen`}
+              >
                 <PlantImage
                   src={plant.image || ""}
                   alt={plant.nickname}
-                  className="w-full h-full object-cover rounded-lg shadow-md"
-                  fallbackClassName="w-full h-full flex items-center justify-center bg-muted rounded-lg shadow-md"
+                  className="w-full h-[280px] lg:h-[320px] object-cover rounded-lg shadow-md"
                 />
-
-                {/* Status Badge */}
-                <Badge className={`absolute top-4 right-4 ${statusInfo.color}`}>
-                  {statusInfo.text}
-                </Badge>
-
-                {/* Overwatering Warning */}
-                {overwatering && overwatering.level !== "none" && (
-                  <Badge
-                    className={`absolute top-4 left-4 ${
-                      overwatering.level === "high"
-                        ? "bg-red-600 text-white border-red-600"
-                        : "bg-orange-500 text-white border-orange-500"
-                    }`}
-                  >
-                    <AlertTriangle className="w-3 h-3 mr-1" />
-                    {overwatering.level === "high"
-                      ? "Overwatering Risk"
-                      : "Watch Watering"}
-                  </Badge>
-                )}
               </div>
-            </CascadingContainer>
 
-            <div className="space-y-6">
+              {/* Status Badge */}
+              <Badge className={`absolute top-4 right-4 ${statusInfo.color}`}>
+                {statusInfo.text}
+              </Badge>
+
+              {/* Overwatering Warning */}
+              {overwatering && overwatering.level !== "none" && (
+                <Badge
+                  className={`absolute top-4 left-4 ${
+                    overwatering.level === "high"
+                      ? "bg-red-600 text-white border-red-600"
+                      : "bg-orange-500 text-white border-orange-500"
+                  }`}
+                >
+                  <AlertTriangle className="w-3 h-3 mr-1" />
+                  {overwatering.level === "high"
+                    ? "Overwatering Risk"
+                    : "Watch Watering"}
+                </Badge>
+              )}
+            </div>
+
+            <div className="flex flex-col">
               <CascadingContainer delay={250}>
-                <div className="grid grid-cols-1 gap-4">
+                <div className="space-y-3">
                   <Card>
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-sm font-medium text-muted-foreground">
+                    <CardHeader className="pb-2 pt-3">
+                      <CardTitle className="text-sm font-semibold text-foreground">
                         Watering Schedule
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="pt-0">
-                      <div className="space-y-2">
+                    <CardContent className="pt-0 pb-3">
+                      <div className="space-y-1">
                         <div className="flex justify-between">
-                          <span className="text-sm">Last watered:</span>
-                          <span className="font-medium">
+                          <span className="text-xs text-muted-foreground">
+                            Last watered:
+                          </span>
+                          <span className="text-xs font-medium">
                             {plant.latest_watering
                               ? formatDistanceToNow(
                                   new Date(plant.latest_watering),
@@ -397,14 +441,18 @@ const MyPlantDetails = () => {
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm">Watering frequency:</span>
-                          <span className="font-medium">
+                          <span className="text-xs text-muted-foreground">
+                            Watering frequency:
+                          </span>
+                          <span className="text-xs font-medium">
                             Every {plant.suggested_watering_days || 7} days
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm">Days since watering:</span>
-                          <span className="font-medium">
+                          <span className="text-xs text-muted-foreground">
+                            Days since watering:
+                          </span>
+                          <span className="text-xs font-medium">
                             {plant.days_since_watering || 0} days
                           </span>
                         </div>
@@ -413,24 +461,28 @@ const MyPlantDetails = () => {
                   </Card>
 
                   <Card>
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-sm font-medium text-muted-foreground">
+                    <CardHeader className="pb-2 pt-3">
+                      <CardTitle className="text-sm font-semibold text-foreground">
                         Plant Info
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="pt-0">
-                      <div className="space-y-2">
+                    <CardContent className="pt-0 pb-3">
+                      <div className="space-y-1">
                         <div className="flex justify-between">
-                          <span className="text-sm">Added:</span>
-                          <span className="font-medium">
+                          <span className="text-xs text-muted-foreground">
+                            Added:
+                          </span>
+                          <span className="text-xs font-medium">
                             {formatDistanceToNow(new Date(plant.created_at), {
                               addSuffix: true,
                             })}
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-sm">Last updated:</span>
-                          <span className="font-medium">
+                          <span className="text-xs text-muted-foreground">
+                            Last updated:
+                          </span>
+                          <span className="text-xs font-medium">
                             {formatDistanceToNow(new Date(plant.updated_at), {
                               addSuffix: true,
                             })}
@@ -443,7 +495,7 @@ const MyPlantDetails = () => {
               </CascadingContainer>
 
               <CascadingContainer delay={300}>
-                <div className="space-y-3">
+                <div className="space-y-2 mt-3">
                   {/* Primary Action Buttons */}
                   {canPostpone ? (
                     <div className="space-y-2">
@@ -475,20 +527,31 @@ const MyPlantDetails = () => {
 
                   {/* Secondary Action Buttons */}
                   <div className="grid grid-cols-3 gap-2">
-                    <Button variant="outline" onClick={handleEditClick}>
-                      <Edit className="w-4 h-4 mr-1" />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleEditClick}
+                      className="hover:bg-sprout-light/10 hover:border-sprout-light/30"
+                    >
+                      <Edit className="w-3 h-3 mr-1" />
                       Edit
                     </Button>
-                    <Button variant="outline" onClick={handleViewHistory}>
-                      <History className="w-4 h-4 mr-1" />
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={handleViewHistory}
+                      className="hover:bg-sprout-water/10 hover:border-sprout-water/30"
+                    >
+                      <History className="w-3 h-3 mr-1" />
                       History
                     </Button>
                     <Button
                       variant="outline"
+                      size="sm"
                       onClick={handleDeletePlant}
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      className="text-red-600 hover:text-white hover:bg-red-600"
                     >
-                      <Trash2 className="w-4 h-4 mr-1" />
+                      <Trash2 className="w-3 h-3 mr-1" />
                       Delete
                     </Button>
                   </div>
@@ -554,16 +617,22 @@ const MyPlantDetails = () => {
         isOpen={showEditDialog}
         onClose={() => setShowEditDialog(false)}
         plant={plant}
-        onSuccess={() => {
+        onUpdate={() => {
           fetchPlants();
-          setShowEditDialog(false);
         }}
       />
 
       <WateringHistoryDialog
         isOpen={showHistoryDialog}
         onClose={() => setShowHistoryDialog(false)}
-        plantId={plant.id}
+        plant={plant}
+      />
+
+      <FullscreenImageModal
+        isOpen={showFullscreenImage}
+        onClose={() => setShowFullscreenImage(false)}
+        imageSrc={plant.image || ""}
+        imageAlt={plant.nickname}
         plantName={plant.nickname}
       />
 
