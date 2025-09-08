@@ -35,8 +35,11 @@ import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
 import EditPlantDialog from "@/components/EditPlantDialog";
 import WateringHistoryDialog from "@/components/WateringHistoryDialog";
+import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
+import PlantCareCards from "@/components/plant-details/PlantCareCards";
 import { formatDistanceToNow } from "date-fns";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
+import { plants as catalogPlants } from "@/data/plantData";
 
 const MyPlantDetails = () => {
   const { plantId } = useParams();
@@ -53,6 +56,12 @@ const MyPlantDetails = () => {
   // Find the specific plant
   const plant = plants.find(p => p.id === plantId);
   const overwatering = plant ? overwateringByPlantId[plant.id] : undefined;
+
+  // Find matching plant data from catalog for care information
+  const catalogPlant = plant ? catalogPlants.find(catalogP => 
+    catalogP.name.toLowerCase() === plant.plant_type.toLowerCase() ||
+    catalogP.botanicalName.toLowerCase() === plant.plant_type.toLowerCase()
+  ) : undefined;
 
   useEffect(() => {
     // Simulate loading state while data is being fetched
@@ -163,6 +172,20 @@ const MyPlantDetails = () => {
                 ))}
               </div>
             </div>
+            
+            {/* Care information skeleton */}
+            <div className="mb-8">
+              <div className="grid grid-cols-2 gap-4">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <Skeleton key={i} className="h-20 w-full rounded-lg" />
+                ))}
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Skeleton className="h-64 w-full rounded-lg" />
+              <Skeleton className="h-64 w-full rounded-lg" />
+            </div>
           </div>
         </div>
         <Footer />
@@ -231,6 +254,21 @@ const MyPlantDetails = () => {
                 <div className="h-32" />
                 <div className="h-24" />
               </div>
+            </div>
+            
+            {/* Care information placeholder */}
+            <div className="mb-8">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="h-20" />
+                <div className="h-20" />
+                <div className="h-20" />
+                <div className="h-20" />
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="h-64" />
+              <div className="h-64" />
             </div>
           </div>
         </div>
@@ -431,6 +469,37 @@ const MyPlantDetails = () => {
               </CascadingContainer>
             </div>
           </div>
+
+          {/* Plant Care Information */}
+          <CascadingContainer delay={350}>
+            <div className="mb-8">
+              <PlantCareGrid
+                wateringFrequency={catalogPlant?.wateringFrequency || "Weekly"}
+                suggestedWateringDays={plant.suggested_watering_days || catalogPlant?.suggestedWateringDays || 7}
+                lightRequirement={catalogPlant?.lightRequirement || "Bright Indirect Light"}
+                temperature={catalogPlant?.temperature || "65-75°F (18-24°C)"}
+                humidity={catalogPlant?.humidity || "40-60%"}
+              />
+            </div>
+          </CascadingContainer>
+
+          <CascadingContainer delay={400}>
+            <PlantCareCards
+              careInstructions={catalogPlant?.careInstructions || [
+                "Water when top inch of soil feels dry",
+                "Place in appropriate light conditions",
+                "Maintain proper humidity levels",
+                "Remove dead or yellowing leaves",
+                "Fertilize during growing season"
+              ]}
+              commonProblems={catalogPlant?.commonProblems || [
+                "Overwatering: Yellow leaves and root rot",
+                "Underwatering: Wilting and dry soil",
+                "Poor lighting: Leggy growth or leaf drop",
+                "Low humidity: Brown leaf tips"
+              ]}
+            />
+          </CascadingContainer>
         </div>
       </div>
 
