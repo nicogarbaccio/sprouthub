@@ -153,7 +153,7 @@ const MyPlantDetails = () => {
         <Navigation />
         <main className="py-8">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Skeleton className="h-10 w-32 mb-4" />
+            <Skeleton className="h-10 w-32 mb-6" />
             
             {/* Header skeleton */}
             <div className="text-center lg:text-left mb-6">
@@ -238,7 +238,7 @@ const MyPlantDetails = () => {
         <Navigation />
         <main className="py-8">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0">
-            <div className="h-10 w-32 mb-4" />
+            <div className="h-10 w-32 mb-6" />
             
             {/* Header placeholder */}
             <div className="mb-6">
@@ -284,9 +284,9 @@ const MyPlantDetails = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <CascadingContainer delay={0}>
             <Button
-              variant="ghost"
+              variant="outline"
               onClick={() => navigate("/my-plants")}
-              className="mb-4"
+              className="mb-6"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to My Plants
