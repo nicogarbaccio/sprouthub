@@ -624,6 +624,7 @@ const AddPlantDialog = ({
               variant="outline"
               className="w-full mt-2 text-sm border-plant-primary/30 hover:bg-plant-primary/5 hover:border-plant-primary dark:bg-sprout-success dark:hover:bg-sprout-success/90 dark:border-sprout-success dark:text-white"
               onClick={() => setIsSmartWizardOpen(true)}
+              data-testid="smart-watering-button"
             >
               <Brain className="w-4 h-4 mr-2" />
               Find optimal schedule for this plant

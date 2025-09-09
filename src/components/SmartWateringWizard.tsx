@@ -283,7 +283,8 @@ export const SmartWateringWizard = ({
     currentValue: T | undefined,
     onClick: (value: T) => void,
     label: string,
-    description?: string
+    description?: string,
+    testId?: string
   ) => (
     <Card
       className={cn(
@@ -293,6 +294,7 @@ export const SmartWateringWizard = ({
           : "border-sprout-medium hover:border-sprout-success/50"
       )}
       onClick={() => onClick(value)}
+      data-testid={testId}
     >
       <CardContent className="p-4">
         <div className="flex items-center justify-between">
@@ -331,7 +333,9 @@ export const SmartWateringWizard = ({
               size,
               factors.plantSize,
               (value) => updateFactor("plantSize", value),
-              labels.plantSize[size]
+              labels.plantSize[size],
+              undefined,
+              `plant-size-${size}`
             )}
           </div>
         ))}
@@ -364,6 +368,7 @@ export const SmartWateringWizard = ({
             <Switch
               checked={enableWeatherData}
               onCheckedChange={handleToggleWeatherData}
+              data-testid="weather-data-toggle"
             />
           </div>
 
@@ -429,7 +434,8 @@ export const SmartWateringWizard = ({
                 factors.lightLevel,
                 (value) => updateFactor("lightLevel", value),
                 level.charAt(0).toUpperCase() + level.slice(1),
-                labels.lightLevel[level]
+                labels.lightLevel[level],
+                `light-level-${level}`
               )}
             </div>
           ))}
@@ -459,7 +465,8 @@ export const SmartWateringWizard = ({
                 factors.temperature,
                 (value) => updateFactor("temperature", value),
                 temp.charAt(0).toUpperCase() + temp.slice(1),
-                labels.temperature[temp]
+                labels.temperature[temp],
+                `temperature-${temp}`
               )}
             </div>
           ))}
@@ -493,7 +500,8 @@ export const SmartWateringWizard = ({
                 factors.humidity,
                 (value) => updateFactor("humidity", value),
                 humidity.charAt(0).toUpperCase() + humidity.slice(1),
-                labels.humidity[humidity]
+                labels.humidity[humidity],
+                `humidity-${humidity}`
               )}
             </div>
           ))}
@@ -536,7 +544,9 @@ export const SmartWateringWizard = ({
                 style,
                 factors.careStyle,
                 (value) => updateFactor("careStyle", value),
-                labels.careStyle[style]
+                labels.careStyle[style],
+                undefined,
+                `care-style-${style}`
               )}
             </div>
           ))}
@@ -558,7 +568,9 @@ export const SmartWateringWizard = ({
                 soil,
                 factors.soilType,
                 (value) => updateFactor("soilType", value),
-                labels.soilType[soil]
+                labels.soilType[soil],
+                undefined,
+                `soil-type-${soil}`
               )}
             </div>
           ))}
@@ -609,7 +621,10 @@ export const SmartWateringWizard = ({
                 <p className="text-sm text-sprout-light mb-1">
                   Recommended Schedule
                 </p>
-                <p className="text-3xl font-bold text-sprout-success">
+                <p
+                  className="text-3xl font-bold text-sprout-success"
+                  data-testid="recommended-days"
+                >
                   Every {result.recommendedDays} days
                 </p>
               </div>
@@ -641,6 +656,7 @@ export const SmartWateringWizard = ({
                     : "destructive"
                 }
                 className="mx-auto"
+                data-testid="confidence-level"
               >
                 {result.confidence} confidence
               </Badge>
@@ -658,7 +674,7 @@ export const SmartWateringWizard = ({
                   Why this schedule?
                 </h4>
               </div>
-              <ul className="space-y-2">
+              <ul className="space-y-2" data-testid="adjustment-reasons">
                 {result.adjustmentReasons.map((reason, index) => (
                   <li key={index} className="text-sm text-sprout-light">
                     • {reason}
@@ -681,6 +697,7 @@ export const SmartWateringWizard = ({
           <Button
             onClick={handleApplySchedule}
             className="flex-1 bg-sprout-success hover:bg-sprout-success/90 text-sprout-white"
+            data-testid="apply-button"
           >
             Use This Schedule
           </Button>
@@ -709,7 +726,10 @@ export const SmartWateringWizard = ({
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto bg-sprout-dark text-sprout-white">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-sprout-white">
+            <DialogTitle
+              className="flex items-center gap-2 text-sprout-white"
+              data-testid="wizard-title"
+            >
               <Brain className="w-5 h-5 text-sprout-light" />
               Smart Watering Schedule
             </DialogTitle>
@@ -732,11 +752,15 @@ export const SmartWateringWizard = ({
             <Progress
               value={((currentStep - 1) / STEPS.length) * 100}
               className="h-2"
+              data-testid="progress-bar"
             />
           </div>
 
           {/* Step Indicators */}
-          <div className="flex justify-between items-center py-4">
+          <div
+            className="flex justify-between items-center py-4"
+            data-testid="step-indicators"
+          >
             {STEPS.map((step) => (
               <div
                 key={step.id}
@@ -746,6 +770,7 @@ export const SmartWateringWizard = ({
                     ? "text-sprout-success"
                     : "text-sprout-medium"
                 )}
+                data-testid={`step-indicator-${step.id}`}
               >
                 <div
                   className={cn(
@@ -781,6 +806,7 @@ export const SmartWateringWizard = ({
                 onClick={goToPreviousStep}
                 disabled={currentStep === 1}
                 className="flex items-center gap-2 border-sprout-light text-sprout-light hover:bg-sprout-light hover:text-sprout-dark"
+                data-testid="back-button"
               >
                 <ChevronLeft className="w-4 h-4" />
                 Previous
@@ -789,6 +815,7 @@ export const SmartWateringWizard = ({
                 onClick={goToNextStep}
                 disabled={!canProceedToNextStep()}
                 className="flex items-center gap-2 bg-sprout-success hover:bg-sprout-success/90 text-sprout-white"
+                data-testid="next-button"
               >
                 {currentStep === 3 ? "Calculate Schedule" : "Continue"}
                 <ChevronRight className="w-4 h-4" />

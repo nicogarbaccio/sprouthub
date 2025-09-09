@@ -44,50 +44,50 @@ export const calculateSmartWateringSchedule = (
   break;
  }
  
- // Light level adjustments (affects photosynthesis and water consumption)
- switch (factors.lightLevel) {
- case 'high':
-  adjustment += 1;
+// Light level adjustments (affects photosynthesis and water consumption)
+switch (factors.lightLevel) {
+case 'high':
+  adjustment -= 1;
   reasons.push('High light increases photosynthesis and water evaporation');
   break;
- case 'low':
-  adjustment -= 1;
+case 'low':
+  adjustment += 1;
   reasons.push('Low light reduces plant metabolism and water consumption');
   break;
- case 'medium':
+case 'medium':
   // No adjustment - baseline
   break;
- }
- 
- // Temperature effects (affects evaporation rate)
- switch (factors.temperature) {
- case 'warm':
-  adjustment += 1;
+}
+
+// Temperature effects (affects evaporation rate)
+switch (factors.temperature) {
+case 'warm':
+  adjustment -= 1;
   reasons.push('Warm temperatures increase evaporation rate');
   break;
- case 'cool':
-  adjustment -= 1;
+case 'cool':
+  adjustment += 1;
   reasons.push('Cool temperatures slow down water evaporation');
   break;
- case 'normal':
+case 'normal':
   // No adjustment - baseline
   break;
- }
+}
  
- // Humidity effects (affects transpiration rate)
- switch (factors.humidity) {
- case 'dry':
-  adjustment += 2;
+// Humidity effects (affects transpiration rate)
+switch (factors.humidity) {
+case 'dry':
+  adjustment -= 2;
   reasons.push('Dry air increases water loss through transpiration');
   break;
- case 'humid':
-  adjustment -= 1;
+case 'humid':
+  adjustment += 1;
   reasons.push('High humidity reduces water loss');
   break;
- case 'normal':
+case 'normal':
   // No adjustment - baseline
   break;
- }
+}
  
  // Seasonal adjustments (affects growth cycles)
  switch (factors.season) {

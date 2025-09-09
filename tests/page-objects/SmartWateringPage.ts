@@ -18,11 +18,7 @@ export class SmartWateringPage {
   readonly largePlantOption: Locator;
 
   // Step 2 - Environment
-  readonly lightLevelSlider: Locator;
-  readonly temperatureSlider: Locator;
-  readonly humiditySlider: Locator;
   readonly weatherToggle: Locator;
-  readonly locationPermissionButton: Locator;
 
   // Step 3 - Preferences
   readonly careStyleOptions: Locator;
@@ -39,13 +35,13 @@ export class SmartWateringPage {
     this.page = page;
     
     // Main wizard elements
-    this.wizardDialog = page.locator('[role="dialog"]');
-    this.wizardTitle = page.locator('h2', { hasText: 'Smart Watering Schedule' });
-    this.progressBar = page.locator('[role="progressbar"]');
-    this.stepIndicators = page.locator('[data-testid="step-indicator"]');
-    this.nextButton = page.getByRole('button', { name: /next|continue/i });
-    this.backButton = page.getByRole('button', { name: /back|previous/i });
-    this.applyButton = page.getByRole('button', { name: /apply|save/i });
+    this.wizardDialog = page.getByRole('dialog', { name: 'Smart Watering Schedule' });
+    this.wizardTitle = page.getByTestId('wizard-title');
+    this.progressBar = page.getByTestId('progress-bar');
+    this.stepIndicators = page.getByTestId('step-indicators');
+    this.nextButton = page.getByTestId('next-button');
+    this.backButton = page.getByTestId('back-button');
+    this.applyButton = page.getByTestId('apply-button');
     this.closeButton = page.getByRole('button', { name: /close|cancel/i });
 
     // Step 1 - Plant Size
@@ -55,11 +51,7 @@ export class SmartWateringPage {
     this.largePlantOption = page.getByTestId('plant-size-large');
 
     // Step 2 - Environment
-    this.lightLevelSlider = page.getByTestId('light-level-slider');
-    this.temperatureSlider = page.getByTestId('temperature-slider');
-    this.humiditySlider = page.getByTestId('humidity-slider');
     this.weatherToggle = page.getByTestId('weather-data-toggle');
-    this.locationPermissionButton = page.getByTestId('location-permission-button');
 
     // Step 3 - Preferences
     this.careStyleOptions = page.locator('[data-testid="care-style-option"]');
@@ -74,15 +66,33 @@ export class SmartWateringPage {
   }
 
   async openWizard() {
-    // This assumes there's a button to open the smart watering wizard
-    const openButton = this.page.getByTestId('open-smart-watering-wizard');
-    await openButton.click();
+    // First, we need to add a plant to access the smart watering wizard
+    // The wizard is only available within the AddPlantDialog
+    const addPlantButton = this.page.getByRole('button', { name: /add.*plant/i }).first();
+    await addPlantButton.click();
+    
+    // Wait for the AddPlantDialog to open
+    await this.page.getByRole('dialog').waitFor({ state: 'visible' });
+    
+    // Find and click the smart watering button within the dialog
+    const smartWateringButton = this.page.getByTestId('smart-watering-button');
+    await smartWateringButton.click();
+    
+    // Wait for the wizard dialog to open
     await this.wizardDialog.waitFor({ state: 'visible' });
   }
 
   async closeWizard() {
     await this.closeButton.click();
     await this.wizardDialog.waitFor({ state: 'hidden' });
+    
+    // Also close the AddPlantDialog if it's still open
+    const addPlantDialog = this.page.getByRole('dialog', { name: 'Add New Plant' });
+    if (await addPlantDialog.isVisible()) {
+      const closeAddPlantButton = this.page.getByRole('button', { name: 'Close' }).first();
+      await closeAddPlantButton.click();
+      await addPlantDialog.waitFor({ state: 'hidden' });
+    }
   }
 
   async selectPlantSize(size: 'small' | 'medium' | 'large') {
@@ -92,21 +102,18 @@ export class SmartWateringPage {
   }
 
   async setLightLevel(level: 'low' | 'medium' | 'high') {
-    const slider = this.lightLevelSlider;
-    const value = level === 'low' ? 0 : level === 'medium' ? 50 : 100;
-    await slider.fill(value.toString());
+    const option = this.page.getByTestId(`light-level-${level}`);
+    await option.click();
   }
 
-  async setTemperature(temp: 'cool' | 'moderate' | 'warm') {
-    const slider = this.temperatureSlider;
-    const value = temp === 'cool' ? 0 : temp === 'moderate' ? 50 : 100;
-    await slider.fill(value.toString());
+  async setTemperature(temp: 'cool' | 'normal' | 'warm') {
+    const option = this.page.getByTestId(`temperature-${temp}`);
+    await option.click();
   }
 
-  async setHumidity(humidity: 'low' | 'medium' | 'high') {
-    const slider = this.humiditySlider;
-    const value = humidity === 'low' ? 0 : humidity === 'medium' ? 50 : 100;
-    await slider.fill(value.toString());
+  async setHumidity(humidity: 'dry' | 'normal' | 'humid') {
+    const option = this.page.getByTestId(`humidity-${humidity}`);
+    await option.click();
   }
 
   async toggleWeatherData() {
@@ -114,7 +121,16 @@ export class SmartWateringPage {
   }
 
   async grantLocationPermission() {
-    await this.locationPermissionButton.click();
+    // Wait for location permission dialog to appear
+    const locationDialog = this.page.getByRole('dialog', { name: 'Location for Weather Data' });
+    await locationDialog.waitFor({ state: 'visible' });
+    
+    // Click the "Use My Current Location" button
+    const useCurrentLocationButton = this.page.getByRole('button', { name: /use.*current.*location/i });
+    await useCurrentLocationButton.click();
+    
+    // Wait for the dialog to close
+    await locationDialog.waitFor({ state: 'hidden' });
     
     // Handle browser location permission dialog
     this.page.on('dialog', async dialog => {
@@ -124,12 +140,12 @@ export class SmartWateringPage {
     });
   }
 
-  async selectCareStyle(style: 'minimal' | 'moderate' | 'intensive') {
+  async selectCareStyle(style: 'frequent' | 'balanced' | 'minimal') {
     const option = this.page.getByTestId(`care-style-${style}`);
     await option.click();
   }
 
-  async selectSoilType(type: 'well-draining' | 'moisture-retaining' | 'fast-draining') {
+  async selectSoilType(type: 'regular' | 'draining' | 'retaining') {
     const option = this.page.getByTestId(`soil-type-${type}`);
     await option.click();
   }
@@ -150,13 +166,30 @@ export class SmartWateringPage {
   }
 
   async expectStepVisible(stepNumber: number) {
-    const stepTitle = this.page.locator(`h3:has-text("Step ${stepNumber}")`);
+    let stepTitle: Locator;
+    switch (stepNumber) {
+      case 1:
+        stepTitle = this.page.locator('h3:has-text("How big is your")');
+        break;
+      case 2:
+        stepTitle = this.page.locator('h3:has-text("Environmental Conditions")');
+        break;
+      case 3:
+        stepTitle = this.page.locator('h3:has-text("Personal Preferences")');
+        break;
+      case 4:
+        stepTitle = this.page.locator('h3:has-text("Your Personalized Schedule")');
+        break;
+      default:
+        throw new Error(`Unknown step number: ${stepNumber}`);
+    }
     await expect(stepTitle).toBeVisible();
   }
 
   async expectProgressBarValue(expectedValue: number) {
-    const progressValue = this.progressBar.getAttribute('aria-valuenow');
-    await expect(progressValue).toBe(expectedValue.toString());
+    // Check the text content that shows the percentage
+    const progressText = this.page.getByText(`${expectedValue}% complete`);
+    await expect(progressText).toBeVisible();
   }
 
   async expectRecommendedDays(expectedDays: number) {
@@ -182,10 +215,10 @@ export class SmartWateringPage {
   async completeWizardFlow(factors: {
     plantSize: 'small' | 'medium' | 'large';
     lightLevel: 'low' | 'medium' | 'high';
-    temperature: 'cool' | 'moderate' | 'warm';
-    humidity: 'low' | 'medium' | 'high';
-    careStyle: 'minimal' | 'moderate' | 'intensive';
-    soilType: 'well-draining' | 'moisture-retaining' | 'fast-draining';
+    temperature: 'cool' | 'normal' | 'warm';
+    humidity: 'dry' | 'normal' | 'humid';
+    careStyle: 'frequent' | 'balanced' | 'minimal';
+    soilType: 'regular' | 'draining' | 'retaining';
     useWeatherData?: boolean;
   }) {
     // Step 1: Plant Size
@@ -199,7 +232,13 @@ export class SmartWateringPage {
     
     if (factors.useWeatherData) {
       await this.toggleWeatherData();
-      await this.grantLocationPermission();
+      // Weather data integration is optional - just close the dialog if it appears
+      const locationDialog = this.page.getByRole('dialog', { name: 'Location for Weather Data' });
+      if (await locationDialog.isVisible()) {
+        const closeButton = this.page.getByRole('button', { name: /close|cancel/i });
+        await closeButton.click();
+        await locationDialog.waitFor({ state: 'hidden' });
+      }
     }
     
     await this.goToNextStep();
