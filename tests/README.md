@@ -61,15 +61,20 @@ tests/
 - ✅ Redirect after login
 - ✅ Tab navigation between sign in/up
 
-### Smart Watering System Tests
-- ✅ Complete wizard flow
-- ✅ Plant size selection and impact
-- ✅ Environmental factors (light, temperature, humidity)
-- ✅ Care preferences (style, soil type)
-- ✅ Weather data integration
-- ✅ Schedule calculation validation
-- ✅ Error handling for API failures
-- ✅ Step navigation and validation
+### Smart Watering System Tests (16 tests total)
+- ✅ Complete wizard flow with all factors
+- ✅ Plant size selection and impact on watering frequency
+- ✅ Environmental factors (light level, temperature, humidity)
+- ✅ Care preferences (care style, soil type)
+- ✅ Weather data integration with location permission dialog
+- ✅ Schedule calculation validation with proper adjustments
+- ✅ Error handling for weather API failures
+- ✅ Step navigation and validation (next button states)
+- ✅ Minimum and maximum watering interval enforcement
+- ✅ Confidence level display based on environmental factors
+- ✅ Schedule application and wizard closure
+- ✅ Navigation between wizard steps
+- ✅ Required field validation before proceeding
 
 ## 🔧 Configuration
 
@@ -159,6 +164,25 @@ testPlants = {
 }
 ```
 
+### Smart Watering Test Data
+```typescript
+// Environmental factors (must match actual UI data-testid values)
+environmentalFactors = {
+  lightLevel: ['low', 'medium', 'high'],
+  temperature: ['cool', 'normal', 'warm'], 
+  humidity: ['dry', 'normal', 'humid']
+}
+
+// Care preferences (must match actual UI data-testid values)
+carePreferences = {
+  careStyle: ['frequent', 'balanced', 'minimal'],
+  soilType: ['regular', 'draining', 'retaining']
+}
+
+// Plant sizes
+plantSizes = ['small', 'medium', 'large']
+```
+
 ## 🎯 Writing Tests
 
 ### Basic Test Structure
@@ -194,16 +218,49 @@ test('should complete smart watering wizard flow', async ({ smartWateringPage })
   const factors = {
     plantSize: 'medium',
     lightLevel: 'medium', 
-    temperature: 'moderate',
-    humidity: 'medium',
-    careStyle: 'moderate',
-    soilType: 'well-draining'
+    temperature: 'normal',
+    humidity: 'normal',
+    careStyle: 'balanced',
+    soilType: 'draining',
+    useWeatherData: false
   };
   
   await smartWateringPage.completeWizardFlow(factors);
   
   await expect(smartWateringPage.recommendedDays).toBeVisible();
   await smartWateringPage.applySchedule();
+});
+```
+
+### Smart Watering Test Patterns
+```typescript
+// Test environmental factor impact
+test('should adjust schedule based on humidity', async ({ smartWateringPage }) => {
+  await smartWateringPage.openWizard();
+  
+  // Test dry humidity (should increase watering frequency)
+  await smartWateringPage.selectPlantSize('medium');
+  await smartWateringPage.goToNextStep();
+  
+  await smartWateringPage.setLightLevel('medium');
+  await smartWateringPage.setTemperature('normal');
+  await smartWateringPage.setHumidity('dry');
+  await smartWateringPage.goToNextStep();
+  
+  await smartWateringPage.selectCareStyle('balanced');
+  await smartWateringPage.selectSoilType('draining');
+  await smartWateringPage.goToNextStep();
+  
+  const dryHumidityDays = await smartWateringPage.getRecommendedDays();
+  
+  // Test humid conditions (should decrease watering frequency)
+  await smartWateringPage.goToPreviousStep();
+  await smartWateringPage.setHumidity('humid');
+  await smartWateringPage.goToNextStep();
+  
+  const humidDays = await smartWateringPage.getRecommendedDays();
+  
+  expect(dryHumidityDays).toBeLessThan(humidDays);
 });
 ```
 
@@ -229,6 +286,28 @@ npm run test:e2e:ui
 2. **Element not found**: Check if test-id attributes are present
 3. **Timing issues**: Use proper wait strategies
 4. **API failures**: Mock external services
+5. **Next button disabled**: Ensure all required wizard steps are completed before proceeding
+6. **Location permission dialog**: Handle the LocationPermissionDialog that appears when weather data is enabled
+7. **Number extraction errors**: Use regex to extract numbers from text like "Every 5 days"
+8. **Dialog not closing**: Ensure both SmartWateringWizard and AddPlantDialog are properly closed
+
+### Smart Watering Specific Issues
+
+1. **Test data mismatch**: Use correct data-testid values:
+   - Temperature: `cool`, `normal`, `warm` (not `moderate`)
+   - Humidity: `dry`, `normal`, `humid` (not `low`, `medium`, `high`)
+   - Care style: `frequent`, `balanced`, `minimal` (not `moderate`)
+   - Soil type: `regular`, `draining`, `retaining` (not `well-draining`)
+
+2. **Calculation logic**: The smart watering calculation adjusts watering frequency based on:
+   - Dry air → more frequent watering (fewer days)
+   - High light → more frequent watering (fewer days)
+   - Warm temps → more frequent watering (fewer days)
+   - Humid air → less frequent watering (more days)
+   - Low light → less frequent watering (more days)
+   - Cool temps → less frequent watering (more days)
+
+3. **Weather data integration**: When `useWeatherData: true`, the LocationPermissionDialog appears and must be handled
 
 ## 🚀 CI/CD Integration
 
@@ -296,6 +375,23 @@ npm run test:e2e -- --project=chromium
 - [Test Fixtures](https://playwright.dev/docs/test-fixtures)
 - [Best Practices](https://playwright.dev/docs/best-practices)
 
+## 🔧 Recent Improvements (Latest Update)
+
+### Smart Watering Test Fixes
+- **Fixed calculation logic**: Corrected humidity, light level, and temperature adjustments in `smartWateringSchedule.ts`
+- **Updated test data**: Aligned test values with actual UI data-testid attributes
+- **Improved wizard flow**: Ensured all required steps are completed before proceeding
+- **Enhanced dialog handling**: Properly close both SmartWateringWizard and AddPlantDialog
+- **Fixed number extraction**: Use regex to parse "Every X days" text format
+- **Weather data integration**: Handle LocationPermissionDialog that appears when weather data is enabled
+- **Validation improvements**: Check button states instead of attempting to click disabled buttons
+
+### Test Reliability Improvements
+- All 16 smart watering tests now pass consistently across Chrome, Firefox, and Safari
+- Reduced flaky test behavior through proper wait strategies
+- Better error handling for external API failures
+- Improved test isolation with proper cleanup between tests
+
 ## 🤝 Contributing
 
 When adding new tests:
@@ -304,6 +400,9 @@ When adding new tests:
 3. Update this documentation
 4. Ensure tests are reliable and maintainable
 5. Consider edge cases and error scenarios
+6. Use correct data-testid values that match the actual UI
+7. Handle all dialogs and modals properly
+8. Test across multiple browsers for consistency
 
 ---
 
