@@ -49,7 +49,7 @@ sprouthub is a comprehensive plant care tracker that helps you manage your indoo
 ### 🔐 Authentication & Data
 - **Secure Authentication:** Email/password and social login with Supabase Auth
 - **Real-time Data Sync:** Live updates across all your devices
-- **Image Upload:** Store and manage plant photos with cloud storage
+- **Image Upload:** Store and manage plant photos with cloud storage and AI-powered auto-cropping
 - **Data Export:** Export your plant collection and care history
 - **User Preferences:** Persistent smart watering preferences and room customization
 
@@ -96,11 +96,46 @@ sprouthub is a comprehensive plant care tracker that helps you manage your indoo
 - **Code Splitting** - Optimized bundle sizes and lazy loading
 - **Image Optimization** - WebP format and responsive images
 
+### Image Processing & AI
+- **[Cloudinary](https://cloudinary.com/)** - Cloud-based image storage and processing
+- **AI-Powered Auto-Cropping** - Intelligent plant detection and optimal cropping
+- **Smart Object Positioning** - Automatic CSS object-position detection for better plant visibility
+- **Multi-Format Optimization** - Automatic format selection (WebP, AVIF, etc.) for optimal performance
+- **Quality Optimization** - Intelligent quality vs file size balancing
+- **Batch Processing** - Utilities for updating existing plant images with auto-cropping
+
 ### Testing & Quality
 - **[Vitest](https://vitest.dev/)** - Fast unit and integration testing
+- **[Playwright](https://playwright.dev/)** - End-to-end testing with real browser automation
+- **Multi-Environment Testing** - Node.js for unit tests, Browser for E2E tests
 - **Weather Integration Tests** - Comprehensive testing for weather mapping, API integration, and rain delay logic
+- **Image Processing Tests** - Unit tests for auto-cropping and image optimization utilities
+- **Coverage Reporting** - Comprehensive code coverage with HTML reports
 - **[ESLint](https://eslint.org/)** - Code linting and quality enforcement
 - **[TypeScript ESLint](https://typescript-eslint.io/)** - TypeScript-specific linting rules
+
+#### Testing Architecture
+Our testing strategy uses multiple environments for optimal coverage:
+
+**Unit Tests (Node.js Environment)**
+- **Purpose**: Test pure functions and business logic in isolation
+- **Environment**: Node.js (no DOM, no React components)
+- **Examples**: Image utilities, weather calculations, data transformations
+- **Command**: `npm test` or `npm run test:unit`
+- **Coverage**: `npm run test:unit:cov`
+
+**End-to-End Tests (Browser Environment)**
+- **Purpose**: Test complete user workflows and application behavior
+- **Environment**: Real browser with full React app
+- **Examples**: User authentication, plant management, watering workflows
+- **Command**: `npm run test:e2e`
+- **UI Mode**: `npm run test:e2e:ui`
+
+**Why This Architecture?**
+- **Unit Tests**: Fast, reliable testing of core logic without browser overhead
+- **E2E Tests**: Comprehensive testing of user interactions and integrations
+- **Separation of Concerns**: Each test type focuses on its appropriate layer
+- **Performance**: Unit tests run quickly for rapid feedback during development
 
 ### Development Tools
 - **[React DevTools](https://react.dev/learn/react-developer-tools)** - Component debugging
@@ -184,7 +219,15 @@ Database migrations are located in the `supabase/migrations/` directory.
 
 ## 🧪 Testing
 
-### Unit Testing
+### Testing Architecture Overview
+
+Our testing strategy uses **multiple environments** for optimal coverage:
+
+- **Unit Tests**: Run in **Node.js environment** (no browser, no DOM) for fast, isolated testing of pure functions
+- **E2E Tests**: Run in **real browser environment** for comprehensive user workflow testing
+- **No "Second App"**: Tests run in appropriate environments, not separate applications
+
+### Unit Testing (Node.js Environment)
 ```bash
 # Run all unit tests
 npm test
@@ -200,7 +243,13 @@ npm run test:unit:watch
 npm run test:unit:cov
 ```
 
-### End-to-End Testing
+**What Unit Tests Cover:**
+- Pure functions (image utilities, weather calculations)
+- Business logic (data transformations, validations)
+- Utility functions (auto-cropping, object positioning)
+- **Environment**: Node.js (fast, no browser overhead)
+
+### End-to-End Testing (Browser Environment)
 ```bash
 # Install Playwright browsers (first time only)
 npm run test:e2e:install
@@ -220,6 +269,12 @@ npm run test:e2e:debug
 # View test report
 npm run test:e2e:report
 ```
+
+**What E2E Tests Cover:**
+- Complete user workflows (authentication, plant management)
+- Browser interactions (clicks, forms, navigation)
+- Integration testing (Supabase, Cloudinary)
+- **Environment**: Real browser with full React app
 
 ### Test Coverage Overview
 

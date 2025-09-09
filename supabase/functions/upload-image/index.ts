@@ -78,10 +78,14 @@ serve(async (req) => {
     // Generate timestamp for signed upload
     const timestamp = Math.round(Date.now() / 1000).toString();
     
-    // Parameters for signature
+    // Parameters for signature (including auto-cropping transformations)
     const signatureParams = {
       timestamp,
       folder: 'plant-collection',
+      crop: 'auto',
+      gravity: 'auto:subject',
+      quality: 'auto:eco',
+      format: 'auto',
     };
 
     // Generate signature
@@ -95,6 +99,11 @@ serve(async (req) => {
     cloudinaryFormData.append('timestamp', timestamp);
     cloudinaryFormData.append('folder', 'plant-collection');
     cloudinaryFormData.append('signature', signature);
+    // Add auto-cropping transformation parameters
+    cloudinaryFormData.append('crop', 'auto');
+    cloudinaryFormData.append('gravity', 'auto:subject');
+    cloudinaryFormData.append('quality', 'auto:eco');
+    cloudinaryFormData.append('format', 'auto');
 
     const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
     console.log('Uploading to:', cloudinaryUrl);
