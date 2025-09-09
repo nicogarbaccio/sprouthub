@@ -8,6 +8,8 @@ export interface PlantWateringInfo {
  suggested_watering_days?: number | null;
  postponement_date?: string | null;
  postponement_notes?: string | null;
+ last_postponement_date?: string | null;
+ postponement_count?: number | null;
 }
 
 export interface WateringCalculation {
@@ -76,8 +78,23 @@ export function calculateWateringSchedule(plant: PlantWateringInfo): WateringCal
 
  // For normal (non-postponed) plants, use the database-calculated days_since_watering
  if (plant.days_since_watering !== null && plant.days_since_watering !== undefined) {
- const daysUntilWatering = wateringSchedule - plant.days_since_watering;
- const isOverdue = daysUntilWatering < 0;
+ let daysUntilWatering = wateringSchedule - plant.days_since_watering;
+ let isOverdue = daysUntilWatering < 0;
+ 
+ // Apply postponement grace period if plant was recently postponed
+ if (plant.last_postponement_date && plant.postponement_count && plant.postponement_count > 0) {
+  const lastPostponementDate = new Date(plant.last_postponement_date);
+  const now = new Date();
+  const daysSincePostponement = Math.floor((now.getTime() - lastPostponementDate.getTime()) / (1000 * 60 * 60 * 24));
+  
+  // If postponed within the last 3 days, give extra grace period
+  // This prevents plants from immediately showing as "due" after postponement deletion
+  if (daysSincePostponement <= 3) {
+   const gracePeriod = Math.min(plant.postponement_count, 3); // 1-3 extra days based on postponement frequency
+   daysUntilWatering += gracePeriod;
+   isOverdue = daysUntilWatering < 0;
+  }
+ }
  
  return {
   daysUntilWatering,

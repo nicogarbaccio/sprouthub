@@ -75,8 +75,12 @@ export function shouldShowOverwateringWarning(
  return { showWarning: false };
  }
 
- const timeDiff = now.getTime() - lastWateredDate.getTime();
- const daysSinceLastWatered = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+ // Use calendar date arithmetic to match database view calculation
+ // This ensures consistency between UI display and warning logic
+ const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+ const wateredDate = new Date(lastWateredDate.getFullYear(), lastWateredDate.getMonth(), lastWateredDate.getDate());
+ const timeDiff = nowDate.getTime() - wateredDate.getTime();
+ const daysSinceLastWatered = Math.round(timeDiff / (1000 * 60 * 60 * 24));
 
  // Show warning if watered within the last 2 days OR if watering too frequently
  // compared to the suggested schedule (less than 50% of suggested days)

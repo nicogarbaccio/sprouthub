@@ -200,97 +200,53 @@ npm run test:unit:watch
 npm run test:unit:cov
 ```
 
-### Current Test Coverage
+### End-to-End Testing
+```bash
+# Install Playwright browsers (first time only)
+npm run test:e2e:install
 
-**188 comprehensive unit tests** across 6 test suites with **99.81% statement coverage** and **100% function coverage**.
+# Run all E2E tests
+npm run test:e2e
 
-#### **Overwatering Risk Assessment** (`src/utils/__tests__/overwatering.test.ts`)
-**8 tests** - Smart watering risk calculation algorithm:
+# Run tests with interactive UI
+npm run test:e2e:ui
 
-- ✅ **Risk Level Calculation** - Validates `none`, `low`, `high` risk assessment
-- ✅ **Watering Frequency Analysis** - Tests sliding window logic for recent waterings
-- ✅ **Postponement Handling** - Ensures postponed waterings are excluded from risk
-- ✅ **Interval Analysis** - Validates average watering interval calculations
-- ✅ **Edge Cases** - Handles empty records, future dates, boundary conditions
-- ✅ **Window Constraints** - Tests 2-30 day window limits
+# Run tests in headed mode (see browser)
+npm run test:e2e:headed
 
-#### **Watering Schedule Management** (`src/utils/__tests__/watering-schedule.test.ts`)
-**29 tests** - Core watering schedule calculations and postponement functionality:
+# Debug specific tests
+npm run test:e2e:debug
 
-- ✅ **Schedule Calculation** - Days until watering for healthy, overdue, and due plants
-- ✅ **Postponement Logic** - Future-dated watering records and status transitions
-- ✅ **Bug Prevention** - Prevents "push to tomorrow" from restarting watering schedules
-- ✅ **Status Progression** - Correct transitions from postponed to due states
-- ✅ **Edge Cases** - Null data, corrupted values, extreme intervals, malformed dates
-- ✅ **Integration Logic** - Dashboard statistics, room organization, plant card displays
-- ✅ **Date Calculations** - Next watering dates, time differences, timezone handling
-- ✅ **Component Integration** - Plant prioritization, status badges, task sorting
-- ✅ **Data Integrity** - Consistent calculations, error handling, graceful degradation
+# View test report
+npm run test:e2e:report
+```
 
-#### **Smart Watering Schedule** (`src/utils/__tests__/smartWateringSchedule.test.ts`)
-**34 tests** - Environmental factor calculations and smart scheduling:
+### Test Coverage Overview
 
-- ✅ **Factor Calculations** - Plant size, light level, temperature, humidity adjustments
-- ✅ **Seasonal Adjustments** - Winter dormancy, summer growth, spring/fall transitions
-- ✅ **Care Style Adaptation** - Frequent, balanced, minimal care preferences
-- ✅ **Soil Type Effects** - Draining, regular, moisture-retaining soil impacts
-- ✅ **Confidence Scoring** - High/medium/low confidence based on adjustment magnitude
-- ✅ **Complex Combinations** - Multi-factor scenarios and extreme conditions
-- ✅ **Boundary Testing** - 2-45 day limits, baseline calculations
-- ✅ **Season Detection** - Month-based season calculation with date mocking
-- ✅ **Label Generation** - User-friendly factor descriptions and ranges
+**Comprehensive Testing Infrastructure** with both unit and end-to-end testing:
 
-#### **Weather Integration** (`src/utils/__tests__/weatherMapping.test.ts`)
-**24 tests** - Weather data integration and mapping:
+#### **Unit Tests** - 188 tests with 99.81% coverage
+- ✅ **Overwatering Risk Assessment** (8 tests) - Smart watering risk calculation
+- ✅ **Watering Schedule Management** (29 tests) - Core schedule calculations and postponement
+- ✅ **Smart Watering Schedule** (34 tests) - Environmental factor calculations
+- ✅ **Weather Integration** (24 tests) - Weather data mapping and rain delay logic
+- ✅ **Authentication Validation** (46 tests) - Form validation and security
+- ✅ **Room Management** (32 tests) - Plant organization utilities
+- ✅ **Toast Notifications** (39 tests) - User feedback system
 
-- ✅ **Weather-to-Factor Mapping** - Temperature, humidity, and season conversion
-- ✅ **Custom Threshold Support** - Configurable temperature and humidity ranges
-- ✅ **Weather Summary Generation** - User-friendly weather descriptions
-- ✅ **Rain Delay Logic** - Outdoor plant watering delay based on rain probability
-- ✅ **Extreme Weather Adjustments** - Heat waves, cold snaps, extreme humidity
-- ✅ **Daylight Hour Calculations** - Seasonal adjustments based on actual daylight
-- ✅ **Fallback Data Creation** - Graceful degradation when weather API unavailable
-
-#### **Authentication Validation** (`src/utils/__tests__/auth-validation.test.ts`)
-**46 tests** - Form validation and security checks:
-
-- ✅ **Password Security** - Length requirements, special characters, matching validation
-- ✅ **Email Validation** - Format checking, domain validation, special character handling
-- ✅ **Username Requirements** - Length validation, character restrictions
-- ✅ **Combined Scenarios** - Multiple field validation, error aggregation
-- ✅ **Edge Cases** - Empty fields, whitespace, case sensitivity
-- ✅ **Error Detection** - Comprehensive error checking utility validation
-
-#### **Room Management** (`src/utils/__tests__/rooms.test.ts`)
-**32 tests** - Plant organization and room utilities:
-
-- ✅ **Room Labels** - Known room formatting, custom room handling, fallback scenarios
-- ✅ **Icon Management** - Room icon retrieval, fallback icons, null handling
-- ✅ **Theme System** - Room-specific themes, dark mode support, fallback themes
-- ✅ **Plant Grouping** - Room-based organization, sorting logic, unassigned handling
-- ✅ **Data Integrity** - Null room values, NO_ROOM_VALUE constant, generic object support
-- ✅ **Sorting Logic** - Alphabetical room ordering with unassigned last
-
-#### **Toast Notifications** (`src/utils/__tests__/toast-helpers.test.ts`)
-**39 tests** - User feedback and notification system:
-
-- ✅ **Plant Actions** - Add, update, delete, care reminder notifications
-- ✅ **Watering Events** - Record, schedule, postpone, overdue, error notifications
-- ✅ **Authentication** - Sign in/up/out success and error messages
-- ✅ **Profile Management** - Update, password change, error handling
-- ✅ **General Utilities** - Save, delete, info, warning, error notifications
-- ✅ **Image Upload** - Success, file size, type validation, error handling
-- ✅ **Consistency Validation** - Emoji usage, variant assignments, message formatting
+#### **End-to-End Tests** - Playwright automation
+- ✅ **Authentication Flow** - Complete sign in/up flows with validation
+- ✅ **Smart Watering Wizard** - Full wizard flow with environmental factors
+- ✅ **Weather Integration** - Location permissions and API handling
+- ✅ **Form Validation** - Real-time validation and error handling
+- ✅ **Session Management** - Login persistence and redirects
+- ✅ **Cross-browser Testing** - Chrome, Firefox, Safari, Mobile browsers
 
 ### Test Quality Metrics
-
-- **Statement Coverage**: 99.81%
-- **Branch Coverage**: 98.4%
-- **Function Coverage**: 100%
-- **Total Test Files**: 6
-- **Total Test Cases**: 188
-- **Mocking Strategy**: Vi.js for external dependencies and time-based testing
-- **Edge Case Coverage**: Comprehensive null/undefined, boundary, and error scenarios
+- **Unit Test Coverage**: 99.81% statements, 98.4% branches, 100% functions
+- **E2E Test Coverage**: Core user journeys (auth + smart watering)
+- **Browser Support**: Chrome, Firefox, Safari, Mobile Chrome, Mobile Safari
+- **Test Reliability**: Retry mechanisms, proper wait strategies, mock services
 
 ## 🎨 Code Style & Quality
 
@@ -364,6 +320,17 @@ src/utils/__tests__/    # Comprehensive unit test suite
 ├── auth-validation.test.ts      # Form validation security (46 tests)
 ├── rooms.test.ts               # Plant organization utilities (32 tests)
 └── toast-helpers.test.ts       # User notification system (39 tests)
+
+tests/                    # End-to-end testing infrastructure
+├── e2e/                 # Playwright E2E tests
+│   ├── auth/           # Authentication flow tests
+│   └── watering/       # Smart watering system tests
+├── fixtures/           # Test data and fixtures
+├── page-objects/       # Page Object Model
+├── utils/              # Test utilities and helpers
+├── global-setup.ts     # Global test setup
+├── global-teardown.ts  # Global test cleanup
+└── README.md           # Testing documentation
 ```
 
 ## 🌍 Deployment

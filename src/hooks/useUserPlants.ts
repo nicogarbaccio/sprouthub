@@ -21,6 +21,8 @@ export interface UserPlant {
  // Postponement fields
  postponement_date?: string;
  postponement_notes?: string;
+ last_postponement_date?: string;
+ postponement_count?: number;
 }
 
 export const useUserPlants = () => {
