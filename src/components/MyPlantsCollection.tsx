@@ -169,10 +169,26 @@ const MyPlantsCollection = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
+    // Use UTC date to avoid timezone conversion issues
+    // This ensures consistent calendar-based display
+    const date = new Date(dateString);
+
+    // Handle early morning waterings (00:00-04:00 UTC) as previous day
+    // This accounts for late evening waterings that cross midnight due to timezone
+    let displayDate = new Date(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate()
+    );
+    if (date.getUTCHours() < 4) {
+      displayDate.setUTCDate(displayDate.getUTCDate() - 1);
+    }
+
+    return displayDate.toLocaleDateString("en-US", {
       month: "short",
       day: "numeric",
       year: "numeric",
+      timeZone: "UTC",
     });
   };
 
