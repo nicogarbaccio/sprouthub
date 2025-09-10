@@ -260,6 +260,55 @@ tests/
 - ✅ **Catalog Functionality**: Search, filtering, and pagination
 - ✅ **Authentication Flow**: Protected routes and session management
 
+## 🧹 Test User Cleanup System
+
+### Automated Cleanup
+The test suite includes an automated cleanup system that prevents database bloat by removing test users and their associated data after tests complete.
+
+### How It Works
+- **Global Teardown**: Runs after all tests finish via `tests/global-teardown.ts`
+- **Safe Deletion**: Only deletes users with test patterns in their email/username
+- **Complete Cleanup**: Removes users and all related data (plants, watering records, etc.)
+- **Database Function**: Uses a secure Supabase function `delete_test_user()` for proper cleanup
+
+### Test User Patterns
+The system automatically identifies test users by these patterns:
+- `testuser`, `plantmgr`, `test-`, `plantmgr-`
+- `@sprouthub-test.local` domain
+- `e2etest`, `planttest`, `authtest`, `gardentest`
+
+### Configuration Options
+```bash
+# Environment variables for cleanup control
+CLEANUP_DRY_RUN=true           # Set to true for dry run (see what would be deleted)
+CLEANUP_MAX_AGE_HOURS=1        # Only delete test users older than X hours (default: 1)
+```
+
+### Manual Testing
+```bash
+# Test cleanup with dry run (safe - shows what would be deleted)
+CLEANUP_DRY_RUN=true npx playwright test
+
+# Test cleanup with actual deletion (be careful!)
+CLEANUP_DRY_RUN=false CLEANUP_MAX_AGE_HOURS=24 npx playwright test
+```
+
+### Safety Features
+- **Pattern Matching**: Only deletes users matching test patterns
+- **Age Filter**: Only deletes users older than specified hours
+- **Dry Run Mode**: Preview what would be deleted without actually deleting
+- **Error Handling**: Cleanup failures don't break test runs
+- **Database Function**: Uses secure SECURITY DEFINER function for proper permissions
+
+### What Gets Cleaned Up
+For each test user, the system removes:
+- User profile and authentication data
+- All plants owned by the user
+- Watering records for those plants
+- Seasonal schedules and preferences
+- Notification settings
+- Session and refresh tokens
+
 ## 🔧 Configuration
 
 ### Playwright Config (`playwright.config.ts`)
@@ -270,6 +319,7 @@ tests/
 - **Videos**: Retained on failure
 - **Traces**: On first retry
 - **Base URL**: `http://localhost:8080`
+- **Global Setup/Teardown**: Includes automated test user cleanup
 
 ### Environment Variables
 ```bash

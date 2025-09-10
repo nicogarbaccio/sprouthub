@@ -245,7 +245,8 @@ const RoomSection = ({
                   plant.latest_watering,
                   plant.days_since_watering,
                   plant.suggested_watering_days || 7,
-                  formatDate
+                  formatDate,
+                  plant.postponement_date
                 )}
                 isOverdue={wateringCalc.isOverdue}
                 daysUntilWatering={wateringCalc.daysUntilWatering}

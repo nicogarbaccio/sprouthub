@@ -142,16 +142,22 @@ export function getNextWateringDate(
  lastWatered: string | undefined,
  daysAgo: number | undefined,
  wateringSchedule: number,
- formatDate: (dateString: string) => string
+ formatDate: (dateString: string) => string,
+ postponementDate?: string | null
 ): string {
  if (!lastWatered || daysAgo === undefined) {
  return "Unknown";
  }
 
+ // If plant has a postponement date, use that as the next watering date
+ if (postponementDate) {
+ return formatDate(postponementDate);
+ }
+
  const lastWateredDate = new Date(lastWatered);
  const now = new Date();
  
- // If lastWatered is in the future (postponed), return that date
+ // Legacy check: If lastWatered is in the future (should not happen with postponementDate param)
  if (lastWateredDate > now) {
  return formatDate(lastWatered);
  }
