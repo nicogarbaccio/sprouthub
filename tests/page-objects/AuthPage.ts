@@ -100,11 +100,15 @@ export class AuthPage extends BasePage {
   }
 
   async submitSignIn() {
-    return await this.submitForm(this.signInButton);
+    await this.clickElement(this.signInButton);
+    // Brief wait for form submission
+    await this.page.waitForTimeout(500);
   }
 
   async submitSignUp() {
-    return await this.submitForm(this.signUpButton);
+    await this.clickElement(this.signUpButton);
+    // Brief wait for form submission
+    await this.page.waitForTimeout(500);
   }
 
   async togglePasswordVisibility() {
