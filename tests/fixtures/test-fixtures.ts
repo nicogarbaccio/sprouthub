@@ -2,11 +2,19 @@
 import { test as base, expect } from '@playwright/test';
 import { AuthPage } from '../page-objects/AuthPage';
 import { SmartWateringPage } from '../page-objects/SmartWateringPage';
+import { PlantCatalogPage } from '../page-objects/PlantCatalogPage';
+import { PlantDetailsPage } from '../page-objects/PlantDetailsPage';
+import { MyPlantsPage } from '../page-objects/MyPlantsPage';
+import { AddPlantDialogPage } from '../page-objects/AddPlantDialogPage';
 
 // Extend basic test by providing page objects
 export const test = base.extend<{
   authPage: AuthPage;
   smartWateringPage: SmartWateringPage;
+  plantCatalogPage: PlantCatalogPage;
+  plantDetailsPage: PlantDetailsPage;
+  myPlantsPage: MyPlantsPage;
+  addPlantDialogPage: AddPlantDialogPage;
 }>({
   authPage: async ({ page }, use) => {
     const authPage = new AuthPage(page);
@@ -16,6 +24,26 @@ export const test = base.extend<{
   smartWateringPage: async ({ page }, use) => {
     const smartWateringPage = new SmartWateringPage(page);
     await use(smartWateringPage);
+  },
+
+  plantCatalogPage: async ({ page }, use) => {
+    const plantCatalogPage = new PlantCatalogPage(page);
+    await use(plantCatalogPage);
+  },
+
+  plantDetailsPage: async ({ page }, use) => {
+    const plantDetailsPage = new PlantDetailsPage(page);
+    await use(plantDetailsPage);
+  },
+
+  myPlantsPage: async ({ page }, use) => {
+    const myPlantsPage = new MyPlantsPage(page);
+    await use(myPlantsPage);
+  },
+
+  addPlantDialogPage: async ({ page }, use) => {
+    const addPlantDialogPage = new AddPlantDialogPage(page);
+    await use(addPlantDialogPage);
   },
 });
 
@@ -61,4 +89,77 @@ export const wateringFactors = {
   humidityLevels: ['low', 'medium', 'high'],
   careStyles: ['minimal', 'moderate', 'intensive'],
   soilTypes: ['well-draining', 'moisture-retaining', 'fast-draining']
+};
+
+export const testPlantData = {
+  snakePlant: {
+    name: 'Snake Plant',
+    botanicalName: 'Sansevieria trifasciata',
+    category: 'Succulents',
+    careLevel: 'Easy',
+    lightRequirement: 'Low Light',
+    wateringFrequency: 'Monthly',
+    suggestedWateringDays: 30
+  },
+  pothos: {
+    name: 'Pothos',
+    botanicalName: 'Epipremnum aureum',
+    category: 'Hanging & Trailing Plants',
+    careLevel: 'Easy',
+    lightRequirement: 'Medium Light',
+    wateringFrequency: 'Weekly',
+    suggestedWateringDays: 7
+  },
+  peaceLily: {
+    name: 'Peace Lily',
+    botanicalName: 'Spathiphyllum wallisii',
+    category: 'Flowering Plants',
+    careLevel: 'Easy',
+    lightRequirement: 'Low to Medium Light',
+    wateringFrequency: 'Weekly',
+    suggestedWateringDays: 7
+  }
+};
+
+export const testRooms = [
+  'Living Room',
+  'Bedroom',
+  'Kitchen',
+  'Bathroom',
+  'Office',
+  'Balcony',
+  'Garden'
+];
+
+export const testFormData = {
+  validPlant: {
+    nickname: 'My Snake Plant',
+    plantType: 'Snake Plant',
+    room: 'Living Room',
+    isOutdoor: false
+  },
+  invalidPlant: {
+    nickname: '', // Empty nickname
+    plantType: '', // Empty plant type
+    room: 'Living Room'
+  },
+  outdoorPlant: {
+    nickname: 'Garden Pothos',
+    plantType: 'Pothos',
+    room: 'Garden',
+    isOutdoor: true
+  }
+};
+
+export const catalogTestData = {
+  homepagePlantLimit: 16,
+  catalogPlantLimit: 24,
+  searchTerms: {
+    valid: ['snake', 'pothos', 'lily'],
+    invalid: ['nonexistentplant', 'xyz123'],
+    botanical: ['sansevieria', 'epipremnum']
+  },
+  categories: ['Succulents', 'Hanging & Trailing Plants', 'Flowering Plants', 'Trees & Large Plants'],
+  careLevels: ['Easy', 'Medium', 'Hard'],
+  lightRequirements: ['Low Light', 'Medium Light', 'Bright Indirect Light', 'Low to Medium Light']
 };

@@ -1,4 +1,5 @@
 import { chromium, FullConfig } from '@playwright/test';
+import { TIMEOUTS } from './config/timeouts';
 
 async function globalSetup(config: FullConfig) {
   console.log('🚀 Starting global setup...');
@@ -11,8 +12,9 @@ async function globalSetup(config: FullConfig) {
     // Navigate to the app to ensure it's running
     await page.goto(config.projects[0].use.baseURL || 'http://localhost:8080');
     
-    // Wait for the app to load
-    await page.waitForLoadState('networkidle');
+    // Wait for the app to load - optimized for speed
+    await page.waitForLoadState('domcontentloaded', { timeout: TIMEOUTS.SETUP_TEARDOWN });
+    await page.waitForSelector('body', { timeout: TIMEOUTS.NAVIGATION });
     
     console.log('✅ App is running and accessible');
   } catch (error) {

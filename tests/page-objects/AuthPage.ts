@@ -1,7 +1,8 @@
 import { Page, Locator, expect } from '@playwright/test';
+import { TIMEOUTS } from '../config/timeouts';
+import { BasePage } from './BasePage';
 
-export class AuthPage {
-  readonly page: Page;
+export class AuthPage extends BasePage {
   readonly signInTab: Locator;
   readonly signUpTab: Locator;
   readonly signInEmailInput: Locator;
@@ -18,7 +19,7 @@ export class AuthPage {
   readonly passwordToggle: Locator;
 
   constructor(page: Page) {
-    this.page = page;
+    super(page);
     
     // Tab elements
     this.signInTab = page.getByTestId('sign-in-trigger');
@@ -31,9 +32,9 @@ export class AuthPage {
     // Sign Up Form inputs
     this.signUpEmailInput = page.getByTestId('sign-up-email');
     this.signUpPasswordInput = page.getByTestId('signup-password');
-    this.firstNameInput = page.locator('#firstName');
-    this.lastNameInput = page.locator('#lastName');
-    this.usernameInput = page.locator('#username');
+    this.firstNameInput = page.getByTestId('first-name-input');
+    this.lastNameInput = page.getByTestId('last-name-input');
+    this.usernameInput = page.getByTestId('username-input');
     this.confirmPasswordInput = page.getByTestId('confirmPassword');
     
     // Buttons
@@ -59,23 +60,25 @@ export class AuthPage {
   }
 
   async goto() {
-    await this.page.goto('/auth');
-    await this.page.waitForLoadState('networkidle');
+    await super.goto('/auth');
+    await this.waitForPageReady();
   }
 
   async switchToSignUp() {
-    await this.signUpTab.click();
-    await this.page.waitForTimeout(500); // Wait for tab transition
+    await this.clickElement(this.signUpTab);
+    await this.page.waitForTimeout(TIMEOUTS.TAB_TRANSITION); // Wait for tab transition
   }
 
   async switchToSignIn() {
-    await this.signInTab.click();
-    await this.page.waitForTimeout(500); // Wait for tab transition
+    await this.clickElement(this.signInTab);
+    await this.page.waitForTimeout(TIMEOUTS.TAB_TRANSITION); // Wait for tab transition
   }
 
   async fillSignInForm(email: string, password: string) {
-    await this.signInEmailInput.fill(email);
-    await this.signInPasswordInput.fill(password);
+    await this.fillForm([
+      { locator: this.signInEmailInput, value: email },
+      { locator: this.signInPasswordInput, value: password }
+    ]);
   }
 
   async fillSignUpForm(userData: {
@@ -86,61 +89,57 @@ export class AuthPage {
     password: string;
     confirmPassword: string;
   }) {
-    await this.firstNameInput.fill(userData.firstName);
-    await this.lastNameInput.fill(userData.lastName);
-    await this.usernameInput.fill(userData.username);
-    await this.signUpEmailInput.fill(userData.email);
-    await this.signUpPasswordInput.fill(userData.password);
-    await this.confirmPasswordInput.fill(userData.confirmPassword);
+    await this.fillForm([
+      { locator: this.firstNameInput, value: userData.firstName },
+      { locator: this.lastNameInput, value: userData.lastName },
+      { locator: this.usernameInput, value: userData.username },
+      { locator: this.signUpEmailInput, value: userData.email },
+      { locator: this.signUpPasswordInput, value: userData.password },
+      { locator: this.confirmPasswordInput, value: userData.confirmPassword }
+    ]);
   }
 
   async submitSignIn() {
-    await this.signInButton.click();
+    return await this.submitForm(this.signInButton);
   }
 
   async submitSignUp() {
-    await this.signUpButton.click();
+    return await this.submitForm(this.signUpButton);
   }
 
   async togglePasswordVisibility() {
-    await this.passwordToggle.click();
+    await this.clickElement(this.passwordToggle);
   }
 
   async clickForgotPassword() {
-    await this.forgotPasswordLink.click();
+    await this.clickElement(this.forgotPasswordLink);
   }
 
   async expectSignInFormVisible() {
-    await expect(this.signInEmailInput).toBeVisible();
-    await expect(this.signInPasswordInput).toBeVisible();
-    await expect(this.signInButton).toBeVisible();
+    await this.expectVisible(this.signInEmailInput);
+    await this.expectVisible(this.signInPasswordInput);
+    await this.expectVisible(this.signInButton);
   }
 
   async expectSignUpFormVisible() {
-    await expect(this.firstNameInput).toBeVisible();
-    await expect(this.lastNameInput).toBeVisible();
-    await expect(this.usernameInput).toBeVisible();
-    await expect(this.signUpEmailInput).toBeVisible();
-    await expect(this.signUpPasswordInput).toBeVisible();
-    await expect(this.confirmPasswordInput).toBeVisible();
-    await expect(this.signUpButton).toBeVisible();
+    await this.expectVisible(this.firstNameInput);
+    await this.expectVisible(this.lastNameInput);
+    await this.expectVisible(this.usernameInput);
+    await this.expectVisible(this.signUpEmailInput);
+    await this.expectVisible(this.signUpPasswordInput);
+    await this.expectVisible(this.confirmPasswordInput);
+    await this.expectVisible(this.signUpButton);
   }
 
   async expectValidationError(fieldName: string) {
-    // Look for error text near the field - errors are displayed as p.text-sm.text-red-500
-    const errorElement = this.page.locator(`#${fieldName}`).locator('..').locator('p.text-sm.text-red-500');
-    await expect(errorElement).toBeVisible();
+    await super.expectValidationError(fieldName);
   }
 
   async expectSuccessToast() {
-    // Look for toast with success variant - toasts have data-testid or specific content
-    const toast = this.page.locator('[data-testid*="toast"], [role="alert"], .toast').first();
-    await expect(toast).toBeVisible();
+    return await super.expectSuccessToast();
   }
 
   async expectErrorToast() {
-    // Look for toast with error variant or specific error content
-    const toast = this.page.locator('[data-testid*="toast"], [role="alert"], .toast').first();
-    await expect(toast).toBeVisible();
+    return await super.expectErrorToast();
   }
 }

@@ -1,4 +1,6 @@
 import { Page, Locator, expect } from '@playwright/test';
+import { TIMEOUTS } from '../config/timeouts';
+import { FeatureErrorHandler, FeatureAvailability, TestBehavior } from '../utils/feature-errors';
 
 export class SmartWateringPage {
   readonly page: Page;
@@ -69,36 +71,36 @@ export class SmartWateringPage {
     // First, we need to add a plant to access the smart watering wizard
     // The wizard is only available within the AddPlantDialog
     const addPlantButton = this.page.getByRole('button', { name: /add.*plant/i }).first();
-    await addPlantButton.click();
+    await addPlantButton.click({ timeout: TIMEOUTS.CLICK });
     
     // Wait for the AddPlantDialog to open
-    await this.page.getByRole('dialog').waitFor({ state: 'visible' });
+    await this.page.getByRole('dialog').waitFor({ state: 'visible', timeout: TIMEOUTS.DIALOG_OPEN });
     
     // Find and click the smart watering button within the dialog
     const smartWateringButton = this.page.getByTestId('smart-watering-button');
-    await smartWateringButton.click();
+    await smartWateringButton.click({ timeout: TIMEOUTS.CLICK });
     
     // Wait for the wizard dialog to open
-    await this.wizardDialog.waitFor({ state: 'visible' });
+    await this.wizardDialog.waitFor({ state: 'visible', timeout: TIMEOUTS.DIALOG_OPEN });
   }
 
   async closeWizard() {
-    await this.closeButton.click();
-    await this.wizardDialog.waitFor({ state: 'hidden' });
+    await this.closeButton.click({ timeout: TIMEOUTS.CLICK });
+    await this.wizardDialog.waitFor({ state: 'hidden', timeout: TIMEOUTS.DIALOG_CLOSE });
     
     // Also close the AddPlantDialog if it's still open
     const addPlantDialog = this.page.getByRole('dialog', { name: 'Add New Plant' });
     if (await addPlantDialog.isVisible()) {
       const closeAddPlantButton = this.page.getByRole('button', { name: 'Close' }).first();
-      await closeAddPlantButton.click();
-      await addPlantDialog.waitFor({ state: 'hidden' });
+      await closeAddPlantButton.click({ timeout: TIMEOUTS.CLICK });
+      await addPlantDialog.waitFor({ state: 'hidden', timeout: TIMEOUTS.DIALOG_CLOSE });
     }
   }
 
   async selectPlantSize(size: 'small' | 'medium' | 'large') {
     const option = this.page.getByTestId(`plant-size-${size}`);
-    await option.click();
-    await this.page.waitForTimeout(300); // Wait for selection animation
+    await option.click({ timeout: TIMEOUTS.CLICK });
+    await this.page.waitForTimeout(TIMEOUTS.ANIMATION); // Wait for selection animation
   }
 
   async setLightLevel(level: 'low' | 'medium' | 'high') {
@@ -151,13 +153,13 @@ export class SmartWateringPage {
   }
 
   async goToNextStep() {
-    await this.nextButton.click();
-    await this.page.waitForTimeout(500); // Wait for step transition
+    await this.nextButton.click({ timeout: TIMEOUTS.CLICK });
+    await this.page.waitForTimeout(TIMEOUTS.ANIMATION); // Wait for step transition
   }
 
   async goToPreviousStep() {
-    await this.backButton.click();
-    await this.page.waitForTimeout(500); // Wait for step transition
+    await this.backButton.click({ timeout: TIMEOUTS.CLICK });
+    await this.page.waitForTimeout(TIMEOUTS.ANIMATION); // Wait for step transition
   }
 
   async applySchedule() {
@@ -181,7 +183,13 @@ export class SmartWateringPage {
         stepTitle = this.page.locator('h3:has-text("Your Personalized Schedule")');
         break;
       default:
-        throw new Error(`Unknown step number: ${stepNumber}`);
+        await FeatureErrorHandler.handleMissingFeature({
+          featureName: `Smart Watering Step ${stepNumber}`,
+          availability: FeatureAvailability.NOT_IMPLEMENTED,
+          behavior: TestBehavior.THROW_ERROR,
+          message: `Step ${stepNumber} is not implemented in the smart watering wizard`
+        });
+        return; // Exit early for unknown steps
     }
     await expect(stepTitle).toBeVisible();
   }
@@ -212,6 +220,9 @@ export class SmartWateringPage {
     await expect(this.adjustmentReasons).toContainText(reason);
   }
 
+  /**
+   * Complete the entire smart watering wizard flow
+   */
   async completeWizardFlow(factors: {
     plantSize: 'small' | 'medium' | 'large';
     lightLevel: 'low' | 'medium' | 'high';
@@ -221,34 +232,89 @@ export class SmartWateringPage {
     soilType: 'regular' | 'draining' | 'retaining';
     useWeatherData?: boolean;
   }) {
-    // Step 1: Plant Size
-    await this.selectPlantSize(factors.plantSize);
-    await this.goToNextStep();
+    await this.completePlantSizeStep(factors.plantSize);
+    await this.completeEnvironmentStep(factors);
+    await this.completePreferencesStep(factors);
+    await this.verifyResultsStep();
+  }
 
-    // Step 2: Environment
-    await this.setLightLevel(factors.lightLevel);
-    await this.setTemperature(factors.temperature);
-    await this.setHumidity(factors.humidity);
+  /**
+   * Complete Step 1: Plant Size selection
+   */
+  private async completePlantSizeStep(plantSize: 'small' | 'medium' | 'large') {
+    await this.selectPlantSize(plantSize);
+    await this.goToNextStep();
+  }
+
+  /**
+   * Complete Step 2: Environment configuration
+   */
+  private async completeEnvironmentStep(factors: {
+    lightLevel: 'low' | 'medium' | 'high';
+    temperature: 'cool' | 'normal' | 'warm';
+    humidity: 'dry' | 'normal' | 'humid';
+    useWeatherData?: boolean;
+  }) {
+    await this.configureEnvironmentSettings(factors);
     
     if (factors.useWeatherData) {
-      await this.toggleWeatherData();
-      // Weather data integration is optional - just close the dialog if it appears
-      const locationDialog = this.page.getByRole('dialog', { name: 'Location for Weather Data' });
-      if (await locationDialog.isVisible()) {
-        const closeButton = this.page.getByRole('button', { name: /close|cancel/i });
-        await closeButton.click();
-        await locationDialog.waitFor({ state: 'hidden' });
-      }
+      await this.handleWeatherDataIntegration();
     }
     
     await this.goToNextStep();
+  }
 
-    // Step 3: Preferences
+  /**
+   * Configure basic environment settings
+   */
+  private async configureEnvironmentSettings(factors: {
+    lightLevel: 'low' | 'medium' | 'high';
+    temperature: 'cool' | 'normal' | 'warm';
+    humidity: 'dry' | 'normal' | 'humid';
+  }) {
+    await this.setLightLevel(factors.lightLevel);
+    await this.setTemperature(factors.temperature);
+    await this.setHumidity(factors.humidity);
+  }
+
+  /**
+   * Handle optional weather data integration
+   */
+  private async handleWeatherDataIntegration() {
+    await this.toggleWeatherData();
+    
+    // Handle location dialog if it appears
+    const locationDialog = this.page.getByRole('dialog', { name: 'Location for Weather Data' });
+    if (await locationDialog.isVisible()) {
+      await this.closeLocationDialog(locationDialog);
+    }
+  }
+
+  /**
+   * Close the location dialog for weather data
+   */
+  private async closeLocationDialog(locationDialog: Locator) {
+    const closeButton = this.page.getByRole('button', { name: /close|cancel/i });
+    await closeButton.click();
+    await locationDialog.waitFor({ state: 'hidden' });
+  }
+
+  /**
+   * Complete Step 3: Care preferences
+   */
+  private async completePreferencesStep(factors: {
+    careStyle: 'frequent' | 'balanced' | 'minimal';
+    soilType: 'regular' | 'draining' | 'retaining';
+  }) {
     await this.selectCareStyle(factors.careStyle);
     await this.selectSoilType(factors.soilType);
     await this.goToNextStep();
+  }
 
-    // Step 4: Results - should be automatically calculated
+  /**
+   * Verify Step 4: Results are displayed
+   */
+  private async verifyResultsStep() {
     await this.expectStepVisible(4);
   }
 }

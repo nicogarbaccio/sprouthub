@@ -12,6 +12,7 @@ const PlantDetailsHeader = ({ onBackClick }: PlantDetailsHeaderProps) => {
   onClick={onBackClick} 
   variant="outline" 
   className="mb-6"
+  data-testid="back-to-catalog-button"
  >
   <ArrowLeft className="w-4 h-4 mr-2" />
   Back to Catalog

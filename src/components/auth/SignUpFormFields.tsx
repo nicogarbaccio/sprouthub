@@ -29,6 +29,7 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
    value={formData.firstName}
    onChange={(e) => onInputChange("firstName", e.target.value)}
    required
+   data-testid="first-name-input"
    />
   </div>
   <div className="space-y-2">
@@ -39,6 +40,7 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
    value={formData.lastName}
    onChange={(e) => onInputChange("lastName", e.target.value)}
    required
+   data-testid="last-name-input"
    />
   </div>
   </div>
@@ -52,9 +54,10 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
    onChange={(e) => onInputChange("username", e.target.value)}
    className={errors.username ? "border-red-500" : ""}
    required
+   data-testid="username-input"
   />
   {errors.username && (
-   <p className="text-sm text-red-500">{errors.username}</p>
+   <p className="text-sm text-red-500" data-testid="username-error">{errors.username}</p>
   )}
   </div>
 
@@ -70,7 +73,7 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
    required
    data-testid="sign-up-email"
   />
-  {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+  {errors.email && <p className="text-sm text-red-500" data-testid="email-error">{errors.email}</p>}
   </div>
 
   <PasswordInput

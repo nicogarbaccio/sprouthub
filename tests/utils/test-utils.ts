@@ -35,33 +35,59 @@ export class TestUtils {
    * Mock geolocation API for testing
    */
   async mockGeolocation(latitude: number = 40.7128, longitude: number = -74.0060) {
-    await this.page.addInitScript((lat, lon) => {
-      navigator.geolocation = {
-        getCurrentPosition: (success) => {
-          success({
-            coords: {
-              latitude: lat,
-              longitude: lon,
-              accuracy: 20,
-              altitude: null,
-              altitudeAccuracy: null,
-              heading: null,
-              speed: null
-            },
-            timestamp: Date.now()
-          });
+    await this.page.addInitScript(({ lat, lon }: { lat: number; lon: number }) => {
+      // Override the geolocation object
+      Object.defineProperty(navigator, 'geolocation', {
+        value: {
+          getCurrentPosition: (success: (position: GeolocationPosition) => void) => {
+            const position = {
+              coords: {
+                latitude: lat,
+                longitude: lon,
+                accuracy: 20,
+                altitude: null,
+                altitudeAccuracy: null,
+                heading: null,
+                speed: null,
+                toJSON: () => ({
+                  latitude: lat,
+                  longitude: lon,
+                  accuracy: 20,
+                  altitude: null,
+                  altitudeAccuracy: null,
+                  heading: null,
+                  speed: null
+                })
+              },
+              timestamp: Date.now(),
+              toJSON: () => ({
+                coords: {
+                  latitude: lat,
+                  longitude: lon,
+                  accuracy: 20,
+                  altitude: null,
+                  altitudeAccuracy: null,
+                  heading: null,
+                  speed: null
+                },
+                timestamp: Date.now()
+              })
+            };
+            success(position as GeolocationPosition);
+          },
+          watchPosition: () => 1,
+          clearWatch: () => {}
         },
-        watchPosition: () => 1,
-        clearWatch: () => {},
-        permission: 'granted'
-      } as any;
-    }, latitude, longitude);
+        writable: true,
+        configurable: true
+      });
+    }, { lat: latitude, lon: longitude });
   }
 
   /**
    * Mock weather API responses
    */
-  async mockWeatherAPI(response: any) {
+  async mockWeatherAPI(response: Record<string, unknown>) {
     await this.page.route('**/api.openweathermap.org/**', async route => {
       await route.fulfill({
         status: 200,
@@ -194,10 +220,10 @@ export class TestUtils {
   async typeRealistic(selector: string, text: string, delay: number = 100) {
     const field = this.page.locator(selector);
     await field.click();
+    await field.clear();
     
     for (const char of text) {
-      await field.type(char);
-      await this.page.waitForTimeout(delay);
+      await field.pressSequentially(char, { delay });
     }
   }
 
