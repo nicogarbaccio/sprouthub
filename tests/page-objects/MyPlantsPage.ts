@@ -72,7 +72,8 @@ export class MyPlantsPage extends BasePage {
   }
 
   async clickAddPlant() {
-    await this.clickElement(this.addPlantButton);
+    // Use first() to handle multiple add plant buttons
+    await this.clickElement(this.addPlantButton.first());
     await this.waitForDialogOpen(this.addPlantDialog);
   }
 
