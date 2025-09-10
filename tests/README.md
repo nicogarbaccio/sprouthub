@@ -17,7 +17,7 @@ npm run test:e2e:install
 # Run all E2E tests
 npm run test:e2e
 
-# Run optimized tests (71% faster!)
+# Run optimized tests 
 npm run test:optimized
 
 # Run ultra-fast tests (excludes slow tests)
