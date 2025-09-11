@@ -394,16 +394,15 @@ export type Database = {
       plants_with_watering_info: {
         Row: {
           created_at: string | null
-          days_since_watering: number | null
           household_id: string | null
           id: string | null
           image: string | null
           is_outdoor_plant: boolean | null
           last_postponement_date: string | null
-          latest_watering: string | null
+          last_watered_at: string | null
+          last_watering_notes: string | null
           nickname: string | null
           plant_type: string | null
-          postponement_count: number | null
           room: string | null
           suggested_watering_days: number | null
           updated_at: string | null
