@@ -26,6 +26,7 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
+import { useHouseholds } from "@/hooks/useHouseholds";
 
 interface WateringRecord {
   id: string;
@@ -41,6 +42,7 @@ interface Plant {
   room?: string;
   suggested_watering_days?: number;
   is_outdoor_plant?: boolean;
+  household_id?: string;
 }
 
 interface EditPlantDialogProps {
@@ -63,10 +65,14 @@ const EditPlantDialog = ({
   const [room, setRoom] = useState("");
   const [suggestedWateringDays, setSuggestedWateringDays] = useState<number>(7);
   const [isOutdoorPlant, setIsOutdoorPlant] = useState(false);
+  const [householdId, setHouseholdId] = useState("");
   const [wateringRecords, setWateringRecords] = useState<WateringRecord[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  // Fetch households for assignment
+  const { households } = useHouseholds();
 
   // Store original values to track changes
   const [originalValues, setOriginalValues] = useState({
@@ -76,6 +82,7 @@ const EditPlantDialog = ({
     room: "",
     suggestedWateringDays: 7,
     isOutdoorPlant: false,
+    householdId: "",
   });
 
   useEffect(() => {
@@ -86,6 +93,7 @@ const EditPlantDialog = ({
       const initialRoom = plant.room || NO_ROOM_VALUE;
       const initialWateringDays = plant.suggested_watering_days || 7;
       const initialIsOutdoorPlant = plant.is_outdoor_plant || false;
+      const initialHouseholdId = plant.household_id || "";
 
       // Set current values
       setNickname(initialNickname);
@@ -94,6 +102,7 @@ const EditPlantDialog = ({
       setRoom(initialRoom);
       setSuggestedWateringDays(initialWateringDays);
       setIsOutdoorPlant(initialIsOutdoorPlant);
+      setHouseholdId(initialHouseholdId);
 
       // Store original values for comparison
       setOriginalValues({
@@ -103,6 +112,7 @@ const EditPlantDialog = ({
         room: initialRoom,
         suggestedWateringDays: initialWateringDays,
         isOutdoorPlant: initialIsOutdoorPlant,
+        householdId: initialHouseholdId,
       });
 
       loadWateringRecords(plant.id);
@@ -119,7 +129,8 @@ const EditPlantDialog = ({
       image !== originalValues.image ||
       room !== originalValues.room ||
       suggestedWateringDays !== originalValues.suggestedWateringDays ||
-      isOutdoorPlant !== originalValues.isOutdoorPlant
+      isOutdoorPlant !== originalValues.isOutdoorPlant ||
+      householdId !== originalValues.householdId
     );
   };
 
@@ -154,6 +165,7 @@ const EditPlantDialog = ({
         room: roomToSave,
         suggested_watering_days: suggestedWateringDays,
         is_outdoor_plant: isOutdoorPlant,
+        household_id: householdId || null,
         updated_at: new Date().toISOString(),
       };
 
@@ -271,6 +283,9 @@ const EditPlantDialog = ({
               setSuggestedWateringDays={setSuggestedWateringDays}
               isOutdoorPlant={isOutdoorPlant}
               setIsOutdoorPlant={setIsOutdoorPlant}
+              householdId={householdId}
+              setHouseholdId={setHouseholdId}
+              households={households}
             />
 
             <div className="flex justify-end space-x-2 pt-4">

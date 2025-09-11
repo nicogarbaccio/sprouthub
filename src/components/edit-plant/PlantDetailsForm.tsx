@@ -28,6 +28,9 @@ interface PlantDetailsFormProps {
   setSuggestedWateringDays: (value: number) => void;
   isOutdoorPlant?: boolean;
   setIsOutdoorPlant?: (value: boolean) => void;
+  householdId?: string;
+  setHouseholdId?: (value: string) => void;
+  households?: Array<{ id: string; name: string; member_count: number }>;
 }
 
 const PlantDetailsForm = ({
@@ -43,6 +46,9 @@ const PlantDetailsForm = ({
   setSuggestedWateringDays,
   isOutdoorPlant = false,
   setIsOutdoorPlant,
+  householdId = "",
+  setHouseholdId,
+  households = [],
 }: PlantDetailsFormProps) => {
   const [isCustomRoom, setIsCustomRoom] = useState(false);
   const [customRoom, setCustomRoom] = useState("");
@@ -172,6 +178,44 @@ const PlantDetailsForm = ({
           </div>
         )}
       </div>
+
+      {/* Household Assignment */}
+      {households.length > 0 && setHouseholdId && (
+        <div className="space-y-2">
+          <Label htmlFor="household">Assignment</Label>
+          <Select
+            value={householdId || "personal"}
+            onValueChange={(value) => setHouseholdId(value === "personal" ? "" : value)}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select assignment" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="personal">
+                <div className="flex items-center gap-2">
+                  <span>👤</span>
+                  <span>Personal Plant</span>
+                </div>
+              </SelectItem>
+              {households.map((household) => (
+                <SelectItem key={household.id} value={household.id}>
+                  <div className="flex items-center gap-2">
+                    <span>🏠</span>
+                    <span>{household.name}</span>
+                    <span className="text-xs text-muted-foreground">({household.member_count} members)</span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <p className="text-xs text-muted-foreground">
+            {householdId 
+              ? "This plant will be visible and manageable by all household members"
+              : "This plant is only visible to you"
+            }
+          </p>
+        </div>
+      )}
 
       <ImageUpload
         value={image}
