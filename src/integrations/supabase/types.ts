@@ -437,6 +437,10 @@ export type Database = {
         Args: { user_id: string }
         Returns: Json
       }
+      get_user_household_memberships: {
+        Args: { target_user_id: string }
+        Returns: Array<{ household_id: string; role: string }>
+      }
       invite_to_household: {
         Args: {
           household_id: string

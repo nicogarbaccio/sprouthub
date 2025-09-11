@@ -106,8 +106,6 @@ export const useUserPlants = () => {
     
     return {
       ...plant,
-      // Map the correct field name from the database view
-      latest_watering: plant.last_watered_at,
       postponement_date: postponement?.watered_at,
       postponement_notes: postponement?.notes,
       household: household ? { name: household.name } : undefined,

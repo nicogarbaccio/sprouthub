@@ -38,7 +38,10 @@ export const useHouseholds = () => {
       
       // Use RPC function to get user's household memberships (bypasses RLS recursion)
       const { data: membershipData, error: membershipError } = await supabase
-        .rpc('get_user_household_memberships', { target_user_id: user.id });
+        .rpc('get_user_household_memberships', { target_user_id: user.id }) as {
+          data: Array<{ household_id: string; role: string }> | null;
+          error: any;
+        };
 
       console.log('useHouseholds: Membership query result:', { membershipData, membershipError });
 
@@ -50,7 +53,7 @@ export const useHouseholds = () => {
         return;
       }
 
-      if (!membershipData || membershipData.length === 0) {
+      if (!membershipData || !Array.isArray(membershipData) || membershipData.length === 0) {
         console.log('useHouseholds: No household memberships found');
         setHouseholds([]);
         setLoading(false);
@@ -91,7 +94,7 @@ export const useHouseholds = () => {
 
       // Combine household data with member information
       const householdsWithMembers = (householdData || []).map(household => {
-        const userMembership = membershipData.find(m => m.household_id === household.id);
+        const userMembership = Array.isArray(membershipData) ? membershipData.find(m => m.household_id === household.id) : null;
         const householdMembers = (allMembersData || []).filter(m => m.household_id === household.id);
         
         return {
