@@ -10,13 +10,123 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "12.2.3 (519615d)"
+    PostgrestVersion: "13.0.5"
   }
   public: {
     Tables: {
+      household_invitations: {
+        Row: {
+          created_at: string | null
+          expires_at: string
+          household_id: string
+          id: string
+          invited_by: string
+          invited_email: string
+          invited_user_id: string | null
+          role: string
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          expires_at?: string
+          household_id: string
+          id?: string
+          invited_by: string
+          invited_email: string
+          invited_user_id?: string | null
+          role?: string
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          expires_at?: string
+          household_id?: string
+          id?: string
+          invited_by?: string
+          invited_email?: string
+          invited_user_id?: string | null
+          role?: string
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "household_invitations_household_id_fkey"
+            columns: ["household_id"]
+            isOneToOne: false
+            referencedRelation: "households"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      household_members: {
+        Row: {
+          created_at: string | null
+          household_id: string
+          id: string
+          joined_at: string | null
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          household_id: string
+          id?: string
+          joined_at?: string | null
+          role?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          household_id?: string
+          id?: string
+          joined_at?: string | null
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "household_members_household_id_fkey"
+            columns: ["household_id"]
+            isOneToOne: false
+            referencedRelation: "households"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      households: {
+        Row: {
+          created_at: string | null
+          created_by: string
+          description: string | null
+          id: string
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          created_by: string
+          description?: string | null
+          id?: string
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          created_by?: string
+          description?: string | null
+          id?: string
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       plant_seasonal_schedules: {
         Row: {
           applied_at: string | null
+          assigned_to: string | null
           created_at: string | null
           id: string
           plant_id: string | null
@@ -28,6 +138,7 @@ export type Database = {
         }
         Insert: {
           applied_at?: string | null
+          assigned_to?: string | null
           created_at?: string | null
           id?: string
           plant_id?: string | null
@@ -39,6 +150,7 @@ export type Database = {
         }
         Update: {
           applied_at?: string | null
+          assigned_to?: string | null
           created_at?: string | null
           id?: string
           plant_id?: string | null
@@ -131,12 +243,15 @@ export type Database = {
       user_plants: {
         Row: {
           created_at: string
+          household_id: string | null
           id: string
           image: string | null
           is_outdoor_plant: boolean | null
+          last_postponement_date: string | null
           last_schedule_review: string | null
           nickname: string
           plant_type: string
+          postponement_count: number | null
           room: string | null
           suggested_watering_days: number | null
           updated_at: string
@@ -144,12 +259,15 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          household_id?: string | null
           id?: string
           image?: string | null
           is_outdoor_plant?: boolean | null
+          last_postponement_date?: string | null
           last_schedule_review?: string | null
           nickname: string
           plant_type: string
+          postponement_count?: number | null
           room?: string | null
           suggested_watering_days?: number | null
           updated_at?: string
@@ -157,18 +275,29 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          household_id?: string | null
           id?: string
           image?: string | null
           is_outdoor_plant?: boolean | null
+          last_postponement_date?: string | null
           last_schedule_review?: string | null
           nickname?: string
           plant_type?: string
+          postponement_count?: number | null
           room?: string | null
           suggested_watering_days?: number | null
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_plants_household_id_fkey"
+            columns: ["household_id"]
+            isOneToOne: false
+            referencedRelation: "households"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_watering_preferences: {
         Row: {
@@ -223,6 +352,7 @@ export type Database = {
           created_at: string
           id: string
           notes: string | null
+          performed_by: string | null
           plant_id: string
           watered_at: string
         }
@@ -230,6 +360,7 @@ export type Database = {
           created_at?: string
           id?: string
           notes?: string | null
+          performed_by?: string | null
           plant_id: string
           watered_at?: string
         }
@@ -237,6 +368,7 @@ export type Database = {
           created_at?: string
           id?: string
           notes?: string | null
+          performed_by?: string | null
           plant_id?: string
           watered_at?: string
         }
@@ -263,22 +395,60 @@ export type Database = {
         Row: {
           created_at: string | null
           days_since_watering: number | null
+          household_id: string | null
           id: string | null
           image: string | null
           is_outdoor_plant: boolean | null
+          last_postponement_date: string | null
           latest_watering: string | null
           nickname: string | null
           plant_type: string | null
+          postponement_count: number | null
           room: string | null
           suggested_watering_days: number | null
           updated_at: string | null
           user_id: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "user_plants_household_id_fkey"
+            columns: ["household_id"]
+            isOneToOne: false
+            referencedRelation: "households"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Functions: {
-      [_ in never]: never
+      accept_household_invitation: {
+        Args: { invitation_id: string }
+        Returns: boolean
+      }
+      create_household: {
+        Args: { household_description?: string; household_name: string }
+        Returns: string
+      }
+      decline_household_invitation: {
+        Args: { invitation_id: string }
+        Returns: boolean
+      }
+      delete_test_user: {
+        Args: { user_id: string }
+        Returns: Json
+      }
+      invite_to_household: {
+        Args: {
+          household_id: string
+          invitation_role?: string
+          invited_email: string
+        }
+        Returns: string
+      }
+      leave_household: {
+        Args: { household_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

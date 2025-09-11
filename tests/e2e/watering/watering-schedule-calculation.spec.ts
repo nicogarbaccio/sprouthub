@@ -6,7 +6,7 @@ test.describe('Watering Schedule Calculation', () => {
 
   test.beforeEach(async ({ page }) => {
     // Mock the current date to September 10th, 2025 for predictable testing
-    // Updated to 2025 to match our timezone fixes
+    // Updated to use calendar date logic instead of timezone-based calculations
     await page.addInitScript(() => {
       const mockDate = new Date('2025-09-10T10:00:00Z');
       Date.now = () => mockDate.getTime();

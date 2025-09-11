@@ -21,6 +21,7 @@ interface MyPlantCardProps {
   hasUnknownWateringDate: boolean;
   isPostponed?: boolean; // If the latest watering record is a postponement
   suggestedWateringDays?: number; // For overwatering warning calculation
+  householdName?: string; // Name of household this plant belongs to
   onWater: () => void;
   onEdit: () => void;
   onPostpone?: () => void;
@@ -41,6 +42,7 @@ const MyPlantCard = ({
   hasUnknownWateringDate,
   isPostponed,
   suggestedWateringDays = 7,
+  householdName,
   onWater,
   onEdit,
   onPostpone,
@@ -208,14 +210,21 @@ const MyPlantCard = ({
         </div>
 
         <div className="p-5">
-          <h3 className="text-lg font-semibold text-foreground mb-1">
-            <button
-              onClick={handleNameClick}
-              className="text-left hover:text-sprout-water transition-colors duration-200 cursor-pointer underline-offset-4 hover:underline"
-            >
-              {name}
-            </button>
-          </h3>
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="text-lg font-semibold text-foreground">
+              <button
+                onClick={handleNameClick}
+                className="text-left hover:text-sprout-water transition-colors duration-200 cursor-pointer underline-offset-4 hover:underline"
+              >
+                {name}
+              </button>
+            </h3>
+            {householdName && (
+              <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs rounded-full font-medium flex items-center gap-1">
+                🏠 {householdName}
+              </span>
+            )}
+          </div>
           <p className="text-sm text-muted-foreground mb-4">{plantType}</p>
 
           {hasUnknownWateringDate && (

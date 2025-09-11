@@ -42,6 +42,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { useUserPlants } from "@/hooks/useUserPlants";
+import { useHouseholds } from "@/hooks/useHouseholds";
 import ImageUpload from "@/components/ui/image-upload";
 import { plants as allPlants } from "@/data/plantData";
 import { cn } from "@/lib/utils";
@@ -72,6 +73,7 @@ const AddPlantDialog = ({
   onPlantAdded,
 }: AddPlantDialogProps) => {
   const { addPlant } = useUserPlants();
+  const { households } = useHouseholds();
   const [formData, setFormData] = useState({
     nickname: "",
     plant_type: "",
@@ -80,6 +82,7 @@ const AddPlantDialog = ({
     watering_schedule_days: 7,
     notes: "",
     is_outdoor_plant: false,
+    household_id: "",
   });
   const [lastWateredDate, setLastWateredDate] = useState<Date | undefined>(
     new Date()
@@ -108,6 +111,7 @@ const AddPlantDialog = ({
           watering_schedule_days: plantData.suggestedWateringDays || 7,
           notes: `Botanical name: ${plantData.botanicalName}\nWatering: ${plantData.wateringFrequency}\nLight: ${plantData.lightRequirement}\nCare level: ${plantData.careLevel}`,
           is_outdoor_plant: false,
+          household_id: "",
         });
         setIsCustomPlantType(false);
         setCustomPlantType("");
@@ -131,6 +135,7 @@ const AddPlantDialog = ({
           watering_schedule_days: 7,
           notes: "",
           is_outdoor_plant: false,
+          household_id: "",
         });
         setIsCustomPlantType(false);
         setCustomPlantType("");
@@ -174,6 +179,7 @@ const AddPlantDialog = ({
       suggested_watering_days: formData.watering_schedule_days,
       last_watered_date: lastWateredDate?.toISOString(),
       is_outdoor_plant: formData.is_outdoor_plant,
+      household_id: formData.household_id || undefined,
     });
 
     if (success) {
@@ -491,6 +497,48 @@ const AddPlantDialog = ({
               </div>
             )}
           </div>
+
+          {/* Household Assignment */}
+          {households.length > 0 && (
+            <div className="space-y-2">
+              <Label
+                htmlFor="household_assignment"
+                className="text-plant-text dark:text-zinc-200"
+              >
+                Assignment
+              </Label>
+              <Select
+                value={formData.household_id}
+                onValueChange={(value) => handleInputChange("household_id", value)}
+              >
+                <SelectTrigger className="border-plant-secondary/30 focus:border-plant-primary">
+                  <SelectValue placeholder="Personal plant or assign to household" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">
+                    <div className="flex items-center gap-2">
+                      <span>👤</span>
+                      <span>Personal Plant</span>
+                    </div>
+                  </SelectItem>
+                  {households.map((household) => (
+                    <SelectItem key={household.id} value={household.id}>
+                      <div className="flex items-center gap-2">
+                        <span>🏠</span>
+                        <span>{household.name}</span>
+                        <span className="text-xs text-muted-foreground">({household.member_count} members)</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {formData.household_id && (
+                <p className="text-xs text-muted-foreground">
+                  This plant will be visible and manageable by all household members
+                </p>
+              )}
+            </div>
+          )}
 
           <div className="space-y-2">
             <Label

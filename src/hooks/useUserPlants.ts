@@ -16,6 +16,7 @@ export interface UserPlant {
  latest_watering?: string;
  days_since_watering?: number;
  is_outdoor_plant?: boolean;
+ household_id?: string;
  created_at: string;
  updated_at: string;
  // Postponement fields
@@ -23,6 +24,10 @@ export interface UserPlant {
  postponement_notes?: string;
  last_postponement_date?: string;
  postponement_count?: number;
+ // Household info (populated via join)
+ household?: {
+   name: string;
+ };
 }
 
 export const useUserPlants = () => {
@@ -40,7 +45,7 @@ export const useUserPlants = () => {
  }
 
  try {
-  // First get all plants
+  // First get all plants with household info
   const { data: plantsData, error: plantsError } = await supabase
   .from('plants_with_watering_info')
   .select('*')
@@ -48,31 +53,64 @@ export const useUserPlants = () => {
   .order('created_at', { ascending: false });
 
   if (plantsError) throw plantsError;
+
+  // Get household data for plants that have household_id
+  const plantsWithHouseholds = (plantsData || []).filter(p => p.household_id);
+  let householdData: any[] = [];
+  
+  if (plantsWithHouseholds.length > 0) {
+    const householdIds = [...new Set(plantsWithHouseholds.map(p => p.household_id))];
+    const { data: households, error: householdError } = await supabase
+      .from('households')
+      .select('id, name')
+      .in('id', householdIds);
+    
+    if (householdError) {
+      console.warn('Could not load household data:', householdError);
+    } else {
+      householdData = households || [];
+    }
+  }
   
   // Then get postponement data for all plants
   const plantIds = (plantsData || []).map(p => p.id);
   let postponementData: any[] = [];
   
+  // Get postponement data for all plants
   if (plantIds.length > 0) {
-    const { data: postponements, error: postponementError } = await supabase
-    .from('watering_records')
-    .select('plant_id, watered_at, notes')
-    .in('plant_id', plantIds)
-    .like('notes', '%POSTPONEMENT:%')
-    .gt('watered_at', new Date().toISOString())
-    .order('watered_at', { ascending: false });
+    try {
+      const { data: postponements, error: postponementError } = await supabase
+      .from('watering_records')
+      .select('plant_id, watered_at, notes')
+      .in('plant_id', plantIds)
+      .like('notes', '%POSTPONEMENT:%')
+      .gt('watered_at', new Date().toISOString())
+      .order('watered_at', { ascending: false });
 
-    if (postponementError) throw postponementError;
-    postponementData = postponements || [];
+      if (postponementError) {
+        console.warn('Could not load postponement data:', postponementError);
+      } else {
+        postponementData = postponements || [];
+      }
+    } catch (error) {
+      console.warn('Error fetching postponement data:', error);
+    }
   }
 
-  // Combine plants with their postponement data
+  // Combine plants with their postponement and household data
   const result = (plantsData || []).map(plant => {
     const postponement = postponementData.find(p => p.plant_id === plant.id);
+    const household = plant.household_id 
+      ? householdData.find(h => h.id === plant.household_id)
+      : null;
+    
     return {
       ...plant,
+      // Map the correct field name from the database view
+      latest_watering: plant.last_watered_at,
       postponement_date: postponement?.watered_at,
       postponement_notes: postponement?.notes,
+      household: household ? { name: household.name } : undefined,
     };
   });
   
@@ -97,7 +135,11 @@ export const useUserPlants = () => {
    .gte('watered_at', start)
    .lte('watered_at', end);
 
-   if (recordsError) throw recordsError;
+   if (recordsError) {
+     console.warn('Could not load watering records for overwatering risk:', recordsError);
+     setOverwateringByPlantId({});
+     return;
+   }
 
    const byPlant: Record<string, { watered_at: string; notes?: string | null }[]> = {};
    (records || []).forEach((r: any) => {
@@ -139,6 +181,7 @@ export const useUserPlants = () => {
  suggested_watering_days?: number;
  last_watered_date?: string;
  is_outdoor_plant?: boolean;
+ household_id?: string;
  }) => {
  if (!user) return false;
 
@@ -153,6 +196,7 @@ export const useUserPlants = () => {
    room: plantData.room,
    suggested_watering_days: plantData.suggested_watering_days,
    is_outdoor_plant: plantData.is_outdoor_plant || false,
+   household_id: plantData.household_id || null,
    user_id: user.id,
   })
   .select()
@@ -215,6 +259,7 @@ export const useUserPlants = () => {
    plant_id: plantId,
    watered_at: new Date().toISOString(),
    notes: notes || null,
+   performed_by: user.id,
   });
 
   if (error) throw error;

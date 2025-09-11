@@ -2,8 +2,8 @@ import { test, expect } from '../../fixtures/test-fixtures';
 import { getTestUser } from '../../test-user-pool';
 import { TIMEOUTS } from '../../config/timeouts';
 
-test.describe('Timezone and Calendar Logic Fixes', () => {
-  const testUser = getTestUser('timezone-fixes');
+test.describe('Calendar Date Watering Schedule Logic', () => {
+  const testUser = getTestUser('calendar-date-fixes');
 
   test.beforeEach(async ({ page }) => {
     // Mock the current date to September 10th, 2025 for predictable testing
@@ -26,12 +26,12 @@ test.describe('Timezone and Calendar Logic Fixes', () => {
     });
   });
 
-  test('should handle early morning watering correctly (Disco Pothos scenario)', async ({ 
+  test('should handle calendar date watering schedule correctly', async ({ 
     page, 
     authPage 
   }) => {
     await test.step('Setup authentication', async () => {
-      console.log('🔐 Setting up authentication for timezone fixes test');
+      console.log('🔐 Setting up authentication for calendar date test');
       await page.goto('/auth');
       await page.waitForLoadState('domcontentloaded');
       await page.waitForTimeout(TIMEOUTS.SHORT_WAIT);
@@ -89,22 +89,22 @@ test.describe('Timezone and Calendar Logic Fixes', () => {
       }
     });
 
-    await test.step('Mock early morning watering data', async () => {
-      // This simulates the exact scenario from the Disco Pothos bug
+    await test.step('Mock calendar date watering data', async () => {
+      // This simulates a simple calendar date scenario
       await page.route('**/api/plants*', async route => {
         const mockPlants = [
           {
-            id: 'disco-pothos-test',
-            nickname: 'Disco Pothos',
+            id: 'calendar-test-plant',
+            nickname: 'Calendar Test Plant',
             plant_type: 'Pothos',
             suggested_watering_days: 7,
-            latest_watering: '2025-09-09T00:14:32.009Z', // September 9th at 00:14 UTC (early morning)
-            days_since_watering: 1, // Database says 1 day (Sep 9 to Sep 10)
+            latest_watering: '2025-09-08T14:30:00.000Z', // September 8th at 2:30 PM UTC
+            days_since_watering: 2, // Database says 2 days (Sep 8 to Sep 10)
             postponement_date: null,
             postponement_notes: null,
             last_postponement_date: null,
             postponement_count: null,
-            image: 'https://example.com/disco-pothos.jpg'
+            image: 'https://example.com/calendar-test.jpg'
           }
         ];
         

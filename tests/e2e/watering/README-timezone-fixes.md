@@ -1,100 +1,80 @@
-# Timezone and Calendar Logic Fix Tests
+# Calendar Date Watering Schedule Tests
 
 ## Overview
 
-This test suite verifies the fixes implemented to resolve timezone-related issues in watering schedule calculations. The primary issue was that plants watered late in the evening (which crossed midnight UTC) were showing incorrect watering schedules.
+This test suite verifies the calendar date-based watering schedule calculations. We've simplified the approach to use calendar dates only, removing timezone-based complexity that was causing confusion and incorrect watering schedules.
 
 ## Problem Background
 
-### The Disco Pothos Bug
+### Previous Timezone Issues
 - **User expectation**: Plant watered "September 8th evening" → due September 15th → "Water in 5 days" on September 10th
 - **Actual behavior**: Plant recorded as watered September 9th 00:14 UTC → due September 16th → "Water in 6 days"
 - **Root cause**: Timezone conversion causing late evening waterings to be recorded as next day UTC
 
-### Additional Issues Fixed
-1. **Grace period confusion**: Plants with old postponement history were getting extra days added
-2. **Inconsistent date display**: Dates shown vs. dates used in calculations were different
-3. **Calendar vs. time-based logic**: Mixed approaches causing user confusion
+### Solution: Calendar Date Approach
+1. **Simplified logic**: Use calendar dates only, no timezone considerations
+2. **Consistent behavior**: Plants watered on a date are always counted from that calendar date
+3. **User-friendly**: No confusion about timezones or early morning adjustments
 
 ## Test Coverage
 
-### 1. Early Morning Watering Adjustment (`timezone-fixes.spec.ts`)
+### 1. Calendar Date Watering Schedule (`calendar-date-schedule.spec.ts`)
 
-#### Test: "should handle early morning watering correctly (Disco Pothos scenario)"
-- **Simulates**: Plant watered at `2025-09-09T00:14:32.009Z` (September 9th at 00:14 UTC)
-- **Database**: `days_since_watering: 1` (Sep 9 → Sep 10 = 1 day)
-- **Expected Fix**: Early morning adjustment adds +1 day → 2 days since watering
-- **Result**: Shows "Water in 5 days" (7 - 2 = 5) and displays "Sep 8, 2025"
-
-#### Test: "should NOT adjust normal daytime watering times"
+#### Test: "should calculate watering schedule using calendar dates only"
 - **Simulates**: Plant watered at `2025-09-08T14:30:00.000Z` (September 8th at 2:30 PM UTC)
-- **Expected**: No adjustment applied, normal calculation
+- **Database**: `days_since_watering: 2` (Sep 8 → Sep 10 = 2 days)
+- **Expected**: Simple calendar date calculation
 - **Result**: Shows "Water in 5 days" (7 - 2 = 5) and displays "Sep 8, 2025"
 
-#### Test: "should handle edge case of exactly 04:00 UTC (boundary test)"
-- **Simulates**: Plant watered at exactly `2025-09-08T04:00:00.000Z` (4:00 AM UTC)
-- **Expected**: No adjustment (boundary condition: only < 4:00 gets adjusted)
-- **Result**: Shows normal calculation without adjustment
+#### Test: "should handle plants due tomorrow correctly"
+- **Simulates**: Plant watered at `2025-08-28T15:00:00.000Z` (August 28th)
+- **Database**: `days_since_watering: 13` (Aug 28 → Sep 10 = 13 days)
+- **Expected**: Plant due tomorrow (14 - 13 = 1 day)
+- **Result**: Shows "Water tomorrow" and displays "Aug 28, 2025"
 
-### 2. Grace Period Removal
+### 2. Existing Watering Schedule Tests
 
-#### Test: "should verify grace period logic has been removed"
-- **Simulates**: Plant with recent postponement history (`last_postponement_date` within old grace period)
-- **Expected**: No additional days added due to postponement history
-- **Result**: Shows actual calculation (10 - 2 = 8 days) without grace period
+#### Updated Tests: `watering-schedule-calculation.spec.ts`
+- **Updated**: All existing tests now use calendar date logic
+- **Verified**: Normal plants, postponed plants, and overdue plants all calculate correctly
+- **Confirmed**: No timezone-based adjustments are applied
 
-### 3. Multiple Plant Scenarios
+## Key Benefits of Calendar Date Approach
 
-#### Test: "should handle multiple early morning waterings correctly"
-- **Tests**: Different early morning times (00:00, 03:59:59, 04:00:01)
-- **Expected**: Only times < 04:00 UTC get adjusted
-- **Results**: 
-  - 00:00 UTC → adjusted → 5 days
-  - 03:59 UTC → adjusted → 5 days  
-  - 04:00 UTC → not adjusted → 6 days
-
-### 4. Fallback Calculation
-
-#### Test: "should handle fallback calculation with early morning adjustment"
-- **Simulates**: Plant without `days_since_watering` (forces fallback calculation)
-- **Expected**: Fallback logic also applies early morning adjustment
-- **Result**: Consistent behavior between database and fallback calculations
-
-## Updated Existing Tests (`watering-schedule-calculation.spec.ts`)
-
-- Updated mock dates from 2024 to 2025 to match timezone fixes
-- Verified existing functionality still works with new logic
-- Confirmed postponed plants, overdue plants, and normal plants all calculate correctly
+- **Simplified logic**: No timezone conversions or early morning adjustments
+- **Predictable behavior**: Plants watered on a date are always counted from that calendar date
+- **User-friendly**: No confusion about timezones or complex date calculations
+- **Maintainable**: Easier to understand and debug watering schedule issues
 
 ## Key Assertions
 
 ### Date Display Consistency
 ```typescript
-// Verify early morning watering shows adjusted date
-const lastWateredText = discoPothosCard.locator('text=/sep.*8.*2025/i');
+// Verify calendar date shows correct date
+const lastWateredText = calendarTestCard.locator('text=/sep.*8.*2025/i');
 await expect(lastWateredText).toBeVisible();
 ```
 
 ### Calculation Accuracy  
 ```typescript
-// Verify correct days calculation with adjustment
-const wateringStatus = discoPothosCard.locator('text=/water.*in.*5.*days?/i');
+// Verify correct days calculation using calendar dates
+const wateringStatus = calendarTestCard.locator('text=/water.*in.*5.*days?/i');
 await expect(wateringStatus).toBeVisible();
 ```
 
-### Grace Period Removal
+### Tomorrow Plant Status
 ```typescript
-// Verify NO additional days are added
-const noGracePeriodStatus = gracePeriodPlantCard.locator('text=/water.*in.*(9|10|11).*days?/i');
-await expect(noGracePeriodStatus).not.toBeVisible();
+// Verify plant due tomorrow shows correct status
+const tomorrowStatus = tomorrowPlantCard.locator('text=/water.*tomorrow/i');
+await expect(tomorrowStatus).toBeVisible();
 ```
 
 ## Running the Tests
 
 ### Individual Test Files
 ```bash
-# Run timezone fixes tests
-npx playwright test tests/e2e/watering/timezone-fixes.spec.ts
+# Run calendar date schedule tests
+npx playwright test tests/e2e/watering/calendar-date-schedule.spec.ts
 
 # Run updated watering schedule tests  
 npx playwright test tests/e2e/watering/watering-schedule-calculation.spec.ts
@@ -105,46 +85,48 @@ npx vitest run src/utils/__tests__/watering-schedule.test.ts
 
 ### All Tests Together
 ```bash
-# Run the comprehensive test script
-./scripts/test-timezone-fixes.sh
+# Run all watering schedule tests
+npx playwright test tests/e2e/watering/
 ```
 
 ## Success Criteria
 
 Before shipping, all tests should pass and verify:
 
-✅ **Early morning adjustment works**: 00:00-03:59 UTC waterings treated as previous day  
-✅ **Boundary conditions correct**: 04:00+ UTC waterings not adjusted  
-✅ **Grace period removed**: No additional days for plants with postponement history  
+✅ **Calendar date calculation works**: Simple date arithmetic without timezone considerations  
+✅ **Tomorrow plants show correctly**: Plants due tomorrow display "Water tomorrow"  
 ✅ **Date display consistent**: Shown dates match calculation dates  
-✅ **Fallback calculation works**: Manual calculation handles early morning adjustment  
+✅ **Fallback calculation works**: Manual calculation uses calendar dates  
 ✅ **Existing functionality preserved**: All previous tests still pass  
+✅ **No timezone complexity**: No early morning adjustments or timezone conversions  
 
 ## Implementation Details
 
-### Early Morning Adjustment Logic
+### Calendar Date Calculation Logic
 ```typescript
-// In watering schedule calculation
-if (latestWateringDate.getUTCHours() < 4) {
-  adjustedDaysSince += 1; // Add one day for early morning waterings
-}
+// Simple calendar date calculation - no timezone considerations
+const currentDate = new Date();
+const currentCalendarDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
 
-// In date formatting  
-if (date.getUTCHours() < 4) {
-  displayDate.setUTCDate(displayDate.getUTCDate() - 1); // Show previous day
-}
+const latestWateringDate = new Date(plant.latest_watering);
+const wateredCalendarDate = new Date(latestWateringDate.getFullYear(), latestWateringDate.getMonth(), latestWateringDate.getDate());
+
+const timeDiff = currentCalendarDate.getTime() - wateredCalendarDate.getTime();
+const daysSinceWatering = Math.round(timeDiff / (1000 * 60 * 60 * 24));
+const daysUntilWatering = wateringSchedule - daysSinceWatering;
 ```
 
-### Why 4:00 AM UTC?
-- Covers most timezone differences for evening waterings
-- Conservative approach (only adjusts very early morning times)
-- Clear boundary that's unlikely to affect normal watering times
-- Handles common scenario of late evening watering crossing midnight
+### Why Calendar Dates Only?
+- **Simpler logic**: No timezone conversions or early morning adjustments
+- **Predictable behavior**: Plants watered on a date are always counted from that calendar date
+- **User-friendly**: No confusion about timezones or complex date calculations
+- **Maintainable**: Easier to understand and debug watering schedule issues
 
 ## Monitoring in Production
 
 After deployment, monitor for:
 - User reports of incorrect watering schedules
 - Plants showing unexpected "days until watering" values
+- Any confusion about watering dates or schedules
 - Date display inconsistencies between cards and detail views
 - Any plants with postponement history showing extra days

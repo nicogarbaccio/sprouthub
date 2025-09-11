@@ -14,6 +14,8 @@ import PlantCatalogPage from "./pages/PlantCatalog";
 import PlantDetails from "./pages/PlantDetails";
 import MyPlants from "./pages/MyPlants";
 import MyPlantDetails from "./pages/MyPlantDetails";
+import Households from "./pages/Households";
+import HouseholdManagement from "./pages/HouseholdManagement";
 import Profile from "./pages/Profile";
 import SkeletonDemo from "./pages/SkeletonDemo";
 import ToastDemo from "./components/ToastDemo";
@@ -22,38 +24,46 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => (
- <QueryClientProvider client={queryClient}>
- <ThemeProvider defaultTheme="system" storageKey="sprouthub-ui-theme">
-  <TooltipProvider>
-  <Toaster />
-  <Sonner />
-  <BrowserRouter>
-   <AuthProvider>
-   <ProfileDataProvider>
-    <Routes>
-    <Route path="/" element={<Index />} />
-    <Route path="/auth" element={<Auth />} />
-    <Route path="/forgot-password" element={<ForgotPassword />} />
-    <Route path="/reset-password" element={<ResetPassword />} />
-    <Route path="/plant-catalog" element={<PlantCatalogPage />} />
-    <Route
-     path="/plant-details/:plantName"
-     element={<PlantDetails />}
-    />
-    <Route path="/my-plants" element={<MyPlants />} />
-    <Route path="/my-plants/:plantId" element={<MyPlantDetails />} />
-    <Route path="/profile" element={<Profile />} />
-    <Route path="/skeleton-demo" element={<SkeletonDemo />} />
-    <Route path="/toast-demo" element={<ToastDemo />} />
-    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-    <Route path="*" element={<NotFound />} />
-    </Routes>
-   </ProfileDataProvider>
-   </AuthProvider>
-  </BrowserRouter>
-  </TooltipProvider>
- </ThemeProvider>
- </QueryClientProvider>
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider defaultTheme="system" storageKey="sprouthub-ui-theme">
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AuthProvider>
+            <ProfileDataProvider>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/plant-catalog" element={<PlantCatalogPage />} />
+                <Route
+                  path="/plant-details/:plantName"
+                  element={<PlantDetails />}
+                />
+                <Route path="/my-plants" element={<MyPlants />} />
+                <Route
+                  path="/my-plants/:plantId"
+                  element={<MyPlantDetails />}
+                />
+                <Route path="/households" element={<Households />} />
+                <Route
+                  path="/households/:id"
+                  element={<HouseholdManagement />}
+                />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/skeleton-demo" element={<SkeletonDemo />} />
+                <Route path="/toast-demo" element={<ToastDemo />} />
+                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </ProfileDataProvider>
+          </AuthProvider>
+        </BrowserRouter>
+      </TooltipProvider>
+    </ThemeProvider>
+  </QueryClientProvider>
 );
 
 export default App;

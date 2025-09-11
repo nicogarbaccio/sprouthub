@@ -11,6 +11,7 @@ import {
  LogIn,
  Moon,
  Sun,
+ Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -168,6 +169,13 @@ const Navigation = () => {
      <User className="w-4 h-4 mr-2" />
      Profile
      </DropdownMenuItem>
+     <DropdownMenuItem
+     onClick={() => navigate("/households")}
+     className="cursor-pointer"
+     >
+     <Users className="w-4 h-4 mr-2" />
+     Households
+     </DropdownMenuItem>
      <DropdownMenuSeparator />
      <DropdownMenuItem
      onClick={(event) => handleSignOut(event)}
@@ -269,6 +277,17 @@ const Navigation = () => {
        >
         <User className="w-4 h-4 mr-2" />
         <span>Profile</span>
+       </Button>
+       </Link>
+      </SheetClose>
+      <SheetClose asChild>
+       <Link to="/households">
+       <Button
+        variant="ghost"
+        className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
+       >
+        <Users className="w-4 h-4 mr-2" />
+        <span>Households</span>
        </Button>
        </Link>
       </SheetClose>

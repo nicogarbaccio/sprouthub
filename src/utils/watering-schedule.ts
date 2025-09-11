@@ -77,17 +77,18 @@ export function calculateWateringSchedule(plant: PlantWateringInfo): WateringCal
 
 // For normal (non-postponed) plants, use the database-calculated days_since_watering when available
  if (plant.days_since_watering !== null && plant.days_since_watering !== undefined) {
-  // Check if this is an early morning watering that should be treated as previous day
+  // Use simple calendar date calculation - no timezone considerations
   const latestWateringDate = new Date(plant.latest_watering);
-  let adjustedDaysSince = plant.days_since_watering;
   
-  // If watering was recorded in early morning (00:00-04:00 UTC), add one day
-  // This accounts for late evening waterings that crossed midnight due to timezone
-  if (latestWateringDate.getUTCHours() < 4) {
-    adjustedDaysSince += 1;
-  }
+  // Calculate days since watering using calendar dates only
+  const currentDate = new Date();
+  const currentCalendarDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+  const wateredCalendarDate = new Date(latestWateringDate.getFullYear(), latestWateringDate.getMonth(), latestWateringDate.getDate());
   
-  let daysUntilWatering = wateringSchedule - adjustedDaysSince;
+  const timeDiff = currentCalendarDate.getTime() - wateredCalendarDate.getTime();
+  const daysSinceWatering = Math.round(timeDiff / (1000 * 60 * 60 * 24));
+  
+  let daysUntilWatering = wateringSchedule - daysSinceWatering;
   let isOverdue = daysUntilWatering < 0;
   
   return {
@@ -100,19 +101,14 @@ export function calculateWateringSchedule(plant: PlantWateringInfo): WateringCal
  }
 
  // Fallback: calculate manually if days_since_watering is not available
- // Use calendar days instead of precise time differences for historical dates
+ // Use simple calendar date calculation - no timezone considerations
  const currentDate = new Date();
- const currentUTCDate = new Date(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), currentDate.getUTCDate());
+ const currentCalendarDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
  
  const latestWateringDate = new Date(plant.latest_watering);
+ const wateredCalendarDate = new Date(latestWateringDate.getFullYear(), latestWateringDate.getMonth(), latestWateringDate.getDate());
  
- // Handle early morning waterings (00:00-04:00 UTC) as previous day
- let wateredUTCDate = new Date(latestWateringDate.getUTCFullYear(), latestWateringDate.getUTCMonth(), latestWateringDate.getUTCDate());
- if (latestWateringDate.getUTCHours() < 4) {
-   wateredUTCDate.setUTCDate(wateredUTCDate.getUTCDate() - 1);
- }
- 
- const timeDiff = currentUTCDate.getTime() - wateredUTCDate.getTime();
+ const timeDiff = currentCalendarDate.getTime() - wateredCalendarDate.getTime();
  const daysSinceWatering = Math.round(timeDiff / (1000 * 60 * 60 * 24));
  const daysUntilWatering = wateringSchedule - daysSinceWatering;
  const isOverdue = daysUntilWatering < 0;
