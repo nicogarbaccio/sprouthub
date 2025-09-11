@@ -243,7 +243,7 @@ const RoomSection = ({
                 lastWateredDate={plant.latest_watering}
                 nextWateringDue={getNextWateringDateUtil(
                   plant.latest_watering,
-                  plant.days_since_watering,
+                  plant.latest_watering ? Math.round((new Date().getTime() - new Date(plant.latest_watering).getTime()) / (1000 * 60 * 60 * 24)) : undefined,
                   plant.suggested_watering_days || 7,
                   formatDate,
                   plant.postponement_date
