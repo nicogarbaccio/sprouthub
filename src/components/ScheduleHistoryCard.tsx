@@ -136,17 +136,15 @@ export function ScheduleHistoryCard({
             </span>
           </Button>
         </div>
-        
+
         {/* Show preview when collapsed */}
         {!isExpanded && (
           <div className="mt-2 text-sm text-sprout-light dark:text-sprout-light">
-            {isLoading ? (
-              "Loading..."
-            ) : hasAnyHistory ? (
-              `Seasonal watering adjustments for ${plantName}`
-            ) : (
-              "Track seasonal watering schedule changes over time"
-            )}
+            {isLoading
+              ? "Loading..."
+              : hasAnyHistory
+              ? `Seasonal watering adjustments for ${plantName}`
+              : "Track seasonal watering schedule changes over time"}
           </div>
         )}
       </CardHeader>
@@ -163,10 +161,13 @@ export function ScheduleHistoryCard({
           ) : !hasAnyHistory ? (
             <div className="text-center py-8 text-sprout-medium dark:text-sprout-light">
               <Calendar className="h-8 w-8 mx-auto mb-3 text-sprout-medium dark:text-sprout-light opacity-60" />
-              <p className="text-base font-medium mb-2 text-sprout-dark dark:text-sprout-white">No schedule history yet</p>
+              <p className="text-base font-medium mb-2 text-sprout-dark dark:text-sprout-white">
+                No schedule history yet
+              </p>
               <p className="text-sm mb-4 max-w-md mx-auto leading-relaxed">
-                This section tracks how your watering schedule changes with the seasons. 
-                History will appear when you adjust schedules or when seasonal recommendations are applied.
+                This section tracks how your watering schedule changes with the
+                seasons. History will appear when you adjust schedules or when
+                seasonal recommendations are applied.
               </p>
               <div className="text-xs text-sprout-medium dark:text-sprout-light space-y-1 opacity-80">
                 <p>• Seasonal schedule adjustments</p>
@@ -296,7 +297,11 @@ export function ScheduleHistoryCard({
                                 "temperature" in
                                   schedule.weather_conditions && (
                                   <span>
-                                    {schedule.weather_conditions.temperature}°C
+                                    {
+                                      (schedule.weather_conditions as any)
+                                        .temperature
+                                    }
+                                    °C
                                   </span>
                                 )}
                             </div>

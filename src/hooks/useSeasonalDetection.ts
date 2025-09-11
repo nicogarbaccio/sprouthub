@@ -3,6 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { seasonalDetectionService, Season, SeasonalTransition } from '@/services/seasonalDetectionService';
 import { weatherService } from '@/services/weatherService';
 import { useWeatherData } from './useWeatherData';
+import { useLocation } from './useLocation';
 import { supabase } from '@/integrations/supabase/client';
 
 interface UseSeasonalDetectionReturn {
@@ -19,7 +20,8 @@ interface UseSeasonalDetectionReturn {
 
 export function useSeasonalDetection(): UseSeasonalDetectionReturn {
   const { user } = useAuth();
-  const { weatherData, location, isLoading: weatherLoading } = useWeatherData();
+  const { weatherData, isLoading: weatherLoading } = useWeatherData();
+  const { location } = useLocation();
   
   const [currentSeason, setCurrentSeason] = useState<Season | null>(null);
   const [pendingTransition, setPendingTransition] = useState<SeasonalTransition | null>(null);

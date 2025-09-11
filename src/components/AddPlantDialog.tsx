@@ -107,6 +107,7 @@ const AddPlantDialog = ({
           room: NO_ROOM_VALUE,
           watering_schedule_days: plantData.suggestedWateringDays || 7,
           notes: `Botanical name: ${plantData.botanicalName}\nWatering: ${plantData.wateringFrequency}\nLight: ${plantData.lightRequirement}\nCare level: ${plantData.careLevel}`,
+          is_outdoor_plant: false,
         });
         setIsCustomPlantType(false);
         setCustomPlantType("");
@@ -183,7 +184,10 @@ const AddPlantDialog = ({
     setIsSubmitting(false);
   };
 
-  const handleInputChange = (field: string, value: string | number) => {
+  const handleInputChange = (
+    field: string,
+    value: string | number | boolean
+  ) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,

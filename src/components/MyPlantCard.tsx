@@ -148,7 +148,6 @@ const MyPlantCard = ({
             src={image}
             alt={name}
             className="w-full h-48 object-cover"
-            fallbackClassName="w-full h-48 flex items-center justify-center bg-muted"
           />
 
           {/* Edit Button - positioned on image */}

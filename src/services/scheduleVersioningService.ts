@@ -171,7 +171,7 @@ class ScheduleVersioningService {
         confidence,
         reasoning,
         based_on: basedOn,
-        previous_schedule
+        previous_schedule: previousSchedule
       };
 
     } catch (error) {
