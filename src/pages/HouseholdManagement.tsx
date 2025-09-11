@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useHouseholds } from "@/hooks/useHouseholds";
+import { useHouseholdPlants } from "@/hooks/useHouseholdPlants";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,9 +21,15 @@ import {
   UserPlus,
   Trash2,
   Home,
+  Plus,
+  Droplets,
+  Edit,
+  History,
 } from "lucide-react";
 import { InviteMemberDialog } from "@/components/households/InviteMemberDialog";
 import { HouseholdMembersCard } from "@/components/households/HouseholdMembersCard";
+import AddPlantDialog from "@/components/AddPlantDialog";
+import EditPlantDialog from "@/components/EditPlantDialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,6 +41,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
+import { calculateWateringSchedule } from "@/utils/watering-schedule";
 
 const HouseholdManagement = () => {
   const { id: householdId } = useParams<{ id: string }>();
@@ -51,8 +59,104 @@ const HouseholdManagement = () => {
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
+  // Household plants functionality
+  const {
+    plants,
+    loading: plantsLoading,
+    addPlant,
+    updatePlant,
+    deletePlant,
+    addWateringRecord,
+    postponeWatering,
+    refetch: refetchPlants,
+  } = useHouseholdPlants();
+
+  const [isAddPlantDialogOpen, setIsAddPlantDialogOpen] = useState(false);
+  const [editingPlant, setEditingPlant] = useState<any>(null);
+  const [isEditPlantDialogOpen, setIsEditPlantDialogOpen] = useState(false);
+
   // Find the current household
   const household = households.find((h) => h.id === householdId);
+
+  // Filter plants for this specific household
+  const householdPlants = plants.filter(plant => 
+    plant.household_id === householdId || 
+    (plant.household_id && plant.household?.name === household?.name)
+  );
+
+  // Plant management functions
+  const handleAddPlant = async (plantData: {
+    nickname: string;
+    plant_type: string;
+    image?: string;
+    room?: string;
+    suggested_watering_days: number;
+    is_outdoor_plant?: boolean;
+    household_id?: string;
+  }) => {
+    try {
+      await addPlant({
+        ...plantData,
+        household_id: householdId, // Assign to current household
+      });
+      setIsAddPlantDialogOpen(false);
+      toast.success("Plant added to household successfully!");
+    } catch (error) {
+      console.error("Error adding plant:", error);
+      toast.error("Failed to add plant to household");
+    }
+  };
+
+  const handleEditPlant = (plant: any) => {
+    setEditingPlant(plant);
+    setIsEditPlantDialogOpen(true);
+  };
+
+  const handleUpdatePlant = async (plantId: string, updates: any) => {
+    try {
+      await updatePlant(plantId, updates);
+      setIsEditPlantDialogOpen(false);
+      setEditingPlant(null);
+      toast.success("Plant updated successfully!");
+    } catch (error) {
+      console.error("Error updating plant:", error);
+      toast.error("Failed to update plant");
+    }
+  };
+
+  const handleDeletePlant = async (plantId: string) => {
+    try {
+      await deletePlant(plantId);
+      setIsEditPlantDialogOpen(false);
+      setEditingPlant(null);
+      toast.success("Plant removed from household successfully!");
+    } catch (error) {
+      console.error("Error deleting plant:", error);
+      toast.error("Failed to remove plant from household");
+    }
+  };
+
+  const handleWaterPlant = async (plantId: string) => {
+    try {
+      await addWateringRecord(plantId, 'Watered by household member');
+      toast.success("Plant watered successfully!");
+    } catch (error) {
+      console.error("Error watering plant:", error);
+      toast.error("Failed to water plant");
+    }
+  };
+
+  const handlePostponePlant = async (plantId: string) => {
+    try {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      await postponeWatering(plantId, tomorrow, 'Postponed by household member');
+      toast.success("Plant watering postponed successfully!");
+    } catch (error) {
+      console.error("Error postponing plant:", error);
+      toast.error("Failed to postpone plant watering");
+    }
+  };
 
   useEffect(() => {
     if (!loading && !household && householdId) {
@@ -213,19 +317,167 @@ const HouseholdManagement = () => {
             {/* Household Plants */}
             <Card>
               <CardHeader>
-                <CardTitle>Household Plants</CardTitle>
-                <CardDescription>
-                  Plants shared within this household
-                </CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle>Household Plants</CardTitle>
+                    <CardDescription>
+                      Plants shared within this household ({householdPlants.length} plants)
+                    </CardDescription>
+                  </div>
+                  <Button
+                    onClick={() => setIsAddPlantDialogOpen(true)}
+                    size="sm"
+                    className="bg-sprout-primary hover:bg-sprout-primary/90 text-white"
+                  >
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Plant
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
-                <div className="text-center py-8">
-                  <Home className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-                  <p className="text-gray-600 dark:text-gray-300">
-                    No household plants yet. Plants will appear here when
-                    members add them to this household.
-                  </p>
-                </div>
+                {plantsLoading ? (
+                  <div className="space-y-4">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                      <div key={i} className="flex items-center space-x-4">
+                        <Skeleton className="h-16 w-16 rounded-lg" />
+                        <div className="space-y-2">
+                          <Skeleton className="h-4 w-32" />
+                          <Skeleton className="h-3 w-24" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : householdPlants.length === 0 ? (
+                  <div className="text-center py-8">
+                    <Home className="w-12 h-12 mx-auto text-gray-400 mb-4" />
+                    <p className="text-gray-600 dark:text-gray-300 mb-4">
+                      No household plants yet. Add plants to this household to get started with collaborative plant care.
+                    </p>
+                    <Button
+                      onClick={() => setIsAddPlantDialogOpen(true)}
+                      className="bg-sprout-primary hover:bg-sprout-primary/90 text-white"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add First Plant
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {householdPlants.map((plant) => {
+                      const wateringCalc = calculateWateringSchedule(plant);
+                      const formatDate = (dateString: string) => {
+                        return new Date(dateString).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        });
+                      };
+
+                      return (
+                        <div
+                          key={plant.id}
+                          className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow"
+                        >
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="flex-1">
+                              <h4 className="font-semibold text-lg text-gray-900 dark:text-white">
+                                {plant.nickname}
+                              </h4>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">
+                                {plant.plant_type}
+                              </p>
+                              <div className="flex items-center gap-2 mt-1">
+                                <Badge variant="secondary" className="text-xs">
+                                  {plant.is_owned_by_user ? "You" : plant.plant_owner?.email?.split('@')[0] || "Unknown"}
+                                </Badge>
+                                {plant.room && (
+                                  <Badge variant="outline" className="text-xs">
+                                    {plant.room}
+                                  </Badge>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="space-y-2 text-sm mb-4">
+                            <div className="flex justify-between">
+                              <span className="text-gray-600 dark:text-gray-400">Last watered:</span>
+                              <span className="font-medium">
+                                {plant.latest_watering
+                                  ? formatDate(plant.latest_watering)
+                                  : "Unknown"}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600 dark:text-gray-400">Next watering:</span>
+                              <span className="font-medium">
+                                {wateringCalc.nextWateringDue}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600 dark:text-gray-400">Status:</span>
+                              <Badge
+                                variant={
+                                  wateringCalc.isOverdue
+                                    ? "destructive"
+                                    : wateringCalc.daysUntilWatering === 0
+                                    ? "default"
+                                    : "secondary"
+                                }
+                                className="text-xs"
+                              >
+                                {wateringCalc.isOverdue
+                                  ? "Overdue"
+                                  : wateringCalc.daysUntilWatering === 0
+                                  ? "Due today"
+                                  : `Water in ${wateringCalc.daysUntilWatering} days`}
+                              </Badge>
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              className="flex-1 bg-sprout-primary hover:bg-sprout-primary/90 text-white"
+                              onClick={() => handleWaterPlant(plant.id)}
+                            >
+                              <Droplets className="w-4 h-4 mr-1" />
+                              Water
+                            </Button>
+                            
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleEditPlant(plant)}
+                              disabled={!plant.is_owned_by_user}
+                            >
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                            
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => navigate(`/my-plants/${plant.id}`)}
+                            >
+                              <History className="w-4 h-4" />
+                            </Button>
+                          </div>
+
+                          {wateringCalc.isOverdue && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="w-full mt-2"
+                              onClick={() => handlePostponePlant(plant.id)}
+                            >
+                              Postpone to Tomorrow
+                            </Button>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -281,6 +533,22 @@ const HouseholdManagement = () => {
           onOpenChange={setInviteDialogOpen}
           householdId={household.id}
           onSubmit={inviteToHousehold}
+        />
+
+        <AddPlantDialog
+          isOpen={isAddPlantDialogOpen}
+          onClose={() => setIsAddPlantDialogOpen(false)}
+          onAddPlant={handleAddPlant}
+        />
+
+        <EditPlantDialog
+          plant={editingPlant}
+          isOpen={isEditPlantDialogOpen}
+          onClose={() => {
+            setIsEditPlantDialogOpen(false);
+            setEditingPlant(null);
+          }}
+          onUpdate={refetchPlants}
         />
 
         <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
