@@ -508,14 +508,19 @@ const AddPlantDialog = ({
                 Assignment
               </Label>
               <Select
-                value={formData.household_id}
-                onValueChange={(value) => handleInputChange("household_id", value)}
+                value={formData.household_id || "personal"}
+                onValueChange={(value) =>
+                  handleInputChange(
+                    "household_id",
+                    value === "personal" ? "" : value
+                  )
+                }
               >
                 <SelectTrigger className="border-plant-secondary/30 focus:border-plant-primary">
                   <SelectValue placeholder="Personal plant or assign to household" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">
+                  <SelectItem value="personal">
                     <div className="flex items-center gap-2">
                       <span>👤</span>
                       <span>Personal Plant</span>
@@ -526,7 +531,9 @@ const AddPlantDialog = ({
                       <div className="flex items-center gap-2">
                         <span>🏠</span>
                         <span>{household.name}</span>
-                        <span className="text-xs text-muted-foreground">({household.member_count} members)</span>
+                        <span className="text-xs text-muted-foreground">
+                          ({household.member_count} members)
+                        </span>
                       </div>
                     </SelectItem>
                   ))}
@@ -534,7 +541,8 @@ const AddPlantDialog = ({
               </Select>
               {formData.household_id && (
                 <p className="text-xs text-muted-foreground">
-                  This plant will be visible and manageable by all household members
+                  This plant will be visible and manageable by all household
+                  members
                 </p>
               )}
             </div>
