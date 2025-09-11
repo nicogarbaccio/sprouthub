@@ -127,6 +127,19 @@ const Navigation = () => {
     </Link>
    )}
 
+   {user && (
+    <Link to="/household-plants">
+    <Button
+     variant="ghost"
+     className="text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
+     data-testid="nav-household-plants-button"
+    >
+     <Users className="w-4 h-4" />
+     <span>Household Plants</span>
+    </Button>
+    </Link>
+   )}
+
    {user ? (
     <DropdownMenu>
     <DropdownMenuTrigger asChild>
@@ -263,6 +276,19 @@ const Navigation = () => {
        >
        <Flower2 className="w-4 h-4 mr-2" />
        <span>My Plants</span>
+       </Button>
+      </Link>
+      </SheetClose>
+     )}
+     {user && (
+      <SheetClose asChild>
+      <Link to="/household-plants">
+       <Button
+       variant="ghost"
+       className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
+       >
+       <Users className="w-4 h-4 mr-2" />
+       <span>Household Plants</span>
        </Button>
       </Link>
       </SheetClose>

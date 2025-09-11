@@ -27,6 +27,7 @@ import {
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import { useHouseholds } from "@/hooks/useHouseholds";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface WateringRecord {
   id: string;
@@ -59,6 +60,7 @@ const EditPlantDialog = ({
   onUpdate,
 }: EditPlantDialogProps) => {
   // Using enhanced toast helpers for better UX
+  const { user } = useAuth();
   const [nickname, setNickname] = useState("");
   const [plantType, setPlantType] = useState("");
   const [image, setImage] = useState("");
@@ -196,6 +198,7 @@ const EditPlantDialog = ({
         plant_id: plant.id,
         watered_at: date.toISOString(),
         notes: notes || null,
+        performed_by: user?.id || null, // Track who performed the watering
       });
 
       if (error) throw error;

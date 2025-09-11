@@ -16,6 +16,7 @@ import MyPlants from "./pages/MyPlants";
 import MyPlantDetails from "./pages/MyPlantDetails";
 import Households from "./pages/Households";
 import HouseholdManagement from "./pages/HouseholdManagement";
+import HouseholdPlants from "./pages/HouseholdPlants";
 import Profile from "./pages/Profile";
 import SkeletonDemo from "./pages/SkeletonDemo";
 import ToastDemo from "./components/ToastDemo";
@@ -52,6 +53,7 @@ const App = () => (
                   path="/households/:id"
                   element={<HouseholdManagement />}
                 />
+                <Route path="/household-plants" element={<HouseholdPlants />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/skeleton-demo" element={<SkeletonDemo />} />
                 <Route path="/toast-demo" element={<ToastDemo />} />
