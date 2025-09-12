@@ -64,6 +64,7 @@ interface AddPlantDialogProps {
   onClose: () => void;
   plantData?: PlantData | null;
   onPlantAdded?: () => void; // Optional callback to refresh parent's plant list
+  defaultHouseholdId?: string; // Optional default household to assign the plant to
 }
 
 const AddPlantDialog = ({
@@ -71,6 +72,7 @@ const AddPlantDialog = ({
   onClose,
   plantData,
   onPlantAdded,
+  defaultHouseholdId,
 }: AddPlantDialogProps) => {
   const { addPlant } = useUserPlants();
   const { households } = useHouseholds();
@@ -111,7 +113,7 @@ const AddPlantDialog = ({
           watering_schedule_days: plantData.suggestedWateringDays || 7,
           notes: `Botanical name: ${plantData.botanicalName}\nWatering: ${plantData.wateringFrequency}\nLight: ${plantData.lightRequirement}\nCare level: ${plantData.careLevel}`,
           is_outdoor_plant: false,
-          household_id: "",
+          household_id: defaultHouseholdId || "",
         });
         setIsCustomPlantType(false);
         setCustomPlantType("");
@@ -135,7 +137,7 @@ const AddPlantDialog = ({
           watering_schedule_days: 7,
           notes: "",
           is_outdoor_plant: false,
-          household_id: "",
+          household_id: defaultHouseholdId || "",
         });
         setIsCustomPlantType(false);
         setCustomPlantType("");
@@ -148,7 +150,7 @@ const AddPlantDialog = ({
       // Reset last watered date to today
       setLastWateredDate(new Date());
     }
-  }, [isOpen, plantData]);
+  }, [isOpen, plantData, defaultHouseholdId]);
 
   // Auto-close dropdown when dialog closes
   useEffect(() => {

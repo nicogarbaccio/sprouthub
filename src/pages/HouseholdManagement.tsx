@@ -24,12 +24,13 @@ import {
   Plus,
   Droplets,
   Edit,
-  History,
+  Clock,
 } from "lucide-react";
 import { InviteMemberDialog } from "@/components/households/InviteMemberDialog";
 import { HouseholdMembersCard } from "@/components/households/HouseholdMembersCard";
 import AddPlantDialog from "@/components/AddPlantDialog";
 import EditPlantDialog from "@/components/EditPlantDialog";
+import WateringHistoryDialog from "@/components/WateringHistoryDialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -42,6 +43,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { calculateWateringSchedule } from "@/utils/watering-schedule";
+import { getRoomIcon, getRoomLabel } from "@/utils/rooms";
 
 const HouseholdManagement = () => {
   const { id: householdId } = useParams<{ id: string }>();
@@ -74,42 +76,29 @@ const HouseholdManagement = () => {
   const [isAddPlantDialogOpen, setIsAddPlantDialogOpen] = useState(false);
   const [editingPlant, setEditingPlant] = useState<any>(null);
   const [isEditPlantDialogOpen, setIsEditPlantDialogOpen] = useState(false);
+  const [wateringHistoryPlant, setWateringHistoryPlant] = useState<any>(null);
+  const [isWateringHistoryOpen, setIsWateringHistoryOpen] = useState(false);
 
   // Find the current household
   const household = households.find((h) => h.id === householdId);
 
   // Filter plants for this specific household
-  const householdPlants = plants.filter(plant => 
-    plant.household_id === householdId || 
-    (plant.household_id && plant.household?.name === household?.name)
+  const householdPlants = plants.filter(
+    (plant) =>
+      plant.household_id === householdId ||
+      (plant.household_id && plant.household?.name === household?.name)
   );
 
   // Plant management functions
-  const handleAddPlant = async (plantData: {
-    nickname: string;
-    plant_type: string;
-    image?: string;
-    room?: string;
-    suggested_watering_days: number;
-    is_outdoor_plant?: boolean;
-    household_id?: string;
-  }) => {
-    try {
-      await addPlant({
-        ...plantData,
-        household_id: householdId, // Assign to current household
-      });
-      setIsAddPlantDialogOpen(false);
-      toast.success("Plant added to household successfully!");
-    } catch (error) {
-      console.error("Error adding plant:", error);
-      toast.error("Failed to add plant to household");
-    }
-  };
 
   const handleEditPlant = (plant: any) => {
     setEditingPlant(plant);
     setIsEditPlantDialogOpen(true);
+  };
+
+  const handleWateringHistory = (plant: any) => {
+    setWateringHistoryPlant(plant);
+    setIsWateringHistoryOpen(true);
   };
 
   const handleUpdatePlant = async (plantId: string, updates: any) => {
@@ -138,7 +127,7 @@ const HouseholdManagement = () => {
 
   const handleWaterPlant = async (plantId: string) => {
     try {
-      await addWateringRecord(plantId, 'Watered by household member');
+      await addWateringRecord(plantId, "Watered by household member");
       toast.success("Plant watered successfully!");
     } catch (error) {
       console.error("Error watering plant:", error);
@@ -150,7 +139,11 @@ const HouseholdManagement = () => {
     try {
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
-      await postponeWatering(plantId, tomorrow, 'Postponed by household member');
+      await postponeWatering(
+        plantId,
+        tomorrow,
+        "Postponed by household member"
+      );
       toast.success("Plant watering postponed successfully!");
     } catch (error) {
       console.error("Error postponing plant:", error);
@@ -271,7 +264,8 @@ const HouseholdManagement = () => {
                   currentUserMember?.role === "owner" ? "default" : "secondary"
                 }
               >
-                {currentUserMember?.role}
+                {currentUserMember?.role?.charAt(0).toUpperCase() +
+                  currentUserMember?.role?.slice(1)}
               </Badge>
             </div>
           </div>
@@ -321,13 +315,14 @@ const HouseholdManagement = () => {
                   <div>
                     <CardTitle>Household Plants</CardTitle>
                     <CardDescription>
-                      Plants shared within this household ({householdPlants.length} plants)
+                      Plants shared within this household (
+                      {householdPlants.length} plants)
                     </CardDescription>
                   </div>
                   <Button
                     onClick={() => setIsAddPlantDialogOpen(true)}
                     size="sm"
-                    className="bg-sprout-primary hover:bg-sprout-primary/90 text-white"
+                    className="bg-sprout-success hover:bg-sprout-success/90 text-white"
                   >
                     <Plus className="w-4 h-4 mr-2" />
                     Add Plant
@@ -351,11 +346,12 @@ const HouseholdManagement = () => {
                   <div className="text-center py-8">
                     <Home className="w-12 h-12 mx-auto text-gray-400 mb-4" />
                     <p className="text-gray-600 dark:text-gray-300 mb-4">
-                      No household plants yet. Add plants to this household to get started with collaborative plant care.
+                      No household plants yet. Add plants to this household to
+                      get started with collaborative plant care.
                     </p>
                     <Button
                       onClick={() => setIsAddPlantDialogOpen(true)}
-                      className="bg-sprout-primary hover:bg-sprout-primary/90 text-white"
+                      className="bg-sprout-success hover:bg-sprout-success/90 text-white"
                     >
                       <Plus className="w-4 h-4 mr-2" />
                       Add First Plant
@@ -366,33 +362,76 @@ const HouseholdManagement = () => {
                     {householdPlants.map((plant) => {
                       const wateringCalc = calculateWateringSchedule(plant);
                       const formatDate = (dateString: string) => {
-                        return new Date(dateString).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                        });
+                        return new Date(dateString).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          }
+                        );
                       };
 
                       return (
                         <div
                           key={plant.id}
-                          className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow"
+                          className="border border-sprout-cream rounded-lg p-4 hover:shadow-md transition-shadow"
                         >
                           <div className="flex items-start justify-between mb-3">
                             <div className="flex-1">
-                              <h4 className="font-semibold text-lg text-gray-900 dark:text-white">
+                              <h4
+                                className="font-semibold text-lg text-gray-900 dark:text-white cursor-pointer transition-colors duration-200 hover:underline group"
+                                style={
+                                  {
+                                    "--hover-color": "#0fa3b1",
+                                  } as React.CSSProperties
+                                }
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.color = "#0fa3b1";
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.color = "";
+                                }}
+                                onClick={() =>
+                                  navigate(`/my-plants/${plant.id}`)
+                                }
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    navigate(`/my-plants/${plant.id}`);
+                                  }
+                                }}
+                                aria-label={`View details for ${plant.nickname}`}
+                              >
                                 {plant.nickname}
                               </h4>
                               <p className="text-sm text-gray-600 dark:text-gray-400">
                                 {plant.plant_type}
                               </p>
                               <div className="flex items-center gap-2 mt-1">
-                                <Badge variant="secondary" className="text-xs">
-                                  {plant.is_owned_by_user ? "You" : plant.plant_owner?.email?.split('@')[0] || "Unknown"}
+                                <Badge
+                                  variant="secondary"
+                                  className="text-xs bg-sprout-pale dark:bg-sprout-dark/30 text-sprout-dark dark:text-sprout-pale"
+                                >
+                                  {plant.is_owned_by_user
+                                    ? "Owner: You"
+                                    : `Owner: ${
+                                        plant.plant_owner?.email?.split(
+                                          "@"
+                                        )[0] || "Unknown"
+                                      }`}
                                 </Badge>
                                 {plant.room && (
-                                  <Badge variant="outline" className="text-xs">
-                                    {plant.room}
+                                  <Badge
+                                    variant="secondary"
+                                    className="text-xs bg-sprout-pale dark:bg-sprout-dark/30 text-sprout-dark dark:text-sprout-pale"
+                                  >
+                                    <span className="mr-1">
+                                      {getRoomIcon(plant.room)}
+                                    </span>
+                                    {getRoomLabel(plant.room)}
                                   </Badge>
                                 )}
                               </div>
@@ -401,7 +440,9 @@ const HouseholdManagement = () => {
 
                           <div className="space-y-2 text-sm mb-4">
                             <div className="flex justify-between">
-                              <span className="text-gray-600 dark:text-gray-400">Last watered:</span>
+                              <span className="text-gray-600 dark:text-gray-400">
+                                Last watered:
+                              </span>
                               <span className="font-medium">
                                 {plant.latest_watering
                                   ? formatDate(plant.latest_watering)
@@ -409,13 +450,19 @@ const HouseholdManagement = () => {
                               </span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-gray-600 dark:text-gray-400">Next watering:</span>
+                              <span className="text-gray-600 dark:text-gray-400">
+                                Next watering:
+                              </span>
                               <span className="font-medium">
-                                {wateringCalc.nextWateringDue}
+                                {wateringCalc.daysUntilWatering === 999
+                                  ? "Unknown"
+                                  : `In ${wateringCalc.daysUntilWatering} days`}
                               </span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-gray-600 dark:text-gray-400">Status:</span>
+                              <span className="text-gray-600 dark:text-gray-400">
+                                Status:
+                              </span>
                               <Badge
                                 variant={
                                   wateringCalc.isOverdue
@@ -438,13 +485,13 @@ const HouseholdManagement = () => {
                           <div className="flex gap-2">
                             <Button
                               size="sm"
-                              className="flex-1 bg-sprout-primary hover:bg-sprout-primary/90 text-white"
+                              className="flex-1 bg-sprout-water hover:bg-sprout-water/90 text-white"
                               onClick={() => handleWaterPlant(plant.id)}
                             >
                               <Droplets className="w-4 h-4 mr-1" />
                               Water
                             </Button>
-                            
+
                             <Button
                               size="sm"
                               variant="outline"
@@ -453,13 +500,13 @@ const HouseholdManagement = () => {
                             >
                               <Edit className="w-4 h-4" />
                             </Button>
-                            
+
                             <Button
                               size="sm"
                               variant="outline"
-                              onClick={() => navigate(`/my-plants/${plant.id}`)}
+                              onClick={() => handleWateringHistory(plant)}
                             >
-                              <History className="w-4 h-4" />
+                              <Clock className="w-4 h-4" />
                             </Button>
                           </div>
 
@@ -515,7 +562,7 @@ const HouseholdManagement = () => {
                       variant="destructive"
                       size="sm"
                       onClick={() => setDeleteDialogOpen(true)}
-                      className="w-full"
+                      className="w-full bg-sprout-error hover:bg-sprout-error/90 text-white"
                     >
                       <Trash2 className="w-4 h-4 mr-2" />
                       Delete Household
@@ -538,7 +585,8 @@ const HouseholdManagement = () => {
         <AddPlantDialog
           isOpen={isAddPlantDialogOpen}
           onClose={() => setIsAddPlantDialogOpen(false)}
-          onAddPlant={handleAddPlant}
+          onPlantAdded={refetchPlants}
+          defaultHouseholdId={householdId}
         />
 
         <EditPlantDialog
@@ -549,6 +597,15 @@ const HouseholdManagement = () => {
             setEditingPlant(null);
           }}
           onUpdate={refetchPlants}
+        />
+
+        <WateringHistoryDialog
+          plant={wateringHistoryPlant}
+          isOpen={isWateringHistoryOpen}
+          onClose={() => {
+            setIsWateringHistoryOpen(false);
+            setWateringHistoryPlant(null);
+          }}
         />
 
         <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
@@ -565,7 +622,7 @@ const HouseholdManagement = () => {
               <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleDeleteHousehold}
-                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                className="bg-sprout-error hover:bg-sprout-error/90 text-white"
               >
                 Delete Household
               </AlertDialogAction>
