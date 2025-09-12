@@ -53,10 +53,7 @@ export const useHouseholdPlants = () => {
     try {
       // First, get user's household memberships
       const { data: membershipData, error: membershipError } = await supabase
-        .rpc('get_user_household_memberships', { target_user_id: user.id }) as {
-          data: Array<{ household_id: string; role: string }> | null;
-          error: any;
-        };
+        .rpc('get_user_household_memberships', { target_user_id: user.id });
 
       if (membershipError) {
         console.warn('Could not load household memberships:', membershipError);
@@ -98,15 +95,9 @@ export const useHouseholdPlants = () => {
       let plantOwnerData: any[] = [];
       
       if (plantOwnerIds.length > 0) {
-        // Use RPC function to get user emails instead of direct auth.users access
-        const { data: owners, error: ownerError } = await supabase
-          .rpc('get_user_emails', { user_ids: plantOwnerIds });
-        
-        if (ownerError) {
-          console.warn('Could not load plant owner data:', ownerError);
-        } else {
-          plantOwnerData = owners || [];
-        }
+        // For now, we'll skip getting user emails since the RPC function may not exist
+        // TODO: Implement proper user email fetching when RPC function is available
+        plantOwnerData = [];
       }
       
       // Then get postponement data for all plants
@@ -189,10 +180,10 @@ export const useHouseholdPlants = () => {
             const riskByPlantId: Record<string, OverwateringRisk> = {};
             result.forEach((plant) => {
               const plantRecords = recordsByPlantId[plant.id] || [];
-              riskByPlantId[plant.id] = computeOverwateringRisk(
-                plantRecords,
-                plant.suggested_watering_days ?? 7
-              );
+              riskByPlantId[plant.id] = computeOverwateringRisk({
+                records: plantRecords,
+                suggestedDays: plant.suggested_watering_days ?? 7,
+              });
             });
 
             setOverwateringByPlantId(riskByPlantId);
@@ -205,7 +196,7 @@ export const useHouseholdPlants = () => {
 
     } catch (error) {
       console.error('Error fetching plants:', error);
-      utilityToast.error('loading plants');
+      utilityToast.error('Loading Failed', 'Failed to load plants. Please try again.');
       setPlants([]);
     } finally {
       setLoading(false);
