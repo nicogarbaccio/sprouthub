@@ -7,6 +7,12 @@ import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import { useNavigate } from "react-router-dom";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface MyPlantCardProps {
   id: string;
@@ -141,7 +147,10 @@ const MyPlantCard = ({
 
   return (
     <>
-      <div className="relative bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
+      <div
+        className="relative bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden"
+        data-testid="plant-card"
+      >
         <div
           className="cursor-pointer relative"
           onClick={() => setShowFullscreenImage(true)}
@@ -209,79 +218,100 @@ const MyPlantCard = ({
           </div>
         </div>
 
-        <div className="p-5">
-          <div className="flex items-center justify-between mb-1">
-            <h3 className="text-lg font-semibold text-foreground">
-              <button
-                onClick={handleNameClick}
-                className="text-left hover:text-sprout-water transition-colors duration-200 cursor-pointer underline-offset-4 hover:underline"
-              >
-                {name}
-              </button>
-            </h3>
-            {householdName && (
-              <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs rounded-full font-medium flex items-center gap-1">
-                🏠 {householdName}
-              </span>
-            )}
-          </div>
-          <p className="text-sm text-muted-foreground mb-4">{plantType}</p>
+        <TooltipProvider>
+          <div className="p-5 grid h-full" style={{ gridTemplateRows: "minmax(1.75rem, auto) auto minmax(0, auto) 1fr auto" }}>
+            {/* Header Section - Natural height with household badge accommodation */}
+            <div className="flex items-center justify-between mb-1">
+              <h3 className="text-lg font-semibold text-foreground flex-1 min-w-0 mr-2">
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button
+                      onClick={handleNameClick}
+                      className="text-left hover:text-sprout-water transition-colors duration-200 cursor-pointer underline-offset-4 hover:underline line-clamp-1 max-w-full block"
+                    >
+                      {name}
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>{name}</p>
+                  </TooltipContent>
+                </Tooltip>
+              </h3>
+              {householdName && (
+                <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs rounded-full font-medium flex items-center gap-1 flex-shrink-0">
+                  🏠 {householdName}
+                </span>
+              )}
+            </div>
 
-          {hasUnknownWateringDate && (
-            <div className="flex items-center gap-2 p-2 bg-sprout-cream/20 border border-sprout-cream/40 rounded-md mb-4">
-              <AlertTriangle className="h-4 w-4 text-sprout-dark" />
-              <p className="text-xs text-sprout-dark">
-                Last watering date unknown - please water and record or edit the
-                plant details
-              </p>
+            {/* Plant Type Section - Natural height with truncation */}
+            <div className="mb-4">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <p className="text-sm text-muted-foreground line-clamp-1 cursor-help">
+                    {plantType}
+                  </p>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{plantType}</p>
+                </TooltipContent>
+              </Tooltip>
             </div>
-          )}
 
-          <div className="space-y-2 mb-4">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Last watered:</span>
-              <span className="text-foreground font-medium">{lastWatered}</span>
+            {/* Warning Messages Area - Collapses when empty */}
+            <div className={hasUnknownWateringDate ? "mb-4" : ""}>
+              {hasUnknownWateringDate && (
+                <div className="flex items-center gap-2 p-2 bg-sprout-cream/20 border border-sprout-cream/40 rounded-md">
+                  <AlertTriangle className="h-4 w-4 text-sprout-dark flex-shrink-0" />
+                  <p className="text-xs text-sprout-dark">
+                    Last watering date unknown - please water and record or edit the
+                    plant details
+                  </p>
+                </div>
+              )}
             </div>
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Next watering:</span>
-              <span className="text-foreground font-medium">
-                {nextWateringDue}
-              </span>
-            </div>
-            {overwatering && overwatering.level !== "none" && (
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-muted-foreground">Frequency</span>
-                <span className="text-foreground">
-                  {overwatering.count} in {overwatering.windowDays}d
-                  {overwatering.avgIntervalDays
-                    ? ` • avg ${overwatering.avgIntervalDays}d`
-                    : ""}
+
+            {/* Watering Info Section - Flexible space absorbs height differences */}
+            <div className="space-y-2 mb-4">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Last watered:</span>
+                <span className="text-foreground font-medium">{lastWatered}</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Next watering:</span>
+                <span className="text-foreground font-medium">
+                  {nextWateringDue}
                 </span>
               </div>
-            )}
+              {overwatering && overwatering.level !== "none" && (
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-muted-foreground">Frequency</span>
+                  <span className="text-foreground">
+                    {overwatering.count} in {overwatering.windowDays}d
+                    {overwatering.avgIntervalDays
+                      ? ` • avg ${overwatering.avgIntervalDays}d`
+                      : ""}
+                  </span>
+                </div>
+              )}
 
-            {/* View History Button */}
-            {onViewHistory && (
-              <div className="pt-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={onViewHistory}
-                  className="w-full text-xs text-sprout-cream hover:text-sprout-white hover:bg-sprout-medium/20 dark:text-sprout-cream dark:hover:text-sprout-white dark:hover:bg-sprout-light/10 font-medium border border-sprout-cream/20 hover:border-sprout-cream/40"
-                >
-                  <History className="w-3 h-3 mr-1" />
-                  View Watering History
-                </Button>
-              </div>
-            )}
-          </div>
+              {/* View History Button - Natural placement */}
+              {onViewHistory && (
+                <div className="pt-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onViewHistory}
+                    className="w-full text-xs text-sprout-cream hover:text-sprout-white hover:bg-sprout-medium/20 dark:text-sprout-cream dark:hover:text-sprout-white dark:hover:bg-sprout-light/10 font-medium border border-sprout-cream/20 hover:border-sprout-cream/40"
+                  >
+                    <History className="w-3 h-3 mr-1" />
+                    View Watering History
+                  </Button>
+                </div>
+              )}
+            </div>
 
-          {/* Show postpone option only when plant is due/overdue AND has watering history */}
-          {daysUntilWatering <= 0 &&
-          !isPostponed &&
-          !hasUnknownWateringDate &&
-          lastWateredDate &&
-          onPostpone ? (
+            {/* Action Buttons Area - Smart visibility approach */}
             <div className="space-y-2">
               <Button
                 onClick={handleWaterClick}
@@ -290,25 +320,25 @@ const MyPlantCard = ({
                 <Droplets className="w-4 h-4 mr-2" />
                 Water Now
               </Button>
+              {/* Always render postpone button, control visibility */}
               <Button
                 onClick={onPostpone}
                 variant="outline"
                 className="w-full rounded-xl font-medium border-sprout-water/30 text-sprout-water hover:bg-sprout-water/10"
+                style={{
+                  visibility: (daysUntilWatering <= 0 &&
+                    !isPostponed &&
+                    !hasUnknownWateringDate &&
+                    lastWateredDate &&
+                    onPostpone) ? 'visible' : 'hidden'
+                }}
               >
                 <Clock className="w-4 h-4 mr-2" />
                 Push to Tomorrow
               </Button>
             </div>
-          ) : (
-            <Button
-              onClick={handleWaterClick}
-              className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
-            >
-              <Droplets className="w-4 h-4 mr-2" />
-              Water Now
-            </Button>
-          )}
-        </div>
+          </div>
+        </TooltipProvider>
       </div>
 
       <WaterConfirmationDialog
