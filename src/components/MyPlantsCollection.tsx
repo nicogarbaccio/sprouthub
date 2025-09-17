@@ -24,9 +24,12 @@ import {
   getNextWateringDate as getNextWateringDateUtil,
   isPlantOverdue,
 } from "@/utils/watering-schedule";
+import { updatePlantWateringSchedule } from "@/utils/plant-schedule-updater";
+import { useToast } from "@/hooks/use-toast";
 
 const MyPlantsCollection = () => {
   const { user } = useAuth();
+  const { toast } = useToast();
   const {
     plants,
     loading,
@@ -166,6 +169,33 @@ const MyPlantsCollection = () => {
   const handleCloseHistoryDialog = () => {
     setIsHistoryDialogOpen(false);
     setHistoryPlant(null);
+  };
+
+  // Handle schedule adjustment from pattern suggestions
+  const handleScheduleAdjustment = async (plantId: string, newSchedule: number): Promise<void> => {
+    try {
+      const result = await updatePlantWateringSchedule(plantId, newSchedule);
+      
+      if (result.success) {
+        toast({
+          title: "Schedule Updated",
+          description: `Watering schedule updated from ${result.previousSchedule} to ${result.newSchedule} days`,
+          variant: "default",
+        });
+        
+        // Refresh plants data to show updated schedule
+        await fetchPlants();
+      } else {
+        throw new Error(result.error || 'Failed to update schedule');
+      }
+    } catch (error) {
+      console.error('Error updating plant schedule:', error);
+      toast({
+        title: "Update Failed",
+        description: error instanceof Error ? error.message : "Failed to update watering schedule",
+        variant: "destructive",
+      });
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -358,6 +388,7 @@ const MyPlantsCollection = () => {
                   onAddPlant={handleAddPlant}
                   onPostponeWatering={postponeWatering}
                   onViewHistory={handleViewHistory}
+                  onScheduleAdjustment={handleScheduleAdjustment}
                   formatDate={formatDate}
                   getNextWateringDate={getNextWateringDate}
                   isOverdue={isOverdue}
@@ -386,6 +417,7 @@ const MyPlantsCollection = () => {
           plant={historyPlant}
           isOpen={isHistoryDialogOpen}
           onClose={handleCloseHistoryDialog}
+          onScheduleAdjustment={handleScheduleAdjustment}
         />
       </div>
     </section>

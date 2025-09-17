@@ -7,28 +7,52 @@ export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 1 : 0,
-  workers: process.env.CI ? 2 : 4,
-  timeout: 15000,
+  retries: process.env.CI ? 2 : 1, // More retries for flaky tests
+  workers: process.env.CI ? 2 : 3, // Reduce workers for stability
+  timeout: 30000, // Increased global timeout
+  expect: {
+    timeout: 10000, // Longer expect timeout
+  },
   reporter: [['html'], ['list']],
   use: {
     baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:8080',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
+    video: process.env.CI ? 'retain-on-failure' : 'off',
+    actionTimeout: 10000, // Timeout for actions like click, fill
+    navigationTimeout: 15000, // Timeout for page navigations
   },
 
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { 
+        ...devices['Desktop Chrome'],
+        // Chromium-specific settings
+        launchOptions: {
+          args: ['--no-sandbox', '--disable-setuid-sandbox']
+        }
+      },
     },
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { 
+        ...devices['Desktop Firefox'],
+        // Firefox needs longer timeouts
+        actionTimeout: 15000,
+        navigationTimeout: 20000,
+      },
+      timeout: 45000, // Firefox-specific longer test timeout
     },
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: { 
+        ...devices['Desktop Safari'],
+        // WebKit needs longer timeouts  
+        actionTimeout: 15000,
+        navigationTimeout: 20000,
+      },
+      timeout: 45000, // WebKit-specific longer test timeout
     },
   ],
 

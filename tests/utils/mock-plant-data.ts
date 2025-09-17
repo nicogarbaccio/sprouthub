@@ -1,0 +1,614 @@
+/**
+ * Mock plant data utilities for Playwright tests
+ * This provides consistent mock data for watering schedule tests
+ */
+
+export interface MockPlant {
+  id: string;
+  nickname: string;
+  plant_type: string;
+  image?: string;
+  room?: string;
+  suggested_watering_days: number;
+  latest_watering?: string;
+  days_since_watering?: number;
+  is_outdoor_plant?: boolean;
+  household_id?: string;
+  user_id: string;
+  created_at: string;
+  updated_at: string;
+  // Postponement fields
+  postponement_date?: string;
+  postponement_notes?: string;
+  last_postponement_date?: string;
+  postponement_count?: number;
+  // Additional fields from plants_with_watering_info view
+  last_watered_at?: string;
+  watering_frequency?: number;
+}
+
+export const MOCK_CURRENT_DATE = '2025-09-10T12:00:00Z'; // September 10th, 2025 (time irrelevant for calendar-based watering logic)
+
+/**
+ * Creates mock plants for different test scenarios
+ */
+export const createMockPlants = {
+  // Normal plants with different watering schedules
+  normalPlants: (userId: string): MockPlant[] => [
+    {
+      id: 'test-monstera-1',
+      nickname: 'Test Monstera',
+      plant_type: 'Monstera deliciosa',
+      suggested_watering_days: 7,
+      latest_watering: '2025-09-08T12:00:00Z', // September 8th (2 calendar days ago)
+      days_since_watering: 2,
+      last_watered_at: '2025-09-08T10:00:00Z',
+      watering_frequency: 7,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/monstera.jpg',
+      room: 'Living Room',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-09-08T10:00:00Z'
+    },
+    {
+      id: 'test-snake-plant-1',
+      nickname: 'Test Snake Plant',
+      plant_type: 'Sansevieria trifasciata',
+      suggested_watering_days: 14,
+      latest_watering: '2025-09-03T12:00:00Z', // September 3rd (7 calendar days ago)
+      days_since_watering: 7,
+      last_watered_at: '2025-09-03T12:00:00Z',
+      watering_frequency: 14,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/snake-plant.jpg',
+      room: 'Bedroom',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-09-03T10:00:00Z'
+    },
+    {
+      id: 'test-overdue-plant-1',
+      nickname: 'Test Overdue Plant',
+      plant_type: 'Ficus lyrata',
+      suggested_watering_days: 5,
+      latest_watering: '2025-09-01T12:00:00Z', // September 1st (9 calendar days ago)
+      days_since_watering: 9,
+      last_watered_at: '2025-09-01T12:00:00Z',
+      watering_frequency: 5,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/fiddle-leaf.jpg',
+      room: 'Office',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-09-01T10:00:00Z'
+    }
+  ],
+
+  // Plant that's due tomorrow
+  tomorrowPlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-tomorrow-plant-1',
+      nickname: 'Tomorrow Plant',
+      plant_type: 'Pothos',
+      suggested_watering_days: 7,
+      latest_watering: '2025-09-03T10:00:00Z', // 7 days ago (due tomorrow)
+      days_since_watering: 7,
+      last_watered_at: '2025-09-03T10:00:00Z',
+      watering_frequency: 7,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/pothos.jpg',
+      room: 'Kitchen',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-09-03T10:00:00Z'
+    }
+  ],
+
+  // Plant that's due today
+  todayPlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-today-plant-1',
+      nickname: 'Today Plant',
+      plant_type: 'Spider Plant',
+      suggested_watering_days: 7,
+      latest_watering: '2025-09-03T10:00:00Z', // 7 days ago (due today)
+      days_since_watering: 7,
+      last_watered_at: '2025-09-03T10:00:00Z',
+      watering_frequency: 7,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/spider-plant.jpg',
+      room: 'Bathroom',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-09-03T10:00:00Z'
+    }
+  ],
+
+  // Plant with postponement
+  postponedPlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-postponed-plant-1',
+      nickname: 'Test Postponed Plant',
+      plant_type: 'Rubber Tree',
+      suggested_watering_days: 7,
+      latest_watering: '2025-09-08T10:00:00Z', // 2 days ago
+      days_since_watering: 2,
+      last_watered_at: '2025-09-08T10:00:00Z',
+      watering_frequency: 7,
+      postponement_date: '2025-09-13T00:00:00Z', // Postponed to September 13th (3 days from mock current date)
+      postponement_notes: 'Going out of town',
+      last_postponement_date: '2025-09-10T14:00:00Z',
+      postponement_count: 1,
+      image_url: 'https://example.com/rubber-tree.jpg',
+      room: 'Living Room',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-09-10T14:00:00Z'
+    }
+  ],
+
+  // Plant with no watering history
+  newPlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-new-plant-1',
+      nickname: 'Test New Plant',
+      plant_type: 'New Pothos',
+      suggested_watering_days: 7,
+      latest_watering: null,
+      days_since_watering: null,
+      last_watered_at: null,
+      watering_frequency: 7,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/pothos.jpg',
+      room: 'Kitchen',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-09-10T10:00:00Z',
+      updated_at: '2025-09-10T10:00:00Z'
+    }
+  ],
+
+
+
+  // Long schedule plant (for cactus-like plants with 30-day schedules)
+  longSchedulePlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-long-schedule-plant-1',
+      nickname: 'Monthly Cactus',
+      plant_type: 'Barrel Cactus',
+      suggested_watering_days: 30,
+      latest_watering: '2025-08-25T10:00:00Z', // 16 days ago
+      days_since_watering: 16,
+      last_watered_at: '2025-08-25T10:00:00Z',
+      watering_frequency: 30,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/cactus.jpg',
+      room: 'Office',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-08-25T10:00:00Z'
+    }
+  ],
+
+  // Very overdue plant (30+ days overdue)
+  veryOverduePlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-very-overdue-plant-1',
+      nickname: 'Neglected Plant',
+      plant_type: 'Peace Lily',
+      suggested_watering_days: 7,
+      latest_watering: '2025-08-05T10:00:00Z', // 36 days ago
+      days_since_watering: 36,
+      last_watered_at: '2025-08-05T10:00:00Z',
+      watering_frequency: 7,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/peace-lily.jpg',
+      room: 'Forgotten Corner',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-08-05T10:00:00Z'
+    }
+  ],
+
+  // Just watered plant (0 days since watering)
+  justWateredPlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-just-watered-plant-1',
+      nickname: 'Just Watered Plant',
+      plant_type: 'Pothos',
+      suggested_watering_days: 7,
+      latest_watering: '2025-09-10T14:00:00Z', // Just now (same as mock current date)
+      days_since_watering: 0,
+      last_watered_at: '2025-09-10T14:00:00Z',
+      watering_frequency: 7,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/pothos.jpg',
+      room: 'Kitchen',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-09-10T14:00:00Z'
+    }
+  ],
+
+  // Plants with specific watering patterns for pattern detection tests
+  
+  // Plant with consistent early watering pattern (watered 2 days early each time)
+  earlyWateringPatternPlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-early-pattern-plant-1',
+      nickname: 'Early Pattern Plant',
+      plant_type: 'Monstera deliciosa',
+      suggested_watering_days: 7,
+      latest_watering: '2025-09-08T10:00:00Z', // 2 days ago
+      days_since_watering: 2,
+      last_watered_at: '2025-09-08T10:00:00Z',
+      watering_frequency: 7,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/monstera.jpg',
+      room: 'Living Room',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-09-08T10:00:00Z'
+    }
+  ],
+
+  // Plant with consistent late watering pattern (watered 2 days late each time)  
+  lateWateringPatternPlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-late-pattern-plant-1',
+      nickname: 'Late Pattern Plant',
+      plant_type: 'Snake Plant',
+      suggested_watering_days: 7,
+      latest_watering: '2025-09-01T10:00:00Z', // 9 days ago (2 days late from 7-day schedule)
+      days_since_watering: 9,
+      last_watered_at: '2025-09-01T10:00:00Z',
+      watering_frequency: 7,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/snake-plant.jpg',
+      room: 'Bedroom',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-09-01T10:00:00Z'
+    }
+  ],
+
+  // Plant with irregular watering pattern (very inconsistent timing)
+  irregularWateringPatternPlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-irregular-pattern-plant-1',
+      nickname: 'Irregular Pattern Plant',
+      plant_type: 'Peace Lily',
+      suggested_watering_days: 7,
+      latest_watering: '2025-09-07T10:00:00Z', // 3 days ago
+      days_since_watering: 3,
+      last_watered_at: '2025-09-07T10:00:00Z',
+      watering_frequency: 7,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/peace-lily.jpg',
+      room: 'Office',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-09-07T10:00:00Z'
+    }
+  ],
+
+  // Plant with consistent watering pattern (exactly on schedule)
+  consistentWateringPatternPlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-consistent-pattern-plant-1',
+      nickname: 'Consistent Pattern Plant',
+      plant_type: 'Rubber Tree',
+      suggested_watering_days: 7,
+      latest_watering: '2025-09-03T10:00:00Z', // Exactly 7 days ago
+      days_since_watering: 7,
+      last_watered_at: '2025-09-03T10:00:00Z',
+      watering_frequency: 7,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/rubber-tree.jpg',
+      room: 'Hallway',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-09-03T10:00:00Z'
+    }
+  ],
+
+  // Plant with insufficient data for pattern analysis (new plant with minimal history)
+  insufficientDataPlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-insufficient-data-plant-1',
+      nickname: 'Insufficient Data Plant',
+      plant_type: 'Fiddle Leaf Fig',
+      suggested_watering_days: 7,
+      latest_watering: '2025-09-08T10:00:00Z', // Only one watering
+      days_since_watering: 2,
+      last_watered_at: '2025-09-08T10:00:00Z',
+      watering_frequency: 7,
+      postponement_date: null,
+      postponement_notes: null,
+      last_postponement_date: null,
+      postponement_count: null,
+      image_url: 'https://example.com/fiddle-leaf.jpg',
+      room: 'Living Room',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-09-05T10:00:00Z', // Recently created
+      updated_at: '2025-09-08T10:00:00Z'
+    }
+  ],
+
+  // Expired postponement plant (postponed to a date that's already passed)
+  expiredPostponementPlant: (userId: string): MockPlant[] => [
+    {
+      id: 'test-expired-postponement-plant-1',
+      nickname: 'Expired Postponement Plant',
+      plant_type: 'Snake Plant',
+      suggested_watering_days: 7,
+      latest_watering: '2025-09-01T10:00:00Z', // 9 days ago
+      days_since_watering: 9,
+      last_watered_at: '2025-09-01T10:00:00Z',
+      watering_frequency: 7,
+      postponement_date: '2025-09-08T00:00:00Z', // Postponed to September 8th (2 days ago)
+      postponement_notes: 'Trip ended early',
+      last_postponement_date: '2025-09-06T10:00:00Z',
+      postponement_count: 1,
+      image_url: 'https://example.com/snake-plant.jpg',
+      room: 'Bedroom',
+      is_outdoor_plant: false,
+      household_id: null,
+      user_id: userId,
+      created_at: '2025-08-01T10:00:00Z',
+      updated_at: '2025-09-06T10:00:00Z'
+    }
+  ]
+};
+
+/**
+ * Sets up mock data for Supabase calls in Playwright tests
+ * Enhanced for cross-browser reliability
+ */
+export async function setupMockPlantData(page: any, mockPlants: MockPlant[], options: { verbose?: boolean } = {}) {
+  const { verbose = false } = options;
+  
+  // Enhanced client-side mocking with better error handling
+  await page.addInitScript((plants: MockPlant[], verbose: boolean) => {
+    // Store mock plants in window for access
+    (window as any).__mockPlants = plants;
+    (window as any).__mockDataActive = true;
+    
+    if (verbose) console.log('🔧 Mock data initialization script running', { plantsCount: plants.length });
+    
+    // Wait for Supabase to be available with timeout
+    const waitForSupabase = () => {
+      return new Promise((resolve) => {
+        const checkSupabase = () => {
+          if ((window as any).supabase) {
+            resolve((window as any).supabase);
+          } else {
+            setTimeout(checkSupabase, 100);
+          }
+        };
+        checkSupabase();
+        // Timeout after 5 seconds
+        setTimeout(() => resolve(null), 5000);
+      });
+    };
+    
+    // Override Supabase methods when available
+    waitForSupabase().then((supabase) => {
+      if (!supabase) {
+        if (verbose) console.log('⚠️ Supabase not available for mocking');
+        return;
+      }
+      
+      const originalFrom = (supabase as any).from;
+      if (originalFrom) {
+        (supabase as any).from = function(tableName: string) {
+          if (verbose) console.log('🔍 Supabase query for table:', tableName);
+          
+          if (tableName === 'plants_with_watering_info') {
+            if (verbose) console.log('✅ Returning mock plants data');
+            return {
+              select: () => ({
+                eq: () => ({
+                  order: () => Promise.resolve({
+                    data: plants,
+                    error: null
+                  })
+                })
+              })
+            };
+          }
+          // For other tables, use original behavior
+          return originalFrom.call(supabase, tableName);
+        };
+      }
+      
+      if (verbose) console.log('✅ Mock data setup completed');
+    });
+  }, mockPlants, verbose);
+
+  // Enhanced HTTP route interception with better patterns
+  const routePatterns = [
+    '**/rest/v1/plants_with_watering_info*',
+    '**/rest/v1/plants*',
+    '**/supabase.co/rest/v1/plants*'
+  ];
+  
+  for (const pattern of routePatterns) {
+    await page.route(pattern, async route => {
+      if (verbose) console.log(`🔄 HTTP intercept: ${route.request().url()}`);
+      
+      // Add CORS headers for browser compatibility
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization, apikey'
+        },
+        body: JSON.stringify(mockPlants)
+      });
+    });
+  }
+
+  // Enhanced GraphQL interception
+  await page.route('**/graphql*', async route => {
+    const requestBody = route.request().postData();
+    if (requestBody && requestBody.includes('plants')) {
+      if (verbose) console.log(`🔄 GraphQL plants intercept: ${route.request().url()}`);
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'POST, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+        },
+        body: JSON.stringify({ data: { plants: mockPlants } })
+      });
+    } else {
+      await route.continue();
+    }
+  });
+
+  if (verbose) {
+    console.log(`🌱 Mock data setup completed - ${mockPlants.length} plants`);
+    console.log('📊 Plants:', mockPlants.map(p => `${p.nickname} (${p.plant_type})`).join(', '));
+  }
+
+  // Intercept plants_with_watering_info API calls
+  await page.route('**/rest/v1/plants_with_watering_info*', async route => {
+    const url = route.request().url();
+    if (verbose) console.log(`🔄 Intercepting plants_with_watering_info request: ${url}`);
+    
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, apikey'
+      },
+      body: JSON.stringify(mockPlants)
+    });
+  });
+  
+  // Also intercept direct user_plants calls for individual plant lookups  
+  await page.route('**/rest/v1/user_plants*', async route => {
+    const url = route.request().url();
+    if (verbose) console.log(`🔄 Intercepting user_plants request: ${url}`);
+    
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, apikey'
+      },
+      body: JSON.stringify(mockPlants)
+    });
+  });
+}
+
+/**
+ * Verify that mock data is working
+ */
+export async function verifyMockDataSetup(page: any): Promise<boolean> {
+  return await page.evaluate(() => {
+    return !!(window as any).__mockDataActive && !!(window as any).__mockPlants;
+  });
+}
+
+/**
+ * Sets up date mocking for consistent test results
+ */
+export async function setupMockDate(page: any, mockDate: string = MOCK_CURRENT_DATE) {
+  await page.addInitScript((dateString: string) => {
+    const mockDate = new Date(dateString);
+    Date.now = () => mockDate.getTime();
+    global.Date = class extends Date {
+      constructor(...args: any[]) {
+        if (args.length === 0) {
+          super(mockDate);
+        } else {
+          super(...args);
+        }
+      }
+      static now() {
+        return mockDate.getTime();
+      }
+    } as DateConstructor;
+  }, mockDate);
+
+  console.log(`📅 Mock current date set to: ${mockDate}`);
+}

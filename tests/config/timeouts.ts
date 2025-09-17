@@ -42,6 +42,10 @@ export const TIMEOUTS = {
   BULK_OPERATION: 5000,
   SETUP_TEARDOWN: 10000,
 
+  // Pattern detection and analysis
+  PATTERN_ANALYSIS: 8000,
+  PATTERN_DIALOG: 5000,
+
   // Default timeouts for utility functions
   DEFAULT_WAIT: 2000,
   DEFAULT_INTERACTION: 1500,

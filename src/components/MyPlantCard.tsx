@@ -6,6 +6,8 @@ import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
+import { PatternSuggestionsDialog } from "@/components/watering-patterns";
+import { useQuickPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { useNavigate } from "react-router-dom";
 import {
   Tooltip,
@@ -32,6 +34,7 @@ interface MyPlantCardProps {
   onEdit: () => void;
   onPostpone?: () => void;
   onViewHistory?: () => void;
+  onScheduleAdjustment?: (plantId: string, newSchedule: number) => Promise<void>;
   overwatering?: OverwateringRisk;
 }
 
@@ -53,11 +56,18 @@ const MyPlantCard = ({
   onEdit,
   onPostpone,
   onViewHistory,
+  onScheduleAdjustment,
   overwatering,
 }: MyPlantCardProps) => {
   const navigate = useNavigate();
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
+  const [showPatternSuggestions, setShowPatternSuggestions] = useState(false);
+  const [patternAnalysis, setPatternAnalysis] = useState(null);
+  const [patternInsights, setPatternInsights] = useState([]);
+
+  // Quick pattern analysis hook for post-watering suggestions
+  const { analyzeQuick, isAnalyzing } = useQuickPatternAnalysis();
 
   const isOverwateringActive = !!(
     overwatering && overwatering.level !== "none"
@@ -71,13 +81,52 @@ const MyPlantCard = ({
     setShowWaterConfirmation(true);
   };
 
-  const handleConfirmWater = () => {
+  const handleConfirmWater = async () => {
+    // First, complete the watering action
     onWater();
+    
+    // Then, analyze watering patterns for suggestions (after a brief delay to ensure watering is recorded)
+    setTimeout(async () => {
+      try {
+        const analysis = await analyzeQuick(id);
+        if (analysis) {
+          setPatternAnalysis(analysis);
+          
+          // Generate insights from the analysis
+          const { wateringPatternAnalyzer } = await import('@/utils/watering-pattern-analyzer');
+          const insights = wateringPatternAnalyzer.generateInsights(analysis);
+          setPatternInsights(insights);
+          
+          // Show suggestions if there are actionable insights OR if it's a positive pattern (consistent) OR insufficient data
+          const hasActionableInsights = insights.some(insight => insight.actionable);
+          const isConsistentPattern = analysis.pattern === 'consistent';
+          const isInsufficientData = analysis.confidence === 'low' && analysis.reasoning.some(r => r.includes('Need at least'));
+          
+          if (hasActionableInsights || isConsistentPattern || isInsufficientData) {
+            setShowPatternSuggestions(true);
+          }
+        }
+      } catch (error) {
+        console.error('Error analyzing watering pattern:', error);
+      }
+    }, 2000); // Wait 2 seconds for watering record to be saved
   };
 
   const handleNameClick = (e: React.MouseEvent) => {
     e.preventDefault();
     navigate(`/my-plants/${id}`);
+  };
+
+  // Handle schedule adjustment from pattern suggestions
+  const handlePatternScheduleAdjustment = async (insight: any) => {
+    if (onScheduleAdjustment && insight.suggestion) {
+      try {
+        await onScheduleAdjustment(id, insight.suggestion.suggestedSchedule);
+        setShowPatternSuggestions(false);
+      } catch (error) {
+        console.error('Failed to apply schedule adjustment:', error);
+      }
+    }
   };
   const getStatusColor = () => {
     if (hasUnknownWateringDate)
@@ -356,6 +405,15 @@ const MyPlantCard = ({
         imageSrc={image}
         imageAlt={name}
         plantName={name}
+      />
+      <PatternSuggestionsDialog
+        isOpen={showPatternSuggestions}
+        onClose={() => setShowPatternSuggestions(false)}
+        analysis={patternAnalysis}
+        insights={patternInsights}
+        plantName={name}
+        onAcceptSuggestion={handlePatternScheduleAdjustment}
+        onDismissAll={() => setShowPatternSuggestions(false)}
       />
     </>
   );

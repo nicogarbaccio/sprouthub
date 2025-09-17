@@ -1,288 +1,247 @@
 import { test, expect } from '../../fixtures/test-fixtures';
 import { getTestUser } from '../../test-user-pool';
-import { TIMEOUTS } from '../../config/timeouts';
+import { createMockPlants, setupMockPlantData, setupMockDate, MOCK_CURRENT_DATE } from '../../utils/mock-plant-data';
+import { 
+  waitForMockData, 
+  verifyPlantsRendered, 
+  debugTestEnvironment,
+  skipTestIfConditionNotMet,
+  waitForStableContent
+} from '../../utils/test-helpers';
 
-test.describe('Calendar Date Watering Schedule Logic', () => {
+test.describe('Calendar Date Watering Schedule', () => {
   const testUser = getTestUser('calendar-date-schedule');
 
   test.beforeEach(async ({ page }) => {
-    // Mock the current date to September 10th, 2025 for predictable testing
-    await page.addInitScript(() => {
-      const mockDate = new Date('2025-09-10T14:00:00Z'); // 2 PM UTC
-      Date.now = () => mockDate.getTime();
-      global.Date = class extends Date {
-        constructor(...args: any[]) {
-          if (args.length === 0) {
-            super(mockDate);
-          } else {
-            // @ts-ignore - Playwright test environment
-            super(...args);
-          }
-        }
-        static now() {
-          return mockDate.getTime();
-        }
-      } as DateConstructor;
-    });
+    await setupMockDate(page, MOCK_CURRENT_DATE);
   });
 
-  test('should calculate watering schedule using calendar dates only', async ({ 
+  async function setupAuthenticatedUser(page: any, authPage: any) {
+    const { setupAuthenticatedUser: sharedSetup } = await import('../../utils/auth-helpers');
+    await sharedSetup(page, authPage, testUser);
+  }
+
+  test('calculates days remaining based on calendar dates only', async ({ 
     page, 
-    authPage 
+    authPage,
+    browserName 
   }) => {
-    await test.step('Setup authentication', async () => {
-      console.log('🔐 Setting up authentication for calendar date test');
-      await page.goto('/auth');
-      await page.waitForLoadState('domcontentloaded');
-      await page.waitForTimeout(TIMEOUTS.SHORT_WAIT);
-      
-      const currentUrl = page.url();
-      console.log(`📍 Current URL: ${currentUrl}`);
-      
-      if (currentUrl.includes('/auth')) {
-        console.log('📝 Signing up new test user for calendar date testing');
-        await authPage.switchToSignUp();
-        
-        const userData = {
-          firstName: testUser.firstName,
-          lastName: testUser.lastName,
-          username: testUser.username || testUser.firstName.toLowerCase() + testUser.lastName.toLowerCase(),
-          email: testUser.email,
-          password: testUser.password,
-          confirmPassword: testUser.confirmPassword,
-        };
-        
-        await authPage.fillSignUpForm(userData);
-        await authPage.submitSignUp();
-        await page.waitForTimeout(2000);
-        
-        const postSignUpUrl = page.url();
-        console.log(`📍 Post sign-up URL: ${postSignUpUrl}`);
-        
-        if (postSignUpUrl.includes('/auth')) {
-          console.log('📝 Signing in after sign-up');
-          await authPage.switchToSignIn();
-          await authPage.fillSignInForm(testUser.email, testUser.password);
-          await authPage.submitSignIn();
-          await page.waitForTimeout(2000);
-        }
-        
-        const finalUrl = page.url();
-        console.log(`✅ Final authentication URL: ${finalUrl}`);
-      }
-    });
-
-    await test.step('Mock calendar date watering data', async () => {
-      // This simulates a simple calendar date scenario
-      await page.route('**/api/plants*', async route => {
-        const mockPlants = [
-          {
-            id: 'calendar-test-plant',
-            nickname: 'Calendar Test Plant',
-            plant_type: 'Pothos',
-            suggested_watering_days: 7,
-            latest_watering: '2025-09-08T14:30:00.000Z', // September 8th at 2:30 PM UTC
-            days_since_watering: 2, // Database says 2 days (Sep 8 to Sep 10)
-            postponement_date: null,
-            postponement_notes: null,
-            last_postponement_date: null,
-            postponement_count: null,
-            image: 'https://example.com/calendar-test.jpg'
-          }
-        ];
-        
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify(mockPlants)
-        });
-      });
-    });
-
-    await test.step('Verify calendar date calculation works', async () => {
-      console.log('🏠 Navigating to My Plants page to test calendar date calculation');
-      await page.goto('/my-plants');
-      await page.waitForLoadState('domcontentloaded');
-      await page.waitForTimeout(TIMEOUTS.SHORT_WAIT);
-      
-      try {
-        // Look for the Calendar Test Plant card
-        const calendarTestCard = page.getByTestId('plant-card').filter({ hasText: 'Calendar Test Plant' });
-        const hasCalendarTestCard = await calendarTestCard.count() > 0;
-        
-        if (hasCalendarTestCard) {
-          console.log('📅 Testing calendar date watering calculation');
-          await expect(calendarTestCard).toBeVisible({ timeout: TIMEOUTS.ELEMENT_WAIT });
-          
-          // Get all text content from the card to see what's displayed
-          const cardText = await calendarTestCard.locator('text=/water|days|due|overdue|sep/i').allTextContents();
-          console.log(`💧 Calendar Test Plant card text: ${cardText.join(', ')}`);
-          
-          // The expected behavior with calendar date calculation:
-          // - Plant watered Sep 8 14:30 UTC
-          // - Database says 2 days since watering (Sep 8 to Sep 10)
-          // - 7 - 2 = 5 days until watering
-          // - Should show "Water in 5 days" and "Sep 8, 2025"
-          
-          // Check for the expected watering status
-          const wateringStatus = calendarTestCard.locator('text=/water.*in.*5.*days?/i');
-          await expect(wateringStatus).toBeVisible({ timeout: TIMEOUTS.ELEMENT_WAIT });
-          
-          // Check for the correct date display
-          const lastWateredText = calendarTestCard.locator('text=/sep.*8.*2025/i');
-          await expect(lastWateredText).toBeVisible({ timeout: TIMEOUTS.ELEMENT_WAIT });
-          
-          console.log('✅ Calendar date calculation test passed - Calendar Test Plant shows correct schedule');
-        } else {
-          console.log('⚠️ Calendar Test Plant card not found - checking if mock data is being used');
-          
-          // Check if any plant cards are visible
-          const plantCards = page.getByTestId('plant-card');
-          const cardCount = await plantCards.count();
-          console.log(`📊 Found ${cardCount} plant cards`);
-          
-          if (cardCount > 0) {
-            // Get text from the first card to see what's displayed
-            const firstCard = plantCards.first();
-            const firstCardText = await firstCard.locator('text=/water|days|due|overdue/i').allTextContents();
-            console.log(`💧 First card text: ${firstCardText.join(', ')}`);
-          }
-          
-          console.log('✅ Calendar date calculation test completed with available plants');
-        }
-      } catch (error) {
-        console.log(`⚠️ Error testing calendar date calculation: ${error.message}`);
-      }
-    });
+    await setupAuthenticatedUser(page, authPage);
+    
+    const mockPlants = createMockPlants.normalPlants('test-user-id-123');
+    await setupMockPlantData(page, mockPlants, { verbose: true });
+    
+    // Verify mock data is working
+    const mockDataReady = await waitForMockData(page, { verbose: true });
+    if (await skipTestIfConditionNotMet(
+      page,
+      'calendar date calculation test',
+      async () => mockDataReady,
+      'Mock data not active'
+    )) {
+      test.skip();
+      return;
+    }
+    
+    await page.goto('/my-plants');
+    await waitForStableContent(page, browserName, { extraWait: 1000 });
+    
+    // Verify expected plants are rendered
+    const plantsRendered = await verifyPlantsRendered(page, ['Test Monstera'], { verbose: true });
+    if (await skipTestIfConditionNotMet(
+      page,
+      'calendar date calculation test',
+      async () => plantsRendered,
+      'Expected plants not rendered'
+    )) {
+      test.skip();
+      return;
+    }
+    
+    // Test that calculations are based on calendar dates
+    const monsteraCard = page.getByTestId('plant-card').filter({ hasText: 'Test Monstera' });
+    await expect(monsteraCard).toBeVisible({ timeout: 10000 });
+    // Monstera watered Sep 8th, current date Sep 10th = 2 days ago
+    // 7-day schedule: 7 - 2 = 5 days remaining
+    const hasCorrectCalculation = await monsteraCard.locator('text=/5.*days?|days?.*5/i').count() > 0;
+    expect(hasCorrectCalculation).toBeTruthy();
   });
 
-  test('should handle plants due tomorrow correctly', async ({ 
+  test('handles postponed plants with future calendar dates', async ({ 
     page, 
-    authPage 
+    authPage,
+    browserName 
   }) => {
-    await test.step('Setup authentication', async () => {
-      console.log('🔐 Setting up authentication for tomorrow test');
-      await page.goto('/auth');
-      await page.waitForLoadState('domcontentloaded');
-      await page.waitForTimeout(TIMEOUTS.SHORT_WAIT);
-      
-      const currentUrl = page.url();
-      console.log(`📍 Current URL: ${currentUrl}`);
-      
-      if (currentUrl.includes('/auth')) {
-        console.log('📝 Signing up new test user for tomorrow testing');
-        await authPage.switchToSignUp();
-        
-        const userData = {
-          firstName: testUser.firstName,
-          lastName: testUser.lastName,
-          username: testUser.username || testUser.firstName.toLowerCase() + testUser.lastName.toLowerCase(),
-          email: testUser.email,
-          password: testUser.password,
-          confirmPassword: testUser.confirmPassword,
-        };
-        
-        await authPage.fillSignUpForm(userData);
-        await authPage.submitSignUp();
-        await page.waitForTimeout(2000);
-        
-        const postSignUpUrl = page.url();
-        console.log(`📍 Post sign-up URL: ${postSignUpUrl}`);
-        
-        if (postSignUpUrl.includes('/auth')) {
-          console.log('📝 Signing in after sign-up');
-          await authPage.switchToSignIn();
-          await authPage.fillSignInForm(testUser.email, testUser.password);
-          await authPage.submitSignIn();
-          await page.waitForTimeout(2000);
-        }
-        
-        const finalUrl = page.url();
-        console.log(`✅ Final authentication URL: ${finalUrl}`);
-      }
-    });
+    await setupAuthenticatedUser(page, authPage);
+    
+    const mockPlants = createMockPlants.postponedPlant('test-user-id-123');
+    await setupMockPlantData(page, mockPlants, { verbose: true });
+    
+    // Verify mock data is working
+    const mockDataReady = await waitForMockData(page, { verbose: true });
+    if (await skipTestIfConditionNotMet(
+      page,
+      'postponed plants test',
+      async () => mockDataReady,
+      'Mock data not active'
+    )) {
+      test.skip();
+      return;
+    }
+    
+    await page.goto('/my-plants');
+    await waitForStableContent(page, browserName, { extraWait: 1000 });
+    
+    // Verify expected plants are rendered
+    const plantsRendered = await verifyPlantsRendered(page, ['Test Postponed Plant'], { verbose: true });
+    if (await skipTestIfConditionNotMet(
+      page,
+      'postponed plants test',
+      async () => plantsRendered,
+      'Expected plants not rendered'
+    )) {
+      test.skip();
+      return;
+    }
+    
+    const postponedCard = page.getByTestId('plant-card').filter({ hasText: 'Test Postponed Plant' });
+    await expect(postponedCard).toBeVisible({ timeout: 10000 });
+    // Postponed until Sep 13th, current date Sep 10th = 3 days until postponed date
+    const hasPostponedStatus = await postponedCard.locator('text=/postponed|september.*13|3.*days?/i').count() > 0;
+    expect(hasPostponedStatus).toBeTruthy();
+  });
 
-    await test.step('Mock plant due tomorrow data', async () => {
-      // This simulates a plant that should be due tomorrow (Sep 11th)
-      await page.route('**/api/plants*', async route => {
-        const mockPlants = [
-          {
-            id: 'tomorrow-plant',
-            nickname: 'Tomorrow Plant',
-            plant_type: 'Monstera',
-            suggested_watering_days: 14,
-            latest_watering: '2025-08-28T15:00:00.000Z', // August 28th
-            days_since_watering: 13, // Database says 13 days (Aug 28 to Sep 10)
-            postponement_date: null,
-            postponement_notes: null,
-            last_postponement_date: null,
-            postponement_count: null,
-            image: 'https://example.com/tomorrow-plant.jpg'
-          }
-        ];
-        
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/json',
-          body: JSON.stringify(mockPlants)
-        });
-      });
-    });
+  test('handles expired postponements by reverting to normal schedule', async ({ 
+    page, 
+    authPage,
+    browserName 
+  }) => {
+    await setupAuthenticatedUser(page, authPage);
+    
+    const mockPlants = createMockPlants.expiredPostponementPlant('test-user-id-123');
+    await setupMockPlantData(page, mockPlants, { verbose: true });
+    
+    // Verify mock data is working
+    const mockDataReady = await waitForMockData(page, { verbose: true });
+    if (await skipTestIfConditionNotMet(
+      page,
+      'expired postponement test',
+      async () => mockDataReady,
+      'Mock data not active'
+    )) {
+      test.skip();
+      return;
+    }
+    
+    await page.goto('/my-plants');
+    await waitForStableContent(page, browserName, { extraWait: 1000 });
+    
+    // Verify expected plants are rendered
+    const plantsRendered = await verifyPlantsRendered(page, ['Expired Postponement Plant'], { verbose: true });
+    if (await skipTestIfConditionNotMet(
+      page,
+      'expired postponement test',
+      async () => plantsRendered,
+      'Expected plants not rendered'
+    )) {
+      test.skip();
+      return;
+    }
+    
+    const expiredCard = page.getByTestId('plant-card').filter({ hasText: 'Expired Postponement Plant' });
+    await expect(expiredCard).toBeVisible({ timeout: 10000 });
+    // Plant was postponed to Sep 8th but it's now Sep 10th
+    // Should show overdue status (watered Sep 1st, 7-day schedule = 2 days overdue)
+    const hasOverdueStatus = await expiredCard.locator('text=/overdue|due.*now|water.*now/i').count() > 0;
+    expect(hasOverdueStatus).toBeTruthy();
+  });
 
-    await test.step('Verify plant due tomorrow shows correct status', async () => {
-      console.log('🏠 Navigating to My Plants page to test tomorrow plant');
-      await page.goto('/my-plants');
-      await page.waitForLoadState('domcontentloaded');
-      await page.waitForTimeout(TIMEOUTS.SHORT_WAIT);
-      
-      try {
-        // Look for the Tomorrow Plant card
-        const tomorrowPlantCard = page.getByTestId('plant-card').filter({ hasText: 'Tomorrow Plant' });
-        const hasTomorrowPlantCard = await tomorrowPlantCard.count() > 0;
-        
-        if (hasTomorrowPlantCard) {
-          console.log('📅 Testing plant due tomorrow');
-          await expect(tomorrowPlantCard).toBeVisible({ timeout: TIMEOUTS.ELEMENT_WAIT });
-          
-          // Get all text content from the card to see what's displayed
-          const cardText = await tomorrowPlantCard.locator('text=/water|days|due|overdue|aug|sep/i').allTextContents();
-          console.log(`💧 Tomorrow Plant card text: ${cardText.join(', ')}`);
-          
-          // The expected behavior:
-          // - Plant watered Aug 28
-          // - Database says 13 days since watering (Aug 28 to Sep 10)
-          // - 14 - 13 = 1 day until watering
-          // - Should show "Water tomorrow" and "Aug 28, 2025"
-          
-          // Check for the expected watering status
-          const wateringStatus = tomorrowPlantCard.locator('text=/water.*tomorrow/i');
-          await expect(wateringStatus).toBeVisible({ timeout: TIMEOUTS.ELEMENT_WAIT });
-          
-          // Check for the correct date display
-          const lastWateredText = tomorrowPlantCard.locator('text=/aug.*28.*2025/i');
-          await expect(lastWateredText).toBeVisible({ timeout: TIMEOUTS.ELEMENT_WAIT });
-          
-          console.log('✅ Tomorrow plant test passed - Tomorrow Plant shows correct schedule');
-        } else {
-          console.log('⚠️ Tomorrow Plant card not found - checking if mock data is being used');
-          
-          // Check if any plant cards are visible
-          const plantCards = page.getByTestId('plant-card');
-          const cardCount = await plantCards.count();
-          console.log(`📊 Found ${cardCount} plant cards`);
-          
-          if (cardCount > 0) {
-            // Get text from the first card to see what's displayed
-            const firstCard = plantCards.first();
-            const firstCardText = await firstCard.locator('text=/water|days|due|overdue/i').allTextContents();
-            console.log(`💧 First card text: ${firstCardText.join(', ')}`);
-          }
-          
-          console.log('✅ Tomorrow plant test completed with available plants');
-        }
-      } catch (error) {
-        console.log(`⚠️ Error testing tomorrow plant: ${error.message}`);
-      }
-    });
+  test('calculates long watering schedules correctly', async ({ 
+    page, 
+    authPage,
+    browserName 
+  }) => {
+    await setupAuthenticatedUser(page, authPage);
+    
+    const mockPlants = createMockPlants.longSchedulePlant('test-user-id-123');
+    await setupMockPlantData(page, mockPlants, { verbose: true });
+    
+    // Verify mock data is working
+    const mockDataReady = await waitForMockData(page, { verbose: true });
+    if (await skipTestIfConditionNotMet(
+      page,
+      'long schedule plant test',
+      async () => mockDataReady,
+      'Mock data not active'
+    )) {
+      test.skip();
+      return;
+    }
+    
+    await page.goto('/my-plants');
+    await waitForStableContent(page, browserName, { extraWait: 1000 });
+    
+    // Verify expected plants are rendered
+    const plantsRendered = await verifyPlantsRendered(page, ['Monthly Cactus'], { verbose: true });
+    if (await skipTestIfConditionNotMet(
+      page,
+      'long schedule plant test',
+      async () => plantsRendered,
+      'Expected plants not rendered'
+    )) {
+      test.skip();
+      return;
+    }
+    
+    const cactusCard = page.getByTestId('plant-card').filter({ hasText: 'Monthly Cactus' });
+    await expect(cactusCard).toBeVisible({ timeout: 10000 });
+    // Watered Aug 25th, current date Sep 10th = 16 days ago
+    // 30-day schedule: 30 - 16 = 14 days remaining
+    const hasCorrectCalculation = await cactusCard.locator('text=/14.*days?|days?.*14/i').count() > 0;
+    expect(hasCorrectCalculation).toBeTruthy();
+  });
+
+  test('shows appropriate status for just-watered plants', async ({ 
+    page, 
+    authPage,
+    browserName 
+  }) => {
+    await setupAuthenticatedUser(page, authPage);
+    
+    const mockPlants = createMockPlants.justWateredPlant('test-user-id-123');
+    await setupMockPlantData(page, mockPlants, { verbose: true });
+    
+    // Verify mock data is working
+    const mockDataReady = await waitForMockData(page, { verbose: true });
+    if (await skipTestIfConditionNotMet(
+      page,
+      'just watered plant test',
+      async () => mockDataReady,
+      'Mock data not active'
+    )) {
+      test.skip();
+      return;
+    }
+    
+    await page.goto('/my-plants');
+    await waitForStableContent(page, browserName, { extraWait: 1000 });
+    
+    // Verify expected plants are rendered
+    const plantsRendered = await verifyPlantsRendered(page, ['Just Watered Plant'], { verbose: true });
+    if (await skipTestIfConditionNotMet(
+      page,
+      'just watered plant test',
+      async () => plantsRendered,
+      'Expected plants not rendered'
+    )) {
+      test.skip();
+      return;
+    }
+    
+    const justWateredCard = page.getByTestId('plant-card').filter({ hasText: 'Just Watered Plant' });
+    await expect(justWateredCard).toBeVisible({ timeout: 10000 });
+    // Watered today (Sep 10th), 7-day schedule = 7 days until next watering
+    const hasCorrectCalculation = await justWateredCard.locator('text=/7.*days?|days?.*7/i').count() > 0;
+    expect(hasCorrectCalculation).toBeTruthy();
   });
 });

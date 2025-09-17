@@ -20,6 +20,7 @@ interface RoomSectionProps {
   onAddPlant: () => void;
   onPostponeWatering?: (plantId: string) => void;
   onViewHistory?: (plant: UserPlant) => void;
+  onScheduleAdjustment?: (plantId: string, newSchedule: number) => Promise<void>;
   formatDate: (dateString: string) => string;
   getNextWateringDate: (
     lastWatered: string | undefined,
@@ -43,6 +44,7 @@ const RoomSection = ({
   onAddPlant,
   onPostponeWatering,
   onViewHistory,
+  onScheduleAdjustment,
   formatDate,
   getNextWateringDate,
   isOverdue,
@@ -266,6 +268,7 @@ const RoomSection = ({
                     ? () => onPostponeWatering(plant.id)
                     : undefined
                 }
+                onScheduleAdjustment={onScheduleAdjustment}
                 onViewHistory={
                   onViewHistory ? () => onViewHistory(plant) : undefined
                 }

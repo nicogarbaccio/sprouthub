@@ -6,11 +6,14 @@ import {
  DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { Calendar, Droplets, FileText, AlertTriangle } from "lucide-react";
 import { computeOverwateringRisk } from "@/utils/overwatering";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { format } from "date-fns";
+import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
+import { PatternAnalysisSection } from "@/components/watering-patterns";
 
 interface WateringRecord {
  id: string;
@@ -31,16 +34,30 @@ interface WateringHistoryDialogProps {
  plant: Plant | null;
  isOpen: boolean;
  onClose: () => void;
+ onScheduleAdjustment?: (plantId: string, newSchedule: number) => Promise<void>;
 }
 
 const WateringHistoryDialog = ({
  plant,
  isOpen,
  onClose,
+ onScheduleAdjustment,
 }: WateringHistoryDialogProps) => {
  const { toast } = useToast();
  const [wateringRecords, setWateringRecords] = useState<WateringRecord[]>([]);
  const [isLoading, setIsLoading] = useState(false);
+ 
+ // Pattern analysis integration
+ const { 
+   analysis, 
+   insights, 
+   stats: patternStats, 
+   isLoading: isAnalyzing, 
+   refreshAnalysis 
+ } = useWateringPatternAnalysis({
+   plantId: plant?.id,
+   autoRefresh: isOpen,
+ });
 
  useEffect(() => {
  if (plant && isOpen) {
@@ -69,6 +86,35 @@ const WateringHistoryDialog = ({
  } finally {
   setIsLoading(false);
  }
+ };
+
+ // Handle schedule adjustment from pattern suggestions
+ const handleScheduleAdjustment = async (insight: any) => {
+   if (!plant || !onScheduleAdjustment || !insight.suggestion) return;
+   
+   try {
+     await onScheduleAdjustment(plant.id, insight.suggestion.suggestedSchedule);
+     toast({
+       title: "Schedule Updated",
+       description: `${plant.nickname}'s watering schedule updated to every ${insight.suggestion.suggestedSchedule} days`,
+       variant: "default",
+     });
+     // Refresh analysis after schedule change
+     setTimeout(() => refreshAnalysis(), 1000);
+   } catch (error) {
+     console.error("Error updating schedule:", error);
+     toast({
+       title: "Update Failed",
+       description: "Failed to update watering schedule",
+       variant: "destructive",
+     });
+   }
+ };
+
+ // Handle dismissing insights
+ const handleDismissInsight = (insight: any) => {
+   // In a real implementation, you might want to store dismissed insights
+   console.log("Dismissed insight:", insight.type);
  };
 
  const formatDate = (dateString: string) => {
@@ -294,6 +340,22 @@ const WateringHistoryDialog = ({
     </div>
    )}
    </div>
+
+   {/* Pattern Analysis Section */}
+   {analysis && (
+     <>
+       <Separator className="my-6" />
+       <PatternAnalysisSection
+         analysis={analysis}
+         insights={insights}
+         stats={patternStats}
+         isLoading={isAnalyzing}
+         onAcceptSuggestion={handleScheduleAdjustment}
+         onDismissInsight={handleDismissInsight}
+         onRefreshAnalysis={refreshAnalysis}
+       />
+     </>
+   )}
 
    {/* Action Buttons */}
    <div className="flex justify-end pt-4 border-t">
