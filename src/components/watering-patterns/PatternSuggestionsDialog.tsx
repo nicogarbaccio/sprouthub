@@ -114,6 +114,11 @@ const PatternSuggestionsDialog = ({
   const PatternIcon = getPatternIcon();
   const hasActionableInsights = activeInsights.some(insight => insight.actionable);
 
+  // Detect insufficient data scenarios
+  const isInsufficientData = analysis.actualAverageInterval === 0 &&
+    analysis.confidence === 'low' &&
+    analysis.reasoning.some(r => r.includes('Need at least'));
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto">
@@ -157,7 +162,7 @@ const PatternSuggestionsDialog = ({
                 <Lightbulb className="w-4 h-4 text-yellow-500" />
                 Suggestions for you
               </h4>
-              
+
               {activeInsights.map((insight, index) => (
                 <div key={`${insight.type}-${index}`} className="space-y-4">
                   <div className={cn(
@@ -177,7 +182,7 @@ const PatternSuggestionsDialog = ({
                         <X className="w-3 h-3" />
                       </Button>
                     </div>
-                    
+
                     <p className="text-sm text-muted-foreground mb-3">
                       {insight.description}
                     </p>
@@ -250,10 +255,19 @@ const PatternSuggestionsDialog = ({
                       </div>
                     )}
                   </div>
-                  
+
                   {index < activeInsights.length - 1 && <Separator />}
                 </div>
               ))}
+            </div>
+          ) : isInsufficientData ? (
+            <div className="text-center py-6">
+              <Calendar className="w-12 h-12 text-sprout-primary mx-auto mb-3" />
+              <h3 className="font-medium mb-2">Keep watering to unlock insights</h3>
+              <p className="text-sm text-muted-foreground">
+                Water {plantName} a few more times to see personalized pattern analysis.
+                We need at least 3 watering records to provide meaningful insights.
+              </p>
             </div>
           ) : (
             <div className="text-center py-6">
