@@ -742,10 +742,9 @@ const MyPlantDetails = () => {
       <PatternSuggestionsDialog
         isOpen={showSuggestionsDialog}
         onClose={() => setShowSuggestionsDialog(false)}
-        plant={plant}
+        plantName={plant.nickname}
         analysis={analysis}
         insights={getActionableInsights()}
-        isLoading={isAnalyzing}
       />
 
       <AlertDialog
