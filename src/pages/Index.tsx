@@ -3,6 +3,7 @@ import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import PlantCatalog from "@/components/PlantCatalog";
 import Dashboard from "@/components/Dashboard";
+import ErrorBoundary from "@/components/ErrorBoundary";
 import { useAuth } from "@/contexts/AuthContext";
 import Footer from "@/components/Footer";
 import { PWADebugPanel, usePWADebug } from "@/components/pwa/PWADebugPanel";
@@ -104,8 +105,10 @@ const Index = () => {
   )}
 
   {user ? (
-  // Dashboard view for signed-in users
-  <Dashboard />
+  // Dashboard view for signed-in users with error boundary
+  <ErrorBoundary>
+    <Dashboard />
+  </ErrorBoundary>
   ) : (
   // Marketing view for non-signed-in users with minimal cascading animations
   <>

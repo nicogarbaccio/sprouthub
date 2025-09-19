@@ -29,6 +29,7 @@ import {
   Clock,
   Calendar,
   AlertTriangle,
+  Lightbulb,
 } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
@@ -42,6 +43,8 @@ import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import { plants as catalogPlants } from "@/data/plantData";
 import { calculateWateringSchedule } from "@/utils/watering-schedule";
 import { getRoomIcon, getRoomLabel } from "@/utils/rooms";
+import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
+import { PatternSuggestionsDialog } from "@/components/watering-patterns";
 
 const MyPlantDetails = () => {
   const { plantId } = useParams();
@@ -63,10 +66,17 @@ const MyPlantDetails = () => {
   const [showHistoryDialog, setShowHistoryDialog] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
+  const [showSuggestionsDialog, setShowSuggestionsDialog] = useState(false);
 
   // Find the specific plant
   const plant = plants.find((p) => p.id === plantId);
   const overwatering = plant ? overwateringByPlantId[plant.id] : undefined;
+
+  // Add watering pattern analysis hook
+  const { insights: pendingInsights, analysis, isLoading: isAnalyzing } = useWateringPatternAnalysis({
+    plantId: plant?.id,
+    autoRefresh: true,
+  });
 
   // Find matching plant data from catalog for care information
   const catalogPlant = plant
@@ -125,6 +135,74 @@ const MyPlantDetails = () => {
 
   const handleViewHistory = () => {
     setShowHistoryDialog(true);
+  };
+
+  const handleSmartTipsClick = () => {
+    setShowSuggestionsDialog(true);
+  };
+
+  // Helper functions for suggestion metadata and badge info
+  const getActionableInsights = () => {
+    return pendingInsights?.filter(insight => insight.actionable) || [];
+  };
+
+  const getSuggestionMetadata = () => {
+    const actionableInsights = getActionableInsights();
+    const count = actionableInsights.length;
+    const highPriorityCount = actionableInsights.filter(insight => insight.severity === 'high').length;
+    const mediumPriorityCount = actionableInsights.filter(insight => insight.severity === 'medium').length;
+
+    return {
+      count,
+      highPriorityCount,
+      mediumPriorityCount,
+      hasHighPriority: highPriorityCount > 0,
+      hasMediumPriority: mediumPriorityCount > 0,
+      actionableInsights,
+    };
+  };
+
+  const getBadgeInfo = () => {
+    const metadata = getSuggestionMetadata();
+    const { count, highPriorityCount, hasHighPriority, hasMediumPriority } = metadata;
+
+    if (count === 0) return null;
+
+    // Determine badge text based on suggestion count and types
+    let text = '';
+    let colorClass = '';
+    let description = '';
+
+    if (hasHighPriority) {
+      if (highPriorityCount === 1) {
+        text = 'Important tip';
+        description = '1 important watering insight available';
+      } else {
+        text = `${highPriorityCount} important tips`;
+        description = `${highPriorityCount} important watering insights available`;
+      }
+      colorClass = 'bg-amber-500 hover:bg-amber-600 text-white border-amber-500';
+    } else if (hasMediumPriority) {
+      if (count === 1) {
+        text = 'Smart tip';
+        description = '1 watering insight available';
+      } else {
+        text = `${count} smart tips`;
+        description = `${count} watering insights available`;
+      }
+      colorClass = 'bg-blue-500 hover:bg-blue-600 text-white border-blue-500';
+    } else {
+      if (count === 1) {
+        text = 'Good tip';
+        description = '1 positive watering insight available';
+      } else {
+        text = `${count} good tips`;
+        description = `${count} positive watering insights available`;
+      }
+      colorClass = 'bg-green-500 hover:bg-green-600 text-white border-green-500';
+    }
+
+    return { text, colorClass, description };
   };
 
   const handleDeletePlant = () => {
@@ -414,6 +492,31 @@ const MyPlantDetails = () => {
                     : "Watch Watering"}
                 </Badge>
               )}
+
+              {/* Smart Suggestions Badge */}
+              {(() => {
+                const badgeInfo = getBadgeInfo();
+                if (!badgeInfo) return null;
+
+                return (
+                  <Badge
+                    className={`absolute bottom-4 left-4 cursor-pointer transition-all duration-200 ${badgeInfo.colorClass}`}
+                    onClick={handleSmartTipsClick}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handleSmartTipsClick();
+                      }
+                    }}
+                    aria-label={badgeInfo.description}
+                  >
+                    <Lightbulb className="w-3 h-3 mr-1" />
+                    {badgeInfo.text}
+                  </Badge>
+                );
+              })()}
             </div>
 
             <div className="flex flex-col">
@@ -526,12 +629,12 @@ const MyPlantDetails = () => {
                   )}
 
                   {/* Secondary Action Buttons */}
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="flex gap-2">
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={handleEditClick}
-                      className="hover:bg-sprout-light/10 hover:border-sprout-light/30"
+                      className="flex-1 hover:bg-sprout-light/10 hover:border-sprout-light/30"
                     >
                       <Edit className="w-3 h-3 mr-1" />
                       Edit
@@ -540,16 +643,16 @@ const MyPlantDetails = () => {
                       variant="outline"
                       size="sm"
                       onClick={handleViewHistory}
-                      className="hover:bg-sprout-water/10 hover:border-sprout-water/30"
+                      className="flex-2 hover:bg-sprout-water/10 hover:border-sprout-water/30"
                     >
                       <History className="w-3 h-3 mr-1" />
-                      History
+                      {getBadgeInfo() ? "History & Tips" : "History"}
                     </Button>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={handleDeletePlant}
-                      className="text-red-600 hover:text-white hover:bg-red-600"
+                      className="flex-1 text-red-600 hover:text-white hover:bg-red-600"
                     >
                       <Trash2 className="w-3 h-3 mr-1" />
                       Delete
@@ -634,6 +737,15 @@ const MyPlantDetails = () => {
         imageSrc={plant.image || ""}
         imageAlt={plant.nickname}
         plantName={plant.nickname}
+      />
+
+      <PatternSuggestionsDialog
+        isOpen={showSuggestionsDialog}
+        onClose={() => setShowSuggestionsDialog(false)}
+        plant={plant}
+        analysis={analysis}
+        insights={getActionableInsights()}
+        isLoading={isAnalyzing}
       />
 
       <AlertDialog

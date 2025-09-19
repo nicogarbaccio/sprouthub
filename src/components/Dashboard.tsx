@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Plus,
@@ -52,7 +52,16 @@ import WaterConfirmationDialog from "./WaterConfirmationDialog";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import { SeasonalReviewBanner } from "./SeasonalReviewBanner";
 import { SeasonalReviewDialog } from "./SeasonalReviewDialog";
+import { SmartSuggestionsBanner } from "./SmartSuggestionsBanner";
+import { SmartSuggestionsDialog } from "./SmartSuggestionsDialog";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
+import { useBulkPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
+import {
+  loadDismissedSuggestions,
+  saveDismissedSuggestions,
+  dismissSuggestion,
+  dismissSuggestions
+} from "@/utils/suggestionPersistence";
 import { format, formatDistanceToNow } from "date-fns";
 
 const Dashboard = () => {
@@ -64,6 +73,10 @@ const Dashboard = () => {
   const [isBulkWaterDialogOpen, setIsBulkWaterDialogOpen] = useState(false);
   const [isSeasonalReviewDialogOpen, setIsSeasonalReviewDialogOpen] =
     useState(false);
+  const [isSmartSuggestionsDialogOpen, setIsSmartSuggestionsDialogOpen] =
+    useState(false);
+  const [dismissedSuggestions, setDismissedSuggestions] = useState<Set<string>>(new Set());
+  const [isDismissedSuggestionsLoaded, setIsDismissedSuggestionsLoaded] = useState(false);
   const [waterConfirmation, setWaterConfirmation] = useState<{
     show: boolean;
     plantId: string;
@@ -104,13 +117,134 @@ const Dashboard = () => {
     enabled: shouldShowReview && !!pendingTransition,
   });
 
-  const isLoading = loading || isLoadingProfile;
+  // Smart suggestions analysis - stabilize plantIds to prevent infinite re-renders
+  const plantIds = useMemo(() => plants.map(plant => plant.id), [plants]);
+  const {
+    plantsWithSuggestions,
+    totalSuggestions,
+    highPrioritySuggestions,
+    isLoading: isSuggestionsAnalyzing,
+    refreshAnalysis: refreshSuggestionsAnalysis,
+  } = useBulkPatternAnalysis(plantIds);
 
+  // Load dismissed suggestions from localStorage on mount
+  useEffect(() => {
+    const dismissed = loadDismissedSuggestions();
+    setDismissedSuggestions(dismissed);
+    setIsDismissedSuggestionsLoaded(true);
+  }, []);
+
+  // Filter out dismissed suggestions - only after dismissed suggestions are loaded
+  const activePlantsWithSuggestions = useMemo(() => {
+    if (!isDismissedSuggestionsLoaded) {
+      return []; // Return empty array until dismissed suggestions are loaded
+    }
+    return plantsWithSuggestions.filter(
+      plant => !dismissedSuggestions.has(plant.plantId)
+    );
+  }, [plantsWithSuggestions, dismissedSuggestions, isDismissedSuggestionsLoaded]);
+
+  // All hooks must be called before any conditional logic or early returns
+  const isLoading = loading || isLoadingProfile;
   const { showLoading, isReady } = useGracefulLoading(isLoading, {
     minLoadingTime: 0,
     staggerDelay: 0,
   });
 
+  // Get the user's first name, with fallback to "plant parent"
+  const firstName = profileData.first_name?.trim();
+  const greeting = firstName
+    ? `Welcome back, ${firstName}!`
+    : "Welcome back, plant parent!";
+
+  // Calculate care statistics using the new watering calculation utility
+  const totalPlants = plants.length;
+
+  const careStats = plants.reduce(
+    (stats, plant) => {
+      const wateringCalc = calculateWateringSchedule(plant);
+
+      if (wateringCalc.hasUnknownWateringDate) {
+        stats.plantsWithoutWateringData++;
+      } else if (wateringCalc.isOverdue) {
+        stats.overduePlants++;
+        stats.plantsNeedingWaterToday++;
+      } else if (wateringCalc.daysUntilWatering === 0) {
+        // Only count plants that are actually due today, not postponed ones
+        stats.plantsNeedingWaterToday++;
+      }
+      // Note: postponed plants are intentionally not counted as "needing water today"
+
+      return stats;
+    },
+    {
+      plantsWithoutWateringData: 0,
+      plantsNeedingWaterToday: 0,
+      overduePlants: 0,
+    }
+  );
+
+  const { plantsWithoutWateringData, plantsNeedingWaterToday, overduePlants } =
+    careStats;
+
+  const recentlyAddedCount = plants.filter((plant) => {
+    const plantDate = new Date(plant.created_at);
+    const daysDiff = Math.floor(
+      (Date.now() - plantDate.getTime()) / (1000 * 60 * 60 * 24)
+    );
+    return daysDiff <= 7;
+  }).length;
+
+  // Get plants needing water today (for task list) using the new utility
+  const plantsNeedingWater = plants
+    .filter((plant) => {
+      const wateringCalc = calculateWateringSchedule(plant);
+      return (
+        !wateringCalc.hasUnknownWateringDate &&
+        (wateringCalc.isOverdue || wateringCalc.daysUntilWatering === 0)
+        // Note: postponed plants are excluded from today's task list
+      );
+    })
+    .sort((a, b) => {
+      const calcA = calculateWateringSchedule(a);
+      const calcB = calculateWateringSchedule(b);
+
+      // Sort by priority: overdue first (by how overdue), then due today
+      if (calcA.isOverdue && calcB.isOverdue) {
+        return calcA.daysUntilWatering - calcB.daysUntilWatering; // More overdue first (more negative)
+      }
+      if (calcA.isOverdue && !calcB.isOverdue) return -1;
+      if (!calcA.isOverdue && calcB.isOverdue) return 1;
+
+      return 0; // Equal priority
+    });
+
+  // Get recent activities (recently watered plants)
+  const recentlyWateredPlants = plants
+    .filter((plant) => plant.latest_watering)
+    .sort(
+      (a, b) =>
+        new Date(b.latest_watering!).getTime() -
+        new Date(a.latest_watering!).getTime()
+    )
+    .slice(0, 5);
+
+  // Get favorite plants (most recently cared for)
+  const favoritePlants = plants
+    .filter((plant) => plant.latest_watering)
+    .sort(
+      (a, b) =>
+        new Date(b.latest_watering!).getTime() -
+        new Date(a.latest_watering!).getTime()
+    )
+    .slice(0, 4);
+
+  // Check if we should show the smart suggestions banner - only after dismissed suggestions are loaded
+  const shouldShowSmartSuggestionsBanner = useMemo(() => {
+    return isDismissedSuggestionsLoaded && activePlantsWithSuggestions.length > 0;
+  }, [isDismissedSuggestionsLoaded, activePlantsWithSuggestions]);
+
+  // Now handle loading states and early returns AFTER all hooks are called
   if (showLoading) {
     return (
       <div className="py-8 bg-background min-h-[calc(100vh-4rem)]">
@@ -279,94 +413,6 @@ const Dashboard = () => {
     );
   }
 
-  // Get the user's first name, with fallback to "plant parent"
-  const firstName = profileData.first_name?.trim();
-  const greeting = firstName
-    ? `Welcome back, ${firstName}!`
-    : "Welcome back, plant parent!";
-
-  // Calculate care statistics using the new watering calculation utility
-  const totalPlants = plants.length;
-
-  const careStats = plants.reduce(
-    (stats, plant) => {
-      const wateringCalc = calculateWateringSchedule(plant);
-
-      if (wateringCalc.hasUnknownWateringDate) {
-        stats.plantsWithoutWateringData++;
-      } else if (wateringCalc.isOverdue) {
-        stats.overduePlants++;
-        stats.plantsNeedingWaterToday++;
-      } else if (wateringCalc.daysUntilWatering === 0) {
-        // Only count plants that are actually due today, not postponed ones
-        stats.plantsNeedingWaterToday++;
-      }
-      // Note: postponed plants are intentionally not counted as "needing water today"
-
-      return stats;
-    },
-    {
-      plantsWithoutWateringData: 0,
-      plantsNeedingWaterToday: 0,
-      overduePlants: 0,
-    }
-  );
-
-  const { plantsWithoutWateringData, plantsNeedingWaterToday, overduePlants } =
-    careStats;
-
-  const recentlyAddedCount = plants.filter((plant) => {
-    const plantDate = new Date(plant.created_at);
-    const daysDiff = Math.floor(
-      (Date.now() - plantDate.getTime()) / (1000 * 60 * 60 * 24)
-    );
-    return daysDiff <= 7;
-  }).length;
-
-  // Get plants needing water today (for task list) using the new utility
-  const plantsNeedingWater = plants
-    .filter((plant) => {
-      const wateringCalc = calculateWateringSchedule(plant);
-      return (
-        !wateringCalc.hasUnknownWateringDate &&
-        (wateringCalc.isOverdue || wateringCalc.daysUntilWatering === 0)
-        // Note: postponed plants are excluded from today's task list
-      );
-    })
-    .sort((a, b) => {
-      const calcA = calculateWateringSchedule(a);
-      const calcB = calculateWateringSchedule(b);
-
-      // Sort by priority: overdue first (by how overdue), then due today
-      if (calcA.isOverdue && calcB.isOverdue) {
-        return calcA.daysUntilWatering - calcB.daysUntilWatering; // More overdue first (more negative)
-      }
-      if (calcA.isOverdue && !calcB.isOverdue) return -1;
-      if (!calcA.isOverdue && calcB.isOverdue) return 1;
-
-      return 0; // Equal priority
-    });
-
-  // Get recent activities (recently watered plants)
-  const recentlyWateredPlants = plants
-    .filter((plant) => plant.latest_watering)
-    .sort(
-      (a, b) =>
-        new Date(b.latest_watering!).getTime() -
-        new Date(a.latest_watering!).getTime()
-    )
-    .slice(0, 5);
-
-  // Get favorite plants (most recently cared for)
-  const favoritePlants = plants
-    .filter((plant) => plant.latest_watering)
-    .sort(
-      (a, b) =>
-        new Date(b.latest_watering!).getTime() -
-        new Date(a.latest_watering!).getTime()
-    )
-    .slice(0, 4);
-
   const handleQuickWater = (plantId: string, plantName: string) => {
     const plant = plants.find((p) => p.id === plantId);
     setWaterConfirmation({
@@ -414,6 +460,99 @@ const Dashboard = () => {
     }
   };
 
+  // Smart suggestions handlers
+  const handleSmartSuggestionsReview = () => {
+    setIsSmartSuggestionsDialogOpen(true);
+  };
+
+  const handleDismissAllSuggestions = () => {
+    const allPlantIds = activePlantsWithSuggestions.map(plant => plant.plantId);
+    const newDismissedSet = new Set([...dismissedSuggestions, ...allPlantIds]);
+    setDismissedSuggestions(newDismissedSet);
+    saveDismissedSuggestions(newDismissedSet, 'user_dismissed');
+  };
+
+  const handleSnoozeSuggestions = (weeks: number) => {
+    // For now, just dismiss suggestions with snooze tracking
+    // In a real implementation, you could implement time-based snoozing
+    const allPlantIds = activePlantsWithSuggestions.map(plant => plant.plantId);
+    const newDismissedSet = new Set([...dismissedSuggestions, ...allPlantIds]);
+    setDismissedSuggestions(newDismissedSet);
+    saveDismissedSuggestions(newDismissedSet, 'user_dismissed');
+  };
+
+  const handleApplyAllSuggestions = async () => {
+    // Apply all schedule adjustments
+    const appliedPlantIds: string[] = [];
+
+    for (const plant of activePlantsWithSuggestions) {
+      for (const insight of plant.insights) {
+        if (insight.suggestion && insight.actionable) {
+          try {
+            // Find the plant in our plants array to apply the schedule change
+            const plantData = plants.find(p => p.id === plant.plantId);
+            if (plantData && onScheduleAdjustment) {
+              await onScheduleAdjustment(plant.plantId, insight.suggestion.suggestedSchedule);
+              if (!appliedPlantIds.includes(plant.plantId)) {
+                appliedPlantIds.push(plant.plantId);
+              }
+            }
+          } catch (error) {
+            console.error(`Failed to apply suggestion for plant ${plant.plantId}:`, error);
+          }
+        }
+      }
+    }
+
+    // Mark applied suggestions as dismissed with 'applied' reason
+    if (appliedPlantIds.length > 0) {
+      const newDismissedSet = new Set([...dismissedSuggestions, ...appliedPlantIds]);
+      setDismissedSuggestions(newDismissedSet);
+      saveDismissedSuggestions(newDismissedSet, 'applied');
+    }
+
+    // Refresh suggestions after applying changes
+    setTimeout(() => refreshSuggestionsAnalysis(), 1000);
+  };
+
+  const handleApplySuggestion = async (plantId: string, insight: any) => {
+    if (insight.suggestion && onScheduleAdjustment) {
+      try {
+        await onScheduleAdjustment(plantId, insight.suggestion.suggestedSchedule);
+
+        // Mark this plant's suggestions as dismissed with 'applied' reason
+        const newDismissedSet = new Set([...dismissedSuggestions, plantId]);
+        setDismissedSuggestions(newDismissedSet);
+        saveDismissedSuggestions(newDismissedSet, 'applied');
+
+        // Refresh suggestions after applying change
+        setTimeout(() => refreshSuggestionsAnalysis(), 1000);
+      } catch (error) {
+        console.error(`Failed to apply suggestion for plant ${plantId}:`, error);
+      }
+    }
+  };
+
+  const handleDismissPlantSuggestions = (plantId: string) => {
+    const newDismissedSet = new Set([...dismissedSuggestions, plantId]);
+    setDismissedSuggestions(newDismissedSet);
+    saveDismissedSuggestions(newDismissedSet, 'user_dismissed');
+  };
+
+  const handleViewPlantHistory = (plantId: string) => {
+    // Navigate to the plant's history - this would need to be implemented
+    // For now, just close the dialog and potentially navigate to the plant detail page
+    setIsSmartSuggestionsDialogOpen(false);
+    navigate(`/my-plants/${plantId}`);
+  };
+
+  // We need access to the schedule adjustment function from useUserPlants
+  const onScheduleAdjustment = async (plantId: string, newSchedule: number) => {
+    // This would need to be implemented in useUserPlants hook
+    // For now, we'll just log it
+    console.log(`Adjusting schedule for plant ${plantId} to ${newSchedule} days`);
+  };
+
   return (
     <div className="py-8 bg-background min-h-[calc(100vh-4rem)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -438,6 +577,27 @@ const Dashboard = () => {
               onReviewClick={() => setIsSeasonalReviewDialogOpen(true)}
               onDismiss={dismissReview}
               onSnooze={snoozeReview}
+            />
+          </CascadingContainer>
+        )}
+
+        {/* Smart Suggestions Banner */}
+        {shouldShowSmartSuggestionsBanner && (
+          <CascadingContainer delay={100}>
+            <SmartSuggestionsBanner
+              plantsWithSuggestions={activePlantsWithSuggestions.map(plant => {
+                const plantData = plants.find(p => p.id === plant.plantId);
+                return {
+                  id: plant.plantId,
+                  name: plantData?.nickname || "Unknown Plant",
+                  suggestionsCount: plant.insights.length,
+                  highPrioritySuggestions: plant.insights.filter(i => i.severity === 'high').length,
+                };
+              })}
+              totalSuggestions={activePlantsWithSuggestions.reduce((sum, plant) => sum + plant.insights.length, 0)}
+              onReviewClick={handleSmartSuggestionsReview}
+              onDismiss={handleDismissAllSuggestions}
+              onSnooze={handleSnoozeSuggestions}
             />
           </CascadingContainer>
         )}
@@ -855,9 +1015,13 @@ const Dashboard = () => {
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                       </div>
-                      <p className="text-sm font-medium text-foreground text-center">
+                      <button
+                        onClick={() => navigate(`/my-plants/${plant.id}`)}
+                        className="text-sm font-medium text-foreground text-center hover:text-sprout-water hover:underline transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-sprout-water focus:ring-offset-2 rounded-sm w-full bg-transparent border-none cursor-pointer"
+                        aria-label={`View details for ${plant.nickname}`}
+                      >
                         {plant.nickname}
-                      </p>
+                      </button>
                       <p className="text-xs text-muted-foreground text-center">
                         {plant.plant_type}
                       </p>
@@ -1004,6 +1168,28 @@ const Dashboard = () => {
             }
           />
         )}
+
+        {/* Smart Suggestions Dialog */}
+        <SmartSuggestionsDialog
+          isOpen={isSmartSuggestionsDialogOpen}
+          onClose={() => setIsSmartSuggestionsDialogOpen(false)}
+          plantSuggestions={activePlantsWithSuggestions.map(plant => {
+            const plantData = plants.find(p => p.id === plant.plantId);
+            return {
+              plantId: plant.plantId,
+              plantName: plantData?.nickname || "Unknown Plant",
+              plantType: plantData?.plant_type || "Unknown Type",
+              insights: plant.insights,
+            };
+          })}
+          onApplyAllSuggestions={handleApplyAllSuggestions}
+          onApplySuggestion={handleApplySuggestion}
+          onDismissAllSuggestions={handleDismissAllSuggestions}
+          onDismissPlantSuggestions={handleDismissPlantSuggestions}
+          onViewPlantHistory={handleViewPlantHistory}
+          dismissedPlantIds={dismissedSuggestions}
+          isLoading={isSuggestionsAnalyzing || !isDismissedSuggestionsLoaded}
+        />
       </div>
     </div>
   );

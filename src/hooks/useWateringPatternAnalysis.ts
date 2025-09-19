@@ -294,3 +294,103 @@ export function useQuickPatternAnalysis() {
     isAnalyzing,
   };
 }
+
+/**
+ * Hook for bulk analysis of multiple plants to detect pending suggestions
+ */
+export function useBulkPatternAnalysis(plantIds: string[]) {
+  const [plantsWithSuggestions, setPlantsWithSuggestions] = useState<
+    Array<{ plantId: string; insights: PatternInsight[]; analysis: WateringPatternAnalysis }>
+  >([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Stabilize plantIds to prevent infinite re-renders - create a stable string representation
+  const plantIdsKey = useMemo(() => plantIds.join(','), [plantIds]);
+
+  const analyzePlants = useCallback(async () => {
+    if (plantIds.length === 0) {
+      setPlantsWithSuggestions([]);
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const results = await Promise.allSettled(
+        plantIds.map(async (plantId) => {
+          const { data: records } = await supabase
+            .from('watering_records')
+            .select('id, watered_at, notes')
+            .eq('plant_id', plantId)
+            .order('watered_at', { ascending: false })
+            .limit(10);
+
+          const { data: plant } = await supabase
+            .from('user_plants')
+            .select('suggested_watering_days')
+            .eq('id', plantId)
+            .single();
+
+          if (!records || !plant) return null;
+
+          const analysisData: WateringPatternData = {
+            plantId,
+            records,
+            suggestedDays: plant.suggested_watering_days || 7,
+            analysisDate: new Date(),
+          };
+
+          const analysis = wateringPatternAnalyzer.analyzePattern(analysisData);
+          const insights = wateringPatternAnalyzer.generateInsights(analysis);
+
+          // Only include plants with actionable insights
+          const actionableInsights = insights.filter(insight => insight.actionable);
+          if (actionableInsights.length > 0) {
+            return { plantId, insights: actionableInsights, analysis };
+          }
+
+          return null;
+        })
+      );
+
+      const validResults = results
+        .filter((result): result is PromiseFulfilledResult<any> =>
+          result.status === 'fulfilled' && result.value !== null
+        )
+        .map(result => result.value);
+
+      setPlantsWithSuggestions(validResults);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to analyze plants';
+      setError(errorMessage);
+      console.error('Bulk analysis error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [plantIdsKey, plantIds]);
+
+  useEffect(() => {
+    analyzePlants();
+  }, [plantIdsKey]);
+
+  const totalSuggestions = plantsWithSuggestions.reduce(
+    (sum, plant) => sum + plant.insights.length,
+    0
+  );
+
+  const highPrioritySuggestions = plantsWithSuggestions.reduce(
+    (sum, plant) => sum + plant.insights.filter(insight => insight.severity === 'high').length,
+    0
+  );
+
+  return {
+    plantsWithSuggestions,
+    totalSuggestions,
+    highPrioritySuggestions,
+    isLoading,
+    error,
+    refreshAnalysis: analyzePlants,
+  };
+}

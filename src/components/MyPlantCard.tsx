@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Droplets, AlertTriangle, Edit, Clock, History } from "lucide-react";
+import { Droplets, AlertTriangle, Edit, Clock, History, Lightbulb } from "lucide-react";
 import type { OverwateringRisk } from "@/utils/overwatering";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import { PatternSuggestionsDialog } from "@/components/watering-patterns";
-import { useQuickPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
+import { useQuickPatternAnalysis, useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { useNavigate } from "react-router-dom";
 import {
   Tooltip,
@@ -69,6 +69,12 @@ const MyPlantCard = ({
   // Quick pattern analysis hook for post-watering suggestions
   const { analyzeQuick, isAnalyzing } = useQuickPatternAnalysis();
 
+  // Pattern analysis hook for detecting pending suggestions
+  const { insights: pendingInsights } = useWateringPatternAnalysis({
+    plantId: id,
+    autoRefresh: true,
+  });
+
   const isOverwateringActive = !!(
     overwatering && overwatering.level !== "none"
   );
@@ -76,6 +82,133 @@ const MyPlantCard = ({
   // Check if we should show overwatering warning
   const { showWarning: showOverwateringWarning, daysSinceLastWatered } =
     shouldShowOverwateringWarning(lastWateredDate, suggestedWateringDays);
+
+  // Check if there are pending actionable insights
+  const hasPendingSuggestions = pendingInsights.some(insight => insight.actionable);
+
+  // Helper functions to analyze pending insights for better badge messaging
+  const getActionableInsights = () => pendingInsights.filter(insight => insight.actionable);
+
+  const getSuggestionMetadata = () => {
+    const actionableInsights = getActionableInsights();
+    const count = actionableInsights.length;
+    const highPriorityCount = actionableInsights.filter(insight => insight.severity === 'high').length;
+    const mediumPriorityCount = actionableInsights.filter(insight => insight.severity === 'medium').length;
+    const types = [...new Set(actionableInsights.map(insight => insight.type))];
+    const hasScheduleAdjustment = types.includes('schedule_adjustment');
+    const hasWateringIssues = types.includes('overwatering_risk') || types.includes('underwatering_risk');
+    const highestSeverity = highPriorityCount > 0 ? 'high' : mediumPriorityCount > 0 ? 'medium' : 'low';
+
+    return {
+      count,
+      highPriorityCount,
+      types,
+      hasScheduleAdjustment,
+      hasWateringIssues,
+      highestSeverity,
+      actionableInsights
+    };
+  };
+
+  // Generate dynamic badge text and styling based on suggestion metadata
+  const getBadgeInfo = () => {
+    if (!hasPendingSuggestions) return null;
+
+    const metadata = getSuggestionMetadata();
+    const { count, highPriorityCount, hasScheduleAdjustment, hasWateringIssues, highestSeverity } = metadata;
+
+    // Determine message based on priority and type
+    let message = '';
+    let ariaLabel = '';
+
+    if (highPriorityCount > 0) {
+      // High priority suggestions get urgent messaging
+      if (highPriorityCount === 1 && count === 1) {
+        message = hasWateringIssues ? 'Urgent watering tip' : 'Important tip';
+        ariaLabel = `${highPriorityCount} urgent plant care suggestion available`;
+      } else if (highPriorityCount > 1) {
+        message = `${highPriorityCount} urgent tips`;
+        ariaLabel = `${highPriorityCount} urgent plant care suggestions available`;
+      } else {
+        message = `${count} tips (${highPriorityCount} urgent)`;
+        ariaLabel = `${count} plant care suggestions available, ${highPriorityCount} urgent`;
+      }
+    } else {
+      // Medium/low priority suggestions get descriptive messaging
+      if (count === 1) {
+        if (hasScheduleAdjustment) {
+          message = 'Schedule tip';
+          ariaLabel = '1 watering schedule suggestion available';
+        } else if (hasWateringIssues) {
+          message = 'Watering tip';
+          ariaLabel = '1 watering pattern suggestion available';
+        } else {
+          message = 'Care tip';
+          ariaLabel = '1 plant care suggestion available';
+        }
+      } else {
+        if (hasScheduleAdjustment && hasWateringIssues) {
+          message = `${count} care tips`;
+          ariaLabel = `${count} plant care suggestions available`;
+        } else if (hasScheduleAdjustment) {
+          message = `${count} schedule tips`;
+          ariaLabel = `${count} watering schedule suggestions available`;
+        } else if (hasWateringIssues) {
+          message = `${count} watering tips`;
+          ariaLabel = `${count} watering pattern suggestions available`;
+        } else {
+          message = `${count} care tips`;
+          ariaLabel = `${count} plant care suggestions available`;
+        }
+      }
+    }
+
+    // Determine styling based on severity
+    let bgColor = '';
+    let textColor = '';
+    let borderColor = '';
+    let darkBgColor = '';
+    let darkTextColor = '';
+    let darkBorderColor = '';
+
+    switch (highestSeverity) {
+      case 'high':
+        bgColor = 'bg-amber-100';
+        textColor = 'text-amber-800';
+        borderColor = 'border-amber-200';
+        darkBgColor = 'dark:bg-amber-950/40';
+        darkTextColor = 'dark:text-amber-300';
+        darkBorderColor = 'dark:border-amber-700';
+        break;
+      case 'medium':
+        bgColor = 'bg-blue-100';
+        textColor = 'text-blue-800';
+        borderColor = 'border-blue-200';
+        darkBgColor = 'dark:bg-blue-950/40';
+        darkTextColor = 'dark:text-blue-300';
+        darkBorderColor = 'dark:border-blue-700';
+        break;
+      default: // low
+        bgColor = 'bg-green-100';
+        textColor = 'text-green-800';
+        borderColor = 'border-green-200';
+        darkBgColor = 'dark:bg-green-950/40';
+        darkTextColor = 'dark:text-green-300';
+        darkBorderColor = 'dark:border-green-700';
+        break;
+    }
+
+    const classNames = `px-2 py-1 rounded-full text-xs font-medium ${bgColor} ${textColor} border ${borderColor} ${darkBgColor} ${darkTextColor} ${darkBorderColor}`;
+
+    return {
+      message,
+      ariaLabel,
+      classNames,
+      severity: highestSeverity,
+      count,
+      shouldPulse: highPriorityCount > 0 // Add subtle animation for urgent suggestions
+    };
+  };
 
   const handleWaterClick = () => {
     setShowWaterConfirmation(true);
@@ -265,6 +398,29 @@ const MyPlantCard = ({
                 : "Watch watering"}
             </span>
           </div>
+
+          {/* Smart Suggestions Badge - Bottom Left of image */}
+          {(() => {
+            const badgeInfo = getBadgeInfo();
+            if (!badgeInfo || isOverwateringActive) return null;
+
+            return (
+              <div
+                className={`absolute bottom-3 left-3 transition-all duration-200 ${
+                  hasPendingSuggestions && !isOverwateringActive
+                    ? "opacity-100"
+                    : "opacity-0 pointer-events-none"
+                } ${badgeInfo.shouldPulse ? 'animate-pulse' : ''}`}
+                aria-label={badgeInfo.ariaLabel}
+                role="status"
+              >
+                <span className={badgeInfo.classNames}>
+                  <Lightbulb className="w-3 h-3 inline mr-1" />
+                  {badgeInfo.message}
+                </span>
+              </div>
+            );
+          })()}
         </div>
 
         <TooltipProvider>
@@ -351,10 +507,15 @@ const MyPlantCard = ({
                     variant="ghost"
                     size="sm"
                     onClick={onViewHistory}
-                    className="w-full text-xs text-sprout-cream hover:text-sprout-white hover:bg-sprout-medium/20 dark:text-sprout-cream dark:hover:text-sprout-white dark:hover:bg-sprout-light/10 font-medium border border-sprout-cream/20 hover:border-sprout-cream/40"
+                    className={`w-full text-xs font-medium border ${
+                      hasPendingSuggestions
+                        ? "text-blue-700 hover:text-blue-800 hover:bg-blue-50 dark:text-blue-300 dark:hover:text-blue-200 dark:hover:bg-blue-950/20 border-blue-200 hover:border-blue-300 dark:border-blue-700 dark:hover:border-blue-600"
+                        : "text-sprout-cream hover:text-sprout-white hover:bg-sprout-medium/20 dark:text-sprout-cream dark:hover:text-sprout-white dark:hover:bg-sprout-light/10 border-sprout-cream/20 hover:border-sprout-cream/40"
+                    }`}
                   >
                     <History className="w-3 h-3 mr-1" />
-                    View Watering History
+                    {hasPendingSuggestions && <Lightbulb className="w-3 h-3 mr-1" />}
+                    {hasPendingSuggestions ? "History & Insights" : "View Watering History"}
                   </Button>
                 </div>
               )}
