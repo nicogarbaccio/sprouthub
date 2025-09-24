@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Droplets, AlertTriangle, Edit, Clock, History, Lightbulb } from "lucide-react";
+import {
+  Droplets,
+  AlertTriangle,
+  Edit,
+  Clock,
+  History,
+  Lightbulb,
+} from "lucide-react";
 import type { OverwateringRisk } from "@/utils/overwatering";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
+import PostponeConfirmationDialog from "@/components/PostponeConfirmationDialog";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import { PatternSuggestionsDialog } from "@/components/watering-patterns";
-import { useQuickPatternAnalysis, useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
+import {
+  useQuickPatternAnalysis,
+  useWateringPatternAnalysis,
+} from "@/hooks/useWateringPatternAnalysis";
 import { useNavigate } from "react-router-dom";
 import {
   Tooltip,
@@ -34,7 +45,10 @@ interface MyPlantCardProps {
   onEdit: () => void;
   onPostpone?: () => void;
   onViewHistory?: () => void;
-  onScheduleAdjustment?: (plantId: string, newSchedule: number) => Promise<void>;
+  onScheduleAdjustment?: (
+    plantId: string,
+    newSchedule: number
+  ) => Promise<void>;
   overwatering?: OverwateringRisk;
 }
 
@@ -61,6 +75,8 @@ const MyPlantCard = ({
 }: MyPlantCardProps) => {
   const navigate = useNavigate();
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
+  const [showPostponeConfirmation, setShowPostponeConfirmation] =
+    useState(false);
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
   const [showPatternSuggestions, setShowPatternSuggestions] = useState(false);
   const [patternAnalysis, setPatternAnalysis] = useState(null);
@@ -84,20 +100,36 @@ const MyPlantCard = ({
     shouldShowOverwateringWarning(lastWateredDate, suggestedWateringDays);
 
   // Check if there are pending actionable insights
-  const hasPendingSuggestions = pendingInsights.some(insight => insight.actionable);
+  const hasPendingSuggestions = pendingInsights.some(
+    (insight) => insight.actionable
+  );
 
   // Helper functions to analyze pending insights for better badge messaging
-  const getActionableInsights = () => pendingInsights.filter(insight => insight.actionable);
+  const getActionableInsights = () =>
+    pendingInsights.filter((insight) => insight.actionable);
 
   const getSuggestionMetadata = () => {
     const actionableInsights = getActionableInsights();
     const count = actionableInsights.length;
-    const highPriorityCount = actionableInsights.filter(insight => insight.severity === 'high').length;
-    const mediumPriorityCount = actionableInsights.filter(insight => insight.severity === 'medium').length;
-    const types = [...new Set(actionableInsights.map(insight => insight.type))];
-    const hasScheduleAdjustment = types.includes('schedule_adjustment');
-    const hasWateringIssues = types.includes('overwatering_risk') || types.includes('underwatering_risk');
-    const highestSeverity = highPriorityCount > 0 ? 'high' : mediumPriorityCount > 0 ? 'medium' : 'low';
+    const highPriorityCount = actionableInsights.filter(
+      (insight) => insight.severity === "high"
+    ).length;
+    const mediumPriorityCount = actionableInsights.filter(
+      (insight) => insight.severity === "medium"
+    ).length;
+    const types = [
+      ...new Set(actionableInsights.map((insight) => insight.type)),
+    ];
+    const hasScheduleAdjustment = types.includes("schedule_adjustment");
+    const hasWateringIssues =
+      types.includes("overwatering_risk") ||
+      types.includes("underwatering_risk");
+    const highestSeverity =
+      highPriorityCount > 0
+        ? "high"
+        : mediumPriorityCount > 0
+        ? "medium"
+        : "low";
 
     return {
       count,
@@ -106,7 +138,7 @@ const MyPlantCard = ({
       hasScheduleAdjustment,
       hasWateringIssues,
       highestSeverity,
-      actionableInsights
+      actionableInsights,
     };
   };
 
@@ -115,16 +147,22 @@ const MyPlantCard = ({
     if (!hasPendingSuggestions) return null;
 
     const metadata = getSuggestionMetadata();
-    const { count, highPriorityCount, hasScheduleAdjustment, hasWateringIssues, highestSeverity } = metadata;
+    const {
+      count,
+      highPriorityCount,
+      hasScheduleAdjustment,
+      hasWateringIssues,
+      highestSeverity,
+    } = metadata;
 
     // Determine message based on priority and type
-    let message = '';
-    let ariaLabel = '';
+    let message = "";
+    let ariaLabel = "";
 
     if (highPriorityCount > 0) {
       // High priority suggestions get urgent messaging
       if (highPriorityCount === 1 && count === 1) {
-        message = hasWateringIssues ? 'Urgent watering tip' : 'Important tip';
+        message = hasWateringIssues ? "Urgent watering tip" : "Important tip";
         ariaLabel = `${highPriorityCount} urgent plant care suggestion available`;
       } else if (highPriorityCount > 1) {
         message = `${highPriorityCount} urgent tips`;
@@ -137,14 +175,14 @@ const MyPlantCard = ({
       // Medium/low priority suggestions get descriptive messaging
       if (count === 1) {
         if (hasScheduleAdjustment) {
-          message = 'Schedule tip';
-          ariaLabel = '1 watering schedule suggestion available';
+          message = "Schedule tip";
+          ariaLabel = "1 watering schedule suggestion available";
         } else if (hasWateringIssues) {
-          message = 'Watering tip';
-          ariaLabel = '1 watering pattern suggestion available';
+          message = "Watering tip";
+          ariaLabel = "1 watering pattern suggestion available";
         } else {
-          message = 'Care tip';
-          ariaLabel = '1 plant care suggestion available';
+          message = "Care tip";
+          ariaLabel = "1 plant care suggestion available";
         }
       } else {
         if (hasScheduleAdjustment && hasWateringIssues) {
@@ -164,37 +202,37 @@ const MyPlantCard = ({
     }
 
     // Determine styling based on severity
-    let bgColor = '';
-    let textColor = '';
-    let borderColor = '';
-    let darkBgColor = '';
-    let darkTextColor = '';
-    let darkBorderColor = '';
+    let bgColor = "";
+    let textColor = "";
+    let borderColor = "";
+    let darkBgColor = "";
+    let darkTextColor = "";
+    let darkBorderColor = "";
 
     switch (highestSeverity) {
-      case 'high':
-        bgColor = 'bg-amber-100';
-        textColor = 'text-amber-800';
-        borderColor = 'border-amber-200';
-        darkBgColor = 'dark:bg-amber-950/40';
-        darkTextColor = 'dark:text-amber-300';
-        darkBorderColor = 'dark:border-amber-700';
+      case "high":
+        bgColor = "bg-amber-100";
+        textColor = "text-amber-800";
+        borderColor = "border-amber-200";
+        darkBgColor = "dark:bg-amber-950/40";
+        darkTextColor = "dark:text-amber-300";
+        darkBorderColor = "dark:border-amber-700";
         break;
-      case 'medium':
-        bgColor = 'bg-blue-100';
-        textColor = 'text-blue-800';
-        borderColor = 'border-blue-200';
-        darkBgColor = 'dark:bg-blue-950/40';
-        darkTextColor = 'dark:text-blue-300';
-        darkBorderColor = 'dark:border-blue-700';
+      case "medium":
+        bgColor = "bg-blue-100";
+        textColor = "text-blue-800";
+        borderColor = "border-blue-200";
+        darkBgColor = "dark:bg-blue-950/40";
+        darkTextColor = "dark:text-blue-300";
+        darkBorderColor = "dark:border-blue-700";
         break;
       default: // low
-        bgColor = 'bg-green-100';
-        textColor = 'text-green-800';
-        borderColor = 'border-green-200';
-        darkBgColor = 'dark:bg-green-950/40';
-        darkTextColor = 'dark:text-green-300';
-        darkBorderColor = 'dark:border-green-700';
+        bgColor = "bg-green-100";
+        textColor = "text-green-800";
+        borderColor = "border-green-200";
+        darkBgColor = "dark:bg-green-950/40";
+        darkTextColor = "dark:text-green-300";
+        darkBorderColor = "dark:border-green-700";
         break;
     }
 
@@ -206,7 +244,7 @@ const MyPlantCard = ({
       classNames,
       severity: highestSeverity,
       count,
-      shouldPulse: highPriorityCount > 0 // Add subtle animation for urgent suggestions
+      shouldPulse: highPriorityCount > 0, // Add subtle animation for urgent suggestions
     };
   };
 
@@ -214,33 +252,80 @@ const MyPlantCard = ({
     setShowWaterConfirmation(true);
   };
 
+  // Format date function to match the existing format used in the app
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    let displayDate = new Date(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate()
+    );
+    if (date.getUTCHours() < 4) {
+      displayDate.setUTCDate(displayDate.getUTCDate() - 1);
+    }
+
+    return displayDate.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+  };
+
+  // Calculate tomorrow's date in the same format
+  const getTomorrowDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return formatDate(tomorrow.toISOString());
+  };
+
+  const handlePostponeClick = () => {
+    setShowPostponeConfirmation(true);
+  };
+
+  const handleConfirmPostpone = async () => {
+    if (onPostpone) {
+      await onPostpone();
+    }
+  };
+
   const handleConfirmWater = async () => {
     // First, complete the watering action
     onWater();
-    
+
     // Then, analyze watering patterns for suggestions (after a brief delay to ensure watering is recorded)
     setTimeout(async () => {
       try {
         const analysis = await analyzeQuick(id);
         if (analysis) {
           setPatternAnalysis(analysis);
-          
+
           // Generate insights from the analysis
-          const { wateringPatternAnalyzer } = await import('@/utils/watering-pattern-analyzer');
+          const { wateringPatternAnalyzer } = await import(
+            "@/utils/watering-pattern-analyzer"
+          );
           const insights = wateringPatternAnalyzer.generateInsights(analysis);
           setPatternInsights(insights);
-          
+
           // Show suggestions if there are actionable insights OR if it's a positive pattern (consistent) OR insufficient data
-          const hasActionableInsights = insights.some(insight => insight.actionable);
-          const isConsistentPattern = analysis.pattern === 'consistent';
-          const isInsufficientData = analysis.confidence === 'low' && analysis.reasoning.some(r => r.includes('Need at least'));
-          
-          if (hasActionableInsights || isConsistentPattern || isInsufficientData) {
+          const hasActionableInsights = insights.some(
+            (insight) => insight.actionable
+          );
+          const isConsistentPattern = analysis.pattern === "consistent";
+          const isInsufficientData =
+            analysis.confidence === "low" &&
+            analysis.reasoning.some((r) => r.includes("Need at least"));
+
+          if (
+            hasActionableInsights ||
+            isConsistentPattern ||
+            isInsufficientData
+          ) {
             setShowPatternSuggestions(true);
           }
         }
       } catch (error) {
-        console.error('Error analyzing watering pattern:', error);
+        console.error("Error analyzing watering pattern:", error);
       }
     }, 2000); // Wait 2 seconds for watering record to be saved
   };
@@ -257,7 +342,7 @@ const MyPlantCard = ({
         await onScheduleAdjustment(id, insight.suggestion.suggestedSchedule);
         setShowPatternSuggestions(false);
       } catch (error) {
-        console.error('Failed to apply schedule adjustment:', error);
+        console.error("Failed to apply schedule adjustment:", error);
       }
     }
   };
@@ -410,7 +495,7 @@ const MyPlantCard = ({
                   hasPendingSuggestions && !isOverwateringActive
                     ? "opacity-100"
                     : "opacity-0 pointer-events-none"
-                } ${badgeInfo.shouldPulse ? 'animate-pulse' : ''}`}
+                } ${badgeInfo.shouldPulse ? "animate-pulse" : ""}`}
                 aria-label={badgeInfo.ariaLabel}
                 role="status"
               >
@@ -424,7 +509,13 @@ const MyPlantCard = ({
         </div>
 
         <TooltipProvider>
-          <div className="p-5 grid h-full" style={{ gridTemplateRows: "minmax(1.75rem, auto) auto minmax(0, auto) 1fr auto" }}>
+          <div
+            className="p-5 grid h-full"
+            style={{
+              gridTemplateRows:
+                "minmax(1.75rem, auto) auto minmax(0, auto) 1fr auto",
+            }}
+          >
             {/* Header Section - Natural height with household badge accommodation */}
             <div className="flex items-center justify-between mb-1">
               <h3 className="text-lg font-semibold text-foreground flex-1 min-w-0 mr-2">
@@ -469,8 +560,8 @@ const MyPlantCard = ({
                 <div className="flex items-center gap-2 p-2 bg-sprout-cream/20 border border-sprout-cream/40 rounded-md">
                   <AlertTriangle className="h-4 w-4 text-sprout-dark flex-shrink-0" />
                   <p className="text-xs text-sprout-dark">
-                    Last watering date unknown - please water and record or edit the
-                    plant details
+                    Last watering date unknown - please water and record or edit
+                    the plant details
                   </p>
                 </div>
               )}
@@ -480,7 +571,9 @@ const MyPlantCard = ({
             <div className="space-y-2 mb-4">
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Last watered:</span>
-                <span className="text-foreground font-medium">{lastWatered}</span>
+                <span className="text-foreground font-medium">
+                  {lastWatered}
+                </span>
               </div>
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">Next watering:</span>
@@ -514,8 +607,12 @@ const MyPlantCard = ({
                     }`}
                   >
                     <History className="w-3 h-3 mr-1" />
-                    {hasPendingSuggestions && <Lightbulb className="w-3 h-3 mr-1" />}
-                    {hasPendingSuggestions ? "History & Insights" : "View Watering History"}
+                    {hasPendingSuggestions && (
+                      <Lightbulb className="w-3 h-3 mr-1" />
+                    )}
+                    {hasPendingSuggestions
+                      ? "History & Insights"
+                      : "View Watering History"}
                   </Button>
                 </div>
               )}
@@ -532,15 +629,18 @@ const MyPlantCard = ({
               </Button>
               {/* Always render postpone button, control visibility */}
               <Button
-                onClick={onPostpone}
+                onClick={handlePostponeClick}
                 variant="outline"
                 className="w-full rounded-xl font-medium border-sprout-water/30 text-sprout-water hover:bg-sprout-water/10"
                 style={{
-                  visibility: (daysUntilWatering <= 0 &&
+                  visibility:
+                    daysUntilWatering <= 0 &&
                     !isPostponed &&
                     !hasUnknownWateringDate &&
                     lastWateredDate &&
-                    onPostpone) ? 'visible' : 'hidden'
+                    onPostpone
+                      ? "visible"
+                      : "hidden",
                 }}
               >
                 <Clock className="w-4 h-4 mr-2" />
@@ -575,6 +675,15 @@ const MyPlantCard = ({
         plantName={name}
         onAcceptSuggestion={handlePatternScheduleAdjustment}
         onDismissAll={() => setShowPatternSuggestions(false)}
+      />
+
+      <PostponeConfirmationDialog
+        open={showPostponeConfirmation}
+        onOpenChange={setShowPostponeConfirmation}
+        onConfirm={handleConfirmPostpone}
+        plantName={name}
+        currentNextWatering={nextWateringDue}
+        postponedNextWatering={getTomorrowDate()}
       />
     </>
   );

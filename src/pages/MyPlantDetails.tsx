@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
+import PostponeConfirmationDialog from "@/components/PostponeConfirmationDialog";
 import EditPlantDialog from "@/components/EditPlantDialog";
 import WateringHistoryDialog from "@/components/WateringHistoryDialog";
 import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
@@ -62,6 +63,8 @@ const MyPlantDetails = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
+  const [showPostponeConfirmation, setShowPostponeConfirmation] =
+    useState(false);
   const [showEditDialog, setShowEditDialog] = useState(false);
   const [showHistoryDialog, setShowHistoryDialog] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -73,7 +76,11 @@ const MyPlantDetails = () => {
   const overwatering = plant ? overwateringByPlantId[plant.id] : undefined;
 
   // Add watering pattern analysis hook
-  const { insights: pendingInsights, analysis, isLoading: isAnalyzing } = useWateringPatternAnalysis({
+  const {
+    insights: pendingInsights,
+    analysis,
+    isLoading: isAnalyzing,
+  } = useWateringPatternAnalysis({
     plantId: plant?.id,
     autoRefresh: true,
   });
@@ -127,6 +134,43 @@ const MyPlantDetails = () => {
     setShowEditDialog(true);
   };
 
+  // Format date function to match the existing format used in the app
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    let displayDate = new Date(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate()
+    );
+    if (date.getUTCHours() < 4) {
+      displayDate.setUTCDate(displayDate.getUTCDate() - 1);
+    }
+
+    return displayDate.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+  };
+
+  // Calculate tomorrow's date in the same format
+  const getTomorrowDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return formatDate(tomorrow.toISOString());
+  };
+
+  const handlePostponeClick = () => {
+    setShowPostponeConfirmation(true);
+  };
+
+  const handleConfirmPostpone = async () => {
+    if (plant) {
+      await postponeWatering(plant.id);
+    }
+  };
+
   const handlePostpone = async () => {
     if (plant) {
       await postponeWatering(plant.id);
@@ -143,14 +187,18 @@ const MyPlantDetails = () => {
 
   // Helper functions for suggestion metadata and badge info
   const getActionableInsights = () => {
-    return pendingInsights?.filter(insight => insight.actionable) || [];
+    return pendingInsights?.filter((insight) => insight.actionable) || [];
   };
 
   const getSuggestionMetadata = () => {
     const actionableInsights = getActionableInsights();
     const count = actionableInsights.length;
-    const highPriorityCount = actionableInsights.filter(insight => insight.severity === 'high').length;
-    const mediumPriorityCount = actionableInsights.filter(insight => insight.severity === 'medium').length;
+    const highPriorityCount = actionableInsights.filter(
+      (insight) => insight.severity === "high"
+    ).length;
+    const mediumPriorityCount = actionableInsights.filter(
+      (insight) => insight.severity === "medium"
+    ).length;
 
     return {
       count,
@@ -164,42 +212,45 @@ const MyPlantDetails = () => {
 
   const getBadgeInfo = () => {
     const metadata = getSuggestionMetadata();
-    const { count, highPriorityCount, hasHighPriority, hasMediumPriority } = metadata;
+    const { count, highPriorityCount, hasHighPriority, hasMediumPriority } =
+      metadata;
 
     if (count === 0) return null;
 
     // Determine badge text based on suggestion count and types
-    let text = '';
-    let colorClass = '';
-    let description = '';
+    let text = "";
+    let colorClass = "";
+    let description = "";
 
     if (hasHighPriority) {
       if (highPriorityCount === 1) {
-        text = 'Important tip';
-        description = '1 important watering insight available';
+        text = "Important tip";
+        description = "1 important watering insight available";
       } else {
         text = `${highPriorityCount} important tips`;
         description = `${highPriorityCount} important watering insights available`;
       }
-      colorClass = 'bg-amber-500 hover:bg-amber-600 text-white border-amber-500';
+      colorClass =
+        "bg-amber-500 hover:bg-amber-600 text-white border-amber-500";
     } else if (hasMediumPriority) {
       if (count === 1) {
-        text = 'Smart tip';
-        description = '1 watering insight available';
+        text = "Smart tip";
+        description = "1 watering insight available";
       } else {
         text = `${count} smart tips`;
         description = `${count} watering insights available`;
       }
-      colorClass = 'bg-blue-500 hover:bg-blue-600 text-white border-blue-500';
+      colorClass = "bg-blue-500 hover:bg-blue-600 text-white border-blue-500";
     } else {
       if (count === 1) {
-        text = 'Good tip';
-        description = '1 positive watering insight available';
+        text = "Good tip";
+        description = "1 positive watering insight available";
       } else {
         text = `${count} good tips`;
         description = `${count} positive watering insights available`;
       }
-      colorClass = 'bg-green-500 hover:bg-green-600 text-white border-green-500';
+      colorClass =
+        "bg-green-500 hover:bg-green-600 text-white border-green-500";
     }
 
     return { text, colorClass, description };
@@ -610,7 +661,7 @@ const MyPlantDetails = () => {
                         Water Now
                       </Button>
                       <Button
-                        onClick={handlePostpone}
+                        onClick={handlePostponeClick}
                         variant="outline"
                         className="w-full border-sprout-water/30 text-sprout-water hover:bg-sprout-water/10"
                       >
@@ -745,6 +796,19 @@ const MyPlantDetails = () => {
         plantName={plant.nickname}
         analysis={analysis}
         insights={getActionableInsights()}
+      />
+
+      <PostponeConfirmationDialog
+        open={showPostponeConfirmation}
+        onOpenChange={setShowPostponeConfirmation}
+        onConfirm={handleConfirmPostpone}
+        plantName={plant.nickname}
+        currentNextWatering={formatDate(
+          plant.postponement_date ||
+            plant.latest_watering ||
+            new Date().toISOString()
+        )}
+        postponedNextWatering={getTomorrowDate()}
       />
 
       <AlertDialog
