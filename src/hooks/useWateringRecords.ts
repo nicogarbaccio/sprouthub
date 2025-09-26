@@ -111,7 +111,9 @@ export function useWateringRecords() {
 
       // Show success toast after database operation is successful
       if (isPostponement) {
-        wateringToast.success('Postponement deleted successfully');
+        // For postponements, we need to use a generic toast message since the wateringToast utility
+        // doesn't have a specific success method
+        wateringToast.deleted('Postponement');
       } else {
         wateringToast.deleted();
       }

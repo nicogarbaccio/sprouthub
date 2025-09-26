@@ -264,7 +264,12 @@ const EditPlantDialog = ({
 
       // Show success toast after database operation is successful
       if (isPostponement) {
-        wateringToast.success('Postponement deleted successfully');
+        // Use the general toast for postponements since wateringToast doesn't have a success method
+        toast({
+          title: "Success",
+          description: "Postponement deleted successfully",
+          variant: "default",
+        });
       } else {
         wateringToast.deleted();
       }
