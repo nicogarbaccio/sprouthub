@@ -7,19 +7,20 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Calendar, Droplets, FileText, AlertTriangle } from "lucide-react";
+import {
+  Calendar,
+  Droplets,
+  FileText,
+  AlertTriangle,
+  Trash2,
+  Clock,
+} from "lucide-react";
 import { computeOverwateringRisk } from "@/utils/overwatering";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { format } from "date-fns";
+import { format, isFuture } from "date-fns";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { PatternAnalysisSection } from "@/components/watering-patterns";
-
-interface WateringRecord {
-  id: string;
-  watered_at: string;
-  notes?: string;
-}
+import { useWateringRecords } from "@/hooks/useWateringRecords";
 
 interface Plant {
   id: string;
@@ -47,8 +48,14 @@ const WateringHistoryDialog = ({
   onScheduleAdjustment,
 }: WateringHistoryDialogProps) => {
   const { toast } = useToast();
-  const [wateringRecords, setWateringRecords] = useState<WateringRecord[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+
+  // Use the shared watering records hook for better state management
+  const {
+    records: wateringRecords,
+    isLoading,
+    loadWateringRecords,
+    deleteWateringRecord,
+  } = useWateringRecords();
 
   // Pattern analysis integration
   const {
@@ -66,30 +73,7 @@ const WateringHistoryDialog = ({
     if (plant && isOpen) {
       loadWateringRecords(plant.id);
     }
-  }, [plant, isOpen]);
-
-  const loadWateringRecords = async (plantId: string) => {
-    setIsLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from("watering_records")
-        .select("*")
-        .eq("plant_id", plantId)
-        .order("watered_at", { ascending: false });
-
-      if (error) throw error;
-      setWateringRecords(data || []);
-    } catch (error) {
-      console.error("Error loading watering records:", error);
-      toast({
-        title: "Error",
-        description: "Failed to load watering records",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  }, [plant, isOpen, loadWateringRecords]);
 
   // Handle schedule adjustment from pattern suggestions
   const handleScheduleAdjustment = async (insight: any) => {
@@ -134,12 +118,16 @@ const WateringHistoryDialog = ({
   const getWateringStats = () => {
     if (wateringRecords.length === 0) return null;
 
-    const totalWaterings = wateringRecords.length;
+    // Count only actual waterings (not postponements)
+    const actualWaterings = wateringRecords.filter(
+      (record) => !record.is_postponement
+    );
+    const totalWaterings = actualWaterings.length;
     const suggestedDays = plant?.suggested_watering_days || 7;
 
     // Calculate average watering frequency
     if (totalWaterings > 1) {
-      const dates = wateringRecords
+      const dates = actualWaterings
         .map((record) => new Date(record.watered_at))
         .sort((a, b) => a.getTime() - b.getTime());
       const intervals = [];
@@ -172,9 +160,14 @@ const WateringHistoryDialog = ({
     };
   };
 
+  // Filter out postponements for risk calculation
+  const actualWaterings = wateringRecords.filter(
+    (record) => !record.is_postponement
+  );
+
   const stats = getWateringStats();
   const risk = computeOverwateringRisk({
-    records: wateringRecords.map((r) => ({
+    records: actualWaterings.map((r) => ({
       watered_at: r.watered_at,
       notes: r.notes,
     })),
@@ -315,7 +308,7 @@ const WateringHistoryDialog = ({
           <div>
             <h3 className="text-xl sm:text-lg font-semibold mb-6 flex items-center gap-2">
               <Calendar className="w-6 h-6 sm:w-5 sm:h-5" />
-              Watering Records
+              Watering History & Postponements
             </h3>
 
             {isLoading ? (
@@ -337,40 +330,77 @@ const WateringHistoryDialog = ({
               </div>
             ) : (
               <div className="space-y-4">
-                {wateringRecords.map((record, index) => (
-                  <div key={record.id}>
-                    <div className="flex items-start gap-6 p-6 bg-card rounded-lg border hover:shadow-sm transition-shadow">
-                      <div className="flex-shrink-0">
-                        <div className="w-12 h-12 sm:w-10 sm:h-10 bg-sprout-water/20 rounded-full flex items-center justify-center">
-                          <Droplets className="w-6 h-6 sm:w-5 sm:h-5 text-sprout-water" />
-                        </div>
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                          <p className="font-medium text-foreground text-lg sm:text-base">
-                            Watered
-                          </p>
-                          <span className="text-base sm:text-sm text-muted-foreground mt-1 sm:mt-0">
-                            {formatDate(record.watered_at)}
-                          </span>
-                        </div>
-
-                        {record.notes && (
-                          <div className="flex items-start gap-3 mt-3">
-                            <FileText className="w-5 h-5 sm:w-4 sm:h-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-                            <p className="text-base sm:text-sm text-muted-foreground">
-                              {record.notes}
-                            </p>
+                {wateringRecords.map((record, index) => {
+                  const isPostponement = record.is_postponement;
+                  const isFutureDate = isFuture(new Date(record.watered_at));
+                  return (
+                    <div key={record.id}>
+                      <div 
+                        className={`flex items-start gap-6 p-6 rounded-lg border hover:shadow-sm transition-shadow
+                          ${isPostponement 
+                            ? isFutureDate
+                              ? "bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/30"
+                              : "bg-gray-50 dark:bg-gray-800/20 border-gray-200 dark:border-gray-700/30" 
+                            : "bg-card"}`
+                        }
+                      >
+                        <div className="flex-shrink-0">
+                          <div className={`w-12 h-12 sm:w-10 sm:h-10 rounded-full flex items-center justify-center
+                            ${isPostponement 
+                              ? "bg-amber-100 dark:bg-amber-900/30" 
+                              : "bg-sprout-water/20"}`
+                            }
+                          >
+                            {isPostponement ? (
+                              <Clock className="w-6 h-6 sm:w-5 sm:h-5 text-amber-500 dark:text-amber-400" />
+                            ) : (
+                              <Droplets className="w-6 h-6 sm:w-5 sm:h-5 text-sprout-water" />
+                            )}
                           </div>
-                        )}
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                            <p className="font-medium text-foreground text-lg sm:text-base">
+                              {isPostponement 
+                                ? isFutureDate 
+                                  ? "Postponed Watering" 
+                                  : "Past Postponement" 
+                                : "Watered"}
+                            </p>
+                            <div className="flex items-center">
+                              <span className="text-base sm:text-sm text-muted-foreground mt-1 sm:mt-0">
+                                {formatDate(record.watered_at)}
+                              </span>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => deleteWateringRecord(record.id)}
+                                className="text-red-500 hover:text-red-700 ml-2 flex-shrink-0"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+
+                          {record.notes && (
+                            <div className="flex items-start gap-3 mt-3">
+                              <FileText className="w-5 h-5 sm:w-4 sm:h-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                              <p className="text-base sm:text-sm text-muted-foreground">
+                                {isPostponement 
+                                  ? record.notes.replace('POSTPONEMENT: ', '') 
+                                  : record.notes}
+                              </p>
+                            </div>
+                          )}
+                        </div>
                       </div>
+                      {index < wateringRecords.length - 1 && (
+                        <div className="border-b border-sprout-cream/10 dark:border-sprout-cream/5 mx-6" />
+                      )}
                     </div>
-                    {index < wateringRecords.length - 1 && (
-                      <div className="border-b border-sprout-cream/10 dark:border-sprout-cream/5 mx-6" />
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>

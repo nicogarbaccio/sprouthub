@@ -9,6 +9,7 @@ export interface WateringRecord {
   notes?: string | null;
   plant_id: string;
   performed_by?: string;
+  is_postponement?: boolean; // Helper flag to identify postponements
 }
 
 export function useWateringRecords() {
@@ -30,7 +31,14 @@ export function useWateringRecords() {
         .order('watered_at', { ascending: false });
 
       if (error) throw error;
-      setRecords(data || []);
+
+      // Add is_postponement flag to records for UI differentiation
+      const processedRecords = (data || []).map(record => ({
+        ...record,
+        is_postponement: record.notes?.includes('POSTPONEMENT:') || false
+      }));
+      
+      setRecords(processedRecords);
     } catch (error) {
       console.error('Error loading watering records:', error);
       wateringToast.error('load');
@@ -71,7 +79,7 @@ export function useWateringRecords() {
   };
 
   /**
-   * Deletes a watering record
+   * Deletes a watering record (works for both regular waterings and postponements)
    */
   const deleteWateringRecord = async (recordId: string) => {
     // Prevent multiple simultaneous deletions of the same record
@@ -81,11 +89,17 @@ export function useWateringRecords() {
     setDeleteLoadingRecords(prev => new Set(prev).add(recordId));
 
     try {
-      // Get plant ID before deletion for refresh
+      // Get record before deletion for refresh and to check if it's a postponement
       const recordToDelete = records.find(r => r.id === recordId);
       if (!recordToDelete) throw new Error('Record not found');
       
       const plantId = recordToDelete.plant_id;
+      const isPostponement = recordToDelete.notes?.includes('POSTPONEMENT:') || false;
+      
+      // Optimistic UI update - remove the record from the local state immediately
+      setRecords(currentRecords => 
+        currentRecords.filter(record => record.id !== recordId)
+      );
       
       // Delete from database
       const { error } = await supabase
@@ -95,17 +109,22 @@ export function useWateringRecords() {
 
       if (error) throw error;
 
-      // Await the data refresh before showing success
+      // Show success toast after database operation is successful
+      if (isPostponement) {
+        wateringToast.success('Postponement deleted successfully');
+      } else {
+        wateringToast.deleted();
+      }
+      
+      // Refresh from server to ensure consistency (but UI already updated optimistically)
       await loadWateringRecords(plantId);
-
-      // Only show success toast after UI has been updated
-      wateringToast.deleted();
+      
       return true;
     } catch (error) {
       console.error('Error deleting watering record:', error);
       wateringToast.error('delete');
 
-      // If deletion failed, still try to refresh to ensure UI consistency
+      // On error, restore data from server to ensure consistency
       try {
         const recordToDelete = records.find(r => r.id === recordId);
         if (recordToDelete) {
@@ -126,12 +145,44 @@ export function useWateringRecords() {
     }
   };
 
+  /**
+   * Adds a postponement record
+   */
+  const addPostponement = async (plantId: string, date: Date, notes?: string) => {
+    if (!user) return false;
+
+    try {
+      const { error } = await supabase
+        .from('watering_records')
+        .insert({
+          plant_id: plantId,
+          watered_at: date.toISOString(),
+          notes: `POSTPONEMENT: ${notes || 'Watering postponed'}`,
+          performed_by: user.id,
+        });
+
+      if (error) throw error;
+
+      // Refresh records to show the new one
+      await loadWateringRecords(plantId);
+      
+      // Only show success toast after UI has been updated
+      wateringToast.success('Watering postponed successfully');
+      return true;
+    } catch (error) {
+      console.error('Error adding postponement:', error);
+      wateringToast.error('add postponement');
+      return false;
+    }
+  };
+
   return {
     records,
     isLoading,
     deleteLoadingRecords,
     loadWateringRecords,
     addWateringRecord,
-    deleteWateringRecord
+    deleteWateringRecord,
+    addPostponement
   };
 }

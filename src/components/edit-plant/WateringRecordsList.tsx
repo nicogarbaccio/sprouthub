@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Trash2, Loader2 } from "lucide-react";
-import { format } from "date-fns";
+import { Trash2, Loader2, Droplets, Clock } from "lucide-react";
+import { format, isFuture } from "date-fns";
 
 interface WateringRecord {
   id: string;
   watered_at: string;
   notes?: string;
+  is_postponement?: boolean;
 }
 
 interface WateringRecordsListProps {
@@ -24,17 +25,41 @@ const WateringRecordsList = ({
       {records.length > 0 ? (
         records.map((record, index) => {
           const isDeleting = deleteLoadingRecords.has(record.id);
+          const isPostponement = record.is_postponement || record.notes?.includes('POSTPONEMENT:');
+          const isFutureDate = isFuture(new Date(record.watered_at));
 
           return (
             <div key={record.id}>
-              <div className="flex items-center justify-between p-4 sm:p-3 border rounded-lg bg-card hover:shadow-sm transition-shadow">
+              <div className={`flex items-center justify-between p-4 sm:p-3 border rounded-lg hover:shadow-sm transition-shadow
+                ${isPostponement 
+                  ? isFutureDate
+                    ? "bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/30"
+                    : "bg-gray-50 dark:bg-gray-800/20 border-gray-200 dark:border-gray-700/30" 
+                  : "bg-card"}`
+                }
+              >
                 <div className="flex-1 min-w-0">
-                  <div className="font-medium text-base sm:text-sm">
+                  <div className="flex items-center gap-2 font-medium text-base sm:text-sm">
+                    {isPostponement ? (
+                      <>
+                        <Clock className="w-4 h-4 text-amber-500" />
+                        <span>
+                          {isFutureDate ? "Postponed: " : "Past postponement: "}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <Droplets className="w-4 h-4 text-sprout-water" />
+                        <span>Watered: </span>
+                      </>
+                    )}
                     {format(new Date(record.watered_at), "PPP")}
                   </div>
                   {record.notes && (
-                    <div className="text-sm sm:text-xs text-muted-foreground mt-1">
-                      {record.notes}
+                    <div className="text-sm sm:text-xs text-muted-foreground mt-1 pl-6">
+                      {isPostponement 
+                        ? record.notes.replace('POSTPONEMENT: ', '') 
+                        : record.notes}
                     </div>
                   )}
                 </div>
