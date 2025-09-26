@@ -255,18 +255,12 @@ const EditPlantDialog = ({
       );
 
       // Delete from database - use await to ensure completion
-      const { error, count } = await supabase
+      const { error } = await supabase
         .from("watering_records")
         .delete()
-        .eq("id", recordId)
-        .select('count');  // Get count of deleted records
+        .eq("id", recordId);
 
       if (error) throw error;
-      
-      // Verify record was actually deleted
-      if (!count || count === 0) {
-        throw new Error('Record not deleted from database');
-      }
 
       // Show success toast after database operation is successful
       if (isPostponement) {
