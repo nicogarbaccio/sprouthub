@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback, memo } from "react";
 import {
   Dialog,
   DialogContent,
@@ -41,7 +41,8 @@ interface WateringHistoryDialogProps {
   ) => Promise<void>;
 }
 
-const WateringHistoryDialog = ({
+// Wrap the component with memo to prevent unnecessary re-renders
+const WateringHistoryDialog = memo(({
   plant,
   isOpen,
   onClose,
@@ -125,19 +126,20 @@ const WateringHistoryDialog = ({
     }
   };
 
-  const getWateringStats = () => {
-    if (wateringRecords.length === 0) return null;
+  // Use useCallback to memoize the function itself
+  const getWateringStats = useCallback((records: any[], suggestedWateringDays: number = 7) => {
+    if (records.length === 0) return null;
 
     // Count only actual waterings (not postponements)
-    const actualWaterings = wateringRecords.filter(
+    const filteredRecords = records.filter(
       (record) => !record.is_postponement
     );
-    const totalWaterings = actualWaterings.length;
-    const suggestedDays = plant?.suggested_watering_days || 7;
+    const totalWaterings = filteredRecords.length;
+    const suggestedDays = suggestedWateringDays;
 
     // Calculate average watering frequency
     if (totalWaterings > 1) {
-      const dates = actualWaterings
+      const dates = filteredRecords
         .map((record) => new Date(record.watered_at))
         .sort((a, b) => a.getTime() - b.getTime());
       const intervals = [];
@@ -168,27 +170,42 @@ const WateringHistoryDialog = ({
       suggestedInterval: suggestedDays,
       isOnTrack: null,
     };
-  };
+  }, []);
 
-  // Filter out postponements for risk calculation
-  const actualWaterings = wateringRecords.filter(
-    (record) => !record.is_postponement
-  );
+  // Memoize calculations to prevent unnecessary recalculations
+  const { actualWaterings, stats, risk } = useMemo(() => {
+    // Filter out postponements for risk calculation
+    const filteredWaterings = wateringRecords.filter(
+      (record) => !record.is_postponement
+    );
 
-  const stats = getWateringStats();
-  const risk = computeOverwateringRisk({
-    records: actualWaterings.map((r) => ({
-      watered_at: r.watered_at,
-      notes: r.notes,
-    })),
-    suggestedDays: plant?.suggested_watering_days || 7,
-  });
+    const calculatedStats = getWateringStats(wateringRecords, plant?.suggested_watering_days || 7);
+    
+    const calculatedRisk = computeOverwateringRisk({
+      records: filteredWaterings.map((r) => ({
+        watered_at: r.watered_at,
+        notes: r.notes,
+      })),
+      suggestedDays: plant?.suggested_watering_days || 7,
+    });
+    
+    return { 
+      actualWaterings: filteredWaterings, 
+      stats: calculatedStats, 
+      risk: calculatedRisk 
+    };
+  }, [wateringRecords, plant?.suggested_watering_days]);
 
   if (!plant) return null;
 
+  // Use key to force complete unmount/remount when plant changes
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto p-6 sm:p-8">
+      <DialogContent 
+        key={plant?.id} 
+        className="max-w-2xl max-h-[80vh] overflow-y-auto p-6 sm:p-8 z-50"
+        onOpenAutoFocus={(e) => e.preventDefault()} // Prevent autofocus which might cause rerenders
+      >
         <DialogHeader className="border-b border-sprout-cream/30 dark:border-sprout-cream/20 pb-4 mb-6">
           <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl">
             <Droplets className="w-5 h-5 text-sprout-water" />
@@ -457,6 +474,6 @@ const WateringHistoryDialog = ({
       </DialogContent>
     </Dialog>
   );
-};
+});
 
 export default WateringHistoryDialog;
