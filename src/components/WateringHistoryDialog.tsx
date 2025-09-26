@@ -57,7 +57,7 @@ const WateringHistoryDialog = ({
     deleteWateringRecord,
   } = useWateringRecords();
 
-  // Pattern analysis integration
+  // Pattern analysis integration - disable autoRefresh to prevent infinite loops
   const {
     analysis,
     insights,
@@ -66,14 +66,24 @@ const WateringHistoryDialog = ({
     refreshAnalysis,
   } = useWateringPatternAnalysis({
     plantId: plant?.id,
-    autoRefresh: isOpen,
+    autoRefresh: false, // Disable automatic refreshing to prevent flickering
   });
 
+  // Load watering records when dialog opens or plant changes
   useEffect(() => {
     if (plant && isOpen) {
       loadWateringRecords(plant.id);
     }
   }, [plant, isOpen, loadWateringRecords]);
+  
+  // Manually refresh analysis when dialog opens or plant changes
+  // This avoids the continuous refreshing loop caused by autoRefresh
+  useEffect(() => {
+    if (plant && isOpen) {
+      // Only refresh once when dialog opens
+      refreshAnalysis();
+    }
+  }, [plant?.id, isOpen, refreshAnalysis]); // Include refreshAnalysis to avoid lint errors
 
   // Handle schedule adjustment from pattern suggestions
   const handleScheduleAdjustment = async (insight: any) => {
@@ -376,11 +386,16 @@ const WateringHistoryDialog = ({
                                 variant="ghost"
                                 size="sm"
                                 onClick={async () => {
-                                  // Call deleteWateringRecord and wait for it to complete
-                                  const success = await deleteWateringRecord(record.id);
-                                  // Force refresh if needed, but only on failure
-                                  if (!success && plant) {
-                                    setTimeout(() => loadWateringRecords(plant.id), 500);
+                                  try {
+                                    // Call deleteWateringRecord and wait for it to complete
+                                    await deleteWateringRecord(record.id);
+                                    // No need to refresh since we're using optimistic UI updates
+                                  } catch (error) {
+                                    console.error("Error deleting record:", error);
+                                    // Only refresh on error
+                                    if (plant) {
+                                      setTimeout(() => loadWateringRecords(plant.id), 500);
+                                    }
                                   }
                                 }}
                                 className="text-red-500 hover:text-red-700 ml-2 flex-shrink-0"
