@@ -1013,474 +1013,474 @@
 import { Plant } from '../types';
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export const otherPlants: Plant[] = [</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'ZZ Plant',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Zamioculcas zamiifolia',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539586/8D2A2069_cgjmbk.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Monthly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 30,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Low to Medium Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Low Maintenance'</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Boston Fern',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Nephrolepis exaltata',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539605/Boston_Fern_Plant_lbfkir.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Twice weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 3,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Indirect Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Medium' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Ferns'</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Chinese Money Plant',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Pilea peperomioides',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539634/Chinese-Money-Pilea_bsau0h.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 7,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Indirect Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Small Plants'</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Calathea',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Calathea orbifolia',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539678/calathea-orbifolia_tqhnjf.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 7,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Medium Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Hard' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Prayer Plants'</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Majesty Palm',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Ravenea rivularis',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539722/E3403-1024-1024-01_gh81yo.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 7,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Indirect Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Medium' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Palms'</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Peperomia',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Peperomia obtusifolia',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539777/peperomia_obtusifolia_gzuoij.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 10,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Medium Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Small Plants'</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Ponytail Palm',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Beaucarnea recurvata',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539801/DSC03549-Edit--cream_jbjnkp.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Monthly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 30,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Direct Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Palms'</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Prayer Plant',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Maranta leuconeura',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539824/Prayer-Plant-1200x1200_dqdk8y.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 7,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Medium Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Medium' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Prayer Plants'</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Parlor Palm',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Chamaedorea elegans',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539843/house-plants-4-palm-parlor-64_1000_lcgd3u.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 7,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Low to Medium Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Palms'</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Maidenhair Fern',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Adiantum raddianum',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750945860/il_570xN.2454440912_tkbi_jovayw.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Twice weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 3,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Indirect Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Hard' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Ferns',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'Delicate and graceful fern with fine, lacy fronds. Known for being finicky but absolutely stunning when properly cared for.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Non-toxic to pets',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '65-75°F (18-24°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '60-80%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Keep soil consistently moist but not soggy',</span>
-<span class="cstat-no" title="statement not covered" >      'Provide high humidity with pebble tray or humidifier',</span>
-<span class="cstat-no" title="statement not covered" >      'Avoid direct sunlight',</span>
-<span class="cstat-no" title="statement not covered" >      'Use distilled or rainwater if possible',</span>
-<span class="cstat-no" title="statement not covered" >      'Mist regularly but avoid getting water on fronds'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Brown, crispy fronds: Low humidity or dry air',</span>
-<span class="cstat-no" title="statement not covered" >      'Yellowing fronds: Natural aging or overwatering',</span>
-<span class="cstat-no" title="statement not covered" >      'Dropping leaflets: Shock from environmental changes',</span>
-<span class="cstat-no" title="statement not covered" >      'Slow growth: Needs more humidity or filtered light'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Staghorn Fern',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Platycerium bifurcatum',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750945889/Platycerium_bifurcatum_kz01_aykqix.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 7,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Indirect Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Medium' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Ferns',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'An epiphytic fern with distinctive antler-shaped fronds. Often mounted on wood or grown in hanging baskets for dramatic effect.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Non-toxic to pets',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '65-80°F (18-27°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '50-70%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Soak weekly by submerging the entire mount',</span>
-<span class="cstat-no" title="statement not covered" >      'Provide bright, indirect light',</span>
-<span class="cstat-no" title="statement not covered" >      'Ensure good air circulation',</span>
-<span class="cstat-no" title="statement not covered" >      'Don\'t remove brown shield fronds',</span>
-<span class="cstat-no" title="statement not covered" >      'Fertilize monthly with diluted liquid fertilizer'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Brown frond tips: Low humidity or over-fertilizing',</span>
-<span class="cstat-no" title="statement not covered" >      'Yellowing fronds: Usually overwatering',</span>
-<span class="cstat-no" title="statement not covered" >      'Pests: Watch for scale insects',</span>
-<span class="cstat-no" title="statement not covered" >      'Slow growth: May need more light or nutrients'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Bird\'s Nest Fern',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Asplenium nidus',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750945832/bnfern-1_o4oizy.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 7,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Medium Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Ferns',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'A tropical fern with broad, glossy fronds that emerge from a central crown, resembling a bird\'s nest. Perfect for bathrooms.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Non-toxic to pets',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '65-80°F (18-27°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '50-60%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Water around the base, avoid the center crown',</span>
-<span class="cstat-no" title="statement not covered" >      'Keep soil consistently moist',</span>
-<span class="cstat-no" title="statement not covered" >      'Provide filtered or indirect light',</span>
-<span class="cstat-no" title="statement not covered" >      'Clean leaves with damp cloth occasionally',</span>
-<span class="cstat-no" title="statement not covered" >      'Don\'t touch or handle new fronds'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Brown leaf tips: Low humidity or fluoride in water',</span>
-<span class="cstat-no" title="statement not covered" >      'Yellowing fronds: Natural aging or overwatering',</span>
-<span class="cstat-no" title="statement not covered" >      'Crown rot: Avoid watering into the center',</span>
-<span class="cstat-no" title="statement not covered" >      'Torn fronds: Handle carefully, new growth is delicate'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Coleus',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Solenostemon scutellarioides',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750945749/coleus-plant-care-and-growing-guide-780x520_mqvzik.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 5,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Indirect Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Colorful Foliage',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'Vibrant foliage plant with incredible color combinations. Coleus comes in countless varieties with unique leaf patterns and colors.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Mildly toxic to pets',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '65-75°F (18-24°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '40-50%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Keep soil consistently moist',</span>
-<span class="cstat-no" title="statement not covered" >      'Pinch flower spikes to maintain foliage',</span>
-<span class="cstat-no" title="statement not covered" >      'Provide bright, indirect light for best colors',</span>
-<span class="cstat-no" title="statement not covered" >      'Pinch growing tips to encourage bushiness',</span>
-<span class="cstat-no" title="statement not covered" >      'Easy to propagate from cuttings'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Fading colors: Usually needs more light',</span>
-<span class="cstat-no" title="statement not covered" >      'Leggy growth: Pinch regularly and provide adequate light',</span>
-<span class="cstat-no" title="statement not covered" >      'Wilting: Usually needs more water or humidity',</span>
-<span class="cstat-no" title="statement not covered" >      'Flower spikes: Pinch to redirect energy to foliage'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Caladium',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Caladium bicolor',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750945632/gabriella-plants-caladium-bicolor-the-scarlet-girl-4-1168705231_qjzfab.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 7,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Indirect Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Medium' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Colorful Foliage',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'Stunning tropical plant with heart-shaped leaves in brilliant colors. Caladiums are perfect for adding dramatic color to indoor spaces.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Toxic to pets and children if ingested',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '70-80°F (21-27°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '50-60%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Keep soil consistently moist during growing season',</span>
-<span class="cstat-no" title="statement not covered" >      'Provide bright, filtered light',</span>
-<span class="cstat-no" title="statement not covered" >      'Maintain high humidity',</span>
-<span class="cstat-no" title="statement not covered" >      'Allow dormancy in winter',</span>
-<span class="cstat-no" title="statement not covered" >      'Store tubers in warm, dry place during dormancy'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Leaf drop: Natural in fall/winter or too cold',</span>
-<span class="cstat-no" title="statement not covered" >      'Fading colors: Needs brighter indirect light',</span>
-<span class="cstat-no" title="statement not covered" >      'Brown leaf edges: Low humidity or fluoride sensitivity',</span>
-<span class="cstat-no" title="statement not covered" >      'Dormancy: Natural cycle, reduce watering'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Dracaena',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Dracaena marginata',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944256/Dracaena-marginata-Bicolour-Multi-Stem-21x110cm-_3-stems_-Charlotte-Plant-Pot-Spiced-Ochre-23x20cm_cd6f59df-f987-4d3e-8aac-b815a382378e_1600x_pgczpb.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 10,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Medium Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Low Maintenance',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'Also known as Dragon Tree, this plant has thin, spiky leaves with red edges. Very drought tolerant and perfect for beginners.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Toxic to pets if ingested',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '65-75°F (18-24°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '40-50%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Allow soil to dry between waterings',</span>
-<span class="cstat-no" title="statement not covered" >      'Tolerates low to medium light conditions',</span>
-<span class="cstat-no" title="statement not covered" >      'Remove yellowing lower leaves',</span>
-<span class="cstat-no" title="statement not covered" >      'Dust leaves occasionally',</span>
-<span class="cstat-no" title="statement not covered" >      'Fertilize sparingly during growing season'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Brown leaf tips: Usually from fluoride in tap water',</span>
-<span class="cstat-no" title="statement not covered" >      'Yellow leaves: Natural aging or overwatering',</span>
-<span class="cstat-no" title="statement not covered" >      'Slow growth: Normal for this species',</span>
-<span class="cstat-no" title="statement not covered" >      'Pest issues: Watch for spider mites in dry conditions'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Aloe Aristata',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Aloe aristata',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944054/aloe-aristata_svtvxo.webp',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Bi-weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 14,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Indirect Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Small Plants',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'A compact aloe with distinctive white spots and soft spines. Perfect for small spaces and produces attractive flower spikes.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Mildly toxic to pets',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '65-80°F (18-27°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '30-40%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Water deeply but infrequently',</span>
-<span class="cstat-no" title="statement not covered" >      'Provide bright, indirect light',</span>
-<span class="cstat-no" title="statement not covered" >      'Use well-draining succulent soil',</span>
-<span class="cstat-no" title="statement not covered" >      'Allow soil to dry completely between waterings',</span>
-<span class="cstat-no" title="statement not covered" >      'Remove flower stalks after blooming'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Root rot: Most common from overwatering',</span>
-<span class="cstat-no" title="statement not covered" >      'Stretching: Needs more bright light',</span>
-<span class="cstat-no" title="statement not covered" >      'Brown tips: Usually from low humidity',</span>
-<span class="cstat-no" title="statement not covered" >      'Slow growth: Normal for small aloes'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Nerve Plant',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Fittonia albivenis',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944111/shutterstock_725555002_wqgxns.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Twice weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 3,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Medium Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Medium' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Small Plants',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'A small plant with intricate white or pink veined leaves. Perfect for terrariums and adds beautiful texture to plant collections.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Non-toxic to pets',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '65-75°F (18-24°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '60-70%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Keep soil consistently moist but not soggy',</span>
-<span class="cstat-no" title="statement not covered" >      'Provide medium to bright indirect light',</span>
-<span class="cstat-no" title="statement not covered" >      'Maintain high humidity around the plant',</span>
-<span class="cstat-no" title="statement not covered" >      'Pinch flowers to encourage foliage growth',</span>
-<span class="cstat-no" title="statement not covered" >      'Propagate easily from stem cuttings'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Wilting: Usually needs more water or humidity',</span>
-<span class="cstat-no" title="statement not covered" >      'Leggy growth: Pinch regularly to maintain compact shape',</span>
-<span class="cstat-no" title="statement not covered" >      'Brown leaf tips: Low humidity or fluoride sensitivity',</span>
-<span class="cstat-no" title="statement not covered" >      'Fading patterns: May need brighter indirect light'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Cast Iron Plant',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Aspidistra elatior',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944227/Cast-Iron-Plant-Aspidistra-elatior_cb28wh.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 10,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Low Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Low Maintenance',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'Nearly indestructible plant with dark green, leathery leaves. Perfect for low-light areas and tolerates neglect better than most plants.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Non-toxic to pets',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '55-75°F (13-24°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '30-50%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Water when soil feels dry to touch',</span>
-<span class="cstat-no" title="statement not covered" >      'Tolerates very low light conditions',</span>
-<span class="cstat-no" title="statement not covered" >      'Clean leaves with damp cloth occasionally',</span>
-<span class="cstat-no" title="statement not covered" >      'Very drought tolerant once established',</span>
-<span class="cstat-no" title="statement not covered" >      'Fertilize sparingly, if at all'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Brown leaf tips: Usually from overwatering or poor water quality',</span>
-<span class="cstat-no" title="statement not covered" >      'Slow growth: Normal and expected for this plant',</span>
-<span class="cstat-no" title="statement not covered" >      'Scale insects: Occasionally problematic, treat promptly',</span>
-<span class="cstat-no" title="statement not covered" >      'Yellowing leaves: Natural aging or excessive watering'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Polka Dot Plant',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Hypoestes phyllostachya',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750945779/grow-hypoestes-phyllostachya-indoors-1902650-01-142be1b46981445f8b8425c65ed2b514_x1ucbz.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 5,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Indirect Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Colorful Foliage',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'A compact plant with spotted leaves in pink, white, or red. Perfect for adding splashes of color to small spaces and terrariums.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Non-toxic to pets',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '65-75°F (18-24°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '50-60%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Keep soil consistently moist but well-draining',</span>
-<span class="cstat-no" title="statement not covered" >      'Provide bright, indirect light for best coloration',</span>
-<span class="cstat-no" title="statement not covered" >      'Pinch flower spikes to maintain foliage',</span>
-<span class="cstat-no" title="statement not covered" >      'Maintain moderate humidity',</span>
-<span class="cstat-no" title="statement not covered" >      'Propagate easily from stem cuttings'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Fading spots: Needs more bright, indirect light',</span>
-<span class="cstat-no" title="statement not covered" >      'Leggy growth: Pinch regularly to maintain compact shape',</span>
-<span class="cstat-no" title="statement not covered" >      'Wilting: Usually needs more water or humidity',</span>
-<span class="cstat-no" title="statement not covered" >      'Loss of color: Insufficient light or overwatering'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Aluminum Plant',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Pilea cadierei',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944081/aluminum_plant_o75rpl.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 7,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Indirect Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Small Plants',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'A small plant with distinctive silver markings on green leaves. Easy to care for and perfect for terrariums or small containers.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Non-toxic to pets',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '65-75°F (18-24°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '40-50%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Water when top inch of soil feels dry',</span>
-<span class="cstat-no" title="statement not covered" >      'Provide bright, indirect light',</span>
-<span class="cstat-no" title="statement not covered" >      'Pinch growing tips to encourage bushiness',</span>
-<span class="cstat-no" title="statement not covered" >      'Rotate occasionally for even growth',</span>
-<span class="cstat-no" title="statement not covered" >      'Easy to propagate from stem cuttings'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Leggy growth: Pinch regularly and provide adequate light',</span>
-<span class="cstat-no" title="statement not covered" >      'Fading silver markings: Needs more bright light',</span>
-<span class="cstat-no" title="statement not covered" >      'Yellowing leaves: Usually overwatering',</span>
-<span class="cstat-no" title="statement not covered" >      'Dropping leaves: Environmental stress or overwatering'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Swedish Ivy',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Plectranthus australis',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944294/12586_ogonep.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 7,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Indirect Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Low Maintenance',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'A fast-growing trailing plant with round, scalloped leaves. Despite its name, it\'s not an ivy and is much easier to care for.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Non-toxic to pets',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '60-75°F (15-24°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '40-50%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Water when top inch of soil feels dry',</span>
-<span class="cstat-no" title="statement not covered" >      'Provide bright, indirect light',</span>
-<span class="cstat-no" title="statement not covered" >      'Pinch growing tips to encourage bushiness',</span>
-<span class="cstat-no" title="statement not covered" >      'Very easy to propagate in water',</span>
-<span class="cstat-no" title="statement not covered" >      'Fertilize monthly during growing season'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Leggy growth: Pinch regularly and provide adequate light',</span>
-<span class="cstat-no" title="statement not covered" >      'Yellowing leaves: Usually overwatering or natural aging',</span>
-<span class="cstat-no" title="statement not covered" >      'Dropping leaves: Environmental stress or underwatering',</span>
-<span class="cstat-no" title="statement not covered" >      'Slow growth: May need more light or nutrients'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Arrowhead Plant',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Syngonium podophyllum',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944167/shutterstock_1993387385_se0rmi.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 7,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Medium Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Low Maintenance',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'A versatile plant that changes leaf shape as it matures. Can be grown as a bushy plant or allowed to climb with support.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Toxic to pets if ingested',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '65-75°F (18-24°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '50-60%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Water when top inch of soil feels dry',</span>
-<span class="cstat-no" title="statement not covered" >      'Provide medium to bright indirect light',</span>
-<span class="cstat-no" title="statement not covered" >      'Support climbing growth with moss pole',</span>
-<span class="cstat-no" title="statement not covered" >      'Prune to maintain desired shape',</span>
-<span class="cstat-no" title="statement not covered" >      'Propagate easily from stem cuttings'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Yellowing leaves: Usually overwatering',</span>
-<span class="cstat-no" title="statement not covered" >      'Brown leaf tips: Low humidity or fluoride sensitivity',</span>
-<span class="cstat-no" title="statement not covered" >      'Leggy growth: Needs more light or pruning',</span>
-<span class="cstat-no" title="statement not covered" >      'Loss of variegation: May need more bright light'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  },</span>
-<span class="cstat-no" title="statement not covered" >  {</span>
-<span class="cstat-no" title="statement not covered" >    name: 'Wandering Jew',</span>
-<span class="cstat-no" title="statement not covered" >    botanicalName: 'Tradescantia fluminensis',</span>
-<span class="cstat-no" title="statement not covered" >    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944323/71lXIbyOb6L._UF894_1000_QL80__mmce1d.jpg',</span>
-<span class="cstat-no" title="statement not covered" >    wateringFrequency: 'Weekly',</span>
-<span class="cstat-no" title="statement not covered" >    suggestedWateringDays: 7,</span>
-<span class="cstat-no" title="statement not covered" >    lightRequirement: 'Bright Indirect Light',</span>
-<span class="cstat-no" title="statement not covered" >    careLevel: 'Easy' as const,</span>
-<span class="cstat-no" title="statement not covered" >    category: 'Low Maintenance',</span>
-<span class="cstat-no" title="statement not covered" >    description: 'A fast-growing trailing plant with green and white striped leaves. Extremely easy to propagate and perfect for beginners.',</span>
-<span class="cstat-no" title="statement not covered" >    toxicity: 'Mildly toxic to pets - may cause skin irritation',</span>
-<span class="cstat-no" title="statement not covered" >    temperature: '65-75°F (18-24°C)',</span>
-<span class="cstat-no" title="statement not covered" >    humidity: '40-50%',</span>
-<span class="cstat-no" title="statement not covered" >    careInstructions: [</span>
-<span class="cstat-no" title="statement not covered" >      'Keep soil consistently moist but not soggy',</span>
-<span class="cstat-no" title="statement not covered" >      'Provide bright light for best variegation',</span>
-<span class="cstat-no" title="statement not covered" >      'Pinch regularly to maintain compact growth',</span>
-<span class="cstat-no" title="statement not covered" >      'Propagate easily in water or soil',</span>
-<span class="cstat-no" title="statement not covered" >      'Trim regularly to prevent legginess'</span>
-<span class="cstat-no" title="statement not covered" >    ],</span>
-<span class="cstat-no" title="statement not covered" >    commonProblems: [</span>
-<span class="cstat-no" title="statement not covered" >      'Fading variegation: Needs more bright light',</span>
-<span class="cstat-no" title="statement not covered" >      'Leggy growth: Pinch regularly and provide adequate light',</span>
-<span class="cstat-no" title="statement not covered" >      'Brown tips: Low humidity or fluoride sensitivity',</span>
-<span class="cstat-no" title="statement not covered" >      'Overgrowing: Vigorous grower, trim regularly'</span>
-<span class="cstat-no" title="statement not covered" >    ]</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'ZZ Plant',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Zamioculcas zamiifolia',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539586/8D2A2069_cgjmbk.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Monthly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 30,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Low to Medium Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Low Maintenance'</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Boston Fern',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Nephrolepis exaltata',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539605/Boston_Fern_Plant_lbfkir.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Twice weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 3,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Indirect Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Medium' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Ferns'</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Chinese Money Plant',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Pilea peperomioides',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539634/Chinese-Money-Pilea_bsau0h.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 7,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Indirect Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Small Plants'</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Calathea',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Calathea orbifolia',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539678/calathea-orbifolia_tqhnjf.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 7,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Medium Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Hard' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Prayer Plants'</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Majesty Palm',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Ravenea rivularis',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539722/E3403-1024-1024-01_gh81yo.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 7,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Indirect Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Medium' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Palms'</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Peperomia',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Peperomia obtusifolia',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539777/peperomia_obtusifolia_gzuoij.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 10,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Medium Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Small Plants'</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Ponytail Palm',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Beaucarnea recurvata',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539801/DSC03549-Edit--cream_jbjnkp.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Monthly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 30,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Direct Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Palms'</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Prayer Plant',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Maranta leuconeura',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539824/Prayer-Plant-1200x1200_dqdk8y.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 7,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Medium Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Medium' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Prayer Plants'</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Parlor Palm',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Chamaedorea elegans',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748539843/house-plants-4-palm-parlor-64_1000_lcgd3u.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 7,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Low to Medium Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Palms'</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Maidenhair Fern',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Adiantum raddianum',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750945860/il_570xN.2454440912_tkbi_jovayw.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Twice weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 3,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Indirect Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Hard' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Ferns',</span>
+<span class="cstat-no" title="statement not covered" > description: 'Delicate and graceful fern with fine, lacy fronds. Known for being finicky but absolutely stunning when properly cared for.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Non-toxic to pets',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '65-75°F (18-24°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '60-80%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Keep soil consistently moist but not soggy',</span>
+<span class="cstat-no" title="statement not covered" >  'Provide high humidity with pebble tray or humidifier',</span>
+<span class="cstat-no" title="statement not covered" >  'Avoid direct sunlight',</span>
+<span class="cstat-no" title="statement not covered" >  'Use distilled or rainwater if possible',</span>
+<span class="cstat-no" title="statement not covered" >  'Mist regularly but avoid getting water on fronds'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Brown, crispy fronds: Low humidity or dry air',</span>
+<span class="cstat-no" title="statement not covered" >  'Yellowing fronds: Natural aging or overwatering',</span>
+<span class="cstat-no" title="statement not covered" >  'Dropping leaflets: Shock from environmental changes',</span>
+<span class="cstat-no" title="statement not covered" >  'Slow growth: Needs more humidity or filtered light'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Staghorn Fern',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Platycerium bifurcatum',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750945889/Platycerium_bifurcatum_kz01_aykqix.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 7,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Indirect Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Medium' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Ferns',</span>
+<span class="cstat-no" title="statement not covered" > description: 'An epiphytic fern with distinctive antler-shaped fronds. Often mounted on wood or grown in hanging baskets for dramatic effect.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Non-toxic to pets',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '65-80°F (18-27°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '50-70%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Soak weekly by submerging the entire mount',</span>
+<span class="cstat-no" title="statement not covered" >  'Provide bright, indirect light',</span>
+<span class="cstat-no" title="statement not covered" >  'Ensure good air circulation',</span>
+<span class="cstat-no" title="statement not covered" >  'Don\'t remove brown shield fronds',</span>
+<span class="cstat-no" title="statement not covered" >  'Fertilize monthly with diluted liquid fertilizer'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Brown frond tips: Low humidity or over-fertilizing',</span>
+<span class="cstat-no" title="statement not covered" >  'Yellowing fronds: Usually overwatering',</span>
+<span class="cstat-no" title="statement not covered" >  'Pests: Watch for scale insects',</span>
+<span class="cstat-no" title="statement not covered" >  'Slow growth: May need more light or nutrients'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Bird\'s Nest Fern',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Asplenium nidus',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750945832/bnfern-1_o4oizy.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 7,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Medium Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Ferns',</span>
+<span class="cstat-no" title="statement not covered" > description: 'A tropical fern with broad, glossy fronds that emerge from a central crown, resembling a bird\'s nest. Perfect for bathrooms.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Non-toxic to pets',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '65-80°F (18-27°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '50-60%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Water around the base, avoid the center crown',</span>
+<span class="cstat-no" title="statement not covered" >  'Keep soil consistently moist',</span>
+<span class="cstat-no" title="statement not covered" >  'Provide filtered or indirect light',</span>
+<span class="cstat-no" title="statement not covered" >  'Clean leaves with damp cloth occasionally',</span>
+<span class="cstat-no" title="statement not covered" >  'Don\'t touch or handle new fronds'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Brown leaf tips: Low humidity or fluoride in water',</span>
+<span class="cstat-no" title="statement not covered" >  'Yellowing fronds: Natural aging or overwatering',</span>
+<span class="cstat-no" title="statement not covered" >  'Crown rot: Avoid watering into the center',</span>
+<span class="cstat-no" title="statement not covered" >  'Torn fronds: Handle carefully, new growth is delicate'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Coleus',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Solenostemon scutellarioides',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750945749/coleus-plant-care-and-growing-guide-780x520_mqvzik.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 5,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Indirect Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Colorful Foliage',</span>
+<span class="cstat-no" title="statement not covered" > description: 'Vibrant foliage plant with incredible color combinations. Coleus comes in countless varieties with unique leaf patterns and colors.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Mildly toxic to pets',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '65-75°F (18-24°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '40-50%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Keep soil consistently moist',</span>
+<span class="cstat-no" title="statement not covered" >  'Pinch flower spikes to maintain foliage',</span>
+<span class="cstat-no" title="statement not covered" >  'Provide bright, indirect light for best colors',</span>
+<span class="cstat-no" title="statement not covered" >  'Pinch growing tips to encourage bushiness',</span>
+<span class="cstat-no" title="statement not covered" >  'Easy to propagate from cuttings'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Fading colors: Usually needs more light',</span>
+<span class="cstat-no" title="statement not covered" >  'Leggy growth: Pinch regularly and provide adequate light',</span>
+<span class="cstat-no" title="statement not covered" >  'Wilting: Usually needs more water or humidity',</span>
+<span class="cstat-no" title="statement not covered" >  'Flower spikes: Pinch to redirect energy to foliage'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Caladium',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Caladium bicolor',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750945632/gabriella-plants-caladium-bicolor-the-scarlet-girl-4-1168705231_qjzfab.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 7,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Indirect Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Medium' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Colorful Foliage',</span>
+<span class="cstat-no" title="statement not covered" > description: 'Stunning tropical plant with heart-shaped leaves in brilliant colors. Caladiums are perfect for adding dramatic color to indoor spaces.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Toxic to pets and children if ingested',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '70-80°F (21-27°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '50-60%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Keep soil consistently moist during growing season',</span>
+<span class="cstat-no" title="statement not covered" >  'Provide bright, filtered light',</span>
+<span class="cstat-no" title="statement not covered" >  'Maintain high humidity',</span>
+<span class="cstat-no" title="statement not covered" >  'Allow dormancy in winter',</span>
+<span class="cstat-no" title="statement not covered" >  'Store tubers in warm, dry place during dormancy'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Leaf drop: Natural in fall/winter or too cold',</span>
+<span class="cstat-no" title="statement not covered" >  'Fading colors: Needs brighter indirect light',</span>
+<span class="cstat-no" title="statement not covered" >  'Brown leaf edges: Low humidity or fluoride sensitivity',</span>
+<span class="cstat-no" title="statement not covered" >  'Dormancy: Natural cycle, reduce watering'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Dracaena',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Dracaena marginata',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944256/Dracaena-marginata-Bicolour-Multi-Stem-21x110cm-_3-stems_-Charlotte-Plant-Pot-Spiced-Ochre-23x20cm_cd6f59df-f987-4d3e-8aac-b815a382378e_1600x_pgczpb.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 10,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Medium Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Low Maintenance',</span>
+<span class="cstat-no" title="statement not covered" > description: 'Also known as Dragon Tree, this plant has thin, spiky leaves with red edges. Very drought tolerant and perfect for beginners.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Toxic to pets if ingested',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '65-75°F (18-24°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '40-50%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Allow soil to dry between waterings',</span>
+<span class="cstat-no" title="statement not covered" >  'Tolerates low to medium light conditions',</span>
+<span class="cstat-no" title="statement not covered" >  'Remove yellowing lower leaves',</span>
+<span class="cstat-no" title="statement not covered" >  'Dust leaves occasionally',</span>
+<span class="cstat-no" title="statement not covered" >  'Fertilize sparingly during growing season'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Brown leaf tips: Usually from fluoride in tap water',</span>
+<span class="cstat-no" title="statement not covered" >  'Yellow leaves: Natural aging or overwatering',</span>
+<span class="cstat-no" title="statement not covered" >  'Slow growth: Normal for this species',</span>
+<span class="cstat-no" title="statement not covered" >  'Pest issues: Watch for spider mites in dry conditions'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Aloe Aristata',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Aloe aristata',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944054/aloe-aristata_svtvxo.webp',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Bi-weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 14,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Indirect Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Small Plants',</span>
+<span class="cstat-no" title="statement not covered" > description: 'A compact aloe with distinctive white spots and soft spines. Perfect for small spaces and produces attractive flower spikes.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Mildly toxic to pets',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '65-80°F (18-27°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '30-40%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Water deeply but infrequently',</span>
+<span class="cstat-no" title="statement not covered" >  'Provide bright, indirect light',</span>
+<span class="cstat-no" title="statement not covered" >  'Use well-draining succulent soil',</span>
+<span class="cstat-no" title="statement not covered" >  'Allow soil to dry completely between waterings',</span>
+<span class="cstat-no" title="statement not covered" >  'Remove flower stalks after blooming'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Root rot: Most common from overwatering',</span>
+<span class="cstat-no" title="statement not covered" >  'Stretching: Needs more bright light',</span>
+<span class="cstat-no" title="statement not covered" >  'Brown tips: Usually from low humidity',</span>
+<span class="cstat-no" title="statement not covered" >  'Slow growth: Normal for small aloes'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Nerve Plant',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Fittonia albivenis',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944111/shutterstock_725555002_wqgxns.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Twice weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 3,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Medium Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Medium' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Small Plants',</span>
+<span class="cstat-no" title="statement not covered" > description: 'A small plant with intricate white or pink veined leaves. Perfect for terrariums and adds beautiful texture to plant collections.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Non-toxic to pets',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '65-75°F (18-24°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '60-70%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Keep soil consistently moist but not soggy',</span>
+<span class="cstat-no" title="statement not covered" >  'Provide medium to bright indirect light',</span>
+<span class="cstat-no" title="statement not covered" >  'Maintain high humidity around the plant',</span>
+<span class="cstat-no" title="statement not covered" >  'Pinch flowers to encourage foliage growth',</span>
+<span class="cstat-no" title="statement not covered" >  'Propagate easily from stem cuttings'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Wilting: Usually needs more water or humidity',</span>
+<span class="cstat-no" title="statement not covered" >  'Leggy growth: Pinch regularly to maintain compact shape',</span>
+<span class="cstat-no" title="statement not covered" >  'Brown leaf tips: Low humidity or fluoride sensitivity',</span>
+<span class="cstat-no" title="statement not covered" >  'Fading patterns: May need brighter indirect light'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Cast Iron Plant',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Aspidistra elatior',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944227/Cast-Iron-Plant-Aspidistra-elatior_cb28wh.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 10,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Low Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Low Maintenance',</span>
+<span class="cstat-no" title="statement not covered" > description: 'Nearly indestructible plant with dark green, leathery leaves. Perfect for low-light areas and tolerates neglect better than most plants.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Non-toxic to pets',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '55-75°F (13-24°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '30-50%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Water when soil feels dry to touch',</span>
+<span class="cstat-no" title="statement not covered" >  'Tolerates very low light conditions',</span>
+<span class="cstat-no" title="statement not covered" >  'Clean leaves with damp cloth occasionally',</span>
+<span class="cstat-no" title="statement not covered" >  'Very drought tolerant once established',</span>
+<span class="cstat-no" title="statement not covered" >  'Fertilize sparingly, if at all'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Brown leaf tips: Usually from overwatering or poor water quality',</span>
+<span class="cstat-no" title="statement not covered" >  'Slow growth: Normal and expected for this plant',</span>
+<span class="cstat-no" title="statement not covered" >  'Scale insects: Occasionally problematic, treat promptly',</span>
+<span class="cstat-no" title="statement not covered" >  'Yellowing leaves: Natural aging or excessive watering'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Polka Dot Plant',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Hypoestes phyllostachya',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750945779/grow-hypoestes-phyllostachya-indoors-1902650-01-142be1b46981445f8b8425c65ed2b514_x1ucbz.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 5,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Indirect Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Colorful Foliage',</span>
+<span class="cstat-no" title="statement not covered" > description: 'A compact plant with spotted leaves in pink, white, or red. Perfect for adding splashes of color to small spaces and terrariums.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Non-toxic to pets',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '65-75°F (18-24°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '50-60%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Keep soil consistently moist but well-draining',</span>
+<span class="cstat-no" title="statement not covered" >  'Provide bright, indirect light for best coloration',</span>
+<span class="cstat-no" title="statement not covered" >  'Pinch flower spikes to maintain foliage',</span>
+<span class="cstat-no" title="statement not covered" >  'Maintain moderate humidity',</span>
+<span class="cstat-no" title="statement not covered" >  'Propagate easily from stem cuttings'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Fading spots: Needs more bright, indirect light',</span>
+<span class="cstat-no" title="statement not covered" >  'Leggy growth: Pinch regularly to maintain compact shape',</span>
+<span class="cstat-no" title="statement not covered" >  'Wilting: Usually needs more water or humidity',</span>
+<span class="cstat-no" title="statement not covered" >  'Loss of color: Insufficient light or overwatering'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Aluminum Plant',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Pilea cadierei',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944081/aluminum_plant_o75rpl.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 7,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Indirect Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Small Plants',</span>
+<span class="cstat-no" title="statement not covered" > description: 'A small plant with distinctive silver markings on green leaves. Easy to care for and perfect for terrariums or small containers.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Non-toxic to pets',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '65-75°F (18-24°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '40-50%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Water when top inch of soil feels dry',</span>
+<span class="cstat-no" title="statement not covered" >  'Provide bright, indirect light',</span>
+<span class="cstat-no" title="statement not covered" >  'Pinch growing tips to encourage bushiness',</span>
+<span class="cstat-no" title="statement not covered" >  'Rotate occasionally for even growth',</span>
+<span class="cstat-no" title="statement not covered" >  'Easy to propagate from stem cuttings'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Leggy growth: Pinch regularly and provide adequate light',</span>
+<span class="cstat-no" title="statement not covered" >  'Fading silver markings: Needs more bright light',</span>
+<span class="cstat-no" title="statement not covered" >  'Yellowing leaves: Usually overwatering',</span>
+<span class="cstat-no" title="statement not covered" >  'Dropping leaves: Environmental stress or overwatering'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Swedish Ivy',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Plectranthus australis',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944294/12586_ogonep.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 7,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Indirect Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Low Maintenance',</span>
+<span class="cstat-no" title="statement not covered" > description: 'A fast-growing trailing plant with round, scalloped leaves. Despite its name, it\'s not an ivy and is much easier to care for.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Non-toxic to pets',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '60-75°F (15-24°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '40-50%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Water when top inch of soil feels dry',</span>
+<span class="cstat-no" title="statement not covered" >  'Provide bright, indirect light',</span>
+<span class="cstat-no" title="statement not covered" >  'Pinch growing tips to encourage bushiness',</span>
+<span class="cstat-no" title="statement not covered" >  'Very easy to propagate in water',</span>
+<span class="cstat-no" title="statement not covered" >  'Fertilize monthly during growing season'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Leggy growth: Pinch regularly and provide adequate light',</span>
+<span class="cstat-no" title="statement not covered" >  'Yellowing leaves: Usually overwatering or natural aging',</span>
+<span class="cstat-no" title="statement not covered" >  'Dropping leaves: Environmental stress or underwatering',</span>
+<span class="cstat-no" title="statement not covered" >  'Slow growth: May need more light or nutrients'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Arrowhead Plant',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Syngonium podophyllum',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944167/shutterstock_1993387385_se0rmi.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 7,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Medium Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Low Maintenance',</span>
+<span class="cstat-no" title="statement not covered" > description: 'A versatile plant that changes leaf shape as it matures. Can be grown as a bushy plant or allowed to climb with support.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Toxic to pets if ingested',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '65-75°F (18-24°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '50-60%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Water when top inch of soil feels dry',</span>
+<span class="cstat-no" title="statement not covered" >  'Provide medium to bright indirect light',</span>
+<span class="cstat-no" title="statement not covered" >  'Support climbing growth with moss pole',</span>
+<span class="cstat-no" title="statement not covered" >  'Prune to maintain desired shape',</span>
+<span class="cstat-no" title="statement not covered" >  'Propagate easily from stem cuttings'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Yellowing leaves: Usually overwatering',</span>
+<span class="cstat-no" title="statement not covered" >  'Brown leaf tips: Low humidity or fluoride sensitivity',</span>
+<span class="cstat-no" title="statement not covered" >  'Leggy growth: Needs more light or pruning',</span>
+<span class="cstat-no" title="statement not covered" >  'Loss of variegation: May need more bright light'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > {</span>
+<span class="cstat-no" title="statement not covered" > name: 'Wandering Jew',</span>
+<span class="cstat-no" title="statement not covered" > botanicalName: 'Tradescantia fluminensis',</span>
+<span class="cstat-no" title="statement not covered" > image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750944323/71lXIbyOb6L._UF894_1000_QL80__mmce1d.jpg',</span>
+<span class="cstat-no" title="statement not covered" > wateringFrequency: 'Weekly',</span>
+<span class="cstat-no" title="statement not covered" > suggestedWateringDays: 7,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirement: 'Bright Indirect Light',</span>
+<span class="cstat-no" title="statement not covered" > careLevel: 'Easy' as const,</span>
+<span class="cstat-no" title="statement not covered" > category: 'Low Maintenance',</span>
+<span class="cstat-no" title="statement not covered" > description: 'A fast-growing trailing plant with green and white striped leaves. Extremely easy to propagate and perfect for beginners.',</span>
+<span class="cstat-no" title="statement not covered" > toxicity: 'Mildly toxic to pets - may cause skin irritation',</span>
+<span class="cstat-no" title="statement not covered" > temperature: '65-75°F (18-24°C)',</span>
+<span class="cstat-no" title="statement not covered" > humidity: '40-50%',</span>
+<span class="cstat-no" title="statement not covered" > careInstructions: [</span>
+<span class="cstat-no" title="statement not covered" >  'Keep soil consistently moist but not soggy',</span>
+<span class="cstat-no" title="statement not covered" >  'Provide bright light for best variegation',</span>
+<span class="cstat-no" title="statement not covered" >  'Pinch regularly to maintain compact growth',</span>
+<span class="cstat-no" title="statement not covered" >  'Propagate easily in water or soil',</span>
+<span class="cstat-no" title="statement not covered" >  'Trim regularly to prevent legginess'</span>
+<span class="cstat-no" title="statement not covered" > ],</span>
+<span class="cstat-no" title="statement not covered" > commonProblems: [</span>
+<span class="cstat-no" title="statement not covered" >  'Fading variegation: Needs more bright light',</span>
+<span class="cstat-no" title="statement not covered" >  'Leggy growth: Pinch regularly and provide adequate light',</span>
+<span class="cstat-no" title="statement not covered" >  'Brown tips: Low humidity or fluoride sensitivity',</span>
+<span class="cstat-no" title="statement not covered" >  'Overgrowing: Vigorous grower, trim regularly'</span>
+<span class="cstat-no" title="statement not covered" > ]</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 <span class="cstat-no" title="statement not covered" >];</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -1489,7 +1489,7 @@ import { Plant } from '../types';
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

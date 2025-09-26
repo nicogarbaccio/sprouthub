@@ -305,114 +305,114 @@ import { Toast } from "@capacitor/toast";
 import { StatusBar, Style } from "@capacitor/status-bar";
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export function useCapacitor() {</span>
-<span class="cstat-no" title="statement not covered" >  const [isNative, setIsNative] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const [deviceInfo, setDeviceInfo] = useState&lt;Record&lt;string, unknown&gt; | null&gt;(</span>
-<span class="cstat-no" title="statement not covered" >    null</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" > const [isNative, setIsNative] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [deviceInfo, setDeviceInfo] = useState&lt;Record&lt;string, unknown&gt; | null&gt;(</span>
+<span class="cstat-no" title="statement not covered" > null</span>
+<span class="cstat-no" title="statement not covered" > );</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setIsNative(Capacitor.isNativePlatform());</span>
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > setIsNative(Capacitor.isNativePlatform());</span>
 &nbsp;
-    // Set up status bar for iOS
-<span class="cstat-no" title="statement not covered" >    if (Capacitor.isNativePlatform() &amp;&amp; Capacitor.getPlatform() === "ios") {</span>
-<span class="cstat-no" title="statement not covered" >      StatusBar.setStyle({ style: Style.Default });</span>
-<span class="cstat-no" title="statement not covered" >      StatusBar.setBackgroundColor({ color: "#4a6741" });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, []);</span>
+ // Set up status bar for iOS
+<span class="cstat-no" title="statement not covered" > if (Capacitor.isNativePlatform() &amp;&amp; Capacitor.getPlatform() === "ios") {</span>
+<span class="cstat-no" title="statement not covered" >  StatusBar.setStyle({ style: Style.Default });</span>
+<span class="cstat-no" title="statement not covered" >  StatusBar.setBackgroundColor({ color: "#4a6741" });</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, []);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const takePlantPhoto = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      const image = await Camera.getPhoto({</span>
-<span class="cstat-no" title="statement not covered" >        quality: 90,</span>
-<span class="cstat-no" title="statement not covered" >        allowEditing: true,</span>
-<span class="cstat-no" title="statement not covered" >        resultType: CameraResultType.Uri,</span>
-<span class="cstat-no" title="statement not covered" >        source: CameraSource.Camera,</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
+<span class="cstat-no" title="statement not covered" > const takePlantPhoto = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+<span class="cstat-no" title="statement not covered" >  const image = await Camera.getPhoto({</span>
+<span class="cstat-no" title="statement not covered" >  quality: 90,</span>
+<span class="cstat-no" title="statement not covered" >  allowEditing: true,</span>
+<span class="cstat-no" title="statement not covered" >  resultType: CameraResultType.Uri,</span>
+<span class="cstat-no" title="statement not covered" >  source: CameraSource.Camera,</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
 &nbsp;
-      // Haptic feedback on successful photo
-<span class="cstat-no" title="statement not covered" >      if (isNative) {</span>
-<span class="cstat-no" title="statement not covered" >        await Haptics.impact({ style: ImpactStyle.Light });</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
+  // Haptic feedback on successful photo
+<span class="cstat-no" title="statement not covered" >  if (isNative) {</span>
+<span class="cstat-no" title="statement not covered" >  await Haptics.impact({ style: ImpactStyle.Light });</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return image.webPath;</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error("Error taking photo:", error);</span>
-<span class="cstat-no" title="statement not covered" >      if (isNative) {</span>
-<span class="cstat-no" title="statement not covered" >        await showToast("Failed to take photo");</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      throw error;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >  return image.webPath;</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error("Error taking photo:", error);</span>
+<span class="cstat-no" title="statement not covered" >  if (isNative) {</span>
+<span class="cstat-no" title="statement not covered" >  await showToast("Failed to take photo");</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  throw error;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const selectPlantPhoto = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+<span class="cstat-no" title="statement not covered" >  const image = await Camera.getPhoto({</span>
+<span class="cstat-no" title="statement not covered" >  quality: 90,</span>
+<span class="cstat-no" title="statement not covered" >  allowEditing: true,</span>
+<span class="cstat-no" title="statement not covered" >  resultType: CameraResultType.Uri,</span>
+<span class="cstat-no" title="statement not covered" >  source: CameraSource.Photos,</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return image.webPath;</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error("Error selecting photo:", error);</span>
+<span class="cstat-no" title="statement not covered" >  if (isNative) {</span>
+<span class="cstat-no" title="statement not covered" >  await showToast("Failed to select photo");</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  throw error;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const showToast = async (message: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (isNative) {</span>
+<span class="cstat-no" title="statement not covered" >  await Toast.show({</span>
+<span class="cstat-no" title="statement not covered" >  text: message,</span>
+<span class="cstat-no" title="statement not covered" >  duration: "short",</span>
+<span class="cstat-no" title="statement not covered" >  position: "bottom",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const provideFeedback = async (</span>
+<span class="cstat-no" title="statement not covered" > style: "light" | "medium" | "heavy" = "light"</span>
+<span class="cstat-no" title="statement not covered" > ) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (isNative) {</span>
+<span class="cstat-no" title="statement not covered" >  const impactStyle = {</span>
+<span class="cstat-no" title="statement not covered" >  light: ImpactStyle.Light,</span>
+<span class="cstat-no" title="statement not covered" >  medium: ImpactStyle.Medium,</span>
+<span class="cstat-no" title="statement not covered" >  heavy: ImpactStyle.Heavy,</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const selectPlantPhoto = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      const image = await Camera.getPhoto({</span>
-<span class="cstat-no" title="statement not covered" >        quality: 90,</span>
-<span class="cstat-no" title="statement not covered" >        allowEditing: true,</span>
-<span class="cstat-no" title="statement not covered" >        resultType: CameraResultType.Uri,</span>
-<span class="cstat-no" title="statement not covered" >        source: CameraSource.Photos,</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
+<span class="cstat-no" title="statement not covered" >  await Haptics.impact({ style: impactStyle[style] });</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return image.webPath;</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error("Error selecting photo:", error);</span>
-<span class="cstat-no" title="statement not covered" >      if (isNative) {</span>
-<span class="cstat-no" title="statement not covered" >        await showToast("Failed to select photo");</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      throw error;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const successFeedback = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (isNative) {</span>
+<span class="cstat-no" title="statement not covered" >  await Haptics.notification({ type: NotificationType.Success });</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const showToast = async (message: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (isNative) {</span>
-<span class="cstat-no" title="statement not covered" >      await Toast.show({</span>
-<span class="cstat-no" title="statement not covered" >        text: message,</span>
-<span class="cstat-no" title="statement not covered" >        duration: "short",</span>
-<span class="cstat-no" title="statement not covered" >        position: "bottom",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const errorFeedback = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (isNative) {</span>
+<span class="cstat-no" title="statement not covered" >  await Haptics.notification({ type: NotificationType.Error });</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const provideFeedback = async (</span>
-<span class="cstat-no" title="statement not covered" >    style: "light" | "medium" | "heavy" = "light"</span>
-<span class="cstat-no" title="statement not covered" >  ) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (isNative) {</span>
-<span class="cstat-no" title="statement not covered" >      const impactStyle = {</span>
-<span class="cstat-no" title="statement not covered" >        light: ImpactStyle.Light,</span>
-<span class="cstat-no" title="statement not covered" >        medium: ImpactStyle.Medium,</span>
-<span class="cstat-no" title="statement not covered" >        heavy: ImpactStyle.Heavy,</span>
-<span class="cstat-no" title="statement not covered" >      };</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      await Haptics.impact({ style: impactStyle[style] });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  const successFeedback = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (isNative) {</span>
-<span class="cstat-no" title="statement not covered" >      await Haptics.notification({ type: NotificationType.Success });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  const errorFeedback = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (isNative) {</span>
-<span class="cstat-no" title="statement not covered" >      await Haptics.notification({ type: NotificationType.Error });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
-<span class="cstat-no" title="statement not covered" >    isNative,</span>
-<span class="cstat-no" title="statement not covered" >    deviceInfo,</span>
-<span class="cstat-no" title="statement not covered" >    camera: {</span>
-<span class="cstat-no" title="statement not covered" >      takePlantPhoto,</span>
-<span class="cstat-no" title="statement not covered" >      selectPlantPhoto,</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >    ui: {</span>
-<span class="cstat-no" title="statement not covered" >      showToast,</span>
-<span class="cstat-no" title="statement not covered" >      provideFeedback,</span>
-<span class="cstat-no" title="statement not covered" >      successFeedback,</span>
-<span class="cstat-no" title="statement not covered" >      errorFeedback,</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > return {</span>
+<span class="cstat-no" title="statement not covered" > isNative,</span>
+<span class="cstat-no" title="statement not covered" > deviceInfo,</span>
+<span class="cstat-no" title="statement not covered" > camera: {</span>
+<span class="cstat-no" title="statement not covered" >  takePlantPhoto,</span>
+<span class="cstat-no" title="statement not covered" >  selectPlantPhoto,</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > ui: {</span>
+<span class="cstat-no" title="statement not covered" >  showToast,</span>
+<span class="cstat-no" title="statement not covered" >  provideFeedback,</span>
+<span class="cstat-no" title="statement not covered" >  successFeedback,</span>
+<span class="cstat-no" title="statement not covered" >  errorFeedback,</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -421,7 +421,7 @@ import { StatusBar, Style } from "@capacitor/status-bar";
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

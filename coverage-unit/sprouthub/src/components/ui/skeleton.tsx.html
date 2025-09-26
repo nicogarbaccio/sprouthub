@@ -568,15 +568,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { cn } from "@/lib/utils";</span></span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >function Skeleton({</span>
-<span class="cstat-no" title="statement not covered" >  className,</span>
-<span class="cstat-no" title="statement not covered" >  ...props</span>
+<span class="cstat-no" title="statement not covered" > className,</span>
+<span class="cstat-no" title="statement not covered" > ...props</span>
 <span class="cstat-no" title="statement not covered" >}: React.HTMLAttributes&lt;HTMLDivElement&gt;) {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      className={cn("animate-pulse rounded-md bg-muted/60", className)}</span>
-<span class="cstat-no" title="statement not covered" >      {...props}</span>
-<span class="cstat-no" title="statement not covered" >    /&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={cn("animate-pulse rounded-md bg-muted/60", className)}</span>
+<span class="cstat-no" title="statement not covered" >  {...props}</span>
+<span class="cstat-no" title="statement not covered" > /&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 /**
@@ -584,42 +584,42 @@
  * Note: Plant cards have green backgrounds, so we keep the green styling here
  */
 <span class="cstat-no" title="statement not covered" >function PlantCardSkeleton({ className }: { className?: string }) {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      className={cn(</span>
-<span class="cstat-no" title="statement not covered" >        "bg-card rounded-2xl shadow-md overflow-hidden border border-border",</span>
-<span class="cstat-no" title="statement not covered" >        className</span>
-<span class="cstat-no" title="statement not covered" >      )}</span>
-    &gt;
-      {/* Image skeleton */}
-<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="w-full h-48" /&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "bg-card rounded-2xl shadow-md overflow-hidden border border-border",</span>
+<span class="cstat-no" title="statement not covered" >  className</span>
+<span class="cstat-no" title="statement not covered" >  )}</span>
+ &gt;
+  {/* Image skeleton */}
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="w-full h-48" /&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;div className="p-6"&gt;</span>
-        {/* Title skeleton */}
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-6 w-3/4 mb-2" /&gt;</span>
-        {/* Subtitle skeleton */}
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-4 w-1/2 mb-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="p-6"&gt;</span>
+  {/* Title skeleton */}
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-6 w-3/4 mb-2" /&gt;</span>
+  {/* Subtitle skeleton */}
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-4 w-1/2 mb-4" /&gt;</span>
 &nbsp;
-        {/* Plant details skeleton */}
-<span class="cstat-no" title="statement not covered" >        &lt;div className="space-y-3 mb-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="flex items-center space-x-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Skeleton className="h-4 w-4 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Skeleton className="h-4 w-20" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="flex items-center space-x-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Skeleton className="h-4 w-4 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Skeleton className="h-4 w-16" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
+  {/* Plant details skeleton */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="space-y-3 mb-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex items-center space-x-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-4 w-4 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-4 w-20" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex items-center space-x-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-4 w-4 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-4 w-16" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-        {/* Buttons skeleton */}
-<span class="cstat-no" title="statement not covered" >        &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Skeleton className="h-10 w-full rounded-xl" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Skeleton className="h-10 w-full rounded-xl" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+  {/* Buttons skeleton */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-10 w-full rounded-xl" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-10 w-full rounded-xl" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 /**
@@ -627,194 +627,194 @@
  * Note: My plant cards have green backgrounds, so we keep the green styling here
  */
 <span class="cstat-no" title="statement not covered" >function MyPlantCardSkeleton({ className }: { className?: string }) {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      className={cn(</span>
-<span class="cstat-no" title="statement not covered" >        "bg-card rounded-2xl shadow-md overflow-hidden border border-border",</span>
-<span class="cstat-no" title="statement not covered" >        className</span>
-<span class="cstat-no" title="statement not covered" >      )}</span>
-    &gt;
-      {/* Image with overlay skeleton */}
-<span class="cstat-no" title="statement not covered" >      &lt;div className="relative"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="w-full h-40" /&gt;</span>
-        {/* Status badge skeleton */}
-<span class="cstat-no" title="statement not covered" >        &lt;div className="absolute top-3 right-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Skeleton className="h-6 w-20 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-        {/* Edit button skeleton */}
-<span class="cstat-no" title="statement not covered" >        &lt;div className="absolute bottom-3 right-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Skeleton className="h-8 w-8 rounded-md" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "bg-card rounded-2xl shadow-md overflow-hidden border border-border",</span>
+<span class="cstat-no" title="statement not covered" >  className</span>
+<span class="cstat-no" title="statement not covered" >  )}</span>
+ &gt;
+  {/* Image with overlay skeleton */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="relative"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="w-full h-40" /&gt;</span>
+  {/* Status badge skeleton */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="absolute top-3 right-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-6 w-20 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+  {/* Edit button skeleton */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="absolute bottom-3 right-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-8 w-8 rounded-md" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;div className="p-5"&gt;</span>
-        {/* Title skeleton */}
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-6 w-3/4 mb-1" /&gt;</span>
-        {/* Plant type skeleton */}
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-4 w-1/2 mb-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="p-5"&gt;</span>
+  {/* Title skeleton */}
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-6 w-3/4 mb-1" /&gt;</span>
+  {/* Plant type skeleton */}
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-4 w-1/2 mb-4" /&gt;</span>
 &nbsp;
-        {/* Details skeleton */}
-<span class="cstat-no" title="statement not covered" >        &lt;div className="space-y-2 mb-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="flex items-center justify-between"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Skeleton className="h-4 w-20" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Skeleton className="h-4 w-16" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="flex items-center justify-between"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Skeleton className="h-4 w-24" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Skeleton className="h-4 w-20" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
+  {/* Details skeleton */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="space-y-2 mb-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex items-center justify-between"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-4 w-20" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-4 w-16" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex items-center justify-between"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-4 w-24" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-4 w-20" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-        {/* Water button skeleton */}
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-10 w-full rounded-xl" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+  {/* Water button skeleton */}
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-10 w-full rounded-xl" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 /**
  * Skeleton for dashboard metric cards
  */
 <span class="cstat-no" title="statement not covered" >function DashboardMetricSkeleton({ className }: { className?: string }) {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      className={cn("bg-card border border-border rounded-lg p-6", className)}</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      &lt;div className="flex items-center justify-between"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Skeleton className="h-4 w-20" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Skeleton className="h-8 w-12" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="w-12 h-12 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={cn("bg-card border border-border rounded-lg p-6", className)}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex items-center justify-between"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-4 w-20" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-8 w-12" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="w-12 h-12 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 /**
  * Skeleton for dashboard task items
  */
 <span class="cstat-no" title="statement not covered" >function DashboardTaskSkeleton({ className }: { className?: string }) {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      className={cn(</span>
-<span class="cstat-no" title="statement not covered" >        "flex items-center justify-between p-3 bg-muted/30 rounded-lg",</span>
-<span class="cstat-no" title="statement not covered" >        className</span>
-<span class="cstat-no" title="statement not covered" >      )}</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      &lt;div className="flex items-center space-x-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="w-10 h-10 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="space-y-1"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Skeleton className="h-4 w-24" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Skeleton className="h-3 w-16" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="flex items-center space-x-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-6 w-16 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-8 w-8 rounded" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "flex items-center justify-between p-3 bg-muted/30 rounded-lg",</span>
+<span class="cstat-no" title="statement not covered" >  className</span>
+<span class="cstat-no" title="statement not covered" >  )}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex items-center space-x-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="w-10 h-10 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="space-y-1"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-4 w-24" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-3 w-16" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex items-center space-x-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-6 w-16 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-8 w-8 rounded" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 /**
  * Skeleton for dashboard activity items
  */
 <span class="cstat-no" title="statement not covered" >function DashboardActivitySkeleton({ className }: { className?: string }) {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      className={cn(</span>
-<span class="cstat-no" title="statement not covered" >        "flex items-center space-x-3 p-3 bg-muted/30 rounded-lg",</span>
-<span class="cstat-no" title="statement not covered" >        className</span>
-<span class="cstat-no" title="statement not covered" >      )}</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="w-8 h-8 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="flex-1 space-y-1"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-4 w-32" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-3 w-20" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="w-4 h-4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "flex items-center space-x-3 p-3 bg-muted/30 rounded-lg",</span>
+<span class="cstat-no" title="statement not covered" >  className</span>
+<span class="cstat-no" title="statement not covered" >  )}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="w-8 h-8 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex-1 space-y-1"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-4 w-32" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-3 w-20" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="w-4 h-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 /**
  * Skeleton for form inputs - includes label and input field
  */
 <span class="cstat-no" title="statement not covered" >function FormInputSkeleton({ className }: { className?: string }) {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className={cn("space-y-2", className)}&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-4 w-20" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-10 w-full rounded-md" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className={cn("space-y-2", className)}&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-4 w-20" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-10 w-full rounded-md" /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 /**
  * Skeleton for form sections with title and description
  */
 <span class="cstat-no" title="statement not covered" >function FormSectionSkeleton({ className }: { className?: string }) {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className={cn("space-y-4", className)}&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-6 w-32 mb-2" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-4 w-48" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;FormInputSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;FormInputSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;FormInputSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-10 w-24 rounded-md" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className={cn("space-y-4", className)}&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-6 w-32 mb-2" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-4 w-48" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;FormInputSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;FormInputSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;FormInputSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-10 w-24 rounded-md" /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 /**
  * Skeleton for watering record items
  */
 <span class="cstat-no" title="statement not covered" >function WateringRecordSkeleton({ className }: { className?: string }) {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      className={cn(</span>
-<span class="cstat-no" title="statement not covered" >        "flex items-center justify-between p-3 border border-border rounded-md",</span>
-<span class="cstat-no" title="statement not covered" >        className</span>
-<span class="cstat-no" title="statement not covered" >      )}</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      &lt;div className="space-y-1"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-4 w-24" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-3 w-32" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-8 w-8 rounded-md" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "flex items-center justify-between p-3 border border-border rounded-md",</span>
+<span class="cstat-no" title="statement not covered" >  className</span>
+<span class="cstat-no" title="statement not covered" >  )}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  &lt;div className="space-y-1"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-4 w-24" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-3 w-32" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-8 w-8 rounded-md" /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 /**
  * Skeleton for image upload component
  */
 <span class="cstat-no" title="statement not covered" >function ImageUploadSkeleton({ className }: { className?: string }) {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className={cn("space-y-2", className)}&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-4 w-16" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="border-2 border-dashed border-border rounded-lg p-6 text-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="w-12 h-12 rounded-full mx-auto mb-3" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-4 w-32 mx-auto mb-2" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Skeleton className="h-3 w-48 mx-auto" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className={cn("space-y-2", className)}&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-4 w-16" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="border-2 border-dashed border-border rounded-lg p-6 text-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="w-12 h-12 rounded-full mx-auto mb-3" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-4 w-32 mx-auto mb-2" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Skeleton className="h-3 w-48 mx-auto" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 export {
-  Skeleton,
-  PlantCardSkeleton,
-  MyPlantCardSkeleton,
-  DashboardMetricSkeleton,
-  DashboardTaskSkeleton,
-  DashboardActivitySkeleton,
-  FormInputSkeleton,
-  FormSectionSkeleton,
-  WateringRecordSkeleton,
-  ImageUploadSkeleton,
+ Skeleton,
+ PlantCardSkeleton,
+ MyPlantCardSkeleton,
+ DashboardMetricSkeleton,
+ DashboardTaskSkeleton,
+ DashboardActivitySkeleton,
+ FormInputSkeleton,
+ FormSectionSkeleton,
+ WateringRecordSkeleton,
+ ImageUploadSkeleton,
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -823,7 +823,7 @@ export {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -161,46 +161,46 @@
 <span class="cstat-no" title="statement not covered" >import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';</span>
 &nbsp;
 interface PlantCareCardsProps {
-  careInstructions: string[];
-  commonProblems: string[];
+ careInstructions: string[];
+ commonProblems: string[];
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const PlantCareCards = ({ careInstructions, commonProblems }: PlantCareCardsProps) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardTitle className="text-plant-text"&gt;Care Instructions&lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;ul className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {careInstructions.map((instruction, index) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;li key={index} className="flex items-start space-x-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;span className="w-2 h-2 bg-plant-primary rounded-full mt-2 flex-shrink-0"&gt;&lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;span className="text-plant-text text-sm"&gt;{instruction}&lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/li&gt;</span>
-<span class="cstat-no" title="statement not covered" >            ))}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/ul&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardTitle className="text-plant-text"&gt;Care Instructions&lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;ul className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {careInstructions.map((instruction, index) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;li key={index} className="flex items-start space-x-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;span className="w-2 h-2 bg-plant-primary rounded-full mt-2 flex-shrink-0"&gt;&lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;span className="text-plant-text text-sm"&gt;{instruction}&lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/li&gt;</span>
+<span class="cstat-no" title="statement not covered" >   ))}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/ul&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Card&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardTitle className="text-plant-text"&gt;Common Problems&lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;ul className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {commonProblems.map((problem, index) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;li key={index} className="text-plant-text text-sm"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;span className="font-medium"&gt;{problem.split(':')[0]}:&lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;span className="text-plant-text/70"&gt; {problem.split(':')[1]}&lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/li&gt;</span>
-<span class="cstat-no" title="statement not covered" >            ))}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/ul&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >  &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardTitle className="text-plant-text"&gt;Common Problems&lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;ul className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {commonProblems.map((problem, index) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;li key={index} className="text-plant-text text-sm"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;span className="font-medium"&gt;{problem.split(':')[0]}:&lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;span className="text-plant-text/70"&gt; {problem.split(':')[1]}&lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/li&gt;</span>
+<span class="cstat-no" title="statement not covered" >   ))}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/ul&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default PlantCareCards;</span>
@@ -211,7 +211,7 @@ interface PlantCareCardsProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

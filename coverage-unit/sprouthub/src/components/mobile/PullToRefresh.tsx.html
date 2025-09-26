@@ -353,141 +353,141 @@ import { usePullToRefresh } from "@/hooks/use-touch";
 import { cn } from "@/lib/utils";
 &nbsp;
 interface PullToRefreshProps {
-  onRefresh: () =&gt; Promise&lt;void&gt; | void;
-  children: React.ReactNode;
-  threshold?: number;
-  maxPullDistance?: number;
-  className?: string;
-  disabled?: boolean;
+ onRefresh: () =&gt; Promise&lt;void&gt; | void;
+ children: React.ReactNode;
+ threshold?: number;
+ maxPullDistance?: number;
+ className?: string;
+ disabled?: boolean;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export function PullToRefresh({</span>
-<span class="cstat-no" title="statement not covered" >  onRefresh,</span>
-<span class="cstat-no" title="statement not covered" >  children,</span>
-<span class="cstat-no" title="statement not covered" >  threshold = 80,</span>
-<span class="cstat-no" title="statement not covered" >  maxPullDistance = 120,</span>
-<span class="cstat-no" title="statement not covered" >  className,</span>
-<span class="cstat-no" title="statement not covered" >  disabled = false,</span>
+<span class="cstat-no" title="statement not covered" > onRefresh,</span>
+<span class="cstat-no" title="statement not covered" > children,</span>
+<span class="cstat-no" title="statement not covered" > threshold = 80,</span>
+<span class="cstat-no" title="statement not covered" > maxPullDistance = 120,</span>
+<span class="cstat-no" title="statement not covered" > className,</span>
+<span class="cstat-no" title="statement not covered" > disabled = false,</span>
 <span class="cstat-no" title="statement not covered" >}: PullToRefreshProps) {</span>
-<span class="cstat-no" title="statement not covered" >  const {</span>
-<span class="cstat-no" title="statement not covered" >    pullDistance,</span>
-<span class="cstat-no" title="statement not covered" >    isRefreshing,</span>
-<span class="cstat-no" title="statement not covered" >    isPulling,</span>
-<span class="cstat-no" title="statement not covered" >    onTouchStart,</span>
-<span class="cstat-no" title="statement not covered" >    onTouchMove,</span>
-<span class="cstat-no" title="statement not covered" >    onTouchEnd,</span>
-<span class="cstat-no" title="statement not covered" >  } = usePullToRefresh({</span>
-<span class="cstat-no" title="statement not covered" >    threshold,</span>
-<span class="cstat-no" title="statement not covered" >    maxPullDistance,</span>
-<span class="cstat-no" title="statement not covered" >    onRefresh: disabled ? undefined : onRefresh,</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > const {</span>
+<span class="cstat-no" title="statement not covered" > pullDistance,</span>
+<span class="cstat-no" title="statement not covered" > isRefreshing,</span>
+<span class="cstat-no" title="statement not covered" > isPulling,</span>
+<span class="cstat-no" title="statement not covered" > onTouchStart,</span>
+<span class="cstat-no" title="statement not covered" > onTouchMove,</span>
+<span class="cstat-no" title="statement not covered" > onTouchEnd,</span>
+<span class="cstat-no" title="statement not covered" > } = usePullToRefresh({</span>
+<span class="cstat-no" title="statement not covered" > threshold,</span>
+<span class="cstat-no" title="statement not covered" > maxPullDistance,</span>
+<span class="cstat-no" title="statement not covered" > onRefresh: disabled ? undefined : onRefresh,</span>
+<span class="cstat-no" title="statement not covered" > });</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  React.useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (disabled) return;</span>
+<span class="cstat-no" title="statement not covered" > React.useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (disabled) return;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    document.addEventListener("touchstart", onTouchStart, { passive: false });</span>
-<span class="cstat-no" title="statement not covered" >    document.addEventListener("touchmove", onTouchMove, { passive: false });</span>
-<span class="cstat-no" title="statement not covered" >    document.addEventListener("touchend", onTouchEnd, { passive: false });</span>
+<span class="cstat-no" title="statement not covered" > document.addEventListener("touchstart", onTouchStart, { passive: false });</span>
+<span class="cstat-no" title="statement not covered" > document.addEventListener("touchmove", onTouchMove, { passive: false });</span>
+<span class="cstat-no" title="statement not covered" > document.addEventListener("touchend", onTouchEnd, { passive: false });</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      document.removeEventListener("touchstart", onTouchStart);</span>
-<span class="cstat-no" title="statement not covered" >      document.removeEventListener("touchmove", onTouchMove);</span>
-<span class="cstat-no" title="statement not covered" >      document.removeEventListener("touchend", onTouchEnd);</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
-<span class="cstat-no" title="statement not covered" >  }, [onTouchStart, onTouchMove, onTouchEnd, disabled]);</span>
+<span class="cstat-no" title="statement not covered" > return () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  document.removeEventListener("touchstart", onTouchStart);</span>
+<span class="cstat-no" title="statement not covered" >  document.removeEventListener("touchmove", onTouchMove);</span>
+<span class="cstat-no" title="statement not covered" >  document.removeEventListener("touchend", onTouchEnd);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+<span class="cstat-no" title="statement not covered" > }, [onTouchStart, onTouchMove, onTouchEnd, disabled]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const progress = Math.min(pullDistance / threshold, 1);</span>
-<span class="cstat-no" title="statement not covered" >  const isTriggered = pullDistance &gt;= threshold;</span>
+<span class="cstat-no" title="statement not covered" > const progress = Math.min(pullDistance / threshold, 1);</span>
+<span class="cstat-no" title="statement not covered" > const isTriggered = pullDistance &gt;= threshold;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className={cn("relative", className)}&gt;</span>
-      {/* Pull indicator */}
-<span class="cstat-no" title="statement not covered" >      {isPulling &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div</span>
-<span class="cstat-no" title="statement not covered" >          className="fixed top-0 left-0 right-0 z-50 bg-plant-primary/10 backdrop-blur-sm transition-all duration-200"</span>
-<span class="cstat-no" title="statement not covered" >          style={{</span>
-<span class="cstat-no" title="statement not covered" >            height: `${Math.min(pullDistance, maxPullDistance)}px`,</span>
-<span class="cstat-no" title="statement not covered" >            transform: `translateY(-${Math.max(</span>
-<span class="cstat-no" title="statement not covered" >              0,</span>
-<span class="cstat-no" title="statement not covered" >              maxPullDistance - pullDistance</span>
-<span class="cstat-no" title="statement not covered" >            )}px)`,</span>
-<span class="cstat-no" title="statement not covered" >          }}</span>
-        &gt;
-<span class="cstat-no" title="statement not covered" >          &lt;div className="flex items-center justify-center h-full"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="flex flex-col items-center space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              {isTriggered ? (</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="animate-bounce"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;RefreshCw className="w-6 h-6 text-plant-primary" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
-              ) : (
-<span class="cstat-no" title="statement not covered" >                &lt;div</span>
-<span class="cstat-no" title="statement not covered" >                  className="transition-transform duration-200"</span>
-<span class="cstat-no" title="statement not covered" >                  style={{</span>
-<span class="cstat-no" title="statement not covered" >                    transform: `rotate(${progress * 180}deg)`,</span>
-<span class="cstat-no" title="statement not covered" >                  }}</span>
-                &gt;
-<span class="cstat-no" title="statement not covered" >                  &lt;ArrowDown className="w-6 h-6 text-plant-primary" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
-              )}
-<span class="cstat-no" title="statement not covered" >              &lt;span className="text-xs text-plant-primary font-medium"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                {isTriggered ? "Release to refresh" : "Pull to refresh"}</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-      )}
-&nbsp;
-      {/* Loading indicator */}
-<span class="cstat-no" title="statement not covered" >      {isRefreshing &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="fixed top-0 left-0 right-0 z-50 bg-plant-primary/10 backdrop-blur-sm h-16"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="flex items-center justify-center h-full"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="flex items-center space-x-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;RefreshCw className="w-5 h-5 text-plant-primary animate-spin" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;span className="text-sm text-plant-primary font-medium"&gt;</span>
-                Refreshing...
-<span class="cstat-no" title="statement not covered" >              &lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-      )}
-&nbsp;
-      {/* Content */}
-<span class="cstat-no" title="statement not covered" >      &lt;div</span>
-<span class="cstat-no" title="statement not covered" >        className="transition-transform duration-200"</span>
-<span class="cstat-no" title="statement not covered" >        style={{</span>
-<span class="cstat-no" title="statement not covered" >          transform: isRefreshing</span>
-<span class="cstat-no" title="statement not covered" >            ? "translateY(64px)"</span>
-<span class="cstat-no" title="statement not covered" >            : isPulling</span>
-<span class="cstat-no" title="statement not covered" >            ? `translateY(${Math.min(pullDistance, maxPullDistance)}px)`</span>
-<span class="cstat-no" title="statement not covered" >            : "translateY(0)",</span>
-<span class="cstat-no" title="statement not covered" >        }}</span>
-      &gt;
-<span class="cstat-no" title="statement not covered" >        {children}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className={cn("relative", className)}&gt;</span>
+  {/* Pull indicator */}
+<span class="cstat-no" title="statement not covered" >  {isPulling &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div</span>
+<span class="cstat-no" title="statement not covered" >   className="fixed top-0 left-0 right-0 z-50 bg-plant-primary/10 backdrop-blur-sm transition-all duration-200"</span>
+<span class="cstat-no" title="statement not covered" >   style={{</span>
+<span class="cstat-no" title="statement not covered" >   height: `${Math.min(pullDistance, maxPullDistance)}px`,</span>
+<span class="cstat-no" title="statement not covered" >   transform: `translateY(-${Math.max(</span>
+<span class="cstat-no" title="statement not covered" >    0,</span>
+<span class="cstat-no" title="statement not covered" >    maxPullDistance - pullDistance</span>
+<span class="cstat-no" title="statement not covered" >   )}px)`,</span>
+<span class="cstat-no" title="statement not covered" >   }}</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex items-center justify-center h-full"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex flex-col items-center space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    {isTriggered ? (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="animate-bounce"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;RefreshCw className="w-6 h-6 text-plant-primary" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+    ) : (
+<span class="cstat-no" title="statement not covered" >    &lt;div</span>
+<span class="cstat-no" title="statement not covered" >     className="transition-transform duration-200"</span>
+<span class="cstat-no" title="statement not covered" >     style={{</span>
+<span class="cstat-no" title="statement not covered" >     transform: `rotate(${progress * 180}deg)`,</span>
+<span class="cstat-no" title="statement not covered" >     }}</span>
+    &gt;
+<span class="cstat-no" title="statement not covered" >     &lt;ArrowDown className="w-6 h-6 text-plant-primary" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+    )}
+<span class="cstat-no" title="statement not covered" >    &lt;span className="text-xs text-plant-primary font-medium"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    {isTriggered ? "Release to refresh" : "Pull to refresh"}</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+  )}
+&nbsp;
+  {/* Loading indicator */}
+<span class="cstat-no" title="statement not covered" >  {isRefreshing &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="fixed top-0 left-0 right-0 z-50 bg-plant-primary/10 backdrop-blur-sm h-16"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex items-center justify-center h-full"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex items-center space-x-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;RefreshCw className="w-5 h-5 text-plant-primary animate-spin" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;span className="text-sm text-plant-primary font-medium"&gt;</span>
+    Refreshing...
+<span class="cstat-no" title="statement not covered" >    &lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+  )}
+&nbsp;
+  {/* Content */}
+<span class="cstat-no" title="statement not covered" >  &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className="transition-transform duration-200"</span>
+<span class="cstat-no" title="statement not covered" >  style={{</span>
+<span class="cstat-no" title="statement not covered" >   transform: isRefreshing</span>
+<span class="cstat-no" title="statement not covered" >   ? "translateY(64px)"</span>
+<span class="cstat-no" title="statement not covered" >   : isPulling</span>
+<span class="cstat-no" title="statement not covered" >   ? `translateY(${Math.min(pullDistance, maxPullDistance)}px)`</span>
+<span class="cstat-no" title="statement not covered" >   : "translateY(0)",</span>
+<span class="cstat-no" title="statement not covered" >  }}</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >  {children}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 // Simplified version for specific use cases
 <span class="cstat-no" title="statement not covered" >export function PlantListPullToRefresh({</span>
-<span class="cstat-no" title="statement not covered" >  onRefresh,</span>
-<span class="cstat-no" title="statement not covered" >  children,</span>
-<span class="cstat-no" title="statement not covered" >  className,</span>
+<span class="cstat-no" title="statement not covered" > onRefresh,</span>
+<span class="cstat-no" title="statement not covered" > children,</span>
+<span class="cstat-no" title="statement not covered" > className,</span>
 <span class="cstat-no" title="statement not covered" >}: {</span>
-  onRefresh: () =&gt; Promise&lt;void&gt; | void;
-  children: React.ReactNode;
-  className?: string;
+ onRefresh: () =&gt; Promise&lt;void&gt; | void;
+ children: React.ReactNode;
+ className?: string;
 <span class="cstat-no" title="statement not covered" >}) {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;PullToRefresh</span>
-<span class="cstat-no" title="statement not covered" >      onRefresh={onRefresh}</span>
-<span class="cstat-no" title="statement not covered" >      threshold={60}</span>
-<span class="cstat-no" title="statement not covered" >      maxPullDistance={100}</span>
-<span class="cstat-no" title="statement not covered" >      className={className}</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      {children}</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/PullToRefresh&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;PullToRefresh</span>
+<span class="cstat-no" title="statement not covered" >  onRefresh={onRefresh}</span>
+<span class="cstat-no" title="statement not covered" >  threshold={60}</span>
+<span class="cstat-no" title="statement not covered" >  maxPullDistance={100}</span>
+<span class="cstat-no" title="statement not covered" >  className={className}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  {children}</span>
+<span class="cstat-no" title="statement not covered" > &lt;/PullToRefresh&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -496,7 +496,7 @@ interface PullToRefreshProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

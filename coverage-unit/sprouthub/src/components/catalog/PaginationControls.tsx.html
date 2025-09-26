@@ -507,23 +507,23 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { Button } from "@/components/ui/button";</span></span></span>
 import {
-  ChevronLeft,
-  ChevronRight,
-  MoreHorizontal,
-  Loader2,
+ ChevronLeft,
+ ChevronRight,
+ MoreHorizontal,
+ Loader2,
 <span class="cstat-no" title="statement not covered" >} from "lucide-react";</span>
 <span class="cstat-no" title="statement not covered" >import { cn } from "@/lib/utils";</span>
 &nbsp;
 interface PaginationControlsProps {
-  currentPage: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  isChangingPage?: boolean;
-  onPageChange: (page: number) =&gt; void;
-  onNextPage: () =&gt; void;
-  onPreviousPage: () =&gt; void;
-  className?: string;
+ currentPage: number;
+ totalPages: number;
+ hasNextPage: boolean;
+ hasPreviousPage: boolean;
+ isChangingPage?: boolean;
+ onPageChange: (page: number) =&gt; void;
+ onNextPage: () =&gt; void;
+ onPreviousPage: () =&gt; void;
+ className?: string;
 }
 &nbsp;
 /**
@@ -531,198 +531,198 @@ interface PaginationControlsProps {
  * Shows up to 5 page numbers with smart ellipsis placement
  */
 <span class="cstat-no" title="statement not covered" >const generatePageNumbers = (currentPage: number, totalPages: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const pages: (number | "ellipsis")[] = [];</span>
-<span class="cstat-no" title="statement not covered" >  const maxVisiblePages = 5;</span>
+<span class="cstat-no" title="statement not covered" > const pages: (number | "ellipsis")[] = [];</span>
+<span class="cstat-no" title="statement not covered" > const maxVisiblePages = 5;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (totalPages &lt;= maxVisiblePages) {</span>
-    // Show all pages if total is less than max visible
-<span class="cstat-no" title="statement not covered" >    for (let i = 1; i &lt;= totalPages; i++) {</span>
-<span class="cstat-no" title="statement not covered" >      pages.push(i);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  } else {</span>
-    // Always show first page
-<span class="cstat-no" title="statement not covered" >    pages.push(1);</span>
+<span class="cstat-no" title="statement not covered" > if (totalPages &lt;= maxVisiblePages) {</span>
+ // Show all pages if total is less than max visible
+<span class="cstat-no" title="statement not covered" > for (let i = 1; i &lt;= totalPages; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  pages.push(i);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > } else {</span>
+ // Always show first page
+<span class="cstat-no" title="statement not covered" > pages.push(1);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (currentPage &lt;= 3) {</span>
-      // Show pages 2, 3, 4 and ellipsis
-<span class="cstat-no" title="statement not covered" >      for (let i = 2; i &lt;= 4; i++) {</span>
-<span class="cstat-no" title="statement not covered" >        pages.push(i);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      if (totalPages &gt; 4) {</span>
-<span class="cstat-no" title="statement not covered" >        pages.push("ellipsis");</span>
-<span class="cstat-no" title="statement not covered" >        pages.push(totalPages);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    } else if (currentPage &gt;= totalPages - 2) {</span>
-      // Show ellipsis and last few pages
-<span class="cstat-no" title="statement not covered" >      if (totalPages &gt; 4) {</span>
-<span class="cstat-no" title="statement not covered" >        pages.push("ellipsis");</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = totalPages - 3; i &lt;= totalPages; i++) {</span>
-<span class="cstat-no" title="statement not covered" >        if (i &gt; 1) pages.push(i);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    } else {</span>
-      // Show ellipsis, current page area, ellipsis
-<span class="cstat-no" title="statement not covered" >      pages.push("ellipsis");</span>
-<span class="cstat-no" title="statement not covered" >      for (let i = currentPage - 1; i &lt;= currentPage + 1; i++) {</span>
-<span class="cstat-no" title="statement not covered" >        pages.push(i);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      pages.push("ellipsis");</span>
-<span class="cstat-no" title="statement not covered" >      pages.push(totalPages);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" > if (currentPage &lt;= 3) {</span>
+  // Show pages 2, 3, 4 and ellipsis
+<span class="cstat-no" title="statement not covered" >  for (let i = 2; i &lt;= 4; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  pages.push(i);</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  if (totalPages &gt; 4) {</span>
+<span class="cstat-no" title="statement not covered" >  pages.push("ellipsis");</span>
+<span class="cstat-no" title="statement not covered" >  pages.push(totalPages);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > } else if (currentPage &gt;= totalPages - 2) {</span>
+  // Show ellipsis and last few pages
+<span class="cstat-no" title="statement not covered" >  if (totalPages &gt; 4) {</span>
+<span class="cstat-no" title="statement not covered" >  pages.push("ellipsis");</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = totalPages - 3; i &lt;= totalPages; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  if (i &gt; 1) pages.push(i);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > } else {</span>
+  // Show ellipsis, current page area, ellipsis
+<span class="cstat-no" title="statement not covered" >  pages.push("ellipsis");</span>
+<span class="cstat-no" title="statement not covered" >  for (let i = currentPage - 1; i &lt;= currentPage + 1; i++) {</span>
+<span class="cstat-no" title="statement not covered" >  pages.push(i);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  pages.push("ellipsis");</span>
+<span class="cstat-no" title="statement not covered" >  pages.push(totalPages);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return pages;</span>
+<span class="cstat-no" title="statement not covered" > return pages;</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 /**
  * Enhanced pagination controls with loading states and animations
  */
 <span class="cstat-no" title="statement not covered" >const PaginationControls = ({</span>
-<span class="cstat-no" title="statement not covered" >  currentPage,</span>
-<span class="cstat-no" title="statement not covered" >  totalPages,</span>
-<span class="cstat-no" title="statement not covered" >  hasNextPage,</span>
-<span class="cstat-no" title="statement not covered" >  hasPreviousPage,</span>
-<span class="cstat-no" title="statement not covered" >  isChangingPage = false,</span>
-<span class="cstat-no" title="statement not covered" >  onPageChange,</span>
-<span class="cstat-no" title="statement not covered" >  onNextPage,</span>
-<span class="cstat-no" title="statement not covered" >  onPreviousPage,</span>
-<span class="cstat-no" title="statement not covered" >  className,</span>
+<span class="cstat-no" title="statement not covered" > currentPage,</span>
+<span class="cstat-no" title="statement not covered" > totalPages,</span>
+<span class="cstat-no" title="statement not covered" > hasNextPage,</span>
+<span class="cstat-no" title="statement not covered" > hasPreviousPage,</span>
+<span class="cstat-no" title="statement not covered" > isChangingPage = false,</span>
+<span class="cstat-no" title="statement not covered" > onPageChange,</span>
+<span class="cstat-no" title="statement not covered" > onNextPage,</span>
+<span class="cstat-no" title="statement not covered" > onPreviousPage,</span>
+<span class="cstat-no" title="statement not covered" > className,</span>
 <span class="cstat-no" title="statement not covered" >}: PaginationControlsProps) =&gt; {</span>
-  // Don't render if there's only one page or no pages
-<span class="cstat-no" title="statement not covered" >  if (totalPages &lt;= 1) {</span>
-<span class="cstat-no" title="statement not covered" >    return null;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+ // Don't render if there's only one page or no pages
+<span class="cstat-no" title="statement not covered" > if (totalPages &lt;= 1) {</span>
+<span class="cstat-no" title="statement not covered" > return null;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const pageNumbers = generatePageNumbers(currentPage, totalPages);</span>
+<span class="cstat-no" title="statement not covered" > const pageNumbers = generatePageNumbers(currentPage, totalPages);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "flex flex-col sm:flex-row items-center justify-center gap-4 transition-opacity duration-200",</span>
+<span class="cstat-no" title="statement not covered" >  isChangingPage &amp;&amp; "opacity-60",</span>
+<span class="cstat-no" title="statement not covered" >  className</span>
+<span class="cstat-no" title="statement not covered" >  )}</span>
+<span class="cstat-no" title="statement not covered" >  data-testid="pagination-controls"</span>
+ &gt;
+  {/* Mobile: Simple Previous/Next */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex sm:hidden items-center gap-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >   variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >   size="sm"</span>
+<span class="cstat-no" title="statement not covered" >   onClick={onPreviousPage}</span>
+<span class="cstat-no" title="statement not covered" >   disabled={!hasPreviousPage || isChangingPage}</span>
+<span class="cstat-no" title="statement not covered" >   className="bg-card border-border hover:bg-muted text-foreground disabled:opacity-50 transition-all duration-200"</span>
+<span class="cstat-no" title="statement not covered" >   data-testid="previous-page"</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >   {isChangingPage ? (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Loader2 className="w-4 h-4 mr-1 animate-spin" /&gt;</span>
+   ) : (
+<span class="cstat-no" title="statement not covered" >   &lt;ChevronLeft className="w-4 h-4 mr-1" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   )}</span>
+   Previous
+<span class="cstat-no" title="statement not covered" >  &lt;/Button&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  &lt;div className="text-sm text-foreground px-4 min-w-[100px] text-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   Page {currentPage} of {totalPages}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >   variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >   size="sm"</span>
+<span class="cstat-no" title="statement not covered" >   onClick={onNextPage}</span>
+<span class="cstat-no" title="statement not covered" >   disabled={!hasNextPage || isChangingPage}</span>
+<span class="cstat-no" title="statement not covered" >   className="bg-card border-border hover:bg-muted text-foreground disabled:opacity-50 transition-all duration-200"</span>
+<span class="cstat-no" title="statement not covered" >   data-testid="next-page"</span>
+<span class="cstat-no" title="statement not covered" >  &gt;</span>
+   Next
+<span class="cstat-no" title="statement not covered" >   {isChangingPage ? (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Loader2 className="w-4 h-4 ml-1 animate-spin" /&gt;</span>
+   ) : (
+<span class="cstat-no" title="statement not covered" >   &lt;ChevronRight className="w-4 h-4 ml-1" /&gt;</span>
+   )}
+<span class="cstat-no" title="statement not covered" >  &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+&nbsp;
+  {/* Desktop: Full pagination with numbers */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="hidden sm:flex items-center gap-1"&gt;</span>
+  {/* Previous Button */}
+<span class="cstat-no" title="statement not covered" >  &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >   variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >   size="sm"</span>
+<span class="cstat-no" title="statement not covered" >   onClick={onPreviousPage}</span>
+<span class="cstat-no" title="statement not covered" >   disabled={!hasPreviousPage || isChangingPage}</span>
+<span class="cstat-no" title="statement not covered" >   className="bg-card border-border hover:bg-muted text-foreground disabled:opacity-50 mr-2 transition-all duration-200"</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >   {isChangingPage ? (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Loader2 className="w-4 h-4 mr-1 animate-spin" /&gt;</span>
+   ) : (
+<span class="cstat-no" title="statement not covered" >   &lt;ChevronLeft className="w-4 h-4 mr-1" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   )}</span>
+   Previous
+<span class="cstat-no" title="statement not covered" >  &lt;/Button&gt;</span>
+&nbsp;
+  {/* Page Numbers */}
+<span class="cstat-no" title="statement not covered" >  {pageNumbers.map((page, index) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >   if (page === "ellipsis") {</span>
+<span class="cstat-no" title="statement not covered" >   return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      className={cn(</span>
-<span class="cstat-no" title="statement not covered" >        "flex flex-col sm:flex-row items-center justify-center gap-4 transition-opacity duration-200",</span>
-<span class="cstat-no" title="statement not covered" >        isChangingPage &amp;&amp; "opacity-60",</span>
-<span class="cstat-no" title="statement not covered" >        className</span>
-<span class="cstat-no" title="statement not covered" >      )}</span>
-<span class="cstat-no" title="statement not covered" >      data-testid="pagination-controls"</span>
+<span class="cstat-no" title="statement not covered" >    key={`ellipsis-${index}`}</span>
+<span class="cstat-no" title="statement not covered" >    className="flex items-center justify-center w-8 h-8"</span>
     &gt;
-      {/* Mobile: Simple Previous/Next */}
-<span class="cstat-no" title="statement not covered" >      &lt;div className="flex sm:hidden items-center gap-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >          variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >          size="sm"</span>
-<span class="cstat-no" title="statement not covered" >          onClick={onPreviousPage}</span>
-<span class="cstat-no" title="statement not covered" >          disabled={!hasPreviousPage || isChangingPage}</span>
-<span class="cstat-no" title="statement not covered" >          className="bg-card border-border hover:bg-muted text-foreground disabled:opacity-50 transition-all duration-200"</span>
-<span class="cstat-no" title="statement not covered" >          data-testid="previous-page"</span>
-        &gt;
-<span class="cstat-no" title="statement not covered" >          {isChangingPage ? (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Loader2 className="w-4 h-4 mr-1 animate-spin" /&gt;</span>
-          ) : (
-<span class="cstat-no" title="statement not covered" >            &lt;ChevronLeft className="w-4 h-4 mr-1" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          )}</span>
-          Previous
-<span class="cstat-no" title="statement not covered" >        &lt;/Button&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        &lt;div className="text-sm text-foreground px-4 min-w-[100px] text-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          Page {currentPage} of {totalPages}</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >          variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >          size="sm"</span>
-<span class="cstat-no" title="statement not covered" >          onClick={onNextPage}</span>
-<span class="cstat-no" title="statement not covered" >          disabled={!hasNextPage || isChangingPage}</span>
-<span class="cstat-no" title="statement not covered" >          className="bg-card border-border hover:bg-muted text-foreground disabled:opacity-50 transition-all duration-200"</span>
-<span class="cstat-no" title="statement not covered" >          data-testid="next-page"</span>
-<span class="cstat-no" title="statement not covered" >        &gt;</span>
-          Next
-<span class="cstat-no" title="statement not covered" >          {isChangingPage ? (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Loader2 className="w-4 h-4 ml-1 animate-spin" /&gt;</span>
-          ) : (
-<span class="cstat-no" title="statement not covered" >            &lt;ChevronRight className="w-4 h-4 ml-1" /&gt;</span>
-          )}
-<span class="cstat-no" title="statement not covered" >        &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-&nbsp;
-      {/* Desktop: Full pagination with numbers */}
-<span class="cstat-no" title="statement not covered" >      &lt;div className="hidden sm:flex items-center gap-1"&gt;</span>
-        {/* Previous Button */}
-<span class="cstat-no" title="statement not covered" >        &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >          variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >          size="sm"</span>
-<span class="cstat-no" title="statement not covered" >          onClick={onPreviousPage}</span>
-<span class="cstat-no" title="statement not covered" >          disabled={!hasPreviousPage || isChangingPage}</span>
-<span class="cstat-no" title="statement not covered" >          className="bg-card border-border hover:bg-muted text-foreground disabled:opacity-50 mr-2 transition-all duration-200"</span>
-        &gt;
-<span class="cstat-no" title="statement not covered" >          {isChangingPage ? (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Loader2 className="w-4 h-4 mr-1 animate-spin" /&gt;</span>
-          ) : (
-<span class="cstat-no" title="statement not covered" >            &lt;ChevronLeft className="w-4 h-4 mr-1" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          )}</span>
-          Previous
-<span class="cstat-no" title="statement not covered" >        &lt;/Button&gt;</span>
-&nbsp;
-        {/* Page Numbers */}
-<span class="cstat-no" title="statement not covered" >        {pageNumbers.map((page, index) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          if (page === "ellipsis") {</span>
-<span class="cstat-no" title="statement not covered" >            return (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div</span>
-<span class="cstat-no" title="statement not covered" >                key={`ellipsis-${index}`}</span>
-<span class="cstat-no" title="statement not covered" >                className="flex items-center justify-center w-8 h-8"</span>
-              &gt;
-<span class="cstat-no" title="statement not covered" >                &lt;MoreHorizontal className="w-4 h-4 text-muted-foreground" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-            );
-<span class="cstat-no" title="statement not covered" >          }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >          const isCurrentPage = page === currentPage;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >          return (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              key={page}</span>
-<span class="cstat-no" title="statement not covered" >              variant={isCurrentPage ? "default" : "outline"}</span>
-<span class="cstat-no" title="statement not covered" >              size="sm"</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; onPageChange(page)}</span>
-<span class="cstat-no" title="statement not covered" >              disabled={isChangingPage}</span>
-<span class="cstat-no" title="statement not covered" >              className={cn(</span>
-<span class="cstat-no" title="statement not covered" >                "w-8 h-8 p-0 transition-all duration-200 transform",</span>
-<span class="cstat-no" title="statement not covered" >                isCurrentPage</span>
-<span class="cstat-no" title="statement not covered" >                  ? "bg-sprout-primary hover:bg-sprout-primary/90 text-white border-sprout-primary shadow-sm dark:bg-sprout-light dark:hover:bg-sprout-light/90 dark:text-sprout-dark dark:border-sprout-light"</span>
-<span class="cstat-no" title="statement not covered" >                  : "bg-card border-border hover:bg-muted text-foreground hover:border-border",</span>
-<span class="cstat-no" title="statement not covered" >                isChangingPage &amp;&amp; "opacity-60"</span>
-<span class="cstat-no" title="statement not covered" >              )}</span>
-            &gt;
-<span class="cstat-no" title="statement not covered" >              {isChangingPage &amp;&amp; isCurrentPage ? (</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Loader2 className="w-3 h-3 animate-spin" /&gt;</span>
-              ) : (
-<span class="cstat-no" title="statement not covered" >                page</span>
-              )}
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-          );
-<span class="cstat-no" title="statement not covered" >        })}</span>
-&nbsp;
-        {/* Next Button */}
-<span class="cstat-no" title="statement not covered" >        &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >          variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >          size="sm"</span>
-<span class="cstat-no" title="statement not covered" >          onClick={onNextPage}</span>
-<span class="cstat-no" title="statement not covered" >          disabled={!hasNextPage || isChangingPage}</span>
-<span class="cstat-no" title="statement not covered" >          className="bg-card border-border hover:bg-muted text-foreground disabled:opacity-50 ml-2 transition-all duration-200"</span>
-<span class="cstat-no" title="statement not covered" >        &gt;</span>
-          Next
-<span class="cstat-no" title="statement not covered" >          {isChangingPage ? (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Loader2 className="w-4 h-4 ml-1 animate-spin" /&gt;</span>
-          ) : (
-<span class="cstat-no" title="statement not covered" >            &lt;ChevronRight className="w-4 h-4 ml-1" /&gt;</span>
-          )}
-<span class="cstat-no" title="statement not covered" >        &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-&nbsp;
-      {/* Keyboard navigation hint */}
-<span class="cstat-no" title="statement not covered" >      &lt;div className="hidden lg:block text-xs text-muted-foreground/70 mt-2"&gt;</span>
-        Use ← → arrow keys to navigate
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;MoreHorizontal className="w-4 h-4 text-muted-foreground" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+   );
+<span class="cstat-no" title="statement not covered" >   }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >   const isCurrentPage = page === currentPage;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >   return (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    key={page}</span>
+<span class="cstat-no" title="statement not covered" >    variant={isCurrentPage ? "default" : "outline"}</span>
+<span class="cstat-no" title="statement not covered" >    size="sm"</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; onPageChange(page)}</span>
+<span class="cstat-no" title="statement not covered" >    disabled={isChangingPage}</span>
+<span class="cstat-no" title="statement not covered" >    className={cn(</span>
+<span class="cstat-no" title="statement not covered" >    "w-8 h-8 p-0 transition-all duration-200 transform",</span>
+<span class="cstat-no" title="statement not covered" >    isCurrentPage</span>
+<span class="cstat-no" title="statement not covered" >     ? "bg-sprout-primary hover:bg-sprout-primary/90 text-white border-sprout-primary shadow-sm dark:bg-sprout-light dark:hover:bg-sprout-light/90 dark:text-sprout-dark dark:border-sprout-light"</span>
+<span class="cstat-no" title="statement not covered" >     : "bg-card border-border hover:bg-muted text-foreground hover:border-border",</span>
+<span class="cstat-no" title="statement not covered" >    isChangingPage &amp;&amp; "opacity-60"</span>
+<span class="cstat-no" title="statement not covered" >    )}</span>
+   &gt;
+<span class="cstat-no" title="statement not covered" >    {isChangingPage &amp;&amp; isCurrentPage ? (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Loader2 className="w-3 h-3 animate-spin" /&gt;</span>
+    ) : (
+<span class="cstat-no" title="statement not covered" >    page</span>
+    )}
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+   );
+<span class="cstat-no" title="statement not covered" >  })}</span>
+&nbsp;
+  {/* Next Button */}
+<span class="cstat-no" title="statement not covered" >  &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >   variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >   size="sm"</span>
+<span class="cstat-no" title="statement not covered" >   onClick={onNextPage}</span>
+<span class="cstat-no" title="statement not covered" >   disabled={!hasNextPage || isChangingPage}</span>
+<span class="cstat-no" title="statement not covered" >   className="bg-card border-border hover:bg-muted text-foreground disabled:opacity-50 ml-2 transition-all duration-200"</span>
+<span class="cstat-no" title="statement not covered" >  &gt;</span>
+   Next
+<span class="cstat-no" title="statement not covered" >   {isChangingPage ? (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Loader2 className="w-4 h-4 ml-1 animate-spin" /&gt;</span>
+   ) : (
+<span class="cstat-no" title="statement not covered" >   &lt;ChevronRight className="w-4 h-4 ml-1" /&gt;</span>
+   )}
+<span class="cstat-no" title="statement not covered" >  &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+&nbsp;
+  {/* Keyboard navigation hint */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="hidden lg:block text-xs text-muted-foreground/70 mt-2"&gt;</span>
+  Use ← → arrow keys to navigate
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default PaginationControls;</span>
@@ -733,7 +733,7 @@ interface PaginationControlsProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

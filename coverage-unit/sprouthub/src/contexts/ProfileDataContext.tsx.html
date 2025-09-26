@@ -346,145 +346,145 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import React, {</span></span></span>
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
+ createContext,
+ useContext,
+ useEffect,
+ useState,
+ useCallback,
 } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 &nbsp;
 interface ProfileData {
-  first_name: string;
-  last_name: string;
-  username: string;
-  email: string;
-  avatar_url?: string;
+ first_name: string;
+ last_name: string;
+ username: string;
+ email: string;
+ avatar_url?: string;
 }
 &nbsp;
 interface ProfileDataContextType {
-  profileData: ProfileData;
-  isLoading: boolean;
-  updateProfileData: (updates: Partial&lt;ProfileData&gt;) =&gt; void;
-  refreshProfileData: () =&gt; Promise&lt;void&gt;;
+ profileData: ProfileData;
+ isLoading: boolean;
+ updateProfileData: (updates: Partial&lt;ProfileData&gt;) =&gt; void;
+ refreshProfileData: () =&gt; Promise&lt;void&gt;;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ProfileDataContext = createContext&lt;ProfileDataContextType | undefined&gt;(</span>
-<span class="cstat-no" title="statement not covered" >  undefined</span>
+<span class="cstat-no" title="statement not covered" > undefined</span>
 <span class="cstat-no" title="statement not covered" >);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export const useProfileData = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const context = useContext(ProfileDataContext);</span>
-<span class="cstat-no" title="statement not covered" >  if (!context) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error("useProfileData must be used within a ProfileDataProvider");</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >  return context;</span>
+<span class="cstat-no" title="statement not covered" > const context = useContext(ProfileDataContext);</span>
+<span class="cstat-no" title="statement not covered" > if (!context) {</span>
+<span class="cstat-no" title="statement not covered" > throw new Error("useProfileData must be used within a ProfileDataProvider");</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > return context;</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export const ProfileDataProvider: React.FC&lt;{ children: React.ReactNode }&gt; = ({</span>
-<span class="cstat-no" title="statement not covered" >  children,</span>
+<span class="cstat-no" title="statement not covered" > children,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { user } = useAuth();</span>
-<span class="cstat-no" title="statement not covered" >  const [profileData, setProfileData] = useState&lt;ProfileData&gt;({</span>
-<span class="cstat-no" title="statement not covered" >    first_name: "",</span>
-<span class="cstat-no" title="statement not covered" >    last_name: "",</span>
-<span class="cstat-no" title="statement not covered" >    username: "",</span>
-<span class="cstat-no" title="statement not covered" >    email: "",</span>
-<span class="cstat-no" title="statement not covered" >    avatar_url: "",</span>
+<span class="cstat-no" title="statement not covered" > const { user } = useAuth();</span>
+<span class="cstat-no" title="statement not covered" > const [profileData, setProfileData] = useState&lt;ProfileData&gt;({</span>
+<span class="cstat-no" title="statement not covered" > first_name: "",</span>
+<span class="cstat-no" title="statement not covered" > last_name: "",</span>
+<span class="cstat-no" title="statement not covered" > username: "",</span>
+<span class="cstat-no" title="statement not covered" > email: "",</span>
+<span class="cstat-no" title="statement not covered" > avatar_url: "",</span>
+<span class="cstat-no" title="statement not covered" > });</span>
+<span class="cstat-no" title="statement not covered" > const [isLoading, setIsLoading] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [hasInitialized, setHasInitialized] = useState(false);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const fetchProfileData = useCallback(async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!user) {</span>
+<span class="cstat-no" title="statement not covered" >  setProfileData({</span>
+<span class="cstat-no" title="statement not covered" >  first_name: "",</span>
+<span class="cstat-no" title="statement not covered" >  last_name: "",</span>
+<span class="cstat-no" title="statement not covered" >  username: "",</span>
+<span class="cstat-no" title="statement not covered" >  email: "",</span>
+<span class="cstat-no" title="statement not covered" >  avatar_url: "",</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setIsLoading] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const [hasInitialized, setHasInitialized] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" >  setHasInitialized(false);</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const fetchProfileData = useCallback(async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!user) {</span>
-<span class="cstat-no" title="statement not covered" >      setProfileData({</span>
-<span class="cstat-no" title="statement not covered" >        first_name: "",</span>
-<span class="cstat-no" title="statement not covered" >        last_name: "",</span>
-<span class="cstat-no" title="statement not covered" >        username: "",</span>
-<span class="cstat-no" title="statement not covered" >        email: "",</span>
-<span class="cstat-no" title="statement not covered" >        avatar_url: "",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >      setHasInitialized(false);</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+ // Only show loading for the initial fetch, not subsequent refreshes
+<span class="cstat-no" title="statement not covered" > if (!hasInitialized) {</span>
+<span class="cstat-no" title="statement not covered" >  setIsLoading(true);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-    // Only show loading for the initial fetch, not subsequent refreshes
-<span class="cstat-no" title="statement not covered" >    if (!hasInitialized) {</span>
-<span class="cstat-no" title="statement not covered" >      setIsLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+<span class="cstat-no" title="statement not covered" >  const { data, error } = await supabase</span>
+<span class="cstat-no" title="statement not covered" >  .from("profiles")</span>
+<span class="cstat-no" title="statement not covered" >  .select("*")</span>
+<span class="cstat-no" title="statement not covered" >  .eq("id", user.id)</span>
+<span class="cstat-no" title="statement not covered" >  .single();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      const { data, error } = await supabase</span>
-<span class="cstat-no" title="statement not covered" >        .from("profiles")</span>
-<span class="cstat-no" title="statement not covered" >        .select("*")</span>
-<span class="cstat-no" title="statement not covered" >        .eq("id", user.id)</span>
-<span class="cstat-no" title="statement not covered" >        .single();</span>
+<span class="cstat-no" title="statement not covered" >  if (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.warn("Could not fetch profile data:", error);</span>
+  // Use user email as fallback
+<span class="cstat-no" title="statement not covered" >  setProfileData({</span>
+<span class="cstat-no" title="statement not covered" >   first_name: "",</span>
+<span class="cstat-no" title="statement not covered" >   last_name: "",</span>
+<span class="cstat-no" title="statement not covered" >   username: "",</span>
+<span class="cstat-no" title="statement not covered" >   email: user.email || "",</span>
+<span class="cstat-no" title="statement not covered" >   avatar_url: "",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (error) {</span>
-<span class="cstat-no" title="statement not covered" >        console.warn("Could not fetch profile data:", error);</span>
-        // Use user email as fallback
-<span class="cstat-no" title="statement not covered" >        setProfileData({</span>
-<span class="cstat-no" title="statement not covered" >          first_name: "",</span>
-<span class="cstat-no" title="statement not covered" >          last_name: "",</span>
-<span class="cstat-no" title="statement not covered" >          username: "",</span>
-<span class="cstat-no" title="statement not covered" >          email: user.email || "",</span>
-<span class="cstat-no" title="statement not covered" >          avatar_url: "",</span>
-<span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" >        return;</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >  setProfileData({</span>
+<span class="cstat-no" title="statement not covered" >  first_name: data.first_name || "",</span>
+<span class="cstat-no" title="statement not covered" >  last_name: data.last_name || "",</span>
+<span class="cstat-no" title="statement not covered" >  username: data.username || "",</span>
+<span class="cstat-no" title="statement not covered" >  email: data.email || user.email || "",</span>
+<span class="cstat-no" title="statement not covered" >  avatar_url: data.avatar_url || "",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  setHasInitialized(true);</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.warn("Error fetching profile:", error);</span>
+<span class="cstat-no" title="statement not covered" > } finally {</span>
+<span class="cstat-no" title="statement not covered" >  setIsLoading(false);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [user]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      setProfileData({</span>
-<span class="cstat-no" title="statement not covered" >        first_name: data.first_name || "",</span>
-<span class="cstat-no" title="statement not covered" >        last_name: data.last_name || "",</span>
-<span class="cstat-no" title="statement not covered" >        username: data.username || "",</span>
-<span class="cstat-no" title="statement not covered" >        email: data.email || user.email || "",</span>
-<span class="cstat-no" title="statement not covered" >        avatar_url: data.avatar_url || "",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >      setHasInitialized(true);</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.warn("Error fetching profile:", error);</span>
-<span class="cstat-no" title="statement not covered" >    } finally {</span>
-<span class="cstat-no" title="statement not covered" >      setIsLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [user]);</span>
+<span class="cstat-no" title="statement not covered" > const updateProfileData = (updates: Partial&lt;ProfileData&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > setProfileData((prev) =&gt; ({ ...prev, ...updates }));</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const updateProfileData = (updates: Partial&lt;ProfileData&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setProfileData((prev) =&gt; ({ ...prev, ...updates }));</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const refreshProfileData = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > await fetchProfileData();</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const refreshProfileData = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    await fetchProfileData();</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+ // Only fetch profile data once when user changes or on initial load
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (user?.id &amp;&amp; !hasInitialized) {</span>
+<span class="cstat-no" title="statement not covered" >  fetchProfileData();</span>
+<span class="cstat-no" title="statement not covered" > } else if (!user) {</span>
+<span class="cstat-no" title="statement not covered" >  setProfileData({</span>
+<span class="cstat-no" title="statement not covered" >  first_name: "",</span>
+<span class="cstat-no" title="statement not covered" >  last_name: "",</span>
+<span class="cstat-no" title="statement not covered" >  username: "",</span>
+<span class="cstat-no" title="statement not covered" >  email: "",</span>
+<span class="cstat-no" title="statement not covered" >  avatar_url: "",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  setHasInitialized(false);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [user?.id, hasInitialized, fetchProfileData]);</span>
 &nbsp;
-  // Only fetch profile data once when user changes or on initial load
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (user?.id &amp;&amp; !hasInitialized) {</span>
-<span class="cstat-no" title="statement not covered" >      fetchProfileData();</span>
-<span class="cstat-no" title="statement not covered" >    } else if (!user) {</span>
-<span class="cstat-no" title="statement not covered" >      setProfileData({</span>
-<span class="cstat-no" title="statement not covered" >        first_name: "",</span>
-<span class="cstat-no" title="statement not covered" >        last_name: "",</span>
-<span class="cstat-no" title="statement not covered" >        username: "",</span>
-<span class="cstat-no" title="statement not covered" >        email: "",</span>
-<span class="cstat-no" title="statement not covered" >        avatar_url: "",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >      setHasInitialized(false);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [user?.id, hasInitialized, fetchProfileData]);</span>
+<span class="cstat-no" title="statement not covered" > const value: ProfileDataContextType = {</span>
+<span class="cstat-no" title="statement not covered" > profileData,</span>
+<span class="cstat-no" title="statement not covered" > isLoading,</span>
+<span class="cstat-no" title="statement not covered" > updateProfileData,</span>
+<span class="cstat-no" title="statement not covered" > refreshProfileData,</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const value: ProfileDataContextType = {</span>
-<span class="cstat-no" title="statement not covered" >    profileData,</span>
-<span class="cstat-no" title="statement not covered" >    isLoading,</span>
-<span class="cstat-no" title="statement not covered" >    updateProfileData,</span>
-<span class="cstat-no" title="statement not covered" >    refreshProfileData,</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;ProfileDataContext.Provider value={value}&gt;</span>
-<span class="cstat-no" title="statement not covered" >      {children}</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/ProfileDataContext.Provider&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;ProfileDataContext.Provider value={value}&gt;</span>
+<span class="cstat-no" title="statement not covered" >  {children}</span>
+<span class="cstat-no" title="statement not covered" > &lt;/ProfileDataContext.Provider&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -493,7 +493,7 @@ interface ProfileDataContextType {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

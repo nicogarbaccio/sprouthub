@@ -272,100 +272,100 @@ import { Button } from "@/components/ui/button";
 import { SignUpFormFields } from "./SignUpFormFields";
 import { authToast } from "@/utils/toast-helpers";
 import {
-  validateSignUpForm,
-  hasValidationErrors,
-  type FormData,
-  type ValidationErrors,
+ validateSignUpForm,
+ hasValidationErrors,
+ type FormData,
+ type ValidationErrors,
 } from "@/utils/auth-validation";
 &nbsp;
 /**
  * Props for SignUpForm component.
  */
 export interface SignUpFormProps {
-  isLoading: boolean;
-  onSignUp: (
-    email: string,
-    password: string,
-    firstName: string,
-    lastName: string,
-    username: string
-  ) =&gt; Promise&lt;{ error?: { message: string } } | void&gt;;
+ isLoading: boolean;
+ onSignUp: (
+ email: string,
+ password: string,
+ firstName: string,
+ lastName: string,
+ username: string
+ ) =&gt; Promise&lt;{ error?: { message: string } } | void&gt;;
 }
 &nbsp;
 /**
  * SignUpForm component for user registration.
  */
 <span class="cstat-no" title="statement not covered" >export const SignUpForm: React.FC&lt;SignUpFormProps&gt; = ({</span>
-<span class="cstat-no" title="statement not covered" >  isLoading,</span>
-<span class="cstat-no" title="statement not covered" >  onSignUp,</span>
+<span class="cstat-no" title="statement not covered" > isLoading,</span>
+<span class="cstat-no" title="statement not covered" > onSignUp,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const [formData, setFormData] = useState&lt;FormData&gt;({</span>
-<span class="cstat-no" title="statement not covered" >    firstName: "",</span>
-<span class="cstat-no" title="statement not covered" >    lastName: "",</span>
-<span class="cstat-no" title="statement not covered" >    username: "",</span>
-<span class="cstat-no" title="statement not covered" >    email: "",</span>
-<span class="cstat-no" title="statement not covered" >    password: "",</span>
-<span class="cstat-no" title="statement not covered" >    confirmPassword: "",</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
-<span class="cstat-no" title="statement not covered" >  const [errors, setErrors] = useState&lt;ValidationErrors&gt;({</span>
-<span class="cstat-no" title="statement not covered" >    password: "",</span>
-<span class="cstat-no" title="statement not covered" >    confirmPassword: "",</span>
-<span class="cstat-no" title="statement not covered" >    username: "",</span>
-<span class="cstat-no" title="statement not covered" >    email: "",</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > const [formData, setFormData] = useState&lt;FormData&gt;({</span>
+<span class="cstat-no" title="statement not covered" > firstName: "",</span>
+<span class="cstat-no" title="statement not covered" > lastName: "",</span>
+<span class="cstat-no" title="statement not covered" > username: "",</span>
+<span class="cstat-no" title="statement not covered" > email: "",</span>
+<span class="cstat-no" title="statement not covered" > password: "",</span>
+<span class="cstat-no" title="statement not covered" > confirmPassword: "",</span>
+<span class="cstat-no" title="statement not covered" > });</span>
+<span class="cstat-no" title="statement not covered" > const [errors, setErrors] = useState&lt;ValidationErrors&gt;({</span>
+<span class="cstat-no" title="statement not covered" > password: "",</span>
+<span class="cstat-no" title="statement not covered" > confirmPassword: "",</span>
+<span class="cstat-no" title="statement not covered" > username: "",</span>
+<span class="cstat-no" title="statement not covered" > email: "",</span>
+<span class="cstat-no" title="statement not covered" > });</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleSubmit = async (e: React.FormEvent) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    e.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" > const handleSubmit = async (e: React.FormEvent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > e.preventDefault();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    const validationErrors = validateSignUpForm(formData);</span>
-<span class="cstat-no" title="statement not covered" >    setErrors(validationErrors);</span>
+<span class="cstat-no" title="statement not covered" > const validationErrors = validateSignUpForm(formData);</span>
+<span class="cstat-no" title="statement not covered" > setErrors(validationErrors);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (hasValidationErrors(validationErrors)) {</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" > if (hasValidationErrors(validationErrors)) {</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    const { error } =</span>
-<span class="cstat-no" title="statement not covered" >      (await onSignUp(</span>
-<span class="cstat-no" title="statement not covered" >        formData.email,</span>
-<span class="cstat-no" title="statement not covered" >        formData.password,</span>
-<span class="cstat-no" title="statement not covered" >        formData.firstName,</span>
-<span class="cstat-no" title="statement not covered" >        formData.lastName,</span>
-<span class="cstat-no" title="statement not covered" >        formData.username</span>
-<span class="cstat-no" title="statement not covered" >      )) || {};</span>
+<span class="cstat-no" title="statement not covered" > const { error } =</span>
+<span class="cstat-no" title="statement not covered" >  (await onSignUp(</span>
+<span class="cstat-no" title="statement not covered" >  formData.email,</span>
+<span class="cstat-no" title="statement not covered" >  formData.password,</span>
+<span class="cstat-no" title="statement not covered" >  formData.firstName,</span>
+<span class="cstat-no" title="statement not covered" >  formData.lastName,</span>
+<span class="cstat-no" title="statement not covered" >  formData.username</span>
+<span class="cstat-no" title="statement not covered" >  )) || {};</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (error) {</span>
-<span class="cstat-no" title="statement not covered" >      authToast.signUpError(error.message);</span>
-<span class="cstat-no" title="statement not covered" >    } else {</span>
-<span class="cstat-no" title="statement not covered" >      authToast.signUpSuccess();</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > if (error) {</span>
+<span class="cstat-no" title="statement not covered" >  authToast.signUpError(error.message);</span>
+<span class="cstat-no" title="statement not covered" > } else {</span>
+<span class="cstat-no" title="statement not covered" >  authToast.signUpSuccess();</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleInputChange = (field: string, value: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setFormData({ ...formData, [field]: value });</span>
+<span class="cstat-no" title="statement not covered" > const handleInputChange = (field: string, value: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > setFormData({ ...formData, [field]: value });</span>
 &nbsp;
-    // Clear errors when user starts typing
-<span class="cstat-no" title="statement not covered" >    if (errors[field as keyof ValidationErrors]) {</span>
-<span class="cstat-no" title="statement not covered" >      setErrors({ ...errors, [field]: "" });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+ // Clear errors when user starts typing
+<span class="cstat-no" title="statement not covered" > if (errors[field as keyof ValidationErrors]) {</span>
+<span class="cstat-no" title="statement not covered" >  setErrors({ ...errors, [field]: "" });</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;form onSubmit={handleSubmit} className="space-y-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;SignUpFormFields</span>
-<span class="cstat-no" title="statement not covered" >        formData={formData}</span>
-<span class="cstat-no" title="statement not covered" >        errors={errors}</span>
-<span class="cstat-no" title="statement not covered" >        onInputChange={handleInputChange}</span>
-<span class="cstat-no" title="statement not covered" >      /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >        type="submit"</span>
-<span class="cstat-no" title="statement not covered" >        className="w-full bg-sprout-light hover:bg-sprout-medium text-sprout-white"</span>
-<span class="cstat-no" title="statement not covered" >        disabled={isLoading}</span>
-<span class="cstat-no" title="statement not covered" >        data-testid="sign-up-button"</span>
-      &gt;
-<span class="cstat-no" title="statement not covered" >        {isLoading ? "Creating account..." : "Sign Up"}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/form&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;form onSubmit={handleSubmit} className="space-y-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;SignUpFormFields</span>
+<span class="cstat-no" title="statement not covered" >  formData={formData}</span>
+<span class="cstat-no" title="statement not covered" >  errors={errors}</span>
+<span class="cstat-no" title="statement not covered" >  onInputChange={handleInputChange}</span>
+<span class="cstat-no" title="statement not covered" >  /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >  type="submit"</span>
+<span class="cstat-no" title="statement not covered" >  className="w-full bg-sprout-light hover:bg-sprout-medium text-sprout-white"</span>
+<span class="cstat-no" title="statement not covered" >  disabled={isLoading}</span>
+<span class="cstat-no" title="statement not covered" >  data-testid="sign-up-button"</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >  {isLoading ? "Creating account..." : "Sign Up"}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/form&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default SignUpForm;</span>
@@ -376,7 +376,7 @@ export interface SignUpFormProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

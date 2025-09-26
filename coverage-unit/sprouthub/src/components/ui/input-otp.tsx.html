@@ -208,64 +208,64 @@ import { Dot } from "lucide-react"
 import { cn } from "@/lib/utils"
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const InputOTP = React.forwardRef&lt;</span>
-  React.ElementRef&lt;typeof OTPInput&gt;,
-  React.ComponentPropsWithoutRef&lt;typeof OTPInput&gt;
+ React.ElementRef&lt;typeof OTPInput&gt;,
+ React.ComponentPropsWithoutRef&lt;typeof OTPInput&gt;
 <span class="cstat-no" title="statement not covered" >&gt;(({ className, containerClassName, ...props }, ref) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >  &lt;OTPInput</span>
-<span class="cstat-no" title="statement not covered" >    ref={ref}</span>
-<span class="cstat-no" title="statement not covered" >    containerClassName={cn(</span>
-<span class="cstat-no" title="statement not covered" >      "flex items-center gap-2 has-[:disabled]:opacity-50",</span>
-<span class="cstat-no" title="statement not covered" >      containerClassName</span>
-<span class="cstat-no" title="statement not covered" >    )}</span>
-<span class="cstat-no" title="statement not covered" >    className={cn("disabled:cursor-not-allowed", className)}</span>
-<span class="cstat-no" title="statement not covered" >    {...props}</span>
-<span class="cstat-no" title="statement not covered" >  /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;OTPInput</span>
+<span class="cstat-no" title="statement not covered" > ref={ref}</span>
+<span class="cstat-no" title="statement not covered" > containerClassName={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "flex items-center gap-2 has-[:disabled]:opacity-50",</span>
+<span class="cstat-no" title="statement not covered" >  containerClassName</span>
+<span class="cstat-no" title="statement not covered" > )}</span>
+<span class="cstat-no" title="statement not covered" > className={cn("disabled:cursor-not-allowed", className)}</span>
+<span class="cstat-no" title="statement not covered" > {...props}</span>
+<span class="cstat-no" title="statement not covered" > /&gt;</span>
 <span class="cstat-no" title="statement not covered" >))</span>
 <span class="cstat-no" title="statement not covered" >InputOTP.displayName = "InputOTP"</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const InputOTPGroup = React.forwardRef&lt;</span>
-  React.ElementRef&lt;"div"&gt;,
-  React.ComponentPropsWithoutRef&lt;"div"&gt;
+ React.ElementRef&lt;"div"&gt;,
+ React.ComponentPropsWithoutRef&lt;"div"&gt;
 <span class="cstat-no" title="statement not covered" >&gt;(({ className, ...props }, ref) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >  &lt;div ref={ref} className={cn("flex items-center", className)} {...props} /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;div ref={ref} className={cn("flex items-center", className)} {...props} /&gt;</span>
 <span class="cstat-no" title="statement not covered" >))</span>
 <span class="cstat-no" title="statement not covered" >InputOTPGroup.displayName = "InputOTPGroup"</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const InputOTPSlot = React.forwardRef&lt;</span>
-  React.ElementRef&lt;"div"&gt;,
-  React.ComponentPropsWithoutRef&lt;"div"&gt; &amp; { index: number }
+ React.ElementRef&lt;"div"&gt;,
+ React.ComponentPropsWithoutRef&lt;"div"&gt; &amp; { index: number }
 <span class="cstat-no" title="statement not covered" >&gt;(({ index, className, ...props }, ref) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const inputOTPContext = React.useContext(OTPInputContext)</span>
-<span class="cstat-no" title="statement not covered" >  const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index]</span>
+<span class="cstat-no" title="statement not covered" > const inputOTPContext = React.useContext(OTPInputContext)</span>
+<span class="cstat-no" title="statement not covered" > const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index]</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      ref={ref}</span>
-<span class="cstat-no" title="statement not covered" >      className={cn(</span>
-<span class="cstat-no" title="statement not covered" >        "relative flex h-10 w-10 items-center justify-center border-y border-r border-input text-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md",</span>
-<span class="cstat-no" title="statement not covered" >        isActive &amp;&amp; "z-10 ring-2 ring-ring ring-offset-background",</span>
-<span class="cstat-no" title="statement not covered" >        className</span>
-<span class="cstat-no" title="statement not covered" >      )}</span>
-<span class="cstat-no" title="statement not covered" >      {...props}</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      {char}</span>
-<span class="cstat-no" title="statement not covered" >      {hasFakeCaret &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="pointer-events-none absolute inset-0 flex items-center justify-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="h-4 w-px animate-caret-blink bg-foreground duration-1000" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-      )}
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  )
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  ref={ref}</span>
+<span class="cstat-no" title="statement not covered" >  className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "relative flex h-10 w-10 items-center justify-center border-y border-r border-input text-sm transition-all first:rounded-l-md first:border-l last:rounded-r-md",</span>
+<span class="cstat-no" title="statement not covered" >  isActive &amp;&amp; "z-10 ring-2 ring-ring ring-offset-background",</span>
+<span class="cstat-no" title="statement not covered" >  className</span>
+<span class="cstat-no" title="statement not covered" >  )}</span>
+<span class="cstat-no" title="statement not covered" >  {...props}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  {char}</span>
+<span class="cstat-no" title="statement not covered" >  {hasFakeCaret &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="pointer-events-none absolute inset-0 flex items-center justify-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="h-4 w-px animate-caret-blink bg-foreground duration-1000" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+  )}
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ )
 <span class="cstat-no" title="statement not covered" >})</span>
 <span class="cstat-no" title="statement not covered" >InputOTPSlot.displayName = "InputOTPSlot"</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const InputOTPSeparator = React.forwardRef&lt;</span>
-  React.ElementRef&lt;"div"&gt;,
-  React.ComponentPropsWithoutRef&lt;"div"&gt;
+ React.ElementRef&lt;"div"&gt;,
+ React.ComponentPropsWithoutRef&lt;"div"&gt;
 <span class="cstat-no" title="statement not covered" >&gt;(({ ...props }, ref) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >  &lt;div ref={ref} role="separator" {...props}&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;Dot /&gt;</span>
-<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;div ref={ref} role="separator" {...props}&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;Dot /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >))</span>
 <span class="cstat-no" title="statement not covered" >InputOTPSeparator.displayName = "InputOTPSeparator"</span>
 &nbsp;
@@ -277,7 +277,7 @@ export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator }
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

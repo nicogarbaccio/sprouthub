@@ -606,270 +606,270 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import React from "react";</span></span></span>
 <span class="cstat-no" title="statement not covered" >import { Button } from "@/components/ui/button";</span>
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+ Card,
+ CardContent,
+ CardDescription,
+ CardHeader,
+ CardTitle,
 <span class="cstat-no" title="statement not covered" >} from "@/components/ui/card";</span>
 <span class="cstat-no" title="statement not covered" >import { Separator } from "@/components/ui/separator";</span>
 import {
-  plantToast,
-  wateringToast,
-  authToast,
-  profileToast,
-  utilityToast,
-  imageToast,
+ plantToast,
+ wateringToast,
+ authToast,
+ profileToast,
+ utilityToast,
+ imageToast,
 <span class="cstat-no" title="statement not covered" >} from "@/utils/toast-helpers";</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ToastDemo: React.FC = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="container mx-auto p-6 max-w-4xl space-y-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="text-center space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;h1 className="text-3xl font-bold text-sprout-primary dark:text-sprout-light"&gt;</span>
-          🎉 Enhanced Toast Notifications
-<span class="cstat-no" title="statement not covered" >        &lt;/h1&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;p className="text-muted-foreground"&gt;</span>
-          Experience our new toast system with sprout colors, emojis, and
-          delightful animations
-<span class="cstat-no" title="statement not covered" >        &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className="container mx-auto p-6 max-w-4xl space-y-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="text-center space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;h1 className="text-3xl font-bold text-sprout-primary dark:text-sprout-light"&gt;</span>
+   🎉 Enhanced Toast Notifications
+<span class="cstat-no" title="statement not covered" >  &lt;/h1&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;p className="text-muted-foreground"&gt;</span>
+   Experience our new toast system with sprout colors, emojis, and
+   delightful animations
+<span class="cstat-no" title="statement not covered" >  &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;div className="grid gap-6 md:grid-cols-2"&gt;</span>
-        {/* Plant-related Toasts */}
-<span class="cstat-no" title="statement not covered" >        &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;CardTitle className="flex items-center gap-2"&gt;</span>
-              🌱 Plant Toasts
-<span class="cstat-no" title="statement not covered" >            &lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;CardDescription&gt;Plant management notifications&lt;/CardDescription&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardContent className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; plantToast.added("Snake Plant")}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Plant Added Success
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; plantToast.updated("Monstera Deliciosa")}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Plant Updated
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                plantToast.careReminder("Fiddle Leaf Fig", "pruning")</span>
-              }
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Care Reminder
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; plantToast.error("save", "Connection failed")}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Plant Error
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="grid gap-6 md:grid-cols-2"&gt;</span>
+  {/* Plant-related Toasts */}
+<span class="cstat-no" title="statement not covered" >  &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardTitle className="flex items-center gap-2"&gt;</span>
+    🌱 Plant Toasts
+<span class="cstat-no" title="statement not covered" >   &lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardDescription&gt;Plant management notifications&lt;/CardDescription&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardContent className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; plantToast.added("Snake Plant")}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Plant Added Success
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; plantToast.updated("Monstera Deliciosa")}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Plant Updated
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    plantToast.careReminder("Fiddle Leaf Fig", "pruning")</span>
+    }
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Care Reminder
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; plantToast.error("save", "Connection failed")}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Plant Error
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Card&gt;</span>
 &nbsp;
-        {/* Watering Toasts */}
-<span class="cstat-no" title="statement not covered" >        &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;CardTitle className="flex items-center gap-2"&gt;</span>
-              💧 Watering Toasts
-<span class="cstat-no" title="statement not covered" >            &lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;CardDescription&gt;Watering system notifications&lt;/CardDescription&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardContent className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; wateringToast.recorded("Peace Lily")}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Watering Recorded
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; wateringToast.reminder(["Pothos", "Snake Plant"])}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Multiple Plant Reminder
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; wateringToast.scheduled("Rubber Plant")}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Schedule Updated
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; wateringToast.error("recording")}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Watering Error
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/Card&gt;</span>
+  {/* Watering Toasts */}
+<span class="cstat-no" title="statement not covered" >  &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardTitle className="flex items-center gap-2"&gt;</span>
+    💧 Watering Toasts
+<span class="cstat-no" title="statement not covered" >   &lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardDescription&gt;Watering system notifications&lt;/CardDescription&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardContent className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; wateringToast.recorded("Peace Lily")}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Watering Recorded
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; wateringToast.reminder(["Pothos", "Snake Plant"])}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Multiple Plant Reminder
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; wateringToast.scheduled("Rubber Plant")}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Schedule Updated
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; wateringToast.error("recording")}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Watering Error
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Card&gt;</span>
 &nbsp;
-        {/* Authentication Toasts */}
-<span class="cstat-no" title="statement not covered" >        &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;CardTitle className="flex items-center gap-2"&gt;</span>
-              🔐 Auth Toasts
-<span class="cstat-no" title="statement not covered" >            &lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;CardDescription&gt;Authentication notifications&lt;/CardDescription&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardContent className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; authToast.signInSuccess()}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Sign In Success
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; authToast.signUpSuccess()}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Sign Up Success
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; authToast.signOutSuccess()}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Sign Out Success
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; authToast.signInError("Invalid email or password")}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Auth Error
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/Card&gt;</span>
+  {/* Authentication Toasts */}
+<span class="cstat-no" title="statement not covered" >  &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardTitle className="flex items-center gap-2"&gt;</span>
+    🔐 Auth Toasts
+<span class="cstat-no" title="statement not covered" >   &lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardDescription&gt;Authentication notifications&lt;/CardDescription&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardContent className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; authToast.signInSuccess()}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Sign In Success
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; authToast.signUpSuccess()}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Sign Up Success
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; authToast.signOutSuccess()}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Sign Out Success
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; authToast.signInError("Invalid email or password")}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Auth Error
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Card&gt;</span>
 &nbsp;
-        {/* Utility Toasts */}
-<span class="cstat-no" title="statement not covered" >        &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;CardTitle className="flex items-center gap-2"&gt;</span>
-              🛠️ Utility Toasts
-<span class="cstat-no" title="statement not covered" >            &lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;CardDescription&gt;General purpose notifications&lt;/CardDescription&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardContent className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                utilityToast.info(</span>
-<span class="cstat-no" title="statement not covered" >                  "Pro Tip",</span>
-<span class="cstat-no" title="statement not covered" >                  "Water plants early morning for best absorption"</span>
-<span class="cstat-no" title="statement not covered" >                )</span>
-              }
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Info Toast
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                utilityToast.tip(</span>
-<span class="cstat-no" title="statement not covered" >                  "Growing Tip",</span>
-<span class="cstat-no" title="statement not covered" >                  "Rotate your plants weekly for even growth"</span>
-<span class="cstat-no" title="statement not covered" >                )</span>
-              }
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Tip Toast
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                utilityToast.warning(</span>
-<span class="cstat-no" title="statement not covered" >                  "Maintenance",</span>
-<span class="cstat-no" title="statement not covered" >                  "System will be down for updates tonight"</span>
-<span class="cstat-no" title="statement not covered" >                )</span>
-              }
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Warning Toast
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; profileToast.updated()}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-full justify-start"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Profile Updated
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+  {/* Utility Toasts */}
+<span class="cstat-no" title="statement not covered" >  &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardTitle className="flex items-center gap-2"&gt;</span>
+    🛠️ Utility Toasts
+<span class="cstat-no" title="statement not covered" >   &lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardDescription&gt;General purpose notifications&lt;/CardDescription&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardContent className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    utilityToast.info(</span>
+<span class="cstat-no" title="statement not covered" >     "Pro Tip",</span>
+<span class="cstat-no" title="statement not covered" >     "Water plants early morning for best absorption"</span>
+<span class="cstat-no" title="statement not covered" >    )</span>
+    }
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Info Toast
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    utilityToast.tip(</span>
+<span class="cstat-no" title="statement not covered" >     "Growing Tip",</span>
+<span class="cstat-no" title="statement not covered" >     "Rotate your plants weekly for even growth"</span>
+<span class="cstat-no" title="statement not covered" >    )</span>
+    }
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Tip Toast
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    utilityToast.warning(</span>
+<span class="cstat-no" title="statement not covered" >     "Maintenance",</span>
+<span class="cstat-no" title="statement not covered" >     "System will be down for updates tonight"</span>
+<span class="cstat-no" title="statement not covered" >    )</span>
+    }
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Warning Toast
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; profileToast.updated()}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-full justify-start"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Profile Updated
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;Separator /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Separator /&gt;</span>
 &nbsp;
-      {/* Image Upload Toasts */}
-<span class="cstat-no" title="statement not covered" >      &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardTitle className="flex items-center gap-2"&gt;</span>
-            📸 Image Upload Toasts
-<span class="cstat-no" title="statement not covered" >          &lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardDescription&gt;Image handling notifications&lt;/CardDescription&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="grid grid-cols-2 md:grid-cols-4 gap-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; imageToast.uploaded()}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              size="sm"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Upload Success
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; imageToast.tooLarge()}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              size="sm"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              File Too Large
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; imageToast.invalidType()}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              size="sm"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Invalid Type
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={() =&gt; imageToast.uploadError()}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              size="sm"</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Upload Error
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/Card&gt;</span>
+  {/* Image Upload Toasts */}
+<span class="cstat-no" title="statement not covered" >  &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardTitle className="flex items-center gap-2"&gt;</span>
+   📸 Image Upload Toasts
+<span class="cstat-no" title="statement not covered" >   &lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardDescription&gt;Image handling notifications&lt;/CardDescription&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="grid grid-cols-2 md:grid-cols-4 gap-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; imageToast.uploaded()}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    size="sm"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Upload Success
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; imageToast.tooLarge()}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    size="sm"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    File Too Large
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; imageToast.invalidType()}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    size="sm"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Invalid Type
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={() =&gt; imageToast.uploadError()}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    size="sm"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Upload Error
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Card&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;div className="text-center text-sm text-muted-foreground"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;p&gt;</span>
-          ✨ All toasts use your sprout color palette and include contextual
-          emojis
-<span class="cstat-no" title="statement not covered" >        &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;p&gt;</span>
-          🎨 Variants: success (green), warning (orange), error (red), info
-          (blue), watering (special blue-green)
-<span class="cstat-no" title="statement not covered" >        &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >  &lt;div className="text-center text-sm text-muted-foreground"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;p&gt;</span>
+   ✨ All toasts use your sprout color palette and include contextual
+   emojis
+<span class="cstat-no" title="statement not covered" >  &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;p&gt;</span>
+   🎨 Variants: success (green), warning (orange), error (red), info
+   (blue), watering (special blue-green)
+<span class="cstat-no" title="statement not covered" >  &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default ToastDemo;</span>
@@ -880,7 +880,7 @@ import {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

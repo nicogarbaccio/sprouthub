@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/43</span>
+                <span class='fraction'>0/44</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/43</span>
+                <span class='fraction'>0/44</span>
             </div>
         
             
@@ -120,8 +120,8 @@
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -148,12 +148,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -172,13 +166,20 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
-<span class="cstat-no" title="statement not covered" >import { Droplets, Sun, Thermometer, Clock } from 'lucide-react';</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { Droplets, Sun, Thermometer, Clock } from "lucide-react";</span></span></span>
 &nbsp;
 interface PlantCareGridProps {
   wateringFrequency: string;
@@ -188,45 +189,47 @@ interface PlantCareGridProps {
   humidity: string;
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >const PlantCareGrid = ({ </span>
-<span class="cstat-no" title="statement not covered" >  wateringFrequency, </span>
+<span class="cstat-no" title="statement not covered" >const PlantCareGrid = ({</span>
+<span class="cstat-no" title="statement not covered" >  wateringFrequency,</span>
 <span class="cstat-no" title="statement not covered" >  suggestedWateringDays,</span>
-<span class="cstat-no" title="statement not covered" >  lightRequirement, </span>
-<span class="cstat-no" title="statement not covered" >  temperature, </span>
-<span class="cstat-no" title="statement not covered" >  humidity </span>
+<span class="cstat-no" title="statement not covered" >  lightRequirement,</span>
+<span class="cstat-no" title="statement not covered" >  temperature,</span>
+<span class="cstat-no" title="statement not covered" >  humidity,</span>
 <span class="cstat-no" title="statement not covered" >}: PlantCareGridProps) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-2 gap-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="flex items-center space-x-3 p-3 bg-plant-neutral rounded-lg"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Droplets className="w-5 h-5 text-plant-primary" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-2 gap-4 p-4 bg-sprout-primary rounded-lg border-2 border-sprout-medium shadow-sm"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div className="flex items-center space-x-3 p-3 bg-white/20 backdrop-blur-sm rounded-lg"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;Droplets className="w-5 h-5 text-white" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm text-plant-text/60"&gt;Watering&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm font-medium text-plant-text"&gt;{wateringFrequency}&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-xs text-plant-text/50"&gt;Every {suggestedWateringDays} days&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm text-white/80"&gt;Watering&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm font-medium text-white"&gt;{wateringFrequency}&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p className="text-xs text-white/70"&gt;</span>
+<span class="cstat-no" title="statement not covered" >            Every {suggestedWateringDays} days</span>
+<span class="cstat-no" title="statement not covered" >          &lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-      
-<span class="cstat-no" title="statement not covered" >      &lt;div className="flex items-center space-x-3 p-3 bg-plant-neutral rounded-lg"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Sun className="w-5 h-5 text-plant-primary" /&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      &lt;div className="flex items-center space-x-3 p-3 bg-white/20 backdrop-blur-sm rounded-lg"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;Sun className="w-5 h-5 text-white" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm text-plant-text/60"&gt;Light&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm font-medium text-plant-text"&gt;{lightRequirement}&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm text-white/80"&gt;Light&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm font-medium text-white"&gt;{lightRequirement}&lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-      
-<span class="cstat-no" title="statement not covered" >      &lt;div className="flex items-center space-x-3 p-3 bg-plant-neutral rounded-lg"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Thermometer className="w-5 h-5 text-plant-primary" /&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      &lt;div className="flex items-center space-x-3 p-3 bg-white/20 backdrop-blur-sm rounded-lg"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;Thermometer className="w-5 h-5 text-white" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm text-plant-text/60"&gt;Temperature&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm font-medium text-plant-text"&gt;{temperature}&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm text-white/80"&gt;Temperature&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm font-medium text-white"&gt;{temperature}&lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-      
-<span class="cstat-no" title="statement not covered" >      &lt;div className="flex items-center space-x-3 p-3 bg-plant-neutral rounded-lg"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Clock className="w-5 h-5 text-plant-primary" /&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      &lt;div className="flex items-center space-x-3 p-3 bg-white/20 backdrop-blur-sm rounded-lg"&gt;</span>
+<span class="cstat-no" title="statement not covered" >        &lt;Clock className="w-5 h-5 text-white" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm text-plant-text/60"&gt;Humidity&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm font-medium text-plant-text"&gt;{humidity}&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm text-white/80"&gt;Humidity&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >          &lt;p className="text-sm font-medium text-white"&gt;{humidity}&lt;/p&gt;</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
@@ -241,7 +244,7 @@ interface PlantCareGridProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

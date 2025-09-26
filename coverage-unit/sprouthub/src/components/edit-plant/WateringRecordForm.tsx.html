@@ -237,81 +237,81 @@
 <span class="cstat-no" title="statement not covered" >import { Textarea } from "@/components/ui/textarea";</span>
 <span class="cstat-no" title="statement not covered" >import { Calendar } from "@/components/ui/calendar";</span>
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
+ Popover,
+ PopoverContent,
+ PopoverTrigger,
 <span class="cstat-no" title="statement not covered" >} from "@/components/ui/popover";</span>
 <span class="cstat-no" title="statement not covered" >import { CalendarIcon, Plus } from "lucide-react";</span>
 <span class="cstat-no" title="statement not covered" >import { format } from "date-fns";</span>
 <span class="cstat-no" title="statement not covered" >import { cn } from "@/lib/utils";</span>
 &nbsp;
 interface WateringRecordFormProps {
-  onAddWatering: (date: Date, notes: string) =&gt; Promise&lt;void&gt;;
+ onAddWatering: (date: Date, notes: string) =&gt; Promise&lt;void&gt;;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const WateringRecordForm = ({ onAddWatering }: WateringRecordFormProps) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const [newWateringDate, setNewWateringDate] = useState&lt;Date&gt;();</span>
-<span class="cstat-no" title="statement not covered" >  const [newWateringNotes, setNewWateringNotes] = useState("");</span>
+<span class="cstat-no" title="statement not covered" > const [newWateringDate, setNewWateringDate] = useState&lt;Date&gt;();</span>
+<span class="cstat-no" title="statement not covered" > const [newWateringNotes, setNewWateringNotes] = useState("");</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleAddWatering = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!newWateringDate) return;</span>
+<span class="cstat-no" title="statement not covered" > const handleAddWatering = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!newWateringDate) return;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    await onAddWatering(newWateringDate, newWateringNotes);</span>
-<span class="cstat-no" title="statement not covered" >    setNewWateringDate(undefined);</span>
-<span class="cstat-no" title="statement not covered" >    setNewWateringNotes("");</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > await onAddWatering(newWateringDate, newWateringNotes);</span>
+<span class="cstat-no" title="statement not covered" > setNewWateringDate(undefined);</span>
+<span class="cstat-no" title="statement not covered" > setNewWateringNotes("");</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="p-4 border rounded-lg space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;h4 className="font-medium"&gt;Add Watering Record&lt;/h4&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className="p-4 border rounded-lg space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;h4 className="font-medium"&gt;Add Watering Record&lt;/h4&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Label&gt;Date Watered&lt;/Label&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Popover&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;PopoverTrigger asChild&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className={cn(</span>
-<span class="cstat-no" title="statement not covered" >                "w-full justify-start text-left font-normal",</span>
-<span class="cstat-no" title="statement not covered" >                !newWateringDate &amp;&amp; "text-muted-foreground"</span>
-<span class="cstat-no" title="statement not covered" >              )}</span>
-            &gt;
-<span class="cstat-no" title="statement not covered" >              &lt;CalendarIcon className="mr-2 h-4 w-4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              {newWateringDate ? format(newWateringDate, "PPP") : "Pick a date"}</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/PopoverTrigger&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;PopoverContent className="w-auto p-0" align="start"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Calendar</span>
-<span class="cstat-no" title="statement not covered" >              mode="single"</span>
-<span class="cstat-no" title="statement not covered" >              selected={newWateringDate}</span>
-<span class="cstat-no" title="statement not covered" >              onSelect={setNewWateringDate}</span>
-<span class="cstat-no" title="statement not covered" >              initialFocus</span>
-<span class="cstat-no" title="statement not covered" >            /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/PopoverContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/Popover&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Label&gt;Date Watered&lt;/Label&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Popover&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;PopoverTrigger asChild&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className={cn(</span>
+<span class="cstat-no" title="statement not covered" >    "w-full justify-start text-left font-normal",</span>
+<span class="cstat-no" title="statement not covered" >    !newWateringDate &amp;&amp; "text-muted-foreground"</span>
+<span class="cstat-no" title="statement not covered" >    )}</span>
+   &gt;
+<span class="cstat-no" title="statement not covered" >    &lt;CalendarIcon className="mr-2 h-4 w-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    {newWateringDate ? format(newWateringDate, "PPP") : "Pick a date"}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/PopoverTrigger&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;PopoverContent className="w-auto p-0" align="start"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Calendar</span>
+<span class="cstat-no" title="statement not covered" >    mode="single"</span>
+<span class="cstat-no" title="statement not covered" >    selected={newWateringDate}</span>
+<span class="cstat-no" title="statement not covered" >    onSelect={setNewWateringDate}</span>
+<span class="cstat-no" title="statement not covered" >    initialFocus</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/PopoverContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Popover&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Label htmlFor="notes"&gt;Notes (optional)&lt;/Label&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Textarea</span>
-<span class="cstat-no" title="statement not covered" >          id="notes"</span>
-<span class="cstat-no" title="statement not covered" >          value={newWateringNotes}</span>
-<span class="cstat-no" title="statement not covered" >          onChange={(e) =&gt; setNewWateringNotes(e.target.value)}</span>
-<span class="cstat-no" title="statement not covered" >          placeholder="Add any notes about this watering..."</span>
-<span class="cstat-no" title="statement not covered" >          rows={2}</span>
-<span class="cstat-no" title="statement not covered" >        /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Label htmlFor="notes"&gt;Notes (optional)&lt;/Label&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Textarea</span>
+<span class="cstat-no" title="statement not covered" >   id="notes"</span>
+<span class="cstat-no" title="statement not covered" >   value={newWateringNotes}</span>
+<span class="cstat-no" title="statement not covered" >   onChange={(e) =&gt; setNewWateringNotes(e.target.value)}</span>
+<span class="cstat-no" title="statement not covered" >   placeholder="Add any notes about this watering..."</span>
+<span class="cstat-no" title="statement not covered" >   rows={2}</span>
+<span class="cstat-no" title="statement not covered" >  /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >        onClick={handleAddWatering}</span>
-<span class="cstat-no" title="statement not covered" >        disabled={!newWateringDate}</span>
-<span class="cstat-no" title="statement not covered" >        className="w-full bg-plant-water text-white hover:bg-plant-water/90 hover:text-white"</span>
-      &gt;
-<span class="cstat-no" title="statement not covered" >        &lt;Plus className="w-4 h-4 mr-2" /&gt;</span>
-        Add Watering Record
-<span class="cstat-no" title="statement not covered" >      &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >  &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >  onClick={handleAddWatering}</span>
+<span class="cstat-no" title="statement not covered" >  disabled={!newWateringDate}</span>
+<span class="cstat-no" title="statement not covered" >  className="w-full bg-plant-water text-white hover:bg-plant-water/90 hover:text-white"</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >  &lt;Plus className="w-4 h-4 mr-2" /&gt;</span>
+  Add Watering Record
+<span class="cstat-no" title="statement not covered" >  &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default WateringRecordForm;</span>
@@ -322,7 +322,7 @@ interface WateringRecordFormProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

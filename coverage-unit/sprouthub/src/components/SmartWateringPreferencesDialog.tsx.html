@@ -611,11 +611,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import React, { useState } from "react";</span></span></span>
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
+ Dialog,
+ DialogContent,
+ DialogDescription,
+ DialogHeader,
+ DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -628,259 +628,259 @@ import { UserWateringPreferences } from "@/types/smartWateringTypes";
 import { getFactorLabels } from "@/utils/smartWateringSchedule";
 import { cn } from "@/lib/utils";
 import {
-  Settings,
-  Lightbulb,
-  Thermometer,
-  Droplets,
-  Heart,
-  Shovel,
-  MapPin,
+ Settings,
+ Lightbulb,
+ Thermometer,
+ Droplets,
+ Heart,
+ Shovel,
+ MapPin,
 } from "lucide-react";
 &nbsp;
 interface SmartWateringPreferencesDialogProps {
-  isOpen: boolean;
-  onClose: () =&gt; void;
+ isOpen: boolean;
+ onClose: () =&gt; void;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export const SmartWateringPreferencesDialog: React.FC&lt;</span>
-  SmartWateringPreferencesDialogProps
+ SmartWateringPreferencesDialogProps
 <span class="cstat-no" title="statement not covered" >&gt; = ({ isOpen, onClose }) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { preferences, savePreferences, isLoading, clearPreferences } =</span>
-<span class="cstat-no" title="statement not covered" >    useSmartWateringPreferences();</span>
-<span class="cstat-no" title="statement not covered" >  const { toast } = useToast();</span>
-<span class="cstat-no" title="statement not covered" >  const labels = getFactorLabels();</span>
+<span class="cstat-no" title="statement not covered" > const { preferences, savePreferences, isLoading, clearPreferences } =</span>
+<span class="cstat-no" title="statement not covered" > useSmartWateringPreferences();</span>
+<span class="cstat-no" title="statement not covered" > const { toast } = useToast();</span>
+<span class="cstat-no" title="statement not covered" > const labels = getFactorLabels();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const [formData, setFormData] = useState&lt;Partial&lt;UserWateringPreferences&gt;&gt;({</span>
-<span class="cstat-no" title="statement not covered" >    default_light_level: preferences?.default_light_level || "medium",</span>
-<span class="cstat-no" title="statement not covered" >    default_temperature: preferences?.default_temperature || "normal",</span>
-<span class="cstat-no" title="statement not covered" >    default_humidity: preferences?.default_humidity || "normal",</span>
-<span class="cstat-no" title="statement not covered" >    default_care_style: preferences?.default_care_style || "balanced",</span>
-<span class="cstat-no" title="statement not covered" >    default_soil_type: preferences?.default_soil_type || "regular",</span>
-<span class="cstat-no" title="statement not covered" >    location: preferences?.location || "",</span>
+<span class="cstat-no" title="statement not covered" > const [formData, setFormData] = useState&lt;Partial&lt;UserWateringPreferences&gt;&gt;({</span>
+<span class="cstat-no" title="statement not covered" > default_light_level: preferences?.default_light_level || "medium",</span>
+<span class="cstat-no" title="statement not covered" > default_temperature: preferences?.default_temperature || "normal",</span>
+<span class="cstat-no" title="statement not covered" > default_humidity: preferences?.default_humidity || "normal",</span>
+<span class="cstat-no" title="statement not covered" > default_care_style: preferences?.default_care_style || "balanced",</span>
+<span class="cstat-no" title="statement not covered" > default_soil_type: preferences?.default_soil_type || "regular",</span>
+<span class="cstat-no" title="statement not covered" > location: preferences?.location || "",</span>
+<span class="cstat-no" title="statement not covered" > });</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > React.useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (preferences) {</span>
+<span class="cstat-no" title="statement not covered" >  setFormData({</span>
+<span class="cstat-no" title="statement not covered" >  default_light_level: preferences.default_light_level,</span>
+<span class="cstat-no" title="statement not covered" >  default_temperature: preferences.default_temperature,</span>
+<span class="cstat-no" title="statement not covered" >  default_humidity: preferences.default_humidity,</span>
+<span class="cstat-no" title="statement not covered" >  default_care_style: preferences.default_care_style,</span>
+<span class="cstat-no" title="statement not covered" >  default_soil_type: preferences.default_soil_type,</span>
+<span class="cstat-no" title="statement not covered" >  location: preferences.location || "",</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [preferences]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  React.useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (preferences) {</span>
-<span class="cstat-no" title="statement not covered" >      setFormData({</span>
-<span class="cstat-no" title="statement not covered" >        default_light_level: preferences.default_light_level,</span>
-<span class="cstat-no" title="statement not covered" >        default_temperature: preferences.default_temperature,</span>
-<span class="cstat-no" title="statement not covered" >        default_humidity: preferences.default_humidity,</span>
-<span class="cstat-no" title="statement not covered" >        default_care_style: preferences.default_care_style,</span>
-<span class="cstat-no" title="statement not covered" >        default_soil_type: preferences.default_soil_type,</span>
-<span class="cstat-no" title="statement not covered" >        location: preferences.location || "",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [preferences]);</span>
+<span class="cstat-no" title="statement not covered" > const handleSave = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const success = await savePreferences(formData);</span>
+<span class="cstat-no" title="statement not covered" > if (success) {</span>
+<span class="cstat-no" title="statement not covered" >  onClose();</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleSave = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const success = await savePreferences(formData);</span>
-<span class="cstat-no" title="statement not covered" >    if (success) {</span>
-<span class="cstat-no" title="statement not covered" >      onClose();</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const handleClear = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const success = await clearPreferences();</span>
+<span class="cstat-no" title="statement not covered" > if (success) {</span>
+<span class="cstat-no" title="statement not covered" >  setFormData({</span>
+<span class="cstat-no" title="statement not covered" >  default_light_level: "medium",</span>
+<span class="cstat-no" title="statement not covered" >  default_temperature: "normal",</span>
+<span class="cstat-no" title="statement not covered" >  default_humidity: "normal",</span>
+<span class="cstat-no" title="statement not covered" >  default_care_style: "balanced",</span>
+<span class="cstat-no" title="statement not covered" >  default_soil_type: "regular",</span>
+<span class="cstat-no" title="statement not covered" >  location: "",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleClear = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const success = await clearPreferences();</span>
-<span class="cstat-no" title="statement not covered" >    if (success) {</span>
-<span class="cstat-no" title="statement not covered" >      setFormData({</span>
-<span class="cstat-no" title="statement not covered" >        default_light_level: "medium",</span>
-<span class="cstat-no" title="statement not covered" >        default_temperature: "normal",</span>
-<span class="cstat-no" title="statement not covered" >        default_humidity: "normal",</span>
-<span class="cstat-no" title="statement not covered" >        default_care_style: "balanced",</span>
-<span class="cstat-no" title="statement not covered" >        default_soil_type: "regular",</span>
-<span class="cstat-no" title="statement not covered" >        location: "",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const renderOptionCards = &lt;T extends string&gt;(</span>
+<span class="cstat-no" title="statement not covered" > options: readonly T[],</span>
+<span class="cstat-no" title="statement not covered" > currentValue: T | undefined,</span>
+<span class="cstat-no" title="statement not covered" > onSelect: (value: T) =&gt; void,</span>
+<span class="cstat-no" title="statement not covered" > getLabel: (value: T) =&gt; string</span>
+ ) =&gt; (
+<span class="cstat-no" title="statement not covered" > &lt;div className="grid grid-cols-1 sm:grid-cols-3 gap-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  {options.map((option) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Card</span>
+<span class="cstat-no" title="statement not covered" >   key={option}</span>
+<span class="cstat-no" title="statement not covered" >   className={cn(</span>
+<span class="cstat-no" title="statement not covered" >   "cursor-pointer transition-all hover:shadow-md border-2",</span>
+<span class="cstat-no" title="statement not covered" >   currentValue === option</span>
+<span class="cstat-no" title="statement not covered" >    ? "border-plant-primary bg-plant-primary/5"</span>
+<span class="cstat-no" title="statement not covered" >    : "border-gray-200 hover:border-plant-primary/50"</span>
+<span class="cstat-no" title="statement not covered" >   )}</span>
+<span class="cstat-no" title="statement not covered" >   onClick={() =&gt; onSelect(option)}</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >   &lt;CardContent className="p-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="text-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;p className="font-medium text-plant-text"&gt;{getLabel(option)}&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >  ))}</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const renderOptionCards = &lt;T extends string&gt;(</span>
-<span class="cstat-no" title="statement not covered" >    options: readonly T[],</span>
-<span class="cstat-no" title="statement not covered" >    currentValue: T | undefined,</span>
-<span class="cstat-no" title="statement not covered" >    onSelect: (value: T) =&gt; void,</span>
-<span class="cstat-no" title="statement not covered" >    getLabel: (value: T) =&gt; string</span>
-  ) =&gt; (
-<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-1 sm:grid-cols-3 gap-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      {options.map((option) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Card</span>
-<span class="cstat-no" title="statement not covered" >          key={option}</span>
-<span class="cstat-no" title="statement not covered" >          className={cn(</span>
-<span class="cstat-no" title="statement not covered" >            "cursor-pointer transition-all hover:shadow-md border-2",</span>
-<span class="cstat-no" title="statement not covered" >            currentValue === option</span>
-<span class="cstat-no" title="statement not covered" >              ? "border-plant-primary bg-plant-primary/5"</span>
-<span class="cstat-no" title="statement not covered" >              : "border-gray-200 hover:border-plant-primary/50"</span>
-<span class="cstat-no" title="statement not covered" >          )}</span>
-<span class="cstat-no" title="statement not covered" >          onClick={() =&gt; onSelect(option)}</span>
-        &gt;
-<span class="cstat-no" title="statement not covered" >          &lt;CardContent className="p-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="text-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;p className="font-medium text-plant-text"&gt;{getLabel(option)}&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >      ))}</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;Dialog open={isOpen} onOpenChange={onClose}&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;DialogHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;DialogTitle className="flex items-center gap-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Settings className="w-5 h-5 text-plant-primary" /&gt;</span>
+   Smart Watering Preferences
+<span class="cstat-no" title="statement not covered" >   &lt;/DialogTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;DialogDescription&gt;</span>
+   Set your default environmental conditions and care preferences to
+   personalize your watering recommendations.
+<span class="cstat-no" title="statement not covered" >   &lt;/DialogDescription&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/DialogHeader&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  &lt;div className="space-y-6"&gt;</span>
+   {/* Light Level */}
+<span class="cstat-no" title="statement not covered" >   &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Label className="flex items-center gap-2 text-base font-medium"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Lightbulb className="w-4 h-4" /&gt;</span>
+    Default Light Level
+<span class="cstat-no" title="statement not covered" >   &lt;/Label&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {renderOptionCards(</span>
+<span class="cstat-no" title="statement not covered" >    ["low", "medium", "high"] as const,</span>
+<span class="cstat-no" title="statement not covered" >    formData.default_light_level,</span>
+<span class="cstat-no" title="statement not covered" >    (value) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    setFormData((prev) =&gt; ({</span>
+<span class="cstat-no" title="statement not covered" >     ...prev,</span>
+<span class="cstat-no" title="statement not covered" >     default_light_level: value,</span>
+<span class="cstat-no" title="statement not covered" >    })),</span>
+<span class="cstat-no" title="statement not covered" >    (value) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    labels.lightLevel[value as keyof typeof labels.lightLevel]</span>
+<span class="cstat-no" title="statement not covered" >   )}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+&nbsp;
+   {/* Temperature */}
+<span class="cstat-no" title="statement not covered" >   &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Label className="flex items-center gap-2 text-base font-medium"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Thermometer className="w-4 h-4" /&gt;</span>
+    Default Temperature
+<span class="cstat-no" title="statement not covered" >   &lt;/Label&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {renderOptionCards(</span>
+<span class="cstat-no" title="statement not covered" >    ["cool", "normal", "warm"] as const,</span>
+<span class="cstat-no" title="statement not covered" >    formData.default_temperature,</span>
+<span class="cstat-no" title="statement not covered" >    (value) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    setFormData((prev) =&gt; ({</span>
+<span class="cstat-no" title="statement not covered" >     ...prev,</span>
+<span class="cstat-no" title="statement not covered" >     default_temperature: value,</span>
+<span class="cstat-no" title="statement not covered" >    })),</span>
+<span class="cstat-no" title="statement not covered" >    (value) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    labels.temperature[value as keyof typeof labels.temperature]</span>
+<span class="cstat-no" title="statement not covered" >   )}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+&nbsp;
+   {/* Humidity */}
+<span class="cstat-no" title="statement not covered" >   &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Label className="flex items-center gap-2 text-base font-medium"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Droplets className="w-4 h-4" /&gt;</span>
+    Default Humidity Level
+<span class="cstat-no" title="statement not covered" >   &lt;/Label&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {renderOptionCards(</span>
+<span class="cstat-no" title="statement not covered" >    ["dry", "normal", "humid"] as const,</span>
+<span class="cstat-no" title="statement not covered" >    formData.default_humidity,</span>
+<span class="cstat-no" title="statement not covered" >    (value) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    setFormData((prev) =&gt; ({ ...prev, default_humidity: value })),</span>
+<span class="cstat-no" title="statement not covered" >    (value) =&gt; labels.humidity[value as keyof typeof labels.humidity]</span>
+<span class="cstat-no" title="statement not covered" >   )}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+&nbsp;
+   {/* Care Style */}
+<span class="cstat-no" title="statement not covered" >   &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Label className="flex items-center gap-2 text-base font-medium"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Heart className="w-4 h-4" /&gt;</span>
+    Default Care Style
+<span class="cstat-no" title="statement not covered" >   &lt;/Label&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {renderOptionCards(</span>
+<span class="cstat-no" title="statement not covered" >    ["frequent", "balanced", "minimal"] as const,</span>
+<span class="cstat-no" title="statement not covered" >    formData.default_care_style,</span>
+<span class="cstat-no" title="statement not covered" >    (value) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    setFormData((prev) =&gt; ({ ...prev, default_care_style: value })),</span>
+<span class="cstat-no" title="statement not covered" >    (value) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    labels.careStyle[value as keyof typeof labels.careStyle]</span>
+<span class="cstat-no" title="statement not covered" >   )}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+&nbsp;
+   {/* Soil Type */}
+<span class="cstat-no" title="statement not covered" >   &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Label className="flex items-center gap-2 text-base font-medium"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Shovel className="w-4 h-4" /&gt;</span>
+    Default Soil Type
+<span class="cstat-no" title="statement not covered" >   &lt;/Label&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {renderOptionCards(</span>
+<span class="cstat-no" title="statement not covered" >    ["regular", "draining", "retaining"] as const,</span>
+<span class="cstat-no" title="statement not covered" >    formData.default_soil_type,</span>
+<span class="cstat-no" title="statement not covered" >    (value) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    setFormData((prev) =&gt; ({ ...prev, default_soil_type: value })),</span>
+<span class="cstat-no" title="statement not covered" >    (value) =&gt; labels.soilType[value as keyof typeof labels.soilType]</span>
+<span class="cstat-no" title="statement not covered" >   )}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+&nbsp;
+   {/* Location (Optional) */}
+<span class="cstat-no" title="statement not covered" >   &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Label className="flex items-center gap-2 text-base font-medium"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;MapPin className="w-4 h-4" /&gt;</span>
+    Location (Optional)
+<span class="cstat-no" title="statement not covered" >   &lt;/Label&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Input</span>
+<span class="cstat-no" title="statement not covered" >    placeholder="e.g., San Francisco, CA"</span>
+<span class="cstat-no" title="statement not covered" >    value={formData.location || ""}</span>
+<span class="cstat-no" title="statement not covered" >    onChange={(e) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >    setFormData((prev) =&gt; ({ ...prev, location: e.target.value }))</span>
+    }
+<span class="cstat-no" title="statement not covered" >    className="w-full"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;p className="text-sm text-muted-foreground"&gt;</span>
+    Help us provide more accurate seasonal adjustments
+<span class="cstat-no" title="statement not covered" >   &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+&nbsp;
+   {/* Status */}
+<span class="cstat-no" title="statement not covered" >   {preferences &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="bg-plant-primary/10 p-4 rounded-lg"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="flex items-center gap-2 mb-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Badge</span>
+<span class="cstat-no" title="statement not covered" >     variant="secondary"</span>
+<span class="cstat-no" title="statement not covered" >     className="bg-plant-primary text-white"</span>
+<span class="cstat-no" title="statement not covered" >    &gt;</span>
+     Preferences Saved
+<span class="cstat-no" title="statement not covered" >    &lt;/Badge&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >    &lt;p className="text-sm text-muted-foreground"&gt;</span>
+    Your preferences will be used as defaults in the Smart Watering
+    Wizard
+<span class="cstat-no" title="statement not covered" >    &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+   )}
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;Dialog open={isOpen} onOpenChange={onClose}&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;DialogHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;DialogTitle className="flex items-center gap-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Settings className="w-5 h-5 text-plant-primary" /&gt;</span>
-            Smart Watering Preferences
-<span class="cstat-no" title="statement not covered" >          &lt;/DialogTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;DialogDescription&gt;</span>
-            Set your default environmental conditions and care preferences to
-            personalize your watering recommendations.
-<span class="cstat-no" title="statement not covered" >          &lt;/DialogDescription&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/DialogHeader&gt;</span>
+  {/* Actions */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex gap-3 pt-4 border-t"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button onClick={handleSave} disabled={isLoading} className="flex-1"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {isLoading ? "Saving..." : "Save Preferences"}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        &lt;div className="space-y-6"&gt;</span>
-          {/* Light Level */}
-<span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Label className="flex items-center gap-2 text-base font-medium"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Lightbulb className="w-4 h-4" /&gt;</span>
-              Default Light Level
-<span class="cstat-no" title="statement not covered" >            &lt;/Label&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {renderOptionCards(</span>
-<span class="cstat-no" title="statement not covered" >              ["low", "medium", "high"] as const,</span>
-<span class="cstat-no" title="statement not covered" >              formData.default_light_level,</span>
-<span class="cstat-no" title="statement not covered" >              (value) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                setFormData((prev) =&gt; ({</span>
-<span class="cstat-no" title="statement not covered" >                  ...prev,</span>
-<span class="cstat-no" title="statement not covered" >                  default_light_level: value,</span>
-<span class="cstat-no" title="statement not covered" >                })),</span>
-<span class="cstat-no" title="statement not covered" >              (value) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                labels.lightLevel[value as keyof typeof labels.lightLevel]</span>
-<span class="cstat-no" title="statement not covered" >            )}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {preferences &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    onClick={handleClear}</span>
+<span class="cstat-no" title="statement not covered" >    disabled={isLoading}</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+    Clear
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+   )}
 &nbsp;
-          {/* Temperature */}
-<span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Label className="flex items-center gap-2 text-base font-medium"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Thermometer className="w-4 h-4" /&gt;</span>
-              Default Temperature
-<span class="cstat-no" title="statement not covered" >            &lt;/Label&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {renderOptionCards(</span>
-<span class="cstat-no" title="statement not covered" >              ["cool", "normal", "warm"] as const,</span>
-<span class="cstat-no" title="statement not covered" >              formData.default_temperature,</span>
-<span class="cstat-no" title="statement not covered" >              (value) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                setFormData((prev) =&gt; ({</span>
-<span class="cstat-no" title="statement not covered" >                  ...prev,</span>
-<span class="cstat-no" title="statement not covered" >                  default_temperature: value,</span>
-<span class="cstat-no" title="statement not covered" >                })),</span>
-<span class="cstat-no" title="statement not covered" >              (value) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                labels.temperature[value as keyof typeof labels.temperature]</span>
-<span class="cstat-no" title="statement not covered" >            )}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-&nbsp;
-          {/* Humidity */}
-<span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Label className="flex items-center gap-2 text-base font-medium"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Droplets className="w-4 h-4" /&gt;</span>
-              Default Humidity Level
-<span class="cstat-no" title="statement not covered" >            &lt;/Label&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {renderOptionCards(</span>
-<span class="cstat-no" title="statement not covered" >              ["dry", "normal", "humid"] as const,</span>
-<span class="cstat-no" title="statement not covered" >              formData.default_humidity,</span>
-<span class="cstat-no" title="statement not covered" >              (value) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                setFormData((prev) =&gt; ({ ...prev, default_humidity: value })),</span>
-<span class="cstat-no" title="statement not covered" >              (value) =&gt; labels.humidity[value as keyof typeof labels.humidity]</span>
-<span class="cstat-no" title="statement not covered" >            )}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-&nbsp;
-          {/* Care Style */}
-<span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Label className="flex items-center gap-2 text-base font-medium"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Heart className="w-4 h-4" /&gt;</span>
-              Default Care Style
-<span class="cstat-no" title="statement not covered" >            &lt;/Label&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {renderOptionCards(</span>
-<span class="cstat-no" title="statement not covered" >              ["frequent", "balanced", "minimal"] as const,</span>
-<span class="cstat-no" title="statement not covered" >              formData.default_care_style,</span>
-<span class="cstat-no" title="statement not covered" >              (value) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                setFormData((prev) =&gt; ({ ...prev, default_care_style: value })),</span>
-<span class="cstat-no" title="statement not covered" >              (value) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                labels.careStyle[value as keyof typeof labels.careStyle]</span>
-<span class="cstat-no" title="statement not covered" >            )}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-&nbsp;
-          {/* Soil Type */}
-<span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Label className="flex items-center gap-2 text-base font-medium"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Shovel className="w-4 h-4" /&gt;</span>
-              Default Soil Type
-<span class="cstat-no" title="statement not covered" >            &lt;/Label&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {renderOptionCards(</span>
-<span class="cstat-no" title="statement not covered" >              ["regular", "draining", "retaining"] as const,</span>
-<span class="cstat-no" title="statement not covered" >              formData.default_soil_type,</span>
-<span class="cstat-no" title="statement not covered" >              (value) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                setFormData((prev) =&gt; ({ ...prev, default_soil_type: value })),</span>
-<span class="cstat-no" title="statement not covered" >              (value) =&gt; labels.soilType[value as keyof typeof labels.soilType]</span>
-<span class="cstat-no" title="statement not covered" >            )}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-&nbsp;
-          {/* Location (Optional) */}
-<span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Label className="flex items-center gap-2 text-base font-medium"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;MapPin className="w-4 h-4" /&gt;</span>
-              Location (Optional)
-<span class="cstat-no" title="statement not covered" >            &lt;/Label&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Input</span>
-<span class="cstat-no" title="statement not covered" >              placeholder="e.g., San Francisco, CA"</span>
-<span class="cstat-no" title="statement not covered" >              value={formData.location || ""}</span>
-<span class="cstat-no" title="statement not covered" >              onChange={(e) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >                setFormData((prev) =&gt; ({ ...prev, location: e.target.value }))</span>
-              }
-<span class="cstat-no" title="statement not covered" >              className="w-full"</span>
-<span class="cstat-no" title="statement not covered" >            /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;p className="text-sm text-muted-foreground"&gt;</span>
-              Help us provide more accurate seasonal adjustments
-<span class="cstat-no" title="statement not covered" >            &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-&nbsp;
-          {/* Status */}
-<span class="cstat-no" title="statement not covered" >          {preferences &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="bg-plant-primary/10 p-4 rounded-lg"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="flex items-center gap-2 mb-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Badge</span>
-<span class="cstat-no" title="statement not covered" >                  variant="secondary"</span>
-<span class="cstat-no" title="statement not covered" >                  className="bg-plant-primary text-white"</span>
-<span class="cstat-no" title="statement not covered" >                &gt;</span>
-                  Preferences Saved
-<span class="cstat-no" title="statement not covered" >                &lt;/Badge&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;p className="text-sm text-muted-foreground"&gt;</span>
-                Your preferences will be used as defaults in the Smart Watering
-                Wizard
-<span class="cstat-no" title="statement not covered" >              &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-          )}
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-&nbsp;
-        {/* Actions */}
-<span class="cstat-no" title="statement not covered" >        &lt;div className="flex gap-3 pt-4 border-t"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Button onClick={handleSave} disabled={isLoading} className="flex-1"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {isLoading ? "Saving..." : "Save Preferences"}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >          {preferences &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              onClick={handleClear}</span>
-<span class="cstat-no" title="statement not covered" >              disabled={isLoading}</span>
-<span class="cstat-no" title="statement not covered" >            &gt;</span>
-              Clear
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-          )}
-&nbsp;
-<span class="cstat-no" title="statement not covered" >          &lt;Button variant="outline" onClick={onClose} disabled={isLoading}&gt;</span>
-            Cancel
-<span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/DialogContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/Dialog&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >   &lt;Button variant="outline" onClick={onClose} disabled={isLoading}&gt;</span>
+   Cancel
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/DialogContent&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/Dialog&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -889,7 +889,7 @@ interface SmartWateringPreferencesDialogProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

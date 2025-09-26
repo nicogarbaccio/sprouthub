@@ -637,7 +637,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { useState, useEffect } from "react";<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { useState, useEffect } from "react";</span></span></span>
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfileData } from "@/contexts/ProfileDataContext";
@@ -645,284 +645,284 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 &nbsp;
 interface ProfileData {
-  first_name: string;
-  last_name: string;
-  username: string;
-  email: string;
-  avatar_url?: string;
+ first_name: string;
+ last_name: string;
+ username: string;
+ email: string;
+ avatar_url?: string;
 }
 &nbsp;
 interface PasswordData {
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword: string;
+ currentPassword: string;
+ newPassword: string;
+ confirmPassword: string;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export const useProfile = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { user, loading: authLoading, signOut } = useAuth();</span>
-<span class="cstat-no" title="statement not covered" >  const { updateProfileData } = useProfileData();</span>
-<span class="cstat-no" title="statement not covered" >  const navigate = useNavigate();</span>
-<span class="cstat-no" title="statement not covered" >  const { toast } = useToast();</span>
-  
-<span class="cstat-no" title="statement not covered" >  const [profileData, setProfileData] = useState&lt;ProfileData&gt;({</span>
-<span class="cstat-no" title="statement not covered" >    first_name: "",</span>
-<span class="cstat-no" title="statement not covered" >    last_name: "",</span>
-<span class="cstat-no" title="statement not covered" >    username: "",</span>
-<span class="cstat-no" title="statement not covered" >    email: "",</span>
-<span class="cstat-no" title="statement not covered" >    avatar_url: "",</span>
+<span class="cstat-no" title="statement not covered" > const { user, loading: authLoading, signOut } = useAuth();</span>
+<span class="cstat-no" title="statement not covered" > const { updateProfileData } = useProfileData();</span>
+<span class="cstat-no" title="statement not covered" > const navigate = useNavigate();</span>
+<span class="cstat-no" title="statement not covered" > const { toast } = useToast();</span>
+ 
+<span class="cstat-no" title="statement not covered" > const [profileData, setProfileData] = useState&lt;ProfileData&gt;({</span>
+<span class="cstat-no" title="statement not covered" > first_name: "",</span>
+<span class="cstat-no" title="statement not covered" > last_name: "",</span>
+<span class="cstat-no" title="statement not covered" > username: "",</span>
+<span class="cstat-no" title="statement not covered" > email: "",</span>
+<span class="cstat-no" title="statement not covered" > avatar_url: "",</span>
+<span class="cstat-no" title="statement not covered" > });</span>
+&nbsp;
+ // Track original profile data for change detection
+<span class="cstat-no" title="statement not covered" > const [originalProfileData, setOriginalProfileData] = useState&lt;ProfileData&gt;({</span>
+<span class="cstat-no" title="statement not covered" > first_name: "",</span>
+<span class="cstat-no" title="statement not covered" > last_name: "",</span>
+<span class="cstat-no" title="statement not covered" > username: "",</span>
+<span class="cstat-no" title="statement not covered" > email: "",</span>
+<span class="cstat-no" title="statement not covered" > avatar_url: "",</span>
+<span class="cstat-no" title="statement not covered" > });</span>
+ 
+<span class="cstat-no" title="statement not covered" > const [passwordData, setPasswordData] = useState&lt;PasswordData&gt;({</span>
+<span class="cstat-no" title="statement not covered" > currentPassword: "",</span>
+<span class="cstat-no" title="statement not covered" > newPassword: "",</span>
+<span class="cstat-no" title="statement not covered" > confirmPassword: "",</span>
+<span class="cstat-no" title="statement not covered" > });</span>
+ 
+<span class="cstat-no" title="statement not covered" > const [isLoading, setIsLoading] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [isLoadingProfile, setIsLoadingProfile] = useState(true);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+ // Don't make auth decisions while auth is still loading
+<span class="cstat-no" title="statement not covered" > if (authLoading) {</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > if (!user) {</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Authentication Required",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Please sign in to access your profile.",</span>
+<span class="cstat-no" title="statement not covered" >  variant: "default",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  navigate("/");</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > fetchProfile();</span>
+<span class="cstat-no" title="statement not covered" > }, [user, authLoading, navigate]);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const fetchProfile = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!user) return;</span>
+ 
+<span class="cstat-no" title="statement not covered" > try {</span>
+<span class="cstat-no" title="statement not covered" >  const { data, error } = await supabase</span>
+<span class="cstat-no" title="statement not covered" >  .from("profiles")</span>
+<span class="cstat-no" title="statement not covered" >  .select("*")</span>
+<span class="cstat-no" title="statement not covered" >  .eq("id", user.id)</span>
+<span class="cstat-no" title="statement not covered" >  .single();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (error) throw error;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  const fetchedProfileData = {</span>
+<span class="cstat-no" title="statement not covered" >  first_name: data.first_name || "",</span>
+<span class="cstat-no" title="statement not covered" >  last_name: data.last_name || "",</span>
+<span class="cstat-no" title="statement not covered" >  username: data.username || "",</span>
+<span class="cstat-no" title="statement not covered" >  email: data.email || user.email || "",</span>
+<span class="cstat-no" title="statement not covered" >  avatar_url: data.avatar_url || "",</span>
+<span class="cstat-no" title="statement not covered" >  };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  setProfileData(fetchedProfileData);</span>
+<span class="cstat-no" title="statement not covered" >  setOriginalProfileData(fetchedProfileData);</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error("Error fetching profile:", error);</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Error",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Failed to load profile data",</span>
+<span class="cstat-no" title="statement not covered" >  variant: "destructive",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > } finally {</span>
+<span class="cstat-no" title="statement not covered" >  setIsLoadingProfile(false);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const handleUpdateProfile = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!user) return;</span>
+ 
+<span class="cstat-no" title="statement not covered" > setIsLoading(true);</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+  // Check if username is unique (if changed)
+<span class="cstat-no" title="statement not covered" >  const { data: existingUser } = await supabase</span>
+<span class="cstat-no" title="statement not covered" >  .from("profiles")</span>
+<span class="cstat-no" title="statement not covered" >  .select("username")</span>
+<span class="cstat-no" title="statement not covered" >  .eq("username", profileData.username)</span>
+<span class="cstat-no" title="statement not covered" >  .neq("id", user.id)</span>
+<span class="cstat-no" title="statement not covered" >  .single();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (existingUser) {</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >   title: "Error",</span>
+<span class="cstat-no" title="statement not covered" >   description: "Username already exists. Please choose a different one.",</span>
+<span class="cstat-no" title="statement not covered" >   variant: "destructive",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  const { error } = await supabase</span>
+<span class="cstat-no" title="statement not covered" >  .from("profiles")</span>
+<span class="cstat-no" title="statement not covered" >  .update({</span>
+<span class="cstat-no" title="statement not covered" >   first_name: profileData.first_name,</span>
+<span class="cstat-no" title="statement not covered" >   last_name: profileData.last_name,</span>
+<span class="cstat-no" title="statement not covered" >   username: profileData.username,</span>
+<span class="cstat-no" title="statement not covered" >   avatar_url: profileData.avatar_url,</span>
+<span class="cstat-no" title="statement not covered" >  })</span>
+<span class="cstat-no" title="statement not covered" >  .eq("id", user.id);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (error) throw error;</span>
+&nbsp;
+  // Update the global profile data context
+<span class="cstat-no" title="statement not covered" >  updateProfileData({</span>
+<span class="cstat-no" title="statement not covered" >  first_name: profileData.first_name,</span>
+<span class="cstat-no" title="statement not covered" >  last_name: profileData.last_name,</span>
+<span class="cstat-no" title="statement not covered" >  username: profileData.username,</span>
+<span class="cstat-no" title="statement not covered" >  avatar_url: profileData.avatar_url,</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
 &nbsp;
-  // Track original profile data for change detection
-<span class="cstat-no" title="statement not covered" >  const [originalProfileData, setOriginalProfileData] = useState&lt;ProfileData&gt;({</span>
-<span class="cstat-no" title="statement not covered" >    first_name: "",</span>
-<span class="cstat-no" title="statement not covered" >    last_name: "",</span>
-<span class="cstat-no" title="statement not covered" >    username: "",</span>
-<span class="cstat-no" title="statement not covered" >    email: "",</span>
-<span class="cstat-no" title="statement not covered" >    avatar_url: "",</span>
+  // Update original data to reflect the saved state
+<span class="cstat-no" title="statement not covered" >  setOriginalProfileData(profileData);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Success",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Profile updated successfully",</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
-  
-<span class="cstat-no" title="statement not covered" >  const [passwordData, setPasswordData] = useState&lt;PasswordData&gt;({</span>
-<span class="cstat-no" title="statement not covered" >    currentPassword: "",</span>
-<span class="cstat-no" title="statement not covered" >    newPassword: "",</span>
-<span class="cstat-no" title="statement not covered" >    confirmPassword: "",</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error("Error updating profile:", error);</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Error",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Failed to update profile",</span>
+<span class="cstat-no" title="statement not covered" >  variant: "destructive",</span>
 <span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > } finally {</span>
+<span class="cstat-no" title="statement not covered" >  setIsLoading(false);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const handleChangePassword = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (passwordData.newPassword !== passwordData.confirmPassword) {</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Error",</span>
+<span class="cstat-no" title="statement not covered" >  description: "New passwords don't match",</span>
+<span class="cstat-no" title="statement not covered" >  variant: "destructive",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > if (passwordData.newPassword.length &lt; 6) {</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Error",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Password must be at least 6 characters long",</span>
+<span class="cstat-no" title="statement not covered" >  variant: "destructive",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > setIsLoading(true);</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+<span class="cstat-no" title="statement not covered" >  const { error } = await supabase.auth.updateUser({</span>
+<span class="cstat-no" title="statement not covered" >  password: passwordData.newPassword,</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (error) throw error;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  setPasswordData({</span>
+<span class="cstat-no" title="statement not covered" >  currentPassword: "",</span>
+<span class="cstat-no" title="statement not covered" >  newPassword: "",</span>
+<span class="cstat-no" title="statement not covered" >  confirmPassword: "",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Success",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Password updated successfully",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error("Error updating password:", error);</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Error",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Failed to update password",</span>
+<span class="cstat-no" title="statement not covered" >  variant: "destructive",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > } finally {</span>
+<span class="cstat-no" title="statement not covered" >  setIsLoading(false);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const handleDeleteAccount = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > setIsLoading(true);</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+  // Delete user plants first
+<span class="cstat-no" title="statement not covered" >  await supabase</span>
+<span class="cstat-no" title="statement not covered" >  .from("user_plants")</span>
+<span class="cstat-no" title="statement not covered" >  .delete()</span>
+<span class="cstat-no" title="statement not covered" >  .eq("user_id", user?.id);</span>
+&nbsp;
+  // Delete profile
+<span class="cstat-no" title="statement not covered" >  await supabase</span>
+<span class="cstat-no" title="statement not covered" >  .from("profiles")</span>
+<span class="cstat-no" title="statement not covered" >  .delete()</span>
+<span class="cstat-no" title="statement not covered" >  .eq("id", user?.id);</span>
+&nbsp;
+  // Sign out and redirect
+<span class="cstat-no" title="statement not covered" >  await signOut();</span>
+<span class="cstat-no" title="statement not covered" >  navigate("/");</span>
   
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setIsLoading] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const [isLoadingProfile, setIsLoadingProfile] = useState(true);</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Account deleted",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Your account has been permanently deleted",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error("Error deleting account:", error);</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Error",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Failed to delete account",</span>
+<span class="cstat-no" title="statement not covered" >  variant: "destructive",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > } finally {</span>
+<span class="cstat-no" title="statement not covered" >  setIsLoading(false);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-    // Don't make auth decisions while auth is still loading
-<span class="cstat-no" title="statement not covered" >    if (authLoading) {</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+ // Check if profile data has changed from original values
+<span class="cstat-no" title="statement not covered" > const hasProfileChanges = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" >  profileData.first_name !== originalProfileData.first_name ||</span>
+<span class="cstat-no" title="statement not covered" >  profileData.last_name !== originalProfileData.last_name ||</span>
+<span class="cstat-no" title="statement not covered" >  profileData.username !== originalProfileData.username ||</span>
+<span class="cstat-no" title="statement not covered" >  profileData.avatar_url !== originalProfileData.avatar_url</span>
+ );
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!user) {</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Authentication Required",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Please sign in to access your profile.",</span>
-<span class="cstat-no" title="statement not covered" >        variant: "default",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >      navigate("/");</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    fetchProfile();</span>
-<span class="cstat-no" title="statement not covered" >  }, [user, authLoading, navigate]);</span>
+ // Check if password data is valid for submission
+<span class="cstat-no" title="statement not covered" > const hasValidPasswordChanges = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" >  passwordData.newPassword.length &gt;= 6 &amp;&amp;</span>
+<span class="cstat-no" title="statement not covered" >  passwordData.confirmPassword.length &gt;= 6 &amp;&amp;</span>
+<span class="cstat-no" title="statement not covered" >  passwordData.newPassword === passwordData.confirmPassword</span>
+ );
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const fetchProfile = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!user) return;</span>
-    
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      const { data, error } = await supabase</span>
-<span class="cstat-no" title="statement not covered" >        .from("profiles")</span>
-<span class="cstat-no" title="statement not covered" >        .select("*")</span>
-<span class="cstat-no" title="statement not covered" >        .eq("id", user.id)</span>
-<span class="cstat-no" title="statement not covered" >        .single();</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      if (error) throw error;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      const fetchedProfileData = {</span>
-<span class="cstat-no" title="statement not covered" >        first_name: data.first_name || "",</span>
-<span class="cstat-no" title="statement not covered" >        last_name: data.last_name || "",</span>
-<span class="cstat-no" title="statement not covered" >        username: data.username || "",</span>
-<span class="cstat-no" title="statement not covered" >        email: data.email || user.email || "",</span>
-<span class="cstat-no" title="statement not covered" >        avatar_url: data.avatar_url || "",</span>
-<span class="cstat-no" title="statement not covered" >      };</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      setProfileData(fetchedProfileData);</span>
-<span class="cstat-no" title="statement not covered" >      setOriginalProfileData(fetchedProfileData);</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error("Error fetching profile:", error);</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Error",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Failed to load profile data",</span>
-<span class="cstat-no" title="statement not covered" >        variant: "destructive",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    } finally {</span>
-<span class="cstat-no" title="statement not covered" >      setIsLoadingProfile(false);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleUpdateProfile = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!user) return;</span>
-    
-<span class="cstat-no" title="statement not covered" >    setIsLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      // Check if username is unique (if changed)
-<span class="cstat-no" title="statement not covered" >      const { data: existingUser } = await supabase</span>
-<span class="cstat-no" title="statement not covered" >        .from("profiles")</span>
-<span class="cstat-no" title="statement not covered" >        .select("username")</span>
-<span class="cstat-no" title="statement not covered" >        .eq("username", profileData.username)</span>
-<span class="cstat-no" title="statement not covered" >        .neq("id", user.id)</span>
-<span class="cstat-no" title="statement not covered" >        .single();</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      if (existingUser) {</span>
-<span class="cstat-no" title="statement not covered" >        toast({</span>
-<span class="cstat-no" title="statement not covered" >          title: "Error",</span>
-<span class="cstat-no" title="statement not covered" >          description: "Username already exists. Please choose a different one.",</span>
-<span class="cstat-no" title="statement not covered" >          variant: "destructive",</span>
-<span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" >        return;</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      const { error } = await supabase</span>
-<span class="cstat-no" title="statement not covered" >        .from("profiles")</span>
-<span class="cstat-no" title="statement not covered" >        .update({</span>
-<span class="cstat-no" title="statement not covered" >          first_name: profileData.first_name,</span>
-<span class="cstat-no" title="statement not covered" >          last_name: profileData.last_name,</span>
-<span class="cstat-no" title="statement not covered" >          username: profileData.username,</span>
-<span class="cstat-no" title="statement not covered" >          avatar_url: profileData.avatar_url,</span>
-<span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" >        .eq("id", user.id);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      if (error) throw error;</span>
-&nbsp;
-      // Update the global profile data context
-<span class="cstat-no" title="statement not covered" >      updateProfileData({</span>
-<span class="cstat-no" title="statement not covered" >        first_name: profileData.first_name,</span>
-<span class="cstat-no" title="statement not covered" >        last_name: profileData.last_name,</span>
-<span class="cstat-no" title="statement not covered" >        username: profileData.username,</span>
-<span class="cstat-no" title="statement not covered" >        avatar_url: profileData.avatar_url,</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-&nbsp;
-      // Update original data to reflect the saved state
-<span class="cstat-no" title="statement not covered" >      setOriginalProfileData(profileData);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Success",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Profile updated successfully",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error("Error updating profile:", error);</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Error",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Failed to update profile",</span>
-<span class="cstat-no" title="statement not covered" >        variant: "destructive",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    } finally {</span>
-<span class="cstat-no" title="statement not covered" >      setIsLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleChangePassword = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (passwordData.newPassword !== passwordData.confirmPassword) {</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Error",</span>
-<span class="cstat-no" title="statement not covered" >        description: "New passwords don't match",</span>
-<span class="cstat-no" title="statement not covered" >        variant: "destructive",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (passwordData.newPassword.length &lt; 6) {</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Error",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Password must be at least 6 characters long",</span>
-<span class="cstat-no" title="statement not covered" >        variant: "destructive",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    setIsLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      const { error } = await supabase.auth.updateUser({</span>
-<span class="cstat-no" title="statement not covered" >        password: passwordData.newPassword,</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      if (error) throw error;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      setPasswordData({</span>
-<span class="cstat-no" title="statement not covered" >        currentPassword: "",</span>
-<span class="cstat-no" title="statement not covered" >        newPassword: "",</span>
-<span class="cstat-no" title="statement not covered" >        confirmPassword: "",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Success",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Password updated successfully",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error("Error updating password:", error);</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Error",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Failed to update password",</span>
-<span class="cstat-no" title="statement not covered" >        variant: "destructive",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    } finally {</span>
-<span class="cstat-no" title="statement not covered" >      setIsLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleDeleteAccount = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    setIsLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-      // Delete user plants first
-<span class="cstat-no" title="statement not covered" >      await supabase</span>
-<span class="cstat-no" title="statement not covered" >        .from("user_plants")</span>
-<span class="cstat-no" title="statement not covered" >        .delete()</span>
-<span class="cstat-no" title="statement not covered" >        .eq("user_id", user?.id);</span>
-&nbsp;
-      // Delete profile
-<span class="cstat-no" title="statement not covered" >      await supabase</span>
-<span class="cstat-no" title="statement not covered" >        .from("profiles")</span>
-<span class="cstat-no" title="statement not covered" >        .delete()</span>
-<span class="cstat-no" title="statement not covered" >        .eq("id", user?.id);</span>
-&nbsp;
-      // Sign out and redirect
-<span class="cstat-no" title="statement not covered" >      await signOut();</span>
-<span class="cstat-no" title="statement not covered" >      navigate("/");</span>
-      
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Account deleted",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Your account has been permanently deleted",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error("Error deleting account:", error);</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Error",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Failed to delete account",</span>
-<span class="cstat-no" title="statement not covered" >        variant: "destructive",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    } finally {</span>
-<span class="cstat-no" title="statement not covered" >      setIsLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
-&nbsp;
-  // Check if profile data has changed from original values
-<span class="cstat-no" title="statement not covered" >  const hasProfileChanges = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      profileData.first_name !== originalProfileData.first_name ||</span>
-<span class="cstat-no" title="statement not covered" >      profileData.last_name !== originalProfileData.last_name ||</span>
-<span class="cstat-no" title="statement not covered" >      profileData.username !== originalProfileData.username ||</span>
-<span class="cstat-no" title="statement not covered" >      profileData.avatar_url !== originalProfileData.avatar_url</span>
-    );
-<span class="cstat-no" title="statement not covered" >  };</span>
-&nbsp;
-  // Check if password data is valid for submission
-<span class="cstat-no" title="statement not covered" >  const hasValidPasswordChanges = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      passwordData.newPassword.length &gt;= 6 &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >      passwordData.confirmPassword.length &gt;= 6 &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >      passwordData.newPassword === passwordData.confirmPassword</span>
-    );
-<span class="cstat-no" title="statement not covered" >  };</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
-<span class="cstat-no" title="statement not covered" >    profileData,</span>
-<span class="cstat-no" title="statement not covered" >    setProfileData,</span>
-<span class="cstat-no" title="statement not covered" >    passwordData,</span>
-<span class="cstat-no" title="statement not covered" >    setPasswordData,</span>
-<span class="cstat-no" title="statement not covered" >    isLoading,</span>
-<span class="cstat-no" title="statement not covered" >    isLoadingProfile,</span>
-<span class="cstat-no" title="statement not covered" >    handleUpdateProfile,</span>
-<span class="cstat-no" title="statement not covered" >    handleChangePassword,</span>
-<span class="cstat-no" title="statement not covered" >    handleDeleteAccount,</span>
-<span class="cstat-no" title="statement not covered" >    hasProfileChanges,</span>
-<span class="cstat-no" title="statement not covered" >    hasValidPasswordChanges,</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > return {</span>
+<span class="cstat-no" title="statement not covered" > profileData,</span>
+<span class="cstat-no" title="statement not covered" > setProfileData,</span>
+<span class="cstat-no" title="statement not covered" > passwordData,</span>
+<span class="cstat-no" title="statement not covered" > setPasswordData,</span>
+<span class="cstat-no" title="statement not covered" > isLoading,</span>
+<span class="cstat-no" title="statement not covered" > isLoadingProfile,</span>
+<span class="cstat-no" title="statement not covered" > handleUpdateProfile,</span>
+<span class="cstat-no" title="statement not covered" > handleChangePassword,</span>
+<span class="cstat-no" title="statement not covered" > handleDeleteAccount,</span>
+<span class="cstat-no" title="statement not covered" > hasProfileChanges,</span>
+<span class="cstat-no" title="statement not covered" > hasValidPasswordChanges,</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -931,7 +931,7 @@ interface PasswordData {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

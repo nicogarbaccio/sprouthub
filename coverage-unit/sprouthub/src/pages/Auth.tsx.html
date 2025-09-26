@@ -275,11 +275,11 @@ import { Droplets } from "lucide-react";
 <span class="cstat-no" title="statement not covered" >import Navigation from "@/components/Navigation";</span>
 <span class="cstat-no" title="statement not covered" >import Footer from "@/components/Footer";</span>
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+ Card,
+ CardContent,
+ CardDescription,
+ CardHeader,
+ CardTitle,
 <span class="cstat-no" title="statement not covered" >} from "@/components/ui/card";</span>
 <span class="cstat-no" title="statement not covered" >import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";</span>
 <span class="cstat-no" title="statement not covered" >import SignInForm from "@/components/auth/SignInForm";</span>
@@ -287,85 +287,85 @@ import {
 <span class="cstat-no" title="statement not covered" >import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const Auth = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setIsLoading] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const navigate = useNavigate();</span>
-<span class="cstat-no" title="statement not covered" >  const [searchParams] = useSearchParams();</span>
-<span class="cstat-no" title="statement not covered" >  const { signUp, signIn, user } = useAuth();</span>
-<span class="cstat-no" title="statement not covered" >  const [hasShownSuccessToast, setHasShownSuccessToast] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [isLoading, setIsLoading] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const navigate = useNavigate();</span>
+<span class="cstat-no" title="statement not covered" > const [searchParams] = useSearchParams();</span>
+<span class="cstat-no" title="statement not covered" > const { signUp, signIn, user } = useAuth();</span>
+<span class="cstat-no" title="statement not covered" > const [hasShownSuccessToast, setHasShownSuccessToast] = useState(false);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (user &amp;&amp; !hasShownSuccessToast) {</span>
-      // Show success toast when user signs in
-<span class="cstat-no" title="statement not covered" >      authToast.signInSuccess();</span>
-<span class="cstat-no" title="statement not covered" >      setHasShownSuccessToast(true);</span>
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (user &amp;&amp; !hasShownSuccessToast) {</span>
+  // Show success toast when user signs in
+<span class="cstat-no" title="statement not covered" >  authToast.signInSuccess();</span>
+<span class="cstat-no" title="statement not covered" >  setHasShownSuccessToast(true);</span>
 &nbsp;
-      // Navigate after a short delay to let user see the toast
-<span class="cstat-no" title="statement not covered" >      setTimeout(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        const redirectTo = searchParams.get("redirect") || "/";</span>
-<span class="cstat-no" title="statement not covered" >        navigate(redirectTo);</span>
-<span class="cstat-no" title="statement not covered" >      }, 1000);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [user, navigate, searchParams, hasShownSuccessToast]);</span>
+  // Navigate after a short delay to let user see the toast
+<span class="cstat-no" title="statement not covered" >  setTimeout(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const redirectTo = searchParams.get("redirect") || "/";</span>
+<span class="cstat-no" title="statement not covered" >  navigate(redirectTo);</span>
+<span class="cstat-no" title="statement not covered" >  }, 1000);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [user, navigate, searchParams, hasShownSuccessToast]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleSignIn = async (emailOrUsername: string, password: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setIsLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    const result = await signIn(emailOrUsername, password);</span>
-<span class="cstat-no" title="statement not covered" >    setIsLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >    return result;</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const handleSignIn = async (emailOrUsername: string, password: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > setIsLoading(true);</span>
+<span class="cstat-no" title="statement not covered" > const result = await signIn(emailOrUsername, password);</span>
+<span class="cstat-no" title="statement not covered" > setIsLoading(false);</span>
+<span class="cstat-no" title="statement not covered" > return result;</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleSignUp = async (</span>
-<span class="cstat-no" title="statement not covered" >    email: string,</span>
-<span class="cstat-no" title="statement not covered" >    password: string,</span>
-<span class="cstat-no" title="statement not covered" >    firstName: string,</span>
-<span class="cstat-no" title="statement not covered" >    lastName: string,</span>
-<span class="cstat-no" title="statement not covered" >    username: string</span>
-<span class="cstat-no" title="statement not covered" >  ) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setIsLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    const result = await signUp(email, password, firstName, lastName, username);</span>
-<span class="cstat-no" title="statement not covered" >    setIsLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >    return result;</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const handleSignUp = async (</span>
+<span class="cstat-no" title="statement not covered" > email: string,</span>
+<span class="cstat-no" title="statement not covered" > password: string,</span>
+<span class="cstat-no" title="statement not covered" > firstName: string,</span>
+<span class="cstat-no" title="statement not covered" > lastName: string,</span>
+<span class="cstat-no" title="statement not covered" > username: string</span>
+<span class="cstat-no" title="statement not covered" > ) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > setIsLoading(true);</span>
+<span class="cstat-no" title="statement not covered" > const result = await signUp(email, password, firstName, lastName, username);</span>
+<span class="cstat-no" title="statement not covered" > setIsLoading(false);</span>
+<span class="cstat-no" title="statement not covered" > return result;</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="min-h-screen bg-background font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Navigation /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-plant-primary/10 to-plant-secondary/10 dark:bg-background flex items-center justify-center p-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Card className="w-full max-w-md"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardHeader className="text-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="flex items-center justify-center gap-3 mb-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;ThemeAwareLogo className="h-12 w-auto" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;span className="text-3xl font-bold text-sprout-dark dark:text-sprout-cream "&gt;</span>
-                sprouthub
-<span class="cstat-no" title="statement not covered" >              &lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;CardDescription&gt;</span>
-              Your personal plant care assistant
-<span class="cstat-no" title="statement not covered" >            &lt;/CardDescription&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Tabs defaultValue="signin" className="w-full"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;TabsList className="grid w-full grid-cols-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;TabsTrigger data-testid="sign-in-trigger" value="signin"&gt;</span>
-                  Sign In
-<span class="cstat-no" title="statement not covered" >                &lt;/TabsTrigger&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;TabsTrigger data-testid="sign-up-trigger" value="signup"&gt;</span>
-                  Sign Up
-<span class="cstat-no" title="statement not covered" >                &lt;/TabsTrigger&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/TabsList&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;TabsContent value="signin"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;SignInForm isLoading={isLoading} onSignIn={handleSignIn} /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/TabsContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;TabsContent value="signup"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;SignUpForm isLoading={isLoading} onSignUp={handleSignUp} /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/TabsContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/Tabs&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Footer /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className="min-h-screen bg-background "&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Navigation /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-plant-primary/10 to-plant-secondary/10 dark:bg-background flex items-center justify-center p-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Card className="w-full max-w-md"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardHeader className="text-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex items-center justify-center gap-3 mb-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;ThemeAwareLogo className="h-12 w-auto" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;span className="text-3xl font-bold text-sprout-dark dark:text-sprout-cream "&gt;</span>
+    sprouthub
+<span class="cstat-no" title="statement not covered" >    &lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardDescription&gt;</span>
+    Your personal plant care assistant
+<span class="cstat-no" title="statement not covered" >   &lt;/CardDescription&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Tabs defaultValue="signin" className="w-full"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;TabsList className="grid w-full grid-cols-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;TabsTrigger data-testid="sign-in-trigger" value="signin"&gt;</span>
+     Sign In
+<span class="cstat-no" title="statement not covered" >    &lt;/TabsTrigger&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;TabsTrigger data-testid="sign-up-trigger" value="signup"&gt;</span>
+     Sign Up
+<span class="cstat-no" title="statement not covered" >    &lt;/TabsTrigger&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/TabsList&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;TabsContent value="signin"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;SignInForm isLoading={isLoading} onSignIn={handleSignIn} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/TabsContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;TabsContent value="signup"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;SignUpForm isLoading={isLoading} onSignUp={handleSignUp} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/TabsContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/Tabs&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default Auth;</span>
@@ -376,7 +376,7 @@ import {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

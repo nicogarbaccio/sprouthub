@@ -521,223 +521,223 @@ import { UserWateringPreferences } from '@/types/smartWateringTypes';
 import { WateringFactors } from '@/utils/smartWateringSchedule';
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export const useSmartWateringPreferences = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { user } = useAuth();</span>
-<span class="cstat-no" title="statement not covered" >  const { toast } = useToast();</span>
-<span class="cstat-no" title="statement not covered" >  const [preferences, setPreferences] = useState&lt;UserWateringPreferences | null&gt;(null);</span>
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setIsLoading] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const [hasPreferences, setHasPreferences] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const { user } = useAuth();</span>
+<span class="cstat-no" title="statement not covered" > const { toast } = useToast();</span>
+<span class="cstat-no" title="statement not covered" > const [preferences, setPreferences] = useState&lt;UserWateringPreferences | null&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" > const [isLoading, setIsLoading] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [hasPreferences, setHasPreferences] = useState(false);</span>
 &nbsp;
-  // Load user preferences
-<span class="cstat-no" title="statement not covered" >  const loadPreferences = useCallback(async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!user) {</span>
-<span class="cstat-no" title="statement not covered" >      setPreferences(null);</span>
-<span class="cstat-no" title="statement not covered" >      setHasPreferences(false);</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+ // Load user preferences
+<span class="cstat-no" title="statement not covered" > const loadPreferences = useCallback(async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!user) {</span>
+<span class="cstat-no" title="statement not covered" >  setPreferences(null);</span>
+<span class="cstat-no" title="statement not covered" >  setHasPreferences(false);</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    setIsLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      const { data, error } = await supabase</span>
-<span class="cstat-no" title="statement not covered" >        .from('user_watering_preferences')</span>
-<span class="cstat-no" title="statement not covered" >        .select('*')</span>
-<span class="cstat-no" title="statement not covered" >        .eq('user_id', user.id)</span>
-<span class="cstat-no" title="statement not covered" >        .single();</span>
+<span class="cstat-no" title="statement not covered" > setIsLoading(true);</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+<span class="cstat-no" title="statement not covered" >  const { data, error } = await supabase</span>
+<span class="cstat-no" title="statement not covered" >    .from('user_watering_preferences')</span>
+<span class="cstat-no" title="statement not covered" >    .select('*')</span>
+<span class="cstat-no" title="statement not covered" >    .eq('user_id', user.id)</span>
+<span class="cstat-no" title="statement not covered" >    .maybeSingle();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (error &amp;&amp; error.code !== 'PGRST116') {</span>
-        // PGRST116 is "no rows returned" - not an actual error
-<span class="cstat-no" title="statement not covered" >        throw error;</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >  if (error &amp;&amp; error.code !== 'PGRST116') {</span>
+  // PGRST116 is "no rows returned" - not an actual error
+<span class="cstat-no" title="statement not covered" >  throw error;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (data) {</span>
-        // Convert database format to our UserWateringPreferences format
-<span class="cstat-no" title="statement not covered" >        const convertedPreferences: UserWateringPreferences = {</span>
-<span class="cstat-no" title="statement not covered" >          id: data.id,</span>
-<span class="cstat-no" title="statement not covered" >          user_id: data.user_id,</span>
-<span class="cstat-no" title="statement not covered" >          default_light_level: data.default_light_level as 'low' | 'medium' | 'high',</span>
-<span class="cstat-no" title="statement not covered" >          default_temperature: data.default_temperature as 'cool' | 'normal' | 'warm',</span>
-<span class="cstat-no" title="statement not covered" >          default_humidity: data.default_humidity as 'dry' | 'normal' | 'humid',</span>
-<span class="cstat-no" title="statement not covered" >          default_care_style: data.default_care_style as 'frequent' | 'balanced' | 'minimal',</span>
-<span class="cstat-no" title="statement not covered" >          default_soil_type: data.default_soil_type as 'regular' | 'draining' | 'retaining',</span>
-<span class="cstat-no" title="statement not covered" >          location: data.location,</span>
-<span class="cstat-no" title="statement not covered" >          created_at: data.created_at,</span>
-<span class="cstat-no" title="statement not covered" >          updated_at: data.updated_at,</span>
-<span class="cstat-no" title="statement not covered" >        };</span>
-<span class="cstat-no" title="statement not covered" >        setPreferences(convertedPreferences);</span>
-<span class="cstat-no" title="statement not covered" >        setHasPreferences(true);</span>
-<span class="cstat-no" title="statement not covered" >      } else {</span>
-<span class="cstat-no" title="statement not covered" >        setPreferences(null);</span>
-<span class="cstat-no" title="statement not covered" >        setHasPreferences(false);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error('Error loading watering preferences:', error);</span>
-<span class="cstat-no" title="statement not covered" >      setPreferences(null);</span>
-<span class="cstat-no" title="statement not covered" >      setHasPreferences(false);</span>
-<span class="cstat-no" title="statement not covered" >    } finally {</span>
-<span class="cstat-no" title="statement not covered" >      setIsLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [user]);</span>
+<span class="cstat-no" title="statement not covered" >  if (data) {</span>
+  // Convert database format to our UserWateringPreferences format
+<span class="cstat-no" title="statement not covered" >  const convertedPreferences: UserWateringPreferences = {</span>
+<span class="cstat-no" title="statement not covered" >   id: data.id,</span>
+<span class="cstat-no" title="statement not covered" >   user_id: data.user_id,</span>
+<span class="cstat-no" title="statement not covered" >   default_light_level: data.default_light_level as 'low' | 'medium' | 'high',</span>
+<span class="cstat-no" title="statement not covered" >   default_temperature: data.default_temperature as 'cool' | 'normal' | 'warm',</span>
+<span class="cstat-no" title="statement not covered" >   default_humidity: data.default_humidity as 'dry' | 'normal' | 'humid',</span>
+<span class="cstat-no" title="statement not covered" >   default_care_style: data.default_care_style as 'frequent' | 'balanced' | 'minimal',</span>
+<span class="cstat-no" title="statement not covered" >   default_soil_type: data.default_soil_type as 'regular' | 'draining' | 'retaining',</span>
+<span class="cstat-no" title="statement not covered" >   location: data.location,</span>
+<span class="cstat-no" title="statement not covered" >   created_at: data.created_at,</span>
+<span class="cstat-no" title="statement not covered" >   updated_at: data.updated_at,</span>
+<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" >  setPreferences(convertedPreferences);</span>
+<span class="cstat-no" title="statement not covered" >  setHasPreferences(true);</span>
+<span class="cstat-no" title="statement not covered" >  } else {</span>
+<span class="cstat-no" title="statement not covered" >  setPreferences(null);</span>
+<span class="cstat-no" title="statement not covered" >  setHasPreferences(false);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error('Error loading watering preferences:', error);</span>
+<span class="cstat-no" title="statement not covered" >  setPreferences(null);</span>
+<span class="cstat-no" title="statement not covered" >  setHasPreferences(false);</span>
+<span class="cstat-no" title="statement not covered" > } finally {</span>
+<span class="cstat-no" title="statement not covered" >  setIsLoading(false);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [user]);</span>
 &nbsp;
-  // Save or update preferences
-<span class="cstat-no" title="statement not covered" >  const savePreferences = async (newPreferences: Partial&lt;UserWateringPreferences&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!user) return false;</span>
+ // Save or update preferences
+<span class="cstat-no" title="statement not covered" > const savePreferences = async (newPreferences: Partial&lt;UserWateringPreferences&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!user) return false;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    setIsLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      const preferenceData = {</span>
-<span class="cstat-no" title="statement not covered" >        user_id: user.id,</span>
-<span class="cstat-no" title="statement not covered" >        default_light_level: newPreferences.default_light_level,</span>
-<span class="cstat-no" title="statement not covered" >        default_temperature: newPreferences.default_temperature,</span>
-<span class="cstat-no" title="statement not covered" >        default_humidity: newPreferences.default_humidity,</span>
-<span class="cstat-no" title="statement not covered" >        default_care_style: newPreferences.default_care_style,</span>
-<span class="cstat-no" title="statement not covered" >        default_soil_type: newPreferences.default_soil_type,</span>
-<span class="cstat-no" title="statement not covered" >        location: newPreferences.location || null,</span>
-<span class="cstat-no" title="statement not covered" >        updated_at: new Date().toISOString(),</span>
-<span class="cstat-no" title="statement not covered" >      };</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      if (hasPreferences &amp;&amp; preferences?.id) {</span>
-        // Update existing preferences
-<span class="cstat-no" title="statement not covered" >        const { data, error } = await supabase</span>
-<span class="cstat-no" title="statement not covered" >          .from('user_watering_preferences')</span>
-<span class="cstat-no" title="statement not covered" >          .update(preferenceData)</span>
-<span class="cstat-no" title="statement not covered" >          .eq('id', preferences.id)</span>
-<span class="cstat-no" title="statement not covered" >          .select()</span>
-<span class="cstat-no" title="statement not covered" >          .single();</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        if (error) throw error;</span>
-        
-        // Convert database format to our UserWateringPreferences format
-<span class="cstat-no" title="statement not covered" >        const convertedPreferences: UserWateringPreferences = {</span>
-<span class="cstat-no" title="statement not covered" >          id: data.id,</span>
-<span class="cstat-no" title="statement not covered" >          user_id: data.user_id,</span>
-<span class="cstat-no" title="statement not covered" >          default_light_level: data.default_light_level as 'low' | 'medium' | 'high',</span>
-<span class="cstat-no" title="statement not covered" >          default_temperature: data.default_temperature as 'cool' | 'normal' | 'warm',</span>
-<span class="cstat-no" title="statement not covered" >          default_humidity: data.default_humidity as 'dry' | 'normal' | 'humid',</span>
-<span class="cstat-no" title="statement not covered" >          default_care_style: data.default_care_style as 'frequent' | 'balanced' | 'minimal',</span>
-<span class="cstat-no" title="statement not covered" >          default_soil_type: data.default_soil_type as 'regular' | 'draining' | 'retaining',</span>
-<span class="cstat-no" title="statement not covered" >          location: data.location,</span>
-<span class="cstat-no" title="statement not covered" >          created_at: data.created_at,</span>
-<span class="cstat-no" title="statement not covered" >          updated_at: data.updated_at,</span>
-<span class="cstat-no" title="statement not covered" >        };</span>
-<span class="cstat-no" title="statement not covered" >        setPreferences(convertedPreferences);</span>
-<span class="cstat-no" title="statement not covered" >      } else {</span>
-        // Create new preferences
-<span class="cstat-no" title="statement not covered" >        const { data, error } = await supabase</span>
-<span class="cstat-no" title="statement not covered" >          .from('user_watering_preferences')</span>
-<span class="cstat-no" title="statement not covered" >          .insert({</span>
-<span class="cstat-no" title="statement not covered" >            ...preferenceData,</span>
-<span class="cstat-no" title="statement not covered" >            created_at: new Date().toISOString(),</span>
-<span class="cstat-no" title="statement not covered" >          })</span>
-<span class="cstat-no" title="statement not covered" >          .select()</span>
-<span class="cstat-no" title="statement not covered" >          .single();</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        if (error) throw error;</span>
-        
-        // Convert database format to our UserWateringPreferences format
-<span class="cstat-no" title="statement not covered" >        const convertedPreferences: UserWateringPreferences = {</span>
-<span class="cstat-no" title="statement not covered" >          id: data.id,</span>
-<span class="cstat-no" title="statement not covered" >          user_id: data.user_id,</span>
-<span class="cstat-no" title="statement not covered" >          default_light_level: data.default_light_level as 'low' | 'medium' | 'high',</span>
-<span class="cstat-no" title="statement not covered" >          default_temperature: data.default_temperature as 'cool' | 'normal' | 'warm',</span>
-<span class="cstat-no" title="statement not covered" >          default_humidity: data.default_humidity as 'dry' | 'normal' | 'humid',</span>
-<span class="cstat-no" title="statement not covered" >          default_care_style: data.default_care_style as 'frequent' | 'balanced' | 'minimal',</span>
-<span class="cstat-no" title="statement not covered" >          default_soil_type: data.default_soil_type as 'regular' | 'draining' | 'retaining',</span>
-<span class="cstat-no" title="statement not covered" >          location: data.location,</span>
-<span class="cstat-no" title="statement not covered" >          created_at: data.created_at,</span>
-<span class="cstat-no" title="statement not covered" >          updated_at: data.updated_at,</span>
-<span class="cstat-no" title="statement not covered" >        };</span>
-<span class="cstat-no" title="statement not covered" >        setPreferences(convertedPreferences);</span>
-<span class="cstat-no" title="statement not covered" >        setHasPreferences(true);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: 'Preferences Saved',</span>
-<span class="cstat-no" title="statement not covered" >        description: 'Your smart watering preferences have been saved for future use.',</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      return true;</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error('Error saving watering preferences:', error);</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: 'Error',</span>
-<span class="cstat-no" title="statement not covered" >        description: 'Failed to save watering preferences. Please try again.',</span>
-<span class="cstat-no" title="statement not covered" >        variant: 'destructive',</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >      return false;</span>
-<span class="cstat-no" title="statement not covered" >    } finally {</span>
-<span class="cstat-no" title="statement not covered" >      setIsLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" > setIsLoading(true);</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+<span class="cstat-no" title="statement not covered" >  const preferenceData = {</span>
+<span class="cstat-no" title="statement not covered" >  user_id: user.id,</span>
+<span class="cstat-no" title="statement not covered" >  default_light_level: newPreferences.default_light_level,</span>
+<span class="cstat-no" title="statement not covered" >  default_temperature: newPreferences.default_temperature,</span>
+<span class="cstat-no" title="statement not covered" >  default_humidity: newPreferences.default_humidity,</span>
+<span class="cstat-no" title="statement not covered" >  default_care_style: newPreferences.default_care_style,</span>
+<span class="cstat-no" title="statement not covered" >  default_soil_type: newPreferences.default_soil_type,</span>
+<span class="cstat-no" title="statement not covered" >  location: newPreferences.location || null,</span>
+<span class="cstat-no" title="statement not covered" >  updated_at: new Date().toISOString(),</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-  // Get default factors for wizard, using saved preferences if available
-<span class="cstat-no" title="statement not covered" >  const getDefaultFactors = (): Partial&lt;WateringFactors&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!preferences) {</span>
-<span class="cstat-no" title="statement not covered" >      return {</span>
-<span class="cstat-no" title="statement not covered" >        lightLevel: 'medium',</span>
-<span class="cstat-no" title="statement not covered" >        temperature: 'normal',</span>
-<span class="cstat-no" title="statement not covered" >        humidity: 'normal',</span>
-<span class="cstat-no" title="statement not covered" >        careStyle: 'balanced',</span>
-<span class="cstat-no" title="statement not covered" >        soilType: 'regular',</span>
-<span class="cstat-no" title="statement not covered" >      };</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >  if (hasPreferences &amp;&amp; preferences?.id) {</span>
+  // Update existing preferences
+<span class="cstat-no" title="statement not covered" >  const { data, error } = await supabase</span>
+<span class="cstat-no" title="statement not covered" >   .from('user_watering_preferences')</span>
+<span class="cstat-no" title="statement not covered" >   .update(preferenceData)</span>
+<span class="cstat-no" title="statement not covered" >   .eq('id', preferences.id)</span>
+<span class="cstat-no" title="statement not covered" >   .select()</span>
+<span class="cstat-no" title="statement not covered" >   .single();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return {</span>
-<span class="cstat-no" title="statement not covered" >      lightLevel: preferences.default_light_level,</span>
-<span class="cstat-no" title="statement not covered" >      temperature: preferences.default_temperature,</span>
-<span class="cstat-no" title="statement not covered" >      humidity: preferences.default_humidity,</span>
-<span class="cstat-no" title="statement not covered" >      careStyle: preferences.default_care_style,</span>
-<span class="cstat-no" title="statement not covered" >      soilType: preferences.default_soil_type,</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
+<span class="cstat-no" title="statement not covered" >  if (error) throw error;</span>
+  
+  // Convert database format to our UserWateringPreferences format
+<span class="cstat-no" title="statement not covered" >  const convertedPreferences: UserWateringPreferences = {</span>
+<span class="cstat-no" title="statement not covered" >   id: data.id,</span>
+<span class="cstat-no" title="statement not covered" >   user_id: data.user_id,</span>
+<span class="cstat-no" title="statement not covered" >   default_light_level: data.default_light_level as 'low' | 'medium' | 'high',</span>
+<span class="cstat-no" title="statement not covered" >   default_temperature: data.default_temperature as 'cool' | 'normal' | 'warm',</span>
+<span class="cstat-no" title="statement not covered" >   default_humidity: data.default_humidity as 'dry' | 'normal' | 'humid',</span>
+<span class="cstat-no" title="statement not covered" >   default_care_style: data.default_care_style as 'frequent' | 'balanced' | 'minimal',</span>
+<span class="cstat-no" title="statement not covered" >   default_soil_type: data.default_soil_type as 'regular' | 'draining' | 'retaining',</span>
+<span class="cstat-no" title="statement not covered" >   location: data.location,</span>
+<span class="cstat-no" title="statement not covered" >   created_at: data.created_at,</span>
+<span class="cstat-no" title="statement not covered" >   updated_at: data.updated_at,</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" >  setPreferences(convertedPreferences);</span>
+<span class="cstat-no" title="statement not covered" >  } else {</span>
+  // Create new preferences
+<span class="cstat-no" title="statement not covered" >  const { data, error } = await supabase</span>
+<span class="cstat-no" title="statement not covered" >   .from('user_watering_preferences')</span>
+<span class="cstat-no" title="statement not covered" >   .insert({</span>
+<span class="cstat-no" title="statement not covered" >   ...preferenceData,</span>
+<span class="cstat-no" title="statement not covered" >   created_at: new Date().toISOString(),</span>
+<span class="cstat-no" title="statement not covered" >   })</span>
+<span class="cstat-no" title="statement not covered" >   .select()</span>
+<span class="cstat-no" title="statement not covered" >   .single();</span>
 &nbsp;
-  // Clear preferences
-<span class="cstat-no" title="statement not covered" >  const clearPreferences = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!user || !preferences?.id) return false;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    setIsLoading(true);</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      const { error } = await supabase</span>
-<span class="cstat-no" title="statement not covered" >        .from('user_watering_preferences')</span>
-<span class="cstat-no" title="statement not covered" >        .delete()</span>
-<span class="cstat-no" title="statement not covered" >        .eq('id', preferences.id);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      if (error) throw error;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      setPreferences(null);</span>
-<span class="cstat-no" title="statement not covered" >      setHasPreferences(false);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: 'Preferences Cleared',</span>
-<span class="cstat-no" title="statement not covered" >        description: 'Your smart watering preferences have been cleared.',</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      return true;</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error('Error clearing watering preferences:', error);</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: 'Error',</span>
-<span class="cstat-no" title="statement not covered" >        description: 'Failed to clear watering preferences.',</span>
-<span class="cstat-no" title="statement not covered" >        variant: 'destructive',</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >      return false;</span>
-<span class="cstat-no" title="statement not covered" >    } finally {</span>
-<span class="cstat-no" title="statement not covered" >      setIsLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" >  if (error) throw error;</span>
+  
+  // Convert database format to our UserWateringPreferences format
+<span class="cstat-no" title="statement not covered" >  const convertedPreferences: UserWateringPreferences = {</span>
+<span class="cstat-no" title="statement not covered" >   id: data.id,</span>
+<span class="cstat-no" title="statement not covered" >   user_id: data.user_id,</span>
+<span class="cstat-no" title="statement not covered" >   default_light_level: data.default_light_level as 'low' | 'medium' | 'high',</span>
+<span class="cstat-no" title="statement not covered" >   default_temperature: data.default_temperature as 'cool' | 'normal' | 'warm',</span>
+<span class="cstat-no" title="statement not covered" >   default_humidity: data.default_humidity as 'dry' | 'normal' | 'humid',</span>
+<span class="cstat-no" title="statement not covered" >   default_care_style: data.default_care_style as 'frequent' | 'balanced' | 'minimal',</span>
+<span class="cstat-no" title="statement not covered" >   default_soil_type: data.default_soil_type as 'regular' | 'draining' | 'retaining',</span>
+<span class="cstat-no" title="statement not covered" >   location: data.location,</span>
+<span class="cstat-no" title="statement not covered" >   created_at: data.created_at,</span>
+<span class="cstat-no" title="statement not covered" >   updated_at: data.updated_at,</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" >  setPreferences(convertedPreferences);</span>
+<span class="cstat-no" title="statement not covered" >  setHasPreferences(true);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-  // Load preferences when user changes
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    loadPreferences();</span>
-<span class="cstat-no" title="statement not covered" >  }, [loadPreferences]);</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: 'Preferences Saved',</span>
+<span class="cstat-no" title="statement not covered" >  description: 'Your smart watering preferences have been saved for future use.',</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
 &nbsp;
+<span class="cstat-no" title="statement not covered" >  return true;</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error('Error saving watering preferences:', error);</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: 'Error',</span>
+<span class="cstat-no" title="statement not covered" >  description: 'Failed to save watering preferences. Please try again.',</span>
+<span class="cstat-no" title="statement not covered" >  variant: 'destructive',</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  return false;</span>
+<span class="cstat-no" title="statement not covered" > } finally {</span>
+<span class="cstat-no" title="statement not covered" >  setIsLoading(false);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+&nbsp;
+ // Get default factors for wizard, using saved preferences if available
+<span class="cstat-no" title="statement not covered" > const getDefaultFactors = (): Partial&lt;WateringFactors&gt; =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!preferences) {</span>
 <span class="cstat-no" title="statement not covered" >  return {</span>
-<span class="cstat-no" title="statement not covered" >    preferences,</span>
-<span class="cstat-no" title="statement not covered" >    isLoading,</span>
-<span class="cstat-no" title="statement not covered" >    hasPreferences,</span>
-<span class="cstat-no" title="statement not covered" >    loadPreferences,</span>
-<span class="cstat-no" title="statement not covered" >    savePreferences,</span>
-<span class="cstat-no" title="statement not covered" >    getDefaultFactors,</span>
-<span class="cstat-no" title="statement not covered" >    clearPreferences,</span>
+<span class="cstat-no" title="statement not covered" >  lightLevel: 'medium',</span>
+<span class="cstat-no" title="statement not covered" >  temperature: 'normal',</span>
+<span class="cstat-no" title="statement not covered" >  humidity: 'normal',</span>
+<span class="cstat-no" title="statement not covered" >  careStyle: 'balanced',</span>
+<span class="cstat-no" title="statement not covered" >  soilType: 'regular',</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > return {</span>
+<span class="cstat-no" title="statement not covered" >  lightLevel: preferences.default_light_level,</span>
+<span class="cstat-no" title="statement not covered" >  temperature: preferences.default_temperature,</span>
+<span class="cstat-no" title="statement not covered" >  humidity: preferences.default_humidity,</span>
+<span class="cstat-no" title="statement not covered" >  careStyle: preferences.default_care_style,</span>
+<span class="cstat-no" title="statement not covered" >  soilType: preferences.default_soil_type,</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+&nbsp;
+ // Clear preferences
+<span class="cstat-no" title="statement not covered" > const clearPreferences = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!user || !preferences?.id) return false;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > setIsLoading(true);</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+<span class="cstat-no" title="statement not covered" >  const { error } = await supabase</span>
+<span class="cstat-no" title="statement not covered" >  .from('user_watering_preferences')</span>
+<span class="cstat-no" title="statement not covered" >  .delete()</span>
+<span class="cstat-no" title="statement not covered" >  .eq('id', preferences.id);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (error) throw error;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  setPreferences(null);</span>
+<span class="cstat-no" title="statement not covered" >  setHasPreferences(false);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: 'Preferences Cleared',</span>
+<span class="cstat-no" title="statement not covered" >  description: 'Your smart watering preferences have been cleared.',</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  return true;</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error('Error clearing watering preferences:', error);</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: 'Error',</span>
+<span class="cstat-no" title="statement not covered" >  description: 'Failed to clear watering preferences.',</span>
+<span class="cstat-no" title="statement not covered" >  variant: 'destructive',</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  return false;</span>
+<span class="cstat-no" title="statement not covered" > } finally {</span>
+<span class="cstat-no" title="statement not covered" >  setIsLoading(false);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+&nbsp;
+ // Load preferences when user changes
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > loadPreferences();</span>
+<span class="cstat-no" title="statement not covered" > }, [loadPreferences]);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > return {</span>
+<span class="cstat-no" title="statement not covered" > preferences,</span>
+<span class="cstat-no" title="statement not covered" > isLoading,</span>
+<span class="cstat-no" title="statement not covered" > hasPreferences,</span>
+<span class="cstat-no" title="statement not covered" > loadPreferences,</span>
+<span class="cstat-no" title="statement not covered" > savePreferences,</span>
+<span class="cstat-no" title="statement not covered" > getDefaultFactors,</span>
+<span class="cstat-no" title="statement not covered" > clearPreferences,</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 <span class="cstat-no" title="statement not covered" >}; </span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -745,7 +745,7 @@ import { WateringFactors } from '@/utils/smartWateringSchedule';
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

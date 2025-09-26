@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/64</span>
+                <span class='fraction'>0/66</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/64</span>
+                <span class='fraction'>0/66</span>
             </div>
         
             
@@ -151,7 +151,9 @@
 <a name='L86'></a><a href='#L86'>86</a>
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
-<a name='L89'></a><a href='#L89'>89</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -214,11 +216,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -243,87 +247,89 @@
 <span class="cstat-no" title="statement not covered" >import { Button } from "@/components/ui/button";</span>
 &nbsp;
 interface PlantInfoSectionProps {
-  name: string;
-  botanicalName: string;
-  description: string;
-  careLevel: string;
-  toxicity: string;
-  onAddToCollection: () =&gt; void;
-  isAuthenticated?: boolean;
-  onSignInToAdd?: () =&gt; void;
+ name: string;
+ botanicalName: string;
+ description: string;
+ careLevel: string;
+ toxicity: string;
+ onAddToCollection: () =&gt; void;
+ isAuthenticated?: boolean;
+ onSignInToAdd?: () =&gt; void;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const PlantInfoSection = ({</span>
-<span class="cstat-no" title="statement not covered" >  name,</span>
-<span class="cstat-no" title="statement not covered" >  botanicalName,</span>
-<span class="cstat-no" title="statement not covered" >  description,</span>
-<span class="cstat-no" title="statement not covered" >  careLevel,</span>
-<span class="cstat-no" title="statement not covered" >  toxicity,</span>
-<span class="cstat-no" title="statement not covered" >  onAddToCollection,</span>
-<span class="cstat-no" title="statement not covered" >  isAuthenticated = false,</span>
-<span class="cstat-no" title="statement not covered" >  onSignInToAdd,</span>
+<span class="cstat-no" title="statement not covered" > name,</span>
+<span class="cstat-no" title="statement not covered" > botanicalName,</span>
+<span class="cstat-no" title="statement not covered" > description,</span>
+<span class="cstat-no" title="statement not covered" > careLevel,</span>
+<span class="cstat-no" title="statement not covered" > toxicity,</span>
+<span class="cstat-no" title="statement not covered" > onAddToCollection,</span>
+<span class="cstat-no" title="statement not covered" > isAuthenticated = false,</span>
+<span class="cstat-no" title="statement not covered" > onSignInToAdd,</span>
 <span class="cstat-no" title="statement not covered" >}: PlantInfoSectionProps) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const getCareColor = (level: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    switch (level) {</span>
-<span class="cstat-no" title="statement not covered" >      case "Easy":</span>
-<span class="cstat-no" title="statement not covered" >        return "bg-sprout-success/20 text-sprout-success border-sprout-success/30";</span>
-<span class="cstat-no" title="statement not covered" >      case "Medium":</span>
-<span class="cstat-no" title="statement not covered" >        return "bg-sprout-warning/20 text-sprout-warning border-sprout-warning/30";</span>
-<span class="cstat-no" title="statement not covered" >      case "Hard":</span>
-<span class="cstat-no" title="statement not covered" >        return "bg-sprout-warning/40 text-sprout-dark border-sprout-warning/50";</span>
-<span class="cstat-no" title="statement not covered" >      default:</span>
-<span class="cstat-no" title="statement not covered" >        return "bg-neutral-light text-neutral-dark border-neutral-medium/30";</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const getCareColor = (level: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > switch (level) {</span>
+<span class="cstat-no" title="statement not covered" >  case "Easy":</span>
+<span class="cstat-no" title="statement not covered" >  return "bg-sprout-success/20 text-sprout-success border-sprout-success/30";</span>
+<span class="cstat-no" title="statement not covered" >  case "Medium":</span>
+<span class="cstat-no" title="statement not covered" >  return "bg-sprout-warning/20 text-sprout-warning border-sprout-warning/30";</span>
+<span class="cstat-no" title="statement not covered" >  case "Hard":</span>
+<span class="cstat-no" title="statement not covered" >  return "bg-sprout-warning/40 text-sprout-dark border-sprout-warning/50";</span>
+<span class="cstat-no" title="statement not covered" >  default:</span>
+<span class="cstat-no" title="statement not covered" >  return "bg-neutral-light text-neutral-dark border-neutral-medium/30";</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="space-y-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="flex items-center gap-3 mb-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;h1 className="text-3xl font-bold text-foreground font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {name}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/h1&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;span</span>
-<span class="cstat-no" title="statement not covered" >            className={`px-3 py-1 rounded-full text-sm font-medium ${getCareColor(</span>
-<span class="cstat-no" title="statement not covered" >              careLevel</span>
-<span class="cstat-no" title="statement not covered" >            )}`}</span>
-          &gt;
-<span class="cstat-no" title="statement not covered" >            {careLevel}</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;p className="text-lg text-muted-foreground italic mb-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          {botanicalName}</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;p className="text-foreground leading-relaxed"&gt;{description}&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className="space-y-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex items-center gap-3 mb-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;h1 className="text-3xl font-bold text-foreground " data-testid="plant-name"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {name}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/h1&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;span</span>
+<span class="cstat-no" title="statement not covered" >   className={`px-3 py-1 rounded-full text-sm font-medium ${getCareColor(</span>
+<span class="cstat-no" title="statement not covered" >    careLevel</span>
+<span class="cstat-no" title="statement not covered" >   )}`}</span>
+   &gt;
+<span class="cstat-no" title="statement not covered" >   {careLevel}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;p className="text-lg text-muted-foreground italic mb-4" data-testid="botanical-name"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {botanicalName}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;p className="text-foreground leading-relaxed"&gt;{description}&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      {isAuthenticated ? (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >          onClick={onAddToCollection}</span>
-<span class="cstat-no" title="statement not covered" >          className="w-full bg-sprout-success hover:bg-sprout-success/90 text-white rounded-xl font-medium py-3"</span>
-<span class="cstat-no" title="statement not covered" >          size="lg"</span>
-        &gt;
-<span class="cstat-no" title="statement not covered" >          &lt;Plus className="w-5 h-5 mr-2" /&gt;</span>
-          Add to My Collection
-<span class="cstat-no" title="statement not covered" >        &lt;/Button&gt;</span>
-      ) : (
-<span class="cstat-no" title="statement not covered" >        &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >          onClick={onSignInToAdd}</span>
-<span class="cstat-no" title="statement not covered" >          className="w-full bg-sprout-success hover:bg-sprout-success/90 text-white rounded-xl font-medium py-3"</span>
-<span class="cstat-no" title="statement not covered" >          size="lg"</span>
-        &gt;
-<span class="cstat-no" title="statement not covered" >          &lt;LogIn className="w-5 h-5 mr-2" /&gt;</span>
-          Sign in to Add to Collection
-<span class="cstat-no" title="statement not covered" >        &lt;/Button&gt;</span>
-      )}
+<span class="cstat-no" title="statement not covered" >  {isAuthenticated ? (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >   onClick={onAddToCollection}</span>
+<span class="cstat-no" title="statement not covered" >   className="w-full bg-sprout-success hover:bg-sprout-success/90 text-white rounded-xl font-medium py-3"</span>
+<span class="cstat-no" title="statement not covered" >   size="lg"</span>
+<span class="cstat-no" title="statement not covered" >   data-testid="add-to-collection-button"</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >   &lt;Plus className="w-5 h-5 mr-2" /&gt;</span>
+   Add to My Collection
+<span class="cstat-no" title="statement not covered" >  &lt;/Button&gt;</span>
+  ) : (
+<span class="cstat-no" title="statement not covered" >  &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >   onClick={onSignInToAdd}</span>
+<span class="cstat-no" title="statement not covered" >   className="w-full bg-sprout-success hover:bg-sprout-success/90 text-white rounded-xl font-medium py-3"</span>
+<span class="cstat-no" title="statement not covered" >   size="lg"</span>
+<span class="cstat-no" title="statement not covered" >   data-testid="sign-in-to-add-button"</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >   &lt;LogIn className="w-5 h-5 mr-2" /&gt;</span>
+   Sign in to Add to Collection
+<span class="cstat-no" title="statement not covered" >  &lt;/Button&gt;</span>
+  )}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;div className="p-3 bg-sprout-warning/10 rounded-lg border border-sprout-warning/30"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;p className="text-sm text-sprout-warning"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;strong&gt;Pet Safety:&lt;/strong&gt; {toxicity}</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >  &lt;div className="p-3 bg-sprout-warning/10 rounded-lg border border-sprout-warning/30"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;p className="text-sm text-sprout-warning"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;strong&gt;Pet Safety:&lt;/strong&gt; {toxicity}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default PlantInfoSection;</span>
@@ -334,7 +340,7 @@ interface PlantInfoSectionProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

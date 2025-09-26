@@ -170,11 +170,11 @@
 <span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { useEffect } from 'react';<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
 &nbsp;
 interface UseKeyboardNavigationProps {
-  onNextPage: () =&gt; void;
-  onPreviousPage: () =&gt; void;
-  hasNextPage: boolean;
-  hasPreviousPage: boolean;
-  isEnabled?: boolean;
+ onNextPage: () =&gt; void;
+ onPreviousPage: () =&gt; void;
+ hasNextPage: boolean;
+ hasPreviousPage: boolean;
+ isEnabled?: boolean;
 }
 &nbsp;
 /**
@@ -182,43 +182,43 @@ interface UseKeyboardNavigationProps {
  * Supports arrow keys and prevents conflicts with form inputs
  */
 <span class="cstat-no" title="statement not covered" >export const useKeyboardNavigation = ({</span>
-<span class="cstat-no" title="statement not covered" >  onNextPage,</span>
-<span class="cstat-no" title="statement not covered" >  onPreviousPage,</span>
-<span class="cstat-no" title="statement not covered" >  hasNextPage,</span>
-<span class="cstat-no" title="statement not covered" >  hasPreviousPage,</span>
-<span class="cstat-no" title="statement not covered" >  isEnabled = true,</span>
+<span class="cstat-no" title="statement not covered" > onNextPage,</span>
+<span class="cstat-no" title="statement not covered" > onPreviousPage,</span>
+<span class="cstat-no" title="statement not covered" > hasNextPage,</span>
+<span class="cstat-no" title="statement not covered" > hasPreviousPage,</span>
+<span class="cstat-no" title="statement not covered" > isEnabled = true,</span>
 <span class="cstat-no" title="statement not covered" >}: UseKeyboardNavigationProps) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!isEnabled) return;</span>
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!isEnabled) return;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    const handleKeyDown = (event: KeyboardEvent) =&gt; {</span>
-      // Ignore if user is typing in an input field
-<span class="cstat-no" title="statement not covered" >      const target = event.target as HTMLElement;</span>
-<span class="cstat-no" title="statement not covered" >      if (</span>
-<span class="cstat-no" title="statement not covered" >        target.tagName === 'INPUT' ||</span>
-<span class="cstat-no" title="statement not covered" >        target.tagName === 'TEXTAREA' ||</span>
-<span class="cstat-no" title="statement not covered" >        target.contentEditable === 'true'</span>
-<span class="cstat-no" title="statement not covered" >      ) {</span>
-<span class="cstat-no" title="statement not covered" >        return;</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" > const handleKeyDown = (event: KeyboardEvent) =&gt; {</span>
+  // Ignore if user is typing in an input field
+<span class="cstat-no" title="statement not covered" >  const target = event.target as HTMLElement;</span>
+<span class="cstat-no" title="statement not covered" >  if (</span>
+<span class="cstat-no" title="statement not covered" >  target.tagName === 'INPUT' ||</span>
+<span class="cstat-no" title="statement not covered" >  target.tagName === 'TEXTAREA' ||</span>
+<span class="cstat-no" title="statement not covered" >  target.contentEditable === 'true'</span>
+<span class="cstat-no" title="statement not covered" >  ) {</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-      // Handle arrow key navigation
-<span class="cstat-no" title="statement not covered" >      if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {</span>
-<span class="cstat-no" title="statement not covered" >        if (hasNextPage) {</span>
-<span class="cstat-no" title="statement not covered" >          event.preventDefault();</span>
-<span class="cstat-no" title="statement not covered" >          onNextPage();</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {</span>
-<span class="cstat-no" title="statement not covered" >        if (hasPreviousPage) {</span>
-<span class="cstat-no" title="statement not covered" >          event.preventDefault();</span>
-<span class="cstat-no" title="statement not covered" >          onPreviousPage();</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
+  // Handle arrow key navigation
+<span class="cstat-no" title="statement not covered" >  if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {</span>
+<span class="cstat-no" title="statement not covered" >  if (hasNextPage) {</span>
+<span class="cstat-no" title="statement not covered" >   event.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >   onNextPage();</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {</span>
+<span class="cstat-no" title="statement not covered" >  if (hasPreviousPage) {</span>
+<span class="cstat-no" title="statement not covered" >   event.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >   onPreviousPage();</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    document.addEventListener('keydown', handleKeyDown);</span>
-<span class="cstat-no" title="statement not covered" >    return () =&gt; document.removeEventListener('keydown', handleKeyDown);</span>
-<span class="cstat-no" title="statement not covered" >  }, [onNextPage, onPreviousPage, hasNextPage, hasPreviousPage, isEnabled]);</span>
+<span class="cstat-no" title="statement not covered" > document.addEventListener('keydown', handleKeyDown);</span>
+<span class="cstat-no" title="statement not covered" > return () =&gt; document.removeEventListener('keydown', handleKeyDown);</span>
+<span class="cstat-no" title="statement not covered" > }, [onNextPage, onPreviousPage, hasNextPage, hasPreviousPage, isEnabled]);</span>
 <span class="cstat-no" title="statement not covered" >}; </span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -226,7 +226,7 @@ interface UseKeyboardNavigationProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -618,255 +618,255 @@
 <span class="cstat-no" title="statement not covered" >import { plants } from "@/data/plantData";</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const PlantDetails = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { plantName } = useParams();</span>
-<span class="cstat-no" title="statement not covered" >  const navigate = useNavigate();</span>
-<span class="cstat-no" title="statement not covered" >  const location = useLocation();</span>
-<span class="cstat-no" title="statement not covered" >  const { user } = useAuth();</span>
-<span class="cstat-no" title="statement not covered" >  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const { plantName } = useParams();</span>
+<span class="cstat-no" title="statement not covered" > const navigate = useNavigate();</span>
+<span class="cstat-no" title="statement not covered" > const location = useLocation();</span>
+<span class="cstat-no" title="statement not covered" > const { user } = useAuth();</span>
+<span class="cstat-no" title="statement not covered" > const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);</span>
 &nbsp;
-  // Simulate loading state (in a real app, this would be actual data fetching)
-<span class="cstat-no" title="statement not covered" >  const [isLoading, setIsLoading] = useState(true);</span>
+ // Simulate loading state (in a real app, this would be actual data fetching)
+<span class="cstat-no" title="statement not covered" > const [isLoading, setIsLoading] = useState(true);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-    // Simulate API call delay
-<span class="cstat-no" title="statement not covered" >    const timer = setTimeout(() =&gt; setIsLoading(false), 600);</span>
-<span class="cstat-no" title="statement not covered" >    return () =&gt; clearTimeout(timer);</span>
-<span class="cstat-no" title="statement not covered" >  }, [plantName]);</span>
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+ // Simulate API call delay
+<span class="cstat-no" title="statement not covered" > const timer = setTimeout(() =&gt; setIsLoading(false), 600);</span>
+<span class="cstat-no" title="statement not covered" > return () =&gt; clearTimeout(timer);</span>
+<span class="cstat-no" title="statement not covered" > }, [plantName]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const { showLoading, isReady } = useGracefulLoading(isLoading, {</span>
-<span class="cstat-no" title="statement not covered" >    minLoadingTime: 0,</span>
-<span class="cstat-no" title="statement not covered" >    staggerDelay: 0,</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > const { showLoading, isReady } = useGracefulLoading(isLoading, {</span>
+<span class="cstat-no" title="statement not covered" > minLoadingTime: 0,</span>
+<span class="cstat-no" title="statement not covered" > staggerDelay: 0,</span>
+<span class="cstat-no" title="statement not covered" > });</span>
 &nbsp;
-  // Find the plant in the plant data by matching the name
-<span class="cstat-no" title="statement not covered" >  const plant = plants.find(</span>
-<span class="cstat-no" title="statement not covered" >    (p) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >      p.name.toLowerCase().replace(/\s+/g, "-") === plantName?.toLowerCase()</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
+ // Find the plant in the plant data by matching the name
+<span class="cstat-no" title="statement not covered" > const plant = plants.find(</span>
+<span class="cstat-no" title="statement not covered" > (p) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >  p.name.toLowerCase().replace(/\s+/g, "-") === plantName?.toLowerCase()</span>
+<span class="cstat-no" title="statement not covered" > );</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleAddToCollection = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (plant) {</span>
-<span class="cstat-no" title="statement not covered" >      setIsAddDialogOpen(true);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const handleAddToCollection = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (plant) {</span>
+<span class="cstat-no" title="statement not covered" >  setIsAddDialogOpen(true);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleCloseAddDialog = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setIsAddDialogOpen(false);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const handleCloseAddDialog = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > setIsAddDialogOpen(false);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleSignInToAdd = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const currentPath = encodeURIComponent(location.pathname);</span>
-<span class="cstat-no" title="statement not covered" >    navigate(`/auth?redirect=${currentPath}`);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const handleSignInToAdd = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const currentPath = encodeURIComponent(location.pathname);</span>
+<span class="cstat-no" title="statement not covered" > navigate(`/auth?redirect=${currentPath}`);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-  // Show loading skeleton
-<span class="cstat-no" title="statement not covered" >  if (showLoading) {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="min-h-screen bg-background font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Navigation /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="pt-16 min-h-[calc(100vh-4rem)]"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8"&gt;</span>
-            {/* Back button skeleton */}
-<span class="cstat-no" title="statement not covered" >            &lt;Skeleton className="h-10 w-32 mb-8" /&gt;</span>
+ // Show loading skeleton
+<span class="cstat-no" title="statement not covered" > if (showLoading) {</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="min-h-screen bg-background "&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Navigation /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="pt-16 min-h-[calc(100vh-4rem)]"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8"&gt;</span>
+   {/* Back button skeleton */}
+<span class="cstat-no" title="statement not covered" >   &lt;Skeleton className="h-10 w-32 mb-8" /&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"&gt;</span>
-              {/* Image skeleton */}
-<span class="cstat-no" title="statement not covered" >              &lt;div className="space-y-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Skeleton className="h-80 w-full rounded-lg" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >              &lt;div className="space-y-6"&gt;</span>
-                {/* Plant info skeleton */}
-<span class="cstat-no" title="statement not covered" >                &lt;div className="space-y-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;Skeleton className="h-8 w-3/4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;Skeleton className="h-6 w-1/2" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-4 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-4 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-4 w-2/3" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;div className="flex gap-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-6 w-16 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-6 w-20 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;Skeleton className="h-12 w-48 rounded-xl" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
-&nbsp;
-                {/* Care grid skeleton */}
-<span class="cstat-no" title="statement not covered" >                &lt;div className="grid grid-cols-2 gap-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  {Array.from({ length: 4 }).map((_, i) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div key={i} className="p-4 border rounded-lg"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-4 w-16 mb-2" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-6 w-20" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  ))}</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-&nbsp;
-            {/* Care cards skeleton */}
-<span class="cstat-no" title="statement not covered" >            &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="p-6 border rounded-lg"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Skeleton className="h-6 w-32 mb-4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  {Array.from({ length: 4 }).map((_, i) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton key={i} className="h-4 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  ))}</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="p-6 border rounded-lg"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Skeleton className="h-6 w-32 mb-4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  {Array.from({ length: 3 }).map((_, i) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton key={i} className="h-4 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  ))}</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Footer /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-    );
-<span class="cstat-no" title="statement not covered" >  }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  if (!plant) {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="min-h-screen bg-background font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Navigation /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="pt-16 px-4 sm:px-6 lg:px-8"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="max-w-4xl mx-auto py-12 text-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;CascadingContainer delay={0}&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;h1 className="text-2xl font-bold text-plant-text mb-4"&gt;</span>
-                Plant Not Found
-<span class="cstat-no" title="statement not covered" >              &lt;/h1&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;PlantDetailsHeader</span>
-<span class="cstat-no" title="statement not covered" >                onBackClick={() =&gt; navigate("/plant-catalog")}</span>
-<span class="cstat-no" title="statement not covered" >              /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/CascadingContainer&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Footer /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-    );
-<span class="cstat-no" title="statement not covered" >  }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  if (!isReady) {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="min-h-screen bg-background font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Navigation /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="pt-16 min-h-[calc(100vh-4rem)]"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 opacity-0"&gt;</span>
-            {/* Invisible content to maintain height */}
-<span class="cstat-no" title="statement not covered" >            &lt;div className="h-10 w-32 mb-8" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="h-80" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="space-y-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="h-32" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="h-24" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="h-64" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="h-64" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Footer /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-    );
-<span class="cstat-no" title="statement not covered" >  }</span>
-&nbsp;
-  // Create default care instructions and common problems if not provided
-<span class="cstat-no" title="statement not covered" >  const careInstructions = plant.careInstructions || [</span>
-<span class="cstat-no" title="statement not covered" >    "Water when top inch of soil feels dry",</span>
-<span class="cstat-no" title="statement not covered" >    "Place in appropriate light conditions",</span>
-<span class="cstat-no" title="statement not covered" >    "Maintain proper humidity levels",</span>
-<span class="cstat-no" title="statement not covered" >    "Remove dead or yellowing leaves",</span>
-<span class="cstat-no" title="statement not covered" >    "Fertilize during growing season",</span>
-<span class="cstat-no" title="statement not covered" >  ];</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  const commonProblems = plant.commonProblems || [</span>
-<span class="cstat-no" title="statement not covered" >    "Overwatering: Yellow leaves and root rot",</span>
-<span class="cstat-no" title="statement not covered" >    "Underwatering: Wilting and dry soil",</span>
-<span class="cstat-no" title="statement not covered" >    "Poor lighting: Leggy growth or leaf drop",</span>
-<span class="cstat-no" title="statement not covered" >    "Low humidity: Brown leaf tips",</span>
-<span class="cstat-no" title="statement not covered" >  ];</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="min-h-screen bg-background font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Navigation /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="pt-16"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CascadingContainer delay={0}&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;PlantDetailsHeader</span>
-<span class="cstat-no" title="statement not covered" >              onBackClick={() =&gt; navigate("/plant-catalog")}</span>
-<span class="cstat-no" title="statement not covered" >            /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CascadingContainer&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >          &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;CascadingContainer delay={100}&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;PlantImageSection image={plant.image} name={plant.name} /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/CascadingContainer&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >            &lt;div className="space-y-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;CascadingContainer delay={200}&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;PlantInfoSection</span>
-<span class="cstat-no" title="statement not covered" >                  name={plant.name}</span>
-<span class="cstat-no" title="statement not covered" >                  botanicalName={plant.botanicalName}</span>
-<span class="cstat-no" title="statement not covered" >                  description={</span>
-<span class="cstat-no" title="statement not covered" >                    plant.description ||</span>
-<span class="cstat-no" title="statement not covered" >                    `The ${plant.name} is a beautiful plant that makes a great addition to any home. It's known for its unique characteristics and is perfect for plant enthusiasts.`</span>
-                  }
-<span class="cstat-no" title="statement not covered" >                  careLevel={plant.careLevel}</span>
-<span class="cstat-no" title="statement not covered" >                  toxicity={</span>
-<span class="cstat-no" title="statement not covered" >                    plant.toxicity || "Unknown - consult a veterinarian"</span>
-                  }
-<span class="cstat-no" title="statement not covered" >                  onAddToCollection={handleAddToCollection}</span>
-<span class="cstat-no" title="statement not covered" >                  isAuthenticated={!!user}</span>
-<span class="cstat-no" title="statement not covered" >                  onSignInToAdd={handleSignInToAdd}</span>
-<span class="cstat-no" title="statement not covered" >                /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/CascadingContainer&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >              &lt;CascadingContainer delay={300}&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;PlantCareGrid</span>
-<span class="cstat-no" title="statement not covered" >                  wateringFrequency={plant.wateringFrequency}</span>
-<span class="cstat-no" title="statement not covered" >                  suggestedWateringDays={plant.suggestedWateringDays || 7}</span>
-<span class="cstat-no" title="statement not covered" >                  lightRequirement={plant.lightRequirement}</span>
-<span class="cstat-no" title="statement not covered" >                  temperature={plant.temperature || "65-75°F (18-24°C)"}</span>
-<span class="cstat-no" title="statement not covered" >                  humidity={plant.humidity || "40-60%"}</span>
-<span class="cstat-no" title="statement not covered" >                /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/CascadingContainer&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >          &lt;CascadingContainer delay={400}&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;PlantCareCards</span>
-<span class="cstat-no" title="statement not covered" >              careInstructions={careInstructions}</span>
-<span class="cstat-no" title="statement not covered" >              commonProblems={commonProblems}</span>
-<span class="cstat-no" title="statement not covered" >            /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CascadingContainer&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >      {user &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;AddPlantDialog</span>
-<span class="cstat-no" title="statement not covered" >          isOpen={isAddDialogOpen}</span>
-<span class="cstat-no" title="statement not covered" >          onClose={handleCloseAddDialog}</span>
-<span class="cstat-no" title="statement not covered" >          plantData={{</span>
-<span class="cstat-no" title="statement not covered" >            name: plant.name,</span>
-<span class="cstat-no" title="statement not covered" >            botanicalName: plant.botanicalName,</span>
-<span class="cstat-no" title="statement not covered" >            image: plant.image,</span>
-<span class="cstat-no" title="statement not covered" >            wateringFrequency: plant.wateringFrequency,</span>
-<span class="cstat-no" title="statement not covered" >            suggestedWateringDays: plant.suggestedWateringDays,</span>
-<span class="cstat-no" title="statement not covered" >            lightRequirement: plant.lightRequirement,</span>
-<span class="cstat-no" title="statement not covered" >            careLevel: plant.careLevel,</span>
-<span class="cstat-no" title="statement not covered" >          }}</span>
-<span class="cstat-no" title="statement not covered" >        /&gt;</span>
-      )}
-<span class="cstat-no" title="statement not covered" >      &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"&gt;</span>
+    {/* Image skeleton */}
+<span class="cstat-no" title="statement not covered" >    &lt;div className="space-y-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Skeleton className="h-80 w-full rounded-lg" /&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    &lt;div className="space-y-6"&gt;</span>
+    {/* Plant info skeleton */}
+<span class="cstat-no" title="statement not covered" >    &lt;div className="space-y-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-8 w-3/4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-6 w-1/2" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-4 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-4 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-4 w-2/3" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="flex gap-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-6 w-16 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-6 w-20 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-12 w-48 rounded-xl" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+&nbsp;
+    {/* Care grid skeleton */}
+<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-2 gap-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     {Array.from({ length: 4 }).map((_, i) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div key={i} className="p-4 border rounded-lg"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-4 w-16 mb-2" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-6 w-20" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     ))}</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+&nbsp;
+   {/* Care cards skeleton */}
+<span class="cstat-no" title="statement not covered" >   &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="p-6 border rounded-lg"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Skeleton className="h-6 w-32 mb-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     {Array.from({ length: 4 }).map((_, i) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton key={i} className="h-4 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     ))}</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="p-6 border rounded-lg"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Skeleton className="h-6 w-32 mb-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     {Array.from({ length: 3 }).map((_, i) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton key={i} className="h-4 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     ))}</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+ );
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > if (!plant) {</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="min-h-screen bg-background "&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Navigation /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="pt-16 px-4 sm:px-6 lg:px-8"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="max-w-4xl mx-auto py-12 text-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CascadingContainer delay={0}&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;h1 className="text-2xl font-bold text-plant-text mb-4"&gt;</span>
+    Plant Not Found
+<span class="cstat-no" title="statement not covered" >    &lt;/h1&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;PlantDetailsHeader</span>
+<span class="cstat-no" title="statement not covered" >    onBackClick={() =&gt; navigate("/plant-catalog")}</span>
+<span class="cstat-no" title="statement not covered" >    /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CascadingContainer&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+ );
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > if (!isReady) {</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="min-h-screen bg-background "&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Navigation /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="pt-16 min-h-[calc(100vh-4rem)]"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 opacity-0"&gt;</span>
+   {/* Invisible content to maintain height */}
+<span class="cstat-no" title="statement not covered" >   &lt;div className="h-10 w-32 mb-8" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="h-80" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="space-y-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="h-32" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="h-24" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="grid grid-cols-1 md:grid-cols-2 gap-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="h-64" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="h-64" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+ );
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+ // Create default care instructions and common problems if not provided
+<span class="cstat-no" title="statement not covered" > const careInstructions = plant.careInstructions || [</span>
+<span class="cstat-no" title="statement not covered" > "Water when top inch of soil feels dry",</span>
+<span class="cstat-no" title="statement not covered" > "Place in appropriate light conditions",</span>
+<span class="cstat-no" title="statement not covered" > "Maintain proper humidity levels",</span>
+<span class="cstat-no" title="statement not covered" > "Remove dead or yellowing leaves",</span>
+<span class="cstat-no" title="statement not covered" > "Fertilize during growing season",</span>
+<span class="cstat-no" title="statement not covered" > ];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const commonProblems = plant.commonProblems || [</span>
+<span class="cstat-no" title="statement not covered" > "Overwatering: Yellow leaves and root rot",</span>
+<span class="cstat-no" title="statement not covered" > "Underwatering: Wilting and dry soil",</span>
+<span class="cstat-no" title="statement not covered" > "Poor lighting: Leggy growth or leaf drop",</span>
+<span class="cstat-no" title="statement not covered" > "Low humidity: Brown leaf tips",</span>
+<span class="cstat-no" title="statement not covered" > ];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className="min-h-screen bg-background "&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Navigation /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="pt-16"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CascadingContainer delay={0}&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;PlantDetailsHeader</span>
+<span class="cstat-no" title="statement not covered" >    onBackClick={() =&gt; navigate("/plant-catalog")}</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CascadingContainer&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >   &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CascadingContainer delay={100}&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;PlantImageSection image={plant.image} name={plant.name} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CascadingContainer&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >   &lt;div className="space-y-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;CascadingContainer delay={200}&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;PlantInfoSection</span>
+<span class="cstat-no" title="statement not covered" >     name={plant.name}</span>
+<span class="cstat-no" title="statement not covered" >     botanicalName={plant.botanicalName}</span>
+<span class="cstat-no" title="statement not covered" >     description={</span>
+<span class="cstat-no" title="statement not covered" >     plant.description ||</span>
+<span class="cstat-no" title="statement not covered" >     `The ${plant.name} is a beautiful plant that makes a great addition to any home. It's known for its unique characteristics and is perfect for plant enthusiasts.`</span>
+     }
+<span class="cstat-no" title="statement not covered" >     careLevel={plant.careLevel}</span>
+<span class="cstat-no" title="statement not covered" >     toxicity={</span>
+<span class="cstat-no" title="statement not covered" >     plant.toxicity || "Unknown - consult a veterinarian"</span>
+     }
+<span class="cstat-no" title="statement not covered" >     onAddToCollection={handleAddToCollection}</span>
+<span class="cstat-no" title="statement not covered" >     isAuthenticated={!!user}</span>
+<span class="cstat-no" title="statement not covered" >     onSignInToAdd={handleSignInToAdd}</span>
+<span class="cstat-no" title="statement not covered" >    /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/CascadingContainer&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    &lt;CascadingContainer delay={300}&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;PlantCareGrid</span>
+<span class="cstat-no" title="statement not covered" >     wateringFrequency={plant.wateringFrequency}</span>
+<span class="cstat-no" title="statement not covered" >     suggestedWateringDays={plant.suggestedWateringDays || 7}</span>
+<span class="cstat-no" title="statement not covered" >     lightRequirement={plant.lightRequirement}</span>
+<span class="cstat-no" title="statement not covered" >     temperature={plant.temperature || "65-75°F (18-24°C)"}</span>
+<span class="cstat-no" title="statement not covered" >     humidity={plant.humidity || "40-60%"}</span>
+<span class="cstat-no" title="statement not covered" >    /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/CascadingContainer&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >   &lt;CascadingContainer delay={400}&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;PlantCareCards</span>
+<span class="cstat-no" title="statement not covered" >    careInstructions={careInstructions}</span>
+<span class="cstat-no" title="statement not covered" >    commonProblems={commonProblems}</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CascadingContainer&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  {user &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;AddPlantDialog</span>
+<span class="cstat-no" title="statement not covered" >   isOpen={isAddDialogOpen}</span>
+<span class="cstat-no" title="statement not covered" >   onClose={handleCloseAddDialog}</span>
+<span class="cstat-no" title="statement not covered" >   plantData={{</span>
+<span class="cstat-no" title="statement not covered" >   name: plant.name,</span>
+<span class="cstat-no" title="statement not covered" >   botanicalName: plant.botanicalName,</span>
+<span class="cstat-no" title="statement not covered" >   image: plant.image,</span>
+<span class="cstat-no" title="statement not covered" >   wateringFrequency: plant.wateringFrequency,</span>
+<span class="cstat-no" title="statement not covered" >   suggestedWateringDays: plant.suggestedWateringDays,</span>
+<span class="cstat-no" title="statement not covered" >   lightRequirement: plant.lightRequirement,</span>
+<span class="cstat-no" title="statement not covered" >   careLevel: plant.careLevel,</span>
+<span class="cstat-no" title="statement not covered" >   }}</span>
+<span class="cstat-no" title="statement not covered" >  /&gt;</span>
+  )}
+<span class="cstat-no" title="statement not covered" >  &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default PlantDetails;</span>
@@ -877,7 +877,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

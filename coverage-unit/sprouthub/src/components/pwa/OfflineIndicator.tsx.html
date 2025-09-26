@@ -269,99 +269,99 @@ import { WifiOff, Wifi, CloudOff, Cloud } from "lucide-react";
 import { usePWA } from "@/hooks/use-pwa";
 &nbsp;
 interface OfflineIndicatorProps {
-  className?: string;
-  showWhenOnline?: boolean;
+ className?: string;
+ showWhenOnline?: boolean;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export function OfflineIndicator({</span>
-<span class="cstat-no" title="statement not covered" >  className,</span>
-<span class="cstat-no" title="statement not covered" >  showWhenOnline = false,</span>
+<span class="cstat-no" title="statement not covered" > className,</span>
+<span class="cstat-no" title="statement not covered" > showWhenOnline = false,</span>
 <span class="cstat-no" title="statement not covered" >}: OfflineIndicatorProps) {</span>
-<span class="cstat-no" title="statement not covered" >  const { isOnline } = usePWA();</span>
-<span class="cstat-no" title="statement not covered" >  const [showBriefly, setShowBriefly] = React.useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const { isOnline } = usePWA();</span>
+<span class="cstat-no" title="statement not covered" > const [showBriefly, setShowBriefly] = React.useState(false);</span>
 &nbsp;
-  // Show briefly when coming back online
-<span class="cstat-no" title="statement not covered" >  React.useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (isOnline &amp;&amp; showWhenOnline) {</span>
-<span class="cstat-no" title="statement not covered" >      setShowBriefly(true);</span>
-<span class="cstat-no" title="statement not covered" >      const timeout = setTimeout(() =&gt; setShowBriefly(false), 3000);</span>
-<span class="cstat-no" title="statement not covered" >      return () =&gt; clearTimeout(timeout);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [isOnline, showWhenOnline]);</span>
+ // Show briefly when coming back online
+<span class="cstat-no" title="statement not covered" > React.useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (isOnline &amp;&amp; showWhenOnline) {</span>
+<span class="cstat-no" title="statement not covered" >  setShowBriefly(true);</span>
+<span class="cstat-no" title="statement not covered" >  const timeout = setTimeout(() =&gt; setShowBriefly(false), 3000);</span>
+<span class="cstat-no" title="statement not covered" >  return () =&gt; clearTimeout(timeout);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [isOnline, showWhenOnline]);</span>
 &nbsp;
-  // Don't show when online unless specified
-<span class="cstat-no" title="statement not covered" >  if (isOnline &amp;&amp; !showBriefly) {</span>
-<span class="cstat-no" title="statement not covered" >    return null;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+ // Don't show when online unless specified
+<span class="cstat-no" title="statement not covered" > if (isOnline &amp;&amp; !showBriefly) {</span>
+<span class="cstat-no" title="statement not covered" > return null;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;Card</span>
-<span class="cstat-no" title="statement not covered" >      className={`fixed top-20 left-4 right-4 z-40 shadow-lg ${</span>
-<span class="cstat-no" title="statement not covered" >        isOnline</span>
-<span class="cstat-no" title="statement not covered" >          ? "bg-sprout-secondary/10 border-sprout-secondary/30"</span>
-<span class="cstat-no" title="statement not covered" >          : "bg-sprout-warning/10 border-sprout-warning/30"</span>
-<span class="cstat-no" title="statement not covered" >      } ${className}`}</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      &lt;CardContent className="p-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="flex items-center space-x-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div</span>
-<span class="cstat-no" title="statement not covered" >            className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${</span>
-<span class="cstat-no" title="statement not covered" >              isOnline ? "bg-sprout-secondary/20" : "bg-sprout-warning/20"</span>
-<span class="cstat-no" title="statement not covered" >            }`}</span>
-          &gt;
-<span class="cstat-no" title="statement not covered" >            {isOnline ? (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Wifi className="w-4 h-4 text-sprout-secondary" /&gt;</span>
-            ) : (
-<span class="cstat-no" title="statement not covered" >              &lt;WifiOff className="w-4 h-4 text-sprout-warning" /&gt;</span>
-            )}
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;Card</span>
+<span class="cstat-no" title="statement not covered" >  className={`fixed top-20 left-4 right-4 z-40 shadow-lg ${</span>
+<span class="cstat-no" title="statement not covered" >  isOnline</span>
+<span class="cstat-no" title="statement not covered" >   ? "bg-sprout-secondary/10 border-sprout-secondary/30"</span>
+<span class="cstat-no" title="statement not covered" >   : "bg-sprout-warning/10 border-sprout-warning/30"</span>
+<span class="cstat-no" title="statement not covered" >  } ${className}`}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  &lt;CardContent className="p-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex items-center space-x-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div</span>
+<span class="cstat-no" title="statement not covered" >   className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${</span>
+<span class="cstat-no" title="statement not covered" >    isOnline ? "bg-sprout-secondary/20" : "bg-sprout-warning/20"</span>
+<span class="cstat-no" title="statement not covered" >   }`}</span>
+   &gt;
+<span class="cstat-no" title="statement not covered" >   {isOnline ? (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Wifi className="w-4 h-4 text-sprout-secondary" /&gt;</span>
+   ) : (
+<span class="cstat-no" title="statement not covered" >    &lt;WifiOff className="w-4 h-4 text-sprout-warning" /&gt;</span>
+   )}
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          &lt;div className="flex-1 min-w-0"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;h4</span>
-<span class="cstat-no" title="statement not covered" >              className={`text-sm font-medium ${</span>
-<span class="cstat-no" title="statement not covered" >                isOnline ? "text-sprout-primary" : "text-sprout-warning"</span>
-<span class="cstat-no" title="statement not covered" >              }`}</span>
-            &gt;
-<span class="cstat-no" title="statement not covered" >              {isOnline ? "Back Online" : "Offline Mode"}</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/h4&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;p</span>
-<span class="cstat-no" title="statement not covered" >              className={`text-xs ${</span>
-<span class="cstat-no" title="statement not covered" >                isOnline ? "text-sprout-secondary" : "text-sprout-warning"</span>
-<span class="cstat-no" title="statement not covered" >              }`}</span>
-            &gt;
-<span class="cstat-no" title="statement not covered" >              {isOnline</span>
-<span class="cstat-no" title="statement not covered" >                ? "Data will sync automatically"</span>
-<span class="cstat-no" title="statement not covered" >                : "Your plants are cached locally. Changes will sync when reconnected."}</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex-1 min-w-0"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;h4</span>
+<span class="cstat-no" title="statement not covered" >    className={`text-sm font-medium ${</span>
+<span class="cstat-no" title="statement not covered" >    isOnline ? "text-sprout-primary" : "text-sprout-warning"</span>
+<span class="cstat-no" title="statement not covered" >    }`}</span>
+   &gt;
+<span class="cstat-no" title="statement not covered" >    {isOnline ? "Back Online" : "Offline Mode"}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/h4&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;p</span>
+<span class="cstat-no" title="statement not covered" >    className={`text-xs ${</span>
+<span class="cstat-no" title="statement not covered" >    isOnline ? "text-sprout-secondary" : "text-sprout-warning"</span>
+<span class="cstat-no" title="statement not covered" >    }`}</span>
+   &gt;
+<span class="cstat-no" title="statement not covered" >    {isOnline</span>
+<span class="cstat-no" title="statement not covered" >    ? "Data will sync automatically"</span>
+<span class="cstat-no" title="statement not covered" >    : "Your plants are cached locally. Changes will sync when reconnected."}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/Card&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 // Simple status indicator for header/nav
 <span class="cstat-no" title="statement not covered" >export function NetworkStatus() {</span>
-<span class="cstat-no" title="statement not covered" >  const { isOnline } = usePWA();</span>
+<span class="cstat-no" title="statement not covered" > const { isOnline } = usePWA();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="flex items-center space-x-1"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div title={isOnline ? "Online" : "Offline"}&gt;</span>
-<span class="cstat-no" title="statement not covered" >        {isOnline ? (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Cloud className="w-4 h-4 text-sprout-secondary" /&gt;</span>
-        ) : (
-<span class="cstat-no" title="statement not covered" >          &lt;CloudOff className="w-4 h-4 text-sprout-warning" /&gt;</span>
-        )}
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;span</span>
-<span class="cstat-no" title="statement not covered" >        className={`text-xs ${</span>
-<span class="cstat-no" title="statement not covered" >          isOnline ? "text-sprout-secondary" : "text-sprout-warning"</span>
-<span class="cstat-no" title="statement not covered" >        }`}</span>
-      &gt;
-<span class="cstat-no" title="statement not covered" >        {isOnline ? "Online" : "Offline"}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className="flex items-center space-x-1"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div title={isOnline ? "Online" : "Offline"}&gt;</span>
+<span class="cstat-no" title="statement not covered" >  {isOnline ? (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Cloud className="w-4 h-4 text-sprout-secondary" /&gt;</span>
+  ) : (
+<span class="cstat-no" title="statement not covered" >   &lt;CloudOff className="w-4 h-4 text-sprout-warning" /&gt;</span>
+  )}
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;span</span>
+<span class="cstat-no" title="statement not covered" >  className={`text-xs ${</span>
+<span class="cstat-no" title="statement not covered" >   isOnline ? "text-sprout-secondary" : "text-sprout-warning"</span>
+<span class="cstat-no" title="statement not covered" >  }`}</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >  {isOnline ? "Online" : "Offline"}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -370,7 +370,7 @@ interface OfflineIndicatorProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

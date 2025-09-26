@@ -161,42 +161,42 @@ import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
 import { cn } from "@/lib/utils"
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ScrollArea = React.forwardRef&lt;</span>
-  React.ElementRef&lt;typeof ScrollAreaPrimitive.Root&gt;,
-  React.ComponentPropsWithoutRef&lt;typeof ScrollAreaPrimitive.Root&gt;
+ React.ElementRef&lt;typeof ScrollAreaPrimitive.Root&gt;,
+ React.ComponentPropsWithoutRef&lt;typeof ScrollAreaPrimitive.Root&gt;
 <span class="cstat-no" title="statement not covered" >&gt;(({ className, children, ...props }, ref) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >  &lt;ScrollAreaPrimitive.Root</span>
-<span class="cstat-no" title="statement not covered" >    ref={ref}</span>
-<span class="cstat-no" title="statement not covered" >    className={cn("relative overflow-hidden", className)}</span>
-<span class="cstat-no" title="statement not covered" >    {...props}</span>
-  &gt;
-<span class="cstat-no" title="statement not covered" >    &lt;ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      {children}</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/ScrollAreaPrimitive.Viewport&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;ScrollBar /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;ScrollAreaPrimitive.Corner /&gt;</span>
-<span class="cstat-no" title="statement not covered" >  &lt;/ScrollAreaPrimitive.Root&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;ScrollAreaPrimitive.Root</span>
+<span class="cstat-no" title="statement not covered" > ref={ref}</span>
+<span class="cstat-no" title="statement not covered" > className={cn("relative overflow-hidden", className)}</span>
+<span class="cstat-no" title="statement not covered" > {...props}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" > &lt;ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  {children}</span>
+<span class="cstat-no" title="statement not covered" > &lt;/ScrollAreaPrimitive.Viewport&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;ScrollBar /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;ScrollAreaPrimitive.Corner /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/ScrollAreaPrimitive.Root&gt;</span>
 <span class="cstat-no" title="statement not covered" >))</span>
 <span class="cstat-no" title="statement not covered" >ScrollArea.displayName = ScrollAreaPrimitive.Root.displayName</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ScrollBar = React.forwardRef&lt;</span>
-  React.ElementRef&lt;typeof ScrollAreaPrimitive.ScrollAreaScrollbar&gt;,
-  React.ComponentPropsWithoutRef&lt;typeof ScrollAreaPrimitive.ScrollAreaScrollbar&gt;
+ React.ElementRef&lt;typeof ScrollAreaPrimitive.ScrollAreaScrollbar&gt;,
+ React.ComponentPropsWithoutRef&lt;typeof ScrollAreaPrimitive.ScrollAreaScrollbar&gt;
 <span class="cstat-no" title="statement not covered" >&gt;(({ className, orientation = "vertical", ...props }, ref) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >  &lt;ScrollAreaPrimitive.ScrollAreaScrollbar</span>
-<span class="cstat-no" title="statement not covered" >    ref={ref}</span>
-<span class="cstat-no" title="statement not covered" >    orientation={orientation}</span>
-<span class="cstat-no" title="statement not covered" >    className={cn(</span>
-<span class="cstat-no" title="statement not covered" >      "flex touch-none select-none transition-colors",</span>
-<span class="cstat-no" title="statement not covered" >      orientation === "vertical" &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >        "h-full w-2.5 border-l border-l-transparent p-[1px]",</span>
-<span class="cstat-no" title="statement not covered" >      orientation === "horizontal" &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >        "h-2.5 flex-col border-t border-t-transparent p-[1px]",</span>
-<span class="cstat-no" title="statement not covered" >      className</span>
-<span class="cstat-no" title="statement not covered" >    )}</span>
-<span class="cstat-no" title="statement not covered" >    {...props}</span>
-  &gt;
-<span class="cstat-no" title="statement not covered" >    &lt;ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-border" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >  &lt;/ScrollAreaPrimitive.ScrollAreaScrollbar&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;ScrollAreaPrimitive.ScrollAreaScrollbar</span>
+<span class="cstat-no" title="statement not covered" > ref={ref}</span>
+<span class="cstat-no" title="statement not covered" > orientation={orientation}</span>
+<span class="cstat-no" title="statement not covered" > className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "flex touch-none select-none transition-colors",</span>
+<span class="cstat-no" title="statement not covered" >  orientation === "vertical" &amp;&amp;</span>
+<span class="cstat-no" title="statement not covered" >  "h-full w-2.5 border-l border-l-transparent p-[1px]",</span>
+<span class="cstat-no" title="statement not covered" >  orientation === "horizontal" &amp;&amp;</span>
+<span class="cstat-no" title="statement not covered" >  "h-2.5 flex-col border-t border-t-transparent p-[1px]",</span>
+<span class="cstat-no" title="statement not covered" >  className</span>
+<span class="cstat-no" title="statement not covered" > )}</span>
+<span class="cstat-no" title="statement not covered" > {...props}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" > &lt;ScrollAreaPrimitive.ScrollAreaThumb className="relative flex-1 rounded-full bg-border" /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/ScrollAreaPrimitive.ScrollAreaScrollbar&gt;</span>
 <span class="cstat-no" title="statement not covered" >))</span>
 <span class="cstat-no" title="statement not covered" >ScrollBar.displayName = ScrollAreaPrimitive.ScrollAreaScrollbar.displayName</span>
 &nbsp;
@@ -208,7 +208,7 @@ export { ScrollArea, ScrollBar }
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

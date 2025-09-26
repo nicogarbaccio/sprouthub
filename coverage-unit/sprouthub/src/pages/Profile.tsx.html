@@ -517,209 +517,209 @@
 <span class="cstat-no" title="statement not covered" >import { useProfile } from "@/hooks/useProfile";</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const Profile = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const {</span>
-<span class="cstat-no" title="statement not covered" >    profileData,</span>
-<span class="cstat-no" title="statement not covered" >    setProfileData,</span>
-<span class="cstat-no" title="statement not covered" >    passwordData,</span>
-<span class="cstat-no" title="statement not covered" >    setPasswordData,</span>
-<span class="cstat-no" title="statement not covered" >    isLoading,</span>
-<span class="cstat-no" title="statement not covered" >    isLoadingProfile,</span>
-<span class="cstat-no" title="statement not covered" >    handleUpdateProfile,</span>
-<span class="cstat-no" title="statement not covered" >    handleChangePassword,</span>
-<span class="cstat-no" title="statement not covered" >    handleDeleteAccount,</span>
-<span class="cstat-no" title="statement not covered" >    hasProfileChanges,</span>
-<span class="cstat-no" title="statement not covered" >    hasValidPasswordChanges,</span>
-<span class="cstat-no" title="statement not covered" >  } = useProfile();</span>
+<span class="cstat-no" title="statement not covered" > const {</span>
+<span class="cstat-no" title="statement not covered" > profileData,</span>
+<span class="cstat-no" title="statement not covered" > setProfileData,</span>
+<span class="cstat-no" title="statement not covered" > passwordData,</span>
+<span class="cstat-no" title="statement not covered" > setPasswordData,</span>
+<span class="cstat-no" title="statement not covered" > isLoading,</span>
+<span class="cstat-no" title="statement not covered" > isLoadingProfile,</span>
+<span class="cstat-no" title="statement not covered" > handleUpdateProfile,</span>
+<span class="cstat-no" title="statement not covered" > handleChangePassword,</span>
+<span class="cstat-no" title="statement not covered" > handleDeleteAccount,</span>
+<span class="cstat-no" title="statement not covered" > hasProfileChanges,</span>
+<span class="cstat-no" title="statement not covered" > hasValidPasswordChanges,</span>
+<span class="cstat-no" title="statement not covered" > } = useProfile();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const { showLoading, isReady } = useGracefulLoading(isLoadingProfile, {</span>
-<span class="cstat-no" title="statement not covered" >    minLoadingTime: 0,</span>
-<span class="cstat-no" title="statement not covered" >    staggerDelay: 0,</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > const { showLoading, isReady } = useGracefulLoading(isLoadingProfile, {</span>
+<span class="cstat-no" title="statement not covered" > minLoadingTime: 0,</span>
+<span class="cstat-no" title="statement not covered" > staggerDelay: 0,</span>
+<span class="cstat-no" title="statement not covered" > });</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (showLoading) {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="min-h-screen bg-background font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Navigation /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="max-w-4xl mx-auto space-y-6"&gt;</span>
-            {/* Profile Header Skeleton */}
-<span class="cstat-no" title="statement not covered" >            &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;CardHeader className="text-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Skeleton className="h-24 w-24 rounded-full mx-auto mb-4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Skeleton className="h-8 w-48 mx-auto mb-2" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Skeleton className="h-4 w-32 mx-auto" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" > if (showLoading) {</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="min-h-screen bg-background "&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Navigation /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="max-w-4xl mx-auto space-y-6"&gt;</span>
+   {/* Profile Header Skeleton */}
+<span class="cstat-no" title="statement not covered" >   &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;CardHeader className="text-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Skeleton className="h-24 w-24 rounded-full mx-auto mb-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Skeleton className="h-8 w-48 mx-auto mb-2" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Skeleton className="h-4 w-32 mx-auto" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/Card&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-6"&gt;</span>
-              {/* Profile Information Skeleton */}
-<span class="cstat-no" title="statement not covered" >              &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;Skeleton className="h-6 w-40" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;Skeleton className="h-4 w-64" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;CardContent className="space-y-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;div className="grid grid-cols-2 gap-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-4 w-20" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-10 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-4 w-20" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-10 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-4 w-20" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-10 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-4 w-16" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-10 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-4 w-20" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-32 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;Skeleton className="h-10 w-32" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-6"&gt;</span>
+    {/* Profile Information Skeleton */}
+<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-6 w-40" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-4 w-64" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;CardContent className="space-y-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="grid grid-cols-2 gap-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-4 w-20" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-10 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-4 w-20" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-10 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-4 w-20" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-10 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-4 w-16" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-10 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-4 w-20" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-32 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-10 w-32" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >              &lt;div className="space-y-6"&gt;</span>
-                {/* Security Settings Skeleton */}
-<span class="cstat-no" title="statement not covered" >                &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-6 w-40" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-4 w-56" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardContent className="space-y-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-4 w-32" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-10 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-4 w-28" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-10 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-4 w-36" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-10 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-10 w-36" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="space-y-6"&gt;</span>
+    {/* Security Settings Skeleton */}
+<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-6 w-40" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-4 w-56" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardContent className="space-y-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-4 w-32" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-10 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-4 w-28" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-10 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-4 w-36" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-10 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-10 w-36" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
 &nbsp;
-                {/* Danger Zone Skeleton */}
-<span class="cstat-no" title="statement not covered" >                &lt;Card className="border-red-200"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-6 w-24" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-4 w-64" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-10 w-32" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/main&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Footer /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-    );
-<span class="cstat-no" title="statement not covered" >  }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  if (!isReady) {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="min-h-screen bg-background font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Navigation /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="max-w-4xl mx-auto space-y-6 opacity-0"&gt;</span>
-            {/* Invisible content to maintain height */}
-<span class="cstat-no" title="statement not covered" >            &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;CardHeader className="text-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="h-24 w-24 mx-auto mb-4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="h-8 w-48 mx-auto mb-2" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="h-4 w-32 mx-auto" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;div className="h-6 w-40" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;div className="h-4 w-64" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;div className="h-96" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="space-y-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="h-6 w-40" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="h-4 w-56" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="h-64" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="h-32" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/main&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Footer /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-    );
-<span class="cstat-no" title="statement not covered" >  }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="min-h-screen bg-background font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Navigation /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="max-w-4xl mx-auto space-y-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CascadingContainer delay={0}&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;ProfileHeader /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CascadingContainer&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >          &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;CascadingContainer delay={100}&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;ProfileInformation</span>
-<span class="cstat-no" title="statement not covered" >                profileData={profileData}</span>
-<span class="cstat-no" title="statement not covered" >                setProfileData={setProfileData}</span>
-<span class="cstat-no" title="statement not covered" >                handleUpdateProfile={handleUpdateProfile}</span>
-<span class="cstat-no" title="statement not covered" >                isLoading={isLoading}</span>
-<span class="cstat-no" title="statement not covered" >                hasProfileChanges={hasProfileChanges}</span>
-<span class="cstat-no" title="statement not covered" >              /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/CascadingContainer&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >            &lt;div className="space-y-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;CascadingContainer delay={200}&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;SecuritySettings</span>
-<span class="cstat-no" title="statement not covered" >                  passwordData={passwordData}</span>
-<span class="cstat-no" title="statement not covered" >                  setPasswordData={setPasswordData}</span>
-<span class="cstat-no" title="statement not covered" >                  handleChangePassword={handleChangePassword}</span>
-<span class="cstat-no" title="statement not covered" >                  isLoading={isLoading}</span>
-<span class="cstat-no" title="statement not covered" >                  hasValidPasswordChanges={hasValidPasswordChanges}</span>
-<span class="cstat-no" title="statement not covered" >                /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/CascadingContainer&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >              &lt;CascadingContainer delay={300}&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;DangerZone</span>
-<span class="cstat-no" title="statement not covered" >                  handleDeleteAccount={handleDeleteAccount}</span>
-<span class="cstat-no" title="statement not covered" >                  isLoading={isLoading}</span>
-<span class="cstat-no" title="statement not covered" >                /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/CascadingContainer&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/main&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Footer /&gt;</span>
+    {/* Danger Zone Skeleton */}
+<span class="cstat-no" title="statement not covered" >    &lt;Card className="border-red-200"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-6 w-24" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-4 w-64" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-10 w-32" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/main&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+ );
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > if (!isReady) {</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="min-h-screen bg-background "&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Navigation /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="max-w-4xl mx-auto space-y-6 opacity-0"&gt;</span>
+   {/* Invisible content to maintain height */}
+<span class="cstat-no" title="statement not covered" >   &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;CardHeader className="text-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="h-24 w-24 mx-auto mb-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="h-8 w-48 mx-auto mb-2" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="h-4 w-32 mx-auto" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="h-6 w-40" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="h-4 w-64" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="h-96" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="space-y-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="h-6 w-40" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="h-4 w-56" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="h-64" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="h-32" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/main&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+ );
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className="min-h-screen bg-background "&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Navigation /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="max-w-4xl mx-auto space-y-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CascadingContainer delay={0}&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;ProfileHeader /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CascadingContainer&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >   &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CascadingContainer delay={100}&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;ProfileInformation</span>
+<span class="cstat-no" title="statement not covered" >    profileData={profileData}</span>
+<span class="cstat-no" title="statement not covered" >    setProfileData={setProfileData}</span>
+<span class="cstat-no" title="statement not covered" >    handleUpdateProfile={handleUpdateProfile}</span>
+<span class="cstat-no" title="statement not covered" >    isLoading={isLoading}</span>
+<span class="cstat-no" title="statement not covered" >    hasProfileChanges={hasProfileChanges}</span>
+<span class="cstat-no" title="statement not covered" >    /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CascadingContainer&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >   &lt;div className="space-y-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;CascadingContainer delay={200}&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;SecuritySettings</span>
+<span class="cstat-no" title="statement not covered" >     passwordData={passwordData}</span>
+<span class="cstat-no" title="statement not covered" >     setPasswordData={setPasswordData}</span>
+<span class="cstat-no" title="statement not covered" >     handleChangePassword={handleChangePassword}</span>
+<span class="cstat-no" title="statement not covered" >     isLoading={isLoading}</span>
+<span class="cstat-no" title="statement not covered" >     hasValidPasswordChanges={hasValidPasswordChanges}</span>
+<span class="cstat-no" title="statement not covered" >    /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/CascadingContainer&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    &lt;CascadingContainer delay={300}&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;DangerZone</span>
+<span class="cstat-no" title="statement not covered" >     handleDeleteAccount={handleDeleteAccount}</span>
+<span class="cstat-no" title="statement not covered" >     isLoading={isLoading}</span>
+<span class="cstat-no" title="statement not covered" >    /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/CascadingContainer&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/main&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default Profile;</span>
@@ -730,7 +730,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -711,317 +711,317 @@ import { useHaptic } from "@/hooks/use-touch";
 import { cn } from "@/lib/utils";
 &nbsp;
 interface CameraCaptureProps {
-  onCapture: (imageBlob: Blob, imageUrl: string) =&gt; void;
-  onCancel?: () =&gt; void;
-  className?: string;
-  quality?: number;
-  maxWidth?: number;
-  maxHeight?: number;
+ onCapture: (imageBlob: Blob, imageUrl: string) =&gt; void;
+ onCancel?: () =&gt; void;
+ className?: string;
+ quality?: number;
+ maxWidth?: number;
+ maxHeight?: number;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export function CameraCapture({</span>
-<span class="cstat-no" title="statement not covered" >  onCapture,</span>
-<span class="cstat-no" title="statement not covered" >  onCancel,</span>
-<span class="cstat-no" title="statement not covered" >  className,</span>
-<span class="cstat-no" title="statement not covered" >  quality = 0.8,</span>
-<span class="cstat-no" title="statement not covered" >  maxWidth = 1024,</span>
-<span class="cstat-no" title="statement not covered" >  maxHeight = 1024,</span>
+<span class="cstat-no" title="statement not covered" > onCapture,</span>
+<span class="cstat-no" title="statement not covered" > onCancel,</span>
+<span class="cstat-no" title="statement not covered" > className,</span>
+<span class="cstat-no" title="statement not covered" > quality = 0.8,</span>
+<span class="cstat-no" title="statement not covered" > maxWidth = 1024,</span>
+<span class="cstat-no" title="statement not covered" > maxHeight = 1024,</span>
 <span class="cstat-no" title="statement not covered" >}: CameraCaptureProps) {</span>
-<span class="cstat-no" title="statement not covered" >  const [isActive, setIsActive] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const [capturedImage, setCapturedImage] = useState&lt;string | null&gt;(null);</span>
-<span class="cstat-no" title="statement not covered" >  const [facingMode, setFacingMode] = useState&lt;"user" | "environment"&gt;(</span>
-<span class="cstat-no" title="statement not covered" >    "environment"</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >  const [error, setError] = useState&lt;string | null&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" > const [isActive, setIsActive] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [capturedImage, setCapturedImage] = useState&lt;string | null&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" > const [facingMode, setFacingMode] = useState&lt;"user" | "environment"&gt;(</span>
+<span class="cstat-no" title="statement not covered" > "environment"</span>
+<span class="cstat-no" title="statement not covered" > );</span>
+<span class="cstat-no" title="statement not covered" > const [error, setError] = useState&lt;string | null&gt;(null);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const videoRef = useRef&lt;HTMLVideoElement&gt;(null);</span>
-<span class="cstat-no" title="statement not covered" >  const canvasRef = useRef&lt;HTMLCanvasElement&gt;(null);</span>
-<span class="cstat-no" title="statement not covered" >  const streamRef = useRef&lt;MediaStream | null&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" > const videoRef = useRef&lt;HTMLVideoElement&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" > const canvasRef = useRef&lt;HTMLCanvasElement&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" > const streamRef = useRef&lt;MediaStream | null&gt;(null);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const { mediumImpact, success } = useHaptic();</span>
+<span class="cstat-no" title="statement not covered" > const { mediumImpact, success } = useHaptic();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const startCamera = useCallback(async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      setError(null);</span>
-<span class="cstat-no" title="statement not covered" >      const stream = await navigator.mediaDevices.getUserMedia({</span>
-<span class="cstat-no" title="statement not covered" >        video: {</span>
-<span class="cstat-no" title="statement not covered" >          facingMode,</span>
-<span class="cstat-no" title="statement not covered" >          width: { ideal: maxWidth },</span>
-<span class="cstat-no" title="statement not covered" >          height: { ideal: maxHeight },</span>
-<span class="cstat-no" title="statement not covered" >        },</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
+<span class="cstat-no" title="statement not covered" > const startCamera = useCallback(async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+<span class="cstat-no" title="statement not covered" >  setError(null);</span>
+<span class="cstat-no" title="statement not covered" >  const stream = await navigator.mediaDevices.getUserMedia({</span>
+<span class="cstat-no" title="statement not covered" >  video: {</span>
+<span class="cstat-no" title="statement not covered" >   facingMode,</span>
+<span class="cstat-no" title="statement not covered" >   width: { ideal: maxWidth },</span>
+<span class="cstat-no" title="statement not covered" >   height: { ideal: maxHeight },</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (videoRef.current) {</span>
-<span class="cstat-no" title="statement not covered" >        videoRef.current.srcObject = stream;</span>
-<span class="cstat-no" title="statement not covered" >        streamRef.current = stream;</span>
-<span class="cstat-no" title="statement not covered" >        setIsActive(true);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    } catch (err) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error("Camera access error:", err);</span>
-<span class="cstat-no" title="statement not covered" >      setError("Camera access denied or not available");</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [facingMode, maxWidth, maxHeight]);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  const stopCamera = useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (streamRef.current) {</span>
-<span class="cstat-no" title="statement not covered" >      streamRef.current.getTracks().forEach((track) =&gt; track.stop());</span>
-<span class="cstat-no" title="statement not covered" >      streamRef.current = null;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    setIsActive(false);</span>
-<span class="cstat-no" title="statement not covered" >  }, []);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  const switchCamera = useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    stopCamera();</span>
-<span class="cstat-no" title="statement not covered" >    setFacingMode((prev) =&gt; (prev === "user" ? "environment" : "user"));</span>
-<span class="cstat-no" title="statement not covered" >    mediumImpact();</span>
-<span class="cstat-no" title="statement not covered" >  }, [stopCamera, mediumImpact]);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  const capturePhoto = useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!videoRef.current || !canvasRef.current) return;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    const video = videoRef.current;</span>
-<span class="cstat-no" title="statement not covered" >    const canvas = canvasRef.current;</span>
-<span class="cstat-no" title="statement not covered" >    const context = canvas.getContext("2d");</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    if (!context) return;</span>
-&nbsp;
-    // Set canvas dimensions
-<span class="cstat-no" title="statement not covered" >    canvas.width = video.videoWidth;</span>
-<span class="cstat-no" title="statement not covered" >    canvas.height = video.videoHeight;</span>
-&nbsp;
-    // Draw video frame to canvas
-<span class="cstat-no" title="statement not covered" >    context.drawImage(video, 0, 0);</span>
-&nbsp;
-    // Convert to blob with compression
-<span class="cstat-no" title="statement not covered" >    canvas.toBlob(</span>
-<span class="cstat-no" title="statement not covered" >      (blob) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        if (blob) {</span>
-<span class="cstat-no" title="statement not covered" >          const imageUrl = URL.createObjectURL(blob);</span>
-<span class="cstat-no" title="statement not covered" >          setCapturedImage(imageUrl);</span>
-<span class="cstat-no" title="statement not covered" >          success(); // Haptic feedback</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >      },</span>
-<span class="cstat-no" title="statement not covered" >      "image/jpeg",</span>
-<span class="cstat-no" title="statement not covered" >      quality</span>
-<span class="cstat-no" title="statement not covered" >    );</span>
-<span class="cstat-no" title="statement not covered" >  }, [quality, success]);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  const confirmCapture = useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!capturedImage || !canvasRef.current) return;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    canvasRef.current.toBlob(</span>
-<span class="cstat-no" title="statement not covered" >      (blob) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        if (blob) {</span>
-<span class="cstat-no" title="statement not covered" >          onCapture(blob, capturedImage);</span>
-<span class="cstat-no" title="statement not covered" >          stopCamera();</span>
-<span class="cstat-no" title="statement not covered" >          setCapturedImage(null);</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >      },</span>
-<span class="cstat-no" title="statement not covered" >      "image/jpeg",</span>
-<span class="cstat-no" title="statement not covered" >      quality</span>
-<span class="cstat-no" title="statement not covered" >    );</span>
-<span class="cstat-no" title="statement not covered" >  }, [capturedImage, onCapture, stopCamera, quality]);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  const retakePhoto = useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (capturedImage) {</span>
-<span class="cstat-no" title="statement not covered" >      URL.revokeObjectURL(capturedImage);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    setCapturedImage(null);</span>
-<span class="cstat-no" title="statement not covered" >    mediumImpact();</span>
-<span class="cstat-no" title="statement not covered" >  }, [capturedImage, mediumImpact]);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleCancel = useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    stopCamera();</span>
-<span class="cstat-no" title="statement not covered" >    if (capturedImage) {</span>
-<span class="cstat-no" title="statement not covered" >      URL.revokeObjectURL(capturedImage);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >    setCapturedImage(null);</span>
-<span class="cstat-no" title="statement not covered" >    onCancel?.();</span>
-<span class="cstat-no" title="statement not covered" >  }, [stopCamera, capturedImage, onCancel]);</span>
-&nbsp;
-  // Start camera when component mounts
-<span class="cstat-no" title="statement not covered" >  React.useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!isActive &amp;&amp; !capturedImage) {</span>
-<span class="cstat-no" title="statement not covered" >      startCamera();</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    return () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      stopCamera();</span>
-<span class="cstat-no" title="statement not covered" >      if (capturedImage) {</span>
-<span class="cstat-no" title="statement not covered" >        URL.revokeObjectURL(capturedImage);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
-<span class="cstat-no" title="statement not covered" >  }, []);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  React.useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (facingMode &amp;&amp; !capturedImage) {</span>
-<span class="cstat-no" title="statement not covered" >      startCamera();</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [facingMode, startCamera, capturedImage]);</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  if (error) {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Card className={cn("w-full max-w-md mx-auto", className)}&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;CardContent className="p-6 text-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="mb-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Camera className="w-16 h-16 mx-auto text-gray-400 mb-4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;h3 className="text-lg font-semibold text-gray-900 mb-2"&gt;</span>
-              Camera Error
-<span class="cstat-no" title="statement not covered" >            &lt;/h3&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;p className="text-sm text-gray-600 mb-4"&gt;{error}&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button onClick={startCamera} className="w-full"&gt;</span>
-              Try Again
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button onClick={handleCancel} variant="outline" className="w-full"&gt;</span>
-              Cancel
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/Card&gt;</span>
-    );
+<span class="cstat-no" title="statement not covered" >  if (videoRef.current) {</span>
+<span class="cstat-no" title="statement not covered" >  videoRef.current.srcObject = stream;</span>
+<span class="cstat-no" title="statement not covered" >  streamRef.current = stream;</span>
+<span class="cstat-no" title="statement not covered" >  setIsActive(true);</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > } catch (err) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error("Camera access error:", err);</span>
+<span class="cstat-no" title="statement not covered" >  setError("Camera access denied or not available");</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [facingMode, maxWidth, maxHeight]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className={cn("relative w-full max-w-md mx-auto", className)}&gt;</span>
-      {/* Camera View */}
-<span class="cstat-no" title="statement not covered" >      &lt;div className="relative aspect-square bg-black rounded-lg overflow-hidden"&gt;</span>
-        {/* Video Stream */}
-<span class="cstat-no" title="statement not covered" >        &lt;video</span>
-<span class="cstat-no" title="statement not covered" >          ref={videoRef}</span>
-<span class="cstat-no" title="statement not covered" >          autoPlay</span>
-<span class="cstat-no" title="statement not covered" >          playsInline</span>
-<span class="cstat-no" title="statement not covered" >          muted</span>
-<span class="cstat-no" title="statement not covered" >          className={cn(</span>
-<span class="cstat-no" title="statement not covered" >            "w-full h-full object-cover",</span>
-<span class="cstat-no" title="statement not covered" >            capturedImage &amp;&amp; "hidden"</span>
-<span class="cstat-no" title="statement not covered" >          )}</span>
-<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+<span class="cstat-no" title="statement not covered" > const stopCamera = useCallback(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (streamRef.current) {</span>
+<span class="cstat-no" title="statement not covered" >  streamRef.current.getTracks().forEach((track) =&gt; track.stop());</span>
+<span class="cstat-no" title="statement not covered" >  streamRef.current = null;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > setIsActive(false);</span>
+<span class="cstat-no" title="statement not covered" > }, []);</span>
 &nbsp;
-        {/* Captured Image Preview */}
-<span class="cstat-no" title="statement not covered" >        {capturedImage &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;img</span>
-<span class="cstat-no" title="statement not covered" >            src={capturedImage}</span>
-<span class="cstat-no" title="statement not covered" >            alt="Captured plant"</span>
-<span class="cstat-no" title="statement not covered" >            className="w-full h-full object-cover"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
-        )}
+<span class="cstat-no" title="statement not covered" > const switchCamera = useCallback(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > stopCamera();</span>
+<span class="cstat-no" title="statement not covered" > setFacingMode((prev) =&gt; (prev === "user" ? "environment" : "user"));</span>
+<span class="cstat-no" title="statement not covered" > mediumImpact();</span>
+<span class="cstat-no" title="statement not covered" > }, [stopCamera, mediumImpact]);</span>
 &nbsp;
-        {/* Canvas for capture (hidden) */}
-<span class="cstat-no" title="statement not covered" >        &lt;canvas ref={canvasRef} className="hidden" /&gt;</span>
+<span class="cstat-no" title="statement not covered" > const capturePhoto = useCallback(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!videoRef.current || !canvasRef.current) return;</span>
 &nbsp;
-        {/* Camera Controls Overlay */}
-<span class="cstat-no" title="statement not covered" >        &lt;div className="absolute inset-0 flex flex-col justify-between p-4"&gt;</span>
-          {/* Top Controls */}
-<span class="cstat-no" title="statement not covered" >          &lt;div className="flex justify-between items-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              onClick={handleCancel}</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              size="icon"</span>
-<span class="cstat-no" title="statement not covered" >              className="bg-black/50 border-white/20 text-white hover:bg-black/70"</span>
-            &gt;
-<span class="cstat-no" title="statement not covered" >              &lt;X className="w-4 h-4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" > const video = videoRef.current;</span>
+<span class="cstat-no" title="statement not covered" > const canvas = canvasRef.current;</span>
+<span class="cstat-no" title="statement not covered" > const context = canvas.getContext("2d");</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            {!capturedImage &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >                onClick={switchCamera}</span>
-<span class="cstat-no" title="statement not covered" >                variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >                size="icon"</span>
-<span class="cstat-no" title="statement not covered" >                className="bg-black/50 border-white/20 text-white hover:bg-black/70"</span>
-              &gt;
-<span class="cstat-no" title="statement not covered" >                &lt;RotateCcw className="w-4 h-4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/Button&gt;</span>
-            )}
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > if (!context) return;</span>
 &nbsp;
-          {/* Bottom Controls */}
-<span class="cstat-no" title="statement not covered" >          &lt;div className="flex justify-center items-center space-x-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {capturedImage ? (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >                  onClick={retakePhoto}</span>
-<span class="cstat-no" title="statement not covered" >                  variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >                  size="lg"</span>
-<span class="cstat-no" title="statement not covered" >                  className="bg-black/50 border-white/20 text-white hover:bg-black/70"</span>
-                &gt;
-<span class="cstat-no" title="statement not covered" >                  &lt;RotateCcw className="w-5 h-5 mr-2" /&gt;</span>
-                  Retake
-<span class="cstat-no" title="statement not covered" >                &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >                  onClick={confirmCapture}</span>
-<span class="cstat-no" title="statement not covered" >                  size="lg"</span>
-<span class="cstat-no" title="statement not covered" >                  className="bg-plant-primary hover:bg-plant-primary/90"</span>
-                &gt;
-<span class="cstat-no" title="statement not covered" >                  &lt;Check className="w-5 h-5 mr-2" /&gt;</span>
-                  Use Photo
-<span class="cstat-no" title="statement not covered" >                &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/&gt;</span>
-            ) : (
-<span class="cstat-no" title="statement not covered" >              &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >                onClick={capturePhoto}</span>
-<span class="cstat-no" title="statement not covered" >                size="icon"</span>
-<span class="cstat-no" title="statement not covered" >                className="w-16 h-16 rounded-full bg-white hover:bg-gray-100 text-black border-4 border-white/80"</span>
-<span class="cstat-no" title="statement not covered" >                disabled={!isActive}</span>
-              &gt;
-<span class="cstat-no" title="statement not covered" >                &lt;div className="w-12 h-12 rounded-full bg-white border-2 border-gray-300" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/Button&gt;</span>
-            )}
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+ // Set canvas dimensions
+<span class="cstat-no" title="statement not covered" > canvas.width = video.videoWidth;</span>
+<span class="cstat-no" title="statement not covered" > canvas.height = video.videoHeight;</span>
 &nbsp;
-      {/* Instructions */}
-<span class="cstat-no" title="statement not covered" >      &lt;div className="mt-4 text-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;p className="text-sm text-gray-600"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          {capturedImage</span>
-<span class="cstat-no" title="statement not covered" >            ? "Review your plant photo and confirm to save"</span>
-<span class="cstat-no" title="statement not covered" >            : "Position your plant in the frame and tap to capture"}</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+ // Draw video frame to canvas
+<span class="cstat-no" title="statement not covered" > context.drawImage(video, 0, 0);</span>
+&nbsp;
+ // Convert to blob with compression
+<span class="cstat-no" title="statement not covered" > canvas.toBlob(</span>
+<span class="cstat-no" title="statement not covered" >  (blob) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  if (blob) {</span>
+<span class="cstat-no" title="statement not covered" >   const imageUrl = URL.createObjectURL(blob);</span>
+<span class="cstat-no" title="statement not covered" >   setCapturedImage(imageUrl);</span>
+<span class="cstat-no" title="statement not covered" >   success(); // Haptic feedback</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "image/jpeg",</span>
+<span class="cstat-no" title="statement not covered" >  quality</span>
+<span class="cstat-no" title="statement not covered" > );</span>
+<span class="cstat-no" title="statement not covered" > }, [quality, success]);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const confirmCapture = useCallback(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!capturedImage || !canvasRef.current) return;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > canvasRef.current.toBlob(</span>
+<span class="cstat-no" title="statement not covered" >  (blob) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  if (blob) {</span>
+<span class="cstat-no" title="statement not covered" >   onCapture(blob, capturedImage);</span>
+<span class="cstat-no" title="statement not covered" >   stopCamera();</span>
+<span class="cstat-no" title="statement not covered" >   setCapturedImage(null);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  },</span>
+<span class="cstat-no" title="statement not covered" >  "image/jpeg",</span>
+<span class="cstat-no" title="statement not covered" >  quality</span>
+<span class="cstat-no" title="statement not covered" > );</span>
+<span class="cstat-no" title="statement not covered" > }, [capturedImage, onCapture, stopCamera, quality]);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const retakePhoto = useCallback(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (capturedImage) {</span>
+<span class="cstat-no" title="statement not covered" >  URL.revokeObjectURL(capturedImage);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > setCapturedImage(null);</span>
+<span class="cstat-no" title="statement not covered" > mediumImpact();</span>
+<span class="cstat-no" title="statement not covered" > }, [capturedImage, mediumImpact]);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const handleCancel = useCallback(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > stopCamera();</span>
+<span class="cstat-no" title="statement not covered" > if (capturedImage) {</span>
+<span class="cstat-no" title="statement not covered" >  URL.revokeObjectURL(capturedImage);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > setCapturedImage(null);</span>
+<span class="cstat-no" title="statement not covered" > onCancel?.();</span>
+<span class="cstat-no" title="statement not covered" > }, [stopCamera, capturedImage, onCancel]);</span>
+&nbsp;
+ // Start camera when component mounts
+<span class="cstat-no" title="statement not covered" > React.useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!isActive &amp;&amp; !capturedImage) {</span>
+<span class="cstat-no" title="statement not covered" >  startCamera();</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > return () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  stopCamera();</span>
+<span class="cstat-no" title="statement not covered" >  if (capturedImage) {</span>
+<span class="cstat-no" title="statement not covered" >  URL.revokeObjectURL(capturedImage);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+<span class="cstat-no" title="statement not covered" > }, []);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > React.useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (facingMode &amp;&amp; !capturedImage) {</span>
+<span class="cstat-no" title="statement not covered" >  startCamera();</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [facingMode, startCamera, capturedImage]);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > if (error) {</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Card className={cn("w-full max-w-md mx-auto", className)}&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardContent className="p-6 text-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="mb-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Camera className="w-16 h-16 mx-auto text-gray-400 mb-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;h3 className="text-lg font-semibold text-gray-900 mb-2"&gt;</span>
+    Camera Error
+<span class="cstat-no" title="statement not covered" >   &lt;/h3&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;p className="text-sm text-gray-600 mb-4"&gt;{error}&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button onClick={startCamera} className="w-full"&gt;</span>
+    Try Again
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button onClick={handleCancel} variant="outline" className="w-full"&gt;</span>
+    Cancel
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Card&gt;</span>
+ );
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className={cn("relative w-full max-w-md mx-auto", className)}&gt;</span>
+  {/* Camera View */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="relative aspect-square bg-black rounded-lg overflow-hidden"&gt;</span>
+  {/* Video Stream */}
+<span class="cstat-no" title="statement not covered" >  &lt;video</span>
+<span class="cstat-no" title="statement not covered" >   ref={videoRef}</span>
+<span class="cstat-no" title="statement not covered" >   autoPlay</span>
+<span class="cstat-no" title="statement not covered" >   playsInline</span>
+<span class="cstat-no" title="statement not covered" >   muted</span>
+<span class="cstat-no" title="statement not covered" >   className={cn(</span>
+<span class="cstat-no" title="statement not covered" >   "w-full h-full object-cover",</span>
+<span class="cstat-no" title="statement not covered" >   capturedImage &amp;&amp; "hidden"</span>
+<span class="cstat-no" title="statement not covered" >   )}</span>
+<span class="cstat-no" title="statement not covered" >  /&gt;</span>
+&nbsp;
+  {/* Captured Image Preview */}
+<span class="cstat-no" title="statement not covered" >  {capturedImage &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;img</span>
+<span class="cstat-no" title="statement not covered" >   src={capturedImage}</span>
+<span class="cstat-no" title="statement not covered" >   alt="Captured plant"</span>
+<span class="cstat-no" title="statement not covered" >   className="w-full h-full object-cover"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+  )}
+&nbsp;
+  {/* Canvas for capture (hidden) */}
+<span class="cstat-no" title="statement not covered" >  &lt;canvas ref={canvasRef} className="hidden" /&gt;</span>
+&nbsp;
+  {/* Camera Controls Overlay */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="absolute inset-0 flex flex-col justify-between p-4"&gt;</span>
+   {/* Top Controls */}
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex justify-between items-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={handleCancel}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    size="icon"</span>
+<span class="cstat-no" title="statement not covered" >    className="bg-black/50 border-white/20 text-white hover:bg-black/70"</span>
+   &gt;
+<span class="cstat-no" title="statement not covered" >    &lt;X className="w-4 h-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >   {!capturedImage &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={switchCamera}</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    size="icon"</span>
+<span class="cstat-no" title="statement not covered" >    className="bg-black/50 border-white/20 text-white hover:bg-black/70"</span>
+    &gt;
+<span class="cstat-no" title="statement not covered" >    &lt;RotateCcw className="w-4 h-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Button&gt;</span>
+   )}
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+&nbsp;
+   {/* Bottom Controls */}
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex justify-center items-center space-x-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {capturedImage ? (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >     onClick={retakePhoto}</span>
+<span class="cstat-no" title="statement not covered" >     variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >     size="lg"</span>
+<span class="cstat-no" title="statement not covered" >     className="bg-black/50 border-white/20 text-white hover:bg-black/70"</span>
+    &gt;
+<span class="cstat-no" title="statement not covered" >     &lt;RotateCcw className="w-5 h-5 mr-2" /&gt;</span>
+     Retake
+<span class="cstat-no" title="statement not covered" >    &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >     onClick={confirmCapture}</span>
+<span class="cstat-no" title="statement not covered" >     size="lg"</span>
+<span class="cstat-no" title="statement not covered" >     className="bg-plant-primary hover:bg-plant-primary/90"</span>
+    &gt;
+<span class="cstat-no" title="statement not covered" >     &lt;Check className="w-5 h-5 mr-2" /&gt;</span>
+     Use Photo
+<span class="cstat-no" title="statement not covered" >    &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
+   ) : (
+<span class="cstat-no" title="statement not covered" >    &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={capturePhoto}</span>
+<span class="cstat-no" title="statement not covered" >    size="icon"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-16 h-16 rounded-full bg-white hover:bg-gray-100 text-black border-4 border-white/80"</span>
+<span class="cstat-no" title="statement not covered" >    disabled={!isActive}</span>
+    &gt;
+<span class="cstat-no" title="statement not covered" >    &lt;div className="w-12 h-12 rounded-full bg-white border-2 border-gray-300" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Button&gt;</span>
+   )}
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+&nbsp;
+  {/* Instructions */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="mt-4 text-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;p className="text-sm text-gray-600"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {capturedImage</span>
+<span class="cstat-no" title="statement not covered" >   ? "Review your plant photo and confirm to save"</span>
+<span class="cstat-no" title="statement not covered" >   : "Position your plant in the frame and tap to capture"}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 // Quick photo capture button for existing forms
 <span class="cstat-no" title="statement not covered" >export function QuickCameraButton({</span>
-<span class="cstat-no" title="statement not covered" >  onCapture,</span>
-<span class="cstat-no" title="statement not covered" >  className,</span>
+<span class="cstat-no" title="statement not covered" > onCapture,</span>
+<span class="cstat-no" title="statement not covered" > className,</span>
 <span class="cstat-no" title="statement not covered" >}: {</span>
-  onCapture: (imageBlob: Blob, imageUrl: string) =&gt; void;
-  className?: string;
+ onCapture: (imageBlob: Blob, imageUrl: string) =&gt; void;
+ className?: string;
 <span class="cstat-no" title="statement not covered" >}) {</span>
-<span class="cstat-no" title="statement not covered" >  const [showCamera, setShowCamera] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [showCamera, setShowCamera] = useState(false);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleCapture = useCallback(</span>
-<span class="cstat-no" title="statement not covered" >    (blob: Blob, url: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      onCapture(blob, url);</span>
-<span class="cstat-no" title="statement not covered" >      setShowCamera(false);</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >    [onCapture]</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" > const handleCapture = useCallback(</span>
+<span class="cstat-no" title="statement not covered" > (blob: Blob, url: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  onCapture(blob, url);</span>
+<span class="cstat-no" title="statement not covered" >  setShowCamera(false);</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > [onCapture]</span>
+<span class="cstat-no" title="statement not covered" > );</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (showCamera) {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;CameraCapture</span>
-<span class="cstat-no" title="statement not covered" >        onCapture={handleCapture}</span>
-<span class="cstat-no" title="statement not covered" >        onCancel={() =&gt; setShowCamera(false)}</span>
-<span class="cstat-no" title="statement not covered" >        className={className}</span>
-<span class="cstat-no" title="statement not covered" >      /&gt;</span>
-    );
-<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > if (showCamera) {</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CameraCapture</span>
+<span class="cstat-no" title="statement not covered" >  onCapture={handleCapture}</span>
+<span class="cstat-no" title="statement not covered" >  onCancel={() =&gt; setShowCamera(false)}</span>
+<span class="cstat-no" title="statement not covered" >  className={className}</span>
+<span class="cstat-no" title="statement not covered" >  /&gt;</span>
+ );
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >      onClick={() =&gt; setShowCamera(true)}</span>
-<span class="cstat-no" title="statement not covered" >      variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >      className={cn("w-full", className)}</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      &lt;Camera className="w-4 h-4 mr-2" /&gt;</span>
-      Take Photo
-<span class="cstat-no" title="statement not covered" >    &lt;/Button&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >  onClick={() =&gt; setShowCamera(true)}</span>
+<span class="cstat-no" title="statement not covered" >  variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >  className={cn("w-full", className)}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  &lt;Camera className="w-4 h-4 mr-2" /&gt;</span>
+  Take Photo
+<span class="cstat-no" title="statement not covered" > &lt;/Button&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -1030,7 +1030,7 @@ interface CameraCaptureProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

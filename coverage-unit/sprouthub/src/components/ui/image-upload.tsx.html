@@ -436,176 +436,176 @@
 <span class="cstat-no" title="statement not covered" >import { supabase } from "@/integrations/supabase/client";</span>
 &nbsp;
 interface ImageUploadProps {
-  value: string;
-  onChange: (url: string) =&gt; void;
-  label?: string;
-  placeholder?: string;
-  showPreview?: boolean;
+ value: string;
+ onChange: (url: string) =&gt; void;
+ label?: string;
+ placeholder?: string;
+ showPreview?: boolean;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ImageUpload = ({</span>
-<span class="cstat-no" title="statement not covered" >  value,</span>
-<span class="cstat-no" title="statement not covered" >  onChange,</span>
-<span class="cstat-no" title="statement not covered" >  label = "Image",</span>
-<span class="cstat-no" title="statement not covered" >  placeholder = "Enter image URL or upload",</span>
-<span class="cstat-no" title="statement not covered" >  showPreview = true,</span>
+<span class="cstat-no" title="statement not covered" > value,</span>
+<span class="cstat-no" title="statement not covered" > onChange,</span>
+<span class="cstat-no" title="statement not covered" > label = "Image",</span>
+<span class="cstat-no" title="statement not covered" > placeholder = "Enter image URL or upload",</span>
+<span class="cstat-no" title="statement not covered" > showPreview = true,</span>
 <span class="cstat-no" title="statement not covered" >}: ImageUploadProps) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const [isUploading, setIsUploading] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const fileInputRef = useRef&lt;HTMLInputElement&gt;(null);</span>
-<span class="cstat-no" title="statement not covered" >  const { toast } = useToast();</span>
+<span class="cstat-no" title="statement not covered" > const [isUploading, setIsUploading] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const fileInputRef = useRef&lt;HTMLInputElement&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" > const { toast } = useToast();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const uploadToCloudinary = async (file: File) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const formData = new FormData();</span>
-<span class="cstat-no" title="statement not covered" >    formData.append("file", file);</span>
+<span class="cstat-no" title="statement not covered" > const uploadToCloudinary = async (file: File) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const formData = new FormData();</span>
+<span class="cstat-no" title="statement not covered" > formData.append("file", file);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      const { data, error } = await supabase.functions.invoke("upload-image", {</span>
-<span class="cstat-no" title="statement not covered" >        body: formData,</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+<span class="cstat-no" title="statement not covered" >  const { data, error } = await supabase.functions.invoke("upload-image", {</span>
+<span class="cstat-no" title="statement not covered" >  body: formData,</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (error) {</span>
-<span class="cstat-no" title="statement not covered" >        console.error("Supabase function error:", error);</span>
-<span class="cstat-no" title="statement not covered" >        throw new Error("Upload failed");</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >  if (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error("Supabase function error:", error);</span>
+<span class="cstat-no" title="statement not covered" >  throw new Error("Upload failed");</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return data.secure_url;</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error("Cloudinary upload error:", error);</span>
-<span class="cstat-no" title="statement not covered" >      throw error;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" >  return data.secure_url;</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error("Cloudinary upload error:", error);</span>
+<span class="cstat-no" title="statement not covered" >  throw error;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleFileSelect = async (</span>
-<span class="cstat-no" title="statement not covered" >    event: React.ChangeEvent&lt;HTMLInputElement&gt;</span>
-<span class="cstat-no" title="statement not covered" >  ) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const file = event.target.files?.[0];</span>
-<span class="cstat-no" title="statement not covered" >    if (!file) return;</span>
+<span class="cstat-no" title="statement not covered" > const handleFileSelect = async (</span>
+<span class="cstat-no" title="statement not covered" > event: React.ChangeEvent&lt;HTMLInputElement&gt;</span>
+<span class="cstat-no" title="statement not covered" > ) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const file = event.target.files?.[0];</span>
+<span class="cstat-no" title="statement not covered" > if (!file) return;</span>
 &nbsp;
-    // Validate file type
-<span class="cstat-no" title="statement not covered" >    if (!file.type.startsWith("image/")) {</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Invalid file type",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Please select an image file",</span>
-<span class="cstat-no" title="statement not covered" >        variant: "destructive",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+ // Validate file type
+<span class="cstat-no" title="statement not covered" > if (!file.type.startsWith("image/")) {</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Invalid file type",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Please select an image file",</span>
+<span class="cstat-no" title="statement not covered" >  variant: "destructive",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-    // Validate file size (5MB limit)
-<span class="cstat-no" title="statement not covered" >    if (file.size &gt; 5 * 1024 * 1024) {</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "File too large",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Please select an image smaller than 5MB",</span>
-<span class="cstat-no" title="statement not covered" >        variant: "destructive",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+ // Validate file size (5MB limit)
+<span class="cstat-no" title="statement not covered" > if (file.size &gt; 5 * 1024 * 1024) {</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "File too large",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Please select an image smaller than 5MB",</span>
+<span class="cstat-no" title="statement not covered" >  variant: "destructive",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    setIsUploading(true);</span>
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      const imageUrl = await uploadToCloudinary(file);</span>
-<span class="cstat-no" title="statement not covered" >      onChange(imageUrl);</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Upload successful",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Image uploaded successfully",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Upload failed",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Failed to upload image. Please try again.",</span>
-<span class="cstat-no" title="statement not covered" >        variant: "destructive",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >    } finally {</span>
-<span class="cstat-no" title="statement not covered" >      setIsUploading(false);</span>
-      // Reset file input
-<span class="cstat-no" title="statement not covered" >      if (fileInputRef.current) {</span>
-<span class="cstat-no" title="statement not covered" >        fileInputRef.current.value = "";</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > setIsUploading(true);</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+<span class="cstat-no" title="statement not covered" >  const imageUrl = await uploadToCloudinary(file);</span>
+<span class="cstat-no" title="statement not covered" >  onChange(imageUrl);</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Upload successful",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Image uploaded successfully",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Upload failed",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Failed to upload image. Please try again.",</span>
+<span class="cstat-no" title="statement not covered" >  variant: "destructive",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > } finally {</span>
+<span class="cstat-no" title="statement not covered" >  setIsUploading(false);</span>
+  // Reset file input
+<span class="cstat-no" title="statement not covered" >  if (fileInputRef.current) {</span>
+<span class="cstat-no" title="statement not covered" >  fileInputRef.current.value = "";</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleUploadClick = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    fileInputRef.current?.click();</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const handleUploadClick = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > fileInputRef.current?.click();</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleRemoveImage = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    onChange("");</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const handleRemoveImage = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > onChange("");</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="w-full space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Label htmlFor="image"&gt;{label}&lt;/Label&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className="w-full space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Label htmlFor="image"&gt;{label}&lt;/Label&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;div className="space-y-3"&gt;</span>
-        {/* URL Input */}
-<span class="cstat-no" title="statement not covered" >        &lt;Input</span>
-<span class="cstat-no" title="statement not covered" >          id="image"</span>
-<span class="cstat-no" title="statement not covered" >          value={value}</span>
-<span class="cstat-no" title="statement not covered" >          onChange={(e) =&gt; onChange(e.target.value)}</span>
-<span class="cstat-no" title="statement not covered" >          placeholder={placeholder}</span>
-<span class="cstat-no" title="statement not covered" >          className="w-full border-sprout-medium/30 focus:border-sprout-primary"</span>
-<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="space-y-3"&gt;</span>
+  {/* URL Input */}
+<span class="cstat-no" title="statement not covered" >  &lt;Input</span>
+<span class="cstat-no" title="statement not covered" >   id="image"</span>
+<span class="cstat-no" title="statement not covered" >   value={value}</span>
+<span class="cstat-no" title="statement not covered" >   onChange={(e) =&gt; onChange(e.target.value)}</span>
+<span class="cstat-no" title="statement not covered" >   placeholder={placeholder}</span>
+<span class="cstat-no" title="statement not covered" >   className="w-full border-sprout-medium/30 focus:border-sprout-primary"</span>
+<span class="cstat-no" title="statement not covered" >  /&gt;</span>
 &nbsp;
-        {/* Upload Button */}
-<span class="cstat-no" title="statement not covered" >        &lt;div className="flex gap-2 w-full"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >            type="button"</span>
-<span class="cstat-no" title="statement not covered" >            variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >            onClick={handleUploadClick}</span>
-<span class="cstat-no" title="statement not covered" >            disabled={isUploading}</span>
-<span class="cstat-no" title="statement not covered" >            className="flex-1 bg-sprout-light hover:bg-sprout-light/90 text-white border-sprout-light"</span>
-          &gt;
-<span class="cstat-no" title="statement not covered" >            {isUploading ? (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Loader2 className="w-4 h-4 mr-2 animate-spin" /&gt;</span>
-                Uploading...
-<span class="cstat-no" title="statement not covered" >              &lt;/&gt;</span>
-            ) : (
-<span class="cstat-no" title="statement not covered" >              &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Upload className="w-4 h-4 mr-2" /&gt;</span>
-                Upload Image
-<span class="cstat-no" title="statement not covered" >              &lt;/&gt;</span>
-            )}
-<span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
+  {/* Upload Button */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex gap-2 w-full"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >   type="button"</span>
+<span class="cstat-no" title="statement not covered" >   variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >   onClick={handleUploadClick}</span>
+<span class="cstat-no" title="statement not covered" >   disabled={isUploading}</span>
+<span class="cstat-no" title="statement not covered" >   className="flex-1 bg-sprout-light hover:bg-sprout-light/90 text-white border-sprout-light"</span>
+   &gt;
+<span class="cstat-no" title="statement not covered" >   {isUploading ? (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Loader2 className="w-4 h-4 mr-2 animate-spin" /&gt;</span>
+    Uploading...
+<span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
+   ) : (
+<span class="cstat-no" title="statement not covered" >    &lt;&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Upload className="w-4 h-4 mr-2" /&gt;</span>
+    Upload Image
+<span class="cstat-no" title="statement not covered" >    &lt;/&gt;</span>
+   )}
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          {value &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              type="button"</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              size="icon"</span>
-<span class="cstat-no" title="statement not covered" >              onClick={handleRemoveImage}</span>
-<span class="cstat-no" title="statement not covered" >              className="text-red-600 hover:text-red-700"</span>
-            &gt;
-<span class="cstat-no" title="statement not covered" >              &lt;X className="w-4 h-4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-          )}
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {value &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    type="button"</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    size="icon"</span>
+<span class="cstat-no" title="statement not covered" >    onClick={handleRemoveImage}</span>
+<span class="cstat-no" title="statement not covered" >    className="text-red-600 hover:text-red-700"</span>
+   &gt;
+<span class="cstat-no" title="statement not covered" >    &lt;X className="w-4 h-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+   )}
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-        {/* Hidden file input */}
-<span class="cstat-no" title="statement not covered" >        &lt;input</span>
-<span class="cstat-no" title="statement not covered" >          ref={fileInputRef}</span>
-<span class="cstat-no" title="statement not covered" >          type="file"</span>
-<span class="cstat-no" title="statement not covered" >          accept="image/*"</span>
-<span class="cstat-no" title="statement not covered" >          onChange={handleFileSelect}</span>
-<span class="cstat-no" title="statement not covered" >          className="hidden"</span>
-<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+  {/* Hidden file input */}
+<span class="cstat-no" title="statement not covered" >  &lt;input</span>
+<span class="cstat-no" title="statement not covered" >   ref={fileInputRef}</span>
+<span class="cstat-no" title="statement not covered" >   type="file"</span>
+<span class="cstat-no" title="statement not covered" >   accept="image/*"</span>
+<span class="cstat-no" title="statement not covered" >   onChange={handleFileSelect}</span>
+<span class="cstat-no" title="statement not covered" >   className="hidden"</span>
+<span class="cstat-no" title="statement not covered" >  /&gt;</span>
 &nbsp;
-        {/* Image Preview */}
-<span class="cstat-no" title="statement not covered" >        {value &amp;&amp; showPreview &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="mt-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;img</span>
-<span class="cstat-no" title="statement not covered" >              src={value}</span>
-<span class="cstat-no" title="statement not covered" >              alt="Preview"</span>
-<span class="cstat-no" title="statement not covered" >              className="w-20 h-20 object-cover rounded-lg border"</span>
-<span class="cstat-no" title="statement not covered" >              onError={(e) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                e.currentTarget.style.display = "none";</span>
-<span class="cstat-no" title="statement not covered" >              }}</span>
-<span class="cstat-no" title="statement not covered" >            /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-        )}
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+  {/* Image Preview */}
+<span class="cstat-no" title="statement not covered" >  {value &amp;&amp; showPreview &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="mt-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;img</span>
+<span class="cstat-no" title="statement not covered" >    src={value}</span>
+<span class="cstat-no" title="statement not covered" >    alt="Preview"</span>
+<span class="cstat-no" title="statement not covered" >    className="w-20 h-20 object-cover rounded-lg border"</span>
+<span class="cstat-no" title="statement not covered" >    onError={(e) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    e.currentTarget.style.display = "none";</span>
+<span class="cstat-no" title="statement not covered" >    }}</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+  )}
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default ImageUpload;</span>
@@ -616,7 +616,7 @@ interface ImageUploadProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

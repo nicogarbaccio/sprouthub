@@ -221,67 +221,67 @@
 <span class="cstat-no" title="statement not covered" >import { toast } from "@/hooks/use-toast";</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const MyPlants = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { user, loading } = useAuth();</span>
-<span class="cstat-no" title="statement not covered" >  const navigate = useNavigate();</span>
+<span class="cstat-no" title="statement not covered" > const { user, loading } = useAuth();</span>
+<span class="cstat-no" title="statement not covered" > const navigate = useNavigate();</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!loading &amp;&amp; !user) {</span>
-<span class="cstat-no" title="statement not covered" >      toast({</span>
-<span class="cstat-no" title="statement not covered" >        title: "Authentication Required",</span>
-<span class="cstat-no" title="statement not covered" >        description: "Please sign in to view your plant collection.",</span>
-<span class="cstat-no" title="statement not covered" >        variant: "default",</span>
-<span class="cstat-no" title="statement not covered" >      });</span>
-<span class="cstat-no" title="statement not covered" >      navigate("/");</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [user, loading, navigate]);</span>
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!loading &amp;&amp; !user) {</span>
+<span class="cstat-no" title="statement not covered" >  toast({</span>
+<span class="cstat-no" title="statement not covered" >  title: "Authentication Required",</span>
+<span class="cstat-no" title="statement not covered" >  description: "Please sign in to view your plant collection.",</span>
+<span class="cstat-no" title="statement not covered" >  variant: "default",</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" >  navigate("/");</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [user, loading, navigate]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (loading) {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="min-h-screen bg-background font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Navigation /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;main&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;section className="py-8 bg-background"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</span>
-              {/* Header Skeleton */}
-<span class="cstat-no" title="statement not covered" >              &lt;div className="flex flex-col md:flex-row md:items-center justify-between mb-12"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;Skeleton className="h-10 w-80 mb-4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;div className="flex flex-wrap gap-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-6 w-20 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-6 w-24 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;Skeleton className="h-6 w-28 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Skeleton className="h-10 w-36 rounded-xl mt-4 md:mt-0" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-&nbsp;
-              {/* Plant Cards Grid Skeleton */}
-<span class="cstat-no" title="statement not covered" >              &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                {Array.from({ length: 8 }).map((_, index) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;MyPlantCardSkeleton key={index} /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                ))}</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/section&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/main&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Footer /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-    );
-<span class="cstat-no" title="statement not covered" >  }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  if (!user) {</span>
-<span class="cstat-no" title="statement not covered" >    return null;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="min-h-screen bg-background font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Navigation /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;main&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;MyPlantsCollection /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/main&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" > if (loading) {</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="min-h-screen bg-background "&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Navigation /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;main&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;section className="py-8 bg-background"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</span>
+    {/* Header Skeleton */}
+<span class="cstat-no" title="statement not covered" >    &lt;div className="flex flex-col md:flex-row md:items-center justify-between mb-12"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-10 w-80 mb-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="flex flex-wrap gap-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-6 w-20 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-6 w-24 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Skeleton className="h-6 w-28 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >    &lt;Skeleton className="h-10 w-36 rounded-xl mt-4 md:mt-0" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+&nbsp;
+    {/* Plant Cards Grid Skeleton */}
+<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    {Array.from({ length: 8 }).map((_, index) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >     &lt;MyPlantCardSkeleton key={index} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    ))}</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/section&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/main&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+ );
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > if (!user) {</span>
+<span class="cstat-no" title="statement not covered" > return null;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className="min-h-screen bg-background "&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Navigation /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;main&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;MyPlantsCollection /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/main&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default MyPlants;</span>
@@ -292,7 +292,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

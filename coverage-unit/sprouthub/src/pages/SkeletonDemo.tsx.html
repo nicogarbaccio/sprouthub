@@ -503,220 +503,220 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import React from "react";</span></span></span>
 import {
-  PlantCardSkeleton,
-  MyPlantCardSkeleton,
-  DashboardMetricSkeleton,
-  DashboardTaskSkeleton,
-  DashboardActivitySkeleton,
-  FormInputSkeleton,
-  FormSectionSkeleton,
-  WateringRecordSkeleton,
-  ImageUploadSkeleton,
-  Skeleton,
+ PlantCardSkeleton,
+ MyPlantCardSkeleton,
+ DashboardMetricSkeleton,
+ DashboardTaskSkeleton,
+ DashboardActivitySkeleton,
+ FormInputSkeleton,
+ FormSectionSkeleton,
+ WateringRecordSkeleton,
+ ImageUploadSkeleton,
+ Skeleton,
 <span class="cstat-no" title="statement not covered" >} from "@/components/ui/skeleton";</span>
 <span class="cstat-no" title="statement not covered" >import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";</span>
 <span class="cstat-no" title="statement not covered" >import Navigation from "@/components/Navigation";</span>
 <span class="cstat-no" title="statement not covered" >import Footer from "@/components/Footer";</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const SkeletonDemo = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="min-h-screen bg-background font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Navigation /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="pt-16 py-8"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="text-center mb-12"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-poppins"&gt;</span>
-              Skeleton Loading States Demo
-<span class="cstat-no" title="statement not covered" >            &lt;/h1&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;p className="text-muted-foreground text-lg"&gt;</span>
-              All skeleton components used throughout the SproutHub application
-<span class="cstat-no" title="statement not covered" >            &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className="min-h-screen bg-background "&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Navigation /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="pt-16 py-8"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="text-center mb-12"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4 "&gt;</span>
+    Skeleton Loading States Demo
+<span class="cstat-no" title="statement not covered" >   &lt;/h1&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;p className="text-muted-foreground text-lg"&gt;</span>
+    All skeleton components used throughout the SproutHub application
+<span class="cstat-no" title="statement not covered" >   &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          &lt;div className="space-y-12"&gt;</span>
-            {/* Plant Cards Section */}
-<span class="cstat-no" title="statement not covered" >            &lt;section&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;h2 className="text-2xl font-bold text-plant-text mb-6"&gt;</span>
-                Plant Cards
-<span class="cstat-no" title="statement not covered" >              &lt;/h2&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;PlantCardSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;PlantCardSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;PlantCardSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;PlantCardSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/section&gt;</span>
-&nbsp;
-            {/* My Plant Cards Section */}
-<span class="cstat-no" title="statement not covered" >            &lt;section&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;h2 className="text-2xl font-bold text-plant-text mb-6"&gt;</span>
-                My Plant Cards
-<span class="cstat-no" title="statement not covered" >              &lt;/h2&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;MyPlantCardSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;MyPlantCardSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;MyPlantCardSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;MyPlantCardSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/section&gt;</span>
-&nbsp;
-            {/* Dashboard Components Section */}
-<span class="cstat-no" title="statement not covered" >            &lt;section&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;h2 className="text-2xl font-bold text-foreground mb-6"&gt;</span>
-                Dashboard Components
-<span class="cstat-no" title="statement not covered" >              &lt;/h2&gt;</span>
-&nbsp;
-              {/* Metrics */}
-<span class="cstat-no" title="statement not covered" >              &lt;div className="mb-8"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;h3 className="text-lg font-semibold text-foreground mb-4"&gt;</span>
-                  Metrics
-<span class="cstat-no" title="statement not covered" >                &lt;/h3&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;DashboardMetricSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;DashboardMetricSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;DashboardMetricSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;DashboardMetricSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-&nbsp;
-              {/* Tasks and Activities */}
-<span class="cstat-no" title="statement not covered" >              &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-8"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;CardTitle&gt;Today's Tasks&lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;DashboardTaskSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;DashboardTaskSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;DashboardTaskSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/Card&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;CardTitle&gt;Recent Activity&lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;DashboardActivitySkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;DashboardActivitySkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;DashboardActivitySkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/section&gt;</span>
-&nbsp;
-            {/* Form Components Section */}
-<span class="cstat-no" title="statement not covered" >            &lt;section&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;h2 className="text-2xl font-bold text-foreground mb-6"&gt;</span>
-                Form Components
-<span class="cstat-no" title="statement not covered" >              &lt;/h2&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >              &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-8"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;CardTitle&gt;Form Inputs&lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="space-y-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;FormInputSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;FormInputSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;FormInputSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/Card&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;CardTitle&gt;Form Section&lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;FormSectionSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/section&gt;</span>
-&nbsp;
-            {/* Other Components Section */}
-<span class="cstat-no" title="statement not covered" >            &lt;section&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;h2 className="text-2xl font-bold text-foreground mb-6"&gt;</span>
-                Other Components
-<span class="cstat-no" title="statement not covered" >              &lt;/h2&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >              &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-8"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;CardTitle&gt;Watering Records&lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;WateringRecordSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;WateringRecordSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;WateringRecordSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/Card&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;CardTitle&gt;Image Upload&lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;ImageUploadSkeleton /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/section&gt;</span>
-&nbsp;
-            {/* Basic Skeleton Variations */}
-<span class="cstat-no" title="statement not covered" >            &lt;section&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;h2 className="text-2xl font-bold text-foreground mb-6"&gt;</span>
-                Basic Skeleton Variations
-<span class="cstat-no" title="statement not covered" >              &lt;/h2&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >              &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;CardTitle&gt;Different Sizes and Shapes&lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;div className="space-y-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;p className="text-sm font-medium"&gt;Text Lines&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-4 w-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-4 w-3/4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;Skeleton className="h-4 w-1/2" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;p className="text-sm font-medium"&gt;Avatars&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;div className="flex space-x-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                        &lt;Skeleton className="h-12 w-12 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                        &lt;Skeleton className="h-10 w-10 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                        &lt;Skeleton className="h-8 w-8 rounded-full" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                    &lt;div className="space-y-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;p className="text-sm font-medium"&gt;Buttons&lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;div className="flex space-x-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                        &lt;Skeleton className="h-10 w-24 rounded-md" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                        &lt;Skeleton className="h-10 w-32 rounded-xl" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                        &lt;Skeleton className="h-8 w-8 rounded-md" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/section&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="space-y-12"&gt;</span>
+   {/* Plant Cards Section */}
+<span class="cstat-no" title="statement not covered" >   &lt;section&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;h2 className="text-2xl font-bold text-plant-text mb-6"&gt;</span>
+    Plant Cards
+<span class="cstat-no" title="statement not covered" >    &lt;/h2&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;PlantCardSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;PlantCardSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;PlantCardSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;PlantCardSkeleton /&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >   &lt;/section&gt;</span>
+&nbsp;
+   {/* My Plant Cards Section */}
+<span class="cstat-no" title="statement not covered" >   &lt;section&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;h2 className="text-2xl font-bold text-plant-text mb-6"&gt;</span>
+    My Plant Cards
+<span class="cstat-no" title="statement not covered" >    &lt;/h2&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;MyPlantCardSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;MyPlantCardSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;MyPlantCardSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;MyPlantCardSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/section&gt;</span>
+&nbsp;
+   {/* Dashboard Components Section */}
+<span class="cstat-no" title="statement not covered" >   &lt;section&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;h2 className="text-2xl font-bold text-foreground mb-6"&gt;</span>
+    Dashboard Components
+<span class="cstat-no" title="statement not covered" >    &lt;/h2&gt;</span>
+&nbsp;
+    {/* Metrics */}
+<span class="cstat-no" title="statement not covered" >    &lt;div className="mb-8"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;h3 className="text-lg font-semibold text-foreground mb-4"&gt;</span>
+     Metrics
+<span class="cstat-no" title="statement not covered" >    &lt;/h3&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;DashboardMetricSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;DashboardMetricSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;DashboardMetricSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;DashboardMetricSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+&nbsp;
+    {/* Tasks and Activities */}
+<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-8"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardTitle&gt;Today's Tasks&lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;DashboardTaskSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;DashboardTaskSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;DashboardTaskSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardTitle&gt;Recent Activity&lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;DashboardActivitySkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;DashboardActivitySkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;DashboardActivitySkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/section&gt;</span>
+&nbsp;
+   {/* Form Components Section */}
+<span class="cstat-no" title="statement not covered" >   &lt;section&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;h2 className="text-2xl font-bold text-foreground mb-6"&gt;</span>
+    Form Components
+<span class="cstat-no" title="statement not covered" >    &lt;/h2&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-8"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardTitle&gt;Form Inputs&lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;FormInputSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;FormInputSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;FormInputSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardTitle&gt;Form Section&lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;FormSectionSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/section&gt;</span>
+&nbsp;
+   {/* Other Components Section */}
+<span class="cstat-no" title="statement not covered" >   &lt;section&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;h2 className="text-2xl font-bold text-foreground mb-6"&gt;</span>
+    Other Components
+<span class="cstat-no" title="statement not covered" >    &lt;/h2&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-8"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardTitle&gt;Watering Records&lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;WateringRecordSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;WateringRecordSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;WateringRecordSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardTitle&gt;Image Upload&lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;ImageUploadSkeleton /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/section&gt;</span>
+&nbsp;
+   {/* Basic Skeleton Variations */}
+<span class="cstat-no" title="statement not covered" >   &lt;section&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;h2 className="text-2xl font-bold text-foreground mb-6"&gt;</span>
+    Basic Skeleton Variations
+<span class="cstat-no" title="statement not covered" >    &lt;/h2&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;CardTitle&gt;Different Sizes and Shapes&lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;p className="text-sm font-medium"&gt;Text Lines&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-4 w-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-4 w-3/4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-4 w-1/2" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;p className="text-sm font-medium"&gt;Avatars&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div className="flex space-x-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-12 w-12 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-10 w-10 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-8 w-8 rounded-full" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >     &lt;div className="space-y-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;p className="text-sm font-medium"&gt;Buttons&lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;div className="flex space-x-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-10 w-24 rounded-md" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-10 w-32 rounded-xl" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;Skeleton className="h-8 w-8 rounded-md" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/section&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Footer /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default SkeletonDemo;</span>
@@ -727,7 +727,7 @@ import {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

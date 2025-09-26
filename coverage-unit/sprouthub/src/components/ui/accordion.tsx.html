@@ -184,48 +184,48 @@ import { cn } from "@/lib/utils"
 <span class="cstat-no" title="statement not covered" >const Accordion = AccordionPrimitive.Root</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const AccordionItem = React.forwardRef&lt;</span>
-  React.ElementRef&lt;typeof AccordionPrimitive.Item&gt;,
-  React.ComponentPropsWithoutRef&lt;typeof AccordionPrimitive.Item&gt;
+ React.ElementRef&lt;typeof AccordionPrimitive.Item&gt;,
+ React.ComponentPropsWithoutRef&lt;typeof AccordionPrimitive.Item&gt;
 <span class="cstat-no" title="statement not covered" >&gt;(({ className, ...props }, ref) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >  &lt;AccordionPrimitive.Item</span>
-<span class="cstat-no" title="statement not covered" >    ref={ref}</span>
-<span class="cstat-no" title="statement not covered" >    className={cn("border-b", className)}</span>
-<span class="cstat-no" title="statement not covered" >    {...props}</span>
-<span class="cstat-no" title="statement not covered" >  /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;AccordionPrimitive.Item</span>
+<span class="cstat-no" title="statement not covered" > ref={ref}</span>
+<span class="cstat-no" title="statement not covered" > className={cn("border-b", className)}</span>
+<span class="cstat-no" title="statement not covered" > {...props}</span>
+<span class="cstat-no" title="statement not covered" > /&gt;</span>
 <span class="cstat-no" title="statement not covered" >))</span>
 <span class="cstat-no" title="statement not covered" >AccordionItem.displayName = "AccordionItem"</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const AccordionTrigger = React.forwardRef&lt;</span>
-  React.ElementRef&lt;typeof AccordionPrimitive.Trigger&gt;,
-  React.ComponentPropsWithoutRef&lt;typeof AccordionPrimitive.Trigger&gt;
+ React.ElementRef&lt;typeof AccordionPrimitive.Trigger&gt;,
+ React.ComponentPropsWithoutRef&lt;typeof AccordionPrimitive.Trigger&gt;
 <span class="cstat-no" title="statement not covered" >&gt;(({ className, children, ...props }, ref) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >  &lt;AccordionPrimitive.Header className="flex"&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;AccordionPrimitive.Trigger</span>
-<span class="cstat-no" title="statement not covered" >      ref={ref}</span>
-<span class="cstat-no" title="statement not covered" >      className={cn(</span>
-<span class="cstat-no" title="statement not covered" >        "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&amp;[data-state=open]&gt;svg]:rotate-180",</span>
-<span class="cstat-no" title="statement not covered" >        className</span>
-<span class="cstat-no" title="statement not covered" >      )}</span>
-<span class="cstat-no" title="statement not covered" >      {...props}</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      {children}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/AccordionPrimitive.Trigger&gt;</span>
-<span class="cstat-no" title="statement not covered" >  &lt;/AccordionPrimitive.Header&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;AccordionPrimitive.Header className="flex"&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;AccordionPrimitive.Trigger</span>
+<span class="cstat-no" title="statement not covered" >  ref={ref}</span>
+<span class="cstat-no" title="statement not covered" >  className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "flex flex-1 items-center justify-between py-4 font-medium transition-all hover:underline [&amp;[data-state=open]&gt;svg]:rotate-180",</span>
+<span class="cstat-no" title="statement not covered" >  className</span>
+<span class="cstat-no" title="statement not covered" >  )}</span>
+<span class="cstat-no" title="statement not covered" >  {...props}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  {children}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/AccordionPrimitive.Trigger&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/AccordionPrimitive.Header&gt;</span>
 <span class="cstat-no" title="statement not covered" >))</span>
 <span class="cstat-no" title="statement not covered" >AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const AccordionContent = React.forwardRef&lt;</span>
-  React.ElementRef&lt;typeof AccordionPrimitive.Content&gt;,
-  React.ComponentPropsWithoutRef&lt;typeof AccordionPrimitive.Content&gt;
+ React.ElementRef&lt;typeof AccordionPrimitive.Content&gt;,
+ React.ComponentPropsWithoutRef&lt;typeof AccordionPrimitive.Content&gt;
 <span class="cstat-no" title="statement not covered" >&gt;(({ className, children, ...props }, ref) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >  &lt;AccordionPrimitive.Content</span>
-<span class="cstat-no" title="statement not covered" >    ref={ref}</span>
-<span class="cstat-no" title="statement not covered" >    className="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"</span>
-<span class="cstat-no" title="statement not covered" >    {...props}</span>
-  &gt;
-<span class="cstat-no" title="statement not covered" >    &lt;div className={cn("pb-4 pt-0", className)}&gt;{children}&lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >  &lt;/AccordionPrimitive.Content&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;AccordionPrimitive.Content</span>
+<span class="cstat-no" title="statement not covered" > ref={ref}</span>
+<span class="cstat-no" title="statement not covered" > className="overflow-hidden text-sm transition-all data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down"</span>
+<span class="cstat-no" title="statement not covered" > {...props}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" > &lt;div className={cn("pb-4 pt-0", className)}&gt;{children}&lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/AccordionPrimitive.Content&gt;</span>
 <span class="cstat-no" title="statement not covered" >))</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >AccordionContent.displayName = AccordionPrimitive.Content.displayName</span>
@@ -238,7 +238,7 @@ export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

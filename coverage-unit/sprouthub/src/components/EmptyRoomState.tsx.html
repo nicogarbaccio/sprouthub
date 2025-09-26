@@ -262,95 +262,95 @@
 <span class="cstat-no" title="statement not covered" >import { getRoomIcon, getRoomLabel, getRoomTheme } from "@/utils/rooms";</span>
 &nbsp;
 interface EmptyRoomStateProps {
-  roomKey: string;
-  onAddPlant: () =&gt; void;
+ roomKey: string;
+ onAddPlant: () =&gt; void;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const EmptyRoomState = ({ roomKey, onAddPlant }: EmptyRoomStateProps) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const roomLabel = getRoomLabel(roomKey);</span>
-<span class="cstat-no" title="statement not covered" >  const roomIcon = getRoomIcon(roomKey);</span>
-<span class="cstat-no" title="statement not covered" >  const roomTheme = getRoomTheme(roomKey);</span>
+<span class="cstat-no" title="statement not covered" > const roomLabel = getRoomLabel(roomKey);</span>
+<span class="cstat-no" title="statement not covered" > const roomIcon = getRoomIcon(roomKey);</span>
+<span class="cstat-no" title="statement not covered" > const roomTheme = getRoomTheme(roomKey);</span>
 &nbsp;
-  // Room-specific plant suggestions
-<span class="cstat-no" title="statement not covered" >  const getRoomSuggestions = (roomKey: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const suggestions: Record&lt;string, string[]&gt; = {</span>
-<span class="cstat-no" title="statement not covered" >      "living-room": [</span>
-<span class="cstat-no" title="statement not covered" >        "Snake Plant",</span>
-<span class="cstat-no" title="statement not covered" >        "Fiddle Leaf Fig",</span>
-<span class="cstat-no" title="statement not covered" >        "Monstera",</span>
-<span class="cstat-no" title="statement not covered" >        "Peace Lily",</span>
-<span class="cstat-no" title="statement not covered" >      ],</span>
-<span class="cstat-no" title="statement not covered" >      bedroom: ["Snake Plant", "ZZ Plant", "Pothos", "Lavender"],</span>
-<span class="cstat-no" title="statement not covered" >      kitchen: ["Herbs (Basil, Mint)", "Spider Plant", "Pothos", "Aloe Vera"],</span>
-<span class="cstat-no" title="statement not covered" >      bathroom: ["ZZ Plant", "Air Plant", "Boston Fern", "Bamboo"],</span>
-<span class="cstat-no" title="statement not covered" >      office: ["ZZ Plant", "Snake Plant", "Pothos", "Peace Lily"],</span>
-<span class="cstat-no" title="statement not covered" >      "dining-room": [</span>
-<span class="cstat-no" title="statement not covered" >        "Fiddle Leaf Fig",</span>
-<span class="cstat-no" title="statement not covered" >        "Rubber Plant",</span>
-<span class="cstat-no" title="statement not covered" >        "Peace Lily",</span>
-<span class="cstat-no" title="statement not covered" >        "Monstera",</span>
-<span class="cstat-no" title="statement not covered" >      ],</span>
-<span class="cstat-no" title="statement not covered" >      balcony: ["Succulents", "Herbs", "Geraniums", "Ivy"],</span>
-<span class="cstat-no" title="statement not covered" >      garden: ["Tomatoes", "Herbs", "Flowers", "Vegetables"],</span>
-<span class="cstat-no" title="statement not covered" >      greenhouse: ["Tropical Plants", "Orchids", "Seedlings", "Rare Plants"],</span>
-<span class="cstat-no" title="statement not covered" >      study: ["ZZ Plant", "Snake Plant", "Desk Plants", "Air Plants"],</span>
-<span class="cstat-no" title="statement not covered" >      unassigned: ["Snake Plant", "Pothos", "ZZ Plant", "Spider Plant"],</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
+ // Room-specific plant suggestions
+<span class="cstat-no" title="statement not covered" > const getRoomSuggestions = (roomKey: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const suggestions: Record&lt;string, string[]&gt; = {</span>
+<span class="cstat-no" title="statement not covered" >  "living-room": [</span>
+<span class="cstat-no" title="statement not covered" >  "Snake Plant",</span>
+<span class="cstat-no" title="statement not covered" >  "Fiddle Leaf Fig",</span>
+<span class="cstat-no" title="statement not covered" >  "Monstera",</span>
+<span class="cstat-no" title="statement not covered" >  "Peace Lily",</span>
+<span class="cstat-no" title="statement not covered" >  ],</span>
+<span class="cstat-no" title="statement not covered" >  bedroom: ["Snake Plant", "ZZ Plant", "Pothos", "Lavender"],</span>
+<span class="cstat-no" title="statement not covered" >  kitchen: ["Herbs (Basil, Mint)", "Spider Plant", "Pothos", "Aloe Vera"],</span>
+<span class="cstat-no" title="statement not covered" >  bathroom: ["ZZ Plant", "Air Plant", "Boston Fern", "Bamboo"],</span>
+<span class="cstat-no" title="statement not covered" >  office: ["ZZ Plant", "Snake Plant", "Pothos", "Peace Lily"],</span>
+<span class="cstat-no" title="statement not covered" >  "dining-room": [</span>
+<span class="cstat-no" title="statement not covered" >  "Fiddle Leaf Fig",</span>
+<span class="cstat-no" title="statement not covered" >  "Rubber Plant",</span>
+<span class="cstat-no" title="statement not covered" >  "Peace Lily",</span>
+<span class="cstat-no" title="statement not covered" >  "Monstera",</span>
+<span class="cstat-no" title="statement not covered" >  ],</span>
+<span class="cstat-no" title="statement not covered" >  balcony: ["Succulents", "Herbs", "Geraniums", "Ivy"],</span>
+<span class="cstat-no" title="statement not covered" >  garden: ["Tomatoes", "Herbs", "Flowers", "Vegetables"],</span>
+<span class="cstat-no" title="statement not covered" >  greenhouse: ["Tropical Plants", "Orchids", "Seedlings", "Rare Plants"],</span>
+<span class="cstat-no" title="statement not covered" >  study: ["ZZ Plant", "Snake Plant", "Desk Plants", "Air Plants"],</span>
+<span class="cstat-no" title="statement not covered" >  unassigned: ["Snake Plant", "Pothos", "ZZ Plant", "Spider Plant"],</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return suggestions[roomKey] || suggestions["unassigned"];</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > return suggestions[roomKey] || suggestions["unassigned"];</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const suggestions = getRoomSuggestions(roomKey);</span>
+<span class="cstat-no" title="statement not covered" > const suggestions = getRoomSuggestions(roomKey);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      className={`${roomTheme.background} ${roomTheme.border} border-2 rounded-2xl p-8 text-center`}</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      &lt;div</span>
-<span class="cstat-no" title="statement not covered" >        className={`${roomTheme.iconBg} w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4`}</span>
-      &gt;
-<span class="cstat-no" title="statement not covered" >        &lt;span className="text-4xl"&gt;{roomIcon}&lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={`${roomTheme.background} ${roomTheme.border} border-2 rounded-2xl p-8 text-center`}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={`${roomTheme.iconBg} w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4`}</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >  &lt;span className="text-4xl"&gt;{roomIcon}&lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;h3 className="text-xl font-semibold text-plant-text mb-2 font-poppins"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        No plants in {roomLabel} yet</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/h3&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;h3 className="text-xl font-semibold text-plant-text mb-2 "&gt;</span>
+<span class="cstat-no" title="statement not covered" >  No plants in {roomLabel} yet</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/h3&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;p className="text-plant-text/60 mb-6 max-w-md mx-auto"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        {roomKey === "unassigned"</span>
-<span class="cstat-no" title="statement not covered" >          ? "These plants haven't been assigned to a room yet. Edit them to organize your collection!"</span>
-<span class="cstat-no" title="statement not covered" >          : `Add some plants to brighten up your ${roomLabel.toLowerCase()}. Plants improve air quality and add natural beauty to any space.`}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;p className="text-plant-text/60 mb-6 max-w-md mx-auto"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  {roomKey === "unassigned"</span>
+<span class="cstat-no" title="statement not covered" >   ? "These plants haven't been assigned to a room yet. Edit them to organize your collection!"</span>
+<span class="cstat-no" title="statement not covered" >   : `Add some plants to brighten up your ${roomLabel.toLowerCase()}. Plants improve air quality and add natural beauty to any space.`}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/p&gt;</span>
 &nbsp;
-      {/* Plant Suggestions */}
-<span class="cstat-no" title="statement not covered" >      &lt;div className="mb-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="flex items-center justify-center gap-2 mb-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Lightbulb className="w-4 h-4 text-plant-primary" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;span className="text-sm font-medium text-plant-primary"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            Great plants for {roomLabel.toLowerCase()}:</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="flex flex-wrap justify-center gap-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          {suggestions.slice(0, 4).map((plant, index) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;span</span>
-<span class="cstat-no" title="statement not covered" >              key={index}</span>
-<span class="cstat-no" title="statement not covered" >              className={`px-3 py-1 ${roomTheme.iconBg} ${roomTheme.accent} text-xs rounded-full font-medium`}</span>
-            &gt;
-<span class="cstat-no" title="statement not covered" >              {plant}</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >          ))}</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+  {/* Plant Suggestions */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="mb-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex items-center justify-center gap-2 mb-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Lightbulb className="w-4 h-4 text-plant-primary" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;span className="text-sm font-medium text-plant-primary"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   Great plants for {roomLabel.toLowerCase()}:</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex flex-wrap justify-center gap-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {suggestions.slice(0, 4).map((plant, index) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;span</span>
+<span class="cstat-no" title="statement not covered" >    key={index}</span>
+<span class="cstat-no" title="statement not covered" >    className={`px-3 py-1 ${roomTheme.iconBg} ${roomTheme.accent} text-xs rounded-full font-medium`}</span>
+   &gt;
+<span class="cstat-no" title="statement not covered" >    {plant}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >   ))}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >        onClick={onAddPlant}</span>
-<span class="cstat-no" title="statement not covered" >        className="bg-plant-primary hover:bg-plant-primary/90 text-white rounded-xl"</span>
-      &gt;
-<span class="cstat-no" title="statement not covered" >        &lt;Plus className="w-4 h-4 mr-2" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        Add Plant to {roomLabel}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >  &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >  onClick={onAddPlant}</span>
+<span class="cstat-no" title="statement not covered" >  className="bg-plant-primary hover:bg-plant-primary/90 text-white rounded-xl"</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >  &lt;Plus className="w-4 h-4 mr-2" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  Add Plant to {roomLabel}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default EmptyRoomState;</span>
@@ -361,7 +361,7 @@ interface EmptyRoomStateProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

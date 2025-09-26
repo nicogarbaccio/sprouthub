@@ -189,52 +189,52 @@ import { cn } from "@/lib/utils"
 import { toggleVariants } from "@/components/ui/toggle"
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ToggleGroupContext = React.createContext&lt;</span>
-  VariantProps&lt;typeof toggleVariants&gt;
+ VariantProps&lt;typeof toggleVariants&gt;
 <span class="cstat-no" title="statement not covered" >&gt;({</span>
-<span class="cstat-no" title="statement not covered" >  size: "default",</span>
-<span class="cstat-no" title="statement not covered" >  variant: "default",</span>
+<span class="cstat-no" title="statement not covered" > size: "default",</span>
+<span class="cstat-no" title="statement not covered" > variant: "default",</span>
 <span class="cstat-no" title="statement not covered" >})</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ToggleGroup = React.forwardRef&lt;</span>
-  React.ElementRef&lt;typeof ToggleGroupPrimitive.Root&gt;,
-  React.ComponentPropsWithoutRef&lt;typeof ToggleGroupPrimitive.Root&gt; &amp;
-    VariantProps&lt;typeof toggleVariants&gt;
+ React.ElementRef&lt;typeof ToggleGroupPrimitive.Root&gt;,
+ React.ComponentPropsWithoutRef&lt;typeof ToggleGroupPrimitive.Root&gt; &amp;
+ VariantProps&lt;typeof toggleVariants&gt;
 <span class="cstat-no" title="statement not covered" >&gt;(({ className, variant, size, children, ...props }, ref) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >  &lt;ToggleGroupPrimitive.Root</span>
-<span class="cstat-no" title="statement not covered" >    ref={ref}</span>
-<span class="cstat-no" title="statement not covered" >    className={cn("flex items-center justify-center gap-1", className)}</span>
-<span class="cstat-no" title="statement not covered" >    {...props}</span>
-  &gt;
-<span class="cstat-no" title="statement not covered" >    &lt;ToggleGroupContext.Provider value={{ variant, size }}&gt;</span>
-<span class="cstat-no" title="statement not covered" >      {children}</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/ToggleGroupContext.Provider&gt;</span>
-<span class="cstat-no" title="statement not covered" >  &lt;/ToggleGroupPrimitive.Root&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;ToggleGroupPrimitive.Root</span>
+<span class="cstat-no" title="statement not covered" > ref={ref}</span>
+<span class="cstat-no" title="statement not covered" > className={cn("flex items-center justify-center gap-1", className)}</span>
+<span class="cstat-no" title="statement not covered" > {...props}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" > &lt;ToggleGroupContext.Provider value={{ variant, size }}&gt;</span>
+<span class="cstat-no" title="statement not covered" >  {children}</span>
+<span class="cstat-no" title="statement not covered" > &lt;/ToggleGroupContext.Provider&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/ToggleGroupPrimitive.Root&gt;</span>
 <span class="cstat-no" title="statement not covered" >))</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >ToggleGroup.displayName = ToggleGroupPrimitive.Root.displayName</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ToggleGroupItem = React.forwardRef&lt;</span>
-  React.ElementRef&lt;typeof ToggleGroupPrimitive.Item&gt;,
-  React.ComponentPropsWithoutRef&lt;typeof ToggleGroupPrimitive.Item&gt; &amp;
-    VariantProps&lt;typeof toggleVariants&gt;
+ React.ElementRef&lt;typeof ToggleGroupPrimitive.Item&gt;,
+ React.ComponentPropsWithoutRef&lt;typeof ToggleGroupPrimitive.Item&gt; &amp;
+ VariantProps&lt;typeof toggleVariants&gt;
 <span class="cstat-no" title="statement not covered" >&gt;(({ className, children, variant, size, ...props }, ref) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const context = React.useContext(ToggleGroupContext)</span>
+<span class="cstat-no" title="statement not covered" > const context = React.useContext(ToggleGroupContext)</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;ToggleGroupPrimitive.Item</span>
-<span class="cstat-no" title="statement not covered" >      ref={ref}</span>
-<span class="cstat-no" title="statement not covered" >      className={cn(</span>
-<span class="cstat-no" title="statement not covered" >        toggleVariants({</span>
-<span class="cstat-no" title="statement not covered" >          variant: context.variant || variant,</span>
-<span class="cstat-no" title="statement not covered" >          size: context.size || size,</span>
-<span class="cstat-no" title="statement not covered" >        }),</span>
-<span class="cstat-no" title="statement not covered" >        className</span>
-<span class="cstat-no" title="statement not covered" >      )}</span>
-<span class="cstat-no" title="statement not covered" >      {...props}</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      {children}</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/ToggleGroupPrimitive.Item&gt;</span>
-  )
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;ToggleGroupPrimitive.Item</span>
+<span class="cstat-no" title="statement not covered" >  ref={ref}</span>
+<span class="cstat-no" title="statement not covered" >  className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  toggleVariants({</span>
+<span class="cstat-no" title="statement not covered" >   variant: context.variant || variant,</span>
+<span class="cstat-no" title="statement not covered" >   size: context.size || size,</span>
+<span class="cstat-no" title="statement not covered" >  }),</span>
+<span class="cstat-no" title="statement not covered" >  className</span>
+<span class="cstat-no" title="statement not covered" >  )}</span>
+<span class="cstat-no" title="statement not covered" >  {...props}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  {children}</span>
+<span class="cstat-no" title="statement not covered" > &lt;/ToggleGroupPrimitive.Item&gt;</span>
+ )
 <span class="cstat-no" title="statement not covered" >})</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >ToggleGroupItem.displayName = ToggleGroupPrimitive.Item.displayName</span>
@@ -247,7 +247,7 @@ export { ToggleGroup, ToggleGroupItem }
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

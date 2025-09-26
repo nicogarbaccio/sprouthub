@@ -147,44 +147,44 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { useToast } from "@/hooks/use-toast";</span></span></span>
 import {
-  Toast,
-  ToastClose,
-  ToastDescription,
-  ToastProvider,
-  ToastTitle,
-  ToastViewport,
+ Toast,
+ ToastClose,
+ ToastDescription,
+ ToastProvider,
+ ToastTitle,
+ ToastViewport,
 } from "@/components/ui/toast";
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export function Toaster() {</span>
-<span class="cstat-no" title="statement not covered" >  const { toasts } = useToast();</span>
+<span class="cstat-no" title="statement not covered" > const { toasts } = useToast();</span>
 &nbsp;
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;ToastProvider&gt;</span>
+<span class="cstat-no" title="statement not covered" >  {toasts.map(function ({ id, title, description, action, ...props }) {</span>
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;ToastProvider&gt;</span>
-<span class="cstat-no" title="statement not covered" >      {toasts.map(function ({ id, title, description, action, ...props }) {</span>
-<span class="cstat-no" title="statement not covered" >        return (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Toast key={id} {...props}&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="grid gap-1"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              {title &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >                &lt;ToastTitle</span>
-<span class="cstat-no" title="statement not covered" >                  {...(title.toLowerCase().includes("sign in failed")</span>
-<span class="cstat-no" title="statement not covered" >                    ? { "data-testid": "sign-in-error-toast" }</span>
-<span class="cstat-no" title="statement not covered" >                    : {})}</span>
-                &gt;
-<span class="cstat-no" title="statement not covered" >                  {title}</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/ToastTitle&gt;</span>
-              )}
-<span class="cstat-no" title="statement not covered" >              {description &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >                &lt;ToastDescription&gt;{description}&lt;/ToastDescription&gt;</span>
-              )}
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {action}</span>
-<span class="cstat-no" title="statement not covered" >            &lt;ToastClose /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/Toast&gt;</span>
-        );
-<span class="cstat-no" title="statement not covered" >      })}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;ToastViewport /&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/ToastProvider&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Toast key={id} {...props}&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="grid gap-1"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    {title &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;ToastTitle</span>
+<span class="cstat-no" title="statement not covered" >     {...(title.toLowerCase().includes("sign in failed")</span>
+<span class="cstat-no" title="statement not covered" >     ? { "data-testid": "sign-in-error-toast" }</span>
+<span class="cstat-no" title="statement not covered" >     : {})}</span>
+    &gt;
+<span class="cstat-no" title="statement not covered" >     {title}</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/ToastTitle&gt;</span>
+    )}
+<span class="cstat-no" title="statement not covered" >    {description &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;ToastDescription&gt;{description}&lt;/ToastDescription&gt;</span>
+    )}
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {action}</span>
+<span class="cstat-no" title="statement not covered" >   &lt;ToastClose /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/Toast&gt;</span>
   );
+<span class="cstat-no" title="statement not covered" >  })}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;ToastViewport /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/ToastProvider&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -193,7 +193,7 @@ import {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

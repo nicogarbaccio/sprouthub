@@ -264,93 +264,93 @@ import { Plant } from "@/data/plantData";
 <span class="cstat-no" title="statement not covered" >import { cn } from "@/lib/utils";</span>
 &nbsp;
 interface PlantGridProps {
-  plants: Plant[];
-  onAddToCollection: (plant: Plant) =&gt; void;
-  onViewDetails: (plantName: string) =&gt; void;
-  hasActiveFilters: boolean;
-  clearAllFilters: () =&gt; void;
-  isLoading?: boolean;
-  isChangingPage?: boolean;
-  isAuthenticated?: boolean;
-  onSignInToAdd?: () =&gt; void;
+ plants: Plant[];
+ onAddToCollection: (plant: Plant) =&gt; void;
+ onViewDetails: (plantName: string) =&gt; void;
+ hasActiveFilters: boolean;
+ clearAllFilters: () =&gt; void;
+ isLoading?: boolean;
+ isChangingPage?: boolean;
+ isAuthenticated?: boolean;
+ onSignInToAdd?: () =&gt; void;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const PlantGrid = ({</span>
-<span class="cstat-no" title="statement not covered" >  plants,</span>
-<span class="cstat-no" title="statement not covered" >  onAddToCollection,</span>
-<span class="cstat-no" title="statement not covered" >  onViewDetails,</span>
-<span class="cstat-no" title="statement not covered" >  hasActiveFilters,</span>
-<span class="cstat-no" title="statement not covered" >  clearAllFilters,</span>
-<span class="cstat-no" title="statement not covered" >  isLoading = false,</span>
-<span class="cstat-no" title="statement not covered" >  isChangingPage = false,</span>
-<span class="cstat-no" title="statement not covered" >  isAuthenticated = false,</span>
-<span class="cstat-no" title="statement not covered" >  onSignInToAdd,</span>
+<span class="cstat-no" title="statement not covered" > plants,</span>
+<span class="cstat-no" title="statement not covered" > onAddToCollection,</span>
+<span class="cstat-no" title="statement not covered" > onViewDetails,</span>
+<span class="cstat-no" title="statement not covered" > hasActiveFilters,</span>
+<span class="cstat-no" title="statement not covered" > clearAllFilters,</span>
+<span class="cstat-no" title="statement not covered" > isLoading = false,</span>
+<span class="cstat-no" title="statement not covered" > isChangingPage = false,</span>
+<span class="cstat-no" title="statement not covered" > isAuthenticated = false,</span>
+<span class="cstat-no" title="statement not covered" > onSignInToAdd,</span>
 <span class="cstat-no" title="statement not covered" >}: PlantGridProps) =&gt; {</span>
-  // Show skeleton during loading or page changes
-<span class="cstat-no" title="statement not covered" >  if (isLoading || isChangingPage) {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        {Array.from({ length: 24 }).map((_, index) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;PlantCardSkeleton key={index} /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        ))}</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-    );
-<span class="cstat-no" title="statement not covered" >  }</span>
+ // Show skeleton during loading or page changes
+<span class="cstat-no" title="statement not covered" > if (isLoading || isChangingPage) {</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  {Array.from({ length: 24 }).map((_, index) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;PlantCardSkeleton key={index} /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  ))}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+ );
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (plants.length === 0) {</span>
-<span class="cstat-no" title="statement not covered" >    return (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="text-center py-12 animate-fade-in" data-testid="no-results"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="mb-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="w-16 h-16 mx-auto mb-4 rounded-full bg-plant-secondary/20 flex items-center justify-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;span className="text-2xl"&gt;🌱&lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-muted-foreground text-lg mb-4"&gt;</span>
-            No plants found matching your criteria.
-<span class="cstat-no" title="statement not covered" >          &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;p className="text-muted-foreground/70 text-sm mb-6"&gt;</span>
-            Try adjusting your filters or search terms to find more plants.
-<span class="cstat-no" title="statement not covered" >          &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        {hasActiveFilters &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >            variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >            onClick={clearAllFilters}</span>
-<span class="cstat-no" title="statement not covered" >            className="border-plant-secondary/30 hover:bg-plant-secondary/10 transition-all duration-200"</span>
-<span class="cstat-no" title="statement not covered" >          &gt;</span>
-            Clear All Filters
-<span class="cstat-no" title="statement not covered" >          &lt;/Button&gt;</span>
-        )}
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-    );
-<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > if (plants.length === 0) {</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="text-center py-12 animate-fade-in" data-testid="no-results"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="mb-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="w-16 h-16 mx-auto mb-4 rounded-full bg-plant-secondary/20 flex items-center justify-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;span className="text-2xl"&gt;🌱&lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;p className="text-muted-foreground text-lg mb-4"&gt;</span>
+   No plants found matching your criteria.
+<span class="cstat-no" title="statement not covered" >   &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;p className="text-muted-foreground/70 text-sm mb-6"&gt;</span>
+   Try adjusting your filters or search terms to find more plants.
+<span class="cstat-no" title="statement not covered" >   &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  {hasActiveFilters &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >   variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >   onClick={clearAllFilters}</span>
+<span class="cstat-no" title="statement not covered" >   className="border-plant-secondary/30 hover:bg-plant-secondary/10 transition-all duration-200"</span>
+<span class="cstat-no" title="statement not covered" >   &gt;</span>
+   Clear All Filters
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+  )}
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+ );
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      className={cn(</span>
-<span class="cstat-no" title="statement not covered" >        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-300"</span>
-<span class="cstat-no" title="statement not covered" >      )}</span>
-<span class="cstat-no" title="statement not covered" >      data-testid="plant-grid"</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      {plants.map((plant, index) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div</span>
-<span class="cstat-no" title="statement not covered" >          key={`${plant.name}-${index}`}</span>
-<span class="cstat-no" title="statement not covered" >          className="animate-slide-up"</span>
-<span class="cstat-no" title="statement not covered" >          style={{</span>
-<span class="cstat-no" title="statement not covered" >            animationDelay: `${index * 10}ms`,</span>
-<span class="cstat-no" title="statement not covered" >            animationFillMode: "both",</span>
-<span class="cstat-no" title="statement not covered" >          }}</span>
-        &gt;
-<span class="cstat-no" title="statement not covered" >          &lt;PlantCard</span>
-<span class="cstat-no" title="statement not covered" >            {...plant}</span>
-<span class="cstat-no" title="statement not covered" >            onAddToCollection={() =&gt; onAddToCollection(plant)}</span>
-<span class="cstat-no" title="statement not covered" >            onViewDetails={() =&gt; onViewDetails(plant.name)}</span>
-<span class="cstat-no" title="statement not covered" >            isAuthenticated={isAuthenticated}</span>
-<span class="cstat-no" title="statement not covered" >            onSignInToAdd={onSignInToAdd}</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >      ))}</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-300"</span>
+<span class="cstat-no" title="statement not covered" >  )}</span>
+<span class="cstat-no" title="statement not covered" >  data-testid="plant-grid"</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  {plants.map((plant, index) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div</span>
+<span class="cstat-no" title="statement not covered" >   key={`${plant.name}-${index}`}</span>
+<span class="cstat-no" title="statement not covered" >   className="animate-slide-up"</span>
+<span class="cstat-no" title="statement not covered" >   style={{</span>
+<span class="cstat-no" title="statement not covered" >   animationDelay: `${index * 10}ms`,</span>
+<span class="cstat-no" title="statement not covered" >   animationFillMode: "both",</span>
+<span class="cstat-no" title="statement not covered" >   }}</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >   &lt;PlantCard</span>
+<span class="cstat-no" title="statement not covered" >   {...plant}</span>
+<span class="cstat-no" title="statement not covered" >   onAddToCollection={() =&gt; onAddToCollection(plant)}</span>
+<span class="cstat-no" title="statement not covered" >   onViewDetails={() =&gt; onViewDetails(plant.name)}</span>
+<span class="cstat-no" title="statement not covered" >   isAuthenticated={isAuthenticated}</span>
+<span class="cstat-no" title="statement not covered" >   onSignInToAdd={onSignInToAdd}</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  ))}</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default PlantGrid;</span>
@@ -361,7 +361,7 @@ interface PlantGridProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

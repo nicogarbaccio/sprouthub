@@ -229,83 +229,83 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import React from "react";</span></span></span>
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+ Card,
+ CardContent,
+ CardDescription,
+ CardHeader,
+ CardTitle,
 <span class="cstat-no" title="statement not covered" >} from "@/components/ui/card";</span>
 <span class="cstat-no" title="statement not covered" >import { Button } from "@/components/ui/button";</span>
 <span class="cstat-no" title="statement not covered" >import { Key } from "lucide-react";</span>
 <span class="cstat-no" title="statement not covered" >import { PasswordInput } from "@/components/auth/PasswordInput";</span>
 &nbsp;
 interface PasswordData {
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword: string;
+ currentPassword: string;
+ newPassword: string;
+ confirmPassword: string;
 }
 &nbsp;
 interface SecuritySettingsProps {
-  passwordData: PasswordData;
-  setPasswordData: React.Dispatch&lt;React.SetStateAction&lt;PasswordData&gt;&gt;;
-  handleChangePassword: () =&gt; Promise&lt;void&gt;;
-  isLoading: boolean;
-  hasValidPasswordChanges: () =&gt; boolean;
+ passwordData: PasswordData;
+ setPasswordData: React.Dispatch&lt;React.SetStateAction&lt;PasswordData&gt;&gt;;
+ handleChangePassword: () =&gt; Promise&lt;void&gt;;
+ isLoading: boolean;
+ hasValidPasswordChanges: () =&gt; boolean;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const SecuritySettings: React.FC&lt;SecuritySettingsProps&gt; = ({</span>
-<span class="cstat-no" title="statement not covered" >  passwordData,</span>
-<span class="cstat-no" title="statement not covered" >  setPasswordData,</span>
-<span class="cstat-no" title="statement not covered" >  handleChangePassword,</span>
-<span class="cstat-no" title="statement not covered" >  isLoading,</span>
-<span class="cstat-no" title="statement not covered" >  hasValidPasswordChanges,</span>
+<span class="cstat-no" title="statement not covered" > passwordData,</span>
+<span class="cstat-no" title="statement not covered" > setPasswordData,</span>
+<span class="cstat-no" title="statement not covered" > handleChangePassword,</span>
+<span class="cstat-no" title="statement not covered" > isLoading,</span>
+<span class="cstat-no" title="statement not covered" > hasValidPasswordChanges,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="flex items-center space-x-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Key className="w-5 h-5" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardTitle&gt;Change Password&lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;CardDescription&gt;</span>
-          Update your password to keep your account secure
-<span class="cstat-no" title="statement not covered" >        &lt;/CardDescription&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;CardContent className="space-y-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;PasswordInput</span>
-<span class="cstat-no" title="statement not covered" >          id="new_password"</span>
-<span class="cstat-no" title="statement not covered" >          label="New Password"</span>
-<span class="cstat-no" title="statement not covered" >          placeholder="Enter new password"</span>
-<span class="cstat-no" title="statement not covered" >          value={passwordData.newPassword}</span>
-<span class="cstat-no" title="statement not covered" >          onChange={(value) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >            setPasswordData((prev) =&gt; ({ ...prev, newPassword: value }))</span>
-          }
-<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex items-center space-x-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Key className="w-5 h-5" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardTitle&gt;Change Password&lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardDescription&gt;</span>
+   Update your password to keep your account secure
+<span class="cstat-no" title="statement not covered" >  &lt;/CardDescription&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardContent className="space-y-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;PasswordInput</span>
+<span class="cstat-no" title="statement not covered" >   id="new_password"</span>
+<span class="cstat-no" title="statement not covered" >   label="New Password"</span>
+<span class="cstat-no" title="statement not covered" >   placeholder="Enter new password"</span>
+<span class="cstat-no" title="statement not covered" >   value={passwordData.newPassword}</span>
+<span class="cstat-no" title="statement not covered" >   onChange={(value) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >   setPasswordData((prev) =&gt; ({ ...prev, newPassword: value }))</span>
+   }
+<span class="cstat-no" title="statement not covered" >  /&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        &lt;PasswordInput</span>
-<span class="cstat-no" title="statement not covered" >          id="confirm_password"</span>
-<span class="cstat-no" title="statement not covered" >          label="Confirm New Password"</span>
-<span class="cstat-no" title="statement not covered" >          placeholder="Confirm new password"</span>
-<span class="cstat-no" title="statement not covered" >          value={passwordData.confirmPassword}</span>
-<span class="cstat-no" title="statement not covered" >          onChange={(value) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >            setPasswordData((prev) =&gt; ({ ...prev, confirmPassword: value }))</span>
-          }
-<span class="cstat-no" title="statement not covered" >        /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;PasswordInput</span>
+<span class="cstat-no" title="statement not covered" >   id="confirm_password"</span>
+<span class="cstat-no" title="statement not covered" >   label="Confirm New Password"</span>
+<span class="cstat-no" title="statement not covered" >   placeholder="Confirm new password"</span>
+<span class="cstat-no" title="statement not covered" >   value={passwordData.confirmPassword}</span>
+<span class="cstat-no" title="statement not covered" >   onChange={(value) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >   setPasswordData((prev) =&gt; ({ ...prev, confirmPassword: value }))</span>
+   }
+<span class="cstat-no" title="statement not covered" >  /&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >          onClick={handleChangePassword}</span>
-<span class="cstat-no" title="statement not covered" >          disabled={isLoading || !hasValidPasswordChanges()}</span>
-<span class="cstat-no" title="statement not covered" >          className={`w-full font-medium ${</span>
-<span class="cstat-no" title="statement not covered" >            hasValidPasswordChanges() &amp;&amp; !isLoading</span>
-<span class="cstat-no" title="statement not covered" >              ? "bg-sprout-success hover:bg-sprout-success/90 text-white"</span>
-<span class="cstat-no" title="statement not covered" >              : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-not-allowed"</span>
-<span class="cstat-no" title="statement not covered" >          }`}</span>
-        &gt;
-<span class="cstat-no" title="statement not covered" >          {isLoading ? "Updating..." : "Change Password"}</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >  &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >   onClick={handleChangePassword}</span>
+<span class="cstat-no" title="statement not covered" >   disabled={isLoading || !hasValidPasswordChanges()}</span>
+<span class="cstat-no" title="statement not covered" >   className={`w-full font-medium ${</span>
+<span class="cstat-no" title="statement not covered" >   hasValidPasswordChanges() &amp;&amp; !isLoading</span>
+<span class="cstat-no" title="statement not covered" >    ? "bg-sprout-success hover:bg-sprout-success/90 text-white"</span>
+<span class="cstat-no" title="statement not covered" >    : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-not-allowed"</span>
+<span class="cstat-no" title="statement not covered" >   }`}</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >   {isLoading ? "Updating..." : "Change Password"}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/Card&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default SecuritySettings;</span>
@@ -316,7 +316,7 @@ interface SecuritySettingsProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

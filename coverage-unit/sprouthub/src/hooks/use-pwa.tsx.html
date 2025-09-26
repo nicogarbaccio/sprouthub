@@ -306,122 +306,122 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { useState, useEffect } from "react";<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
 &nbsp;
 interface BeforeInstallPromptEvent extends Event {
-  readonly platforms: string[];
-  readonly userChoice: Promise&lt;{
-    outcome: "accepted" | "dismissed";
-    platform: string;
-  }&gt;;
-  prompt(): Promise&lt;void&gt;;
+ readonly platforms: string[];
+ readonly userChoice: Promise&lt;{
+ outcome: "accepted" | "dismissed";
+ platform: string;
+ }&gt;;
+ prompt(): Promise&lt;void&gt;;
 }
 &nbsp;
 interface PWAState {
-  canInstall: boolean;
-  isInstalled: boolean;
-  isOnline: boolean;
-  isStandalone: boolean;
-  promptInstall: () =&gt; Promise&lt;void&gt;;
+ canInstall: boolean;
+ isInstalled: boolean;
+ isOnline: boolean;
+ isStandalone: boolean;
+ promptInstall: () =&gt; Promise&lt;void&gt;;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export function usePWA(): PWAState {</span>
-<span class="cstat-no" title="statement not covered" >  const [installEvent, setInstallEvent] =</span>
-<span class="cstat-no" title="statement not covered" >    useState&lt;BeforeInstallPromptEvent | null&gt;(null);</span>
-<span class="cstat-no" title="statement not covered" >  const [canInstall, setCanInstall] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const [isInstalled, setIsInstalled] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const [isOnline, setIsOnline] = useState(navigator.onLine);</span>
-<span class="cstat-no" title="statement not covered" >  const [isStandalone, setIsStandalone] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [installEvent, setInstallEvent] =</span>
+<span class="cstat-no" title="statement not covered" > useState&lt;BeforeInstallPromptEvent | null&gt;(null);</span>
+<span class="cstat-no" title="statement not covered" > const [canInstall, setCanInstall] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [isInstalled, setIsInstalled] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [isOnline, setIsOnline] = useState(navigator.onLine);</span>
+<span class="cstat-no" title="statement not covered" > const [isStandalone, setIsStandalone] = useState(false);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-    // Check if app is running in standalone mode
-<span class="cstat-no" title="statement not covered" >    const checkStandalone = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      const isStandaloneMode =</span>
-<span class="cstat-no" title="statement not covered" >        window.matchMedia("(display-mode: standalone)").matches ||</span>
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-<span class="cstat-no" title="statement not covered" >        (window.navigator as any).standalone ||</span>
-<span class="cstat-no" title="statement not covered" >        document.referrer.includes("android-app://");</span>
-<span class="cstat-no" title="statement not covered" >      setIsStandalone(isStandaloneMode);</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+ // Check if app is running in standalone mode
+<span class="cstat-no" title="statement not covered" > const checkStandalone = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const isStandaloneMode =</span>
+<span class="cstat-no" title="statement not covered" >  window.matchMedia("(display-mode: standalone)").matches ||</span>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+<span class="cstat-no" title="statement not covered" >  (window.navigator as any).standalone ||</span>
+<span class="cstat-no" title="statement not covered" >  document.referrer.includes("android-app://");</span>
+<span class="cstat-no" title="statement not covered" >  setIsStandalone(isStandaloneMode);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    checkStandalone();</span>
+<span class="cstat-no" title="statement not covered" > checkStandalone();</span>
 &nbsp;
-    // Listen for beforeinstallprompt event
-<span class="cstat-no" title="statement not covered" >    const handleBeforeInstallPrompt = (e: Event) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      e.preventDefault();</span>
-<span class="cstat-no" title="statement not covered" >      const installEvent = e as BeforeInstallPromptEvent;</span>
-<span class="cstat-no" title="statement not covered" >      setInstallEvent(installEvent);</span>
-<span class="cstat-no" title="statement not covered" >      setCanInstall(true);</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
+ // Listen for beforeinstallprompt event
+<span class="cstat-no" title="statement not covered" > const handleBeforeInstallPrompt = (e: Event) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  e.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >  const installEvent = e as BeforeInstallPromptEvent;</span>
+<span class="cstat-no" title="statement not covered" >  setInstallEvent(installEvent);</span>
+<span class="cstat-no" title="statement not covered" >  setCanInstall(true);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-    // Listen for app installed event
-<span class="cstat-no" title="statement not covered" >    const handleAppInstalled = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      setIsInstalled(true);</span>
-<span class="cstat-no" title="statement not covered" >      setCanInstall(false);</span>
-<span class="cstat-no" title="statement not covered" >      setInstallEvent(null);</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
+ // Listen for app installed event
+<span class="cstat-no" title="statement not covered" > const handleAppInstalled = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  setIsInstalled(true);</span>
+<span class="cstat-no" title="statement not covered" >  setCanInstall(false);</span>
+<span class="cstat-no" title="statement not covered" >  setInstallEvent(null);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-    // Listen for online/offline events
-<span class="cstat-no" title="statement not covered" >    const handleOnline = () =&gt; setIsOnline(true);</span>
-<span class="cstat-no" title="statement not covered" >    const handleOffline = () =&gt; setIsOnline(false);</span>
+ // Listen for online/offline events
+<span class="cstat-no" title="statement not covered" > const handleOnline = () =&gt; setIsOnline(true);</span>
+<span class="cstat-no" title="statement not covered" > const handleOffline = () =&gt; setIsOnline(false);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);</span>
-<span class="cstat-no" title="statement not covered" >    window.addEventListener("appinstalled", handleAppInstalled);</span>
-<span class="cstat-no" title="statement not covered" >    window.addEventListener("online", handleOnline);</span>
-<span class="cstat-no" title="statement not covered" >    window.addEventListener("offline", handleOffline);</span>
+<span class="cstat-no" title="statement not covered" > window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);</span>
+<span class="cstat-no" title="statement not covered" > window.addEventListener("appinstalled", handleAppInstalled);</span>
+<span class="cstat-no" title="statement not covered" > window.addEventListener("online", handleOnline);</span>
+<span class="cstat-no" title="statement not covered" > window.addEventListener("offline", handleOffline);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      window.removeEventListener(</span>
-<span class="cstat-no" title="statement not covered" >        "beforeinstallprompt",</span>
-<span class="cstat-no" title="statement not covered" >        handleBeforeInstallPrompt</span>
-<span class="cstat-no" title="statement not covered" >      );</span>
-<span class="cstat-no" title="statement not covered" >      window.removeEventListener("appinstalled", handleAppInstalled);</span>
-<span class="cstat-no" title="statement not covered" >      window.removeEventListener("online", handleOnline);</span>
-<span class="cstat-no" title="statement not covered" >      window.removeEventListener("offline", handleOffline);</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
-<span class="cstat-no" title="statement not covered" >  }, []);</span>
+<span class="cstat-no" title="statement not covered" > return () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  window.removeEventListener(</span>
+<span class="cstat-no" title="statement not covered" >  "beforeinstallprompt",</span>
+<span class="cstat-no" title="statement not covered" >  handleBeforeInstallPrompt</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" >  window.removeEventListener("appinstalled", handleAppInstalled);</span>
+<span class="cstat-no" title="statement not covered" >  window.removeEventListener("online", handleOnline);</span>
+<span class="cstat-no" title="statement not covered" >  window.removeEventListener("offline", handleOffline);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+<span class="cstat-no" title="statement not covered" > }, []);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const promptInstall = async (): Promise&lt;void&gt; =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!installEvent) return;</span>
+<span class="cstat-no" title="statement not covered" > const promptInstall = async (): Promise&lt;void&gt; =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!installEvent) return;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    try {</span>
-<span class="cstat-no" title="statement not covered" >      await installEvent.prompt();</span>
-<span class="cstat-no" title="statement not covered" >      const choiceResult = await installEvent.userChoice;</span>
+<span class="cstat-no" title="statement not covered" > try {</span>
+<span class="cstat-no" title="statement not covered" >  await installEvent.prompt();</span>
+<span class="cstat-no" title="statement not covered" >  const choiceResult = await installEvent.userChoice;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (choiceResult.outcome === "accepted") {</span>
-<span class="cstat-no" title="statement not covered" >        console.log("User accepted the install prompt");</span>
-<span class="cstat-no" title="statement not covered" >        setIsInstalled(true);</span>
-<span class="cstat-no" title="statement not covered" >      } else {</span>
-<span class="cstat-no" title="statement not covered" >        console.log("User dismissed the install prompt");</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
+<span class="cstat-no" title="statement not covered" >  if (choiceResult.outcome === "accepted") {</span>
+<span class="cstat-no" title="statement not covered" >  console.log("User accepted the install prompt");</span>
+<span class="cstat-no" title="statement not covered" >  setIsInstalled(true);</span>
+<span class="cstat-no" title="statement not covered" >  } else {</span>
+<span class="cstat-no" title="statement not covered" >  console.log("User dismissed the install prompt");</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      setInstallEvent(null);</span>
-<span class="cstat-no" title="statement not covered" >      setCanInstall(false);</span>
-<span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
-<span class="cstat-no" title="statement not covered" >      console.error("Error during install prompt:", error);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" >  setInstallEvent(null);</span>
+<span class="cstat-no" title="statement not covered" >  setCanInstall(false);</span>
+<span class="cstat-no" title="statement not covered" > } catch (error) {</span>
+<span class="cstat-no" title="statement not covered" >  console.error("Error during install prompt:", error);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
-<span class="cstat-no" title="statement not covered" >    canInstall,</span>
-<span class="cstat-no" title="statement not covered" >    isInstalled,</span>
-<span class="cstat-no" title="statement not covered" >    isOnline,</span>
-<span class="cstat-no" title="statement not covered" >    isStandalone,</span>
-<span class="cstat-no" title="statement not covered" >    promptInstall,</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > return {</span>
+<span class="cstat-no" title="statement not covered" > canInstall,</span>
+<span class="cstat-no" title="statement not covered" > isInstalled,</span>
+<span class="cstat-no" title="statement not covered" > isOnline,</span>
+<span class="cstat-no" title="statement not covered" > isStandalone,</span>
+<span class="cstat-no" title="statement not covered" > promptInstall,</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 // Service Worker registration utility
 <span class="cstat-no" title="statement not covered" >export function registerServiceWorker() {</span>
-<span class="cstat-no" title="statement not covered" >  if ("serviceWorker" in navigator) {</span>
-<span class="cstat-no" title="statement not covered" >    window.addEventListener("load", () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      navigator.serviceWorker</span>
-<span class="cstat-no" title="statement not covered" >        .register("/sw.js")</span>
-<span class="cstat-no" title="statement not covered" >        .then((registration) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          console.log("SW registered: ", registration);</span>
-<span class="cstat-no" title="statement not covered" >        })</span>
-<span class="cstat-no" title="statement not covered" >        .catch((registrationError) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          console.log("SW registration failed: ", registrationError);</span>
-<span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" >    });</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > if ("serviceWorker" in navigator) {</span>
+<span class="cstat-no" title="statement not covered" > window.addEventListener("load", () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  navigator.serviceWorker</span>
+<span class="cstat-no" title="statement not covered" >  .register("/sw.js")</span>
+<span class="cstat-no" title="statement not covered" >  .then((registration) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >   console.log("SW registered: ", registration);</span>
+<span class="cstat-no" title="statement not covered" >  })</span>
+<span class="cstat-no" title="statement not covered" >  .catch((registrationError) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >   console.log("SW registration failed: ", registrationError);</span>
+<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > });</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -430,7 +430,7 @@ interface PWAState {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

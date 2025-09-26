@@ -167,52 +167,52 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import React from "react";</span></span></span>
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+ Card,
+ CardContent,
+ CardDescription,
+ CardHeader,
+ CardTitle,
 <span class="cstat-no" title="statement not covered" >} from "@/components/ui/card";</span>
 <span class="cstat-no" title="statement not covered" >import { Button } from "@/components/ui/button";</span>
 <span class="cstat-no" title="statement not covered" >import { Trash2 } from "lucide-react";</span>
 &nbsp;
 interface DangerZoneProps {
-  handleDeleteAccount: () =&gt; Promise&lt;void&gt;;
-  isLoading: boolean;
+ handleDeleteAccount: () =&gt; Promise&lt;void&gt;;
+ isLoading: boolean;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const DangerZone: React.FC&lt;DangerZoneProps&gt; = ({</span>
-<span class="cstat-no" title="statement not covered" >  handleDeleteAccount,</span>
-<span class="cstat-no" title="statement not covered" >  isLoading,</span>
+<span class="cstat-no" title="statement not covered" > handleDeleteAccount,</span>
+<span class="cstat-no" title="statement not covered" > isLoading,</span>
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;Card&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;div className="flex items-center space-x-2"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;Trash2 className="w-5 h-5 text-sprout-error dark:text-sprout-error" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;CardTitle className="text-sprout-error dark:text-sprout-error"&gt;</span>
-            Danger Zone
-<span class="cstat-no" title="statement not covered" >          &lt;/CardTitle&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;CardDescription&gt;</span>
-          Irreversible actions that affect your account
-<span class="cstat-no" title="statement not covered" >        &lt;/CardDescription&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/CardHeader&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >          onClick={handleDeleteAccount}</span>
-<span class="cstat-no" title="statement not covered" >          disabled={isLoading}</span>
-<span class="cstat-no" title="statement not covered" >          variant="destructive"</span>
-<span class="cstat-no" title="statement not covered" >          className="w-full bg-sprout-error hover:bg-sprout-error/90 dark:bg-sprout-error/80 dark:hover:bg-sprout-error/70"</span>
-        &gt;
-<span class="cstat-no" title="statement not covered" >          {isLoading ? "Deleting..." : "Delete Account"}</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;p className="text-sm text-muted-foreground mt-2"&gt;</span>
-          This will permanently delete your account and all associated data.
-<span class="cstat-no" title="statement not covered" >        &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/CardContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/Card&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;Card&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex items-center space-x-2"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Trash2 className="w-5 h-5 text-sprout-error dark:text-sprout-error" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CardTitle className="text-sprout-error dark:text-sprout-error"&gt;</span>
+   Danger Zone
+<span class="cstat-no" title="statement not covered" >   &lt;/CardTitle&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardDescription&gt;</span>
+   Irreversible actions that affect your account
+<span class="cstat-no" title="statement not covered" >  &lt;/CardDescription&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CardHeader&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >   onClick={handleDeleteAccount}</span>
+<span class="cstat-no" title="statement not covered" >   disabled={isLoading}</span>
+<span class="cstat-no" title="statement not covered" >   variant="destructive"</span>
+<span class="cstat-no" title="statement not covered" >   className="w-full bg-sprout-error hover:bg-sprout-error/90 dark:bg-sprout-error/80 dark:hover:bg-sprout-error/70"</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >   {isLoading ? "Deleting..." : "Delete Account"}</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;p className="text-sm text-muted-foreground mt-2"&gt;</span>
+   This will permanently delete your account and all associated data.
+<span class="cstat-no" title="statement not covered" >  &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CardContent&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/Card&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default DangerZone;</span>
@@ -223,7 +223,7 @@ interface DangerZoneProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

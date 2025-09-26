@@ -492,213 +492,213 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import React from "react";</span></span></span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const SproutHubLogo = ({</span>
-<span class="cstat-no" title="statement not covered" >  className = "",</span>
-<span class="cstat-no" title="statement not covered" >  size = "lg",</span>
+<span class="cstat-no" title="statement not covered" > className = "",</span>
+<span class="cstat-no" title="statement not covered" > size = "lg",</span>
 <span class="cstat-no" title="statement not covered" >}: {</span>
-  className?: string;
-  size?: "sm" | "md" | "lg";
+ className?: string;
+ size?: "sm" | "md" | "lg";
 <span class="cstat-no" title="statement not covered" >}) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const sizeClasses = {</span>
-<span class="cstat-no" title="statement not covered" >    sm: "w-32 h-8",</span>
-<span class="cstat-no" title="statement not covered" >    md: "w-48 h-12",</span>
-<span class="cstat-no" title="statement not covered" >    lg: "w-64 h-16",</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const sizeClasses = {</span>
+<span class="cstat-no" title="statement not covered" > sm: "w-32 h-8",</span>
+<span class="cstat-no" title="statement not covered" > md: "w-48 h-12",</span>
+<span class="cstat-no" title="statement not covered" > lg: "w-64 h-16",</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const iconSizes = {</span>
-<span class="cstat-no" title="statement not covered" >    sm: "w-6 h-6",</span>
-<span class="cstat-no" title="statement not covered" >    md: "w-8 h-8",</span>
-<span class="cstat-no" title="statement not covered" >    lg: "w-10 h-10",</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const iconSizes = {</span>
+<span class="cstat-no" title="statement not covered" > sm: "w-6 h-6",</span>
+<span class="cstat-no" title="statement not covered" > md: "w-8 h-8",</span>
+<span class="cstat-no" title="statement not covered" > lg: "w-10 h-10",</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const textSizes = {</span>
-<span class="cstat-no" title="statement not covered" >    sm: "text-lg",</span>
-<span class="cstat-no" title="statement not covered" >    md: "text-2xl",</span>
-<span class="cstat-no" title="statement not covered" >    lg: "text-3xl",</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const textSizes = {</span>
+<span class="cstat-no" title="statement not covered" > sm: "text-lg",</span>
+<span class="cstat-no" title="statement not covered" > md: "text-2xl",</span>
+<span class="cstat-no" title="statement not covered" > lg: "text-3xl",</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div</span>
-<span class="cstat-no" title="statement not covered" >      className={`${sizeClasses[size]} ${className} flex items-center justify-center gap-3`}</span>
-    &gt;
-      {/* Full, lush plant icon 🪴 */}
-<span class="cstat-no" title="statement not covered" >      &lt;div</span>
-<span class="cstat-no" title="statement not covered" >        className={`${iconSizes[size]} text-sprout-secondary dark:text-sprout-secondary`}</span>
-      &gt;
-<span class="cstat-no" title="statement not covered" >        &lt;svg</span>
-<span class="cstat-no" title="statement not covered" >          viewBox="0 0 24 24"</span>
-<span class="cstat-no" title="statement not covered" >          fill="none"</span>
-<span class="cstat-no" title="statement not covered" >          xmlns="http://www.w3.org/2000/svg"</span>
-<span class="cstat-no" title="statement not covered" >          className="w-full h-full"</span>
-        &gt;
-          {/* Main stem */}
-<span class="cstat-no" title="statement not covered" >          &lt;path</span>
-<span class="cstat-no" title="statement not covered" >            d="M12 19V10"</span>
-<span class="cstat-no" title="statement not covered" >            stroke="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            strokeWidth="1.5"</span>
-<span class="cstat-no" title="statement not covered" >            strokeLinecap="round"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={`${sizeClasses[size]} ${className} flex items-center justify-center gap-3`}</span>
+ &gt;
+  {/* Full, lush plant icon 🪴 */}
+<span class="cstat-no" title="statement not covered" >  &lt;div</span>
+<span class="cstat-no" title="statement not covered" >  className={`${iconSizes[size]} text-sprout-secondary dark:text-sprout-secondary`}</span>
+  &gt;
+<span class="cstat-no" title="statement not covered" >  &lt;svg</span>
+<span class="cstat-no" title="statement not covered" >   viewBox="0 0 24 24"</span>
+<span class="cstat-no" title="statement not covered" >   fill="none"</span>
+<span class="cstat-no" title="statement not covered" >   xmlns="http://www.w3.org/2000/svg"</span>
+<span class="cstat-no" title="statement not covered" >   className="w-full h-full"</span>
+  &gt;
+   {/* Main stem */}
+<span class="cstat-no" title="statement not covered" >   &lt;path</span>
+<span class="cstat-no" title="statement not covered" >   d="M12 19V10"</span>
+<span class="cstat-no" title="statement not covered" >   stroke="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   strokeWidth="1.5"</span>
+<span class="cstat-no" title="statement not covered" >   strokeLinecap="round"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-          {/* Back layer leaves - larger, positioned behind */}
-<span class="cstat-no" title="statement not covered" >          &lt;ellipse</span>
-<span class="cstat-no" title="statement not covered" >            cx="8"</span>
-<span class="cstat-no" title="statement not covered" >            cy="12"</span>
-<span class="cstat-no" title="statement not covered" >            rx="2.8"</span>
-<span class="cstat-no" title="statement not covered" >            ry="2.2"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            transform="rotate(-25 8 12)"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.7"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+   {/* Back layer leaves - larger, positioned behind */}
+<span class="cstat-no" title="statement not covered" >   &lt;ellipse</span>
+<span class="cstat-no" title="statement not covered" >   cx="8"</span>
+<span class="cstat-no" title="statement not covered" >   cy="12"</span>
+<span class="cstat-no" title="statement not covered" >   rx="2.8"</span>
+<span class="cstat-no" title="statement not covered" >   ry="2.2"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   transform="rotate(-25 8 12)"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.7"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          &lt;ellipse</span>
-<span class="cstat-no" title="statement not covered" >            cx="16"</span>
-<span class="cstat-no" title="statement not covered" >            cy="11"</span>
-<span class="cstat-no" title="statement not covered" >            rx="2.8"</span>
-<span class="cstat-no" title="statement not covered" >            ry="2.2"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            transform="rotate(25 16 11)"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.7"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;ellipse</span>
+<span class="cstat-no" title="statement not covered" >   cx="16"</span>
+<span class="cstat-no" title="statement not covered" >   cy="11"</span>
+<span class="cstat-no" title="statement not covered" >   rx="2.8"</span>
+<span class="cstat-no" title="statement not covered" >   ry="2.2"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   transform="rotate(25 16 11)"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.7"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-          {/* Main large leaves - prominent front layer */}
-<span class="cstat-no" title="statement not covered" >          &lt;ellipse</span>
-<span class="cstat-no" title="statement not covered" >            cx="9.5"</span>
-<span class="cstat-no" title="statement not covered" >            cy="9.5"</span>
-<span class="cstat-no" title="statement not covered" >            rx="3.2"</span>
-<span class="cstat-no" title="statement not covered" >            ry="2.8"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            transform="rotate(-15 9.5 9.5)"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.95"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+   {/* Main large leaves - prominent front layer */}
+<span class="cstat-no" title="statement not covered" >   &lt;ellipse</span>
+<span class="cstat-no" title="statement not covered" >   cx="9.5"</span>
+<span class="cstat-no" title="statement not covered" >   cy="9.5"</span>
+<span class="cstat-no" title="statement not covered" >   rx="3.2"</span>
+<span class="cstat-no" title="statement not covered" >   ry="2.8"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   transform="rotate(-15 9.5 9.5)"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.95"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          &lt;ellipse</span>
-<span class="cstat-no" title="statement not covered" >            cx="14.5"</span>
-<span class="cstat-no" title="statement not covered" >            cy="8.5"</span>
-<span class="cstat-no" title="statement not covered" >            rx="3.2"</span>
-<span class="cstat-no" title="statement not covered" >            ry="2.8"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            transform="rotate(15 14.5 8.5)"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.95"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;ellipse</span>
+<span class="cstat-no" title="statement not covered" >   cx="14.5"</span>
+<span class="cstat-no" title="statement not covered" >   cy="8.5"</span>
+<span class="cstat-no" title="statement not covered" >   rx="3.2"</span>
+<span class="cstat-no" title="statement not covered" >   ry="2.8"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   transform="rotate(15 14.5 8.5)"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.95"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-          {/* Center top leaf */}
-<span class="cstat-no" title="statement not covered" >          &lt;ellipse</span>
-<span class="cstat-no" title="statement not covered" >            cx="12"</span>
-<span class="cstat-no" title="statement not covered" >            cy="7"</span>
-<span class="cstat-no" title="statement not covered" >            rx="2"</span>
-<span class="cstat-no" title="statement not covered" >            ry="2.5"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="1"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+   {/* Center top leaf */}
+<span class="cstat-no" title="statement not covered" >   &lt;ellipse</span>
+<span class="cstat-no" title="statement not covered" >   cx="12"</span>
+<span class="cstat-no" title="statement not covered" >   cy="7"</span>
+<span class="cstat-no" title="statement not covered" >   rx="2"</span>
+<span class="cstat-no" title="statement not covered" >   ry="2.5"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="1"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-          {/* Small side leaves for fullness */}
-<span class="cstat-no" title="statement not covered" >          &lt;ellipse</span>
-<span class="cstat-no" title="statement not covered" >            cx="10"</span>
-<span class="cstat-no" title="statement not covered" >            cy="13"</span>
-<span class="cstat-no" title="statement not covered" >            rx="1.8"</span>
-<span class="cstat-no" title="statement not covered" >            ry="1.5"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            transform="rotate(-30 10 13)"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.8"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+   {/* Small side leaves for fullness */}
+<span class="cstat-no" title="statement not covered" >   &lt;ellipse</span>
+<span class="cstat-no" title="statement not covered" >   cx="10"</span>
+<span class="cstat-no" title="statement not covered" >   cy="13"</span>
+<span class="cstat-no" title="statement not covered" >   rx="1.8"</span>
+<span class="cstat-no" title="statement not covered" >   ry="1.5"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   transform="rotate(-30 10 13)"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.8"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          &lt;ellipse</span>
-<span class="cstat-no" title="statement not covered" >            cx="14"</span>
-<span class="cstat-no" title="statement not covered" >            cy="12.5"</span>
-<span class="cstat-no" title="statement not covered" >            rx="1.8"</span>
-<span class="cstat-no" title="statement not covered" >            ry="1.5"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            transform="rotate(30 14 12.5)"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.8"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;ellipse</span>
+<span class="cstat-no" title="statement not covered" >   cx="14"</span>
+<span class="cstat-no" title="statement not covered" >   cy="12.5"</span>
+<span class="cstat-no" title="statement not covered" >   rx="1.8"</span>
+<span class="cstat-no" title="statement not covered" >   ry="1.5"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   transform="rotate(30 14 12.5)"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.8"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-          {/* Small emerging leaves near base */}
-<span class="cstat-no" title="statement not covered" >          &lt;ellipse</span>
-<span class="cstat-no" title="statement not covered" >            cx="11"</span>
-<span class="cstat-no" title="statement not covered" >            cy="16"</span>
-<span class="cstat-no" title="statement not covered" >            rx="1.2"</span>
-<span class="cstat-no" title="statement not covered" >            ry="1"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            transform="rotate(-10 11 16)"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.6"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+   {/* Small emerging leaves near base */}
+<span class="cstat-no" title="statement not covered" >   &lt;ellipse</span>
+<span class="cstat-no" title="statement not covered" >   cx="11"</span>
+<span class="cstat-no" title="statement not covered" >   cy="16"</span>
+<span class="cstat-no" title="statement not covered" >   rx="1.2"</span>
+<span class="cstat-no" title="statement not covered" >   ry="1"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   transform="rotate(-10 11 16)"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.6"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          &lt;ellipse</span>
-<span class="cstat-no" title="statement not covered" >            cx="13"</span>
-<span class="cstat-no" title="statement not covered" >            cy="16.5"</span>
-<span class="cstat-no" title="statement not covered" >            rx="1.2"</span>
-<span class="cstat-no" title="statement not covered" >            ry="1"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            transform="rotate(10 13 16.5)"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.6"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;ellipse</span>
+<span class="cstat-no" title="statement not covered" >   cx="13"</span>
+<span class="cstat-no" title="statement not covered" >   cy="16.5"</span>
+<span class="cstat-no" title="statement not covered" >   rx="1.2"</span>
+<span class="cstat-no" title="statement not covered" >   ry="1"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   transform="rotate(10 13 16.5)"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.6"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-          {/* Larger terracotta pot - better proportioned */}
-<span class="cstat-no" title="statement not covered" >          &lt;path</span>
-<span class="cstat-no" title="statement not covered" >            d="M7.5 19H16.5L15.5 22.5C15.5 23 15 23 12 23C9 23 8.5 23 8.5 22.5L7.5 19Z"</span>
-<span class="cstat-no" title="statement not covered" >            fill="#CD7F32"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.8"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+   {/* Larger terracotta pot - better proportioned */}
+<span class="cstat-no" title="statement not covered" >   &lt;path</span>
+<span class="cstat-no" title="statement not covered" >   d="M7.5 19H16.5L15.5 22.5C15.5 23 15 23 12 23C9 23 8.5 23 8.5 22.5L7.5 19Z"</span>
+<span class="cstat-no" title="statement not covered" >   fill="#CD7F32"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.8"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-          {/* Pot rim */}
-<span class="cstat-no" title="statement not covered" >          &lt;ellipse</span>
-<span class="cstat-no" title="statement not covered" >            cx="12"</span>
-<span class="cstat-no" title="statement not covered" >            cy="19"</span>
-<span class="cstat-no" title="statement not covered" >            rx="4.5"</span>
-<span class="cstat-no" title="statement not covered" >            ry="1"</span>
-<span class="cstat-no" title="statement not covered" >            fill="#B8671F"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.9"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+   {/* Pot rim */}
+<span class="cstat-no" title="statement not covered" >   &lt;ellipse</span>
+<span class="cstat-no" title="statement not covered" >   cx="12"</span>
+<span class="cstat-no" title="statement not covered" >   cy="19"</span>
+<span class="cstat-no" title="statement not covered" >   rx="4.5"</span>
+<span class="cstat-no" title="statement not covered" >   ry="1"</span>
+<span class="cstat-no" title="statement not covered" >   fill="#B8671F"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.9"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-          {/* Soil/dirt surface */}
-<span class="cstat-no" title="statement not covered" >          &lt;ellipse</span>
-<span class="cstat-no" title="statement not covered" >            cx="12"</span>
-<span class="cstat-no" title="statement not covered" >            cy="19.3"</span>
-<span class="cstat-no" title="statement not covered" >            rx="4"</span>
-<span class="cstat-no" title="statement not covered" >            ry="0.6"</span>
-<span class="cstat-no" title="statement not covered" >            fill="#8B4513"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.7"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
+   {/* Soil/dirt surface */}
+<span class="cstat-no" title="statement not covered" >   &lt;ellipse</span>
+<span class="cstat-no" title="statement not covered" >   cx="12"</span>
+<span class="cstat-no" title="statement not covered" >   cy="19.3"</span>
+<span class="cstat-no" title="statement not covered" >   rx="4"</span>
+<span class="cstat-no" title="statement not covered" >   ry="0.6"</span>
+<span class="cstat-no" title="statement not covered" >   fill="#8B4513"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.7"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
 &nbsp;
-          {/* Small plant sprout details */}
-<span class="cstat-no" title="statement not covered" >          &lt;circle</span>
-<span class="cstat-no" title="statement not covered" >            cx="10"</span>
-<span class="cstat-no" title="statement not covered" >            cy="18.8"</span>
-<span class="cstat-no" title="statement not covered" >            r="0.3"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.6"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;circle</span>
-<span class="cstat-no" title="statement not covered" >            cx="14"</span>
-<span class="cstat-no" title="statement not covered" >            cy="18.9"</span>
-<span class="cstat-no" title="statement not covered" >            r="0.2"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.6"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;circle</span>
-<span class="cstat-no" title="statement not covered" >            cx="11.8"</span>
-<span class="cstat-no" title="statement not covered" >            cy="18.7"</span>
-<span class="cstat-no" title="statement not covered" >            r="0.2"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.5"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;circle</span>
-<span class="cstat-no" title="statement not covered" >            cx="12.5"</span>
-<span class="cstat-no" title="statement not covered" >            cy="18.9"</span>
-<span class="cstat-no" title="statement not covered" >            r="0.15"</span>
-<span class="cstat-no" title="statement not covered" >            fill="currentColor"</span>
-<span class="cstat-no" title="statement not covered" >            fillOpacity="0.5"</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/svg&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
+   {/* Small plant sprout details */}
+<span class="cstat-no" title="statement not covered" >   &lt;circle</span>
+<span class="cstat-no" title="statement not covered" >   cx="10"</span>
+<span class="cstat-no" title="statement not covered" >   cy="18.8"</span>
+<span class="cstat-no" title="statement not covered" >   r="0.3"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.6"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;circle</span>
+<span class="cstat-no" title="statement not covered" >   cx="14"</span>
+<span class="cstat-no" title="statement not covered" >   cy="18.9"</span>
+<span class="cstat-no" title="statement not covered" >   r="0.2"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.6"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;circle</span>
+<span class="cstat-no" title="statement not covered" >   cx="11.8"</span>
+<span class="cstat-no" title="statement not covered" >   cy="18.7"</span>
+<span class="cstat-no" title="statement not covered" >   r="0.2"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.5"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;circle</span>
+<span class="cstat-no" title="statement not covered" >   cx="12.5"</span>
+<span class="cstat-no" title="statement not covered" >   cy="18.9"</span>
+<span class="cstat-no" title="statement not covered" >   r="0.15"</span>
+<span class="cstat-no" title="statement not covered" >   fill="currentColor"</span>
+<span class="cstat-no" title="statement not covered" >   fillOpacity="0.5"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/svg&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-      {/* Text logo */}
-<span class="cstat-no" title="statement not covered" >      &lt;span</span>
-<span class="cstat-no" title="statement not covered" >        className={`${textSizes[size]} font-bold text-sprout-primary dark:text-sprout-secondary group-hover:text-sprout-primary/90 dark:group-hover:text-sprout-secondary transition-colors duration-200`}</span>
-<span class="cstat-no" title="statement not covered" >      &gt;</span>
-        SproutHub
-<span class="cstat-no" title="statement not covered" >      &lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+  {/* Text logo */}
+<span class="cstat-no" title="statement not covered" >  &lt;span</span>
+<span class="cstat-no" title="statement not covered" >  className={`${textSizes[size]} font-bold text-sprout-primary dark:text-sprout-secondary group-hover:text-sprout-primary/90 dark:group-hover:text-sprout-secondary transition-colors duration-200`}</span>
+<span class="cstat-no" title="statement not covered" >  &gt;</span>
+  SproutHub
+<span class="cstat-no" title="statement not covered" >  &lt;/span&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default SproutHubLogo;</span>
@@ -709,7 +709,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

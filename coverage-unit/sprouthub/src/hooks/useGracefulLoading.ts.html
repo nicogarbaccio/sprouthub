@@ -145,47 +145,47 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { useState, useEffect } from 'react';<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { useState, useEffect } from 'react';</span></span></span>
 &nbsp;
 interface UseGracefulLoadingOptions {
-  minLoadingTime?: number;
-  enableStaggeredLoad?: boolean;
-  staggerDelay?: number;
+ minLoadingTime?: number;
+ enableStaggeredLoad?: boolean;
+ staggerDelay?: number;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export const useGracefulLoading = (</span>
-<span class="cstat-no" title="statement not covered" >  isActuallyLoading: boolean,</span>
-<span class="cstat-no" title="statement not covered" >  options: UseGracefulLoadingOptions = {}</span>
+<span class="cstat-no" title="statement not covered" > isActuallyLoading: boolean,</span>
+<span class="cstat-no" title="statement not covered" > options: UseGracefulLoadingOptions = {}</span>
 <span class="cstat-no" title="statement not covered" >) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const {</span>
-<span class="cstat-no" title="statement not covered" >    minLoadingTime = 100, // Reduced from 500ms to 100ms</span>
-<span class="cstat-no" title="statement not covered" >    enableStaggeredLoad = false, // Disabled by default for faster loading</span>
-<span class="cstat-no" title="statement not covered" >    staggerDelay = 50 // Reduced from 200ms to 50ms</span>
-<span class="cstat-no" title="statement not covered" >  } = options;</span>
+<span class="cstat-no" title="statement not covered" > const {</span>
+<span class="cstat-no" title="statement not covered" > minLoadingTime = 100, // Reduced from 500ms to 100ms</span>
+<span class="cstat-no" title="statement not covered" > enableStaggeredLoad = false, // Disabled by default for faster loading</span>
+<span class="cstat-no" title="statement not covered" > staggerDelay = 50 // Reduced from 200ms to 50ms</span>
+<span class="cstat-no" title="statement not covered" > } = options;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const [showLoading, setShowLoading] = useState(true);</span>
-<span class="cstat-no" title="statement not covered" >  const [showContent, setShowContent] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [showLoading, setShowLoading] = useState(true);</span>
+<span class="cstat-no" title="statement not covered" > const [showContent, setShowContent] = useState(false);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!isActuallyLoading) {</span>
-<span class="cstat-no" title="statement not covered" >      const timer = setTimeout(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        setShowLoading(false);</span>
-<span class="cstat-no" title="statement not covered" >        if (enableStaggeredLoad) {</span>
-<span class="cstat-no" title="statement not covered" >          setTimeout(() =&gt; setShowContent(true), staggerDelay);</span>
-<span class="cstat-no" title="statement not covered" >        } else {</span>
-<span class="cstat-no" title="statement not covered" >          setShowContent(true);</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >      }, minLoadingTime);</span>
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!isActuallyLoading) {</span>
+<span class="cstat-no" title="statement not covered" >  const timer = setTimeout(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  setShowLoading(false);</span>
+<span class="cstat-no" title="statement not covered" >  if (enableStaggeredLoad) {</span>
+<span class="cstat-no" title="statement not covered" >   setTimeout(() =&gt; setShowContent(true), staggerDelay);</span>
+<span class="cstat-no" title="statement not covered" >  } else {</span>
+<span class="cstat-no" title="statement not covered" >   setShowContent(true);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  }, minLoadingTime);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return () =&gt; clearTimeout(timer);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [isActuallyLoading, minLoadingTime, enableStaggeredLoad, staggerDelay]);</span>
+<span class="cstat-no" title="statement not covered" >  return () =&gt; clearTimeout(timer);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [isActuallyLoading, minLoadingTime, enableStaggeredLoad, staggerDelay]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
-<span class="cstat-no" title="statement not covered" >    showLoading: isActuallyLoading || showLoading,</span>
-<span class="cstat-no" title="statement not covered" >    showContent,</span>
-<span class="cstat-no" title="statement not covered" >    isReady: !isActuallyLoading &amp;&amp; !showLoading &amp;&amp; showContent</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > return {</span>
+<span class="cstat-no" title="statement not covered" > showLoading: isActuallyLoading || showLoading,</span>
+<span class="cstat-no" title="statement not covered" > showContent,</span>
+<span class="cstat-no" title="statement not covered" > isReady: !isActuallyLoading &amp;&amp; !showLoading &amp;&amp; showContent</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 <span class="cstat-no" title="statement not covered" >}; </span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -193,7 +193,7 @@ interface UseGracefulLoadingOptions {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

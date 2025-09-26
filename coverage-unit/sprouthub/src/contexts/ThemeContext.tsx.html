@@ -251,99 +251,99 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import React, { createContext, useContext, useEffect, useState } from "react";</span></span></span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import React, { createContext, useContext, useEffect, useState } from "react";<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
 &nbsp;
 type Theme = "light" | "dark" | "system";
 &nbsp;
 interface ThemeProviderProps {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
-  storageKey?: string;
+ children: React.ReactNode;
+ defaultTheme?: Theme;
+ storageKey?: string;
 }
 &nbsp;
 interface ThemeProviderState {
-  theme: Theme;
-  setTheme: (theme: Theme) =&gt; void;
-  actualTheme: "light" | "dark"; // The resolved theme (without 'system')
+ theme: Theme;
+ setTheme: (theme: Theme) =&gt; void;
+ actualTheme: "light" | "dark"; // The resolved theme (without 'system')
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const initialState: ThemeProviderState = {</span>
-<span class="cstat-no" title="statement not covered" >  theme: "system",</span>
-<span class="cstat-no" title="statement not covered" >  setTheme: () =&gt; null,</span>
-<span class="cstat-no" title="statement not covered" >  actualTheme: "light",</span>
+<span class="cstat-no" title="statement not covered" > theme: "system",</span>
+<span class="cstat-no" title="statement not covered" > setTheme: () =&gt; null,</span>
+<span class="cstat-no" title="statement not covered" > actualTheme: "light",</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ThemeProviderContext = createContext&lt;ThemeProviderState&gt;(initialState);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export function ThemeProvider({</span>
-<span class="cstat-no" title="statement not covered" >  children,</span>
-<span class="cstat-no" title="statement not covered" >  defaultTheme = "system",</span>
-<span class="cstat-no" title="statement not covered" >  storageKey = "sprouthub-ui-theme",</span>
-<span class="cstat-no" title="statement not covered" >  ...props</span>
+<span class="cstat-no" title="statement not covered" > children,</span>
+<span class="cstat-no" title="statement not covered" > defaultTheme = "system",</span>
+<span class="cstat-no" title="statement not covered" > storageKey = "sprouthub-ui-theme",</span>
+<span class="cstat-no" title="statement not covered" > ...props</span>
 <span class="cstat-no" title="statement not covered" >}: ThemeProviderProps) {</span>
-<span class="cstat-no" title="statement not covered" >  const [theme, setTheme] = useState&lt;Theme&gt;(</span>
-<span class="cstat-no" title="statement not covered" >    () =&gt; (localStorage.getItem(storageKey) as Theme) || defaultTheme</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >  const [actualTheme, setActualTheme] = useState&lt;"light" | "dark"&gt;("light");</span>
+<span class="cstat-no" title="statement not covered" > const [theme, setTheme] = useState&lt;Theme&gt;(</span>
+<span class="cstat-no" title="statement not covered" > () =&gt; (localStorage.getItem(storageKey) as Theme) || defaultTheme</span>
+<span class="cstat-no" title="statement not covered" > );</span>
+<span class="cstat-no" title="statement not covered" > const [actualTheme, setActualTheme] = useState&lt;"light" | "dark"&gt;("light");</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const root = window.document.documentElement;</span>
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const root = window.document.documentElement;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    root.classList.remove("light", "dark");</span>
+<span class="cstat-no" title="statement not covered" > root.classList.remove("light", "dark");</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    let resolvedTheme: "light" | "dark";</span>
+<span class="cstat-no" title="statement not covered" > let resolvedTheme: "light" | "dark";</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (theme === "system") {</span>
-<span class="cstat-no" title="statement not covered" >      resolvedTheme = window.matchMedia("(prefers-color-scheme: dark)").matches</span>
-<span class="cstat-no" title="statement not covered" >        ? "dark"</span>
-<span class="cstat-no" title="statement not covered" >        : "light";</span>
-<span class="cstat-no" title="statement not covered" >    } else {</span>
-<span class="cstat-no" title="statement not covered" >      resolvedTheme = theme;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" > if (theme === "system") {</span>
+<span class="cstat-no" title="statement not covered" >  resolvedTheme = window.matchMedia("(prefers-color-scheme: dark)").matches</span>
+<span class="cstat-no" title="statement not covered" >  ? "dark"</span>
+<span class="cstat-no" title="statement not covered" >  : "light";</span>
+<span class="cstat-no" title="statement not covered" > } else {</span>
+<span class="cstat-no" title="statement not covered" >  resolvedTheme = theme;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    root.classList.add(resolvedTheme);</span>
-<span class="cstat-no" title="statement not covered" >    setActualTheme(resolvedTheme);</span>
-<span class="cstat-no" title="statement not covered" >  }, [theme]);</span>
+<span class="cstat-no" title="statement not covered" > root.classList.add(resolvedTheme);</span>
+<span class="cstat-no" title="statement not covered" > setActualTheme(resolvedTheme);</span>
+<span class="cstat-no" title="statement not covered" > }, [theme]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");</span>
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    const handleChange = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      if (theme === "system") {</span>
-<span class="cstat-no" title="statement not covered" >        const resolvedTheme = mediaQuery.matches ? "dark" : "light";</span>
-<span class="cstat-no" title="statement not covered" >        document.documentElement.classList.remove("light", "dark");</span>
-<span class="cstat-no" title="statement not covered" >        document.documentElement.classList.add(resolvedTheme);</span>
-<span class="cstat-no" title="statement not covered" >        setActualTheme(resolvedTheme);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
+<span class="cstat-no" title="statement not covered" > const handleChange = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  if (theme === "system") {</span>
+<span class="cstat-no" title="statement not covered" >  const resolvedTheme = mediaQuery.matches ? "dark" : "light";</span>
+<span class="cstat-no" title="statement not covered" >  document.documentElement.classList.remove("light", "dark");</span>
+<span class="cstat-no" title="statement not covered" >  document.documentElement.classList.add(resolvedTheme);</span>
+<span class="cstat-no" title="statement not covered" >  setActualTheme(resolvedTheme);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    mediaQuery.addEventListener("change", handleChange);</span>
-<span class="cstat-no" title="statement not covered" >    return () =&gt; mediaQuery.removeEventListener("change", handleChange);</span>
-<span class="cstat-no" title="statement not covered" >  }, [theme]);</span>
+<span class="cstat-no" title="statement not covered" > mediaQuery.addEventListener("change", handleChange);</span>
+<span class="cstat-no" title="statement not covered" > return () =&gt; mediaQuery.removeEventListener("change", handleChange);</span>
+<span class="cstat-no" title="statement not covered" > }, [theme]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const value = {</span>
-<span class="cstat-no" title="statement not covered" >    theme,</span>
-<span class="cstat-no" title="statement not covered" >    setTheme: (theme: Theme) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      localStorage.setItem(storageKey, theme);</span>
-<span class="cstat-no" title="statement not covered" >      setTheme(theme);</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >    actualTheme,</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const value = {</span>
+<span class="cstat-no" title="statement not covered" > theme,</span>
+<span class="cstat-no" title="statement not covered" > setTheme: (theme: Theme) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  localStorage.setItem(storageKey, theme);</span>
+<span class="cstat-no" title="statement not covered" >  setTheme(theme);</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > actualTheme,</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;ThemeProviderContext.Provider {...props} value={value}&gt;</span>
-<span class="cstat-no" title="statement not covered" >      {children}</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/ThemeProviderContext.Provider&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;ThemeProviderContext.Provider {...props} value={value}&gt;</span>
+<span class="cstat-no" title="statement not covered" >  {children}</span>
+<span class="cstat-no" title="statement not covered" > &lt;/ThemeProviderContext.Provider&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export const useTheme = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const context = useContext(ThemeProviderContext);</span>
+<span class="cstat-no" title="statement not covered" > const context = useContext(ThemeProviderContext);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (context === undefined)</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error("useTheme must be used within a ThemeProvider");</span>
+<span class="cstat-no" title="statement not covered" > if (context === undefined)</span>
+<span class="cstat-no" title="statement not covered" > throw new Error("useTheme must be used within a ThemeProvider");</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return context;</span>
+<span class="cstat-no" title="statement not covered" > return context;</span>
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -352,7 +352,7 @@ interface ThemeProviderState {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

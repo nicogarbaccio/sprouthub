@@ -426,7 +426,14 @@
 <a name='L361'></a><a href='#L361'>361</a>
 <a name='L362'></a><a href='#L362'>362</a>
 <a name='L363'></a><a href='#L363'>363</a>
-<a name='L364'></a><a href='#L364'>364</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L364'></a><a href='#L364'>364</a>
+<a name='L365'></a><a href='#L365'>365</a>
+<a name='L366'></a><a href='#L366'>366</a>
+<a name='L367'></a><a href='#L367'>367</a>
+<a name='L368'></a><a href='#L368'>368</a>
+<a name='L369'></a><a href='#L369'>369</a>
+<a name='L370'></a><a href='#L370'>370</a>
+<a name='L371'></a><a href='#L371'>371</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -539,6 +546,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -685,6 +698,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -789,51 +803,51 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import * as React from "react"</span></span></span>
-import * as RechartsPrimitive from "recharts"
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import * as React from "react";</span></span></span>
+import * as RechartsPrimitive from "recharts";
 &nbsp;
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 &nbsp;
 // Format: { THEME_NAME: CSS_SELECTOR }
-<span class="cstat-no" title="statement not covered" >const THEMES = { light: "", dark: ".dark" } as const</span>
+<span class="cstat-no" title="statement not covered" >const THEMES = { light: "", dark: ".dark" } as const;</span>
 &nbsp;
 export type ChartConfig = {
   [k in string]: {
-    label?: React.ReactNode
-    icon?: React.ComponentType
+    label?: React.ReactNode;
+    icon?: React.ComponentType;
   } &amp; (
     | { color?: string; theme?: never }
     | { color?: never; theme: Record&lt;keyof typeof THEMES, string&gt; }
-  )
-}
+  );
+};
 &nbsp;
 type ChartContextProps = {
-  config: ChartConfig
-}
+  config: ChartConfig;
+};
 &nbsp;
-<span class="cstat-no" title="statement not covered" >const ChartContext = React.createContext&lt;ChartContextProps | null&gt;(null)</span>
+<span class="cstat-no" title="statement not covered" >const ChartContext = React.createContext&lt;ChartContextProps | null&gt;(null);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >function useChart() {</span>
-<span class="cstat-no" title="statement not covered" >  const context = React.useContext(ChartContext)</span>
+<span class="cstat-no" title="statement not covered" >  const context = React.useContext(ChartContext);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (!context) {</span>
-<span class="cstat-no" title="statement not covered" >    throw new Error("useChart must be used within a &lt;ChartContainer /&gt;")</span>
+<span class="cstat-no" title="statement not covered" >    throw new Error("useChart must be used within a &lt;ChartContainer /&gt;");</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return context</span>
+<span class="cstat-no" title="statement not covered" >  return context;</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ChartContainer = React.forwardRef&lt;</span>
   HTMLDivElement,
   React.ComponentProps&lt;"div"&gt; &amp; {
-    config: ChartConfig
+    config: ChartConfig;
     children: React.ComponentProps&lt;
       typeof RechartsPrimitive.ResponsiveContainer
-    &gt;["children"]
+    &gt;["children"];
   }
 <span class="cstat-no" title="statement not covered" >&gt;(({ id, className, children, config, ...props }, ref) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const uniqueId = React.useId()</span>
-<span class="cstat-no" title="statement not covered" >  const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`</span>
+<span class="cstat-no" title="statement not covered" >  const uniqueId = React.useId();</span>
+<span class="cstat-no" title="statement not covered" >  const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
 <span class="cstat-no" title="statement not covered" >    &lt;ChartContext.Provider value={{ config }}&gt;</span>
@@ -852,17 +866,17 @@ type ChartContextProps = {
 <span class="cstat-no" title="statement not covered" >        &lt;/RechartsPrimitive.ResponsiveContainer&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/ChartContext.Provider&gt;</span>
-  )
-<span class="cstat-no" title="statement not covered" >})</span>
-<span class="cstat-no" title="statement not covered" >ChartContainer.displayName = "Chart"</span>
+  );
+<span class="cstat-no" title="statement not covered" >});</span>
+<span class="cstat-no" title="statement not covered" >ChartContainer.displayName = "Chart";</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >  const colorConfig = Object.entries(config).filter(</span>
 <span class="cstat-no" title="statement not covered" >    ([_, config]) =&gt; config.theme || config.color</span>
-<span class="cstat-no" title="statement not covered" >  )</span>
+<span class="cstat-no" title="statement not covered" >  );</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (!colorConfig.length) {</span>
-<span class="cstat-no" title="statement not covered" >    return null</span>
+<span class="cstat-no" title="statement not covered" >    return null;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return (</span>
@@ -876,8 +890,8 @@ type ChartContextProps = {
 <span class="cstat-no" title="statement not covered" >  .map(([key, itemConfig]) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    const color =</span>
 <span class="cstat-no" title="statement not covered" >      itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ||</span>
-<span class="cstat-no" title="statement not covered" >      itemConfig.color</span>
-<span class="cstat-no" title="statement not covered" >    return color ? `  --color-${key}: ${color};` : null</span>
+<span class="cstat-no" title="statement not covered" >      itemConfig.color;</span>
+<span class="cstat-no" title="statement not covered" >    return color ? ` --color-${key}: ${color};` : null;</span>
 <span class="cstat-no" title="statement not covered" >  })</span>
 <span class="cstat-no" title="statement not covered" >  .join("\n")}</span>
 }
@@ -886,21 +900,27 @@ type ChartContextProps = {
 <span class="cstat-no" title="statement not covered" >          .join("\n"),</span>
 <span class="cstat-no" title="statement not covered" >      }}</span>
 <span class="cstat-no" title="statement not covered" >    /&gt;</span>
-  )
-<span class="cstat-no" title="statement not covered" >}</span>
+  );
+<span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >const ChartTooltip = RechartsPrimitive.Tooltip</span>
+<span class="cstat-no" title="statement not covered" >const ChartTooltip = RechartsPrimitive.Tooltip;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ChartTooltipContent = React.forwardRef&lt;</span>
   HTMLDivElement,
-  React.ComponentProps&lt;typeof RechartsPrimitive.Tooltip&gt; &amp;
-    React.ComponentProps&lt;"div"&gt; &amp; {
-      hideLabel?: boolean
-      hideIndicator?: boolean
-      indicator?: "line" | "dot" | "dashed"
-      nameKey?: string
-      labelKey?: string
-    }
+  React.ComponentProps&lt;"div"&gt; &amp; {
+    active?: boolean;
+    payload?: any[];
+    label?: any;
+    hideLabel?: boolean;
+    hideIndicator?: boolean;
+    indicator?: "line" | "dot" | "dashed";
+    nameKey?: string;
+    labelKey?: string;
+    labelFormatter?: (label: any) =&gt; React.ReactNode;
+    labelClassName?: string;
+    formatter?: (value: any, name: any, item: any) =&gt; React.ReactNode;
+    color?: string;
+  }
 &gt;(
 <span class="cstat-no" title="statement not covered" >  (</span>
 <span class="cstat-no" title="statement not covered" >    {</span>
@@ -920,34 +940,34 @@ type ChartContextProps = {
 <span class="cstat-no" title="statement not covered" >    },</span>
 <span class="cstat-no" title="statement not covered" >    ref</span>
 <span class="cstat-no" title="statement not covered" >  ) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const { config } = useChart()</span>
+<span class="cstat-no" title="statement not covered" >    const { config } = useChart();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    const tooltipLabel = React.useMemo(() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      if (hideLabel || !payload?.length) {</span>
-<span class="cstat-no" title="statement not covered" >        return null</span>
+<span class="cstat-no" title="statement not covered" >        return null;</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      const [item] = payload</span>
-<span class="cstat-no" title="statement not covered" >      const key = `${labelKey || item.dataKey || item.name || "value"}`</span>
-<span class="cstat-no" title="statement not covered" >      const itemConfig = getPayloadConfigFromPayload(config, item, key)</span>
+<span class="cstat-no" title="statement not covered" >      const [item] = payload;</span>
+<span class="cstat-no" title="statement not covered" >      const key = `${labelKey || item.dataKey || item.name || "value"}`;</span>
+<span class="cstat-no" title="statement not covered" >      const itemConfig = getPayloadConfigFromPayload(config, item, key);</span>
 <span class="cstat-no" title="statement not covered" >      const value =</span>
 <span class="cstat-no" title="statement not covered" >        !labelKey &amp;&amp; typeof label === "string"</span>
 <span class="cstat-no" title="statement not covered" >          ? config[label as keyof typeof config]?.label || label</span>
-<span class="cstat-no" title="statement not covered" >          : itemConfig?.label</span>
+<span class="cstat-no" title="statement not covered" >          : itemConfig?.label;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      if (labelFormatter) {</span>
 <span class="cstat-no" title="statement not covered" >        return (</span>
 <span class="cstat-no" title="statement not covered" >          &lt;div className={cn("font-medium", labelClassName)}&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {labelFormatter(value, payload)}</span>
+<span class="cstat-no" title="statement not covered" >            {labelFormatter(value)}</span>
 <span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-        )
+        );
 <span class="cstat-no" title="statement not covered" >      }</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >      if (!value) {</span>
-<span class="cstat-no" title="statement not covered" >        return null</span>
+<span class="cstat-no" title="statement not covered" >        return null;</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      return &lt;div className={cn("font-medium", labelClassName)}&gt;{value}&lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >      return &lt;div className={cn("font-medium", labelClassName)}&gt;{value}&lt;/div&gt;;</span>
 <span class="cstat-no" title="statement not covered" >    }, [</span>
 <span class="cstat-no" title="statement not covered" >      label,</span>
 <span class="cstat-no" title="statement not covered" >      labelFormatter,</span>
@@ -956,13 +976,13 @@ type ChartContextProps = {
 <span class="cstat-no" title="statement not covered" >      labelClassName,</span>
 <span class="cstat-no" title="statement not covered" >      config,</span>
 <span class="cstat-no" title="statement not covered" >      labelKey,</span>
-<span class="cstat-no" title="statement not covered" >    ])</span>
+<span class="cstat-no" title="statement not covered" >    ]);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!active || !payload?.length) {</span>
-<span class="cstat-no" title="statement not covered" >      return null</span>
+<span class="cstat-no" title="statement not covered" >      return null;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    const nestLabel = payload.length === 1 &amp;&amp; indicator !== "dot"</span>
+<span class="cstat-no" title="statement not covered" >    const nestLabel = payload.length === 1 &amp;&amp; indicator !== "dot";</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return (</span>
 <span class="cstat-no" title="statement not covered" >      &lt;div</span>
@@ -975,9 +995,9 @@ type ChartContextProps = {
 <span class="cstat-no" title="statement not covered" >        {!nestLabel ? tooltipLabel : null}</span>
 <span class="cstat-no" title="statement not covered" >        &lt;div className="grid gap-1.5"&gt;</span>
 <span class="cstat-no" title="statement not covered" >          {payload.map((item, index) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            const key = `${nameKey || item.name || item.dataKey || "value"}`</span>
-<span class="cstat-no" title="statement not covered" >            const itemConfig = getPayloadConfigFromPayload(config, item, key)</span>
-<span class="cstat-no" title="statement not covered" >            const indicatorColor = color || item.payload.fill || item.color</span>
+<span class="cstat-no" title="statement not covered" >            const key = `${nameKey || item.name || item.dataKey || "value"}`;</span>
+<span class="cstat-no" title="statement not covered" >            const itemConfig = getPayloadConfigFromPayload(config, item, key);</span>
+<span class="cstat-no" title="statement not covered" >            const indicatorColor = color || item.payload.fill || item.color;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >            return (</span>
 <span class="cstat-no" title="statement not covered" >              &lt;div</span>
@@ -988,7 +1008,7 @@ type ChartContextProps = {
 <span class="cstat-no" title="statement not covered" >                )}</span>
               &gt;
 <span class="cstat-no" title="statement not covered" >                {formatter &amp;&amp; item?.value !== undefined &amp;&amp; item.name ? (</span>
-<span class="cstat-no" title="statement not covered" >                  formatter(item.value, item.name, item, index, item.payload)</span>
+<span class="cstat-no" title="statement not covered" >                  formatter(item.value, item.name, item)</span>
                 ) : (
 <span class="cstat-no" title="statement not covered" >                  &lt;&gt;</span>
 <span class="cstat-no" title="statement not covered" >                    {itemConfig?.icon ? (</span>
@@ -1036,33 +1056,34 @@ type ChartContextProps = {
 <span class="cstat-no" title="statement not covered" >                  &lt;/&gt;</span>
                 )}
 <span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-            )
+            );
 <span class="cstat-no" title="statement not covered" >          })}</span>
 <span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-    )
+    );
 <span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >)</span>
-<span class="cstat-no" title="statement not covered" >ChartTooltipContent.displayName = "ChartTooltip"</span>
+<span class="cstat-no" title="statement not covered" >);</span>
+<span class="cstat-no" title="statement not covered" >ChartTooltipContent.displayName = "ChartTooltip";</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >const ChartLegend = RechartsPrimitive.Legend</span>
+<span class="cstat-no" title="statement not covered" >const ChartLegend = RechartsPrimitive.Legend;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ChartLegendContent = React.forwardRef&lt;</span>
   HTMLDivElement,
-  React.ComponentProps&lt;"div"&gt; &amp;
-    Pick&lt;RechartsPrimitive.LegendProps, "payload" | "verticalAlign"&gt; &amp; {
-      hideIcon?: boolean
-      nameKey?: string
-    }
+  React.ComponentProps&lt;"div"&gt; &amp; {
+    payload?: any[];
+    verticalAlign?: "top" | "middle" | "bottom";
+    hideIcon?: boolean;
+    nameKey?: string;
+  }
 &gt;(
 <span class="cstat-no" title="statement not covered" >  (</span>
 <span class="cstat-no" title="statement not covered" >    { className, hideIcon = false, payload, verticalAlign = "bottom", nameKey },</span>
 <span class="cstat-no" title="statement not covered" >    ref</span>
 <span class="cstat-no" title="statement not covered" >  ) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const { config } = useChart()</span>
+<span class="cstat-no" title="statement not covered" >    const { config } = useChart();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    if (!payload?.length) {</span>
-<span class="cstat-no" title="statement not covered" >      return null</span>
+<span class="cstat-no" title="statement not covered" >      return null;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    return (</span>
@@ -1075,8 +1096,8 @@ type ChartContextProps = {
 <span class="cstat-no" title="statement not covered" >        )}</span>
       &gt;
 <span class="cstat-no" title="statement not covered" >        {payload.map((item) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >          const key = `${nameKey || item.dataKey || "value"}`</span>
-<span class="cstat-no" title="statement not covered" >          const itemConfig = getPayloadConfigFromPayload(config, item, key)</span>
+<span class="cstat-no" title="statement not covered" >          const key = `${nameKey || item.dataKey || "value"}`;</span>
+<span class="cstat-no" title="statement not covered" >          const itemConfig = getPayloadConfigFromPayload(config, item, key);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >          return (</span>
 <span class="cstat-no" title="statement not covered" >            &lt;div</span>
@@ -1097,13 +1118,13 @@ type ChartContextProps = {
               )}
 <span class="cstat-no" title="statement not covered" >              {itemConfig?.label}</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-          )
+          );
 <span class="cstat-no" title="statement not covered" >        })}</span>
 <span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-    )
+    );
 <span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" >)</span>
-<span class="cstat-no" title="statement not covered" >ChartLegendContent.displayName = "ChartLegend"</span>
+<span class="cstat-no" title="statement not covered" >);</span>
+<span class="cstat-no" title="statement not covered" >ChartLegendContent.displayName = "ChartLegend";</span>
 &nbsp;
 // Helper to extract item config from a payload.
 <span class="cstat-no" title="statement not covered" >function getPayloadConfigFromPayload(</span>
@@ -1112,7 +1133,7 @@ type ChartContextProps = {
 <span class="cstat-no" title="statement not covered" >  key: string</span>
 <span class="cstat-no" title="statement not covered" >) {</span>
 <span class="cstat-no" title="statement not covered" >  if (typeof payload !== "object" || payload === null) {</span>
-<span class="cstat-no" title="statement not covered" >    return undefined</span>
+<span class="cstat-no" title="statement not covered" >    return undefined;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  const payloadPayload =</span>
@@ -1120,15 +1141,15 @@ type ChartContextProps = {
 <span class="cstat-no" title="statement not covered" >    typeof payload.payload === "object" &amp;&amp;</span>
 <span class="cstat-no" title="statement not covered" >    payload.payload !== null</span>
 <span class="cstat-no" title="statement not covered" >      ? payload.payload</span>
-<span class="cstat-no" title="statement not covered" >      : undefined</span>
+<span class="cstat-no" title="statement not covered" >      : undefined;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  let configLabelKey: string = key</span>
+<span class="cstat-no" title="statement not covered" >  let configLabelKey: string = key;</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (</span>
 <span class="cstat-no" title="statement not covered" >    key in payload &amp;&amp;</span>
 <span class="cstat-no" title="statement not covered" >    typeof payload[key as keyof typeof payload] === "string"</span>
 <span class="cstat-no" title="statement not covered" >  ) {</span>
-<span class="cstat-no" title="statement not covered" >    configLabelKey = payload[key as keyof typeof payload] as string</span>
+<span class="cstat-no" title="statement not covered" >    configLabelKey = payload[key as keyof typeof payload] as string;</span>
 <span class="cstat-no" title="statement not covered" >  } else if (</span>
 <span class="cstat-no" title="statement not covered" >    payloadPayload &amp;&amp;</span>
 <span class="cstat-no" title="statement not covered" >    key in payloadPayload &amp;&amp;</span>
@@ -1136,12 +1157,12 @@ type ChartContextProps = {
 <span class="cstat-no" title="statement not covered" >  ) {</span>
 <span class="cstat-no" title="statement not covered" >    configLabelKey = payloadPayload[</span>
 <span class="cstat-no" title="statement not covered" >      key as keyof typeof payloadPayload</span>
-<span class="cstat-no" title="statement not covered" >    ] as string</span>
+<span class="cstat-no" title="statement not covered" >    ] as string;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  return configLabelKey in config</span>
 <span class="cstat-no" title="statement not covered" >    ? config[configLabelKey]</span>
-<span class="cstat-no" title="statement not covered" >    : config[key as keyof typeof config]</span>
+<span class="cstat-no" title="statement not covered" >    : config[key as keyof typeof config];</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 export {
@@ -1151,7 +1172,7 @@ export {
   ChartLegend,
   ChartLegendContent,
   ChartStyle,
-}
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -1159,7 +1180,7 @@ export {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

@@ -155,40 +155,40 @@ import * as ResizablePrimitive from "react-resizable-panels"
 import { cn } from "@/lib/utils"
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ResizablePanelGroup = ({</span>
-<span class="cstat-no" title="statement not covered" >  className,</span>
-<span class="cstat-no" title="statement not covered" >  ...props</span>
+<span class="cstat-no" title="statement not covered" > className,</span>
+<span class="cstat-no" title="statement not covered" > ...props</span>
 <span class="cstat-no" title="statement not covered" >}: React.ComponentProps&lt;typeof ResizablePrimitive.PanelGroup&gt;) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >  &lt;ResizablePrimitive.PanelGroup</span>
-<span class="cstat-no" title="statement not covered" >    className={cn(</span>
-<span class="cstat-no" title="statement not covered" >      "flex h-full w-full data-[panel-group-direction=vertical]:flex-col",</span>
-<span class="cstat-no" title="statement not covered" >      className</span>
-<span class="cstat-no" title="statement not covered" >    )}</span>
-<span class="cstat-no" title="statement not covered" >    {...props}</span>
-<span class="cstat-no" title="statement not covered" >  /&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;ResizablePrimitive.PanelGroup</span>
+<span class="cstat-no" title="statement not covered" > className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "flex h-full w-full data-[panel-group-direction=vertical]:flex-col",</span>
+<span class="cstat-no" title="statement not covered" >  className</span>
+<span class="cstat-no" title="statement not covered" > )}</span>
+<span class="cstat-no" title="statement not covered" > {...props}</span>
+<span class="cstat-no" title="statement not covered" > /&gt;</span>
 )
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ResizablePanel = ResizablePrimitive.Panel</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const ResizableHandle = ({</span>
-<span class="cstat-no" title="statement not covered" >  withHandle,</span>
-<span class="cstat-no" title="statement not covered" >  className,</span>
-<span class="cstat-no" title="statement not covered" >  ...props</span>
+<span class="cstat-no" title="statement not covered" > withHandle,</span>
+<span class="cstat-no" title="statement not covered" > className,</span>
+<span class="cstat-no" title="statement not covered" > ...props</span>
 <span class="cstat-no" title="statement not covered" >}: React.ComponentProps&lt;typeof ResizablePrimitive.PanelResizeHandle&gt; &amp; {</span>
-  withHandle?: boolean
+ withHandle?: boolean
 }) =&gt; (
-<span class="cstat-no" title="statement not covered" >  &lt;ResizablePrimitive.PanelResizeHandle</span>
-<span class="cstat-no" title="statement not covered" >    className={cn(</span>
-<span class="cstat-no" title="statement not covered" >      "relative flex w-px items-center justify-center bg-border after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 data-[panel-group-direction=vertical]:h-px data-[panel-group-direction=vertical]:w-full data-[panel-group-direction=vertical]:after:left-0 data-[panel-group-direction=vertical]:after:h-1 data-[panel-group-direction=vertical]:after:w-full data-[panel-group-direction=vertical]:after:-translate-y-1/2 data-[panel-group-direction=vertical]:after:translate-x-0 [&amp;[data-panel-group-direction=vertical]&gt;div]:rotate-90",</span>
-<span class="cstat-no" title="statement not covered" >      className</span>
-<span class="cstat-no" title="statement not covered" >    )}</span>
-<span class="cstat-no" title="statement not covered" >    {...props}</span>
-  &gt;
-<span class="cstat-no" title="statement not covered" >    {withHandle &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="z-10 flex h-4 w-3 items-center justify-center rounded-sm border bg-border"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;GripVertical className="h-2.5 w-2.5" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-    )}
-<span class="cstat-no" title="statement not covered" >  &lt;/ResizablePrimitive.PanelResizeHandle&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;ResizablePrimitive.PanelResizeHandle</span>
+<span class="cstat-no" title="statement not covered" > className={cn(</span>
+<span class="cstat-no" title="statement not covered" >  "relative flex w-px items-center justify-center bg-border after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 data-[panel-group-direction=vertical]:h-px data-[panel-group-direction=vertical]:w-full data-[panel-group-direction=vertical]:after:left-0 data-[panel-group-direction=vertical]:after:h-1 data-[panel-group-direction=vertical]:after:w-full data-[panel-group-direction=vertical]:after:-translate-y-1/2 data-[panel-group-direction=vertical]:after:translate-x-0 [&amp;[data-panel-group-direction=vertical]&gt;div]:rotate-90",</span>
+<span class="cstat-no" title="statement not covered" >  className</span>
+<span class="cstat-no" title="statement not covered" > )}</span>
+<span class="cstat-no" title="statement not covered" > {...props}</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" > {withHandle &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >  &lt;div className="z-10 flex h-4 w-3 items-center justify-center rounded-sm border bg-border"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;GripVertical className="h-2.5 w-2.5" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+ )}
+<span class="cstat-no" title="statement not covered" > &lt;/ResizablePrimitive.PanelResizeHandle&gt;</span>
 )
 &nbsp;
 export { ResizablePanelGroup, ResizablePanel, ResizableHandle }
@@ -199,7 +199,7 @@ export { ResizablePanelGroup, ResizablePanel, ResizableHandle }
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

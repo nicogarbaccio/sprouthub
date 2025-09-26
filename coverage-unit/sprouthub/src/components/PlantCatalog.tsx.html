@@ -766,329 +766,329 @@
 <span class="cstat-no" title="statement not covered" >import { useScrollToTop } from "@/hooks/useScrollToTop";</span>
 <span class="cstat-no" title="statement not covered" >import { useDebounce } from "@/hooks/useDebounce";</span>
 import {
-  plants,
-  getUniqueCategories,
-  getUniqueCareLevels,
-  getUniqueLightRequirements,
-  Plant,
+ plants,
+ getUniqueCategories,
+ getUniqueCareLevels,
+ getUniqueLightRequirements,
+ Plant,
 <span class="cstat-no" title="statement not covered" >} from "@/data/plantData";</span>
 <span class="cstat-no" title="statement not covered" >import { homepagePlants } from "@/data/homepagePlants";</span>
 &nbsp;
 interface PlantCatalogProps {
-  isHomepage?: boolean;
-  isDashboard?: boolean;
-  isLoading?: boolean;
+ isHomepage?: boolean;
+ isDashboard?: boolean;
+ isLoading?: boolean;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const PlantCatalog = ({</span>
-<span class="cstat-no" title="statement not covered" >  isHomepage = false,</span>
-<span class="cstat-no" title="statement not covered" >  isDashboard = false,</span>
-<span class="cstat-no" title="statement not covered" >  isLoading = false,</span>
+<span class="cstat-no" title="statement not covered" > isHomepage = false,</span>
+<span class="cstat-no" title="statement not covered" > isDashboard = false,</span>
+<span class="cstat-no" title="statement not covered" > isLoading = false,</span>
 <span class="cstat-no" title="statement not covered" >}: PlantCatalogProps) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const [searchTerm, setSearchTerm] = useState("");</span>
-<span class="cstat-no" title="statement not covered" >  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const [selectedPlantData, setSelectedPlantData] = useState&lt;Plant | null&gt;(</span>
-<span class="cstat-no" title="statement not covered" >    null</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >  const [isFilterOpen, setIsFilterOpen] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const [selectedCategory, setSelectedCategory] = useState("all");</span>
-<span class="cstat-no" title="statement not covered" >  const [selectedCareLevel, setSelectedCareLevel] = useState("all");</span>
-<span class="cstat-no" title="statement not covered" >  const [selectedLightRequirement, setSelectedLightRequirement] =</span>
-<span class="cstat-no" title="statement not covered" >    useState("all");</span>
+<span class="cstat-no" title="statement not covered" > const [searchTerm, setSearchTerm] = useState("");</span>
+<span class="cstat-no" title="statement not covered" > const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [selectedPlantData, setSelectedPlantData] = useState&lt;Plant | null&gt;(</span>
+<span class="cstat-no" title="statement not covered" > null</span>
+<span class="cstat-no" title="statement not covered" > );</span>
+<span class="cstat-no" title="statement not covered" > const [isFilterOpen, setIsFilterOpen] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [selectedCategory, setSelectedCategory] = useState("all");</span>
+<span class="cstat-no" title="statement not covered" > const [selectedCareLevel, setSelectedCareLevel] = useState("all");</span>
+<span class="cstat-no" title="statement not covered" > const [selectedLightRequirement, setSelectedLightRequirement] =</span>
+<span class="cstat-no" title="statement not covered" > useState("all");</span>
 &nbsp;
-  // Pagination state
-<span class="cstat-no" title="statement not covered" >  const [currentPage, setCurrentPage] = useState(1);</span>
-<span class="cstat-no" title="statement not covered" >  const ITEMS_PER_PAGE = 24;</span>
+ // Pagination state
+<span class="cstat-no" title="statement not covered" > const [currentPage, setCurrentPage] = useState(1);</span>
+<span class="cstat-no" title="statement not covered" > const ITEMS_PER_PAGE = 24;</span>
 &nbsp;
-  // Loading states for better UX
-<span class="cstat-no" title="statement not covered" >  const [isChangingPage, setIsChangingPage] = useState(false);</span>
+ // Loading states for better UX
+<span class="cstat-no" title="statement not covered" > const [isChangingPage, setIsChangingPage] = useState(false);</span>
 &nbsp;
-  // Debounced search to prevent excessive filtering
-<span class="cstat-no" title="statement not covered" >  const debouncedSearchTerm = useDebounce(searchTerm, 300);</span>
+ // Debounced search to prevent excessive filtering
+<span class="cstat-no" title="statement not covered" > const debouncedSearchTerm = useDebounce(searchTerm, 300);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const navigate = useNavigate();</span>
-<span class="cstat-no" title="statement not covered" >  const location = useLocation();</span>
-<span class="cstat-no" title="statement not covered" >  const { user } = useAuth();</span>
+<span class="cstat-no" title="statement not covered" > const navigate = useNavigate();</span>
+<span class="cstat-no" title="statement not covered" > const location = useLocation();</span>
+<span class="cstat-no" title="statement not covered" > const { user } = useAuth();</span>
 &nbsp;
-  // Use lightweight plant data for homepage, full dataset for catalog
-<span class="cstat-no" title="statement not covered" >  const plantsToUse = isHomepage ? homepagePlants : plants;</span>
+ // Use lightweight plant data for homepage, full dataset for catalog
+<span class="cstat-no" title="statement not covered" > const plantsToUse = isHomepage ? homepagePlants : plants;</span>
 &nbsp;
-  // Get unique values for filter options
-<span class="cstat-no" title="statement not covered" >  const categories = getUniqueCategories();</span>
-<span class="cstat-no" title="statement not covered" >  const careLevels = getUniqueCareLevels();</span>
-<span class="cstat-no" title="statement not covered" >  const lightRequirements = getUniqueLightRequirements();</span>
+ // Get unique values for filter options
+<span class="cstat-no" title="statement not covered" > const categories = getUniqueCategories();</span>
+<span class="cstat-no" title="statement not covered" > const careLevels = getUniqueCareLevels();</span>
+<span class="cstat-no" title="statement not covered" > const lightRequirements = getUniqueLightRequirements();</span>
 &nbsp;
-  // Filter plants based on all criteria
-<span class="cstat-no" title="statement not covered" >  let filteredPlants = plantsToUse.filter((plant) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const matchesSearch =</span>
-<span class="cstat-no" title="statement not covered" >      plant.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||</span>
-<span class="cstat-no" title="statement not covered" >      plant.botanicalName</span>
-<span class="cstat-no" title="statement not covered" >        .toLowerCase()</span>
-<span class="cstat-no" title="statement not covered" >        .includes(debouncedSearchTerm.toLowerCase());</span>
-<span class="cstat-no" title="statement not covered" >    const matchesCategory =</span>
-<span class="cstat-no" title="statement not covered" >      selectedCategory === "all" || plant.category === selectedCategory;</span>
-<span class="cstat-no" title="statement not covered" >    const matchesCareLevel =</span>
-<span class="cstat-no" title="statement not covered" >      selectedCareLevel === "all" || plant.careLevel === selectedCareLevel;</span>
-<span class="cstat-no" title="statement not covered" >    const matchesLight =</span>
-<span class="cstat-no" title="statement not covered" >      selectedLightRequirement === "all" ||</span>
-<span class="cstat-no" title="statement not covered" >      plant.lightRequirement === selectedLightRequirement;</span>
+ // Filter plants based on all criteria
+<span class="cstat-no" title="statement not covered" > let filteredPlants = plantsToUse.filter((plant) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const matchesSearch =</span>
+<span class="cstat-no" title="statement not covered" >  plant.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||</span>
+<span class="cstat-no" title="statement not covered" >  plant.botanicalName</span>
+<span class="cstat-no" title="statement not covered" >  .toLowerCase()</span>
+<span class="cstat-no" title="statement not covered" >  .includes(debouncedSearchTerm.toLowerCase());</span>
+<span class="cstat-no" title="statement not covered" > const matchesCategory =</span>
+<span class="cstat-no" title="statement not covered" >  selectedCategory === "all" || plant.category === selectedCategory;</span>
+<span class="cstat-no" title="statement not covered" > const matchesCareLevel =</span>
+<span class="cstat-no" title="statement not covered" >  selectedCareLevel === "all" || plant.careLevel === selectedCareLevel;</span>
+<span class="cstat-no" title="statement not covered" > const matchesLight =</span>
+<span class="cstat-no" title="statement not covered" >  selectedLightRequirement === "all" ||</span>
+<span class="cstat-no" title="statement not covered" >  plant.lightRequirement === selectedLightRequirement;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return matchesSearch &amp;&amp; matchesCategory &amp;&amp; matchesCareLevel &amp;&amp; matchesLight;</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > return matchesSearch &amp;&amp; matchesCategory &amp;&amp; matchesCareLevel &amp;&amp; matchesLight;</span>
+<span class="cstat-no" title="statement not covered" > });</span>
 &nbsp;
-  // Always sort alphabetically by name unless a different sort is applied
-<span class="cstat-no" title="statement not covered" >  filteredPlants = filteredPlants.sort((a, b) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >    a.name.localeCompare(b.name, undefined, { sensitivity: "base" })</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
+ // Always sort alphabetically by name unless a different sort is applied
+<span class="cstat-no" title="statement not covered" > filteredPlants = filteredPlants.sort((a, b) =&gt;</span>
+<span class="cstat-no" title="statement not covered" > a.name.localeCompare(b.name, undefined, { sensitivity: "base" })</span>
+<span class="cstat-no" title="statement not covered" > );</span>
 &nbsp;
-  // Calculate pagination values
-<span class="cstat-no" title="statement not covered" >  const totalPages = Math.ceil(filteredPlants.length / ITEMS_PER_PAGE);</span>
-<span class="cstat-no" title="statement not covered" >  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;</span>
-<span class="cstat-no" title="statement not covered" >  const endIndex = startIndex + ITEMS_PER_PAGE;</span>
+ // Calculate pagination values
+<span class="cstat-no" title="statement not covered" > const totalPages = Math.ceil(filteredPlants.length / ITEMS_PER_PAGE);</span>
+<span class="cstat-no" title="statement not covered" > const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;</span>
+<span class="cstat-no" title="statement not covered" > const endIndex = startIndex + ITEMS_PER_PAGE;</span>
 &nbsp;
-  // Reset to page 1 when filters change (use debounced search term)
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setCurrentPage(1);</span>
-    // Also reset URL for non-homepage
-<span class="cstat-no" title="statement not covered" >    if (!isHomepage &amp;&amp; urlPagination) {</span>
-<span class="cstat-no" title="statement not covered" >      urlPagination.handleResetToFirstPage();</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [</span>
-<span class="cstat-no" title="statement not covered" >    debouncedSearchTerm,</span>
-<span class="cstat-no" title="statement not covered" >    selectedCategory,</span>
-<span class="cstat-no" title="statement not covered" >    selectedCareLevel,</span>
-<span class="cstat-no" title="statement not covered" >    selectedLightRequirement,</span>
-<span class="cstat-no" title="statement not covered" >    isHomepage,</span>
-<span class="cstat-no" title="statement not covered" >  ]);</span>
+ // Reset to page 1 when filters change (use debounced search term)
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > setCurrentPage(1);</span>
+ // Also reset URL for non-homepage
+<span class="cstat-no" title="statement not covered" > if (!isHomepage &amp;&amp; urlPagination) {</span>
+<span class="cstat-no" title="statement not covered" >  urlPagination.handleResetToFirstPage();</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [</span>
+<span class="cstat-no" title="statement not covered" > debouncedSearchTerm,</span>
+<span class="cstat-no" title="statement not covered" > selectedCategory,</span>
+<span class="cstat-no" title="statement not covered" > selectedCareLevel,</span>
+<span class="cstat-no" title="statement not covered" > selectedLightRequirement,</span>
+<span class="cstat-no" title="statement not covered" > isHomepage,</span>
+<span class="cstat-no" title="statement not covered" > ]);</span>
 &nbsp;
-  // Get plants for current page or homepage display
-<span class="cstat-no" title="statement not covered" >  const displayedPlants = isHomepage</span>
-<span class="cstat-no" title="statement not covered" >    ? filteredPlants.slice(0, 16) // Homepage shows first 16 plants</span>
-<span class="cstat-no" title="statement not covered" >    : filteredPlants.slice(startIndex, endIndex); // Catalog shows 24 per page</span>
+ // Get plants for current page or homepage display
+<span class="cstat-no" title="statement not covered" > const displayedPlants = isHomepage</span>
+<span class="cstat-no" title="statement not covered" > ? filteredPlants.slice(0, 16) // Homepage shows first 16 plants</span>
+<span class="cstat-no" title="statement not covered" > : filteredPlants.slice(startIndex, endIndex); // Catalog shows 24 per page</span>
 &nbsp;
-  // Enhanced pagination handlers with loading states
-<span class="cstat-no" title="statement not covered" >  const handlePageChange = async (page: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!isHomepage) {</span>
-<span class="cstat-no" title="statement not covered" >      setIsChangingPage(true);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+ // Enhanced pagination handlers with loading states
+<span class="cstat-no" title="statement not covered" > const handlePageChange = async (page: number) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!isHomepage) {</span>
+<span class="cstat-no" title="statement not covered" >  setIsChangingPage(true);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    setCurrentPage(page);</span>
+<span class="cstat-no" title="statement not covered" > setCurrentPage(page);</span>
 &nbsp;
-    // Immediately clear loading state for better performance
-<span class="cstat-no" title="statement not covered" >    if (!isHomepage) {</span>
-<span class="cstat-no" title="statement not covered" >      setIsChangingPage(false);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+ // Immediately clear loading state for better performance
+<span class="cstat-no" title="statement not covered" > if (!isHomepage) {</span>
+<span class="cstat-no" title="statement not covered" >  setIsChangingPage(false);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const handleNextPage = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (currentPage &lt; totalPages) {</span>
+<span class="cstat-no" title="statement not covered" >  await handlePageChange(currentPage + 1);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" > const handlePreviousPage = async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (currentPage &gt; 1) {</span>
+<span class="cstat-no" title="statement not covered" >  await handlePageChange(currentPage - 1);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+&nbsp;
+ // URL synchronization (only for full catalog, not homepage)
+<span class="cstat-no" title="statement not covered" > const urlPagination = usePaginationUrl({</span>
+<span class="cstat-no" title="statement not covered" > currentPage: currentPage,</span>
+<span class="cstat-no" title="statement not covered" > onPageChange: handlePageChange,</span>
+<span class="cstat-no" title="statement not covered" > resetToFirstPage: () =&gt; setCurrentPage(1),</span>
+<span class="cstat-no" title="statement not covered" > enabled: !!user &amp;&amp; !isHomepage,</span>
+<span class="cstat-no" title="statement not covered" > });</span>
+&nbsp;
+ // Use URL-aware handlers for non-homepage
+<span class="cstat-no" title="statement not covered" > const paginationHandlers =</span>
+<span class="cstat-no" title="statement not covered" > isHomepage || !user</span>
+<span class="cstat-no" title="statement not covered" >  ? {</span>
+<span class="cstat-no" title="statement not covered" >   onPageChange: handlePageChange,</span>
+<span class="cstat-no" title="statement not covered" >   onNextPage: handleNextPage,</span>
+<span class="cstat-no" title="statement not covered" >   onPreviousPage: handlePreviousPage,</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  : {</span>
+<span class="cstat-no" title="statement not covered" >   onPageChange: urlPagination.handlePageChange,</span>
+<span class="cstat-no" title="statement not covered" >   onNextPage: urlPagination.handleNextPage,</span>
+<span class="cstat-no" title="statement not covered" >   onPreviousPage: urlPagination.handlePreviousPage,</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleNextPage = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (currentPage &lt; totalPages) {</span>
-<span class="cstat-no" title="statement not covered" >      await handlePageChange(currentPage + 1);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+ // Add keyboard navigation for non-homepage
+<span class="cstat-no" title="statement not covered" > useKeyboardNavigation({</span>
+<span class="cstat-no" title="statement not covered" > onNextPage: paginationHandlers.onNextPage,</span>
+<span class="cstat-no" title="statement not covered" > onPreviousPage: paginationHandlers.onPreviousPage,</span>
+<span class="cstat-no" title="statement not covered" > hasNextPage: currentPage &lt; totalPages,</span>
+<span class="cstat-no" title="statement not covered" > hasPreviousPage: currentPage &gt; 1,</span>
+<span class="cstat-no" title="statement not covered" > isEnabled: !isHomepage &amp;&amp; !isLoading,</span>
+<span class="cstat-no" title="statement not covered" > });</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handlePreviousPage = async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (currentPage &gt; 1) {</span>
-<span class="cstat-no" title="statement not covered" >      await handlePageChange(currentPage - 1);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+ // Auto-scroll to top on page change
+<span class="cstat-no" title="statement not covered" > useScrollToTop({</span>
+<span class="cstat-no" title="statement not covered" > currentPage,</span>
+<span class="cstat-no" title="statement not covered" > isEnabled: !isHomepage,</span>
+<span class="cstat-no" title="statement not covered" > offset: 100,</span>
+<span class="cstat-no" title="statement not covered" > });</span>
 &nbsp;
-  // URL synchronization (only for full catalog, not homepage)
-<span class="cstat-no" title="statement not covered" >  const urlPagination = usePaginationUrl({</span>
-<span class="cstat-no" title="statement not covered" >    currentPage: currentPage,</span>
-<span class="cstat-no" title="statement not covered" >    onPageChange: handlePageChange,</span>
-<span class="cstat-no" title="statement not covered" >    resetToFirstPage: () =&gt; setCurrentPage(1),</span>
-<span class="cstat-no" title="statement not covered" >    enabled: !!user &amp;&amp; !isHomepage,</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > const handleViewDetails = (plantName: string) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const plantPath = plantName.toLowerCase().replace(/\s+/g, "-");</span>
+<span class="cstat-no" title="statement not covered" > navigate(`/plant-details/${plantPath}`);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-  // Use URL-aware handlers for non-homepage
-<span class="cstat-no" title="statement not covered" >  const paginationHandlers =</span>
-<span class="cstat-no" title="statement not covered" >    isHomepage || !user</span>
-<span class="cstat-no" title="statement not covered" >      ? {</span>
-<span class="cstat-no" title="statement not covered" >          onPageChange: handlePageChange,</span>
-<span class="cstat-no" title="statement not covered" >          onNextPage: handleNextPage,</span>
-<span class="cstat-no" title="statement not covered" >          onPreviousPage: handlePreviousPage,</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >      : {</span>
-<span class="cstat-no" title="statement not covered" >          onPageChange: urlPagination.handlePageChange,</span>
-<span class="cstat-no" title="statement not covered" >          onNextPage: urlPagination.handleNextPage,</span>
-<span class="cstat-no" title="statement not covered" >          onPreviousPage: urlPagination.handlePreviousPage,</span>
-<span class="cstat-no" title="statement not covered" >        };</span>
+<span class="cstat-no" title="statement not covered" > const handleAddToCollection = (plant: Plant) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > setSelectedPlantData(plant);</span>
+<span class="cstat-no" title="statement not covered" > setIsAddDialogOpen(true);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-  // Add keyboard navigation for non-homepage
-<span class="cstat-no" title="statement not covered" >  useKeyboardNavigation({</span>
-<span class="cstat-no" title="statement not covered" >    onNextPage: paginationHandlers.onNextPage,</span>
-<span class="cstat-no" title="statement not covered" >    onPreviousPage: paginationHandlers.onPreviousPage,</span>
-<span class="cstat-no" title="statement not covered" >    hasNextPage: currentPage &lt; totalPages,</span>
-<span class="cstat-no" title="statement not covered" >    hasPreviousPage: currentPage &gt; 1,</span>
-<span class="cstat-no" title="statement not covered" >    isEnabled: !isHomepage &amp;&amp; !isLoading,</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > const handleCloseAddDialog = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > setIsAddDialogOpen(false);</span>
+<span class="cstat-no" title="statement not covered" > setSelectedPlantData(null);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-  // Auto-scroll to top on page change
-<span class="cstat-no" title="statement not covered" >  useScrollToTop({</span>
-<span class="cstat-no" title="statement not covered" >    currentPage,</span>
-<span class="cstat-no" title="statement not covered" >    isEnabled: !isHomepage,</span>
-<span class="cstat-no" title="statement not covered" >    offset: 100,</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > const clearAllFilters = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > setSelectedCategory("all");</span>
+<span class="cstat-no" title="statement not covered" > setSelectedCareLevel("all");</span>
+<span class="cstat-no" title="statement not covered" > setSelectedLightRequirement("all");</span>
+<span class="cstat-no" title="statement not covered" > setSearchTerm("");</span>
+ // Reset pagination when clearing filters
+<span class="cstat-no" title="statement not covered" > if (!isHomepage) {</span>
+<span class="cstat-no" title="statement not covered" >  urlPagination.handleResetToFirstPage();</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleViewDetails = (plantName: string) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const plantPath = plantName.toLowerCase().replace(/\s+/g, "-");</span>
-<span class="cstat-no" title="statement not covered" >    navigate(`/plant-details/${plantPath}`);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const hasActiveFilters =</span>
+<span class="cstat-no" title="statement not covered" > selectedCategory !== "all" ||</span>
+<span class="cstat-no" title="statement not covered" > selectedCareLevel !== "all" ||</span>
+<span class="cstat-no" title="statement not covered" > selectedLightRequirement !== "all" ||</span>
+<span class="cstat-no" title="statement not covered" > searchTerm !== "";</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleAddToCollection = (plant: Plant) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setSelectedPlantData(plant);</span>
-<span class="cstat-no" title="statement not covered" >    setIsAddDialogOpen(true);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const handleViewAllPlants = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > navigate("/plant-catalog");</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleCloseAddDialog = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setIsAddDialogOpen(false);</span>
-<span class="cstat-no" title="statement not covered" >    setSelectedPlantData(null);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const handleSignInToAdd = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const currentPath = encodeURIComponent(location.pathname);</span>
+<span class="cstat-no" title="statement not covered" > navigate(`/auth?redirect=${currentPath}`);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const clearAllFilters = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    setSelectedCategory("all");</span>
-<span class="cstat-no" title="statement not covered" >    setSelectedCareLevel("all");</span>
-<span class="cstat-no" title="statement not covered" >    setSelectedLightRequirement("all");</span>
-<span class="cstat-no" title="statement not covered" >    setSearchTerm("");</span>
-    // Reset pagination when clearing filters
-<span class="cstat-no" title="statement not covered" >    if (!isHomepage) {</span>
-<span class="cstat-no" title="statement not covered" >      urlPagination.handleResetToFirstPage();</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+ // Calculate display info for results summary
+<span class="cstat-no" title="statement not covered" > const startItem = filteredPlants.length === 0 ? 0 : startIndex + 1;</span>
+<span class="cstat-no" title="statement not covered" > const endItem = Math.min(endIndex, filteredPlants.length);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const hasActiveFilters =</span>
-<span class="cstat-no" title="statement not covered" >    selectedCategory !== "all" ||</span>
-<span class="cstat-no" title="statement not covered" >    selectedCareLevel !== "all" ||</span>
-<span class="cstat-no" title="statement not covered" >    selectedLightRequirement !== "all" ||</span>
-<span class="cstat-no" title="statement not covered" >    searchTerm !== "";</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;section</span>
+<span class="cstat-no" title="statement not covered" >  className={`py-8 ${</span>
+<span class="cstat-no" title="statement not covered" >  isDashboard ? "bg-background" : "bg-plant-neutral dark:bg-background"</span>
+<span class="cstat-no" title="statement not covered" >  }`}</span>
+<span class="cstat-no" title="statement not covered" >  data-testid="plant-catalog"</span>
+ &gt;
+<span class="cstat-no" title="statement not covered" >  &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  {isDashboard ? (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="text-center mb-12"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4"&gt;</span>
+    Discover New Plants
+<span class="cstat-no" title="statement not covered" >   &lt;/h2&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;p className="text-muted-foreground text-lg max-w-2xl mx-auto"&gt;</span>
+    Browse our plant catalog to find your next green companion
+<span class="cstat-no" title="statement not covered" >   &lt;/p&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+  ) : (
+<span class="cstat-no" title="statement not covered" >   &lt;PlantCatalogHeader /&gt;</span>
+  )}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleViewAllPlants = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    navigate("/plant-catalog");</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" >  {!isHomepage &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {user &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;PlantSearchFilters</span>
+<span class="cstat-no" title="statement not covered" >    searchTerm={searchTerm}</span>
+<span class="cstat-no" title="statement not covered" >    setSearchTerm={setSearchTerm}</span>
+<span class="cstat-no" title="statement not covered" >    isFilterOpen={isFilterOpen}</span>
+<span class="cstat-no" title="statement not covered" >    setIsFilterOpen={setIsFilterOpen}</span>
+<span class="cstat-no" title="statement not covered" >    selectedCategory={selectedCategory}</span>
+<span class="cstat-no" title="statement not covered" >    setSelectedCategory={setSelectedCategory}</span>
+<span class="cstat-no" title="statement not covered" >    selectedCareLevel={selectedCareLevel}</span>
+<span class="cstat-no" title="statement not covered" >    setSelectedCareLevel={setSelectedCareLevel}</span>
+<span class="cstat-no" title="statement not covered" >    selectedLightRequirement={selectedLightRequirement}</span>
+<span class="cstat-no" title="statement not covered" >    setSelectedLightRequirement={setSelectedLightRequirement}</span>
+<span class="cstat-no" title="statement not covered" >    categories={categories}</span>
+<span class="cstat-no" title="statement not covered" >    careLevels={careLevels}</span>
+<span class="cstat-no" title="statement not covered" >    lightRequirements={lightRequirements}</span>
+<span class="cstat-no" title="statement not covered" >    hasActiveFilters={hasActiveFilters}</span>
+<span class="cstat-no" title="statement not covered" >    clearAllFilters={clearAllFilters}</span>
+<span class="cstat-no" title="statement not covered" >    /&gt;</span>
+   )}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleSignInToAdd = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const currentPath = encodeURIComponent(location.pathname);</span>
-<span class="cstat-no" title="statement not covered" >    navigate(`/auth?redirect=${currentPath}`);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" >   &lt;PlantResultsSummary</span>
+<span class="cstat-no" title="statement not covered" >    filteredCount={filteredPlants.length}</span>
+<span class="cstat-no" title="statement not covered" >    totalCount={plants.length}</span>
+<span class="cstat-no" title="statement not covered" >    hasActiveFilters={hasActiveFilters}</span>
+<span class="cstat-no" title="statement not covered" >    startItem={startItem}</span>
+<span class="cstat-no" title="statement not covered" >    endItem={endItem}</span>
+<span class="cstat-no" title="statement not covered" >    isPaginated={true}</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/&gt;</span>
+  )}
 &nbsp;
-  // Calculate display info for results summary
-<span class="cstat-no" title="statement not covered" >  const startItem = filteredPlants.length === 0 ? 0 : startIndex + 1;</span>
-<span class="cstat-no" title="statement not covered" >  const endItem = Math.min(endIndex, filteredPlants.length);</span>
+<span class="cstat-no" title="statement not covered" >  &lt;PlantGrid</span>
+<span class="cstat-no" title="statement not covered" >   plants={displayedPlants}</span>
+<span class="cstat-no" title="statement not covered" >   onAddToCollection={handleAddToCollection}</span>
+<span class="cstat-no" title="statement not covered" >   onViewDetails={handleViewDetails}</span>
+<span class="cstat-no" title="statement not covered" >   hasActiveFilters={hasActiveFilters}</span>
+<span class="cstat-no" title="statement not covered" >   clearAllFilters={clearAllFilters}</span>
+<span class="cstat-no" title="statement not covered" >   isLoading={isLoading}</span>
+<span class="cstat-no" title="statement not covered" >   isChangingPage={isChangingPage}</span>
+<span class="cstat-no" title="statement not covered" >   isAuthenticated={!!user}</span>
+<span class="cstat-no" title="statement not covered" >   onSignInToAdd={handleSignInToAdd}</span>
+<span class="cstat-no" title="statement not covered" >  /&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;section</span>
-<span class="cstat-no" title="statement not covered" >      className={`py-8 ${</span>
-<span class="cstat-no" title="statement not covered" >        isDashboard ? "bg-background" : "bg-plant-neutral dark:bg-background"</span>
-<span class="cstat-no" title="statement not covered" >      }`}</span>
-<span class="cstat-no" title="statement not covered" >      data-testid="plant-catalog"</span>
-    &gt;
-<span class="cstat-no" title="statement not covered" >      &lt;div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        {isDashboard ? (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="text-center mb-12"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4 font-poppins"&gt;</span>
-              Discover New Plants
-<span class="cstat-no" title="statement not covered" >            &lt;/h2&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;p className="text-muted-foreground text-lg max-w-2xl mx-auto"&gt;</span>
-              Browse our plant catalog to find your next green companion
-<span class="cstat-no" title="statement not covered" >            &lt;/p&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-        ) : (
-<span class="cstat-no" title="statement not covered" >          &lt;PlantCatalogHeader /&gt;</span>
-        )}
+  {/* Pagination Controls - Only show on full catalog page */}
+<span class="cstat-no" title="statement not covered" >  {!isHomepage &amp;&amp;</span>
+<span class="cstat-no" title="statement not covered" >   totalPages &gt; 1 &amp;&amp;</span>
+<span class="cstat-no" title="statement not covered" >   (user ? (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;PaginationControls</span>
+<span class="cstat-no" title="statement not covered" >    currentPage={currentPage}</span>
+<span class="cstat-no" title="statement not covered" >    totalPages={totalPages}</span>
+<span class="cstat-no" title="statement not covered" >    hasNextPage={currentPage &lt; totalPages}</span>
+<span class="cstat-no" title="statement not covered" >    hasPreviousPage={currentPage &gt; 1}</span>
+<span class="cstat-no" title="statement not covered" >    isChangingPage={isChangingPage}</span>
+<span class="cstat-no" title="statement not covered" >    onPageChange={paginationHandlers.onPageChange}</span>
+<span class="cstat-no" title="statement not covered" >    onNextPage={paginationHandlers.onNextPage}</span>
+<span class="cstat-no" title="statement not covered" >    onPreviousPage={paginationHandlers.onPreviousPage}</span>
+<span class="cstat-no" title="statement not covered" >    className="mt-12"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+   ) : (
+<span class="cstat-no" title="statement not covered" >   &lt;div className="mt-12"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;AuthUpsell variant="card" source="catalog" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+   ))}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        {!isHomepage &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {user &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;PlantSearchFilters</span>
-<span class="cstat-no" title="statement not covered" >                searchTerm={searchTerm}</span>
-<span class="cstat-no" title="statement not covered" >                setSearchTerm={setSearchTerm}</span>
-<span class="cstat-no" title="statement not covered" >                isFilterOpen={isFilterOpen}</span>
-<span class="cstat-no" title="statement not covered" >                setIsFilterOpen={setIsFilterOpen}</span>
-<span class="cstat-no" title="statement not covered" >                selectedCategory={selectedCategory}</span>
-<span class="cstat-no" title="statement not covered" >                setSelectedCategory={setSelectedCategory}</span>
-<span class="cstat-no" title="statement not covered" >                selectedCareLevel={selectedCareLevel}</span>
-<span class="cstat-no" title="statement not covered" >                setSelectedCareLevel={setSelectedCareLevel}</span>
-<span class="cstat-no" title="statement not covered" >                selectedLightRequirement={selectedLightRequirement}</span>
-<span class="cstat-no" title="statement not covered" >                setSelectedLightRequirement={setSelectedLightRequirement}</span>
-<span class="cstat-no" title="statement not covered" >                categories={categories}</span>
-<span class="cstat-no" title="statement not covered" >                careLevels={careLevels}</span>
-<span class="cstat-no" title="statement not covered" >                lightRequirements={lightRequirements}</span>
-<span class="cstat-no" title="statement not covered" >                hasActiveFilters={hasActiveFilters}</span>
-<span class="cstat-no" title="statement not covered" >                clearAllFilters={clearAllFilters}</span>
-<span class="cstat-no" title="statement not covered" >              /&gt;</span>
-            )}
+<span class="cstat-no" title="statement not covered" >  {isHomepage &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="mt-12"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   {user ? (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    onClick={handleViewAllPlants}</span>
+<span class="cstat-no" title="statement not covered" >    className="bg-sprout-dark hover:bg-sprout-dark/90 dark:bg-sprout-cream dark:hover:bg-sprout-cream/90 text-sprout-white dark:text-sprout-dark px-8 py-3 rounded-xl font-medium text-lg"</span>
+<span class="cstat-no" title="statement not covered" >    data-testid="view-all-plants"</span>
+<span class="cstat-no" title="statement not covered" >    &gt;</span>
+    View All Plants
+<span class="cstat-no" title="statement not covered" >    &lt;ArrowRight className="ml-2 w-5 h-5" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/Button&gt;</span>
+   ) : (
+<span class="cstat-no" title="statement not covered" >    &lt;AuthUpsell variant="card" source="homepage" /&gt;</span>
+   )}
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+  )}
 &nbsp;
-<span class="cstat-no" title="statement not covered" >            &lt;PlantResultsSummary</span>
-<span class="cstat-no" title="statement not covered" >              filteredCount={filteredPlants.length}</span>
-<span class="cstat-no" title="statement not covered" >              totalCount={plants.length}</span>
-<span class="cstat-no" title="statement not covered" >              hasActiveFilters={hasActiveFilters}</span>
-<span class="cstat-no" title="statement not covered" >              startItem={startItem}</span>
-<span class="cstat-no" title="statement not covered" >              endItem={endItem}</span>
-<span class="cstat-no" title="statement not covered" >              isPaginated={true}</span>
-<span class="cstat-no" title="statement not covered" >            /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/&gt;</span>
-        )}
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        &lt;PlantGrid</span>
-<span class="cstat-no" title="statement not covered" >          plants={displayedPlants}</span>
-<span class="cstat-no" title="statement not covered" >          onAddToCollection={handleAddToCollection}</span>
-<span class="cstat-no" title="statement not covered" >          onViewDetails={handleViewDetails}</span>
-<span class="cstat-no" title="statement not covered" >          hasActiveFilters={hasActiveFilters}</span>
-<span class="cstat-no" title="statement not covered" >          clearAllFilters={clearAllFilters}</span>
-<span class="cstat-no" title="statement not covered" >          isLoading={isLoading}</span>
-<span class="cstat-no" title="statement not covered" >          isChangingPage={isChangingPage}</span>
-<span class="cstat-no" title="statement not covered" >          isAuthenticated={!!user}</span>
-<span class="cstat-no" title="statement not covered" >          onSignInToAdd={handleSignInToAdd}</span>
-<span class="cstat-no" title="statement not covered" >        /&gt;</span>
-&nbsp;
-        {/* Pagination Controls - Only show on full catalog page */}
-<span class="cstat-no" title="statement not covered" >        {!isHomepage &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >          totalPages &gt; 1 &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >          (user ? (</span>
-<span class="cstat-no" title="statement not covered" >            &lt;PaginationControls</span>
-<span class="cstat-no" title="statement not covered" >              currentPage={currentPage}</span>
-<span class="cstat-no" title="statement not covered" >              totalPages={totalPages}</span>
-<span class="cstat-no" title="statement not covered" >              hasNextPage={currentPage &lt; totalPages}</span>
-<span class="cstat-no" title="statement not covered" >              hasPreviousPage={currentPage &gt; 1}</span>
-<span class="cstat-no" title="statement not covered" >              isChangingPage={isChangingPage}</span>
-<span class="cstat-no" title="statement not covered" >              onPageChange={paginationHandlers.onPageChange}</span>
-<span class="cstat-no" title="statement not covered" >              onNextPage={paginationHandlers.onNextPage}</span>
-<span class="cstat-no" title="statement not covered" >              onPreviousPage={paginationHandlers.onPreviousPage}</span>
-<span class="cstat-no" title="statement not covered" >              className="mt-12"</span>
-<span class="cstat-no" title="statement not covered" >            /&gt;</span>
-          ) : (
-<span class="cstat-no" title="statement not covered" >            &lt;div className="mt-12"&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;AuthUpsell variant="card" source="catalog" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-          ))}
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        {isHomepage &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="mt-12"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            {user ? (</span>
-<span class="cstat-no" title="statement not covered" >              &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >                onClick={handleViewAllPlants}</span>
-<span class="cstat-no" title="statement not covered" >                className="bg-sprout-dark hover:bg-sprout-dark/90 dark:bg-sprout-cream dark:hover:bg-sprout-cream/90 text-sprout-white dark:text-sprout-dark px-8 py-3 rounded-xl font-medium text-lg"</span>
-<span class="cstat-no" title="statement not covered" >                data-testid="view-all-plants"</span>
-<span class="cstat-no" title="statement not covered" >              &gt;</span>
-                View All Plants
-<span class="cstat-no" title="statement not covered" >                &lt;ArrowRight className="ml-2 w-5 h-5" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/Button&gt;</span>
-            ) : (
-<span class="cstat-no" title="statement not covered" >              &lt;AuthUpsell variant="card" source="homepage" /&gt;</span>
-            )}
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-        )}
-&nbsp;
-<span class="cstat-no" title="statement not covered" >        {user &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >          &lt;AddPlantDialog</span>
-<span class="cstat-no" title="statement not covered" >            isOpen={isAddDialogOpen}</span>
-<span class="cstat-no" title="statement not covered" >            onClose={handleCloseAddDialog}</span>
-<span class="cstat-no" title="statement not covered" >            plantData={selectedPlantData}</span>
-<span class="cstat-no" title="statement not covered" >          /&gt;</span>
-        )}
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/section&gt;</span>
-  );
+<span class="cstat-no" title="statement not covered" >  {user &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >   &lt;AddPlantDialog</span>
+<span class="cstat-no" title="statement not covered" >   isOpen={isAddDialogOpen}</span>
+<span class="cstat-no" title="statement not covered" >   onClose={handleCloseAddDialog}</span>
+<span class="cstat-no" title="statement not covered" >   plantData={selectedPlantData}</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+  )}
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/section&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default PlantCatalog;</span>
@@ -1099,7 +1099,7 @@ interface PlantCatalogProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

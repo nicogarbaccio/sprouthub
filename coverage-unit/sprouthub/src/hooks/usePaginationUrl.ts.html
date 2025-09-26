@@ -231,10 +231,10 @@
 import { useEffect } from 'react';
 &nbsp;
 interface UsePaginationUrlProps {
-  currentPage: number;
-  onPageChange: (page: number) =&gt; void;
-  resetToFirstPage: () =&gt; void;
-  enabled?: boolean;
+ currentPage: number;
+ onPageChange: (page: number) =&gt; void;
+ resetToFirstPage: () =&gt; void;
+ enabled?: boolean;
 }
 &nbsp;
 /**
@@ -242,73 +242,73 @@ interface UsePaginationUrlProps {
  * Manages ?page=2 in the URL and browser navigation
  */
 <span class="cstat-no" title="statement not covered" >export const usePaginationUrl = ({</span>
-<span class="cstat-no" title="statement not covered" >  currentPage,</span>
-<span class="cstat-no" title="statement not covered" >  onPageChange,</span>
-<span class="cstat-no" title="statement not covered" >  resetToFirstPage,</span>
-<span class="cstat-no" title="statement not covered" >  enabled = true,</span>
+<span class="cstat-no" title="statement not covered" > currentPage,</span>
+<span class="cstat-no" title="statement not covered" > onPageChange,</span>
+<span class="cstat-no" title="statement not covered" > resetToFirstPage,</span>
+<span class="cstat-no" title="statement not covered" > enabled = true,</span>
 <span class="cstat-no" title="statement not covered" >}: UsePaginationUrlProps) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const [searchParams, setSearchParams] = useSearchParams();</span>
+<span class="cstat-no" title="statement not covered" > const [searchParams, setSearchParams] = useSearchParams();</span>
 &nbsp;
-  // Read page from URL on mount and when URL changes
-<span class="cstat-no" title="statement not covered" >  useEffect(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!enabled) return;</span>
-<span class="cstat-no" title="statement not covered" >    const pageFromUrl = searchParams.get('page');</span>
-<span class="cstat-no" title="statement not covered" >    if (pageFromUrl) {</span>
-<span class="cstat-no" title="statement not covered" >      const pageNumber = parseInt(pageFromUrl, 10);</span>
-<span class="cstat-no" title="statement not covered" >      if (pageNumber &gt; 0 &amp;&amp; pageNumber !== currentPage) {</span>
-<span class="cstat-no" title="statement not covered" >        onPageChange(pageNumber);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    } else if (currentPage !== 1) {</span>
-      // If no page in URL but currentPage is not 1, reset to 1
-<span class="cstat-no" title="statement not covered" >      resetToFirstPage();</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [searchParams, enabled, currentPage]);</span>
+ // Read page from URL on mount and when URL changes
+<span class="cstat-no" title="statement not covered" > useEffect(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!enabled) return;</span>
+<span class="cstat-no" title="statement not covered" > const pageFromUrl = searchParams.get('page');</span>
+<span class="cstat-no" title="statement not covered" > if (pageFromUrl) {</span>
+<span class="cstat-no" title="statement not covered" >  const pageNumber = parseInt(pageFromUrl, 10);</span>
+<span class="cstat-no" title="statement not covered" >  if (pageNumber &gt; 0 &amp;&amp; pageNumber !== currentPage) {</span>
+<span class="cstat-no" title="statement not covered" >  onPageChange(pageNumber);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > } else if (currentPage !== 1) {</span>
+  // If no page in URL but currentPage is not 1, reset to 1
+<span class="cstat-no" title="statement not covered" >  resetToFirstPage();</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [searchParams, enabled, currentPage]);</span>
 &nbsp;
-  // Update URL when page changes
-<span class="cstat-no" title="statement not covered" >  const updateUrl = (page: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!enabled) return;</span>
-<span class="cstat-no" title="statement not covered" >    const newSearchParams = new URLSearchParams(searchParams);</span>
-    
-<span class="cstat-no" title="statement not covered" >    if (page === 1) {</span>
-      // Remove page param for page 1 (cleaner URLs)
-<span class="cstat-no" title="statement not covered" >      newSearchParams.delete('page');</span>
-<span class="cstat-no" title="statement not covered" >    } else {</span>
-<span class="cstat-no" title="statement not covered" >      newSearchParams.set('page', page.toString());</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-    
-<span class="cstat-no" title="statement not covered" >    setSearchParams(newSearchParams, { replace: true });</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+ // Update URL when page changes
+<span class="cstat-no" title="statement not covered" > const updateUrl = (page: number) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!enabled) return;</span>
+<span class="cstat-no" title="statement not covered" > const newSearchParams = new URLSearchParams(searchParams);</span>
+ 
+<span class="cstat-no" title="statement not covered" > if (page === 1) {</span>
+  // Remove page param for page 1 (cleaner URLs)
+<span class="cstat-no" title="statement not covered" >  newSearchParams.delete('page');</span>
+<span class="cstat-no" title="statement not covered" > } else {</span>
+<span class="cstat-no" title="statement not covered" >  newSearchParams.set('page', page.toString());</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+ 
+<span class="cstat-no" title="statement not covered" > setSearchParams(newSearchParams, { replace: true });</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-  // Function to handle page change with URL update
-<span class="cstat-no" title="statement not covered" >  const handlePageChange = (page: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    onPageChange(page);</span>
-<span class="cstat-no" title="statement not covered" >    updateUrl(page);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+ // Function to handle page change with URL update
+<span class="cstat-no" title="statement not covered" > const handlePageChange = (page: number) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > onPageChange(page);</span>
+<span class="cstat-no" title="statement not covered" > updateUrl(page);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleNextPage = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const nextPage = currentPage + 1;</span>
-<span class="cstat-no" title="statement not covered" >    onPageChange(nextPage);</span>
-<span class="cstat-no" title="statement not covered" >    updateUrl(nextPage);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const handleNextPage = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const nextPage = currentPage + 1;</span>
+<span class="cstat-no" title="statement not covered" > onPageChange(nextPage);</span>
+<span class="cstat-no" title="statement not covered" > updateUrl(nextPage);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handlePreviousPage = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const prevPage = Math.max(1, currentPage - 1);</span>
-<span class="cstat-no" title="statement not covered" >    onPageChange(prevPage);</span>
-<span class="cstat-no" title="statement not covered" >    updateUrl(prevPage);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > const handlePreviousPage = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const prevPage = Math.max(1, currentPage - 1);</span>
+<span class="cstat-no" title="statement not covered" > onPageChange(prevPage);</span>
+<span class="cstat-no" title="statement not covered" > updateUrl(prevPage);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-  // Reset to first page and update URL
-<span class="cstat-no" title="statement not covered" >  const handleResetToFirstPage = () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    resetToFirstPage();</span>
-<span class="cstat-no" title="statement not covered" >    updateUrl(1);</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+ // Reset to first page and update URL
+<span class="cstat-no" title="statement not covered" > const handleResetToFirstPage = () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > resetToFirstPage();</span>
+<span class="cstat-no" title="statement not covered" > updateUrl(1);</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
-<span class="cstat-no" title="statement not covered" >    handlePageChange,</span>
-<span class="cstat-no" title="statement not covered" >    handleNextPage,</span>
-<span class="cstat-no" title="statement not covered" >    handlePreviousPage,</span>
-<span class="cstat-no" title="statement not covered" >    handleResetToFirstPage,</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > return {</span>
+<span class="cstat-no" title="statement not covered" > handlePageChange,</span>
+<span class="cstat-no" title="statement not covered" > handleNextPage,</span>
+<span class="cstat-no" title="statement not covered" > handlePreviousPage,</span>
+<span class="cstat-no" title="statement not covered" > handleResetToFirstPage,</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 <span class="cstat-no" title="statement not covered" >}; </span></pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -316,7 +316,7 @@ interface UsePaginationUrlProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

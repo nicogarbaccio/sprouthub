@@ -435,183 +435,183 @@
 <span class="cstat-no" title="statement not covered" >import { Input } from "@/components/ui/input";</span>
 <span class="cstat-no" title="statement not covered" >import { Button } from "@/components/ui/button";</span>
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+ Select,
+ SelectContent,
+ SelectItem,
+ SelectTrigger,
+ SelectValue,
 <span class="cstat-no" title="statement not covered" >} from "@/components/ui/select";</span>
 <span class="cstat-no" title="statement not covered" >import { Badge } from "@/components/ui/badge";</span>
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
+ Collapsible,
+ CollapsibleContent,
+ CollapsibleTrigger,
 <span class="cstat-no" title="statement not covered" >} from "@/components/ui/collapsible";</span>
 &nbsp;
 interface PlantSearchFiltersProps {
-  searchTerm: string;
-  setSearchTerm: (term: string) =&gt; void;
-  isFilterOpen: boolean;
-  setIsFilterOpen: (open: boolean) =&gt; void;
-  selectedCategory: string;
-  setSelectedCategory: (category: string) =&gt; void;
-  selectedCareLevel: string;
-  setSelectedCareLevel: (level: string) =&gt; void;
-  selectedLightRequirement: string;
-  setSelectedLightRequirement: (light: string) =&gt; void;
-  categories: string[];
-  careLevels: string[];
-  lightRequirements: string[];
-  hasActiveFilters: boolean;
-  clearAllFilters: () =&gt; void;
+ searchTerm: string;
+ setSearchTerm: (term: string) =&gt; void;
+ isFilterOpen: boolean;
+ setIsFilterOpen: (open: boolean) =&gt; void;
+ selectedCategory: string;
+ setSelectedCategory: (category: string) =&gt; void;
+ selectedCareLevel: string;
+ setSelectedCareLevel: (level: string) =&gt; void;
+ selectedLightRequirement: string;
+ setSelectedLightRequirement: (light: string) =&gt; void;
+ categories: string[];
+ careLevels: string[];
+ lightRequirements: string[];
+ hasActiveFilters: boolean;
+ clearAllFilters: () =&gt; void;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >const PlantSearchFilters = ({</span>
-<span class="cstat-no" title="statement not covered" >  searchTerm,</span>
-<span class="cstat-no" title="statement not covered" >  setSearchTerm,</span>
-<span class="cstat-no" title="statement not covered" >  isFilterOpen,</span>
-<span class="cstat-no" title="statement not covered" >  setIsFilterOpen,</span>
-<span class="cstat-no" title="statement not covered" >  selectedCategory,</span>
-<span class="cstat-no" title="statement not covered" >  setSelectedCategory,</span>
-<span class="cstat-no" title="statement not covered" >  selectedCareLevel,</span>
-<span class="cstat-no" title="statement not covered" >  setSelectedCareLevel,</span>
-<span class="cstat-no" title="statement not covered" >  selectedLightRequirement,</span>
-<span class="cstat-no" title="statement not covered" >  setSelectedLightRequirement,</span>
-<span class="cstat-no" title="statement not covered" >  categories,</span>
-<span class="cstat-no" title="statement not covered" >  careLevels,</span>
-<span class="cstat-no" title="statement not covered" >  lightRequirements,</span>
-<span class="cstat-no" title="statement not covered" >  hasActiveFilters,</span>
-<span class="cstat-no" title="statement not covered" >  clearAllFilters,</span>
+<span class="cstat-no" title="statement not covered" > searchTerm,</span>
+<span class="cstat-no" title="statement not covered" > setSearchTerm,</span>
+<span class="cstat-no" title="statement not covered" > isFilterOpen,</span>
+<span class="cstat-no" title="statement not covered" > setIsFilterOpen,</span>
+<span class="cstat-no" title="statement not covered" > selectedCategory,</span>
+<span class="cstat-no" title="statement not covered" > setSelectedCategory,</span>
+<span class="cstat-no" title="statement not covered" > selectedCareLevel,</span>
+<span class="cstat-no" title="statement not covered" > setSelectedCareLevel,</span>
+<span class="cstat-no" title="statement not covered" > selectedLightRequirement,</span>
+<span class="cstat-no" title="statement not covered" > setSelectedLightRequirement,</span>
+<span class="cstat-no" title="statement not covered" > categories,</span>
+<span class="cstat-no" title="statement not covered" > careLevels,</span>
+<span class="cstat-no" title="statement not covered" > lightRequirements,</span>
+<span class="cstat-no" title="statement not covered" > hasActiveFilters,</span>
+<span class="cstat-no" title="statement not covered" > clearAllFilters,</span>
 <span class="cstat-no" title="statement not covered" >}: PlantSearchFiltersProps) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;div className="max-w-4xl mx-auto space-y-6 mb-8"&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;Collapsible open={isFilterOpen} onOpenChange={setIsFilterOpen}&gt;</span>
-        {/* Search Bar and Filter Button Row */}
-<span class="cstat-no" title="statement not covered" >        &lt;div className="flex justify-center gap-4"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="relative w-full max-w-md"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Input</span>
-<span class="cstat-no" title="statement not covered" >              type="text"</span>
-<span class="cstat-no" title="statement not covered" >              placeholder="Search plants..."</span>
-<span class="cstat-no" title="statement not covered" >              value={searchTerm}</span>
-<span class="cstat-no" title="statement not covered" >              onChange={(e) =&gt; setSearchTerm(e.target.value)}</span>
-<span class="cstat-no" title="statement not covered" >              className="pl-10 border-plant-secondary/30 focus:border-plant-primary rounded-xl h-11"</span>
-<span class="cstat-no" title="statement not covered" >              data-testid="search-input"</span>
-<span class="cstat-no" title="statement not covered" >            /&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" > return (</span>
+<span class="cstat-no" title="statement not covered" > &lt;div className="max-w-4xl mx-auto space-y-6 mb-8"&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;Collapsible open={isFilterOpen} onOpenChange={setIsFilterOpen}&gt;</span>
+  {/* Search Bar and Filter Button Row */}
+<span class="cstat-no" title="statement not covered" >  &lt;div className="flex justify-center gap-4"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="relative w-full max-w-md"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Input</span>
+<span class="cstat-no" title="statement not covered" >    type="text"</span>
+<span class="cstat-no" title="statement not covered" >    placeholder="Search plants..."</span>
+<span class="cstat-no" title="statement not covered" >    value={searchTerm}</span>
+<span class="cstat-no" title="statement not covered" >    onChange={(e) =&gt; setSearchTerm(e.target.value)}</span>
+<span class="cstat-no" title="statement not covered" >    className="pl-10 border-plant-secondary/30 focus:border-plant-primary rounded-xl h-11"</span>
+<span class="cstat-no" title="statement not covered" >    data-testid="search-input"</span>
+<span class="cstat-no" title="statement not covered" >   /&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >          &lt;CollapsibleTrigger asChild&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >              variant="outline"</span>
-<span class="cstat-no" title="statement not covered" >              className="border-plant-secondary/30 hover:bg-plant-secondary/10 rounded-xl h-11 px-6 flex-shrink-0"</span>
-<span class="cstat-no" title="statement not covered" >              data-testid="filters-button"</span>
-            &gt;
-<span class="cstat-no" title="statement not covered" >              &lt;Filter className="w-4 h-4 mr-2" /&gt;</span>
-              Filters
-<span class="cstat-no" title="statement not covered" >              {hasActiveFilters &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >                &lt;Badge</span>
-<span class="cstat-no" title="statement not covered" >                  variant="secondary"</span>
-<span class="cstat-no" title="statement not covered" >                  className="ml-2 bg-plant-primary text-white text-xs"</span>
-<span class="cstat-no" title="statement not covered" >                &gt;</span>
-                  Active
-<span class="cstat-no" title="statement not covered" >                &lt;/Badge&gt;</span>
-              )}
-<span class="cstat-no" title="statement not covered" >            &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/CollapsibleTrigger&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;CollapsibleTrigger asChild&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >    variant="outline"</span>
+<span class="cstat-no" title="statement not covered" >    className="border-plant-secondary/30 hover:bg-plant-secondary/10 rounded-xl h-11 px-6 flex-shrink-0"</span>
+<span class="cstat-no" title="statement not covered" >    data-testid="filters-button"</span>
+   &gt;
+<span class="cstat-no" title="statement not covered" >    &lt;Filter className="w-4 h-4 mr-2" /&gt;</span>
+    Filters
+<span class="cstat-no" title="statement not covered" >    {hasActiveFilters &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Badge</span>
+<span class="cstat-no" title="statement not covered" >     variant="secondary"</span>
+<span class="cstat-no" title="statement not covered" >     className="ml-2 bg-plant-primary text-white text-xs"</span>
+<span class="cstat-no" title="statement not covered" >    &gt;</span>
+     Active
+<span class="cstat-no" title="statement not covered" >    &lt;/Badge&gt;</span>
+    )}
+<span class="cstat-no" title="statement not covered" >   &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/CollapsibleTrigger&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/div&gt;</span>
 &nbsp;
-        {/* Filters Panel - Appears Below and Centered */}
-<span class="cstat-no" title="statement not covered" >        &lt;CollapsibleContent className="mt-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;div className="flex justify-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >            &lt;div className="p-6 bg-card rounded-xl border border-border shadow-lg w-full max-w-3xl"&gt;</span>
-              {/* Filter Controls */}
-<span class="cstat-no" title="statement not covered" >              &lt;div className="grid grid-cols-1 md:grid-cols-3 gap-6"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;label className="text-sm font-medium text-foreground block"&gt;</span>
-                    Category
-<span class="cstat-no" title="statement not covered" >                  &lt;/label&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;Select</span>
-<span class="cstat-no" title="statement not covered" >                    value={selectedCategory}</span>
-<span class="cstat-no" title="statement not covered" >                    onValueChange={setSelectedCategory}</span>
-                  &gt;
-<span class="cstat-no" title="statement not covered" >                    &lt;SelectTrigger className="border-plant-secondary/30 w-full h-11"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;SelectValue placeholder="All Categories" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/SelectTrigger&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;SelectContent className="bg-card border border-plant-secondary/30 shadow-lg z-50 max-h-60"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;SelectItem value="all"&gt;All Categories&lt;/SelectItem&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      {categories.map((category) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >                        &lt;SelectItem key={category} value={category}&gt;</span>
-<span class="cstat-no" title="statement not covered" >                          {category}</span>
-<span class="cstat-no" title="statement not covered" >                        &lt;/SelectItem&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      ))}</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/SelectContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/Select&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;label className="text-sm font-medium text-foreground block"&gt;</span>
-                    Care Level
-<span class="cstat-no" title="statement not covered" >                  &lt;/label&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;Select</span>
-<span class="cstat-no" title="statement not covered" >                    value={selectedCareLevel}</span>
-<span class="cstat-no" title="statement not covered" >                    onValueChange={setSelectedCareLevel}</span>
-                  &gt;
-<span class="cstat-no" title="statement not covered" >                    &lt;SelectTrigger className="border-plant-secondary/30 w-full h-11"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;SelectValue placeholder="All Levels" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/SelectTrigger&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;SelectContent className="bg-card border border-plant-secondary/30 shadow-lg z-50 max-h-60"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;SelectItem value="all"&gt;All Levels&lt;/SelectItem&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      {careLevels.map((level) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >                        &lt;SelectItem key={level} value={level}&gt;</span>
-<span class="cstat-no" title="statement not covered" >                          {level}</span>
-<span class="cstat-no" title="statement not covered" >                        &lt;/SelectItem&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      ))}</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/SelectContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/Select&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
-&nbsp;
-<span class="cstat-no" title="statement not covered" >                &lt;div className="space-y-3"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;label className="text-sm font-medium text-foreground block"&gt;</span>
-                    Light Requirement
-<span class="cstat-no" title="statement not covered" >                  &lt;/label&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;Select</span>
-<span class="cstat-no" title="statement not covered" >                    value={selectedLightRequirement}</span>
-<span class="cstat-no" title="statement not covered" >                    onValueChange={setSelectedLightRequirement}</span>
-                  &gt;
-<span class="cstat-no" title="statement not covered" >                    &lt;SelectTrigger className="border-plant-secondary/30 w-full h-11"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;SelectValue placeholder="All Light Types" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/SelectTrigger&gt;</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;SelectContent className="bg-card border border-plant-secondary/30 shadow-lg z-50 max-h-60"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      &lt;SelectItem value="all"&gt;All Light Types&lt;/SelectItem&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      {lightRequirements.map((light) =&gt; (</span>
-<span class="cstat-no" title="statement not covered" >                        &lt;SelectItem key={light} value={light}&gt;</span>
-<span class="cstat-no" title="statement not covered" >                          {light}</span>
-<span class="cstat-no" title="statement not covered" >                        &lt;/SelectItem&gt;</span>
-<span class="cstat-no" title="statement not covered" >                      ))}</span>
-<span class="cstat-no" title="statement not covered" >                    &lt;/SelectContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;/Select&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/div&gt;</span>
-&nbsp;
-              {/* Clear Filters Button */}
-<span class="cstat-no" title="statement not covered" >              {hasActiveFilters &amp;&amp; (</span>
-<span class="cstat-no" title="statement not covered" >                &lt;div className="mt-6 pt-4 border-t border-border flex justify-center"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  &lt;Button</span>
-<span class="cstat-no" title="statement not covered" >                    variant="ghost"</span>
-<span class="cstat-no" title="statement not covered" >                    onClick={clearAllFilters}</span>
-<span class="cstat-no" title="statement not covered" >                    className="text-muted-foreground hover:text-foreground hover:bg-accent px-4 py-2 transition-colors"</span>
-                  &gt;
-<span class="cstat-no" title="statement not covered" >                    &lt;X className="w-4 h-4 mr-2" /&gt;</span>
-                    Clear All Filters
-<span class="cstat-no" title="statement not covered" >                  &lt;/Button&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/div&gt;</span>
-              )}
-<span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >          &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;/CollapsibleContent&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/Collapsible&gt;</span>
+  {/* Filters Panel - Appears Below and Centered */}
+<span class="cstat-no" title="statement not covered" >  &lt;CollapsibleContent className="mt-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="flex justify-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;div className="p-6 bg-card rounded-xl border border-border shadow-lg w-full max-w-3xl"&gt;</span>
+    {/* Filter Controls */}
+<span class="cstat-no" title="statement not covered" >    &lt;div className="grid grid-cols-1 md:grid-cols-3 gap-6"&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;label className="text-sm font-medium text-foreground block"&gt;</span>
+     Category
+<span class="cstat-no" title="statement not covered" >     &lt;/label&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Select</span>
+<span class="cstat-no" title="statement not covered" >     value={selectedCategory}</span>
+<span class="cstat-no" title="statement not covered" >     onValueChange={setSelectedCategory}</span>
+     &gt;
+<span class="cstat-no" title="statement not covered" >     &lt;SelectTrigger className="border-plant-secondary/30 w-full h-11"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;SelectValue placeholder="All Categories" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/SelectTrigger&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;SelectContent className="bg-card border border-plant-secondary/30 shadow-lg z-50 max-h-60"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;SelectItem value="all"&gt;All Categories&lt;/SelectItem&gt;</span>
+<span class="cstat-no" title="statement not covered" >      {categories.map((category) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >      &lt;SelectItem key={category} value={category}&gt;</span>
+<span class="cstat-no" title="statement not covered" >       {category}</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/SelectItem&gt;</span>
+<span class="cstat-no" title="statement not covered" >      ))}</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/SelectContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/Select&gt;</span>
 <span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
-  );
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;label className="text-sm font-medium text-foreground block"&gt;</span>
+     Care Level
+<span class="cstat-no" title="statement not covered" >     &lt;/label&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Select</span>
+<span class="cstat-no" title="statement not covered" >     value={selectedCareLevel}</span>
+<span class="cstat-no" title="statement not covered" >     onValueChange={setSelectedCareLevel}</span>
+     &gt;
+<span class="cstat-no" title="statement not covered" >     &lt;SelectTrigger className="border-plant-secondary/30 w-full h-11"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;SelectValue placeholder="All Levels" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/SelectTrigger&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;SelectContent className="bg-card border border-plant-secondary/30 shadow-lg z-50 max-h-60"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;SelectItem value="all"&gt;All Levels&lt;/SelectItem&gt;</span>
+<span class="cstat-no" title="statement not covered" >      {careLevels.map((level) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >      &lt;SelectItem key={level} value={level}&gt;</span>
+<span class="cstat-no" title="statement not covered" >       {level}</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/SelectItem&gt;</span>
+<span class="cstat-no" title="statement not covered" >      ))}</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/SelectContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/Select&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    &lt;div className="space-y-3"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;label className="text-sm font-medium text-foreground block"&gt;</span>
+     Light Requirement
+<span class="cstat-no" title="statement not covered" >     &lt;/label&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Select</span>
+<span class="cstat-no" title="statement not covered" >     value={selectedLightRequirement}</span>
+<span class="cstat-no" title="statement not covered" >     onValueChange={setSelectedLightRequirement}</span>
+     &gt;
+<span class="cstat-no" title="statement not covered" >     &lt;SelectTrigger className="border-plant-secondary/30 w-full h-11"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;SelectValue placeholder="All Light Types" /&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/SelectTrigger&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;SelectContent className="bg-card border border-plant-secondary/30 shadow-lg z-50 max-h-60"&gt;</span>
+<span class="cstat-no" title="statement not covered" >      &lt;SelectItem value="all"&gt;All Light Types&lt;/SelectItem&gt;</span>
+<span class="cstat-no" title="statement not covered" >      {lightRequirements.map((light) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >      &lt;SelectItem key={light} value={light}&gt;</span>
+<span class="cstat-no" title="statement not covered" >       {light}</span>
+<span class="cstat-no" title="statement not covered" >      &lt;/SelectItem&gt;</span>
+<span class="cstat-no" title="statement not covered" >      ))}</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/SelectContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;/Select&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+&nbsp;
+    {/* Clear Filters Button */}
+<span class="cstat-no" title="statement not covered" >    {hasActiveFilters &amp;&amp; (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;div className="mt-6 pt-4 border-t border-border flex justify-center"&gt;</span>
+<span class="cstat-no" title="statement not covered" >     &lt;Button</span>
+<span class="cstat-no" title="statement not covered" >     variant="ghost"</span>
+<span class="cstat-no" title="statement not covered" >     onClick={clearAllFilters}</span>
+<span class="cstat-no" title="statement not covered" >     className="text-muted-foreground hover:text-foreground hover:bg-accent px-4 py-2 transition-colors"</span>
+     &gt;
+<span class="cstat-no" title="statement not covered" >     &lt;X className="w-4 h-4 mr-2" /&gt;</span>
+     Clear All Filters
+<span class="cstat-no" title="statement not covered" >     &lt;/Button&gt;</span>
+<span class="cstat-no" title="statement not covered" >    &lt;/div&gt;</span>
+    )}
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >   &lt;/div&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/CollapsibleContent&gt;</span>
+<span class="cstat-no" title="statement not covered" >  &lt;/Collapsible&gt;</span>
+<span class="cstat-no" title="statement not covered" > &lt;/div&gt;</span>
+ );
 <span class="cstat-no" title="statement not covered" >};</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export default PlantSearchFilters;</span>
@@ -622,7 +622,7 @@ interface PlantSearchFiltersProps {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

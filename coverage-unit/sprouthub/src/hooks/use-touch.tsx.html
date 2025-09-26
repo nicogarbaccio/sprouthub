@@ -541,244 +541,244 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" >import { useState, useEffect, useRef, useCallback } from "react";<span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span></span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js"><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ><span class="branch-0 cbranch-no" title="branch not covered" >import { useState, useEffect, useRef, useCallback } from "react";</span></span></span>
 &nbsp;
 interface TouchState {
-  startX: number;
-  startY: number;
-  currentX: number;
-  currentY: number;
-  deltaX: number;
-  deltaY: number;
-  isTouch: boolean;
-  duration: number;
+ startX: number;
+ startY: number;
+ currentX: number;
+ currentY: number;
+ deltaX: number;
+ deltaY: number;
+ isTouch: boolean;
+ duration: number;
 }
 &nbsp;
 interface SwipeOptions {
-  threshold?: number;
-  preventDefaultTouchmoveEvent?: boolean;
-  deltaXThreshold?: number;
-  deltaYThreshold?: number;
+ threshold?: number;
+ preventDefaultTouchmoveEvent?: boolean;
+ deltaXThreshold?: number;
+ deltaYThreshold?: number;
 }
 &nbsp;
 interface SwipeHandlers {
-  onSwipeLeft?: () =&gt; void;
-  onSwipeRight?: () =&gt; void;
-  onSwipeUp?: () =&gt; void;
-  onSwipeDown?: () =&gt; void;
-  onTap?: () =&gt; void;
+ onSwipeLeft?: () =&gt; void;
+ onSwipeRight?: () =&gt; void;
+ onSwipeUp?: () =&gt; void;
+ onSwipeDown?: () =&gt; void;
+ onTap?: () =&gt; void;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export function useSwipe(handlers: SwipeHandlers, options: SwipeOptions = {}) {</span>
-<span class="cstat-no" title="statement not covered" >  const {</span>
-<span class="cstat-no" title="statement not covered" >    threshold = 50,</span>
-<span class="cstat-no" title="statement not covered" >    preventDefaultTouchmoveEvent = false,</span>
-<span class="cstat-no" title="statement not covered" >    deltaXThreshold = 50,</span>
-<span class="cstat-no" title="statement not covered" >    deltaYThreshold = 50,</span>
-<span class="cstat-no" title="statement not covered" >  } = options;</span>
+<span class="cstat-no" title="statement not covered" > const {</span>
+<span class="cstat-no" title="statement not covered" > threshold = 50,</span>
+<span class="cstat-no" title="statement not covered" > preventDefaultTouchmoveEvent = false,</span>
+<span class="cstat-no" title="statement not covered" > deltaXThreshold = 50,</span>
+<span class="cstat-no" title="statement not covered" > deltaYThreshold = 50,</span>
+<span class="cstat-no" title="statement not covered" > } = options;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const touchState = useRef&lt;TouchState&gt;({</span>
-<span class="cstat-no" title="statement not covered" >    startX: 0,</span>
-<span class="cstat-no" title="statement not covered" >    startY: 0,</span>
-<span class="cstat-no" title="statement not covered" >    currentX: 0,</span>
-<span class="cstat-no" title="statement not covered" >    currentY: 0,</span>
-<span class="cstat-no" title="statement not covered" >    deltaX: 0,</span>
-<span class="cstat-no" title="statement not covered" >    deltaY: 0,</span>
-<span class="cstat-no" title="statement not covered" >    isTouch: false,</span>
-<span class="cstat-no" title="statement not covered" >    duration: 0,</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > const touchState = useRef&lt;TouchState&gt;({</span>
+<span class="cstat-no" title="statement not covered" > startX: 0,</span>
+<span class="cstat-no" title="statement not covered" > startY: 0,</span>
+<span class="cstat-no" title="statement not covered" > currentX: 0,</span>
+<span class="cstat-no" title="statement not covered" > currentY: 0,</span>
+<span class="cstat-no" title="statement not covered" > deltaX: 0,</span>
+<span class="cstat-no" title="statement not covered" > deltaY: 0,</span>
+<span class="cstat-no" title="statement not covered" > isTouch: false,</span>
+<span class="cstat-no" title="statement not covered" > duration: 0,</span>
+<span class="cstat-no" title="statement not covered" > });</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleTouchStart = useCallback((e: React.TouchEvent) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const touch = e.touches[0];</span>
-<span class="cstat-no" title="statement not covered" >    touchState.current = {</span>
-<span class="cstat-no" title="statement not covered" >      startX: touch.clientX,</span>
-<span class="cstat-no" title="statement not covered" >      startY: touch.clientY,</span>
-<span class="cstat-no" title="statement not covered" >      currentX: touch.clientX,</span>
-<span class="cstat-no" title="statement not covered" >      currentY: touch.clientY,</span>
-<span class="cstat-no" title="statement not covered" >      deltaX: 0,</span>
-<span class="cstat-no" title="statement not covered" >      deltaY: 0,</span>
-<span class="cstat-no" title="statement not covered" >      isTouch: true,</span>
-<span class="cstat-no" title="statement not covered" >      duration: Date.now(),</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
-<span class="cstat-no" title="statement not covered" >  }, []);</span>
+<span class="cstat-no" title="statement not covered" > const handleTouchStart = useCallback((e: React.TouchEvent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const touch = e.touches[0];</span>
+<span class="cstat-no" title="statement not covered" > touchState.current = {</span>
+<span class="cstat-no" title="statement not covered" >  startX: touch.clientX,</span>
+<span class="cstat-no" title="statement not covered" >  startY: touch.clientY,</span>
+<span class="cstat-no" title="statement not covered" >  currentX: touch.clientX,</span>
+<span class="cstat-no" title="statement not covered" >  currentY: touch.clientY,</span>
+<span class="cstat-no" title="statement not covered" >  deltaX: 0,</span>
+<span class="cstat-no" title="statement not covered" >  deltaY: 0,</span>
+<span class="cstat-no" title="statement not covered" >  isTouch: true,</span>
+<span class="cstat-no" title="statement not covered" >  duration: Date.now(),</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+<span class="cstat-no" title="statement not covered" > }, []);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleTouchMove = useCallback(</span>
-<span class="cstat-no" title="statement not covered" >    (e: React.TouchEvent) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      if (!touchState.current.isTouch) return;</span>
+<span class="cstat-no" title="statement not covered" > const handleTouchMove = useCallback(</span>
+<span class="cstat-no" title="statement not covered" > (e: React.TouchEvent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  if (!touchState.current.isTouch) return;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      const touch = e.touches[0];</span>
-<span class="cstat-no" title="statement not covered" >      touchState.current.currentX = touch.clientX;</span>
-<span class="cstat-no" title="statement not covered" >      touchState.current.currentY = touch.clientY;</span>
-<span class="cstat-no" title="statement not covered" >      touchState.current.deltaX = touch.clientX - touchState.current.startX;</span>
-<span class="cstat-no" title="statement not covered" >      touchState.current.deltaY = touch.clientY - touchState.current.startY;</span>
+<span class="cstat-no" title="statement not covered" >  const touch = e.touches[0];</span>
+<span class="cstat-no" title="statement not covered" >  touchState.current.currentX = touch.clientX;</span>
+<span class="cstat-no" title="statement not covered" >  touchState.current.currentY = touch.clientY;</span>
+<span class="cstat-no" title="statement not covered" >  touchState.current.deltaX = touch.clientX - touchState.current.startX;</span>
+<span class="cstat-no" title="statement not covered" >  touchState.current.deltaY = touch.clientY - touchState.current.startY;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (preventDefaultTouchmoveEvent) {</span>
-<span class="cstat-no" title="statement not covered" >        e.preventDefault();</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >    [preventDefaultTouchmoveEvent]</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
+<span class="cstat-no" title="statement not covered" >  if (preventDefaultTouchmoveEvent) {</span>
+<span class="cstat-no" title="statement not covered" >  e.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > [preventDefaultTouchmoveEvent]</span>
+<span class="cstat-no" title="statement not covered" > );</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleTouchEnd = useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!touchState.current.isTouch) return;</span>
+<span class="cstat-no" title="statement not covered" > const handleTouchEnd = useCallback(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!touchState.current.isTouch) return;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    const { deltaX, deltaY, duration } = touchState.current;</span>
-<span class="cstat-no" title="statement not covered" >    const absDeltaX = Math.abs(deltaX);</span>
-<span class="cstat-no" title="statement not covered" >    const absDeltaY = Math.abs(deltaY);</span>
-<span class="cstat-no" title="statement not covered" >    const timeDiff = Date.now() - duration;</span>
+<span class="cstat-no" title="statement not covered" > const { deltaX, deltaY, duration } = touchState.current;</span>
+<span class="cstat-no" title="statement not covered" > const absDeltaX = Math.abs(deltaX);</span>
+<span class="cstat-no" title="statement not covered" > const absDeltaY = Math.abs(deltaY);</span>
+<span class="cstat-no" title="statement not covered" > const timeDiff = Date.now() - duration;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    touchState.current.isTouch = false;</span>
+<span class="cstat-no" title="statement not covered" > touchState.current.isTouch = false;</span>
 &nbsp;
-    // Check for tap (short duration, minimal movement)
-<span class="cstat-no" title="statement not covered" >    if (timeDiff &lt; 200 &amp;&amp; absDeltaX &lt; 10 &amp;&amp; absDeltaY &lt; 10) {</span>
-<span class="cstat-no" title="statement not covered" >      handlers.onTap?.();</span>
-<span class="cstat-no" title="statement not covered" >      return;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+ // Check for tap (short duration, minimal movement)
+<span class="cstat-no" title="statement not covered" > if (timeDiff &lt; 200 &amp;&amp; absDeltaX &lt; 10 &amp;&amp; absDeltaY &lt; 10) {</span>
+<span class="cstat-no" title="statement not covered" >  handlers.onTap?.();</span>
+<span class="cstat-no" title="statement not covered" >  return;</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-    // Check for swipe gestures
-<span class="cstat-no" title="statement not covered" >    if (absDeltaX &gt; threshold || absDeltaY &gt; threshold) {</span>
-<span class="cstat-no" title="statement not covered" >      if (absDeltaX &gt; absDeltaY) {</span>
-        // Horizontal swipe
-<span class="cstat-no" title="statement not covered" >        if (deltaX &gt; deltaXThreshold) {</span>
-<span class="cstat-no" title="statement not covered" >          handlers.onSwipeRight?.();</span>
-<span class="cstat-no" title="statement not covered" >        } else if (deltaX &lt; -deltaXThreshold) {</span>
-<span class="cstat-no" title="statement not covered" >          handlers.onSwipeLeft?.();</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >      } else {</span>
-        // Vertical swipe
-<span class="cstat-no" title="statement not covered" >        if (deltaY &gt; deltaYThreshold) {</span>
-<span class="cstat-no" title="statement not covered" >          handlers.onSwipeDown?.();</span>
-<span class="cstat-no" title="statement not covered" >        } else if (deltaY &lt; -deltaYThreshold) {</span>
-<span class="cstat-no" title="statement not covered" >          handlers.onSwipeUp?.();</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, [handlers, threshold, deltaXThreshold, deltaYThreshold]);</span>
+ // Check for swipe gestures
+<span class="cstat-no" title="statement not covered" > if (absDeltaX &gt; threshold || absDeltaY &gt; threshold) {</span>
+<span class="cstat-no" title="statement not covered" >  if (absDeltaX &gt; absDeltaY) {</span>
+  // Horizontal swipe
+<span class="cstat-no" title="statement not covered" >  if (deltaX &gt; deltaXThreshold) {</span>
+<span class="cstat-no" title="statement not covered" >   handlers.onSwipeRight?.();</span>
+<span class="cstat-no" title="statement not covered" >  } else if (deltaX &lt; -deltaXThreshold) {</span>
+<span class="cstat-no" title="statement not covered" >   handlers.onSwipeLeft?.();</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  } else {</span>
+  // Vertical swipe
+<span class="cstat-no" title="statement not covered" >  if (deltaY &gt; deltaYThreshold) {</span>
+<span class="cstat-no" title="statement not covered" >   handlers.onSwipeDown?.();</span>
+<span class="cstat-no" title="statement not covered" >  } else if (deltaY &lt; -deltaYThreshold) {</span>
+<span class="cstat-no" title="statement not covered" >   handlers.onSwipeUp?.();</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, [handlers, threshold, deltaXThreshold, deltaYThreshold]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
-<span class="cstat-no" title="statement not covered" >    onTouchStart: handleTouchStart,</span>
-<span class="cstat-no" title="statement not covered" >    onTouchMove: handleTouchMove,</span>
-<span class="cstat-no" title="statement not covered" >    onTouchEnd: handleTouchEnd,</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > return {</span>
+<span class="cstat-no" title="statement not covered" > onTouchStart: handleTouchStart,</span>
+<span class="cstat-no" title="statement not covered" > onTouchMove: handleTouchMove,</span>
+<span class="cstat-no" title="statement not covered" > onTouchEnd: handleTouchEnd,</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 // Pull-to-refresh hook
 interface PullToRefreshOptions {
-  threshold?: number;
-  maxPullDistance?: number;
-  onRefresh?: () =&gt; Promise&lt;void&gt; | void;
+ threshold?: number;
+ maxPullDistance?: number;
+ onRefresh?: () =&gt; Promise&lt;void&gt; | void;
 }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >export function usePullToRefresh(options: PullToRefreshOptions = {}) {</span>
-<span class="cstat-no" title="statement not covered" >  const { threshold = 80, maxPullDistance = 120, onRefresh } = options;</span>
-<span class="cstat-no" title="statement not covered" >  const [pullDistance, setPullDistance] = useState(0);</span>
-<span class="cstat-no" title="statement not covered" >  const [isRefreshing, setIsRefreshing] = useState(false);</span>
-<span class="cstat-no" title="statement not covered" >  const [isPulling, setIsPulling] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const { threshold = 80, maxPullDistance = 120, onRefresh } = options;</span>
+<span class="cstat-no" title="statement not covered" > const [pullDistance, setPullDistance] = useState(0);</span>
+<span class="cstat-no" title="statement not covered" > const [isRefreshing, setIsRefreshing] = useState(false);</span>
+<span class="cstat-no" title="statement not covered" > const [isPulling, setIsPulling] = useState(false);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const touchState = useRef({</span>
-<span class="cstat-no" title="statement not covered" >    startY: 0,</span>
-<span class="cstat-no" title="statement not covered" >    isAtTop: false,</span>
-<span class="cstat-no" title="statement not covered" >    isPulling: false,</span>
-<span class="cstat-no" title="statement not covered" >  });</span>
+<span class="cstat-no" title="statement not covered" > const touchState = useRef({</span>
+<span class="cstat-no" title="statement not covered" > startY: 0,</span>
+<span class="cstat-no" title="statement not covered" > isAtTop: false,</span>
+<span class="cstat-no" title="statement not covered" > isPulling: false,</span>
+<span class="cstat-no" title="statement not covered" > });</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleTouchStart = useCallback((e: TouchEvent) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const touch = e.touches[0];</span>
-<span class="cstat-no" title="statement not covered" >    const isAtTop = window.scrollY === 0;</span>
+<span class="cstat-no" title="statement not covered" > const handleTouchStart = useCallback((e: TouchEvent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > const touch = e.touches[0];</span>
+<span class="cstat-no" title="statement not covered" > const isAtTop = window.scrollY === 0;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    touchState.current = {</span>
-<span class="cstat-no" title="statement not covered" >      startY: touch.clientY,</span>
-<span class="cstat-no" title="statement not covered" >      isAtTop,</span>
-<span class="cstat-no" title="statement not covered" >      isPulling: false,</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
-<span class="cstat-no" title="statement not covered" >  }, []);</span>
+<span class="cstat-no" title="statement not covered" > touchState.current = {</span>
+<span class="cstat-no" title="statement not covered" >  startY: touch.clientY,</span>
+<span class="cstat-no" title="statement not covered" >  isAtTop,</span>
+<span class="cstat-no" title="statement not covered" >  isPulling: false,</span>
+<span class="cstat-no" title="statement not covered" > };</span>
+<span class="cstat-no" title="statement not covered" > }, []);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleTouchMove = useCallback(</span>
-<span class="cstat-no" title="statement not covered" >    (e: TouchEvent) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      if (!touchState.current.isAtTop) return;</span>
+<span class="cstat-no" title="statement not covered" > const handleTouchMove = useCallback(</span>
+<span class="cstat-no" title="statement not covered" > (e: TouchEvent) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  if (!touchState.current.isAtTop) return;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      const touch = e.touches[0];</span>
-<span class="cstat-no" title="statement not covered" >      const deltaY = touch.clientY - touchState.current.startY;</span>
+<span class="cstat-no" title="statement not covered" >  const touch = e.touches[0];</span>
+<span class="cstat-no" title="statement not covered" >  const deltaY = touch.clientY - touchState.current.startY;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >      if (deltaY &gt; 0) {</span>
-<span class="cstat-no" title="statement not covered" >        touchState.current.isPulling = true;</span>
-<span class="cstat-no" title="statement not covered" >        setIsPulling(true);</span>
+<span class="cstat-no" title="statement not covered" >  if (deltaY &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >  touchState.current.isPulling = true;</span>
+<span class="cstat-no" title="statement not covered" >  setIsPulling(true);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        const distance = Math.min(deltaY * 0.5, maxPullDistance);</span>
-<span class="cstat-no" title="statement not covered" >        setPullDistance(distance);</span>
+<span class="cstat-no" title="statement not covered" >  const distance = Math.min(deltaY * 0.5, maxPullDistance);</span>
+<span class="cstat-no" title="statement not covered" >  setPullDistance(distance);</span>
 &nbsp;
-        // Prevent default scrolling when pulling
-<span class="cstat-no" title="statement not covered" >        e.preventDefault();</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
-<span class="cstat-no" title="statement not covered" >    [maxPullDistance]</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
+  // Prevent default scrolling when pulling
+<span class="cstat-no" title="statement not covered" >  e.preventDefault();</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > },</span>
+<span class="cstat-no" title="statement not covered" > [maxPullDistance]</span>
+<span class="cstat-no" title="statement not covered" > );</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const handleTouchEnd = useCallback(async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if (!touchState.current.isPulling) return;</span>
+<span class="cstat-no" title="statement not covered" > const handleTouchEnd = useCallback(async () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if (!touchState.current.isPulling) return;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    setIsPulling(false);</span>
+<span class="cstat-no" title="statement not covered" > setIsPulling(false);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    if (pullDistance &gt;= threshold) {</span>
-<span class="cstat-no" title="statement not covered" >      setIsRefreshing(true);</span>
-<span class="cstat-no" title="statement not covered" >      try {</span>
-<span class="cstat-no" title="statement not covered" >        await onRefresh?.();</span>
-<span class="cstat-no" title="statement not covered" >      } finally {</span>
-<span class="cstat-no" title="statement not covered" >        setIsRefreshing(false);</span>
-<span class="cstat-no" title="statement not covered" >        setPullDistance(0);</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    } else {</span>
-<span class="cstat-no" title="statement not covered" >      setPullDistance(0);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+<span class="cstat-no" title="statement not covered" > if (pullDistance &gt;= threshold) {</span>
+<span class="cstat-no" title="statement not covered" >  setIsRefreshing(true);</span>
+<span class="cstat-no" title="statement not covered" >  try {</span>
+<span class="cstat-no" title="statement not covered" >  await onRefresh?.();</span>
+<span class="cstat-no" title="statement not covered" >  } finally {</span>
+<span class="cstat-no" title="statement not covered" >  setIsRefreshing(false);</span>
+<span class="cstat-no" title="statement not covered" >  setPullDistance(0);</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+<span class="cstat-no" title="statement not covered" > } else {</span>
+<span class="cstat-no" title="statement not covered" >  setPullDistance(0);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    touchState.current.isPulling = false;</span>
-<span class="cstat-no" title="statement not covered" >  }, [pullDistance, threshold, onRefresh]);</span>
+<span class="cstat-no" title="statement not covered" > touchState.current.isPulling = false;</span>
+<span class="cstat-no" title="statement not covered" > }, [pullDistance, threshold, onRefresh]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
-<span class="cstat-no" title="statement not covered" >    pullDistance,</span>
-<span class="cstat-no" title="statement not covered" >    isRefreshing,</span>
-<span class="cstat-no" title="statement not covered" >    isPulling,</span>
-<span class="cstat-no" title="statement not covered" >    onTouchStart: handleTouchStart,</span>
-<span class="cstat-no" title="statement not covered" >    onTouchMove: handleTouchMove,</span>
-<span class="cstat-no" title="statement not covered" >    onTouchEnd: handleTouchEnd,</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > return {</span>
+<span class="cstat-no" title="statement not covered" > pullDistance,</span>
+<span class="cstat-no" title="statement not covered" > isRefreshing,</span>
+<span class="cstat-no" title="statement not covered" > isPulling,</span>
+<span class="cstat-no" title="statement not covered" > onTouchStart: handleTouchStart,</span>
+<span class="cstat-no" title="statement not covered" > onTouchMove: handleTouchMove,</span>
+<span class="cstat-no" title="statement not covered" > onTouchEnd: handleTouchEnd,</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;
 // Haptic feedback hook
 <span class="cstat-no" title="statement not covered" >export function useHaptic() {</span>
-<span class="cstat-no" title="statement not covered" >  const vibrate = useCallback((pattern: number | number[]) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    if ("vibrate" in navigator) {</span>
-<span class="cstat-no" title="statement not covered" >      navigator.vibrate(pattern);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }, []);</span>
+<span class="cstat-no" title="statement not covered" > const vibrate = useCallback((pattern: number | number[]) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > if ("vibrate" in navigator) {</span>
+<span class="cstat-no" title="statement not covered" >  navigator.vibrate(pattern);</span>
+<span class="cstat-no" title="statement not covered" > }</span>
+<span class="cstat-no" title="statement not covered" > }, []);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const lightImpact = useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    vibrate(10);</span>
-<span class="cstat-no" title="statement not covered" >  }, [vibrate]);</span>
+<span class="cstat-no" title="statement not covered" > const lightImpact = useCallback(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > vibrate(10);</span>
+<span class="cstat-no" title="statement not covered" > }, [vibrate]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const mediumImpact = useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    vibrate(20);</span>
-<span class="cstat-no" title="statement not covered" >  }, [vibrate]);</span>
+<span class="cstat-no" title="statement not covered" > const mediumImpact = useCallback(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > vibrate(20);</span>
+<span class="cstat-no" title="statement not covered" > }, [vibrate]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const heavyImpact = useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    vibrate([30, 10, 30]);</span>
-<span class="cstat-no" title="statement not covered" >  }, [vibrate]);</span>
+<span class="cstat-no" title="statement not covered" > const heavyImpact = useCallback(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > vibrate([30, 10, 30]);</span>
+<span class="cstat-no" title="statement not covered" > }, [vibrate]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const success = useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    vibrate([10, 10, 10]);</span>
-<span class="cstat-no" title="statement not covered" >  }, [vibrate]);</span>
+<span class="cstat-no" title="statement not covered" > const success = useCallback(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > vibrate([10, 10, 10]);</span>
+<span class="cstat-no" title="statement not covered" > }, [vibrate]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  const error = useCallback(() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    vibrate([50, 20, 50]);</span>
-<span class="cstat-no" title="statement not covered" >  }, [vibrate]);</span>
+<span class="cstat-no" title="statement not covered" > const error = useCallback(() =&gt; {</span>
+<span class="cstat-no" title="statement not covered" > vibrate([50, 20, 50]);</span>
+<span class="cstat-no" title="statement not covered" > }, [vibrate]);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  return {</span>
-<span class="cstat-no" title="statement not covered" >    vibrate,</span>
-<span class="cstat-no" title="statement not covered" >    lightImpact,</span>
-<span class="cstat-no" title="statement not covered" >    mediumImpact,</span>
-<span class="cstat-no" title="statement not covered" >    heavyImpact,</span>
-<span class="cstat-no" title="statement not covered" >    success,</span>
-<span class="cstat-no" title="statement not covered" >    error,</span>
-<span class="cstat-no" title="statement not covered" >  };</span>
+<span class="cstat-no" title="statement not covered" > return {</span>
+<span class="cstat-no" title="statement not covered" > vibrate,</span>
+<span class="cstat-no" title="statement not covered" > lightImpact,</span>
+<span class="cstat-no" title="statement not covered" > mediumImpact,</span>
+<span class="cstat-no" title="statement not covered" > heavyImpact,</span>
+<span class="cstat-no" title="statement not covered" > success,</span>
+<span class="cstat-no" title="statement not covered" > error,</span>
+<span class="cstat-no" title="statement not covered" > };</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 &nbsp;</pre></td></tr></table></pre>
 
@@ -787,7 +787,7 @@ interface PullToRefreshOptions {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-08-28T00:27:11.729Z
+                at 2025-09-26T02:08:48.750Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
