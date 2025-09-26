@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Network Error Test</title>
+    <style>
+      .record {
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      .loading {
+        opacity: 0.5;
+      }
+      .error {
+        color: red;
+        background: #fee;
+        padding: 10px;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="records">
+      <div class="record" data-testid="watering-record-watering-1">
+        <p>January 18, 2025 - Regular watering</p>
+        <button
+          data-testid="delete-watering-watering-1"
+          onclick="deleteRecord('watering-1')"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+    <div id="messages"></div>
+
+    <script>
+      let isDeleting = false;
+
+      async function deleteRecord(recordId) {
+        if (isDeleting) return;
+        isDeleting = true;
+
+        const button = document.querySelector(
+          '[data-testid="delete-watering-' + recordId + '"]'
+        );
+        const recordElement = document.querySelector(
+          '[data-testid="watering-record-' + recordId + '"]'
+        );
+
+        // Show loading state
+        button.disabled = true;
+        button.textContent = "Deleting...";
+        recordElement.classList.add("loading");
+
+        try {
+          // Simulate network error
+          await new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("Network error")), 100)
+          );
+        } catch (error) {
+          showError(
+            "Network error: Unable to delete watering record. Please try again."
+          );
+
+          // Reset UI state
+          button.removeAttribute("disabled");
+          button.textContent = "Delete";
+          recordElement.classList.remove("loading");
+
+          window.errorOccurred = true;
+        } finally {
+          isDeleting = false;
+        }
+      }
+
+      function showError(message) {
+        const messagesDiv = document.getElementById("messages");
+        // Clear any existing error messages
+        const existingErrors = messagesDiv.querySelectorAll(
+          '[data-testid="error-message"]'
+        );
+        existingErrors.forEach((error) => error.remove());
+
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "error";
+        errorDiv.textContent = message;
+        errorDiv.setAttribute("data-testid", "error-message");
+        messagesDiv.appendChild(errorDiv);
+      }
+
+      // Initialize error tracking
+      window.errorOccurred = false;
+    </script>
+  </body>
+</html>

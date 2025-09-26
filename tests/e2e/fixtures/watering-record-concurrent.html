@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Concurrent Operations Test</title>
+    <style>
+      .record {
+        margin: 10px 0;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      .loading {
+        opacity: 0.5;
+      }
+      .success {
+        color: green;
+        background: #efe;
+        padding: 10px;
+      }
+      .deleted {
+        display: none;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="records">
+      <div class="record" data-testid="watering-record-1">
+        <p>Record 1 - Fast deletion (100ms)</p>
+        <button data-testid="delete-record-1" onclick="deleteRecord('1', 100)">
+          Delete
+        </button>
+      </div>
+      <div class="record" data-testid="watering-record-2">
+        <p>Record 2 - Medium deletion (200ms)</p>
+        <button data-testid="delete-record-2" onclick="deleteRecord('2', 200)">
+          Delete
+        </button>
+      </div>
+      <div class="record" data-testid="watering-record-3">
+        <p>Record 3 - Slow deletion (300ms)</p>
+        <button data-testid="delete-record-3" onclick="deleteRecord('3', 300)">
+          Delete
+        </button>
+      </div>
+    </div>
+    <div id="messages"></div>
+
+    <script>
+      const activeOperations = new Set();
+      window.operationLog = [];
+
+      async function deleteRecord(recordId, delay) {
+        if (activeOperations.has(recordId)) return;
+
+        activeOperations.add(recordId);
+        window.operationLog.push(`start-${recordId}`);
+
+        const button = document.querySelector(
+          `[data-testid="delete-record-${recordId}"]`
+        );
+        const record = document.querySelector(
+          `[data-testid="watering-record-${recordId}"]`
+        );
+
+        // Show loading state
+        button.setAttribute("disabled", "");
+        button.textContent = "Deleting...";
+        record.classList.add("loading");
+
+        try {
+          // Simulate API call with different delays
+          await new Promise((resolve) => setTimeout(resolve, delay));
+
+          // Update UI - remove loading class before adding deleted
+          record.classList.remove("loading");
+          await new Promise((resolve) => setTimeout(resolve, 0)); // Let the DOM update
+          record.classList.add("deleted");
+          showSuccess(`Record ${recordId} deleted (took ${delay}ms)`);
+          window.operationLog.push(`complete-${recordId}`);
+        } catch (error) {
+          console.error(`Error deleting record ${recordId}:`, error);
+          window.operationLog.push(`error-${recordId}`);
+        } finally {
+          activeOperations.delete(recordId);
+        }
+      }
+
+      function showSuccess(message) {
+        const messagesDiv = document.getElementById("messages");
+        const successDiv = document.createElement("div");
+        successDiv.className = "success";
+        successDiv.textContent = message;
+        successDiv.setAttribute("data-testid", `success-message-${Date.now()}`);
+        messagesDiv.appendChild(successDiv);
+      }
+    </script>
+  </body>
+</html>

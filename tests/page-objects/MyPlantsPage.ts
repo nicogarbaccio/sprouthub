@@ -28,6 +28,13 @@ export class MyPlantsPage extends BasePage {
   readonly editPlantDialog: Locator;
   readonly wateringHistoryDialog: Locator;
   readonly addPlantDialog: Locator;
+
+  // Watering record elements (within edit dialog)
+  readonly wateringHistoryTab: Locator;
+  readonly wateringRecordsList: Locator;
+  readonly wateringRecordItems: Locator;
+  readonly deleteWateringButtons: Locator;
+  readonly addWateringButton: Locator;
   
   // Status indicators
   readonly overdueIndicators: Locator;
@@ -60,6 +67,13 @@ export class MyPlantsPage extends BasePage {
     this.editPlantDialog = page.getByRole('dialog', { name: /edit.*plant/i });
     this.wateringHistoryDialog = page.getByRole('dialog', { name: /watering.*history/i });
     this.addPlantDialog = page.getByRole('dialog', { name: /add.*plant/i });
+
+    // Watering record elements (within edit dialog)
+    this.wateringHistoryTab = page.getByRole('tab', { name: /watering.*history/i });
+    this.wateringRecordsList = page.getByTestId('watering-records-list');
+    this.wateringRecordItems = page.locator('[data-testid^="watering-record-"]');
+    this.deleteWateringButtons = page.locator('[data-testid^="delete-watering-"]');
+    this.addWateringButton = page.getByTestId('add-watering-button');
     
     // Status indicators
     this.overdueIndicators = page.getByTestId('overdue-indicator');
@@ -229,5 +243,135 @@ export class MyPlantsPage extends BasePage {
 
   async expectErrorToast() {
     return await super.expectErrorToast();
+  }
+
+  // Watering record management methods
+  async openWateringHistoryTab() {
+    await this.clickElement(this.wateringHistoryTab);
+    await this.expectVisible(this.wateringRecordsList);
+  }
+
+  async waitForWateringRecordsToLoad() {
+    await this.expectVisible(this.wateringRecordsList);
+    // Wait for any loading states to complete
+    await this.page.waitForTimeout(TIMEOUTS.SHORT);
+  }
+
+  async deleteWateringRecord(recordIndex: number = 0) {
+    const deleteButton = this.deleteWateringButtons.nth(recordIndex);
+    await this.clickElement(deleteButton);
+  }
+
+  async deleteWateringRecordById(recordId: string) {
+    const deleteButton = this.page.getByTestId(`delete-watering-${recordId}`);
+    await this.clickElement(deleteButton);
+  }
+
+  async expectWateringRecordLoadingState(recordIndex: number = 0) {
+    const deleteButton = this.deleteWateringButtons.nth(recordIndex);
+
+    // Check that button shows loading state (disabled with loading text)
+    await expect(deleteButton).toBeDisabled();
+    await expect(deleteButton).toContainText(/deleting/i);
+  }
+
+  async expectWateringRecordLoadingStateById(recordId: string) {
+    const deleteButton = this.page.getByTestId(`delete-watering-${recordId}`);
+
+    // Check that button shows loading state (disabled with loading text)
+    await expect(deleteButton).toBeDisabled();
+    await expect(deleteButton).toContainText(/deleting/i);
+  }
+
+  async expectWateringRecordDeleted(recordId: string) {
+    const recordElement = this.page.getByTestId(`watering-record-${recordId}`);
+    await expect(recordElement).toBeHidden();
+  }
+
+  async expectWateringRecordVisible(recordId: string) {
+    const recordElement = this.page.getByTestId(`watering-record-${recordId}`);
+    await expect(recordElement).toBeVisible();
+  }
+
+  async getWateringRecordCount() {
+    return await this.wateringRecordItems.count();
+  }
+
+  async expectWateringRecordCount(expectedCount: number) {
+    const actualCount = await this.getWateringRecordCount();
+    expect(actualCount).toBe(expectedCount);
+  }
+
+  async expectNoWateringRecords() {
+    const noRecordsMessage = this.page.getByText(/no watering records yet/i);
+    await expect(noRecordsMessage).toBeVisible();
+  }
+
+  async expectMultipleRecordsCannotBeDeletedSimultaneously(recordId1: string, recordId2: string) {
+    // Start deleting first record
+    const deleteButton1 = this.page.getByTestId(`delete-watering-${recordId1}`);
+    await this.clickElement(deleteButton1);
+
+    // Verify first record is in loading state
+    await this.expectWateringRecordLoadingStateById(recordId1);
+
+    // Try to delete second record - button should still be enabled
+    const deleteButton2 = this.page.getByTestId(`delete-watering-${recordId2}`);
+    await expect(deleteButton2).toBeEnabled();
+
+    // But the first record should not allow additional clicks
+    await expect(deleteButton1).toBeDisabled();
+  }
+
+  // Method to track operation order for race condition testing
+  async trackOperationOrder(): Promise<string[]> {
+    const operations: string[] = [];
+
+    // Listen for network requests to track API calls
+    this.page.on('request', (request) => {
+      const url = request.url();
+      if (url.includes('watering_records')) {
+        if (request.method() === 'DELETE') {
+          operations.push('delete-start');
+        } else if (request.method() === 'GET') {
+          operations.push('refresh-start');
+        }
+      }
+    });
+
+    this.page.on('response', (response) => {
+      const url = response.url();
+      if (url.includes('watering_records')) {
+        if (response.request().method() === 'DELETE') {
+          operations.push('delete-complete');
+        } else if (response.request().method() === 'GET') {
+          operations.push('refresh-complete');
+        }
+      }
+    });
+
+    return operations;
+  }
+
+  async expectSuccessToastAfterRefresh() {
+    // Wait for both the data refresh and toast to appear
+    await this.expectSuccessToast();
+
+    // Verify that the toast appears after a short delay (indicating refresh completed first)
+    await this.page.waitForTimeout(TIMEOUTS.SHORT);
+  }
+
+  async expectOperationOrder(expectedOrder: string[], actualOrder: string[]) {
+    // Verify that operations occurred in the expected sequence
+    for (let i = 0; i < expectedOrder.length; i++) {
+      const expected = expectedOrder[i];
+      const actual = actualOrder[i];
+
+      if (actual !== expected) {
+        throw new Error(`Operation order mismatch at index ${i}. Expected: ${expected}, Got: ${actual}. Full order - Expected: [${expectedOrder.join(', ')}], Actual: [${actualOrder.join(', ')}]`);
+      }
+    }
+
+    expect(actualOrder.length).toBeGreaterThanOrEqual(expectedOrder.length);
   }
 }

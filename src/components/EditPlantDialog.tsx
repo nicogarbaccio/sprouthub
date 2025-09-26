@@ -72,6 +72,7 @@ const EditPlantDialog = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteLoadingRecords, setDeleteLoadingRecords] = useState<Set<string>>(new Set());
 
   // Fetch households for assignment
   const { households } = useHouseholds();
@@ -203,17 +204,34 @@ const EditPlantDialog = ({
 
       if (error) throw error;
 
-      wateringToast.recorded(nickname || plantType);
+      // Await the data refresh before showing success
+      await loadWateringRecords(plant.id);
 
-      loadWateringRecords(plant.id);
+      // Only show success toast after UI has been updated
+      wateringToast.recorded(nickname || plantType);
     } catch (error) {
       console.error("Error adding watering record:", error);
       wateringToast.error("add");
+
+      // If addition failed, still try to refresh to ensure UI consistency
+      if (plant) {
+        try {
+          await loadWateringRecords(plant.id);
+        } catch (refreshError) {
+          console.error("Error refreshing after failed addition:", refreshError);
+        }
+      }
     }
   };
 
   const handleDeleteWatering = async (recordId: string) => {
+    if (!plant || deleteLoadingRecords.has(recordId)) return;
+
+    // Add to loading set to prevent multiple simultaneous deletions
+    setDeleteLoadingRecords(prev => new Set(prev).add(recordId));
+
     try {
+      // Delete from database
       const { error } = await supabase
         .from("watering_records")
         .delete()
@@ -221,14 +239,30 @@ const EditPlantDialog = ({
 
       if (error) throw error;
 
-      wateringToast.deleted();
+      // Await the data refresh before showing success
+      await loadWateringRecords(plant.id);
 
-      if (plant) {
-        loadWateringRecords(plant.id);
-      }
+      // Only show success toast after UI has been updated
+      wateringToast.deleted();
     } catch (error) {
       console.error("Error deleting watering record:", error);
       wateringToast.error("delete");
+
+      // If deletion failed, still try to refresh to ensure UI consistency
+      if (plant) {
+        try {
+          await loadWateringRecords(plant.id);
+        } catch (refreshError) {
+          console.error("Error refreshing after failed deletion:", refreshError);
+        }
+      }
+    } finally {
+      // Remove from loading set
+      setDeleteLoadingRecords(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(recordId);
+        return newSet;
+      });
     }
   };
 
@@ -315,6 +349,7 @@ const EditPlantDialog = ({
             <WateringRecordsList
               records={wateringRecords}
               onDeleteRecord={handleDeleteWatering}
+              deleteLoadingRecords={deleteLoadingRecords}
             />
           </TabsContent>
 

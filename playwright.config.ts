@@ -1,4 +1,16 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from "path";
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Read from default ".env" file.
+dotenv.config();
+
+// Read from ".env.local" file.
+dotenv.config({ path: path.resolve(__dirname, ".env.local") });
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -57,14 +69,22 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:8080',
-    reuseExistingServer: !process.env.CI,
-    timeout: 60 * 1000, // Increased back to 60s for reliability
-    stdout: 'pipe',
-    stderr: 'pipe',
-  },
+  webServer: [
+    {
+      command: 'npm run dev',
+      url: 'http://localhost:8080',
+      reuseExistingServer: !process.env.CI,
+      timeout: 60 * 1000, // Increased back to 60s for reliability
+      stdout: 'pipe',
+      stderr: 'pipe',
+    },
+    {
+      command: 'npx http-server ./tests/e2e/fixtures -p 9000',
+      url: 'http://localhost:9000',
+      reuseExistingServer: !process.env.CI,
+      timeout: 5000,
+    },
+  ],
 
   /* Global setup and teardown */
   globalSetup: './tests/global-setup.ts',
