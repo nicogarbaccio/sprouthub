@@ -243,24 +243,40 @@ const EditPlantDialog = ({
     setDeleteLoadingRecords((prev) => new Set(prev).add(recordId));
 
     try {
+      // Get record before deletion for checking if it's a postponement
+      const recordToDelete = wateringRecords.find(r => r.id === recordId);
+      if (!recordToDelete) throw new Error('Record not found');
+      
+      const isPostponement = recordToDelete.is_postponement || recordToDelete.notes?.includes('POSTPONEMENT:');
+      
       // Optimistic UI update - remove the record from the local state immediately
       setWateringRecords((currentRecords) =>
         currentRecords.filter((record) => record.id !== recordId)
       );
 
-      // Delete from database
-      const { error } = await supabase
+      // Delete from database - use await to ensure completion
+      const { error, count } = await supabase
         .from("watering_records")
         .delete()
-        .eq("id", recordId);
+        .eq("id", recordId)
+        .select('count');  // Get count of deleted records
 
       if (error) throw error;
+      
+      // Verify record was actually deleted
+      if (!count || count === 0) {
+        throw new Error('Record not deleted from database');
+      }
 
       // Show success toast after database operation is successful
-      wateringToast.deleted();
-
-      // Refresh from server to ensure consistency (but UI already updated optimistically)
-      await loadWateringRecords(plant.id);
+      if (isPostponement) {
+        wateringToast.success('Postponement deleted successfully');
+      } else {
+        wateringToast.deleted();
+      }
+      
+      // Don't refresh from server - trust our optimistic update
+      // This avoids race conditions where the server response hasn't fully processed the deletion yet
     } catch (error) {
       console.error("Error deleting watering record:", error);
       wateringToast.error("delete");

@@ -101,13 +101,19 @@ export function useWateringRecords() {
         currentRecords.filter(record => record.id !== recordId)
       );
       
-      // Delete from database
-      const { error } = await supabase
+      // Delete from database - use await to ensure completion
+      const { error, count } = await supabase
         .from('watering_records')
         .delete()
-        .eq('id', recordId);
+        .eq('id', recordId)
+        .select('count');  // Get count of deleted records
 
       if (error) throw error;
+      
+      // Verify record was actually deleted
+      if (!count || count === 0) {
+        throw new Error('Record not deleted from database');
+      }
 
       // Show success toast after database operation is successful
       if (isPostponement) {
@@ -116,9 +122,8 @@ export function useWateringRecords() {
         wateringToast.deleted();
       }
       
-      // Refresh from server to ensure consistency (but UI already updated optimistically)
-      await loadWateringRecords(plantId);
-      
+      // Don't refresh from server - trust our optimistic update
+      // This avoids race conditions where the server response hasn't fully processed the deletion yet
       return true;
     } catch (error) {
       console.error('Error deleting watering record:', error);

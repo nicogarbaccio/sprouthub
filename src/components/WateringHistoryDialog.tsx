@@ -375,7 +375,14 @@ const WateringHistoryDialog = ({
                               <Button
                                 variant="ghost"
                                 size="sm"
-                                onClick={() => deleteWateringRecord(record.id)}
+                                onClick={async () => {
+                                  // Call deleteWateringRecord and wait for it to complete
+                                  const success = await deleteWateringRecord(record.id);
+                                  // Force refresh if needed, but only on failure
+                                  if (!success && plant) {
+                                    setTimeout(() => loadWateringRecords(plant.id), 500);
+                                  }
+                                }}
                                 className="text-red-500 hover:text-red-700 ml-2 flex-shrink-0"
                               >
                                 <Trash2 className="w-4 h-4" />
