@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useUserPlants } from "@/hooks/useUserPlants";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -71,8 +71,11 @@ const MyPlantDetails = () => {
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
   const [showSuggestionsDialog, setShowSuggestionsDialog] = useState(false);
 
-  // Find the specific plant
-  const plant = plants.find((p) => p.id === plantId);
+  // Find the specific plant and memoize it to prevent re-renders
+  const plant = useMemo(
+    () => plants.find((p) => p.id === plantId),
+    [plants, plantId]
+  );
   const overwatering = plant ? overwateringByPlantId[plant.id] : undefined;
 
   // Add watering pattern analysis hook
@@ -82,7 +85,7 @@ const MyPlantDetails = () => {
     isLoading: isAnalyzing,
   } = useWateringPatternAnalysis({
     plantId: plant?.id,
-    autoRefresh: true,
+    autoRefresh: false, // Disable auto-refresh to prevent flickering
   });
 
   // Find matching plant data from catalog for care information
@@ -119,20 +122,20 @@ const MyPlantDetails = () => {
     }
   }, [user, loading, navigate]);
 
-  const handleWaterClick = () => {
+  const handleWaterClick = useCallback(() => {
     setShowWaterConfirmation(true);
-  };
+  }, []);
 
-  const handleConfirmWater = async () => {
+  const handleConfirmWater = useCallback(async () => {
     if (plant) {
       await waterPlant(plant.id);
       setShowWaterConfirmation(false);
     }
-  };
+  }, [plant, waterPlant]);
 
-  const handleEditClick = () => {
+  const handleEditClick = useCallback(() => {
     setShowEditDialog(true);
-  };
+  }, []);
 
   // Format date function to match the existing format used in the app
   const formatDate = (dateString: string) => {
@@ -161,36 +164,36 @@ const MyPlantDetails = () => {
     return formatDate(tomorrow.toISOString());
   };
 
-  const handlePostponeClick = () => {
+  const handlePostponeClick = useCallback(() => {
     setShowPostponeConfirmation(true);
-  };
+  }, []);
 
-  const handleConfirmPostpone = async () => {
+  const handleConfirmPostpone = useCallback(async () => {
     if (plant) {
       await postponeWatering(plant.id);
     }
-  };
+  }, [plant, postponeWatering]);
 
-  const handlePostpone = async () => {
+  const handlePostpone = useCallback(async () => {
     if (plant) {
       await postponeWatering(plant.id);
     }
-  };
+  }, [plant, postponeWatering]);
 
-  const handleViewHistory = () => {
+  const handleViewHistory = useCallback(() => {
     setShowHistoryDialog(true);
-  };
+  }, []);
 
-  const handleSmartTipsClick = () => {
+  const handleSmartTipsClick = useCallback(() => {
     setShowSuggestionsDialog(true);
-  };
+  }, []);
 
   // Helper functions for suggestion metadata and badge info
-  const getActionableInsights = () => {
+  const getActionableInsights = useCallback(() => {
     return pendingInsights?.filter((insight) => insight.actionable) || [];
-  };
+  }, [pendingInsights]);
 
-  const getSuggestionMetadata = () => {
+  const getSuggestionMetadata = useCallback(() => {
     const actionableInsights = getActionableInsights();
     const count = actionableInsights.length;
     const highPriorityCount = actionableInsights.filter(
@@ -208,9 +211,9 @@ const MyPlantDetails = () => {
       hasMediumPriority: mediumPriorityCount > 0,
       actionableInsights,
     };
-  };
+  }, [getActionableInsights]);
 
-  const getBadgeInfo = () => {
+  const getBadgeInfo = useCallback(() => {
     const metadata = getSuggestionMetadata();
     const { count, highPriorityCount, hasHighPriority, hasMediumPriority } =
       metadata;
@@ -254,13 +257,13 @@ const MyPlantDetails = () => {
     }
 
     return { text, colorClass, description };
-  };
+  }, [getSuggestionMetadata]);
 
-  const handleDeletePlant = () => {
+  const handleDeletePlant = useCallback(() => {
     setShowDeleteConfirmation(true);
-  };
+  }, []);
 
-  const handleConfirmDelete = async () => {
+  const handleConfirmDelete = useCallback(async () => {
     if (plant) {
       const success = await deletePlant(plant.id);
       if (success) {
@@ -268,9 +271,9 @@ const MyPlantDetails = () => {
       }
     }
     setShowDeleteConfirmation(false);
-  };
+  }, [plant, deletePlant, navigate]);
 
-  const getStatusInfo = () => {
+  const getStatusInfo = useCallback(() => {
     if (!plant) return { color: "bg-gray-500", text: "Unknown" };
 
     const wateringCalc = calculateWateringSchedule(plant);
@@ -324,7 +327,7 @@ const MyPlantDetails = () => {
       color: "bg-sprout-success text-white",
       text: `Due in ${daysUntilWatering} days`,
     };
-  };
+  }, [plant]);
 
   // Show loading skeleton
   if (showLoading || loading) {
@@ -780,6 +783,10 @@ const MyPlantDetails = () => {
         isOpen={showHistoryDialog}
         onClose={() => setShowHistoryDialog(false)}
         plant={plant}
+        onPlantDataChange={() => {
+          // Refresh plant data when postponements are deleted
+          fetchPlants();
+        }}
       />
 
       <FullscreenImageModal

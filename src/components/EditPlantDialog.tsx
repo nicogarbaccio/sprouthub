@@ -254,13 +254,26 @@ const EditPlantDialog = ({
         currentRecords.filter((record) => record.id !== recordId)
       );
 
-      // Delete from database - use await to ensure completion
-      const { error } = await supabase
-        .from("watering_records")
-        .delete()
-        .eq("id", recordId);
+      // For postponements, delete ALL future postponement records for this plant
+      // This ensures that when a user deletes a postponement, the plant is no longer considered postponed
+      if (isPostponement) {
+        const { error: deleteAllError } = await supabase
+          .from('watering_records')
+          .delete()
+          .eq('plant_id', plant.id)
+          .like('notes', '%POSTPONEMENT:%')
+          .gt('watered_at', new Date().toISOString());
 
-      if (error) throw error;
+        if (deleteAllError) throw deleteAllError;
+      } else {
+        // For regular watering records, delete only the specific record
+        const { error } = await supabase
+          .from("watering_records")
+          .delete()
+          .eq("id", recordId);
+
+        if (error) throw error;
+      }
 
       // Show success toast after database operation is successful
       if (isPostponement) {
