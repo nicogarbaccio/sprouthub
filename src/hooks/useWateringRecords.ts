@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
-import { wateringToast } from '@/utils/toast-helpers';
+import { utilityToast, wateringToast } from '@/utils/toast-helpers';
 
 export interface WateringRecord {
   id: string;
@@ -124,7 +124,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
         if (isPostponement) {
           // For postponements, we need to use a generic toast message since the wateringToast utility
           // doesn't have a specific success method
-          wateringToast.deleted('Postponement');
+          utilityToast.deleted('Postponement');
           
           // Trigger plant data refresh callback if provided
           if (onPlantDataChange) {
@@ -187,7 +187,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
         await loadWateringRecords(plantId);
         
         // Only show success toast after UI has been updated
-        wateringToast.success('Watering postponed successfully');
+        utilityToast.info('Watering postponed', 'Watering postponed successfully');
         return true;
       } catch (error) {
         console.error('Error adding postponement:', error);
