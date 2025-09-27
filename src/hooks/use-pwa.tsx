@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 interface BeforeInstallPromptEvent extends Event {
  readonly platforms: string[];
@@ -25,53 +25,45 @@ export function usePWA(): PWAState {
  const [isOnline, setIsOnline] = useState(navigator.onLine);
  const [isStandalone, setIsStandalone] = useState(false);
 
- useEffect(() => {
- // Check if app is running in standalone mode
- const checkStandalone = () => {
+ const checkStandalone = useCallback(() => {
   const isStandaloneMode =
   window.matchMedia("(display-mode: standalone)").matches ||
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (window.navigator as any).standalone ||
+  (window.navigator as unknown as { standalone?: boolean }).standalone ||
   document.referrer.includes("android-app://");
   setIsStandalone(isStandaloneMode);
- };
+ }, []);
 
- checkStandalone();
-
- // Listen for beforeinstallprompt event
- const handleBeforeInstallPrompt = (e: Event) => {
-  e.preventDefault();
-  const installEvent = e as BeforeInstallPromptEvent;
+ const handleBeforeInstallPrompt = useCallback((event: Event) => {
+  event.preventDefault();
+  const installEvent = event as BeforeInstallPromptEvent;
   setInstallEvent(installEvent);
   setCanInstall(true);
- };
+ }, []);
 
- // Listen for app installed event
- const handleAppInstalled = () => {
+ const handleAppInstalled = useCallback(() => {
   setIsInstalled(true);
   setCanInstall(false);
   setInstallEvent(null);
- };
+ }, []);
 
- // Listen for online/offline events
- const handleOnline = () => setIsOnline(true);
- const handleOffline = () => setIsOnline(false);
+ const handleOnline = useCallback(() => setIsOnline(true), []);
+ const handleOffline = useCallback(() => setIsOnline(false), []);
 
- window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
- window.addEventListener("appinstalled", handleAppInstalled);
- window.addEventListener("online", handleOnline);
- window.addEventListener("offline", handleOffline);
+ useEffect(() => {
+  checkStandalone();
 
- return () => {
-  window.removeEventListener(
-  "beforeinstallprompt",
-  handleBeforeInstallPrompt
-  );
+  window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+  window.addEventListener("appinstalled", handleAppInstalled);
+  window.addEventListener("online", handleOnline);
+  window.addEventListener("offline", handleOffline);
+
+  return () => {
+  window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
   window.removeEventListener("appinstalled", handleAppInstalled);
   window.removeEventListener("online", handleOnline);
   window.removeEventListener("offline", handleOffline);
- };
- }, []);
+  };
+ }, [checkStandalone, handleAppInstalled, handleBeforeInstallPrompt, handleOffline, handleOnline]);
 
  const promptInstall = async (): Promise<void> => {
  if (!installEvent) return;

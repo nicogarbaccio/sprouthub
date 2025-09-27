@@ -78,18 +78,15 @@ const WateringHistoryDialog = memo(
       if (plant && isOpen) {
         loadWateringRecords(plant.id);
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [plant?.id, isOpen]); // Only depend on plant ID and dialog open state
+    }, [isOpen, loadWateringRecords, plant]);
 
     // Manually refresh analysis when dialog opens or plant changes
     // This avoids the continuous refreshing loop caused by autoRefresh
     useEffect(() => {
       if (plant && isOpen) {
-        // Only refresh once when dialog opens
         refreshAnalysis();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [plant?.id, isOpen]); // Only depend on plant ID and dialog open state
+    }, [isOpen, plant, refreshAnalysis]);
 
     // Handle schedule adjustment from pattern suggestions
     const handleScheduleAdjustment = useCallback(
