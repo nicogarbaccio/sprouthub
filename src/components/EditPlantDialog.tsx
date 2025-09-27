@@ -29,11 +29,9 @@ import {
 import { useHouseholds } from "@/hooks/useHouseholds";
 import { useAuth } from "@/contexts/AuthContext";
 
-interface WateringRecord {
-  id: string;
-  watered_at: string;
-  notes?: string;
-}
+import type { WateringRecord as HookWateringRecord } from "@/hooks/useWateringRecords";
+
+interface WateringRecord extends HookWateringRecord {}
 
 interface Plant {
   id: string;
@@ -244,10 +242,14 @@ const EditPlantDialog = ({
 
     try {
       // Get record before deletion for checking if it's a postponement
-      const recordToDelete = wateringRecords.find(r => r.id === recordId);
+      const recordToDelete = wateringRecords.find(
+        (record): record is WateringRecord => record.id === recordId
+      );
       if (!recordToDelete) throw new Error('Record not found');
       
-      const isPostponement = recordToDelete.is_postponement || recordToDelete.notes?.includes('POSTPONEMENT:');
+      const isPostponement =
+        (recordToDelete as WateringRecord).is_postponement ||
+        recordToDelete.notes?.includes('POSTPONEMENT:');
       
       // Optimistic UI update - remove the record from the local state immediately
       setWateringRecords((currentRecords) =>
