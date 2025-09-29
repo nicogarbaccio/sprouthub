@@ -84,7 +84,6 @@ export const useUserPlants = () => {
       .select('plant_id, watered_at, notes')
       .in('plant_id', plantIds)
       .like('notes', '%POSTPONEMENT:%')
-      .gt('watered_at', new Date().toISOString())
       .order('watered_at', { ascending: false });
 
       if (postponementError) {
@@ -99,7 +98,18 @@ export const useUserPlants = () => {
 
   // Combine plants with their postponement and household data
   const result = (plantsData || []).map(plant => {
-    const postponement = postponementData.find(p => p.plant_id === plant.id);
+    // Get postponement records for this plant that are newer than the last watering
+    const plantPostponements = postponementData.filter(p => p.plant_id === plant.id);
+    
+    // Only consider postponements that are newer than the last watering date
+    let relevantPostponement = null;
+    if (plantPostponements.length > 0 && plant.last_watered_at) {
+      const lastWateringDate = new Date(plant.last_watered_at);
+      relevantPostponement = plantPostponements.find(p => 
+        new Date(p.watered_at) > lastWateringDate
+      );
+    }
+    
     const household = plant.household_id 
       ? householdData.find(h => h.id === plant.household_id)
       : null;
@@ -108,8 +118,8 @@ export const useUserPlants = () => {
       ...plant,
       // Map the correct field name from the database view
       latest_watering: plant.last_watered_at,
-      postponement_date: postponement?.watered_at,
-      postponement_notes: postponement?.notes,
+      postponement_date: relevantPostponement?.watered_at,
+      postponement_notes: relevantPostponement?.notes,
       household: household ? { name: household.name } : undefined,
     };
   });
