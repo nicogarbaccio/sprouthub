@@ -1,18 +1,23 @@
 import { test, expect } from '../../fixtures/test-fixtures';
-import { getTestUser } from '../../test-user-pool';
 import { setupAuthenticatedUser, waitForPageReady } from '../../utils/auth-helpers';
 import { mockPlantData, mockWateringHistory } from '../../utils/route-mocking';
 import { expectDialog, expectVisible } from '../../utils/assertions';
 
 test.describe('Watering Pattern Detection', () => {
+  const testUser = {
+    firstName: 'Test',
+    lastName: 'User',
+    email: process.env.TEST_EMAIL!,
+    password: process.env.TEST_PASSWORD!,
+  };
+
   test.beforeEach(async ({ page, context }) => {
     // Grant geolocation permissions
     await context.grantPermissions(['geolocation']);
   });
 
   test('should detect early watering pattern', async ({ page, authPage }) => {
-    // Setup authenticated user with unique ID
-    const testUser = getTestUser('pattern-early');
+    // Setup authenticated user - use real test credentials from .env
     await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock plant with watering history showing early pattern
@@ -88,8 +93,7 @@ test.describe('Watering Pattern Detection', () => {
   });
 
   test('should detect consistent watering pattern', async ({ page, authPage }) => {
-    // Setup authenticated user with unique ID
-    const testUser = getTestUser('pattern-consistent');
+    // Setup authenticated user - use real test credentials from .env
     await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock plant with consistent watering history
@@ -166,8 +170,8 @@ test.describe('Watering Pattern Detection', () => {
   });
 
   test('should handle insufficient watering data gracefully', async ({ page, authPage }) => {
-    // Setup authenticated user with unique ID
-    const testUser = getTestUser('pattern-insufficient');
+    test.setTimeout(30000); // Increase timeout for auth setup
+    // Setup authenticated user - use real test credentials from .env
     await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock plant with minimal watering history (only 1-2 records)
@@ -240,8 +244,7 @@ test.describe('Watering Pattern Detection', () => {
   });
 
   test('should detect late watering pattern', async ({ page, authPage }) => {
-    // Setup authenticated user with unique ID
-    const testUser = getTestUser('pattern-late');
+    // Setup authenticated user - use real test credentials from .env
     await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock plant with late watering pattern
@@ -297,8 +300,7 @@ test.describe('Watering Pattern Detection', () => {
   });
 
   test('should detect irregular watering pattern', async ({ page, authPage }) => {
-    // Setup authenticated user with unique ID
-    const testUser = getTestUser('pattern-irregular');
+    // Setup authenticated user - use real test credentials from .env
     await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock plant with irregular watering pattern
@@ -354,8 +356,7 @@ test.describe('Watering Pattern Detection', () => {
   });
 
   test('should allow accessing pattern analysis from history dialog', async ({ page, authPage }) => {
-    // Setup authenticated user with unique ID
-    const testUser = getTestUser('pattern-history');
+    // Setup authenticated user - use real test credentials from .env
     await setupAuthenticatedUser(page, authPage, testUser);
     
     await page.route('**/rest/v1/my_plants*', async (route) => {
@@ -403,8 +404,7 @@ test.describe('Watering Pattern Detection', () => {
   });
 
   test('should dismiss pattern suggestion without showing again immediately', async ({ page, authPage }) => {
-    // Setup authenticated user with unique ID
-    const testUser = getTestUser('pattern-dismiss');
+    // Setup authenticated user - use real test credentials from .env
     await setupAuthenticatedUser(page, authPage, testUser);
     
     await page.route('**/rest/v1/my_plants*', async (route) => {

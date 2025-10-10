@@ -1,5 +1,4 @@
 import { test, expect } from '../../fixtures/test-fixtures';
-import { getTestUser } from '../../test-user-pool';
 import { setupAuthenticatedUser, waitForPageReady } from '../../utils/auth-helpers';
 import { expectVisible, expectToast, expectNotVisible } from '../../utils/assertions';
 import { mockErrorRoute } from '../../utils/route-mocking';
@@ -11,8 +10,14 @@ test.describe('Watering Records', () => {
   });
 
   test('should delete watering record with loading state', async ({ page, authPage }) => {
-    // Setup authenticated user with unique ID
-    const testUser = getTestUser('watering-records-delete');
+    test.setTimeout(30000); // Increase timeout for auth setup
+    // Setup authenticated user - use real test credentials from .env
+    const testUser = {
+      firstName: 'Test',
+      lastName: 'User',
+      email: process.env.TEST_EMAIL!,
+      password: process.env.TEST_PASSWORD!,
+    };
     await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock slow DELETE to test loading state
@@ -59,8 +64,14 @@ test.describe('Watering Records', () => {
   });
 
   test('should show empty state when no watering records', async ({ page, authPage }) => {
-    // Setup authenticated user with unique ID
-    const testUser = getTestUser('watering-records-empty');
+    test.setTimeout(30000); // Increase timeout for auth setup
+    // Setup authenticated user - use real test credentials from .env
+    const testUser = {
+      firstName: 'Test',
+      lastName: 'User',
+      email: process.env.TEST_EMAIL!,
+      password: process.env.TEST_PASSWORD!,
+    };
     await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock empty watering records
@@ -107,8 +118,14 @@ test.describe('Watering Records', () => {
   });
 
   test('should handle network error during deletion', async ({ page, authPage }) => {
-    // Setup authenticated user with unique ID
-    const testUser = getTestUser('watering-records-error');
+    test.setTimeout(30000); // Increase timeout for auth setup
+    // Setup authenticated user - use real test credentials from .env
+    const testUser = {
+      firstName: 'Test',
+      lastName: 'User',
+      email: process.env.TEST_EMAIL!,
+      password: process.env.TEST_PASSWORD!,
+    };
     await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock DELETE to fail
@@ -160,8 +177,14 @@ test.describe('Watering Records', () => {
   });
 
   test('should prevent multiple deletion attempts', async ({ page, authPage }) => {
-    // Setup authenticated user with unique ID
-    const testUser = getTestUser('watering-records-multiple');
+    test.setTimeout(30000); // Increase timeout for auth setup
+    // Setup authenticated user - use real test credentials from .env
+    const testUser = {
+      firstName: 'Test',
+      lastName: 'User',
+      email: process.env.TEST_EMAIL!,
+      password: process.env.TEST_PASSWORD!,
+    };
     await setupAuthenticatedUser(page, authPage, testUser);
     
     let deleteAttempts = 0;

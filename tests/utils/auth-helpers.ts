@@ -42,11 +42,10 @@ export async function setupAuthenticatedUser(page: any, authPage: any, testUser:
   await authPage.fillSignUpForm(userData);
   await authPage.submitSignUp();
   
-  // Wait for navigation after sign-up
-  await page.waitForURL(/\/(my-plants|auth|$)/, { timeout: 10000 });
+  // Wait for navigation after sign-up (might stay on /auth if user already exists)
   await page.waitForLoadState('domcontentloaded');
   
-  // Check if we need to sign in (common flow)
+  // Check if we need to sign in (common flow - user already exists or needs confirmation)
   const currentUrl = page.url();
   if (currentUrl.includes('/auth')) {
     // Switch to sign-in if still on auth page
@@ -57,9 +56,25 @@ export async function setupAuthenticatedUser(page: any, authPage: any, testUser:
     await authPage.fillSignInForm(testUser.email, testUser.password);
     await authPage.submitSignIn();
     
-    // Wait for navigation after sign-in
-    await page.waitForURL(/\/(my-plants|$)/, { timeout: 10000 });
-    await page.waitForLoadState('domcontentloaded');
+    // Wait for either navigation OR auth indicators (app might handle auth differently)
+    try {
+      await page.waitForURL(url => !url.pathname.includes('/auth'), { timeout: 8000 });
+      await page.waitForLoadState('domcontentloaded');
+    } catch (navError) {
+      // Navigation might not happen, check for auth indicators instead
+      const userMenu = page.getByTestId('user-menu');
+      const addPlantButton = page.getByRole('button', { name: /add.*plant/i }).first();
+      
+      try {
+        await Promise.race([
+          userMenu.waitFor({ state: 'visible', timeout: 5000 }),
+          addPlantButton.waitFor({ state: 'visible', timeout: 5000 })
+        ]);
+      } catch (authError) {
+        // Neither navigation nor auth indicators - sign-in failed
+        throw new Error('Sign-in failed: No navigation and no auth indicators found');
+      }
+    }
   }
   
   // Verify authentication by checking for user menu or add plant button
