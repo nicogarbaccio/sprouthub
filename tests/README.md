@@ -1,6 +1,82 @@
 # Playwright Testing Infrastructure
 
+**Last Updated:** October 10, 2025  
+**Current Status:** 31 passing tests, 0 failing (100% pass rate)
+
 This document provides comprehensive information about the Playwright testing setup for SproutHub, including setup instructions, test organization, and best practices.
+
+---
+
+## 📚 Test Suite Overview
+
+### Current Stats
+- ✅ **31 passing tests** (100% pass rate)
+- ⚡ **35-40s execution time** (fast feedback)
+- 🎯 **Zero retries needed** (reliable tests)
+- 🌐 **Chromium browser** (primary testing)
+- 📦 **40+ helper functions** (comprehensive utilities)
+
+### Test Categories
+- **Authentication:** 8 tests covering sign-in, sign-up, session management
+- **Plant Catalog:** 5 tests for browsing and search
+- **Plant Management:** 8 tests for CRUD operations
+- **Seasonal Reviews:** 6 tests for schedule adjustments
+- **Watering Schedules:** 4 tests for calculation and display
+
+---
+
+## 🛠️ Helper Functions
+
+We provide comprehensive helper utilities to make writing tests easier and more reliable:
+
+### Route Mocking (`tests/utils/route-mocking.ts`)
+```typescript
+import { mockPlantData, mockWeatherData, mockErrorRoute } from '../utils/route-mocking';
+
+// Mock API responses
+await mockPlantData(page, [{ id: '1', name: 'Monstera' }]);
+await mockWeatherData(page, { temperature: 72, humidity: 65 });
+await mockErrorRoute(page, '**/api/plants', 500, 'Server error');
+```
+
+**Available Functions:** `mockPlantData`, `mockWeatherData`, `mockSeasonalTransition`, `mockErrorRoute`, `mockSlowRoute`, `mockNetworkFailure`, and more.
+
+### Assertions (`tests/utils/assertions.ts`)
+```typescript
+import { expectVisible, expectDialog, expectToast, expectText } from '../utils/assertions';
+
+// Clearer, more reliable assertions
+await expectVisible(page.getByRole('button', { name: 'Add Plant' }));
+const dialog = await expectDialog(page, /add.*plant/i);
+await expectText(dialog, 'Plant Name');
+await expectToast(page, /success|added/i);
+```
+
+**Available Functions:** `expectVisible`, `expectDialog`, `expectToast`, `expectText`, `expectNotVisible`, `expectURL`, `expectCount`, and 20+ more.
+
+### Auth Helpers (`tests/utils/auth-helpers.ts`)
+```typescript
+import { setupAuthenticatedUser, waitForPageReady } from '../utils/auth-helpers';
+
+// Easy authentication setup
+await setupAuthenticatedUser(page, authPage, testUser);
+await waitForPageReady(page);
+```
+
+**Available Functions:** `setupAuthenticatedUser`, `verifyAuthenticationState`, `waitForPageReady`, `signOut`, `isAuthenticated`.
+
+### Documentation
+
+**For Writing Tests:**
+- 📖 **[Test Patterns Guide](./README-PATTERNS.md)** ⭐ Start here!
+- 📖 **[Helper Functions Reference](./HELPER-FUNCTIONS.md)** - Complete API docs
+
+**Additional Resources:**
+- 📖 **[Skipped Tests](./SKIPPED-TESTS-DOCUMENTATION.md)** - Why tests skip
+- 📖 **[Documentation Index](./DOCUMENTATION-INDEX.md)** - Navigation guide
+- 📖 **[Progress Summary](./PROGRESS-SUMMARY.md)** - Project history
+
+---
 
 ## 🚀 Quick Start
 

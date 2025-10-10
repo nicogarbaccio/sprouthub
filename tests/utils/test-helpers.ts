@@ -1,78 +1,19 @@
 /**
- * Enhanced test helpers for reliable cross-browser testing
+ * Test helpers for Playwright tests
+ * Phase 4: Cleaned up - removed functions with waitForTimeout and anti-patterns
+ * 
+ * For mocking APIs, use route-mocking.ts instead
+ * For assertions, use assertions.ts instead
+ * For auth, use auth-helpers.ts instead
  */
 
 export interface TestEnvironmentState {
   hasPlatCards: boolean;
   plantCardCount: number;
   pageContent: string;
-  mockDataActive: boolean;
   currentUrl: string;
   isAuthenticated: boolean;
   hasAuthButtons: boolean;
-}
-
-/**
- * Wait for mock data to be properly set up and intercepting
- */
-export async function waitForMockData(page: any, options: { timeout?: number; verbose?: boolean } = {}): Promise<boolean> {
-  const { timeout = 10000, verbose = false } = options;
-  
-  const startTime = Date.now();
-  
-  while (Date.now() - startTime < timeout) {
-    const mockDataActive = await page.evaluate(() => {
-      return !!(window as any).__mockDataActive && !!(window as any).__mockPlants;
-    });
-    
-    if (mockDataActive) {
-      if (verbose) console.log('✅ Mock data verification passed');
-      return true;
-    }
-    
-    await page.waitForTimeout(500);
-  }
-  
-  if (verbose) console.log('❌ Mock data verification failed - timeout reached');
-  return false;
-}
-
-/**
- * Verify that plant cards with mock data are actually rendered
- */
-export async function verifyPlantsRendered(page: any, expectedPlants: string[], options: { timeout?: number; verbose?: boolean } = {}): Promise<boolean> {
-  const { timeout = 15000, verbose = false } = options;
-  
-  const startTime = Date.now();
-  
-  while (Date.now() - startTime < timeout) {
-    const plantCards = page.locator('[data-testid="plant-card"]');
-    const count = await plantCards.count();
-    
-    if (count > 0) {
-      // Check if we can find our expected plants
-      const foundPlants = [];
-      for (const plantName of expectedPlants) {
-        const plantCard = plantCards.filter({ hasText: plantName });
-        if (await plantCard.count() > 0) {
-          foundPlants.push(plantName);
-        }
-      }
-      
-      if (foundPlants.length > 0) {
-        if (verbose) console.log(`✅ Found ${foundPlants.length}/${expectedPlants.length} expected plants: ${foundPlants.join(', ')}`);
-        return true;
-      }
-    }
-    
-    await page.waitForTimeout(1000);
-  }
-  
-  if (verbose) {
-    const count = await page.locator('[data-testid="plant-card"]').count();
-    console.log(`❌ Plant verification failed - found ${count} cards but none with expected names: ${expectedPlants.join(', ')}`);
-  }
-  return false;
 }
 
 /**
@@ -101,14 +42,14 @@ export async function waitForCatalogData(page: any, options: { timeout?: number;
 
 /**
  * Get comprehensive test environment state for debugging
+ * 
+ * @example
+ * const state = await getTestEnvironmentState(page);
+ * console.log('Current state:', state);
  */
 export async function getTestEnvironmentState(page: any): Promise<TestEnvironmentState> {
   const plantCards = page.locator('[data-testid="plant-card"]');
   const plantCardCount = await plantCards.count();
-  
-  const mockDataActive = await page.evaluate(() => {
-    return !!(window as any).__mockDataActive && !!(window as any).__mockPlants;
-  });
   
   // Check for authentication indicators
   const addPlantButton = page.locator('button:has-text("Add Plant"), button:has-text("Add")');
@@ -121,7 +62,6 @@ export async function getTestEnvironmentState(page: any): Promise<TestEnvironmen
     hasPlatCards: plantCardCount > 0,
     plantCardCount,
     pageContent: await page.textContent('body').then(text => text?.substring(0, 300) + '...').catch(() => 'Unable to get content'),
-    mockDataActive,
     currentUrl: page.url(),
     isAuthenticated: hasAddButton && !hasSignInButton,
     hasAuthButtons: hasAddButton || hasSignInButton
@@ -145,61 +85,37 @@ export async function debugTestEnvironment(page: any, testName: string) {
 }
 
 /**
- * Skip test with detailed logging if conditions aren't met
+ * Wait for page content to stabilize
+ * Uses element-based waiting instead of arbitrary timeouts
+ * 
+ * @example
+ * await page.goto('/my-plants');
+ * await waitForPageStable(page);
  */
-export async function skipTestIfConditionNotMet(
-  page: any, 
-  testName: string, 
-  condition: () => Promise<boolean>,
-  reason: string
-): Promise<boolean> {
-  const shouldSkip = !(await condition());
-  
-  if (shouldSkip) {
-    console.log(`⏭️ Skipping test '${testName}': ${reason}`);
-    await debugTestEnvironment(page, testName);
-    return true;
-  }
-  
-  return false;
-}
-
-/**
- * Browser-aware wait helper - uses element-based waiting instead of networkidle
- */
-export async function waitForStableContent(page: any, browserName?: string, options: { extraWait?: number } = {}) {
+export async function waitForPageStable(page: any) {
   // Wait for DOM to be ready
   await page.waitForLoadState('domcontentloaded');
   
   // Wait for common page elements to indicate content is loaded
   const commonSelectors = [
-    'h1', 'h2', // Main headings
+    'h1, h2', // Main headings
     '[data-testid="plant-card"]', // Plant cards for catalog pages
     'main', // Main content area
     'nav' // Navigation
   ];
   
   // Try to wait for at least one common element to be visible
-  let elementFound = false;
   for (const selector of commonSelectors) {
     try {
       await page.locator(selector).first().waitFor({ state: 'visible', timeout: 3000 });
-      elementFound = true;
-      break;
+      return; // Success - content is stable
     } catch {
       // Continue to next selector
     }
   }
   
-  // If no common elements found, just wait for a reasonable time
-  if (!elementFound) {
-    await page.waitForTimeout(2000);
-  }
-  
-  const baseWait = browserName === 'firefox' || browserName === 'webkit' ? 2000 : 1000;
-  const totalWait = baseWait + (options.extraWait || 0);
-  
-  await page.waitForTimeout(totalWait);
+  // If no elements found, that's okay - page might be loading
+  // The test will fail if expected elements aren't there
 }
 
 /**

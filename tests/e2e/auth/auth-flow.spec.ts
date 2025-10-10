@@ -43,7 +43,7 @@ test.describe('Authentication Flow', () => {
     await authPage.fillSignInForm(testUsers.invalidUser.email, testUsers.invalidUser.password);
     await authPage.submitSignIn();
     
-    await authPage.page.waitForTimeout(1000);
+    await authPage.page.waitForLoadState('domcontentloaded');
     expect(authPage.page.url()).toContain('/auth');
   });
 
@@ -58,53 +58,46 @@ test.describe('Authentication Flow', () => {
     await authPage.fillSignUpForm(invalidUser);
     await authPage.submitSignUp();
     
-    await authPage.page.waitForTimeout(1000);
+    await authPage.page.waitForLoadState('domcontentloaded');
     expect(authPage.page.url()).toContain('/auth');
   });
 
-  test('persists session after page reload', async ({ authPage, page, browserName }) => {
+  test('persists session after page reload', async ({ authPage, page }) => {
     // Import helper functions
-    const { setupAuthenticatedUser, verifyAuthenticationState, waitForStableState } = await import('../../utils/auth-helpers');
+    const { setupAuthenticatedUser, verifyAuthenticationState, waitForPageReady } = await import('../../utils/auth-helpers');
     
     // Set up authenticated user
     await setupAuthenticatedUser(page, authPage, testUser);
     
-    // Wait for stable state (browser-aware)
-    await waitForStableState(page, browserName);
+    // Wait for page to be ready
+    await waitForPageReady(page);
     
     // Check initial auth state
     const initialState = await verifyAuthenticationState(page);
+    expect(initialState.isAuthenticated).toBe(true);
     
     // Reload page
     await page.reload();
-    await waitForStableState(page, browserName);
+    await waitForPageReady(page);
     
-    // Check state after reload
+    // Check state after reload - should still be authenticated
     const finalState = await verifyAuthenticationState(page);
-    
-    // Session state should be consistent
-    expect(finalState.isAuthenticated || finalState.needsAuth).toBe(true);
-    
-    // If we were authenticated before, we should still be authenticated
-    // (or at least in a valid state)
-    if (initialState.isAuthenticated) {
-      expect(finalState.isAuthenticated || finalState.needsAuth).toBe(true);
-    }
+    expect(finalState.isAuthenticated).toBe(true);
   });
 
-  test('allows sign-in after sign-up', async ({ authPage, page, browserName }) => {
+  test('allows sign-in after sign-up', async ({ authPage, page }) => {
     // Import helper functions
-    const { setupAuthenticatedUser, verifyAuthenticationState, waitForStableState } = await import('../../utils/auth-helpers');
+    const { setupAuthenticatedUser, verifyAuthenticationState, waitForPageReady } = await import('../../utils/auth-helpers');
     
     // This test is essentially the same as setupAuthenticatedUser
     // which handles the sign-up → sign-in flow
     await setupAuthenticatedUser(page, authPage, testUser);
     
-    // Wait for stable state
-    await waitForStableState(page, browserName);
+    // Wait for page to be ready
+    await waitForPageReady(page);
     
-    // Verify final authentication state
+    // Verify final authentication state - should be authenticated
     const finalState = await verifyAuthenticationState(page);
-    expect(finalState.isAuthenticated || finalState.needsAuth).toBe(true);
+    expect(finalState.isAuthenticated).toBe(true);
   });
 });

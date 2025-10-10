@@ -212,10 +212,15 @@ The project uses Supabase with the following key tables:
 - `user_plants` - User's plant collection
 - `watering_records` - Care activity tracking with smart postpone functionality
 - `user_watering_preferences` - Smart watering user preferences
-- `plants_with_watering_info` - View combining plant and watering data
+- `plants_with_watering_info` - View combining plant and watering data (SECURITY INVOKER)
 - `plant_images` - Image storage metadata
 
 Database migrations are located in the `supabase/migrations/` directory.
+
+#### Database Security
+- **RLS Policies**: All tables have Row Level Security enabled to ensure users can only access their own data
+- **SECURITY INVOKER Views**: Views use `SECURITY INVOKER` to respect RLS policies for querying users
+- **Secure Functions**: Database functions follow security best practices with proper search_path configuration
 
 ## 🧪 Testing
 

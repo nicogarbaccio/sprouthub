@@ -2,30 +2,22 @@ import { test, expect } from '@playwright/test';
 import { 
   waitForCatalogData, 
   debugTestEnvironment, 
-  skipTestIfConditionNotMet,
-  waitForStableContent,
-  findElementWithStrategies
+  findElementWithStrategies,
+  waitForPageStable
 } from '../../utils/test-helpers';
 
 test.describe('Plants Catalog', () => {
-  test.beforeEach(async ({ page, browserName }) => {
+  test.beforeEach(async ({ page }) => {
     await page.goto('/plant-catalog');
-    await waitForStableContent(page, browserName, { extraWait: 1000 });
+    await waitForPageStable(page);
   });
 
-  test('should show plant details navigation', async ({ page, browserName }) => {
+  test('should show plant details navigation', async ({ page }) => {
     // Wait for catalog to load with real data
     const catalogLoaded = await waitForCatalogData(page, { verbose: true });
     
-    if (await skipTestIfConditionNotMet(
-      page, 
-      'plant details navigation', 
-      async () => catalogLoaded,
-      'No plants available in catalog'
-    )) {
-      test.skip();
-      return;
-    }
+    // Test should fail if catalog doesn't load - that's a real issue
+    expect(catalogLoaded, 'Catalog should load with plants').toBe(true);
     
     // Find View Details button using multiple strategies
     const detailsSelectors = [
@@ -46,17 +38,11 @@ test.describe('Plants Catalog', () => {
     // Click the details button  
     await detailsButton.click();
     
-    // Wait for navigation with browser-specific timeout
-    const navigationTimeout = browserName === 'firefox' || browserName === 'webkit' ? 15000 : 10000;
-    
-    try {
-      await page.waitForLoadState('networkidle', { timeout: navigationTimeout });
-    } catch (error) {
-      console.log('Navigation may be slow, continuing with URL check');
-    }
-    
     // Should navigate to plant details page
-    await expect(page).toHaveURL(/.*plant-details/, { timeout: 15000 });
+    await expect(page).toHaveURL(/.*plant-details/, { timeout: 10000 });
+    
+    // Wait for page to be ready
+    await page.waitForLoadState('domcontentloaded');
     
     // Should show plant information - try multiple selectors  
     const headingSelectors = ['h1', 'h2', 'h3', '[data-testid="plant-title"]', '[data-testid="plant-name"]'];
@@ -68,19 +54,12 @@ test.describe('Plants Catalog', () => {
     }
   });
 
-  test('should display plant cards with interaction buttons', async ({ page, browserName }) => {
+  test('should display plant cards with interaction buttons', async ({ page }) => {
     // Wait for catalog to load
     const catalogLoaded = await waitForCatalogData(page, { verbose: true });
     
-    if (await skipTestIfConditionNotMet(
-      page,
-      'plant card interactions',
-      async () => catalogLoaded,
-      'No plants available in catalog'
-    )) {
-      test.skip();
-      return;
-    }
+    // Test should fail if catalog doesn't load - that's a real issue
+    expect(catalogLoaded, 'Catalog should load with plants').toBe(true);
     
     const plantCards = page.locator('[data-testid="plant-card"]');
     const firstCard = plantCards.first();
@@ -135,9 +114,9 @@ test.describe('Plants Catalog', () => {
     console.log(`Plant card interaction state - Add button: ${!!addButton}, Sign in: ${!!signInButton}`);
   });
 
-  test('should display catalog page elements', async ({ page, browserName }) => {
+  test('should display catalog page elements', async ({ page }) => {
     // This test is less dependent on plant data - tests page structure
-    await waitForStableContent(page, browserName);
+    await waitForPageStable(page);
     
     // Check for main heading with multiple selector strategies
     const headingSelectors = [

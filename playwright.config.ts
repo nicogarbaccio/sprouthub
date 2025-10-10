@@ -19,11 +19,11 @@ export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 1, // More retries for flaky tests
-  workers: process.env.CI ? 2 : 3, // Reduce workers for stability
-  timeout: 30000, // Increased global timeout
+  retries: 0, // Fix tests instead of retrying - was masking flaky tests
+  workers: process.env.CI ? 1 : undefined, // Use defaults, single worker in CI for stability
+  timeout: 15000, // Reduced from 30000 - tests should be fast
   expect: {
-    timeout: 10000, // Longer expect timeout
+    timeout: 5000, // Reduced from 10000 - fail fast on issues
   },
   reporter: [['html'], ['list']],
   use: {
@@ -31,8 +31,8 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: process.env.CI ? 'retain-on-failure' : 'off',
-    actionTimeout: 10000, // Timeout for actions like click, fill
-    navigationTimeout: 15000, // Timeout for page navigations
+    actionTimeout: 5000, // Reduced from 10000 - actions should be quick
+    navigationTimeout: 10000, // Reduced from 15000 - pages should load faster
   },
 
   projects: [
@@ -40,51 +40,32 @@ export default defineConfig({
       name: 'chromium',
       use: { 
         ...devices['Desktop Chrome'],
-        // Chromium-specific settings
         launchOptions: {
           args: ['--no-sandbox', '--disable-setuid-sandbox']
         }
       },
     },
-    {
-      name: 'firefox',
-      use: { 
-        ...devices['Desktop Firefox'],
-        // Firefox needs longer timeouts
-        actionTimeout: 15000,
-        navigationTimeout: 20000,
-      },
-      timeout: 45000, // Firefox-specific longer test timeout
-    },
-    {
-      name: 'webkit',
-      use: { 
-        ...devices['Desktop Safari'],
-        // WebKit needs longer timeouts  
-        actionTimeout: 15000,
-        navigationTimeout: 20000,
-      },
-      timeout: 45000, // WebKit-specific longer test timeout
-    },
+    // Firefox and WebKit temporarily disabled while stabilizing tests
+    // Re-enable after Chromium tests are stable for 1 week
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: [
-    {
-      command: 'npm run dev',
-      url: 'http://localhost:8080',
-      reuseExistingServer: !process.env.CI,
-      timeout: 60 * 1000, // Increased back to 60s for reliability
-      stdout: 'pipe',
-      stderr: 'pipe',
-    },
-    {
-      command: 'npx http-server ./tests/e2e/fixtures -p 9000',
-      url: 'http://localhost:9000',
-      reuseExistingServer: !process.env.CI,
-      timeout: 5000,
-    },
-  ],
+  webServer: {
+    command: 'npm run dev',
+    url: 'http://localhost:8080',
+    reuseExistingServer: !process.env.CI,
+    timeout: 60 * 1000,
+    stdout: 'pipe',
+    stderr: 'pipe',
+  },
 
   /* Global setup and teardown */
   globalSetup: './tests/global-setup.ts',

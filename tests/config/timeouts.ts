@@ -5,24 +5,24 @@
 
 export const TIMEOUTS = {
   // Page navigation and loading
-  NAVIGATION: 5000,
-  PAGE_LOAD: 10000,
-  DOMCONTENT_LOADED: 5000,
+  NAVIGATION: 3000, // Reduced from 5000
+  PAGE_LOAD: 5000, // Reduced from 10000
+  DOMCONTENT_LOADED: 3000, // Reduced from 5000
   NETWORK_IDLE: 5000,
-  ELEMENT_WAIT: 3000,
-  SELECTOR_WAIT: 3000,
+  ELEMENT_WAIT: 2000, // Reduced from 3000
+  SELECTOR_WAIT: 2000, // Reduced from 3000
 
   // UI interactions
-  CLICK: 3000,
-  FORM_FILL: 2000,
-  TAB_TRANSITION: 500,
+  CLICK: 1000, // Reduced from 3000
+  FORM_FILL: 1000, // Reduced from 2000
+  TAB_TRANSITION: 300, // Reduced from 500
   ANIMATION: 100,
   SHORT_WAIT: 100,
 
   // Dialog and modal operations
-  DIALOG_OPEN: 3000,
-  DIALOG_CLOSE: 3000,
-  MODAL_TRANSITION: 3000,
+  DIALOG_OPEN: 2000, // Reduced from 3000
+  DIALOG_CLOSE: 2000, // Reduced from 3000
+  MODAL_TRANSITION: 2000, // Reduced from 3000
 
   // Plant operations
   WATERING: 1000,
@@ -32,23 +32,23 @@ export const TIMEOUTS = {
   TOAST_APPEAR: 2000,
   TOAST_DISAPPEAR: 3000,
 
-  // Smart actions (reduced for faster tests)
+  // Smart actions
   SMART_CLICK: 1000,
   SMART_FILL: 1000,
   SMART_WAIT: 25,
   MICRO_WAIT: 10,
 
   // Extended timeouts for complex operations
-  BULK_OPERATION: 5000,
-  SETUP_TEARDOWN: 10000,
+  BULK_OPERATION: 3000, // Reduced from 5000
+  SETUP_TEARDOWN: 5000, // Reduced from 10000
 
   // Pattern detection and analysis
-  PATTERN_ANALYSIS: 8000,
-  PATTERN_DIALOG: 5000,
+  PATTERN_ANALYSIS: 5000, // Reduced from 8000
+  PATTERN_DIALOG: 3000, // Reduced from 5000
 
   // Default timeouts for utility functions
-  DEFAULT_WAIT: 2000,
-  DEFAULT_INTERACTION: 1500,
+  DEFAULT_WAIT: 1500, // Reduced from 2000
+  DEFAULT_INTERACTION: 1000, // Reduced from 1500
 } as const;
 
 /**
@@ -61,26 +61,12 @@ export const ANIMATION_DURATIONS = {
 
 /**
  * Helper function to get timeout with optional multiplier
- * Useful for CI environments that might need longer timeouts
+ * Use sparingly - tests should work without multipliers
  */
 export function getTimeout(timeoutKey: keyof typeof TIMEOUTS, multiplier: number = 1): number {
   return TIMEOUTS[timeoutKey] * multiplier;
 }
 
-/**
- * Environment-aware timeout multiplier
- * Can be used to adjust timeouts based on CI/local environment
- */
-export function getTimeoutMultiplier(): number {
-  if (process.env.CI) {
-    return 1.5; // 50% longer timeouts in CI
-  }
-  return 1;
-}
-
-/**
- * Get environment-adjusted timeout
- */
-export function getEnvTimeout(timeoutKey: keyof typeof TIMEOUTS): number {
-  return getTimeout(timeoutKey, getTimeoutMultiplier());
-}
+// Removed getTimeoutMultiplier() and getEnvTimeout()
+// Tests should work the same in CI and locally without special handling
+// If tests are flaky in CI, fix the tests, don't add multipliers

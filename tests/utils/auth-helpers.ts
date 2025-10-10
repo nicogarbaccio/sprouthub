@@ -1,6 +1,6 @@
 /**
  * Shared authentication helpers for Playwright tests
- * Designed for cross-browser reliability and consistent timing
+ * Phase 4: Improved with proper state-based waits (no arbitrary timeouts)
  */
 
 export interface TestUser {
@@ -14,8 +14,13 @@ export interface TestUser {
 
 /**
  * Reliable authentication setup that works across all browsers
+ * Uses state-based waits instead of arbitrary timeouts
+ * 
+ * @example
+ * const testUser = getTestUser('my-test');
+ * await setupAuthenticatedUser(page, authPage, testUser);
  */
-export async function setupAuthenticatedUser(page: any, authPage: any, testUser: TestUser, browserName?: string) {
+export async function setupAuthenticatedUser(page: any, authPage: any, testUser: TestUser) {
   // Navigate to auth page
   await page.goto('/auth');
   await page.waitForLoadState('domcontentloaded');
@@ -37,8 +42,9 @@ export async function setupAuthenticatedUser(page: any, authPage: any, testUser:
   await authPage.fillSignUpForm(userData);
   await authPage.submitSignUp();
   
-  // Wait for sign-up to complete with proper timeout
-  await page.waitForLoadState('networkidle', { timeout: 15000 });
+  // Wait for navigation after sign-up
+  await page.waitForURL(/\/(my-plants|auth|$)/, { timeout: 10000 });
+  await page.waitForLoadState('domcontentloaded');
   
   // Check if we need to sign in (common flow)
   const currentUrl = page.url();
@@ -51,89 +57,109 @@ export async function setupAuthenticatedUser(page: any, authPage: any, testUser:
     await authPage.fillSignInForm(testUser.email, testUser.password);
     await authPage.submitSignIn();
     
-    // Wait for sign-in to complete
-    await page.waitForLoadState('networkidle', { timeout: 15000 });
+    // Wait for navigation after sign-in
+    await page.waitForURL(/\/(my-plants|$)/, { timeout: 10000 });
+    await page.waitForLoadState('domcontentloaded');
   }
   
-  // Verify authentication worked by checking final state
-  await verifyAuthenticationState(page, browserName);
+  // Verify authentication by checking for user menu or add plant button
+  const userMenu = page.getByTestId('user-menu');
+  const addPlantButton = page.getByRole('button', { name: /add.*plant/i }).first();
+  
+  // Wait for either indicator of successful auth
+  try {
+    await Promise.race([
+      userMenu.waitFor({ state: 'visible', timeout: 5000 }),
+      addPlantButton.waitFor({ state: 'visible', timeout: 5000 })
+    ]);
+  } catch (error) {
+    throw new Error('Authentication verification failed: No user menu or add plant button found');
+  }
 }
 
 /**
  * Verify that authentication completed successfully
+ * Returns object with authentication status
+ * 
+ * @example
+ * const authState = await verifyAuthenticationState(page);
+ * expect(authState.isAuthenticated).toBe(true);
  */
-export async function verifyAuthenticationState(page: any, browserName?: string) {
-  // Navigate to home to check auth state with browser-specific timeout
-  const timeout = browserName === 'firefox' ? 30000 : 20000;
-  await page.goto('/', { timeout });
+export async function verifyAuthenticationState(page: any) {
+  // Navigate to home to check auth state
+  await page.goto('/', { timeout: 10000 });
   await page.waitForLoadState('domcontentloaded');
   
-  // Give the app time to determine auth state
-  await page.waitForTimeout(2000);
+  // Wait for page to be ready
+  await waitForPageReady(page);
   
-  // Check for either authenticated or unauthenticated state
+  // Check for authenticated state (user menu or add plant button)
+  const userMenu = page.getByTestId('user-menu');
   const addPlantButton = page.getByRole('button', { name: /add.*plant/i }).first();
   const signInButton = page.getByRole('button', { name: /sign in/i }).first();
   
-  const isAuthenticated = await addPlantButton.isVisible({ timeout: 5000 }).catch(() => false);
-  const needsAuth = await signInButton.isVisible({ timeout: 5000 }).catch(() => false);
+  // Wait a bit longer to ensure auth state is loaded
+  await page.waitForTimeout(500);
   
-  // At least one state should be true (either logged in or out)
-  if (!isAuthenticated && !needsAuth) {
-    throw new Error('Cannot determine authentication state - no relevant buttons found');
-  }
+  const hasUserMenu = await userMenu.isVisible({ timeout: 3000 }).catch(() => false);
+  const hasAddPlantButton = await addPlantButton.isVisible({ timeout: 3000 }).catch(() => false);
+  const hasSignInButton = await signInButton.isVisible({ timeout: 3000 }).catch(() => false);
+  
+  const isAuthenticated = hasUserMenu || hasAddPlantButton;
+  const needsAuth = hasSignInButton && !isAuthenticated;
   
   console.log(`Auth state verified - Authenticated: ${isAuthenticated}, Needs auth: ${needsAuth}`);
-  return { isAuthenticated, needsAuth };
+  return { isAuthenticated, needsAuth, url: page.url() };
 }
 
 /**
- * Wait for elements to be visible with retry logic
+ * Wait for page to reach stable state after navigation
+ * Waits for DOM content loaded and any loading spinners to disappear
+ * 
+ * @example
+ * await page.goto('/my-plants');
+ * await waitForPageReady(page);
  */
-export async function waitForElementWithRetry(
-  page: any, 
-  selector: string, 
-  options: { timeout?: number; retries?: number } = {}
-) {
-  const { timeout = 10000, retries = 3 } = options;
+export async function waitForPageReady(page: any) {
+  await page.waitForLoadState('domcontentloaded');
   
-  for (let i = 0; i < retries; i++) {
-    try {
-      await page.waitForSelector(selector, { timeout: timeout / retries });
-      return true;
-    } catch (error) {
-      if (i === retries - 1) throw error;
-      await page.waitForTimeout(1000); // Wait before retry
-    }
-  }
-  return false;
-}
-
-/**
- * Check if test should be skipped due to missing elements
- */
-export async function shouldSkipTest(page: any, requiredElements: string[]): Promise<boolean> {
-  for (const selector of requiredElements) {
-    const element = page.locator(selector);
-    const isVisible = await element.isVisible({ timeout: 2000 }).catch(() => false);
-    if (!isVisible) {
-      console.log(`Test skip condition met: Required element not found: ${selector}`);
-      return true;
-    }
-  }
-  return false;
-}
-
-/**
- * Browser-aware waiting strategy
- */
-export async function waitForStableState(page: any, browserName?: string) {
-  await page.waitForLoadState('networkidle');
+  // Wait for any loading spinners to disappear
+  const spinner = page.locator('[data-testid*="loading"], [class*="skeleton"], [class*="spinner"]').first();
+  const spinnerVisible = await spinner.isVisible({ timeout: 1000 }).catch(() => false);
   
-  // Firefox and WebKit need extra time
-  if (browserName === 'firefox' || browserName === 'webkit') {
-    await page.waitForTimeout(2000);
-  } else {
-    await page.waitForTimeout(1000);
+  if (spinnerVisible) {
+    await spinner.waitFor({ state: 'hidden', timeout: 5000 });
   }
+}
+
+/**
+ * Sign out current user
+ * 
+ * @example
+ * await signOut(page);
+ */
+export async function signOut(page: any) {
+  const userMenu = page.getByTestId('user-menu');
+  await userMenu.click();
+  
+  const signOutButton = page.getByRole('button', { name: /sign out|log out/i });
+  await signOutButton.click();
+  
+  // Wait for redirect to auth page or home
+  await page.waitForURL(/\/(auth|$)/, { timeout: 5000 });
+}
+
+/**
+ * Check if user is currently authenticated
+ * Quick check without navigation
+ * 
+ * @example
+ * const isAuth = await isAuthenticated(page);
+ * if (!isAuth) {
+ *   await setupAuthenticatedUser(page, authPage, testUser);
+ * }
+ */
+export async function isAuthenticated(page: any): Promise<boolean> {
+  const userMenu = page.getByTestId('user-menu');
+  return await userMenu.isVisible({ timeout: 2000 }).catch(() => false);
 }

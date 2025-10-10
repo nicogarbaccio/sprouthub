@@ -394,11 +394,11 @@ export type Database = {
       plants_with_watering_info: {
         Row: {
           created_at: string | null
+          days_since_watering: number | null
           household_id: string | null
           id: string | null
           image: string | null
           is_outdoor_plant: boolean | null
-          last_postponement_date: string | null
           last_watered_at: string | null
           last_watering_notes: string | null
           nickname: string | null
@@ -433,12 +433,22 @@ export type Database = {
         Returns: boolean
       }
       delete_test_user: {
-        Args: { user_id: string }
+        Args: Record<PropertyKey, never> | { user_id: string }
         Returns: Json
+      }
+      get_user_emails: {
+        Args: { user_ids: string[] }
+        Returns: {
+          email: string
+          id: string
+        }[]
       }
       get_user_household_memberships: {
         Args: { target_user_id: string }
-        Returns: Array<{ household_id: string; role: string }>
+        Returns: {
+          household_id: string
+          role: string
+        }[]
       }
       invite_to_household: {
         Args: {

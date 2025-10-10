@@ -1,18 +1,17 @@
 import { test, expect } from '@playwright/test';
 import {
-  waitForStableContent,
+  waitForPageStable,
   findElementWithStrategies,
-  skipTestIfConditionNotMet,
   debugTestEnvironment
 } from '../../utils/test-helpers';
 
 test.describe('Plant Catalog', () => {
-  test.beforeEach(async ({ page, browserName }) => {
+  test.beforeEach(async ({ page }) => {
     await page.goto('/plant-catalog');
-    await waitForStableContent(page, browserName, { extraWait: 500 });
+    await waitForPageStable(page);
   });
 
-  test('should display catalog page correctly', async ({ page, browserName }) => {
+  test('should display catalog page correctly', async ({ page }) => {
     // Wait for catalog heading to be visible (more reliable than networkidle)
     const headingSelectors = [
       'h2:has-text("Find your next green companion")',
@@ -21,17 +20,8 @@ test.describe('Plant Catalog', () => {
     ];
     
     const heading = await findElementWithStrategies(page, headingSelectors, { verbose: true });
-    if (await skipTestIfConditionNotMet(
-      page,
-      'catalog page display test',
-      async () => !!heading,
-      'Main catalog heading not found'
-    )) {
-      test.skip();
-      return;
-    }
-    
-    await expect(heading).toBeVisible();
+    expect(heading, 'Main catalog heading should be found').not.toBeNull();
+    await expect(heading!).toBeVisible();
     
     // Check for results summary (optional - may not be present in all states)
     const summaryVisible = await page.locator('p:has-text("Showing")').isVisible({ timeout: 5000 }).catch(() => false);
@@ -48,27 +38,12 @@ test.describe('Plant Catalog', () => {
     }
   });
 
-  test('should show plant cards', async ({ page, browserName }) => {
+  test('should show plant cards', async ({ page }) => {
     // Wait for plant cards to load (element-based waiting)
     const plantCards = page.locator('[data-testid="plant-card"]');
     
-    // Check if plant cards are available
-    if (await skipTestIfConditionNotMet(
-      page,
-      'plant cards display test',
-      async () => {
-        try {
-          await expect(plantCards.first()).toBeVisible({ timeout: 10000 });
-          return true;
-        } catch {
-          return false;
-        }
-      },
-      'No plant cards found - may be expected for empty catalog'
-    )) {
-      test.skip();
-      return;
-    }
+    // Test should fail if no plant cards found - that's a real issue
+    await expect(plantCards.first(), 'Plant cards should be visible').toBeVisible({ timeout: 10000 });
     
     // Verify at least some plants are shown
     const count = await plantCards.count();
@@ -98,7 +73,7 @@ test.describe('Plant Catalog', () => {
     }
   });
 
-  test('should navigate from homepage to catalog', async ({ page, browserName }) => {
+  test('should navigate from homepage to catalog', async ({ page }) => {
     await page.goto('/');
     
     // Wait for homepage main heading instead of networkidle
@@ -109,17 +84,9 @@ test.describe('Plant Catalog', () => {
     ];
     
     const homeHeading = await findElementWithStrategies(page, homepageHeadingSelectors, { verbose: true });
-    if (await skipTestIfConditionNotMet(
-      page,
-      'homepage navigation test',
-      async () => !!homeHeading,
-      'Homepage heading not found'
-    )) {
-      test.skip();
-      return;
-    }
+    expect(homeHeading, 'Homepage heading should be found').not.toBeNull();
     
-    await waitForStableContent(page, browserName, { extraWait: 500 });
+    await waitForPageStable(page);
     
     // Look for "Start Growing" button with enhanced element finder
     const buttonSelectors = [
@@ -130,15 +97,7 @@ test.describe('Plant Catalog', () => {
     ];
     
     const startButton = await findElementWithStrategies(page, buttonSelectors, { verbose: true });
-    if (await skipTestIfConditionNotMet(
-      page,
-      'homepage navigation test',
-      async () => !!startButton,
-      'Start Growing button not found'
-    )) {
-      test.skip();
-      return;
-    }
+    expect(startButton, 'Start Growing button should be found').not.toBeNull();
     
     await startButton.click();
     

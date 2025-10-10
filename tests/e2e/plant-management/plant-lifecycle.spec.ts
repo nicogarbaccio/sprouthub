@@ -1,435 +1,108 @@
-import { test, expect, testUsers } from '../../fixtures/test-fixtures';
-import { getTestUser, createUniqueTestUser } from '../../test-user-pool';
-import { 
-  debugTestEnvironment, 
-  skipTestIfConditionNotMet,
-  waitForStableContent,
-  findElementWithStrategies,
-  getTestEnvironmentState
-} from '../../utils/test-helpers';
+import { test, expect } from '../../fixtures/test-fixtures';
+import { getTestUser } from '../../test-user-pool';
 
 test.describe('Plant Management Lifecycle', () => {
-  // Option 1: Use pooled test user (recommended for most tests)
   const testUser = getTestUser('plant-management-lifecycle');
-  
-  // Option 2: Create unique user if test needs complete isolation
-  // const testUser = createUniqueTestUser('plantmgr');
 
-  test('verify plant management UI elements are present', async ({ 
-    page, 
-    authPage,
-    browserName 
-  }) => {
+  async function setupAuth(page: any, authPage: any) {
+    const { setupAuthenticatedUser } = await import('../../utils/auth-helpers');
+    await setupAuthenticatedUser(page, authPage, testUser);
+  }
+
+  test('should display plant management UI when authenticated', async ({ page, authPage }) => {
+    await setupAuth(page, authPage);
+    await page.goto('/my-plants');
     
-    await test.step('Navigate to home page and detect UI state', async () => {
-      await page.goto('/');
-      await waitForStableContent(page, browserName, { extraWait: 1000 });
-      
-      // Get comprehensive environment state
-      const envState = await getTestEnvironmentState(page);
-      console.log('🏠 Home page environment state:', envState);
-      
-      // Expand selector strategies for better detection
-      const addPlantSelectors = [
-        'button:has-text("Add Plant")',
-        'button:has-text("Add a Plant")',
-        'button:has-text("Add")',
-        '[data-testid="add-plant"]',
-        'button[aria-label*="Add"]',
-        'a:has-text("Add Plant")',
-        '.add-plant-button',
-        '[role="button"]:has-text("Add")'
-      ];
-      
-      const signInSelectors = [
-        'button:has-text("Sign in to add")',
-        'button:has-text("Sign in")',
-        'a:has-text("Sign in")',
-        'a:has-text("Sign In")',
-        '[data-testid="sign-in"]',
-        'button:has-text("Login")',
-        'a[href*="auth"]',
-        '.sign-in-button'
-      ];
-      
-      // Use enhanced element finder
-      const addButton = await findElementWithStrategies(page, addPlantSelectors, { verbose: true });
-      const signInButton = await findElementWithStrategies(page, signInSelectors, { verbose: true });
-      
-      const canAddDirectly = !!addButton;
-      const needsAuth = !!signInButton;
-      
-      console.log(`🎯 UI Detection Results - Add button: ${canAddDirectly}, Sign in: ${needsAuth}`);
-      
-      // If we can't detect either state, debug the environment
-      if (!canAddDirectly && !needsAuth) {
-        await debugTestEnvironment(page, 'plant management UI detection');
-        
-        // Check for alternative page states
-        const isOnAuthPage = page.url().includes('auth');
-        const hasAnyButtons = await page.locator('button, a').count() > 0;
-        const pageTitle = await page.title().catch(() => 'Unknown');
-        
-        console.log(`🔍 Alternative checks - Auth page: ${isOnAuthPage}, Has buttons: ${hasAnyButtons}, Title: ${pageTitle}`);
-        
-        // If we have some indication this is a valid page, allow the test to continue
-        const hasValidPageIndicators = isOnAuthPage || hasAnyButtons || pageTitle.includes('Sprout');
-        expect(hasValidPageIndicators).toBe(true);
-      } else {
-        // At least one expected state was detected
-        expect(canAddDirectly || needsAuth).toBe(true);
-      }
-    });
+    // Wait for page to be ready - network idle ensures data is loaded
+    await page.waitForLoadState('networkidle');
     
-    await test.step('Handle authentication if needed', async () => {
-      // Import auth helper
-      const { setupAuthenticatedUser, verifyAuthenticationState } = await import('../../utils/auth-helpers');
-      
-      // Check current authentication state
-      const envState = await getTestEnvironmentState(page);
-      
-      if (!envState.isAuthenticated && envState.hasAuthButtons) {
-        console.log('🔐 Authentication needed, setting up user');
-        
-        try {
-          // Use shared auth helper
-          await setupAuthenticatedUser(page, authPage, testUser);
-          
-          // Verify auth state
-          const authState = await verifyAuthenticationState(page);
-          console.log(`✅ Post-auth state:`, authState);
-        } catch (error) {
-          console.log(`⚠️ Authentication setup failed: ${error.message}`);
-          // Don't fail the test - authentication issues are secondary to UI detection
-        }
-      } else {
-        console.log('🎯 Authentication not needed or already authenticated');
-      }
-    });
+    // Wait for loading skeletons to disappear if present
+    const loadingSkeleton = page.locator('[class*="skeleton"], [data-testid*="skeleton"], [class*="loading"]').first();
+    if (await loadingSkeleton.isVisible({ timeout: 1000 }).catch(() => false)) {
+      await expect(loadingSkeleton).not.toBeVisible({ timeout: 5000 });
+    }
+    
+    // Should show either plants or empty state
+    const hasPlantCards = await page.getByTestId('plant-card').count() > 0;
+    const hasEmptyState = await page.getByText(/no plants|add.*first.*plant/i).isVisible().catch(() => false);
+    
+    // At least one should be present
+    if (!hasPlantCards && !hasEmptyState) {
+      throw new Error('Expected either plant cards or empty state to be visible');
+    }
+    
+    // Should have an add plant button
+    await expect(page.getByRole('button', { name: /add.*plant/i }).first()).toBeVisible();
   });
 
-  test('navigate to My Plants page and verify structure', async ({ 
-    page, 
-    authPage,
-    myPlantsPage 
-  }) => {
+  test('should navigate to catalog page', async ({ page, authPage }) => {
+    await setupAuth(page, authPage);
     
-    await test.step('Setup authentication', async () => {
-      // Sign up new user
-      await page.goto('/auth');
-      await authPage.switchToSignUp();
-      await authPage.fillSignUpForm(testUser);
-      await authPage.submitSignUp();
-      await page.waitForTimeout(1000);
-      
-      // Check if we're still on auth page and need to sign in
-      const currentUrl = page.url();
-      if (currentUrl.includes('/auth')) {
-        // Check if sign-in form is available
-        const signInEmailInput = page.getByTestId('sign-in-email');
-        const hasSignInForm = await signInEmailInput.isVisible({ timeout: 1000 }).catch(() => false);
-        
-        if (hasSignInForm) {
-          await authPage.switchToSignIn();
-          await authPage.fillSignInForm(testUser.email, testUser.password);
-          await authPage.submitSignIn();
-          await page.waitForTimeout(1000);
-        }
-      }
-    });
+    await page.goto('/catalog');
+    await page.waitForLoadState('domcontentloaded');
     
-    await test.step('Navigate to My Plants page', async () => {
-      // Navigate to my plants page
-      await page.goto('/my-plants');
-      await page.waitForLoadState('domcontentloaded');
-      await page.waitForTimeout(1000);
-      
-      // Check if we got redirected (might happen if not authenticated)
-      const currentUrl = page.url();
-      if (!currentUrl.includes('/my-plants')) {
-        // If redirected, try going to my-plants again
-        await page.goto('/my-plants');
-        await page.waitForTimeout(1000);
-      }
-      
-      // Verify we're on a valid page (either my-plants or home page)
-      const finalUrl = page.url();
-      const isOnValidPage = finalUrl.includes('/my-plants') || finalUrl.includes('localhost:8080');
-      expect(isOnValidPage).toBe(true);
-    });
-    
-    await test.step('Check My Plants page elements', async () => {
-      // Look for any plant-related elements or buttons
-      const addButtons = await page.getByRole('button', { name: /add/i }).count();
-      const plantCards = await page.getByTestId('plant-card').count();
-      
-      console.log(`Plants page - Add buttons: ${addButtons}, Plant cards: ${plantCards}`);
-      
-      // Should have at least some interactive elements
-      expect(addButtons >= 0).toBe(true);
-    });
+    // Verify we're on catalog page
+    await expect(page).toHaveURL(/catalog/);
   });
 
-  test('test basic UI interactions on authenticated pages', async ({ 
-    page, 
-    authPage
-  }) => {
-    // Increase timeout for this test as it involves multiple page navigations and interactions
-    test.setTimeout(30000);
+  test('should allow watering a plant', async ({ page, authPage }) => {
+    await setupAuth(page, authPage);
+    await page.goto('/my-plants');
+    await page.waitForLoadState('domcontentloaded');
     
-    await test.step('Authenticate user', async () => {
-      await page.goto('/auth');
-      await authPage.switchToSignUp();
-      await authPage.fillSignUpForm(testUser);
-      await authPage.submitSignUp();
-      await page.waitForTimeout(1000);
-      
-      // Navigate to home
-      await page.goto('/');
-      await page.waitForTimeout(1000);
-    });
+    // Check if there are any plants
+    const plantCards = await page.getByTestId('plant-card').count();
     
-    await test.step('Test navigation and basic interactions', async () => {
-      // Test navigation to different pages
-      const pages = ['/', '/catalog', '/my-plants'];
+    if (plantCards === 0) {
+      test.skip(true, 'No plants available to test watering');
+      return;
+    }
+    
+    // Look for a water button
+    const waterButton = page.getByRole('button', { name: /water/i }).first();
+    
+    if (await waterButton.isVisible().catch(() => false)) {
+      await waterButton.click();
       
-      for (const pagePath of pages) {
-        try {
-          await page.goto(pagePath, { timeout: 10000 });
-          await page.waitForLoadState('domcontentloaded', { timeout: 5000 });
-          
-          // Verify page loads without error
-          const title = await page.title();
-          expect(title.length).toBeGreaterThan(0);
-          
-          console.log(`Page ${pagePath} loaded successfully with title: ${title}`);
-        } catch (error) {
-          console.log(`Page ${pagePath} failed to load: ${error.message}`);
-          // For problematic pages, just log and continue
-          if (pagePath === '/my-plants' || pagePath === '/catalog') {
-            console.log(`${pagePath} page might have issues - skipping`);
-            continue;
-          }
-          throw error;
-        }
+      // Handle confirmation dialog if it appears
+      const confirmDialog = page.getByRole('dialog').filter({ hasText: /confirm/i });
+      if (await confirmDialog.isVisible({ timeout: 2000 }).catch(() => false)) {
+        await confirmDialog.getByRole('button', { name: /confirm|water/i }).click();
       }
-    });
-    
-    await test.step('Test basic button interactions', async () => {
-      await page.goto('/');
-      await page.waitForTimeout(1000);
       
-      // Find any clickable buttons and test they don't cause errors
-      const buttons = await page.getByRole('button').count();
-      console.log(`Found ${buttons} buttons on homepage`);
-      
-      if (buttons > 0) {
-        // Try clicking a safe button (like theme toggle) rather than the first button
-        // This avoids clicking potentially problematic buttons like navigation or form buttons
-        const themeToggleButton = page.getByTestId('theme-toggle');
-        const safeButton = await themeToggleButton.isVisible().catch(() => false) 
-          ? themeToggleButton 
-          : page.getByRole('button').first();
-          
-        if (await safeButton.isVisible().catch(() => false)) {
-          try {
-            // Use a shorter timeout for the click action
-            await safeButton.click({ timeout: 5000 });
-            await page.waitForTimeout(500);
-            
-            // Verify no error occurred (page didn't crash)
-            const currentUrl = page.url();
-            expect(currentUrl.length).toBeGreaterThan(0);
-            console.log('Button click successful');
-          } catch (error) {
-            console.log(`Button click failed or timed out: ${error.message}`);
-            // Don't fail the test for button click issues - just log and continue
-            // This is a basic interaction test, not a critical functionality test
-          }
-        }
-      }
-    });
+      // Should show success feedback
+      await expect(
+        page.getByText(/watered|success/i).first()
+      ).toBeVisible({ timeout: 5000 });
+    } else {
+      test.skip(true, 'No plants currently need watering');
+    }
   });
 
-  test('test form interactions if available', async ({ 
-    page, 
-    authPage
-  }) => {
+  test('should show consistent watering schedule display', async ({ page, authPage }) => {
+    await setupAuth(page, authPage);
+    await page.goto('/my-plants');
+    await page.waitForLoadState('domcontentloaded');
     
-    await test.step('Navigate and authenticate', async () => {
-      await page.goto('/auth');
-      await authPage.switchToSignUp();
-      await authPage.fillSignUpForm(testUser);
-      await authPage.submitSignUp();
-      await page.waitForTimeout(1000);
-    });
+    const plantCards = await page.getByTestId('plant-card');
+    const count = await plantCards.count();
     
-    await test.step('Look for forms or dialogs to test', async () => {
-      // Check different pages for interactive forms
-      await page.goto('/');
-      await page.waitForTimeout(1000);
-      
-      // Look for any modal/dialog triggers
-      const modalTriggers = await page.locator('[data-testid*="dialog"], [role="dialog"], button[aria-haspopup]').count();
-      console.log(`Found ${modalTriggers} potential modal triggers`);
-      
-      // Look for form elements
-      const formElements = await page.locator('form, input, select, textarea').count();
-      console.log(`Found ${formElements} form elements`);
-      
-      // Test is successful if we can navigate and check for elements without errors
-      expect(modalTriggers >= 0).toBe(true);
-      expect(formElements >= 0).toBe(true);
-    });
-  });
-
-  test('test postponing watering functionality with mock data verification', async ({ 
-    page, 
-    authPage
-  }) => {
+    if (count === 0) {
+      // Empty state is valid
+      await expect(page.getByText(/no plants|add.*first.*plant/i)).toBeVisible();
+      return;
+    }
     
-    await test.step('Setup authentication and navigate to plants', async () => {
-      await page.goto('/auth');
-      await authPage.switchToSignUp();
-      await authPage.fillSignUpForm(testUser);
-      await authPage.submitSignUp();
-      await page.waitForTimeout(1000);
+    // Each plant card should show watering status
+    for (let i = 0; i < Math.min(count, 3); i++) {
+      const card = plantCards.nth(i);
       
-      // Navigate to My Plants page
-      await page.goto('/my-plants');
-      await page.waitForTimeout(1000);
-    });
-
-    await test.step('Test postpone button functionality', async () => {
-      // First check if there are any plants on the page
-      const plantCards = await page.getByTestId('plant-card').count();
-      console.log(`Found ${plantCards} plant cards`);
+      // Should have some watering information
+      const hasWateringInfo = await card.getByText(/water|due|day|postponed/i).count() > 0;
       
-      if (plantCards === 0) {
-        // If no plants, try to navigate to the homepage which might have plants
-        console.log('No plants found on My Plants page, checking homepage');
-        await page.goto('/');
-        await page.waitForTimeout(1000);
-        
-        const homePagePlantCards = await page.getByTestId('plant-card').count();
-        console.log(`Found ${homePagePlantCards} plant cards on homepage`);
+      if (!hasWateringInfo) {
+        throw new Error(`Plant card ${i + 1} missing watering status information`);
       }
-      
-      // Look for any plants that might have postpone buttons
-      const postponeButtons = await page.getByRole('button', { name: /postpone/i }).count();
-      console.log(`Found ${postponeButtons} postpone buttons`);
-      
-      if (postponeButtons > 0) {
-        // Click the first postpone button if available
-        const firstPostponeButton = page.getByRole('button', { name: /postpone/i }).first();
-        
-        if (await firstPostponeButton.isVisible().catch(() => false)) {
-          await firstPostponeButton.click();
-          await page.waitForTimeout(500);
-          
-          // Verify no error occurred after clicking postpone
-          const currentUrl = page.url();
-          expect(currentUrl.length).toBeGreaterThan(0);
-          
-          console.log('Postpone button clicked successfully');
-        }
-      } else {
-        console.log('No postpone buttons found - this might be expected for new users or plants not due for watering');
-      }
-      
-      // Test passes if we can check for postpone functionality without errors
-      expect(postponeButtons >= 0).toBe(true);
-    });
-
-    await test.step('Verify watering schedule display consistency', async () => {
-      // Test that the page displays watering information consistently
-      // Look for elements that show "next watering" or similar information
-      
-      const nextWateringElements = await page.locator('text=/next.*water|water.*tomorrow|due.*today|postponed/i').count();
-      const plantCards = await page.getByTestId('plant-card').count();
-      
-      console.log(`Plants: ${plantCards}, Next watering elements: ${nextWateringElements}`);
-      
-      if (plantCards === 0) {
-        console.log('No plants found - checking if this is expected (empty state for new users)');
-        // Look for empty state indicators
-        const emptyStateElements = await page.locator('text=/no plants|add.*first.*plant|get started/i').count();
-        console.log(`Empty state elements: ${emptyStateElements}`);
-      } else {
-        // For each plant card, verify it shows some kind of watering status
-        for (let i = 0; i < Math.min(plantCards, 3); i++) {
-          const card = page.getByTestId('plant-card').nth(i);
-          if (await card.isVisible().catch(() => false)) {
-            // Look for status text within this card
-            const hasStatusText = await card.locator('text=/water|due|postponed|days/i').count() > 0;
-            if (hasStatusText) {
-              console.log(`Plant card ${i + 1} shows watering status information`);
-            }
-          }
-        }
-      }
-      
-      expect(plantCards >= 0).toBe(true);
-    });
-
-    await test.step('Test watering action buttons', async () => {
-      // Look for water buttons and test their functionality
-      const waterButtons = await page.getByRole('button', { name: /water/i }).count();
-      console.log(`Found ${waterButtons} water buttons`);
-      
-      if (waterButtons > 0) {
-        // Try clicking a water button if available
-        const firstWaterButton = page.getByRole('button', { name: /water/i }).first();
-        
-        if (await firstWaterButton.isVisible().catch(() => false)) {
-          await firstWaterButton.click();
-          await page.waitForTimeout(500);
-          
-          // Verify action completed without error
-          const currentUrl = page.url();
-          expect(currentUrl.includes('my-plants') || currentUrl.includes('localhost:8080')).toBe(true);
-          
-          console.log('Water button clicked successfully');
-        }
-      } else {
-        console.log('No water buttons found - this is expected for new users with no plants');
-      }
-      
-      expect(waterButtons >= 0).toBe(true);
-    });
-
-    await test.step('Verify date display format and consistency', async () => {
-      // This step specifically tests the bug we fixed:
-      // Ensure that postponed plants show consistent date information
-      
-      await page.goto('/my-plants');
-      await page.waitForTimeout(1000);
-      
-      // Look for any date displays on the page
-      const dateElements = await page.locator('text=/\\w+\\s+\\d{1,2}(?:,\\s+\\d{4})?|tomorrow|today|yesterday|overdue/i').count();
-      console.log(`Found ${dateElements} date-related elements`);
-      
-      // Check for status consistency between different parts of plant cards
-      const statusElements = await page.locator('[data-testid*="status"]').count();
-      const statusTextElements = await page.locator('text=/postponed|due|overdue/i').count();
-      console.log(`Found ${statusElements} status elements and ${statusTextElements} status text elements`);
-      
-      // If we have both plants and status information, the display should be consistent
-      const plantCards = await page.getByTestId('plant-card').count();
-      if (plantCards > 0 && (dateElements > 0 || statusElements > 0 || statusTextElements > 0)) {
-        console.log('Plant cards are displaying date/status information consistently');
-        
-        // Specifically look for the pattern that was buggy:
-        // Plants showing "Water tomorrow" should have consistent next watering dates
-        const tomorrowElements = await page.locator('text=/tomorrow/i').count();
-        if (tomorrowElements > 0) {
-          console.log(`Found ${tomorrowElements} "tomorrow" references - checking for consistency`);
-        }
-      }
-      
-      // Test passes if we can verify the display structure without errors
-      expect(plantCards >= 0).toBe(true);
-      expect(dateElements >= 0).toBe(true);
-    });
+    }
   });
 });
