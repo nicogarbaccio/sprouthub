@@ -74,13 +74,19 @@ const WateringHistoryDialog = memo(
       autoRefresh: false, // Disable automatic refreshing to prevent flickering
     });
 
-    // Track dismissed insights (resets when dialog reopens)
-    const [dismissedInsightTypes, setDismissedInsightTypes] = useState<Set<string>>(new Set());
+    // Track dismissed insights per plant (persists across dialog open/close)
+    const [dismissedInsights, setDismissedInsights] = useState<Map<string, Set<string>>>(new Map());
+
+    // Get dismissed insight types for the current plant
+    const currentPlantDismissals = useMemo(() => {
+      if (!plant?.id) return new Set<string>();
+      return dismissedInsights.get(plant.id) || new Set<string>();
+    }, [plant?.id, dismissedInsights]);
 
     // Filter out dismissed insights
     const visibleInsights = useMemo(() => {
-      return insights.filter((insight) => !dismissedInsightTypes.has(insight.type));
-    }, [insights, dismissedInsightTypes]);
+      return insights.filter((insight) => !currentPlantDismissals.has(insight.type));
+    }, [insights, currentPlantDismissals]);
 
     // Load watering records when dialog opens or plant changes
     useEffect(() => {
@@ -97,12 +103,32 @@ const WateringHistoryDialog = memo(
       }
     }, [isOpen, plant, refreshAnalysis]);
 
-    // Clear dismissed insights when dialog closes (fresh start on reopen)
-    useEffect(() => {
-      if (!isOpen) {
-        setDismissedInsightTypes(new Set());
+    // Handle dismissing insights
+    const handleDismissInsight = useCallback((insight: PatternInsight) => {
+      if (!plant?.id) return;
+
+      setDismissedInsights((prev) => {
+        const newMap = new Map(prev);
+        const plantDismissals = new Set(newMap.get(plant.id) || []);
+        plantDismissals.add(insight.type);
+        newMap.set(plant.id, plantDismissals);
+        return newMap;
+      });
+    }, [plant?.id]);
+
+    // Handle explicit refresh - clears dismissed insights for this plant
+    const handleRefreshAnalysis = useCallback(() => {
+      if (plant?.id) {
+        // Clear dismissed insights for this plant
+        setDismissedInsights((prev) => {
+          const newMap = new Map(prev);
+          newMap.delete(plant.id);
+          return newMap;
+        });
       }
-    }, [isOpen]);
+      // Trigger the actual analysis refresh
+      refreshAnalysis();
+    }, [plant?.id, refreshAnalysis]);
 
     // Handle schedule adjustment from pattern suggestions
     const handleScheduleAdjustment = useCallback(
@@ -119,8 +145,8 @@ const WateringHistoryDialog = memo(
             description: `${plant.nickname}'s watering schedule updated to every ${insight.suggestion.suggestedSchedule} days`,
             variant: "default",
           });
-          // Refresh analysis after schedule change
-          setTimeout(() => refreshAnalysis(), 1000);
+          // Refresh analysis after schedule change (also clears dismissals)
+          setTimeout(() => handleRefreshAnalysis(), 1000);
         } catch (error) {
           console.error("Error updating schedule:", error);
           toast({
@@ -130,17 +156,8 @@ const WateringHistoryDialog = memo(
           });
         }
       },
-      [plant, onScheduleAdjustment, toast, refreshAnalysis]
+      [plant, onScheduleAdjustment, toast, handleRefreshAnalysis]
     );
-
-    // Handle dismissing insights
-    const handleDismissInsight = useCallback((insight: PatternInsight) => {
-      setDismissedInsightTypes((prev) => {
-        const newSet = new Set(prev);
-        newSet.add(insight.type);
-        return newSet;
-      });
-    }, []);
 
     const formatDate = (dateString: string) => {
       try {
@@ -506,7 +523,7 @@ const WateringHistoryDialog = memo(
                   isLoading={isAnalyzing}
                   onAcceptSuggestion={handleScheduleAdjustment}
                   onDismissInsight={handleDismissInsight}
-                  onRefreshAnalysis={refreshAnalysis}
+                  onRefreshAnalysis={handleRefreshAnalysis}
                 />
               </>
             )}
