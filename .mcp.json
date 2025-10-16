@@ -7,6 +7,14 @@
         "--browser=chromium",
         "--headless=false"
       ]
+    },
+    "netlify": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-netlify"
+      ],
+      "env": {}
     }
   }
 }

@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures/test-fixtures';
 import {
   waitForPageStable,
   findElementWithStrategies,
@@ -6,7 +6,9 @@ import {
 } from '../../utils/test-helpers';
 
 test.describe('Plant Catalog', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, context }) => {
+    // Grant geolocation permissions
+    await context.grantPermissions(['geolocation']);
     await page.goto('/plant-catalog');
     await waitForPageStable(page);
   });

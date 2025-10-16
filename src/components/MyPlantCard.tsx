@@ -7,6 +7,7 @@ import {
   Clock,
   History,
   Lightbulb,
+  ChevronDown,
 } from "lucide-react";
 import type { OverwateringRisk } from "@/utils/overwatering";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
@@ -27,6 +28,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface MyPlantCardProps {
   id: string;
@@ -429,19 +437,6 @@ const MyPlantCard = ({
             className="w-full h-48 object-cover"
           />
 
-          {/* Edit Button - positioned on image */}
-          <Button
-            size="sm"
-            variant="secondary"
-            className="absolute bottom-3 right-3 bg-card/90 hover:bg-card hover:shadow-md border border-border shadow-sm transition-all duration-200 backdrop-blur-sm"
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent triggering the fullscreen image modal
-              onEdit();
-            }}
-          >
-            <Edit className="w-4 h-4" />
-          </Button>
-
           {/* Status Badge - Top Right of image */}
           <div
             className={`absolute top-3 right-3 transition-opacity duration-200 ${
@@ -594,59 +589,77 @@ const MyPlantCard = ({
                 </div>
               )}
 
-              {/* View History Button - Natural placement */}
-              {onViewHistory && (
-                <div className="pt-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={onViewHistory}
-                    className={`w-full text-xs font-medium border ${
-                      hasPendingSuggestions
-                        ? "text-blue-700 hover:text-blue-800 hover:bg-blue-50 dark:text-blue-300 dark:hover:text-blue-200 dark:hover:bg-blue-950/20 border-blue-200 hover:border-blue-300 dark:border-blue-700 dark:hover:border-blue-600"
-                        : "text-sprout-cream hover:text-sprout-white hover:bg-sprout-medium/20 dark:text-sprout-cream dark:hover:text-sprout-white dark:hover:bg-sprout-light/10 border-sprout-cream/20 hover:border-sprout-cream/40"
-                    }`}
-                  >
-                    <History className="w-3 h-3 mr-1" />
-                    {hasPendingSuggestions && (
-                      <Lightbulb className="w-3 h-3 mr-1" />
-                    )}
-                    {hasPendingSuggestions
-                      ? "History & Insights"
-                      : "View Watering History"}
-                  </Button>
-                </div>
-              )}
             </div>
 
-            {/* Action Buttons Area - Smart visibility approach */}
-            <div className="space-y-2">
-              <Button
-                onClick={handleWaterClick}
-                className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
-              >
-                <Droplets className="w-4 h-4 mr-2" />
-                Water Now
-              </Button>
-              {/* Always render postpone button, control visibility */}
-              <Button
-                onClick={handlePostponeClick}
-                variant="outline"
-                className="w-full rounded-xl font-medium border-sprout-water/30 text-sprout-water hover:bg-sprout-water/10"
-                style={{
-                  visibility:
-                    daysUntilWatering <= 0 &&
+            {/* Action Dropdown Menu */}
+            <div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
+                    aria-label="Plant actions menu"
+                  >
+                    <Droplets className="w-4 h-4 mr-2" />
+                    Water Now
+                    <ChevronDown className="w-4 h-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem
+                    onClick={handleWaterClick}
+                    className="cursor-pointer"
+                  >
+                    <Droplets className="w-4 h-4 mr-2 text-sprout-water" />
+                    Water Now
+                  </DropdownMenuItem>
+
+                  {daysUntilWatering <= 0 &&
                     !isPostponed &&
                     !hasUnknownWateringDate &&
                     lastWateredDate &&
-                    onPostpone
-                      ? "visible"
-                      : "hidden",
-                }}
-              >
-                <Clock className="w-4 h-4 mr-2" />
-                Push to Tomorrow
-              </Button>
+                    onPostpone && (
+                      <DropdownMenuItem
+                        onClick={handlePostponeClick}
+                        className="cursor-pointer"
+                      >
+                        <Clock className="w-4 h-4 mr-2" />
+                        Push to Tomorrow
+                      </DropdownMenuItem>
+                    )}
+
+                  {(daysUntilWatering <= 0 &&
+                    !isPostponed &&
+                    !hasUnknownWateringDate &&
+                    lastWateredDate &&
+                    onPostpone) ||
+                  onViewHistory ? (
+                    <DropdownMenuSeparator />
+                  ) : null}
+
+                  {onViewHistory && (
+                    <DropdownMenuItem
+                      onClick={onViewHistory}
+                      className="cursor-pointer"
+                    >
+                      <History className="w-4 h-4 mr-2" />
+                      {hasPendingSuggestions && (
+                        <Lightbulb className="w-3 h-3 mr-1 text-blue-600" />
+                      )}
+                      {hasPendingSuggestions
+                        ? "History & Insights"
+                        : "View Watering History"}
+                    </DropdownMenuItem>
+                  )}
+
+                  <DropdownMenuItem
+                    onClick={onEdit}
+                    className="cursor-pointer"
+                  >
+                    <Edit className="w-4 h-4 mr-2" />
+                    Edit Plant
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </TooltipProvider>

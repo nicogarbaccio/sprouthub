@@ -25,7 +25,16 @@ import {
   Droplets,
   Edit,
   Clock,
+  ChevronDown,
+  History,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { InviteMemberDialog } from "@/components/households/InviteMemberDialog";
 import { HouseholdMembersCard } from "@/components/households/HouseholdMembersCard";
 import AddPlantDialog from "@/components/AddPlantDialog";
@@ -477,44 +486,61 @@ const HouseholdManagement = () => {
                             </div>
                           </div>
 
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              className="flex-1 bg-sprout-water hover:bg-sprout-water/90 text-white"
-                              onClick={() => handleWaterPlant(plant.id)}
-                            >
-                              <Droplets className="w-4 h-4 mr-1" />
-                              Water
-                            </Button>
+                          <div>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button
+                                  size="sm"
+                                  className="w-full bg-sprout-water hover:bg-sprout-water/90 text-white"
+                                  aria-label="Plant actions menu"
+                                >
+                                  <Droplets className="w-4 h-4 mr-2" />
+                                  Water Now
+                                  <ChevronDown className="w-4 h-4 ml-2" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end" className="w-56">
+                                <DropdownMenuItem
+                                  onClick={() => handleWaterPlant(plant.id)}
+                                  className="cursor-pointer"
+                                >
+                                  <Droplets className="w-4 h-4 mr-2 text-sprout-water" />
+                                  Water Now
+                                </DropdownMenuItem>
 
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleEditPlant(plant)}
-                              disabled={!plant.is_owned_by_user}
-                            >
-                              <Edit className="w-4 h-4" />
-                            </Button>
+                                {wateringCalc.isOverdue && (
+                                  <DropdownMenuItem
+                                    onClick={() => handlePostponePlant(plant.id)}
+                                    className="cursor-pointer"
+                                  >
+                                    <Clock className="w-4 h-4 mr-2" />
+                                    Push to Tomorrow
+                                  </DropdownMenuItem>
+                                )}
 
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => handleWateringHistory(plant)}
-                            >
-                              <Clock className="w-4 h-4" />
-                            </Button>
+                                {wateringCalc.isOverdue ? (
+                                  <DropdownMenuSeparator />
+                                ) : null}
+
+                                <DropdownMenuItem
+                                  onClick={() => handleWateringHistory(plant)}
+                                  className="cursor-pointer"
+                                >
+                                  <History className="w-4 h-4 mr-2" />
+                                  View Watering History
+                                </DropdownMenuItem>
+
+                                <DropdownMenuItem
+                                  onClick={() => handleEditPlant(plant)}
+                                  className="cursor-pointer"
+                                  disabled={!plant.is_owned_by_user}
+                                >
+                                  <Edit className="w-4 h-4 mr-2" />
+                                  Edit Plant
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           </div>
-
-                          {wateringCalc.isOverdue && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="w-full mt-2"
-                              onClick={() => handlePostponePlant(plant.id)}
-                            >
-                              Postpone to Tomorrow
-                            </Button>
-                          )}
                         </div>
                       );
                     })}
