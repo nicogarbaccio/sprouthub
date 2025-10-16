@@ -74,6 +74,14 @@ const WateringHistoryDialog = memo(
       autoRefresh: false, // Disable automatic refreshing to prevent flickering
     });
 
+    // Track dismissed insights (resets when dialog reopens)
+    const [dismissedInsightTypes, setDismissedInsightTypes] = useState<Set<string>>(new Set());
+
+    // Filter out dismissed insights
+    const visibleInsights = useMemo(() => {
+      return insights.filter((insight) => !dismissedInsightTypes.has(insight.type));
+    }, [insights, dismissedInsightTypes]);
+
     // Load watering records when dialog opens or plant changes
     useEffect(() => {
       if (plant && isOpen) {
@@ -88,6 +96,13 @@ const WateringHistoryDialog = memo(
         refreshAnalysis();
       }
     }, [isOpen, plant, refreshAnalysis]);
+
+    // Clear dismissed insights when dialog closes (fresh start on reopen)
+    useEffect(() => {
+      if (!isOpen) {
+        setDismissedInsightTypes(new Set());
+      }
+    }, [isOpen]);
 
     // Handle schedule adjustment from pattern suggestions
     const handleScheduleAdjustment = useCallback(
@@ -120,8 +135,11 @@ const WateringHistoryDialog = memo(
 
     // Handle dismissing insights
     const handleDismissInsight = useCallback((insight: PatternInsight) => {
-      // In a real implementation, you might want to store dismissed insights
-      console.log("Dismissed insight:", insight.type);
+      setDismissedInsightTypes((prev) => {
+        const newSet = new Set(prev);
+        newSet.add(insight.type);
+        return newSet;
+      });
     }, []);
 
     const formatDate = (dateString: string) => {
@@ -483,7 +501,7 @@ const WateringHistoryDialog = memo(
                 <Separator className="my-6" />
                 <PatternAnalysisSection
                   analysis={analysis}
-                  insights={insights}
+                  insights={visibleInsights}
                   stats={patternStats}
                   isLoading={isAnalyzing}
                   onAcceptSuggestion={handleScheduleAdjustment}
