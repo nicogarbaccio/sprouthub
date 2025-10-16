@@ -6,7 +6,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { useGracefulLoading } from "@/hooks/useGracefulLoading";
-import { Skeleton } from "@/components/ui/skeleton";
+import { PlantDetailsPageSkeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -335,41 +335,7 @@ const MyPlantDetails = () => {
       <div className="min-h-screen bg-background">
         <Navigation />
         <main className="py-8">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Skeleton className="h-10 w-32 mb-6" />
-
-            {/* Header skeleton */}
-            <div className="text-center lg:text-left mb-6">
-              <Skeleton className="h-9 w-48 mx-auto lg:mx-0 mb-2" />
-              <Skeleton className="h-6 w-32 mx-auto lg:mx-0 mb-3" />
-              <div className="flex justify-center lg:justify-start gap-2">
-                <Skeleton className="h-6 w-20 rounded-full" />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-              <Skeleton className="aspect-square max-w-md mx-auto lg:mx-0 w-full rounded-lg" />
-              <div className="space-y-4">
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <Skeleton key={i} className="h-32 w-full rounded-lg" />
-                ))}
-              </div>
-            </div>
-
-            {/* Care information skeleton */}
-            <div className="mb-6">
-              <div className="grid grid-cols-2 gap-4">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <Skeleton key={i} className="h-20 w-full rounded-lg" />
-                ))}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Skeleton className="h-64 w-full rounded-lg" />
-              <Skeleton className="h-64 w-full rounded-lg" />
-            </div>
-          </div>
+          <PlantDetailsPageSkeleton />
         </main>
         <Footer />
       </div>

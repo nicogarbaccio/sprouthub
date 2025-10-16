@@ -345,14 +345,14 @@ const EditPlantDialog = ({
         </DialogHeader>
 
         <Tabs defaultValue="details" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="details">Plant Details</TabsTrigger>
-            <TabsTrigger value="watering">Watering History</TabsTrigger>
-            <TabsTrigger value="schedule">Schedule History</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto md:h-10 gap-2">
+            <TabsTrigger value="details" className="!rounded-md">Plant Details</TabsTrigger>
+            <TabsTrigger value="watering" className="!rounded-md">Watering History</TabsTrigger>
+            <TabsTrigger value="schedule" className="!rounded-md">Schedule History</TabsTrigger>
+            <TabsTrigger value="settings" className="!rounded-md">Settings</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="details" className="space-y-6">
+          <TabsContent value="details" className="space-y-6 mt-8 md:mt-2">
             <PlantDetailsForm
               nickname={nickname}
               setNickname={setNickname}
@@ -389,7 +389,7 @@ const EditPlantDialog = ({
             </div>
           </TabsContent>
 
-          <TabsContent value="watering" className="space-y-4">
+          <TabsContent value="watering" className="space-y-4 mt-8 md:mt-2">
             <h3 className="text-lg font-semibold">Watering History</h3>
             <WateringRecordForm onAddWatering={handleAddWatering} />
             <WateringRecordsList
@@ -399,7 +399,7 @@ const EditPlantDialog = ({
             />
           </TabsContent>
 
-          <TabsContent value="schedule" className="space-y-4">
+          <TabsContent value="schedule" className="space-y-4 mt-8 md:mt-2">
             {plant && (
               <ScheduleHistoryCard
                 plantId={plant.id}
@@ -408,7 +408,7 @@ const EditPlantDialog = ({
               />
             )}
           </TabsContent>
-          <TabsContent value="settings" className="space-y-4">
+          <TabsContent value="settings" className="space-y-4 mt-8 md:mt-2">
             {/* Danger Zone for Delete Plant */}
             <div className="border border-red-200 bg-red-50 rounded-lg p-6 flex flex-col items-center">
               <h4 className="text-red-700 font-semibold mb-2">Danger Zone</h4>

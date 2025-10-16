@@ -11,7 +11,7 @@ import PlantCareCards from "@/components/plant-details/PlantCareCards";
 import Footer from "@/components/Footer";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { useGracefulLoading } from "@/hooks/useGracefulLoading";
-import { Skeleton } from "@/components/ui/skeleton";
+import { PlantDetailsPageSkeleton } from "@/components/ui/skeleton";
 import { plants } from "@/data/plantData";
 
 const PlantDetails = () => {
@@ -62,65 +62,7 @@ const PlantDetails = () => {
   <div className="min-h-screen bg-background ">
   <Navigation />
   <div className="pt-16 min-h-[calc(100vh-4rem)]">
-   <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-   {/* Back button skeleton */}
-   <Skeleton className="h-10 w-32 mb-8" />
-
-   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-    {/* Image skeleton */}
-    <div className="space-y-4">
-    <Skeleton className="h-80 w-full rounded-lg" />
-    </div>
-
-    <div className="space-y-6">
-    {/* Plant info skeleton */}
-    <div className="space-y-4">
-     <Skeleton className="h-8 w-3/4" />
-     <Skeleton className="h-6 w-1/2" />
-     <div className="space-y-2">
-     <Skeleton className="h-4 w-full" />
-     <Skeleton className="h-4 w-full" />
-     <Skeleton className="h-4 w-2/3" />
-     </div>
-     <div className="flex gap-2">
-     <Skeleton className="h-6 w-16 rounded-full" />
-     <Skeleton className="h-6 w-20 rounded-full" />
-     </div>
-     <Skeleton className="h-12 w-48 rounded-xl" />
-    </div>
-
-    {/* Care grid skeleton */}
-    <div className="grid grid-cols-2 gap-4">
-     {Array.from({ length: 4 }).map((_, i) => (
-     <div key={i} className="p-4 border rounded-lg">
-      <Skeleton className="h-4 w-16 mb-2" />
-      <Skeleton className="h-6 w-20" />
-     </div>
-     ))}
-    </div>
-    </div>
-   </div>
-
-   {/* Care cards skeleton */}
-   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <div className="p-6 border rounded-lg">
-    <Skeleton className="h-6 w-32 mb-4" />
-    <div className="space-y-2">
-     {Array.from({ length: 4 }).map((_, i) => (
-     <Skeleton key={i} className="h-4 w-full" />
-     ))}
-    </div>
-    </div>
-    <div className="p-6 border rounded-lg">
-    <Skeleton className="h-6 w-32 mb-4" />
-    <div className="space-y-2">
-     {Array.from({ length: 3 }).map((_, i) => (
-     <Skeleton key={i} className="h-4 w-full" />
-     ))}
-    </div>
-    </div>
-   </div>
-   </div>
+   <PlantDetailsPageSkeleton />
   </div>
   <Footer />
   </div>

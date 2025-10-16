@@ -10,7 +10,7 @@ import { CreateHouseholdDialog } from '@/components/households/CreateHouseholdDi
 import { InviteMemberDialog } from '@/components/households/InviteMemberDialog';
 import { HouseholdInvitations } from '@/components/households/HouseholdInvitations';
 import { HouseholdMembersCard } from '@/components/households/HouseholdMembersCard';
-import { Skeleton } from '@/components/ui/skeleton';
+import { HouseholdCardSkeleton } from '@/components/ui/skeleton';
 import { Link } from 'react-router-dom';
 
 const Households = () => {
@@ -86,19 +86,7 @@ const Households = () => {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(3)].map((_, i) => (
-              <Card key={i}>
-                <CardHeader>
-                  <Skeleton className="h-6 w-3/4" />
-                  <Skeleton className="h-4 w-full" />
-                </CardHeader>
-                <CardContent>
-                  <Skeleton className="h-4 w-1/2 mb-4" />
-                  <div className="flex gap-2">
-                    <Skeleton className="h-8 w-20" />
-                    <Skeleton className="h-8 w-20" />
-                  </div>
-                </CardContent>
-              </Card>
+              <HouseholdCardSkeleton key={i} />
             ))}
           </div>
         ) : households.length === 0 ? (

@@ -20,7 +20,8 @@ import { useToast } from "@/hooks/use-toast";
 import { format, isFuture } from "date-fns";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { PatternAnalysisSection } from "@/components/watering-patterns";
-import { useWateringRecords } from "@/hooks/useWateringRecords";
+import { useWateringRecords, type WateringRecord } from "@/hooks/useWateringRecords";
+import type { PatternInsight } from "@/types/wateringPatternTypes";
 
 interface Plant {
   id: string;
@@ -90,7 +91,7 @@ const WateringHistoryDialog = memo(
 
     // Handle schedule adjustment from pattern suggestions
     const handleScheduleAdjustment = useCallback(
-      async (insight: any) => {
+      async (insight: PatternInsight) => {
         if (!plant || !onScheduleAdjustment || !insight.suggestion) return;
 
         try {
@@ -118,7 +119,7 @@ const WateringHistoryDialog = memo(
     );
 
     // Handle dismissing insights
-    const handleDismissInsight = useCallback((insight: any) => {
+    const handleDismissInsight = useCallback((insight: PatternInsight) => {
       // In a real implementation, you might want to store dismissed insights
       console.log("Dismissed insight:", insight.type);
     }, []);
@@ -133,7 +134,7 @@ const WateringHistoryDialog = memo(
 
     // Use useCallback to memoize the function itself
     const getWateringStats = useCallback(
-      (records: any[], suggestedWateringDays: number = 7) => {
+      (records: WateringRecord[], suggestedWateringDays: number = 7) => {
         if (records.length === 0) return null;
 
         // Count only actual waterings (not postponements)

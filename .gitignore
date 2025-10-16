@@ -33,3 +33,6 @@ test-results/
 playwright-report/
 coverage/
 .nyc_output/
+
+# screenshots folder
+screenshots/

@@ -63,6 +63,7 @@ import {
   dismissSuggestions
 } from "@/utils/suggestionPersistence";
 import { format, formatDistanceToNow } from "date-fns";
+import type { PatternInsight } from "@/types/wateringPatternTypes";
 
 const Dashboard = () => {
   const { plants, loading, waterPlant, fetchPlants } = useUserPlants();
@@ -515,7 +516,7 @@ const Dashboard = () => {
     setTimeout(() => refreshSuggestionsAnalysis(), 1000);
   };
 
-  const handleApplySuggestion = async (plantId: string, insight: any) => {
+  const handleApplySuggestion = async (plantId: string, insight: PatternInsight) => {
     if (insight.suggestion && onScheduleAdjustment) {
       try {
         await onScheduleAdjustment(plantId, insight.suggestion.suggestedSchedule);

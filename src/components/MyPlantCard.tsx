@@ -20,6 +20,7 @@ import {
   useWateringPatternAnalysis,
 } from "@/hooks/useWateringPatternAnalysis";
 import { useNavigate } from "react-router-dom";
+import type { PatternInsight } from "@/types/wateringPatternTypes";
 import {
   Tooltip,
   TooltipContent,
@@ -336,7 +337,7 @@ const MyPlantCard = ({
   };
 
   // Handle schedule adjustment from pattern suggestions
-  const handlePatternScheduleAdjustment = async (insight: any) => {
+  const handlePatternScheduleAdjustment = async (insight: PatternInsight) => {
     if (onScheduleAdjustment && insight.suggestion) {
       try {
         await onScheduleAdjustment(id, insight.suggestion.suggestedSchedule);

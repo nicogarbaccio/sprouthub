@@ -2,10 +2,14 @@ import { cn } from "@/lib/utils";
 
 function Skeleton({
  className,
+ "aria-label": ariaLabel = "Loading...",
  ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
  return (
  <div
+  role="status"
+  aria-label={ariaLabel}
+  aria-live="polite"
   className={cn("animate-pulse rounded-md bg-muted/60", className)}
   {...props}
  />
@@ -69,7 +73,7 @@ function MyPlantCardSkeleton({ className }: { className?: string }) {
  >
   {/* Image with overlay skeleton */}
   <div className="relative">
-  <Skeleton className="w-full h-40" />
+  <Skeleton className="w-full h-48" />
   {/* Status badge skeleton */}
   <div className="absolute top-3 right-3">
    <Skeleton className="h-6 w-20 rounded-full" />
@@ -237,6 +241,191 @@ function ImageUploadSkeleton({ className }: { className?: string }) {
  );
 }
 
+/**
+ * Skeleton for plant details page - includes back button, image, info, and care sections
+ */
+function PlantDetailsPageSkeleton({ className }: { className?: string }) {
+ return (
+ <div className={cn("max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8", className)}>
+  {/* Back button skeleton */}
+  <Skeleton className="h-10 w-32 mb-8" />
+
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+  {/* Image skeleton */}
+  <div className="space-y-4">
+   <Skeleton className="h-80 w-full rounded-lg" />
+  </div>
+
+  <div className="space-y-6">
+   {/* Plant info skeleton */}
+   <div className="space-y-4">
+   <Skeleton className="h-8 w-3/4" />
+   <Skeleton className="h-6 w-1/2" />
+   <div className="space-y-2">
+    <Skeleton className="h-4 w-full" />
+    <Skeleton className="h-4 w-full" />
+    <Skeleton className="h-4 w-2/3" />
+   </div>
+   <div className="flex gap-2">
+    <Skeleton className="h-6 w-16 rounded-full" />
+    <Skeleton className="h-6 w-20 rounded-full" />
+   </div>
+   <Skeleton className="h-12 w-48 rounded-xl" />
+   </div>
+
+   {/* Care grid skeleton */}
+   <div className="grid grid-cols-2 gap-4">
+   {Array.from({ length: 4 }).map((_, i) => (
+    <div key={i} className="p-4 border rounded-lg">
+    <Skeleton className="h-4 w-16 mb-2" />
+    <Skeleton className="h-6 w-20" />
+    </div>
+   ))}
+   </div>
+  </div>
+  </div>
+
+  {/* Care cards skeleton */}
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+  {Array.from({ length: 2 }).map((_, i) => (
+   <div key={i} className="p-6 border rounded-lg">
+   <Skeleton className="h-6 w-32 mb-4" />
+   <div className="space-y-2">
+    {Array.from({ length: 4 }).map((_, j) => (
+    <Skeleton key={j} className="h-4 w-full" />
+    ))}
+   </div>
+   </div>
+  ))}
+  </div>
+ </div>
+ );
+}
+
+/**
+ * Skeleton for household card in households list
+ */
+function HouseholdCardSkeleton({ className }: { className?: string }) {
+ return (
+ <div className={cn("bg-card border border-border rounded-lg shadow-sm", className)}>
+  <div className="p-6">
+  <div className="flex items-center justify-between mb-2">
+   <Skeleton className="h-6 w-3/4" />
+   <Skeleton className="h-6 w-16 rounded-full" />
+  </div>
+  <Skeleton className="h-4 w-full mb-4" />
+  <div className="space-y-3">
+   <div className="flex items-center">
+   <Skeleton className="h-4 w-4 mr-2" />
+   <Skeleton className="h-4 w-24" />
+   </div>
+   <div className="flex gap-2 pt-4 border-t">
+   <Skeleton className="h-8 w-20" />
+   <Skeleton className="h-8 w-20" />
+   </div>
+  </div>
+  </div>
+ </div>
+ );
+}
+
+/**
+ * Skeleton for profile header section
+ */
+function ProfileHeaderSkeleton({ className }: { className?: string }) {
+ return (
+ <div className={cn("bg-card border border-border rounded-lg", className)}>
+  <div className="p-6 text-center">
+  <Skeleton className="h-24 w-24 rounded-full mx-auto mb-4" />
+  <Skeleton className="h-8 w-48 mx-auto mb-2" />
+  <Skeleton className="h-4 w-32 mx-auto" />
+  </div>
+ </div>
+ );
+}
+
+/**
+ * Skeleton for household management details page
+ */
+function HouseholdDetailsSkeleton({ className }: { className?: string }) {
+ return (
+ <div className={cn("space-y-6", className)}>
+  {/* Header skeleton */}
+  <div className="flex items-center gap-4">
+  <Skeleton className="h-10 w-10" />
+  <div className="flex-1">
+   <Skeleton className="h-8 w-64 mb-2" />
+   <Skeleton className="h-4 w-96" />
+  </div>
+  <Skeleton className="h-6 w-20 rounded-full" />
+  </div>
+
+  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  {/* Main content skeleton */}
+  <div className="lg:col-span-2 space-y-6">
+   {/* Members card skeleton */}
+   <div className="bg-card border border-border rounded-lg p-6">
+   <div className="flex items-center justify-between mb-4">
+    <Skeleton className="h-6 w-32" />
+    <Skeleton className="h-8 w-32" />
+   </div>
+   <div className="space-y-3">
+    {Array.from({ length: 3 }).map((_, i) => (
+    <div key={i} className="flex items-center justify-between p-3 border rounded-lg">
+     <div className="flex items-center gap-3">
+     <Skeleton className="h-10 w-10 rounded-full" />
+     <div>
+      <Skeleton className="h-4 w-32 mb-1" />
+      <Skeleton className="h-3 w-20" />
+     </div>
+     </div>
+     <Skeleton className="h-6 w-16 rounded-full" />
+    </div>
+    ))}
+   </div>
+   </div>
+
+   {/* Plants card skeleton */}
+   <div className="bg-card border border-border rounded-lg p-6">
+   <div className="flex items-center justify-between mb-4">
+    <div>
+    <Skeleton className="h-6 w-40 mb-2" />
+    <Skeleton className="h-4 w-32" />
+    </div>
+    <Skeleton className="h-8 w-24" />
+   </div>
+   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    {Array.from({ length: 4 }).map((_, i) => (
+    <div key={i} className="border rounded-lg p-4">
+     <Skeleton className="h-6 w-3/4 mb-2" />
+     <Skeleton className="h-4 w-1/2 mb-4" />
+     <div className="space-y-2">
+     <Skeleton className="h-4 w-full" />
+     <Skeleton className="h-4 w-full" />
+     </div>
+     <Skeleton className="h-10 w-full mt-4" />
+    </div>
+    ))}
+   </div>
+   </div>
+  </div>
+
+  {/* Sidebar skeleton */}
+  <div className="space-y-6">
+   <div className="bg-card border border-border rounded-lg p-6">
+   <Skeleton className="h-6 w-24 mb-4" />
+   <div className="space-y-2">
+    <Skeleton className="h-4 w-full" />
+    <Skeleton className="h-4 w-full" />
+    <Skeleton className="h-4 w-full" />
+   </div>
+   </div>
+  </div>
+  </div>
+ </div>
+ );
+}
+
 export {
  Skeleton,
  PlantCardSkeleton,
@@ -248,4 +437,8 @@ export {
  FormSectionSkeleton,
  WateringRecordSkeleton,
  ImageUploadSkeleton,
+ PlantDetailsPageSkeleton,
+ HouseholdCardSkeleton,
+ ProfileHeaderSkeleton,
+ HouseholdDetailsSkeleton,
 };

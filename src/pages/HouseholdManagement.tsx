@@ -13,7 +13,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import { HouseholdDetailsSkeleton, Skeleton } from "@/components/ui/skeleton";
 import {
   ArrowLeft,
   Settings,
@@ -44,6 +44,7 @@ import {
 import { toast } from "sonner";
 import { calculateWateringSchedule } from "@/utils/watering-schedule";
 import { getRoomIcon, getRoomLabel } from "@/utils/rooms";
+import type { UserPlant } from "@/hooks/useUserPlants";
 
 const HouseholdManagement = () => {
   const { id: householdId } = useParams<{ id: string }>();
@@ -74,9 +75,9 @@ const HouseholdManagement = () => {
   } = useHouseholdPlants();
 
   const [isAddPlantDialogOpen, setIsAddPlantDialogOpen] = useState(false);
-  const [editingPlant, setEditingPlant] = useState<any>(null);
+  const [editingPlant, setEditingPlant] = useState<UserPlant | null>(null);
   const [isEditPlantDialogOpen, setIsEditPlantDialogOpen] = useState(false);
-  const [wateringHistoryPlant, setWateringHistoryPlant] = useState<any>(null);
+  const [wateringHistoryPlant, setWateringHistoryPlant] = useState<UserPlant | null>(null);
   const [isWateringHistoryOpen, setIsWateringHistoryOpen] = useState(false);
 
   // Find the current household
@@ -91,17 +92,17 @@ const HouseholdManagement = () => {
 
   // Plant management functions
 
-  const handleEditPlant = (plant: any) => {
+  const handleEditPlant = (plant: UserPlant) => {
     setEditingPlant(plant);
     setIsEditPlantDialogOpen(true);
   };
 
-  const handleWateringHistory = (plant: any) => {
+  const handleWateringHistory = (plant: UserPlant) => {
     setWateringHistoryPlant(plant);
     setIsWateringHistoryOpen(true);
   };
 
-  const handleUpdatePlant = async (plantId: string, updates: any) => {
+  const handleUpdatePlant = async (plantId: string, updates: Partial<UserPlant>) => {
     try {
       await updatePlant(plantId, updates);
       setIsEditPlantDialogOpen(false);
@@ -179,13 +180,7 @@ const HouseholdManagement = () => {
       <div>
         <Navigation />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="space-y-6">
-            <div className="flex items-center gap-4">
-              <Skeleton className="h-10 w-10" />
-              <Skeleton className="h-8 w-64" />
-            </div>
-            <Skeleton className="h-64 w-full" />
-          </div>
+          <HouseholdDetailsSkeleton />
         </div>
       </div>
     );
