@@ -1,16 +1,10 @@
 import { test, expect } from '../../fixtures/test-fixtures';
-import { getTestUser } from '../../test-user-pool';
 
 test.describe('Plant Management Lifecycle', () => {
-  const testUser = getTestUser('plant-management-lifecycle');
-
-  async function setupAuth(page: any, authPage: any) {
-    const { setupAuthenticatedUser } = await import('../../utils/auth-helpers');
-    await setupAuthenticatedUser(page, authPage, testUser);
-  }
+  // Note: Authentication is handled automatically via storage state from playwright.config.ts
+  // Tests will start with an authenticated session
 
   test('should display plant management UI when authenticated', async ({ page, authPage }) => {
-    await setupAuth(page, authPage);
     await page.goto('/my-plants');
     
     // Wait for page to be ready - network idle ensures data is loaded
@@ -36,8 +30,6 @@ test.describe('Plant Management Lifecycle', () => {
   });
 
   test('should navigate to catalog page', async ({ page, authPage }) => {
-    await setupAuth(page, authPage);
-    
     await page.goto('/catalog');
     await page.waitForLoadState('domcontentloaded');
     
@@ -46,7 +38,6 @@ test.describe('Plant Management Lifecycle', () => {
   });
 
   test('should allow watering a plant', async ({ page, authPage }) => {
-    await setupAuth(page, authPage);
     await page.goto('/my-plants');
     await page.waitForLoadState('domcontentloaded');
     
@@ -80,29 +71,29 @@ test.describe('Plant Management Lifecycle', () => {
   });
 
   test('should show consistent watering schedule display', async ({ page, authPage }) => {
-    await setupAuth(page, authPage);
     await page.goto('/my-plants');
     await page.waitForLoadState('domcontentloaded');
-    
-    const plantCards = await page.getByTestId('plant-card');
+
+    // Wait for page to fully load (skeleton loaders to disappear)
+    await page.waitForTimeout(2000);
+
+    const plantCards = page.getByTestId('plant-card');
     const count = await plantCards.count();
-    
+
     if (count === 0) {
-      // Empty state is valid
+      // Empty state is valid - check for empty state message
       await expect(page.getByText(/no plants|add.*first.*plant/i)).toBeVisible();
       return;
     }
-    
+
+    // We have plants - verify they show watering information
     // Each plant card should show watering status
     for (let i = 0; i < Math.min(count, 3); i++) {
       const card = plantCards.nth(i);
-      
-      // Should have some watering information
-      const hasWateringInfo = await card.getByText(/water|due|day|postponed/i).count() > 0;
-      
-      if (!hasWateringInfo) {
-        throw new Error(`Plant card ${i + 1} missing watering status information`);
-      }
+
+      // Should have some watering information visible
+      const wateringText = card.getByText(/water in|due|last watered|next watering/i);
+      await expect(wateringText.first()).toBeVisible({ timeout: 3000 });
     }
   });
 });

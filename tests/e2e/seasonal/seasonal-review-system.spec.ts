@@ -23,11 +23,8 @@ test.describe('Seasonal Schedule Review System', () => {
   // is a known limitation - services may not be available immediately.
   // TODO: Convert to route mocking once API endpoints are documented.
 
-  // Import shared auth helper
-  async function setupAuthenticatedUser(page: any, authPage: any) {
-    const { setupAuthenticatedUser: sharedSetup } = await import('../../utils/auth-helpers');
-    await sharedSetup(page, authPage, testUser);
-  }
+  // Note: Authentication is handled automatically via storage state from playwright.config.ts
+  // All tests in this file start with an authenticated session
 
   // NOTE: Seasonal Transition Detection tests were removed due to unreliable addInitScript() mocking.
   // These tests are documented in DELETED-TESTS-DOCUMENTATION.md and should be recreated
@@ -40,7 +37,6 @@ test.describe('Seasonal Schedule Review System', () => {
 
   test.describe('Seasonal Review Banner', () => {
     test('should display seasonal review banner when transition detected', async ({ page, authPage }) => {
-      await setupAuthenticatedUser(page, authPage);
 
       const plants = createMockPlants.outdoorSeasonalPlants('test-user-id-123');
       await setupMockPlantData(page, plants);
@@ -71,7 +67,6 @@ test.describe('Seasonal Schedule Review System', () => {
     });
 
     test('should allow snoozing seasonal review', async ({ page, authPage }) => {
-      await setupAuthenticatedUser(page, authPage);
 
       const plants = createMockPlants.plantsNeedingReview('test-user-id-123');
       await setupMockPlantData(page, plants);
@@ -99,7 +94,6 @@ test.describe('Seasonal Schedule Review System', () => {
     });
 
     test('should allow dismissing seasonal review', async ({ page, authPage }) => {
-      await setupAuthenticatedUser(page, authPage);
 
       const plants = createMockPlants.plantsNeedingReview('test-user-id-123');
       await setupMockPlantData(page, plants);
@@ -132,7 +126,6 @@ test.describe('Seasonal Schedule Review System', () => {
 
   test.describe('Seasonal Review Dialog', () => {
     test('should show seasonal review dialog with schedule suggestions', async ({ page, authPage }) => {
-      await setupAuthenticatedUser(page, authPage);
 
       const plants = createMockPlants.outdoorSeasonalPlants('test-user-id-123');
       await setupMockPlantData(page, plants);
@@ -204,7 +197,6 @@ test.describe('Seasonal Schedule Review System', () => {
     });
 
     test('should allow applying seasonal schedule suggestions', async ({ page, authPage }) => {
-      await setupAuthenticatedUser(page, authPage);
 
       const plants = createMockPlants.indoorSeasonalPlants('test-user-id-123');
       await setupMockPlantData(page, plants);
@@ -253,7 +245,6 @@ test.describe('Seasonal Schedule Review System', () => {
     });
 
     test('should allow customizing individual plant schedules', async ({ page, authPage }) => {
-      await setupAuthenticatedUser(page, authPage);
 
       const plants = createMockPlants.plantsWithSeasonalHistory('test-user-id-123');
       await setupMockPlantData(page, plants);
@@ -291,7 +282,6 @@ test.describe('Seasonal Schedule Review System', () => {
 
   test.describe('Schedule History and Insights', () => {
     test('should show previous year schedule performance', async ({ page, authPage }) => {
-      await setupAuthenticatedUser(page, authPage);
 
       const plants = createMockPlants.plantsWithSeasonalHistory('test-user-id-123');
       await setupMockPlantData(page, plants);
@@ -329,7 +319,6 @@ test.describe('Seasonal Schedule Review System', () => {
     });
 
     test('should handle plants with no historical data', async ({ page, authPage }) => {
-      await setupAuthenticatedUser(page, authPage);
 
       const plants = createMockPlants.plantsNeedingReview('test-user-id-123');
       await setupMockPlantData(page, plants);
@@ -373,7 +362,6 @@ test.describe('Seasonal Schedule Review System', () => {
     // See DELETED-TESTS-DOCUMENTATION.md for details.
 
     test('should handle API errors during seasonal suggestion generation', async ({ page, authPage }) => {
-      await setupAuthenticatedUser(page, authPage);
 
       const plants = createMockPlants.indoorSeasonalPlants('test-user-id-123');
       await setupMockPlantData(page, plants);

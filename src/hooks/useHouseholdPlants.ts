@@ -62,15 +62,42 @@ export const useHouseholdPlants = () => {
       const householdIds = Array.isArray(membershipData) ? membershipData.map(m => m.household_id) : [];
 
       // Get all plants: user's personal plants + household plants
-      let plantsQuery = supabase
+      // Use separate queries to avoid SQL injection risk from string interpolation
+      const personalPlantsQuery = supabase
         .from('plants_with_watering_info')
         .select('*')
-        .or(`user_id.eq.${user.id}${householdIds.length > 0 ? `,household_id.in.(${householdIds.join(',')})` : ''}`)
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
-      const { data: plantsData, error: plantsError } = await plantsQuery;
+      let queries = [personalPlantsQuery];
 
-      if (plantsError) throw plantsError;
+      // Add household plants query if user is member of any households
+      if (householdIds.length > 0) {
+        const householdPlantsQuery = supabase
+          .from('plants_with_watering_info')
+          .select('*')
+          .in('household_id', householdIds)
+          .order('created_at', { ascending: false });
+        queries.push(householdPlantsQuery);
+      }
+
+      const results = await Promise.all(queries);
+
+      // Check for errors
+      const errors = results.filter(r => r.error);
+      if (errors.length > 0) {
+        throw errors[0].error;
+      }
+
+      // Merge results and remove duplicates by plant ID
+      const allPlants = results.flatMap(r => r.data || []);
+      const uniquePlantsMap = new Map();
+      allPlants.forEach(plant => {
+        if (!uniquePlantsMap.has(plant.id)) {
+          uniquePlantsMap.set(plant.id, plant);
+        }
+      });
+      const plantsData = Array.from(uniquePlantsMap.values());
 
       // Get household data for plants that have household_id
       const plantsWithHouseholds = (plantsData || []).filter(p => p.household_id);
@@ -93,11 +120,23 @@ export const useHouseholdPlants = () => {
       // Get plant owner information for household plants
       const plantOwnerIds = [...new Set((plantsData || []).map(p => p.user_id))];
       let plantOwnerData: any[] = [];
-      
+
       if (plantOwnerIds.length > 0) {
-        // For now, we'll skip getting user emails since the RPC function may not exist
-        // TODO: Implement proper user email fetching when RPC function is available
-        plantOwnerData = [];
+        try {
+          const { data: ownerEmails, error: ownerError } = await supabase.rpc('get_user_emails', {
+            user_ids: plantOwnerIds,
+          });
+
+          if (ownerError) {
+            console.warn('Could not load plant owner emails:', ownerError);
+            plantOwnerData = [];
+          } else {
+            plantOwnerData = ownerEmails || [];
+          }
+        } catch (error) {
+          console.warn('Error fetching plant owner emails:', error instanceof Error ? error.message : error);
+          plantOwnerData = [];
+        }
       }
       
       // Then get postponement data for all plants
@@ -121,7 +160,7 @@ export const useHouseholdPlants = () => {
             postponementData = postponements || [];
           }
         } catch (error) {
-          console.warn('Error fetching postponement data:', error);
+          console.warn('Error fetching postponement data:', error instanceof Error ? error.message : error);
         }
       }
 
@@ -190,13 +229,14 @@ export const useHouseholdPlants = () => {
           }
         }
       } catch (error) {
-        console.warn('Error computing overwatering risk:', error);
+        console.warn('Error computing overwatering risk:', error instanceof Error ? error.message : error);
         setOverwateringByPlantId({});
       }
 
     } catch (error) {
-      console.error('Error fetching plants:', error);
-      utilityToast.error('Loading Failed', 'Failed to load plants. Please try again.');
+      console.error('Error fetching plants:', error instanceof Error ? error.message : error);
+      const errorMsg = error instanceof Error ? error.message : 'Failed to load plants. Please try again.';
+      utilityToast.error('Loading Failed', errorMsg);
       setPlants([]);
     } finally {
       setLoading(false);
@@ -240,7 +280,13 @@ export const useHouseholdPlants = () => {
       await fetchPlants();
       return data;
     } catch (error) {
-      console.error('Error adding plant:', error);
+      console.error('Error adding plant:', error instanceof Error ? error.message : error);
+      const errorMsg = error instanceof Error ? error.message : 'Failed to add plant';
+      toast({
+        title: 'Error',
+        description: errorMsg,
+        variant: 'destructive',
+      });
       throw error;
     }
   };
@@ -255,6 +301,17 @@ export const useHouseholdPlants = () => {
     household_id?: string;
   }>) => {
     try {
+      // Ownership validation before database call
+      const plant = plants.find(p => p.id === plantId);
+      if (!plant) {
+        throw new Error('Plant not found');
+      }
+
+      if (!plant.is_owned_by_user) {
+        throw new Error('You do not have permission to update this plant. Only the plant owner can modify it.');
+      }
+
+      // All validations passed, proceed with database call
       const { error } = await supabase
         .from('user_plants')
         .update({
@@ -268,12 +325,28 @@ export const useHouseholdPlants = () => {
       await fetchPlants();
     } catch (error) {
       console.error('Error updating plant:', error);
+      toast({
+        title: 'Error',
+        description: error instanceof Error ? error.message : 'Failed to update plant',
+        variant: 'destructive',
+      });
       throw error;
     }
   };
 
   const deletePlant = async (plantId: string) => {
     try {
+      // Ownership validation before database call
+      const plant = plants.find(p => p.id === plantId);
+      if (!plant) {
+        throw new Error('Plant not found');
+      }
+
+      if (!plant.is_owned_by_user) {
+        throw new Error('You do not have permission to delete this plant. Only the plant owner can modify it.');
+      }
+
+      // All validations passed, proceed with database call
       const { error } = await supabase
         .from('user_plants')
         .delete()
@@ -284,6 +357,11 @@ export const useHouseholdPlants = () => {
       await fetchPlants();
     } catch (error) {
       console.error('Error deleting plant:', error);
+      toast({
+        title: 'Error',
+        description: error instanceof Error ? error.message : 'Failed to delete plant',
+        variant: 'destructive',
+      });
       throw error;
     }
   };
@@ -305,7 +383,13 @@ export const useHouseholdPlants = () => {
 
       await fetchPlants();
     } catch (error) {
-      console.error('Error adding watering record:', error);
+      console.error('Error adding watering record:', error instanceof Error ? error.message : error);
+      const errorMsg = error instanceof Error ? error.message : 'Failed to add watering record';
+      toast({
+        title: 'Error',
+        description: errorMsg,
+        variant: 'destructive',
+      });
       throw error;
     }
   };
@@ -327,7 +411,13 @@ export const useHouseholdPlants = () => {
 
       await fetchPlants();
     } catch (error) {
-      console.error('Error postponing watering:', error);
+      console.error('Error postponing watering:', error instanceof Error ? error.message : error);
+      const errorMsg = error instanceof Error ? error.message : 'Failed to postpone watering';
+      toast({
+        title: 'Error',
+        description: errorMsg,
+        variant: 'destructive',
+      });
       throw error;
     }
   };

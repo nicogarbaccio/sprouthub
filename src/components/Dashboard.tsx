@@ -750,7 +750,19 @@ const Dashboard = () => {
                           key={plant.id}
                           className="flex items-center justify-between p-3 bg-muted/30 dark:bg-muted/20 rounded-lg border border-border/50"
                         >
-                          <div className="flex items-center space-x-3">
+                          <div
+                            className="flex items-center space-x-3 flex-1 cursor-pointer hover:opacity-80 transition-opacity"
+                            onClick={() => navigate(`/my-plants/${plant.id}`)}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                navigate(`/my-plants/${plant.id}`);
+                              }
+                            }}
+                            aria-label={`View details for ${plant.nickname}`}
+                          >
                             <PlantImage
                               src={
                                 plant.image ||
@@ -781,9 +793,10 @@ const Dashboard = () => {
                             )}
                             <Button
                               size="sm"
-                              onClick={() =>
-                                handleQuickWater(plant.id, plant.nickname)
-                              }
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleQuickWater(plant.id, plant.nickname);
+                              }}
                               className="bg-sprout-water text-white hover:bg-sprout-water/90 hover:text-white"
                             >
                               <Droplets className="w-4 h-4" />

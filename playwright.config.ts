@@ -2,6 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 import path from "path";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import fs from "fs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,6 +12,10 @@ dotenv.config();
 
 // Read from ".env.local" file.
 dotenv.config({ path: path.resolve(__dirname, ".env.local") });
+
+// Path to auth storage state
+const authStorageState = path.join(__dirname, 'tests', '.auth', 'user.json');
+const hasAuthStorageState = fs.existsSync(authStorageState);
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -38,8 +43,10 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { 
+      use: {
         ...devices['Desktop Chrome'],
+        // Use auth storage state if it exists (created by global-setup)
+        ...(hasAuthStorageState ? { storageState: authStorageState } : {}),
         launchOptions: {
           args: ['--no-sandbox', '--disable-setuid-sandbox']
         }

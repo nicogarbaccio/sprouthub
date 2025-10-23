@@ -14,7 +14,6 @@ test.describe('Seasonal Transitions', () => {
 
   test('should handle weather service failures gracefully', async ({ page, authPage }) => {
     // Setup authenticated user
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock weather API to fail
     await page.route('**/api/weather/**', async (route) => {
@@ -46,7 +45,6 @@ test.describe('Seasonal Transitions', () => {
 
   test('should handle no plants scenario', async ({ page, authPage }) => {
     // Setup authenticated user
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock empty plants list
     await page.route('**/rest/v1/my_plants*', async (route) => {
@@ -89,7 +87,6 @@ test.describe('Seasonal Transitions', () => {
 
   test('should detect summer to fall transition', async ({ page, authPage }) => {
     // Setup authenticated user
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock plants with outdoor plants that would be affected
     await page.route('**/rest/v1/my_plants*', async (route) => {
@@ -163,7 +160,6 @@ test.describe('Seasonal Transitions', () => {
 
   test('should detect spring transition with appropriate suggestions', async ({ page, authPage }) => {
     // Setup authenticated user
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     await page.route('**/rest/v1/my_plants*', async (route) => {
       await route.fulfill({

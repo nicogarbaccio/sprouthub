@@ -34,5 +34,8 @@ playwright-report/
 coverage/
 .nyc_output/
 
+# Playwright authentication state
+tests/.auth/
+
 # screenshots folder
-screenshots/
+screenshots/.auth/

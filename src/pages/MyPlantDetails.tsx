@@ -21,6 +21,13 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   ArrowLeft,
   Droplets,
   Edit,
@@ -30,6 +37,7 @@ import {
   Calendar,
   AlertTriangle,
   Lightbulb,
+  ChevronDown,
 } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
@@ -470,7 +478,7 @@ const MyPlantDetails = () => {
             </div>
           </CascadingContainer>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6 lg:items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <div className="relative max-w-md mx-auto lg:mx-0 lg:max-w-none">
               <div
                 className="cursor-pointer group"
@@ -541,20 +549,20 @@ const MyPlantDetails = () => {
 
             <div className="flex flex-col">
               <CascadingContainer delay={250}>
-                <div className="space-y-3">
-                  <Card>
-                    <CardHeader className="pb-2 pt-3">
+                <div className="flex flex-col h-[280px] lg:h-[320px] space-y-2">
+                  <Card className="flex-1">
+                    <CardHeader className="pb-2 pt-4 px-4">
                       <CardTitle className="text-sm font-semibold text-foreground">
                         Watering Schedule
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="pt-0 pb-3">
-                      <div className="space-y-1">
+                    <CardContent className="pt-0 pb-4 px-4">
+                      <div className="space-y-1.5">
                         <div className="flex justify-between">
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-sm text-muted-foreground">
                             Last watered:
                           </span>
-                          <span className="text-xs font-medium">
+                          <span className="text-sm font-medium">
                             {plant.latest_watering
                               ? formatDistanceToNow(
                                   new Date(plant.latest_watering),
@@ -564,18 +572,18 @@ const MyPlantDetails = () => {
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-sm text-muted-foreground">
                             Watering frequency:
                           </span>
-                          <span className="text-xs font-medium">
+                          <span className="text-sm font-medium">
                             Every {plant.suggested_watering_days || 7} days
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-sm text-muted-foreground">
                             Days since watering:
                           </span>
-                          <span className="text-xs font-medium">
+                          <span className="text-sm font-medium">
                             {plant.days_since_watering || 0} days
                           </span>
                         </div>
@@ -583,29 +591,29 @@ const MyPlantDetails = () => {
                     </CardContent>
                   </Card>
 
-                  <Card>
-                    <CardHeader className="pb-2 pt-3">
+                  <Card className="flex-1">
+                    <CardHeader className="pb-2 pt-4 px-4">
                       <CardTitle className="text-sm font-semibold text-foreground">
                         Plant Info
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="pt-0 pb-3">
-                      <div className="space-y-1">
+                    <CardContent className="pt-0 pb-4 px-4">
+                      <div className="space-y-1.5">
                         <div className="flex justify-between">
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-sm text-muted-foreground">
                             Added:
                           </span>
-                          <span className="text-xs font-medium">
+                          <span className="text-sm font-medium">
                             {formatDistanceToNow(new Date(plant.created_at), {
                               addSuffix: true,
                             })}
                           </span>
                         </div>
                         <div className="flex justify-between">
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-sm text-muted-foreground">
                             Last updated:
                           </span>
-                          <span className="text-xs font-medium">
+                          <span className="text-sm font-medium">
                             {formatDistanceToNow(new Date(plant.updated_at), {
                               addSuffix: true,
                             })}
@@ -614,70 +622,65 @@ const MyPlantDetails = () => {
                       </div>
                     </CardContent>
                   </Card>
-                </div>
-              </CascadingContainer>
 
-              <CascadingContainer delay={300}>
-                <div className="space-y-2 mt-3">
-                  {/* Primary Action Buttons */}
-                  {canPostpone ? (
-                    <div className="space-y-2">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
                       <Button
+                        className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
+                        aria-label="Plant actions menu"
+                      >
+                        Actions
+                        <ChevronDown className="w-4 h-4 ml-2" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-56">
+                      <DropdownMenuItem
                         onClick={handleWaterClick}
-                        className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white"
+                        className="cursor-pointer"
                       >
-                        <Droplets className="w-4 h-4 mr-2" />
+                        <Droplets className="w-4 h-4 mr-2 text-sprout-water" />
                         Water Now
-                      </Button>
-                      <Button
-                        onClick={handlePostponeClick}
-                        variant="outline"
-                        className="w-full border-sprout-water/30 text-sprout-water hover:bg-sprout-water/10"
-                      >
-                        <Clock className="w-4 h-4 mr-2" />
-                        Push to Tomorrow
-                      </Button>
-                    </div>
-                  ) : (
-                    <Button
-                      onClick={handleWaterClick}
-                      className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white"
-                    >
-                      <Droplets className="w-4 h-4 mr-2" />
-                      Water Now
-                    </Button>
-                  )}
+                      </DropdownMenuItem>
 
-                  {/* Secondary Action Buttons */}
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleEditClick}
-                      className="flex-1 hover:bg-sprout-light/10 hover:border-sprout-light/30"
-                    >
-                      <Edit className="w-3 h-3 mr-1" />
-                      Edit
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleViewHistory}
-                      className="flex-2 hover:bg-sprout-water/10 hover:border-sprout-water/30"
-                    >
-                      <History className="w-3 h-3 mr-1" />
-                      {getBadgeInfo() ? "History & Tips" : "History"}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleDeletePlant}
-                      className="flex-1 text-red-600 hover:text-white hover:bg-red-600"
-                    >
-                      <Trash2 className="w-3 h-3 mr-1" />
-                      Delete
-                    </Button>
-                  </div>
+                      {canPostpone && (
+                        <DropdownMenuItem
+                          onClick={handlePostponeClick}
+                          className="cursor-pointer"
+                        >
+                          <Clock className="w-4 h-4 mr-2" />
+                          Push to Tomorrow
+                        </DropdownMenuItem>
+                      )}
+
+                      <DropdownMenuSeparator />
+
+                      <DropdownMenuItem
+                        onClick={handleViewHistory}
+                        className="cursor-pointer"
+                      >
+                        <History className="w-4 h-4 mr-2" />
+                        {getBadgeInfo() ? "History & Tips" : "History"}
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem
+                        onClick={handleEditClick}
+                        className="cursor-pointer"
+                      >
+                        <Edit className="w-4 h-4 mr-2" />
+                        Edit
+                      </DropdownMenuItem>
+
+                      <DropdownMenuSeparator />
+
+                      <DropdownMenuItem
+                        onClick={handleDeletePlant}
+                        className="cursor-pointer text-red-600 focus:text-red-600"
+                      >
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </CascadingContainer>
             </div>

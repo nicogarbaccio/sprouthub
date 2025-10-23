@@ -599,8 +599,7 @@ const MyPlantCard = ({
                     className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
                     aria-label="Plant actions menu"
                   >
-                    <Droplets className="w-4 h-4 mr-2" />
-                    Water Now
+                    Actions
                     <ChevronDown className="w-4 h-4 ml-2" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -642,9 +641,6 @@ const MyPlantCard = ({
                       className="cursor-pointer"
                     >
                       <History className="w-4 h-4 mr-2" />
-                      {hasPendingSuggestions && (
-                        <Lightbulb className="w-3 h-3 mr-1 text-blue-600" />
-                      )}
                       {hasPendingSuggestions
                         ? "History & Insights"
                         : "View Watering History"}

@@ -1,6 +1,7 @@
 /**
  * Shared authentication helpers for Playwright tests
  * Phase 4: Improved with proper state-based waits (no arbitrary timeouts)
+ * Phase 5: Auth storage state optimization - skip auth when using authenticated project
  */
 
 export interface TestUser {
@@ -13,14 +14,60 @@ export interface TestUser {
 }
 
 /**
+ * Check if the test is using authenticated storage state
+ * If true, skip manual authentication setup
+ */
+export async function isUsingAuthStorage(page: any): Promise<boolean> {
+  try {
+    // Check if we have Supabase auth token in localStorage
+    const authToken = await page.evaluate(() => {
+      const keys = Object.keys(localStorage);
+      return keys.find(key => key.includes('auth-token'));
+    });
+
+    if (authToken) {
+      console.log('✅ Using authenticated storage state - skipping manual auth');
+      return true;
+    }
+
+    // Fallback: check for auth cookies
+    const cookies = await page.context().cookies();
+    const hasAuthCookies = cookies.some((cookie: any) =>
+      cookie.name.includes('auth') ||
+      cookie.name.includes('session') ||
+      cookie.name.includes('token')
+    );
+
+    if (hasAuthCookies) {
+      console.log('✅ Using authenticated storage state - skipping manual auth');
+      return true;
+    }
+  } catch (error) {
+    // Page might not be ready for localStorage check
+    return false;
+  }
+
+  return false;
+}
+
+/**
  * Reliable authentication setup that works across all browsers
  * Uses state-based waits instead of arbitrary timeouts
- * 
+ * Skips auth if using authenticated storage state from project config
+ *
  * @example
  * const testUser = getTestUser('my-test');
  * await setupAuthenticatedUser(page, authPage, testUser);
  */
 export async function setupAuthenticatedUser(page: any, authPage: any, testUser: TestUser) {
+  // Check if we're already authenticated via storage state
+  if (await isUsingAuthStorage(page)) {
+    // Verify auth is working by navigating to home
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+    return; // Skip manual auth
+  }
+
   // Navigate to auth page
   await page.goto('/auth');
   await page.waitForLoadState('domcontentloaded');
@@ -130,20 +177,20 @@ export async function verifyAuthenticationState(page: any) {
 /**
  * Wait for page to reach stable state after navigation
  * Waits for DOM content loaded and any loading spinners to disappear
- * 
+ *
  * @example
  * await page.goto('/my-plants');
  * await waitForPageReady(page);
  */
 export async function waitForPageReady(page: any) {
   await page.waitForLoadState('domcontentloaded');
-  
+
   // Wait for any loading spinners to disappear
   const spinner = page.locator('[data-testid*="loading"], [class*="skeleton"], [class*="spinner"]').first();
-  const spinnerVisible = await spinner.isVisible({ timeout: 1000 }).catch(() => false);
-  
+  const spinnerVisible = await spinner.isVisible({ timeout: 500 }).catch(() => false);
+
   if (spinnerVisible) {
-    await spinner.waitFor({ state: 'hidden', timeout: 5000 });
+    await spinner.waitFor({ state: 'hidden', timeout: 3000 });
   }
 }
 

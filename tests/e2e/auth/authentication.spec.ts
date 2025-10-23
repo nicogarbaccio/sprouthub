@@ -1,8 +1,19 @@
 import { test, expect, testUsers } from '../../fixtures/test-fixtures';
 
 test.describe('Authentication', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, context }) => {
+    // Navigate first, then clear storage to test authentication from scratch
     await page.goto('/auth');
+
+    // Clear storage state after navigation to avoid SecurityError
+    await context.clearCookies();
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+    });
+
+    // Reload to ensure clean state
+    await page.reload();
   });
 
   test('should display auth forms correctly', async ({ authPage }) => {

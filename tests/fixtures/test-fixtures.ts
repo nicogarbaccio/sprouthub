@@ -6,6 +6,7 @@ import { PlantCatalogPage } from '../page-objects/PlantCatalogPage';
 import { PlantDetailsPage } from '../page-objects/PlantDetailsPage';
 import { MyPlantsPage } from '../page-objects/MyPlantsPage';
 import { AddPlantDialogPage } from '../page-objects/AddPlantDialogPage';
+import { HouseholdPage } from '../page-objects/HouseholdPage';
 
 // Extend basic test by providing page objects
 export const test = base.extend<{
@@ -15,12 +16,13 @@ export const test = base.extend<{
   plantDetailsPage: PlantDetailsPage;
   myPlantsPage: MyPlantsPage;
   addPlantDialogPage: AddPlantDialogPage;
+  householdPage: HouseholdPage;
 }>({
   authPage: async ({ page }, use) => {
     const authPage = new AuthPage(page);
     await use(authPage);
   },
-  
+
   smartWateringPage: async ({ page }, use) => {
     const smartWateringPage = new SmartWateringPage(page);
     await use(smartWateringPage);
@@ -44,6 +46,11 @@ export const test = base.extend<{
   addPlantDialogPage: async ({ page }, use) => {
     const addPlantDialogPage = new AddPlantDialogPage(page);
     await use(addPlantDialogPage);
+  },
+
+  householdPage: async ({ page }, use) => {
+    const householdPage = new HouseholdPage(page);
+    await use(householdPage);
   },
 });
 
@@ -162,4 +169,25 @@ export const catalogTestData = {
   categories: ['Succulents', 'Hanging & Trailing Plants', 'Flowering Plants', 'Trees & Large Plants'],
   careLevels: ['Easy', 'Medium', 'Hard'],
   lightRequirements: ['Low Light', 'Medium Light', 'Bright Indirect Light', 'Low to Medium Light']
+};
+
+export const householdTestData = {
+  household: {
+    name: 'Test Household',
+    description: 'A test household for E2E tests'
+  },
+  secondUser: {
+    email: process.env.TEST_EMAIL_2 || 'test2@sprouthub.app',
+    password: process.env.TEST_PASSWORD_2 || 'TestPassword123!',
+  },
+  thirdUser: {
+    email: process.env.TEST_EMAIL_3 || 'test3@sprouthub.app',
+    password: process.env.TEST_PASSWORD_3 || 'TestPassword123!',
+  },
+  invalidEmails: {
+    malformed: 'invalid-email',
+    missingAt: 'testsprouthub.app',
+    missingDomain: 'test@',
+    missingTld: 'test@sprouthub'
+  }
 };

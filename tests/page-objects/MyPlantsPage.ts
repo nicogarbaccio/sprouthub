@@ -254,7 +254,7 @@ export class MyPlantsPage extends BasePage {
   async waitForWateringRecordsToLoad() {
     await this.expectVisible(this.wateringRecordsList);
     // Wait for any loading states to complete
-    await this.page.waitForTimeout(TIMEOUTS.SHORT);
+    await this.page.waitForTimeout(TIMEOUTS.SHORT_WAIT);
   }
 
   async deleteWateringRecord(recordIndex: number = 0) {
@@ -358,7 +358,7 @@ export class MyPlantsPage extends BasePage {
     await this.expectSuccessToast();
 
     // Verify that the toast appears after a short delay (indicating refresh completed first)
-    await this.page.waitForTimeout(TIMEOUTS.SHORT);
+    await this.page.waitForTimeout(TIMEOUTS.SHORT_WAIT);
   }
 
   async expectOperationOrder(expectedOrder: string[], actualOrder: string[]) {

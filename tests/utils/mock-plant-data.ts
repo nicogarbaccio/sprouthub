@@ -912,7 +912,7 @@ export async function setupMockPlantData(page: any, mockPlants: MockPlant[], opt
   await page.route('**/rest/v1/user_plants*', async (route: any) => {
     const url = route.request().url();
     if (verbose) console.log(`🔄 Intercepting user_plants request: ${url}`);
-    
+
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
@@ -922,6 +922,44 @@ export async function setupMockPlantData(page: any, mockPlants: MockPlant[], opt
         'Access-Control-Allow-Headers': 'Content-Type, Authorization, apikey'
       },
       body: JSON.stringify(mockPlants)
+    });
+  });
+
+  // Intercept watering_records API calls
+  await page.route('**/rest/v1/watering_records*', async (route: any) => {
+    const url = route.request().url();
+    if (verbose) console.log(`🔄 Intercepting watering_records request: ${url}`);
+
+    // Extract plant ID from URL if present
+    const plantIdMatch = url.match(/user_plant_id=eq\.([^&]+)/);
+
+    // Create watering records for each plant based on their latest_watering
+    const wateringRecords = mockPlants
+      .filter(plant => {
+        // If a specific plant is requested, only return its records
+        if (plantIdMatch) {
+          return plant.id === plantIdMatch[1];
+        }
+        return true;
+      })
+      .filter(plant => plant.latest_watering) // Only plants with watering history
+      .map(plant => ({
+        id: `watering-${plant.id}-1`,
+        user_plant_id: plant.id,
+        watered_at: plant.latest_watering,
+        created_at: plant.latest_watering,
+        updated_at: plant.latest_watering
+      }));
+
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, apikey'
+      },
+      body: JSON.stringify(wateringRecords)
     });
   });
 }

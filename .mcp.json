@@ -1,13 +1,5 @@
 {
   "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": [
-        "@playwright/mcp@latest",
-        "--browser=chromium",
-        "--headless=false"
-      ]
-    },
     "netlify": {
       "command": "npx",
       "args": [
@@ -15,6 +7,13 @@
         "@modelcontextprotocol/server-netlify"
       ],
       "env": {}
+    },
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "playwright-mcp-server"
+      ]
     }
   }
 }

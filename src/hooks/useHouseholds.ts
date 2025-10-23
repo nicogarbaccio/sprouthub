@@ -25,17 +25,20 @@ export const useHouseholds = () => {
   const [households, setHouseholds] = useState<HouseholdWithMembers[]>([]);
   const [loading, setLoading] = useState(true);
   const [invitations, setInvitations] = useState<HouseholdInvitation[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchHouseholds = async () => {
     if (!user) {
       setHouseholds([]);
       setLoading(false);
+      setError(null);
       return;
     }
 
     try {
+      setError(null);
       console.log('useHouseholds: Fetching household memberships for user:', user.id);
-      
+
       // Use RPC function to get user's household memberships (bypasses RLS recursion)
       const { data: membershipData, error: membershipError } = await supabase
         .rpc('get_user_household_memberships', { target_user_id: user.id }) as {
@@ -46,8 +49,14 @@ export const useHouseholds = () => {
       console.log('useHouseholds: Membership query result:', { membershipData, membershipError });
 
       if (membershipError) {
-        console.warn('Could not load household memberships:', membershipError);
-        // Don't show error toast for this - just log it
+        const errorMsg = 'Could not load household memberships';
+        console.warn(errorMsg, membershipError);
+        setError(errorMsg);
+        toast({
+          title: 'Error',
+          description: errorMsg,
+          variant: 'destructive',
+        });
         setHouseholds([]);
         setLoading(false);
         return;
@@ -73,7 +82,14 @@ export const useHouseholds = () => {
       console.log('useHouseholds: Household details query result:', { householdData, householdError });
 
       if (householdError) {
-        console.warn('Could not load household details:', householdError);
+        const errorMsg = 'Could not load household details';
+        console.warn(errorMsg, householdError);
+        setError(errorMsg);
+        toast({
+          title: 'Error',
+          description: errorMsg,
+          variant: 'destructive',
+        });
         setHouseholds([]);
         setLoading(false);
         return;
@@ -88,7 +104,14 @@ export const useHouseholds = () => {
       console.log('useHouseholds: All members query result:', { allMembersData, membersError });
 
       if (membersError) {
-        console.warn('Could not load household members:', membersError);
+        const errorMsg = 'Could not load household members';
+        console.warn(errorMsg, membersError);
+        setError(errorMsg);
+        toast({
+          title: 'Warning',
+          description: errorMsg,
+          variant: 'destructive',
+        });
         // Continue without member details
       }
 
@@ -109,8 +132,13 @@ export const useHouseholds = () => {
       setHouseholds(householdsWithMembers);
     } catch (error) {
       console.error('Error fetching households:', error);
-      // Don't show toast for household loading errors - just log them
-      // This prevents user-facing errors during development
+      const errorMsg = error instanceof Error ? error.message : 'An unexpected error occurred';
+      setError(errorMsg);
+      toast({
+        title: 'Error',
+        description: errorMsg,
+        variant: 'destructive',
+      });
     } finally {
       setLoading(false);
     }
@@ -140,7 +168,7 @@ export const useHouseholds = () => {
       }
       setInvitations(data || []);
     } catch (error) {
-      console.warn('Error fetching invitations:', error);
+      console.warn('Error fetching invitations:', error instanceof Error ? error.message : error);
       setInvitations([]);
     }
   };
@@ -169,10 +197,10 @@ export const useHouseholds = () => {
       await fetchHouseholds();
       return true;
     } catch (error) {
-      console.error('Error creating household:', error);
+      console.error('Error creating household:', error instanceof Error ? error.message : error);
       toast({
         title: 'Error',
-        description: 'Failed to create household',
+        description: error instanceof Error ? error.message : 'Failed to create household',
         variant: 'destructive',
       });
       return false;
@@ -185,9 +213,33 @@ export const useHouseholds = () => {
     role: 'member' | 'admin' = 'member'
   ) => {
     try {
+      // Trim and lowercase the email
+      const normalizedEmail = email.trim().toLowerCase();
+
+      // Validate email format
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(normalizedEmail)) {
+        toast({
+          title: 'Error',
+          description: 'Please enter a valid email address',
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      // Prevent self-invitation
+      if (user && normalizedEmail === user.email?.toLowerCase()) {
+        toast({
+          title: 'Error',
+          description: 'You cannot invite yourself to a household',
+          variant: 'destructive',
+        });
+        return false;
+      }
+
       const { error } = await supabase.rpc('invite_to_household', {
         household_id: householdId,
-        invited_email: email,
+        invited_email: normalizedEmail,
         invitation_role: role,
       });
 
@@ -203,7 +255,7 @@ export const useHouseholds = () => {
       console.error('Error inviting to household:', error);
       toast({
         title: 'Error',
-        description: error.message || 'Failed to send invitation',
+        description: error instanceof Error ? error.message : 'Failed to send invitation',
         variant: 'destructive',
       });
       return false;
@@ -223,14 +275,14 @@ export const useHouseholds = () => {
         description: 'Invitation accepted successfully',
       });
 
-      fetchHouseholds();
-      fetchInvitations();
+      // Use Promise.all to prevent race conditions
+      await Promise.all([fetchHouseholds(), fetchInvitations()]);
       return true;
     } catch (error) {
-      console.error('Error accepting invitation:', error);
+      console.error('Error accepting invitation:', error instanceof Error ? error.message : error);
       toast({
         title: 'Error',
-        description: 'Failed to accept invitation',
+        description: error instanceof Error ? error.message : 'Failed to accept invitation',
         variant: 'destructive',
       });
       return false;
@@ -250,13 +302,14 @@ export const useHouseholds = () => {
         description: 'Invitation declined',
       });
 
-      fetchInvitations();
+      // Use Promise.all to prevent race conditions
+      await Promise.all([fetchHouseholds(), fetchInvitations()]);
       return true;
     } catch (error) {
-      console.error('Error declining invitation:', error);
+      console.error('Error declining invitation:', error instanceof Error ? error.message : error);
       toast({
         title: 'Error',
-        description: 'Failed to decline invitation',
+        description: error instanceof Error ? error.message : 'Failed to decline invitation',
         variant: 'destructive',
       });
       return false;
@@ -276,13 +329,14 @@ export const useHouseholds = () => {
         description: 'Left household successfully',
       });
 
-      fetchHouseholds();
+      // Use Promise.all to prevent race conditions
+      await Promise.all([fetchHouseholds(), fetchInvitations()]);
       return true;
     } catch (error) {
       console.error('Error leaving household:', error);
       toast({
         title: 'Error',
-        description: error.message || 'Failed to leave household',
+        description: error instanceof Error ? error.message : 'Failed to leave household',
         variant: 'destructive',
       });
       return false;
@@ -291,6 +345,59 @@ export const useHouseholds = () => {
 
   const removeMember = async (householdId: string, memberId: string) => {
     try {
+      // Client-side permission validation
+      if (!user) {
+        toast({
+          title: 'Error',
+          description: 'You must be logged in to remove members',
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      // Verify the household exists in local state
+      const household = households.find(h => h.id === householdId);
+      if (!household) {
+        toast({
+          title: 'Error',
+          description: 'Household not found',
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      // Confirm current user has 'owner' or 'admin' role
+      if (household.user_role !== 'owner' && household.user_role !== 'admin') {
+        toast({
+          title: 'Error',
+          description: 'You do not have permission to remove members. Only household owners and admins can remove members.',
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      // Find the member being removed
+      const memberToRemove = household.household_members.find(m => m.id === memberId);
+      if (!memberToRemove) {
+        toast({
+          title: 'Error',
+          description: 'Member not found in this household',
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      // Prevent removing a member with 'owner' role
+      if (memberToRemove.role === 'owner') {
+        toast({
+          title: 'Error',
+          description: 'Cannot remove the household owner. Transfer ownership first.',
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      // All validations passed, proceed with database call
       const { error } = await supabase
         .from('household_members')
         .delete()
@@ -307,10 +414,10 @@ export const useHouseholds = () => {
       fetchHouseholds();
       return true;
     } catch (error) {
-      console.error('Error removing member:', error);
+      console.error('Error removing member:', error instanceof Error ? error.message : error);
       toast({
         title: 'Error',
-        description: 'Failed to remove member',
+        description: error instanceof Error ? error.message : 'Failed to remove member',
         variant: 'destructive',
       });
       return false;
@@ -319,6 +426,38 @@ export const useHouseholds = () => {
 
   const deleteHousehold = async (householdId: string) => {
     try {
+      // Client-side permission validation
+      if (!user) {
+        toast({
+          title: 'Error',
+          description: 'You must be logged in to delete households',
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      // Verify the household exists in local state
+      const household = households.find(h => h.id === householdId);
+      if (!household) {
+        toast({
+          title: 'Error',
+          description: 'Household not found',
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      // Confirm current user has 'owner' role
+      if (household.user_role !== 'owner') {
+        toast({
+          title: 'Error',
+          description: 'You do not have permission to delete this household. Only the household owner can delete it.',
+          variant: 'destructive',
+        });
+        return false;
+      }
+
+      // All validations passed, proceed with database call
       const { error } = await supabase
         .from('households')
         .delete()
@@ -334,10 +473,10 @@ export const useHouseholds = () => {
       fetchHouseholds();
       return true;
     } catch (error) {
-      console.error('Error deleting household:', error);
+      console.error('Error deleting household:', error instanceof Error ? error.message : error);
       toast({
         title: 'Error',
-        description: 'Failed to delete household',
+        description: error instanceof Error ? error.message : 'Failed to delete household',
         variant: 'destructive',
       });
       return false;
@@ -353,6 +492,7 @@ export const useHouseholds = () => {
     households,
     invitations,
     loading,
+    error,
     fetchHouseholds,
     fetchInvitations,
     createHousehold,

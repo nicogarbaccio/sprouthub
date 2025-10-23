@@ -4,8 +4,19 @@ import { getTestUser } from '../../test-user-pool';
 test.describe('Authentication Flow', () => {
   const testUser = getTestUser('auth-flow');
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, context }) => {
+    // Navigate first, then clear storage to test authentication from scratch
     await page.goto('/auth');
+
+    // Clear storage state after navigation to avoid SecurityError
+    await context.clearCookies();
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+    });
+
+    // Reload to ensure clean state
+    await page.reload();
   });
 
   test('displays auth forms correctly', async ({ authPage }) => {

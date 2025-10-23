@@ -18,7 +18,6 @@ test.describe('Watering Records', () => {
       email: process.env.TEST_EMAIL!,
       password: process.env.TEST_PASSWORD!,
     };
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock slow DELETE to test loading state
     await page.route('**/rest/v1/watering_records*', async (route) => {
@@ -72,7 +71,6 @@ test.describe('Watering Records', () => {
       email: process.env.TEST_EMAIL!,
       password: process.env.TEST_PASSWORD!,
     };
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock empty watering records
     await page.route('**/rest/v1/watering_records*', async (route) => {
@@ -126,7 +124,6 @@ test.describe('Watering Records', () => {
       email: process.env.TEST_EMAIL!,
       password: process.env.TEST_PASSWORD!,
     };
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock DELETE to fail
     await page.route('**/rest/v1/watering_records*', async (route) => {
@@ -185,7 +182,6 @@ test.describe('Watering Records', () => {
       email: process.env.TEST_EMAIL!,
       password: process.env.TEST_PASSWORD!,
     };
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     let deleteAttempts = 0;
     

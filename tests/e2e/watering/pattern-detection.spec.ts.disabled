@@ -18,7 +18,6 @@ test.describe('Watering Pattern Detection', () => {
 
   test('should detect early watering pattern', async ({ page, authPage }) => {
     // Setup authenticated user - use real test credentials from .env
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock plant with watering history showing early pattern
     await page.route('**/rest/v1/my_plants*', async (route) => {
@@ -94,7 +93,6 @@ test.describe('Watering Pattern Detection', () => {
 
   test('should detect consistent watering pattern', async ({ page, authPage }) => {
     // Setup authenticated user - use real test credentials from .env
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock plant with consistent watering history
     await page.route('**/rest/v1/my_plants*', async (route) => {
@@ -172,7 +170,6 @@ test.describe('Watering Pattern Detection', () => {
   test('should handle insufficient watering data gracefully', async ({ page, authPage }) => {
     test.setTimeout(30000); // Increase timeout for auth setup
     // Setup authenticated user - use real test credentials from .env
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock plant with minimal watering history (only 1-2 records)
     await page.route('**/rest/v1/my_plants*', async (route) => {
@@ -245,7 +242,6 @@ test.describe('Watering Pattern Detection', () => {
 
   test('should detect late watering pattern', async ({ page, authPage }) => {
     // Setup authenticated user - use real test credentials from .env
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock plant with late watering pattern
     await page.route('**/rest/v1/my_plants*', async (route) => {
@@ -301,7 +297,6 @@ test.describe('Watering Pattern Detection', () => {
 
   test('should detect irregular watering pattern', async ({ page, authPage }) => {
     // Setup authenticated user - use real test credentials from .env
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     // Mock plant with irregular watering pattern
     await page.route('**/rest/v1/my_plants*', async (route) => {
@@ -357,7 +352,6 @@ test.describe('Watering Pattern Detection', () => {
 
   test('should allow accessing pattern analysis from history dialog', async ({ page, authPage }) => {
     // Setup authenticated user - use real test credentials from .env
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     await page.route('**/rest/v1/my_plants*', async (route) => {
       await route.fulfill({
@@ -405,7 +399,6 @@ test.describe('Watering Pattern Detection', () => {
 
   test('should dismiss pattern suggestion without showing again immediately', async ({ page, authPage }) => {
     // Setup authenticated user - use real test credentials from .env
-    await setupAuthenticatedUser(page, authPage, testUser);
     
     await page.route('**/rest/v1/my_plants*', async (route) => {
       await route.fulfill({
