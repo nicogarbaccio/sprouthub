@@ -5,6 +5,9 @@ import { Season } from '@/services/seasonalDetectionService';
 import { WeatherData } from '@/services/weatherTypes';
 import { useToast } from './use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { hookLogger } from '@/utils/hookLogging';
+
+const HOOK_NAME = 'useSeasonalSuggestions';
 
 interface UseSeasonalSuggestionsProps {
   newSeason: Season | null;
@@ -57,7 +60,7 @@ export function useSeasonalSuggestions({
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to generate suggestions';
       setError(errorMessage);
-      console.error('Error generating seasonal suggestions:', err);
+      hookLogger.error(HOOK_NAME, 'Error generating seasonal suggestions', err);
       
       toast({
         title: 'Error',
@@ -101,7 +104,7 @@ export function useSeasonalSuggestions({
 
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to apply suggestion';
-      console.error('Error applying suggestion:', err);
+      hookLogger.error(HOOK_NAME, 'Error applying suggestion', err);
       
       toast({
         title: 'Error',
@@ -143,7 +146,7 @@ export function useSeasonalSuggestions({
 
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to apply all suggestions';
-      console.error('Error applying all suggestions:', err);
+      hookLogger.error(HOOK_NAME, 'Error applying all suggestions', err);
       
       toast({
         title: 'Error',
@@ -192,7 +195,7 @@ export function useSeasonalSuggestions({
 
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to customize schedule';
-      console.error('Error customizing schedule:', err);
+      hookLogger.error(HOOK_NAME, 'Error customizing schedule', err);
       
       toast({
         title: 'Error',
@@ -232,7 +235,7 @@ export function useSeasonalSuggestions({
 
       if (error) throw error;
     } catch (error) {
-      console.error('Error recording notification response:', error);
+      hookLogger.error(HOOK_NAME, 'Error recording notification response', error);
     }
   }, [user, newSeason]);
 
