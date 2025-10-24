@@ -15,6 +15,9 @@ import {
 } from "lucide-react";
 import { calculateWateringSchedule } from "@/utils/watering-schedule";
 import { hookLogger } from "@/utils/hookLogging";
+import { WelcomeHeader } from "@/components/dashboard/WelcomeHeader";
+import { QuickActions } from "@/components/dashboard/QuickActions";
+import { CareStatusOverview } from "@/components/dashboard/CareStatusOverview";
 
 const COMPONENT_NAME = 'Dashboard';
 import { Button } from "@/components/ui/button";
@@ -564,16 +567,7 @@ const Dashboard = () => {
     <div className="py-8 bg-background min-h-[calc(100vh-4rem)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Welcome Header */}
-        <CascadingContainer delay={0}>
-          <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-medium text-foreground mb-2">
-              {greeting} 🌱
-            </h1>
-            <p className="text-foreground/60 text-lg">
-              Here's how your plants are doing today
-            </p>
-          </div>
-        </CascadingContainer>
+        <WelcomeHeader greeting={greeting} />
 
         {/* Seasonal Review Banner */}
         {shouldShowReview && pendingTransition && (
@@ -610,121 +604,20 @@ const Dashboard = () => {
         )}
 
         {/* Quick Actions */}
-        <CascadingContainer delay={100}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <Button
-              onClick={() => setIsAddDialogOpen(true)}
-              className="h-16 bg-sprout-success hover:bg-sprout-success/90 text-white rounded-xl font-medium text-lg"
-              size="lg"
-            >
-              <Plus className="w-6 h-6 mr-3" />
-              Add New Plant
-            </Button>
-
-            <Button
-              variant="outline"
-              className="h-16 bg-sprout-water text-white rounded-xl font-medium text-lg hover:bg-sprout-water/90 hover:text-white border-sprout-water"
-              size="lg"
-              onClick={() => {
-                if (plantsNeedingWater.length > 0) {
-                  setIsBulkWaterDialogOpen(true);
-                } else {
-                  navigate("/my-plants");
-                }
-              }}
-            >
-              {plantsNeedingWater.length > 0 ? (
-                <>
-                  <Droplets className="w-6 h-6 mr-3" />
-                  Water {plantsNeedingWater.length} Plant
-                  {plantsNeedingWater.length > 1 ? "s" : ""}
-                </>
-              ) : (
-                <>
-                  <Flower2 className="w-6 h-6 mr-3" />
-                  View All Plants
-                </>
-              )}
-            </Button>
-          </div>
-        </CascadingContainer>
+        <QuickActions
+          plantsNeedingWaterCount={plantsNeedingWater.length}
+          onAddPlantClick={() => setIsAddDialogOpen(true)}
+          onWaterPlantsClick={() => setIsBulkWaterDialogOpen(true)}
+          onViewAllPlantsClick={() => navigate("/my-plants")}
+        />
 
         {/* Care Status Overview */}
-        <CascadingContainer delay={200}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <Card className="border-border hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      Total Plants
-                    </p>
-                    <p className="text-3xl font-bold text-foreground">
-                      {totalPlants}
-                    </p>
-                  </div>
-                  <div className="w-12 h-12 bg-plant-secondary/20 dark:bg-plant-primary/20 rounded-full flex items-center justify-center">
-                    <Flower2 className="w-6 h-6 text-plant-primary dark:text-plant-secondary" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-border hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      Need Water Today
-                    </p>
-                    <p className="text-3xl font-bold text-sprout-warning">
-                      {plantsNeedingWaterToday}
-                    </p>
-                  </div>
-                  <div className="w-12 h-12 bg-sprout-warning/20 rounded-full flex items-center justify-center">
-                    <Droplets className="w-6 h-6 text-sprout-warning" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-border hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      Overdue
-                    </p>
-                    <p className="text-3xl font-bold text-red-600 dark:text-red-400">
-                      {overduePlants}
-                    </p>
-                  </div>
-                  <div className="w-12 h-12 bg-red-100 dark:bg-red-500/20 rounded-full flex items-center justify-center">
-                    <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-border hover:shadow-lg transition-shadow">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      New This Week
-                    </p>
-                    <p className="text-3xl font-bold text-green-600 dark:text-green-400">
-                      {recentlyAddedCount}
-                    </p>
-                  </div>
-                  <div className="w-12 h-12 bg-green-100 dark:bg-green-500/20 rounded-full flex items-center justify-center">
-                    <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </CascadingContainer>
+        <CareStatusOverview
+          totalPlants={totalPlants}
+          plantsNeedingWaterToday={plantsNeedingWaterToday}
+          overduePlants={overduePlants}
+          recentlyAddedCount={recentlyAddedCount}
+        />
 
         <CascadingContainer delay={300}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
