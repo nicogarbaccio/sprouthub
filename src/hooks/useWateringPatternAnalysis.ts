@@ -13,6 +13,9 @@ import {
   PatternInsight,
   PatternAnalysisStats,
 } from '@/types/wateringPatternTypes';
+import { hookLogger } from '@/utils/hookLogging';
+
+const HOOK_NAME = 'useWateringPatternAnalysis';
 
 interface UseWateringPatternAnalysisOptions {
   plantId?: string;
@@ -65,7 +68,7 @@ export function useWateringPatternAnalysis(
       .limit(20); // Get last 20 records for analysis
 
     if (error) {
-      console.error('Error fetching watering records:', error);
+      hookLogger.error(HOOK_NAME, 'Error fetching watering records:', error);
       throw new Error('Failed to fetch watering records');
     }
 
@@ -83,7 +86,7 @@ export function useWateringPatternAnalysis(
       .single();
 
     if (error) {
-      console.error('Error fetching plant details:', error);
+      hookLogger.error(HOOK_NAME, 'Error fetching plant details:', error);
       throw new Error('Failed to fetch plant details');
     }
 
@@ -109,7 +112,7 @@ export function useWateringPatternAnalysis(
 
       return wateringPatternAnalyzer.analyzePattern(analysisData);
     } catch (err) {
-      console.error('Error analyzing pattern for plant:', err);
+      hookLogger.error(HOOK_NAME, 'Error analyzing pattern for plant:', err);
       throw err;
     }
   }, [fetchWateringRecords, fetchPlantDetails]);
@@ -169,11 +172,11 @@ export function useWateringPatternAnalysis(
         if (result.status === 'fulfilled') {
           results.set(id, result.value);
         } else {
-          console.error(`Failed to analyze pattern for plant ${id}:`, result.reason);
+          hookLogger.error(HOOK_NAME, `Failed to analyze pattern for plant ${id}`, result.reason);
         }
       });
     } catch (err) {
-      console.error('Error analyzing multiple plants:', err);
+      hookLogger.error(HOOK_NAME, 'Error analyzing multiple plants:', err);
       toast({
         title: 'Bulk Analysis Error',
         description: 'Failed to analyze some plants',
@@ -282,7 +285,7 @@ export function useQuickPatternAnalysis() {
 
       return wateringPatternAnalyzer.analyzePattern(analysisData);
     } catch (error) {
-      console.error('Quick analysis error:', error);
+      hookLogger.error(HOOK_NAME, 'Quick analysis error:', error);
       return null;
     } finally {
       setIsAnalyzing(false);
@@ -365,7 +368,7 @@ export function useBulkPatternAnalysis(plantIds: string[]) {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to analyze plants';
       setError(errorMessage);
-      console.error('Bulk analysis error:', err);
+      hookLogger.error(HOOK_NAME, 'Bulk analysis error:', err);
     } finally {
       setIsLoading(false);
     }

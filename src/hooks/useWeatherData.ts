@@ -3,6 +3,9 @@ import { WeatherData, LocationData, WeatherError, WeatherServiceOptions } from '
 import weatherService from '@/services/weatherService';
 import { createFallbackWeatherData } from '@/utils/weatherMapping';
 import { WateringFactors } from '@/utils/smartWateringSchedule';
+import { hookLogger } from '@/utils/hookLogging';
+
+const HOOK_NAME = 'useWeatherData';
 
 export interface WeatherDataState {
   weatherData: WeatherData | null;
@@ -50,7 +53,7 @@ export function useWeatherData(options: UseWeatherDataOptions = {}) {
 
     // Check if API is configured
     if (!weatherService.isConfigured()) {
-      console.warn('Weather API key not configured, using fallback data');
+      hookLogger.warn(HOOK_NAME, 'Weather API key not configured, using fallback data');
       const fallbackData = createFallbackWeatherData(fallbackSeason);
       setState({
         weatherData: fallbackData,
@@ -85,7 +88,7 @@ export function useWeatherData(options: UseWeatherDataOptions = {}) {
       return weatherData;
     } catch (error) {
       const weatherError = error as WeatherError;
-      console.warn('Weather API failed, using fallback data:', weatherError.message);
+      hookLogger.warn(HOOK_NAME, 'Weather API failed, using fallback data:', { context: weatherError.message });
       
       // Use fallback data when API fails
       const fallbackData = createFallbackWeatherData(fallbackSeason);

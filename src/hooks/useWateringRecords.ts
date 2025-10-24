@@ -2,6 +2,9 @@ import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { utilityToast, wateringToast } from '@/utils/toast-helpers';
+import { hookLogger } from '@/utils/hookLogging';
+
+const HOOK_NAME = 'useWateringRecords';
 
 export interface WateringRecord {
   id: string;
@@ -44,7 +47,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
         
         setRecords(processedRecords);
       } catch (error) {
-        console.error('Error loading watering records:', error);
+        hookLogger.error(HOOK_NAME, 'Error loading watering records:', error);
         wateringToast.error('load');
       } finally {
         setIsLoading(false);
@@ -79,7 +82,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
         wateringToast.recorded('Plant');
         return true;
       } catch (error) {
-        console.error('Error adding watering record:', error);
+        hookLogger.error(HOOK_NAME, 'Error adding watering record:', error);
         wateringToast.error('add');
         return false;
       }
@@ -138,7 +141,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
         // This avoids race conditions where the server response hasn't fully processed the deletion yet
         return true;
       } catch (error) {
-        console.error('Error deleting watering record:', error);
+        hookLogger.error(HOOK_NAME, 'Error deleting watering record:', error);
         wateringToast.error('delete');
 
         // On error, restore data from server to ensure consistency
@@ -148,7 +151,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
             await loadWateringRecords(recordToDelete.plant_id);
           }
         } catch (refreshError) {
-          console.error('Error refreshing after failed deletion:', refreshError);
+          hookLogger.error(HOOK_NAME, 'Error refreshing after failed deletion:', refreshError);
         }
         
         return false;
@@ -190,7 +193,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
         utilityToast.info('Watering postponed', 'Watering postponed successfully');
         return true;
       } catch (error) {
-        console.error('Error adding postponement:', error);
+        hookLogger.error(HOOK_NAME, 'Error adding postponement:', error);
         wateringToast.error('add postponement');
         return false;
       }

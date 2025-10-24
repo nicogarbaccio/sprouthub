@@ -4,6 +4,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useProfileData } from "@/contexts/ProfileDataContext";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { hookLogger } from "@/utils/hookLogging";
+
+const HOOK_NAME = 'useProfile';
 
 interface ProfileData {
  first_name: string;
@@ -92,7 +95,7 @@ export const useProfile = () => {
   setProfileData(fetchedProfileData);
   setOriginalProfileData(fetchedProfileData);
  } catch (error) {
-  console.error("Error fetching profile:", error);
+  hookLogger.error(HOOK_NAME, "Error fetching profile:", error);
   toast({
   title: "Error",
   description: "Failed to load profile data",
@@ -153,7 +156,7 @@ export const useProfile = () => {
   description: "Profile updated successfully",
   });
  } catch (error) {
-  console.error("Error updating profile:", error);
+  hookLogger.error(HOOK_NAME, "Error updating profile:", error);
   toast({
   title: "Error",
   description: "Failed to update profile",
@@ -202,7 +205,7 @@ export const useProfile = () => {
   description: "Password updated successfully",
   });
  } catch (error) {
-  console.error("Error updating password:", error);
+  hookLogger.error(HOOK_NAME, "Error updating password:", error);
   toast({
   title: "Error",
   description: "Failed to update password",
@@ -241,7 +244,7 @@ export const useProfile = () => {
   description: "Your account has been permanently deleted",
   });
  } catch (error) {
-  console.error("Error deleting account:", error);
+  hookLogger.error(HOOK_NAME, "Error deleting account:", error);
   toast({
   title: "Error",
   description: "Failed to delete account",

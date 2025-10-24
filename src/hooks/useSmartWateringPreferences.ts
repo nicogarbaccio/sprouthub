@@ -4,6 +4,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { UserWateringPreferences } from '@/types/smartWateringTypes';
 import { WateringFactors } from '@/utils/smartWateringSchedule';
+import { hookLogger } from '@/utils/hookLogging';
+
+const HOOK_NAME = 'useSmartWateringPreferences';
 
 export const useSmartWateringPreferences = () => {
  const { user } = useAuth();
@@ -54,7 +57,7 @@ export const useSmartWateringPreferences = () => {
   setHasPreferences(false);
   }
  } catch (error) {
-  console.error('Error loading watering preferences:', error);
+  hookLogger.error(HOOK_NAME, 'Error loading watering preferences:', error);
   setPreferences(null);
   setHasPreferences(false);
  } finally {
@@ -141,7 +144,7 @@ export const useSmartWateringPreferences = () => {
 
   return true;
  } catch (error) {
-  console.error('Error saving watering preferences:', error);
+  hookLogger.error(HOOK_NAME, 'Error saving watering preferences:', error);
   toast({
   title: 'Error',
   description: 'Failed to save watering preferences. Please try again.',
@@ -197,7 +200,7 @@ export const useSmartWateringPreferences = () => {
 
   return true;
  } catch (error) {
-  console.error('Error clearing watering preferences:', error);
+  hookLogger.error(HOOK_NAME, 'Error clearing watering preferences:', error);
   toast({
   title: 'Error',
   description: 'Failed to clear watering preferences.',
