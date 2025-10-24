@@ -5,6 +5,9 @@ import {
   validatePassword,
   PasswordValidationResult,
 } from "@/utils/passwordValidation";
+import { hookLogger } from "@/utils/hookLogging";
+
+const CONTEXT_NAME = 'AuthContext';
 
 interface AuthContextType {
   user: User | null;
@@ -55,7 +58,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       // Prevent auto-login for password recovery sessions
       if (event === "PASSWORD_RECOVERY") {
         // Don't set user/session for recovery - require manual password reset
-        console.log("Password recovery detected - preventing auto-login");
+        hookLogger.debug(CONTEXT_NAME, "Password recovery detected - preventing auto-login");
         setLoading(false);
         return;
       }
@@ -67,7 +70,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     // Set a fallback timeout to prevent hanging on slow networks
     const timeoutId = setTimeout(() => {
-      console.warn("Auth loading timeout - proceeding without auth");
+      hookLogger.warn(CONTEXT_NAME, "Auth loading timeout - proceeding without auth");
       setLoading(false);
     }, 3000);
 
@@ -79,7 +82,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setLoading(false);
       })
       .catch((error) => {
-        console.warn("Auth session error:", error);
+        hookLogger.warn(CONTEXT_NAME, "Auth session error", { error });
         setLoading(false);
       });
 
@@ -115,7 +118,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         .maybeSingle();
 
       if (checkError && checkError.code !== "PGRST116") {
-        console.error("Error checking username:", checkError);
+        hookLogger.error(CONTEXT_NAME, "Error checking username", checkError);
         return {
           error: {
             message: "Error checking username availability. Please try again.",
@@ -168,7 +171,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       return { error: null };
     } catch (err) {
-      console.error("Signup error:", err);
+      hookLogger.error(CONTEXT_NAME, "Signup error", err);
       return {
         error: {
           message: "An unexpected error occurred. Please try again.",
@@ -187,7 +190,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const signOut = async () => {
     try {
-      console.log("AuthContext: Starting sign out...");
+      hookLogger.debug(CONTEXT_NAME, "Starting sign out");
 
       // Clear local state immediately
       setSession(null);
@@ -196,12 +199,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       // Try to sign out from Supabase
       await supabase.auth.signOut({ scope: "local" });
 
-      console.log("AuthContext: Sign out completed");
+      hookLogger.debug(CONTEXT_NAME, "Sign out completed");
     } catch (error) {
-      console.warn(
-        "AuthContext: Sign out error (but local state cleared):",
-        error
-      );
+      hookLogger.warn(CONTEXT_NAME, "Sign out error (but local state cleared)", { error });
       // Local state is already cleared, so this is still a successful sign out from user perspective
     }
   };
@@ -253,7 +253,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       return { error: null };
     } catch (err) {
-      console.error("Password reset error:", err);
+      hookLogger.error(CONTEXT_NAME, "Password reset error", err);
       return {
         error: {
           message: "An unexpected error occurred. Please try again.",

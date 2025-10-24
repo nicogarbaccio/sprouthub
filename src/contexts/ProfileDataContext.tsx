@@ -7,6 +7,9 @@ import React, {
 } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { hookLogger } from "@/utils/hookLogging";
+
+const CONTEXT_NAME = 'ProfileDataContext';
 
 interface ProfileData {
  first_name: string;
@@ -75,7 +78,7 @@ export const ProfileDataProvider: React.FC<{ children: React.ReactNode }> = ({
   .single();
 
   if (error) {
-  console.warn("Could not fetch profile data:", error);
+  hookLogger.warn(CONTEXT_NAME, "Could not fetch profile data", { error });
   // Use user email as fallback
   setProfileData({
    first_name: "",
@@ -96,7 +99,7 @@ export const ProfileDataProvider: React.FC<{ children: React.ReactNode }> = ({
   });
   setHasInitialized(true);
  } catch (error) {
-  console.warn("Error fetching profile:", error);
+  hookLogger.warn(CONTEXT_NAME, "Error fetching profile", { error });
  } finally {
   setIsLoading(false);
  }

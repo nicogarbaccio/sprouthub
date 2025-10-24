@@ -14,6 +14,9 @@ import {
   Activity,
 } from "lucide-react";
 import { calculateWateringSchedule } from "@/utils/watering-schedule";
+import { hookLogger } from "@/utils/hookLogging";
+
+const COMPONENT_NAME = 'Dashboard';
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -457,7 +460,7 @@ const Dashboard = () => {
       await Promise.all(waterPromises);
       // Success feedback will be handled by the useUserPlants hook
     } catch (error) {
-      console.error("Error bulk watering plants:", error);
+      hookLogger.error(COMPONENT_NAME, "Error bulk watering plants", error);
     }
   };
 
@@ -499,7 +502,7 @@ const Dashboard = () => {
               }
             }
           } catch (error) {
-            console.error(`Failed to apply suggestion for plant ${plant.plantId}:`, error);
+            hookLogger.error(COMPONENT_NAME, `Failed to apply suggestion for plant ${plant.plantId}`, error);
           }
         }
       }
@@ -529,7 +532,7 @@ const Dashboard = () => {
         // Refresh suggestions after applying change
         setTimeout(() => refreshSuggestionsAnalysis(), 1000);
       } catch (error) {
-        console.error(`Failed to apply suggestion for plant ${plantId}:`, error);
+        hookLogger.error(COMPONENT_NAME, `Failed to apply suggestion for plant ${plantId}`, error);
       }
     }
   };
@@ -549,9 +552,12 @@ const Dashboard = () => {
 
   // We need access to the schedule adjustment function from useUserPlants
   const onScheduleAdjustment = async (plantId: string, newSchedule: number) => {
-    // This would need to be implemented in useUserPlants hook
-    // For now, we'll just log it
-    console.log(`Adjusting schedule for plant ${plantId} to ${newSchedule} days`);
+    // TODO: This needs to be implemented in useUserPlants hook
+    // Should update the suggested_watering_days for the plant
+    hookLogger.debug(COMPONENT_NAME, `Schedule adjustment requested for plant ${plantId}`, {
+      plantId,
+      newSchedule
+    });
   };
 
   return (

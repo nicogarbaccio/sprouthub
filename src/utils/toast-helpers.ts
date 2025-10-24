@@ -290,4 +290,50 @@ export const imageToast = {
   description: "Failed to upload image. Please try again.",
   variant: "error",
  }),
-}; 
+};
+
+/**
+ * Unified toast interface combining all toast types
+ *
+ * Use this as the single entry point for all toast notifications in the app.
+ * This provides a consistent, typed interface and prevents direct imports
+ * of the base toast function or sonner, ensuring all toasts use our
+ * emoji and styling conventions.
+ *
+ * @example
+ * import { appToast } from '@/utils/toast-helpers';
+ *
+ * // Plant operations
+ * appToast.plant.added('Monstera');
+ *
+ * // Watering operations
+ * appToast.watering.recorded('Snake Plant');
+ *
+ * // General notifications
+ * appToast.utility.success('Settings Saved', 'Your preferences have been updated');
+ * appToast.utility.error('Save Failed', 'Unable to save your changes');
+ */
+export const appToast = {
+  plant: plantToast,
+  watering: wateringToast,
+  auth: authToast,
+  profile: profileToast,
+  utility: utilityToast,
+  image: imageToast,
+} as const;
+
+/**
+ * @deprecated Import `appToast` instead for consistent toast usage
+ *
+ * This is kept for backward compatibility but new code should use `appToast`.
+ *
+ * @example
+ * // ❌ Old way (deprecated)
+ * import { plantToast } from '@/utils/toast-helpers';
+ * plantToast.added('Monstera');
+ *
+ * // ✅ New way (recommended)
+ * import { appToast } from '@/utils/toast-helpers';
+ * appToast.plant.added('Monstera');
+ */
+export type { }; 
