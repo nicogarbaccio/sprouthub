@@ -45,6 +45,7 @@ import { useWeatherData } from "@/hooks/useWeatherData";
 import { mapWeatherToFactors } from "@/utils/weatherMapping";
 import { WeatherIndicator } from "@/components/WeatherIndicator";
 import { LocationPermissionDialog } from "@/components/LocationPermissionDialog";
+import type { LocationData } from "@/services/weatherTypes";
 
 interface SmartWateringWizardProps {
   isOpen: boolean;
@@ -253,7 +254,7 @@ export const SmartWateringWizard = ({
   };
 
   // Location dialog handlers
-  const handleLocationSelected = (selectedLocation: any) => {
+  const handleLocationSelected = (selectedLocation: LocationData) => {
     // Location will be handled by the useLocation hook automatically
     setShowLocationDialog(false);
   };

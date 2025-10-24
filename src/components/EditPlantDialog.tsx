@@ -28,24 +28,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useHouseholds } from "@/hooks/useHouseholds";
 import { useAuth } from "@/contexts/AuthContext";
+import type { UserPlant } from "@/data/types";
 
 import type { WateringRecord as HookWateringRecord } from "@/hooks/useWateringRecords";
 
 interface WateringRecord extends HookWateringRecord {}
 
-interface Plant {
-  id: string;
-  nickname: string;
-  plant_type: string;
-  image?: string;
-  room?: string;
-  suggested_watering_days?: number;
-  is_outdoor_plant?: boolean;
-  household_id?: string;
-}
-
 interface EditPlantDialogProps {
-  plant: Plant | null;
+  plant: UserPlant | null;
   isOpen: boolean;
   onClose: () => void;
   onUpdate: () => void;

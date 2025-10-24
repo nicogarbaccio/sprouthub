@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { OverwateringRisk } from '@/utils/overwatering';
@@ -144,7 +145,7 @@ export const useHouseholdPlants = () => {
    * Enriches plants with household, owner, and postponement data
    */
   const enrichPlantsWithData = useCallback(
-    async (plantsData: any[]): Promise<HouseholdPlant[]> => {
+    async (plantsData: Database['public']['Views']['plants_with_watering_info']['Row'][]): Promise<HouseholdPlant[]> => {
       const tracker = trackOperation(HOOK_NAME, 'enrichPlantsWithData');
 
       try {

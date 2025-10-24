@@ -22,18 +22,10 @@ import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { PatternAnalysisSection } from "@/components/watering-patterns";
 import { useWateringRecords, type WateringRecord } from "@/hooks/useWateringRecords";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
-
-interface Plant {
-  id: string;
-  nickname: string;
-  plant_type: string;
-  image?: string;
-  room?: string;
-  suggested_watering_days?: number;
-}
+import type { UserPlant } from "@/data/types";
 
 interface WateringHistoryDialogProps {
-  plant: Plant | null;
+  plant: UserPlant | null;
   isOpen: boolean;
   onClose: () => void;
   onScheduleAdjustment?: (

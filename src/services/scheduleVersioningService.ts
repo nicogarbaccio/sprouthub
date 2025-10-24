@@ -75,7 +75,7 @@ class ScheduleVersioningService {
    * Generate suggestion for a specific plant
    */
   private async generatePlantSuggestion(
-    plant: any,
+    plant: Database['public']['Tables']['user_plants']['Row'],
     season: Season,
     year: number,
     weatherConditions: WeatherData
