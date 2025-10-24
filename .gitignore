@@ -33,9 +33,17 @@ test-results/
 playwright-report/
 coverage/
 .nyc_output/
+test-baseline.txt
 
 # Playwright authentication state
 tests/.auth/
 
 # screenshots folder
 screenshots/.auth/
+screenshots/*.png
+screenshots/*.jpg
+screenshots/*.jpeg
+
+# Test debug files and temporary scripts
+tests/*-debug.png
+tests/test-*-cleanup.ts

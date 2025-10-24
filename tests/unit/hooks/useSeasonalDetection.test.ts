@@ -169,11 +169,17 @@ describe('useSeasonalDetection', () => {
         await result.current.checkForTransition();
       });
 
+      // Wait for any pending promises to resolve
+      await waitFor(() => {
+        expect(seasonalDetectionService.detectSeasonalTransition).toHaveBeenCalledTimes(1);
+      });
+
       // Second check on same day
       await act(async () => {
         await result.current.checkForTransition();
       });
 
+      // Should still be called only once
       expect(seasonalDetectionService.detectSeasonalTransition).toHaveBeenCalledTimes(1);
     });
 
@@ -427,18 +433,18 @@ describe('useSeasonalDetection', () => {
 
   describe('automatic daily checks', () => {
     it('should set up automatic daily checks', async () => {
-      vi.spyOn(global, 'setInterval');
+      const setIntervalSpy = vi.spyOn(global, 'setInterval');
 
       renderHook(() => useSeasonalDetection());
 
-      expect(setInterval).toHaveBeenCalledWith(
+      expect(setIntervalSpy).toHaveBeenCalledWith(
         expect.any(Function),
         24 * 60 * 60 * 1000 // 24 hours in milliseconds
       );
     });
 
     it('should clear interval on unmount', () => {
-      vi.spyOn(global, 'clearInterval');
+      const clearIntervalSpy = vi.spyOn(global, 'clearInterval');
       const mockIntervalId = 123;
       vi.spyOn(global, 'setInterval').mockReturnValue(mockIntervalId as any);
 
@@ -446,7 +452,7 @@ describe('useSeasonalDetection', () => {
 
       unmount();
 
-      expect(clearInterval).toHaveBeenCalledWith(mockIntervalId);
+      expect(clearIntervalSpy).toHaveBeenCalledWith(mockIntervalId);
     });
 
     it('should check immediately when conditions are first met', async () => {

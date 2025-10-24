@@ -9,6 +9,8 @@ import { test, expect, testUsers, householdTestData } from '../../fixtures/test-
  *
  * These tests verify client-side permission checks provide appropriate
  * user feedback before database operations.
+ *
+ * Note: Test households are automatically cleaned up in global teardown
  */
 
 test.describe('Household Permissions', () => {
@@ -138,8 +140,9 @@ test.describe('Household Permissions', () => {
     test('should allow owners to delete household', async ({ householdPage }) => {
       // First create a household (user will be owner)
       await householdPage.goto();
+      const householdName = `Test Household ${Date.now()}`;
       const created = await householdPage.createHousehold(
-        `Test Household ${Date.now()}`,
+        householdName,
         'Test household for deletion'
       );
 
@@ -164,6 +167,8 @@ test.describe('Household Permissions', () => {
 
       // Should see success toast
       await householdPage.expectSuccessToastWithMessage(/deleted/i);
+
+      // Note: This test deletes its own household, so no cleanup needed
     });
 
     test('should validate household exists before deleting', async ({ householdPage }) => {

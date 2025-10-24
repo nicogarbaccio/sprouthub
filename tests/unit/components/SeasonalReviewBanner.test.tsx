@@ -82,71 +82,78 @@ describe('SeasonalReviewBanner', () => {
   });
 
   describe('season-specific styling and icons', () => {
-    it('should display spring styling and emoji', () => {
-      const springTransition = createMockTransition('winter', 'spring');
-      render(<SeasonalReviewBanner {...defaultProps} transition={springTransition} />);
+    // Parameterized test for all seasons
+    it.each([
+      {
+        season: 'spring',
+        fromSeason: 'winter',
+        emoji: '🌸',
+        textClass: 'text-green-600',
+        bgClass: 'bg-green-50',
+        borderClass: 'border-green-200'
+      },
+      {
+        season: 'summer',
+        fromSeason: 'spring',
+        emoji: '☀️',
+        textClass: 'text-yellow-600',
+        bgClass: 'bg-yellow-50',
+        borderClass: 'border-yellow-200'
+      },
+      {
+        season: 'fall',
+        fromSeason: 'summer',
+        emoji: '🍂',
+        textClass: 'text-orange-600',
+        bgClass: 'bg-orange-50',
+        borderClass: 'border-orange-200'
+      },
+      {
+        season: 'winter',
+        fromSeason: 'fall',
+        emoji: '❄️',
+        textClass: 'text-blue-600',
+        bgClass: 'bg-blue-50',
+        borderClass: 'border-blue-200'
+      }
+    ])('should display $season styling and emoji', ({ season, fromSeason, emoji, textClass, bgClass, borderClass }) => {
+      const transition = createMockTransition(fromSeason as any, season as any);
+      render(<SeasonalReviewBanner {...defaultProps} transition={transition} />);
 
-      expect(screen.getByText('🌸 Spring has arrived!')).toBeInTheDocument();
+      // Check for season-specific emoji and text
+      const seasonCapitalized = season.charAt(0).toUpperCase() + season.slice(1);
+      expect(screen.getByText(`${emoji} ${seasonCapitalized} has arrived!`)).toBeInTheDocument();
 
-      // Check for spring styling
+      // Check for season-specific styling
       const alert = screen.getByRole('alert');
-      expect(alert).toHaveClass('text-green-600', 'bg-green-50', 'border-green-200');
-    });
-
-    it('should display summer styling and emoji', () => {
-      const summerTransition = createMockTransition('spring', 'summer');
-      render(<SeasonalReviewBanner {...defaultProps} transition={summerTransition} />);
-
-      expect(screen.getByText('☀️ Summer has arrived!')).toBeInTheDocument();
-
-      const alert = screen.getByRole('alert');
-      expect(alert).toHaveClass('text-yellow-600', 'bg-yellow-50', 'border-yellow-200');
-    });
-
-    it('should display fall styling and emoji', () => {
-      const fallTransition = createMockTransition('summer', 'fall');
-      render(<SeasonalReviewBanner {...defaultProps} transition={fallTransition} />);
-
-      expect(screen.getByText('🍂 Fall has arrived!')).toBeInTheDocument();
-
-      const alert = screen.getByRole('alert');
-      expect(alert).toHaveClass('text-orange-600', 'bg-orange-50', 'border-orange-200');
-    });
-
-    it('should display winter styling and emoji', () => {
-      const winterTransition = createMockTransition('fall', 'winter');
-      render(<SeasonalReviewBanner {...defaultProps} transition={winterTransition} />);
-
-      expect(screen.getByText('❄️ Winter has arrived!')).toBeInTheDocument();
-
-      const alert = screen.getByRole('alert');
-      expect(alert).toHaveClass('text-blue-600', 'bg-blue-50', 'border-blue-200');
+      expect(alert).toHaveClass(textClass, bgClass, borderClass);
     });
   });
 
   describe('confidence level styling', () => {
-    it('should display high confidence with green styling', () => {
-      const transition = createMockTransition('summer', 'fall', 'high');
+    // Parameterized test for all confidence levels
+    it.each([
+      {
+        confidence: 'high',
+        bgClass: 'bg-green-100',
+        textClass: 'text-green-800'
+      },
+      {
+        confidence: 'medium',
+        bgClass: 'bg-yellow-100',
+        textClass: 'text-yellow-800'
+      },
+      {
+        confidence: 'low',
+        bgClass: 'bg-gray-100',
+        textClass: 'text-gray-800'
+      }
+    ])('should display $confidence confidence with appropriate styling', ({ confidence, bgClass, textClass }) => {
+      const transition = createMockTransition('summer', 'fall', confidence as any);
       render(<SeasonalReviewBanner {...defaultProps} transition={transition} />);
 
-      const badge = screen.getByText('high confidence');
-      expect(badge).toHaveClass('bg-green-100', 'text-green-800');
-    });
-
-    it('should display medium confidence with yellow styling', () => {
-      const transition = createMockTransition('summer', 'fall', 'medium');
-      render(<SeasonalReviewBanner {...defaultProps} transition={transition} />);
-
-      const badge = screen.getByText('medium confidence');
-      expect(badge).toHaveClass('bg-yellow-100', 'text-yellow-800');
-    });
-
-    it('should display low confidence with gray styling', () => {
-      const transition = createMockTransition('summer', 'fall', 'low');
-      render(<SeasonalReviewBanner {...defaultProps} transition={transition} />);
-
-      const badge = screen.getByText('low confidence');
-      expect(badge).toHaveClass('bg-gray-100', 'text-gray-800');
+      const badge = screen.getByText(`${confidence} confidence`);
+      expect(badge).toHaveClass(bgClass, textClass);
     });
   });
 

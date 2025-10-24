@@ -260,9 +260,15 @@ describe('EditPlantDialog - Watering Record Operations', () => {
       const user = userEvent.setup();
 
       // Mock slow deletion to simulate the race condition scenario
+      // Use a promise we can control instead of setTimeout for deterministic testing
+      let resolveDeletion: () => void;
+      const deletionPromise = new Promise<void>(resolve => {
+        resolveDeletion = resolve;
+      });
+
       const mockDelete = vi.fn(() => ({
         eq: vi.fn(async () => {
-          await new Promise(resolve => setTimeout(resolve, 100));
+          await deletionPromise;
           return Promise.resolve({ data: null, error: null });
         })
       }));
@@ -329,7 +335,16 @@ describe('EditPlantDialog - Watering Record Operations', () => {
       await user.click(deleteButton);
       await user.click(deleteButton);
 
-      // Verify deletion was only called once
+      // Verify deletion was only called once even before promise resolves
+      expect(mockDelete).toHaveBeenCalledTimes(1);
+
+      // Now resolve the deletion to complete the test
+      await act(async () => {
+        resolveDeletion!();
+        await deletionPromise;
+      });
+
+      // Verify deletion completed successfully
       await waitFor(() => {
         expect(mockDelete).toHaveBeenCalledTimes(1);
       });
