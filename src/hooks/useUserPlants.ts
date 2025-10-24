@@ -432,6 +432,37 @@ export const useUserPlants = () => {
  }
  };
 
+ const updatePlantSchedule = async (plantId: string, newSchedule: number) => {
+  const tracker = trackOperation(HOOK_NAME, 'updatePlantSchedule');
+
+  try {
+   hookLogger.debug(HOOK_NAME, 'Updating plant watering schedule', {
+     plantId,
+     newSchedule
+   });
+
+   const { error } = await supabase
+    .from('user_plants')
+    .update({ suggested_watering_days: newSchedule })
+    .eq('id', plantId);
+
+   if (error) throw error;
+
+   utilityToast.info(
+     'Schedule Updated',
+     `Watering schedule changed to every ${newSchedule} day${newSchedule === 1 ? '' : 's'}`
+   );
+
+   await fetchPlants();
+   tracker.complete({ plantId, newSchedule });
+   return true;
+  } catch (error) {
+   tracker.fail(error);
+   handleApiError(error, 'Failed to update watering schedule', toast);
+   return false;
+  }
+ };
+
  const deletePlant = async (plantId: string) => {
   const tracker = trackOperation(HOOK_NAME, 'deletePlant');
 
@@ -470,6 +501,7 @@ export const useUserPlants = () => {
   addPlant,
   waterPlant,
   postponeWatering,
+  updatePlantSchedule,
   deletePlant,
   checkOverwatering,
  };

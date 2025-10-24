@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { calculateWateringSchedule } from "@/utils/watering-schedule";
 import { hookLogger } from "@/utils/hookLogging";
+import { useDialogState } from "@/hooks/useDialogState";
 import { WelcomeHeader } from "@/components/dashboard/WelcomeHeader";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { CareStatusOverview } from "@/components/dashboard/CareStatusOverview";
@@ -72,16 +73,17 @@ import { format, formatDistanceToNow } from "date-fns";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 
 const Dashboard = () => {
-  const { plants, loading, waterPlant, fetchPlants } = useUserPlants();
+  const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule } = useUserPlants();
   const { profileData, isLoadingProfile } = useProfile();
   const { weatherData } = useWeatherData();
   const navigate = useNavigate();
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [isBulkWaterDialogOpen, setIsBulkWaterDialogOpen] = useState(false);
-  const [isSeasonalReviewDialogOpen, setIsSeasonalReviewDialogOpen] =
-    useState(false);
-  const [isSmartSuggestionsDialogOpen, setIsSmartSuggestionsDialogOpen] =
-    useState(false);
+
+  // Dialog states using useDialogState hook
+  const addDialog = useDialogState();
+  const bulkWaterDialog = useDialogState();
+  const seasonalReviewDialog = useDialogState();
+  const smartSuggestionsDialog = useDialogState();
+
   const [dismissedSuggestions, setDismissedSuggestions] = useState<Set<string>>(new Set());
   const [isDismissedSuggestionsLoaded, setIsDismissedSuggestionsLoaded] = useState(false);
   const [waterConfirmation, setWaterConfirmation] = useState<{
@@ -452,7 +454,7 @@ const Dashboard = () => {
   };
 
   const handleBulkWater = async () => {
-    setIsBulkWaterDialogOpen(false);
+    bulkWaterDialog.close();
 
     // Water all plants that need watering today
     const waterPromises = plantsNeedingWater.map((plant) =>
@@ -469,7 +471,7 @@ const Dashboard = () => {
 
   // Smart suggestions handlers
   const handleSmartSuggestionsReview = () => {
-    setIsSmartSuggestionsDialogOpen(true);
+    smartSuggestionsDialog.open();
   };
 
   const handleDismissAllSuggestions = () => {
@@ -549,18 +551,13 @@ const Dashboard = () => {
   const handleViewPlantHistory = (plantId: string) => {
     // Navigate to the plant's history - this would need to be implemented
     // For now, just close the dialog and potentially navigate to the plant detail page
-    setIsSmartSuggestionsDialogOpen(false);
+    smartSuggestionsDialog.close();
     navigate(`/my-plants/${plantId}`);
   };
 
-  // We need access to the schedule adjustment function from useUserPlants
+  // Schedule adjustment handler - now fully implemented
   const onScheduleAdjustment = async (plantId: string, newSchedule: number) => {
-    // TODO: This needs to be implemented in useUserPlants hook
-    // Should update the suggested_watering_days for the plant
-    hookLogger.debug(COMPONENT_NAME, `Schedule adjustment requested for plant ${plantId}`, {
-      plantId,
-      newSchedule
-    });
+    await updatePlantSchedule(plantId, newSchedule);
   };
 
   return (
@@ -575,7 +572,7 @@ const Dashboard = () => {
             <SeasonalReviewBanner
               transition={pendingTransition}
               plantsNeedingReview={suggestions.length}
-              onReviewClick={() => setIsSeasonalReviewDialogOpen(true)}
+              onReviewClick={() => seasonalReviewDialog.open()}
               onDismiss={dismissReview}
               onSnooze={snoozeReview}
             />
@@ -606,8 +603,8 @@ const Dashboard = () => {
         {/* Quick Actions */}
         <QuickActions
           plantsNeedingWaterCount={plantsNeedingWater.length}
-          onAddPlantClick={() => setIsAddDialogOpen(true)}
-          onWaterPlantsClick={() => setIsBulkWaterDialogOpen(true)}
+          onAddPlantClick={() => addDialog.open()}
+          onWaterPlantsClick={() => bulkWaterDialog.open()}
           onViewAllPlantsClick={() => navigate("/my-plants")}
         />
 
@@ -863,7 +860,7 @@ const Dashboard = () => {
                           Start your plant journey by adding your first plant!
                         </p>
                         <Button
-                          onClick={() => setIsAddDialogOpen(true)}
+                          onClick={() => addDialog.open()}
                           className="bg-sprout-success hover:bg-sprout-success/90 text-white"
                           size="sm"
                         >
@@ -947,14 +944,14 @@ const Dashboard = () => {
         )}
 
         <AddPlantDialog
-          isOpen={isAddDialogOpen}
-          onClose={() => setIsAddDialogOpen(false)}
+          isOpen={addDialog.isOpen}
+          onClose={() => addDialog.close()}
           onPlantAdded={fetchPlants}
         />
 
         <AlertDialog
-          open={isBulkWaterDialogOpen}
-          onOpenChange={setIsBulkWaterDialogOpen}
+          open={bulkWaterDialog.isOpen}
+          onOpenChange={bulkWaterDialog.toggle}
         >
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -1064,8 +1061,8 @@ const Dashboard = () => {
         {/* Seasonal Review Dialog */}
         {pendingTransition && (
           <SeasonalReviewDialog
-            isOpen={isSeasonalReviewDialogOpen}
-            onClose={() => setIsSeasonalReviewDialogOpen(false)}
+            isOpen={seasonalReviewDialog.isOpen}
+            onClose={() => seasonalReviewDialog.close()}
             season={pendingTransition.to_season}
             suggestions={suggestions}
             isLoading={isSuggestionsLoading}
@@ -1084,8 +1081,8 @@ const Dashboard = () => {
 
         {/* Smart Suggestions Dialog */}
         <SmartSuggestionsDialog
-          isOpen={isSmartSuggestionsDialogOpen}
-          onClose={() => setIsSmartSuggestionsDialogOpen(false)}
+          isOpen={smartSuggestionsDialog.isOpen}
+          onClose={() => smartSuggestionsDialog.close()}
           plantSuggestions={activePlantsWithSuggestions.map(plant => {
             const plantData = plants.find(p => p.id === plant.plantId);
             return {
