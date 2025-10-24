@@ -1,8 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import type { Tables } from '@/integrations/supabase/types';
+import { useUserHouseholdMemberships } from '@/hooks/useUserHouseholdMemberships';
+import { hookLogger, trackOperation } from '@/utils/hookLogging';
+import { handleApiError, getErrorMessage, validateEmail } from '@/utils/errorHandling';
 
 export type Household = Tables<'households'>;
 export type HouseholdMember = Tables<'household_members'>;
@@ -19,6 +22,8 @@ export interface HouseholdWithMembers extends Household {
   user_role: string;
 }
 
+const HOOK_NAME = 'useHouseholds';
+
 export const useHouseholds = () => {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -27,7 +32,10 @@ export const useHouseholds = () => {
   const [invitations, setInvitations] = useState<HouseholdInvitation[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchHouseholds = async () => {
+  // Use custom hooks
+  const { fetchMemberships } = useUserHouseholdMemberships();
+
+  const fetchHouseholds = useCallback(async () => {
     if (!user) {
       setHouseholds([]);
       setLoading(false);
@@ -35,63 +43,41 @@ export const useHouseholds = () => {
       return;
     }
 
+    const tracker = trackOperation(HOOK_NAME, 'fetchHouseholds');
+    setError(null);
+
     try {
-      setError(null);
-      console.log('useHouseholds: Fetching household memberships for user:', user.id);
+      hookLogger.debug(HOOK_NAME, 'Fetching household memberships', { userId: user.id });
 
-      // Use RPC function to get user's household memberships (bypasses RLS recursion)
-      const { data: membershipData, error: membershipError } = await supabase
-        .rpc('get_user_household_memberships', { target_user_id: user.id }) as {
-          data: Array<{ household_id: string; role: string }> | null;
-          error: any;
-        };
+      // Get user's household memberships
+      const membershipData = await fetchMemberships();
 
-      console.log('useHouseholds: Membership query result:', { membershipData, membershipError });
-
-      if (membershipError) {
-        const errorMsg = 'Could not load household memberships';
-        console.warn(errorMsg, membershipError);
-        setError(errorMsg);
-        toast({
-          title: 'Error',
-          description: errorMsg,
-          variant: 'destructive',
-        });
+      if (!membershipData || membershipData.length === 0) {
+        hookLogger.debug(HOOK_NAME, 'No household memberships found');
         setHouseholds([]);
         setLoading(false);
-        return;
-      }
-
-      if (!membershipData || !Array.isArray(membershipData) || membershipData.length === 0) {
-        console.log('useHouseholds: No household memberships found');
-        setHouseholds([]);
-        setLoading(false);
+        tracker.complete({ count: 0 });
         return;
       }
 
       // Get household IDs
       const householdIds = membershipData.map(m => m.household_id);
-      console.log('useHouseholds: Found household IDs:', householdIds);
+      hookLogger.debug(HOOK_NAME, 'Found household IDs', { count: householdIds.length });
 
-      // Then get household details
+      // Get household details
       const { data: householdData, error: householdError } = await supabase
         .from('households')
         .select('*')
         .in('id', householdIds);
 
-      console.log('useHouseholds: Household details query result:', { householdData, householdError });
-
       if (householdError) {
         const errorMsg = 'Could not load household details';
-        console.warn(errorMsg, householdError);
+        hookLogger.warn(HOOK_NAME, errorMsg, { error: householdError });
         setError(errorMsg);
-        toast({
-          title: 'Error',
-          description: errorMsg,
-          variant: 'destructive',
-        });
+        handleApiError(householdError, errorMsg, toast);
         setHouseholds([]);
         setLoading(false);
+        tracker.fail(householdError);
         return;
       }
 
@@ -101,25 +87,17 @@ export const useHouseholds = () => {
         .select('*')
         .in('household_id', householdIds);
 
-      console.log('useHouseholds: All members query result:', { allMembersData, membersError });
-
       if (membersError) {
-        const errorMsg = 'Could not load household members';
-        console.warn(errorMsg, membersError);
-        setError(errorMsg);
-        toast({
-          title: 'Warning',
-          description: errorMsg,
-          variant: 'destructive',
-        });
-        // Continue without member details
+        hookLogger.warn(HOOK_NAME, 'Could not load household members', { error: membersError });
+        setError('Could not load household members');
+        // Continue without member details - don't throw
       }
 
       // Combine household data with member information
       const householdsWithMembers = (householdData || []).map(household => {
-        const userMembership = Array.isArray(membershipData) ? membershipData.find(m => m.household_id === household.id) : null;
+        const userMembership = membershipData.find(m => m.household_id === household.id);
         const householdMembers = (allMembersData || []).filter(m => m.household_id === household.id);
-        
+
         return {
           ...household,
           household_members: householdMembers,
@@ -128,27 +106,31 @@ export const useHouseholds = () => {
         };
       });
 
-      console.log('useHouseholds: Final households with members:', householdsWithMembers);
-      setHouseholds(householdsWithMembers);
-    } catch (error) {
-      console.error('Error fetching households:', error);
-      const errorMsg = error instanceof Error ? error.message : 'An unexpected error occurred';
-      setError(errorMsg);
-      toast({
-        title: 'Error',
-        description: errorMsg,
-        variant: 'destructive',
+      hookLogger.debug(HOOK_NAME, 'Fetched households with members', {
+        count: householdsWithMembers.length,
       });
+
+      setHouseholds(householdsWithMembers);
+      tracker.complete({ count: householdsWithMembers.length });
+    } catch (error) {
+      tracker.fail(error);
+      hookLogger.error(HOOK_NAME, 'Failed to fetch households', error);
+
+      const errorMsg = getErrorMessage(error, 'An unexpected error occurred');
+      setError(errorMsg);
+      handleApiError(error, 'Failed to load households', toast);
     } finally {
       setLoading(false);
     }
-  };
+  }, [user, fetchMemberships, toast]);
 
-  const fetchInvitations = async () => {
+  const fetchInvitations = useCallback(async () => {
     if (!user) {
       setInvitations([]);
       return;
     }
+
+    const tracker = trackOperation(HOOK_NAME, 'fetchInvitations');
 
     try {
       const { data, error } = await supabase
@@ -162,29 +144,33 @@ export const useHouseholds = () => {
         .gt('expires_at', new Date().toISOString());
 
       if (error) {
-        console.warn('Could not load invitations:', error);
+        hookLogger.warn(HOOK_NAME, 'Could not load invitations', { error });
         setInvitations([]);
+        tracker.fail(error);
         return;
       }
+
       setInvitations(data || []);
+      tracker.complete({ count: (data || []).length });
     } catch (error) {
-      console.warn('Error fetching invitations:', error instanceof Error ? error.message : error);
+      hookLogger.warn(HOOK_NAME, 'Error fetching invitations', { error });
       setInvitations([]);
+      tracker.fail(error);
     }
-  };
+  }, [user]);
 
   const createHousehold = async (name: string, description?: string) => {
     if (!user) return false;
 
+    const tracker = trackOperation(HOOK_NAME, 'createHousehold');
+
     try {
-      console.log('useHouseholds: Creating household with name:', name, 'description:', description);
-      
+      hookLogger.debug(HOOK_NAME, 'Creating household', { name, description });
+
       const { error } = await supabase.rpc('create_household', {
         household_name: name,
         household_description: description,
       });
-
-      console.log('useHouseholds: Create household result:', { error });
 
       if (error) throw error;
 
@@ -193,16 +179,12 @@ export const useHouseholds = () => {
         description: 'Household created successfully',
       });
 
-      console.log('useHouseholds: Refreshing households after creation');
       await fetchHouseholds();
+      tracker.complete({ name });
       return true;
     } catch (error) {
-      console.error('Error creating household:', error instanceof Error ? error.message : error);
-      toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to create household',
-        variant: 'destructive',
-      });
+      tracker.fail(error);
+      handleApiError(error, 'Failed to create household', toast);
       return false;
     }
   };
@@ -212,18 +194,18 @@ export const useHouseholds = () => {
     email: string,
     role: 'member' | 'admin' = 'member'
   ) => {
-    try {
-      // Trim and lowercase the email
-      const normalizedEmail = email.trim().toLowerCase();
+    const tracker = trackOperation(HOOK_NAME, 'inviteToHousehold');
 
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(normalizedEmail)) {
+    try {
+      // Validate and normalize email
+      const normalizedEmail = validateEmail(email);
+      if (!normalizedEmail) {
         toast({
           title: 'Error',
           description: 'Please enter a valid email address',
           variant: 'destructive',
         });
+        tracker.fail(new Error('Invalid email address'));
         return false;
       }
 
@@ -234,6 +216,7 @@ export const useHouseholds = () => {
           description: 'You cannot invite yourself to a household',
           variant: 'destructive',
         });
+        tracker.fail(new Error('Self-invitation attempted'));
         return false;
       }
 
@@ -250,19 +233,18 @@ export const useHouseholds = () => {
         description: 'Invitation sent successfully',
       });
 
+      tracker.complete({ householdId, email: normalizedEmail, role });
       return true;
     } catch (error) {
-      console.error('Error inviting to household:', error);
-      toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to send invitation',
-        variant: 'destructive',
-      });
+      tracker.fail(error);
+      handleApiError(error, 'Failed to send invitation', toast);
       return false;
     }
   };
 
   const acceptInvitation = async (invitationId: string) => {
+    const tracker = trackOperation(HOOK_NAME, 'acceptInvitation');
+
     try {
       const { error } = await supabase.rpc('accept_household_invitation', {
         invitation_id: invitationId,
@@ -277,19 +259,18 @@ export const useHouseholds = () => {
 
       // Use Promise.all to prevent race conditions
       await Promise.all([fetchHouseholds(), fetchInvitations()]);
+      tracker.complete({ invitationId });
       return true;
     } catch (error) {
-      console.error('Error accepting invitation:', error instanceof Error ? error.message : error);
-      toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to accept invitation',
-        variant: 'destructive',
-      });
+      tracker.fail(error);
+      handleApiError(error, 'Failed to accept invitation', toast);
       return false;
     }
   };
 
   const declineInvitation = async (invitationId: string) => {
+    const tracker = trackOperation(HOOK_NAME, 'declineInvitation');
+
     try {
       const { error } = await supabase.rpc('decline_household_invitation', {
         invitation_id: invitationId,
@@ -304,19 +285,18 @@ export const useHouseholds = () => {
 
       // Use Promise.all to prevent race conditions
       await Promise.all([fetchHouseholds(), fetchInvitations()]);
+      tracker.complete({ invitationId });
       return true;
     } catch (error) {
-      console.error('Error declining invitation:', error instanceof Error ? error.message : error);
-      toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to decline invitation',
-        variant: 'destructive',
-      });
+      tracker.fail(error);
+      handleApiError(error, 'Failed to decline invitation', toast);
       return false;
     }
   };
 
   const leaveHousehold = async (householdId: string) => {
+    const tracker = trackOperation(HOOK_NAME, 'leaveHousehold');
+
     try {
       const { error } = await supabase.rpc('leave_household', {
         household_id: householdId,
@@ -331,69 +311,78 @@ export const useHouseholds = () => {
 
       // Use Promise.all to prevent race conditions
       await Promise.all([fetchHouseholds(), fetchInvitations()]);
+      tracker.complete({ householdId });
       return true;
     } catch (error) {
-      console.error('Error leaving household:', error);
-      toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to leave household',
-        variant: 'destructive',
-      });
+      tracker.fail(error);
+      handleApiError(error, 'Failed to leave household', toast);
       return false;
     }
   };
 
   const removeMember = async (householdId: string, memberId: string) => {
+    const tracker = trackOperation(HOOK_NAME, 'removeMember');
+
     try {
       // Client-side permission validation
       if (!user) {
+        const error = new Error('You must be logged in to remove members');
         toast({
           title: 'Error',
-          description: 'You must be logged in to remove members',
+          description: error.message,
           variant: 'destructive',
         });
+        tracker.fail(error);
         return false;
       }
 
       // Verify the household exists in local state
       const household = households.find(h => h.id === householdId);
       if (!household) {
+        const error = new Error('Household not found');
         toast({
           title: 'Error',
-          description: 'Household not found',
+          description: error.message,
           variant: 'destructive',
         });
+        tracker.fail(error);
         return false;
       }
 
       // Confirm current user has 'owner' or 'admin' role
       if (household.user_role !== 'owner' && household.user_role !== 'admin') {
+        const error = new Error('You do not have permission to remove members. Only household owners and admins can remove members.');
         toast({
           title: 'Error',
-          description: 'You do not have permission to remove members. Only household owners and admins can remove members.',
+          description: error.message,
           variant: 'destructive',
         });
+        tracker.fail(error);
         return false;
       }
 
       // Find the member being removed
       const memberToRemove = household.household_members.find(m => m.id === memberId);
       if (!memberToRemove) {
+        const error = new Error('Member not found in this household');
         toast({
           title: 'Error',
-          description: 'Member not found in this household',
+          description: error.message,
           variant: 'destructive',
         });
+        tracker.fail(error);
         return false;
       }
 
       // Prevent removing a member with 'owner' role
       if (memberToRemove.role === 'owner') {
+        const error = new Error('Cannot remove the household owner. Transfer ownership first.');
         toast({
           title: 'Error',
-          description: 'Cannot remove the household owner. Transfer ownership first.',
+          description: error.message,
           variant: 'destructive',
         });
+        tracker.fail(error);
         return false;
       }
 
@@ -411,49 +400,54 @@ export const useHouseholds = () => {
         description: 'Member removed successfully',
       });
 
-      fetchHouseholds();
+      await fetchHouseholds();
+      tracker.complete({ householdId, memberId });
       return true;
     } catch (error) {
-      console.error('Error removing member:', error instanceof Error ? error.message : error);
-      toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to remove member',
-        variant: 'destructive',
-      });
+      tracker.fail(error);
+      handleApiError(error, 'Failed to remove member', toast);
       return false;
     }
   };
 
   const deleteHousehold = async (householdId: string) => {
+    const tracker = trackOperation(HOOK_NAME, 'deleteHousehold');
+
     try {
       // Client-side permission validation
       if (!user) {
+        const error = new Error('You must be logged in to delete households');
         toast({
           title: 'Error',
-          description: 'You must be logged in to delete households',
+          description: error.message,
           variant: 'destructive',
         });
+        tracker.fail(error);
         return false;
       }
 
       // Verify the household exists in local state
       const household = households.find(h => h.id === householdId);
       if (!household) {
+        const error = new Error('Household not found');
         toast({
           title: 'Error',
-          description: 'Household not found',
+          description: error.message,
           variant: 'destructive',
         });
+        tracker.fail(error);
         return false;
       }
 
       // Confirm current user has 'owner' role
       if (household.user_role !== 'owner') {
+        const error = new Error('You do not have permission to delete this household. Only the household owner can delete it.');
         toast({
           title: 'Error',
-          description: 'You do not have permission to delete this household. Only the household owner can delete it.',
+          description: error.message,
           variant: 'destructive',
         });
+        tracker.fail(error);
         return false;
       }
 
@@ -470,15 +464,12 @@ export const useHouseholds = () => {
         description: 'Household deleted successfully',
       });
 
-      fetchHouseholds();
+      await fetchHouseholds();
+      tracker.complete({ householdId });
       return true;
     } catch (error) {
-      console.error('Error deleting household:', error instanceof Error ? error.message : error);
-      toast({
-        title: 'Error',
-        description: error instanceof Error ? error.message : 'Failed to delete household',
-        variant: 'destructive',
-      });
+      tracker.fail(error);
+      handleApiError(error, 'Failed to delete household', toast);
       return false;
     }
   };
@@ -486,7 +477,7 @@ export const useHouseholds = () => {
   useEffect(() => {
     fetchHouseholds();
     fetchInvitations();
-  }, [user]);
+  }, [fetchHouseholds, fetchInvitations]);
 
   return {
     households,
