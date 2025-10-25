@@ -5,7 +5,7 @@ import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { OverwateringRisk, computeOverwateringRisk } from '@/utils/overwatering';
-import { utilityToast } from '@/utils/toast-helpers';
+import { utilityToast, wateringToast, plantToast } from '@/utils/toast-helpers';
 import { usePostponementData } from '@/hooks/usePostponementData';
 import { useOverwateringAnalysis } from '@/hooks/useOverwateringAnalysis';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
@@ -258,10 +258,9 @@ export const useUserPlants = () => {
   }
   }
 
-  toast({
-  title: 'Success',
-  description: 'Plant added successfully',
-  });
+  // Get the plant data we just created to show the name in toast
+  const addedPlant = plantResult;
+  plantToast.added(plantData.nickname);
 
   await fetchPlants();
   tracker.complete({ plantId: plantResult.id });
@@ -305,10 +304,11 @@ export const useUserPlants = () => {
 
   if (error) throw error;
 
-  toast({
-  title: 'Success',
-  description: 'Plant watered successfully',
-  });
+  // Get plant name for toast notification
+  const plant = plants.find(p => p.id === plantId);
+  const plantName = plant?.nickname || 'Plant';
+
+  wateringToast.recorded(plantName);
 
   // Check overwatering risk for this plant and notify if needed
   await checkOverwatering(plantId);
@@ -341,10 +341,7 @@ export const useUserPlants = () => {
 
   // If there's already a future postponement, don't create another one
   if (existingPostponements && existingPostponements.length > 0) {
-  toast({
-   title: 'Already Postponed',
-   description: 'This plant\'s watering is already postponed',
-  });
+  utilityToast.info('Already Postponed', 'This plant\'s watering is already postponed');
   tracker.complete({ plantId, alreadyPostponed: true });
   return true;
   }
@@ -364,10 +361,11 @@ export const useUserPlants = () => {
 
   if (error) throw error;
 
-  toast({
-  title: 'Watering Postponed',
-  description: 'Plant watering pushed to tomorrow',
-  });
+  // Get plant name for toast
+  const plant = plants.find(p => p.id === plantId);
+  const plantName = plant?.nickname || 'Plant';
+
+  utilityToast.info('Watering Postponed', `${plantName} watering pushed to tomorrow`);
 
   await fetchPlants();
   tracker.complete({ plantId });
@@ -474,10 +472,11 @@ export const useUserPlants = () => {
 
    if (error) throw error;
 
-   toast({
-    title: 'Success',
-    description: 'Plant deleted successfully',
-   });
+   // Get plant name before it's deleted
+   const plant = plants.find(p => p.id === plantId);
+   const plantName = plant?.nickname || 'Plant';
+
+   plantToast.deleted(plantName);
 
    await fetchPlants();
    tracker.complete({ plantId });

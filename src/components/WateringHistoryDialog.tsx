@@ -16,7 +16,7 @@ import {
   Clock,
 } from "lucide-react";
 import { computeOverwateringRisk } from "@/utils/overwatering";
-import { useToast } from "@/hooks/use-toast";
+import { wateringToast } from "@/utils/toast-helpers";
 import { format, isFuture } from "date-fns";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { PatternAnalysisSection } from "@/components/watering-patterns";
@@ -44,7 +44,6 @@ const WateringHistoryDialog = memo(
     onScheduleAdjustment,
     onPlantDataChange,
   }: WateringHistoryDialogProps) => {
-    const { toast } = useToast();
 
     // Use the shared watering records hook for better state management
     const {
@@ -132,23 +131,15 @@ const WateringHistoryDialog = memo(
             plant.id,
             insight.suggestion.suggestedSchedule
           );
-          toast({
-            title: "Schedule Updated",
-            description: `${plant.nickname}'s watering schedule updated to every ${insight.suggestion.suggestedSchedule} days`,
-            variant: "default",
-          });
+          wateringToast.scheduled(plant.nickname);
           // Refresh analysis after schedule change (also clears dismissals)
           setTimeout(() => handleRefreshAnalysis(), 1000);
         } catch (error) {
           console.error("Error updating schedule:", error);
-          toast({
-            title: "Update Failed",
-            description: "Failed to update watering schedule",
-            variant: "destructive",
-          });
+          wateringToast.error("schedule update");
         }
       },
-      [plant, onScheduleAdjustment, toast, handleRefreshAnalysis]
+      [plant, onScheduleAdjustment, handleRefreshAnalysis]
     );
 
     const formatDate = (dateString: string) => {

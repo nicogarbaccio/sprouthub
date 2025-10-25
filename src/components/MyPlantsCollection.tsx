@@ -25,11 +25,10 @@ import {
   isPlantOverdue,
 } from "@/utils/watering-schedule";
 import { updatePlantWateringSchedule } from "@/utils/plant-schedule-updater";
-import { useToast } from "@/hooks/use-toast";
+import { utilityToast } from "@/utils/toast-helpers";
 
 const MyPlantsCollection = () => {
   const { user } = useAuth();
-  const { toast } = useToast();
   const {
     plants,
     loading,
@@ -177,12 +176,11 @@ const MyPlantsCollection = () => {
       const result = await updatePlantWateringSchedule(plantId, newSchedule);
       
       if (result.success) {
-        toast({
-          title: "Schedule Updated",
-          description: `Watering schedule updated from ${result.previousSchedule} to ${result.newSchedule} days`,
-          variant: "default",
-        });
-        
+        utilityToast.info(
+          "Schedule Updated",
+          `Watering schedule updated from ${result.previousSchedule} to ${result.newSchedule} days`
+        );
+
         // Refresh plants data to show updated schedule
         await fetchPlants();
       } else {
@@ -190,11 +188,10 @@ const MyPlantsCollection = () => {
       }
     } catch (error) {
       console.error('Error updating plant schedule:', error);
-      toast({
-        title: "Update Failed",
-        description: error instanceof Error ? error.message : "Failed to update watering schedule",
-        variant: "destructive",
-      });
+      utilityToast.error(
+        "Update Failed",
+        error instanceof Error ? error.message : "Failed to update watering schedule"
+      );
     }
   };
 

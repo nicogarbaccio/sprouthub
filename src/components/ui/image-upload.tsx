@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Upload, X, Loader2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { imageToast } from "@/utils/toast-helpers";
 import { supabase } from "@/integrations/supabase/client";
 
 interface ImageUploadProps {
@@ -23,7 +23,6 @@ const ImageUpload = ({
 }: ImageUploadProps) => {
  const [isUploading, setIsUploading] = useState(false);
  const fileInputRef = useRef<HTMLInputElement>(null);
- const { toast } = useToast();
 
  const uploadToCloudinary = async (file: File) => {
  const formData = new FormData();
@@ -54,21 +53,13 @@ const ImageUpload = ({
 
  // Validate file type
  if (!file.type.startsWith("image/")) {
-  toast({
-  title: "Invalid file type",
-  description: "Please select an image file",
-  variant: "destructive",
-  });
+  imageToast.invalidType();
   return;
  }
 
  // Validate file size (5MB limit)
  if (file.size > 5 * 1024 * 1024) {
-  toast({
-  title: "File too large",
-  description: "Please select an image smaller than 5MB",
-  variant: "destructive",
-  });
+  imageToast.tooLarge();
   return;
  }
 
@@ -76,16 +67,9 @@ const ImageUpload = ({
  try {
   const imageUrl = await uploadToCloudinary(file);
   onChange(imageUrl);
-  toast({
-  title: "Upload successful",
-  description: "Image uploaded successfully",
-  });
+  imageToast.uploaded();
  } catch (error) {
-  toast({
-  title: "Upload failed",
-  description: "Failed to upload image. Please try again.",
-  variant: "destructive",
-  });
+  imageToast.uploadError();
  } finally {
   setIsUploading(false);
   // Reset file input

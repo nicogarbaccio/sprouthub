@@ -491,7 +491,7 @@ const MyPlantCard = ({
                   hasPendingSuggestions && !isOverwateringActive
                     ? "opacity-100"
                     : "opacity-0 pointer-events-none"
-                } ${badgeInfo.shouldPulse ? "animate-pulse" : ""}`}
+                }`}
                 aria-label={badgeInfo.ariaLabel}
                 role="status"
               >
