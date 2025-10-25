@@ -70,6 +70,7 @@ sprouthub is a comprehensive plant care tracker that helps you manage your indoo
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
 - **[shadcn/ui](https://ui.shadcn.com/)** - High-quality, accessible component library
 - **[Radix UI](https://www.radix-ui.com/)** - Unstyled, accessible UI primitives
+- **[Sonner](https://sonner.emilkowal.ski/)** - Beautiful, customizable toast notifications
 - **[React Router v6](https://reactrouter.com/)** - Client-side routing
 - **[React Hook Form](https://react-hook-form.com/)** - Performant forms with validation
 - **[Zod](https://zod.dev/)** - Schema validation and type inference
@@ -292,7 +293,7 @@ npm run test:e2e:report
 - ✅ **Weather Integration** (24 tests) - Weather data mapping and rain delay logic
 - ✅ **Authentication Validation** (46 tests) - Form validation and security
 - ✅ **Room Management** (32 tests) - Plant organization utilities
-- ✅ **Toast Notifications** (39 tests) - User feedback system
+- ✅ **Toast Notifications** (39 tests) - Sonner toast notification system
 
 #### **End-to-End Tests** - Playwright automation
 - ✅ **Authentication Flow** - Complete sign in/up flows with validation
