@@ -11,11 +11,13 @@ import {
 } from "lucide-react";
 import type { OverwateringRisk } from "@/utils/overwatering";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
+import { cn } from "@/lib/utils";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
 import PostponeConfirmationDialog from "@/components/PostponeConfirmationDialog";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import { PatternSuggestionsDialog } from "@/components/watering-patterns";
+import PatternTipsModal from "@/components/watering-patterns/PatternTipsModal";
 import {
   useQuickPatternAnalysis,
   useWateringPatternAnalysis,
@@ -88,6 +90,7 @@ const MyPlantCard = ({
     useState(false);
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
   const [showPatternSuggestions, setShowPatternSuggestions] = useState(false);
+  const [showPendingTips, setShowPendingTips] = useState(false);
   const [patternAnalysis, setPatternAnalysis] = useState(null);
   const [patternInsights, setPatternInsights] = useState([]);
 
@@ -253,7 +256,6 @@ const MyPlantCard = ({
       classNames,
       severity: highestSeverity,
       count,
-      shouldPulse: highPriorityCount > 0, // Add subtle animation for urgent suggestions
     };
   };
 
@@ -492,13 +494,30 @@ const MyPlantCard = ({
                     ? "opacity-100"
                     : "opacity-0 pointer-events-none"
                 }`}
-                aria-label={badgeInfo.ariaLabel}
-                role="status"
               >
-                <span className={badgeInfo.classNames}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowPendingTips(true);
+                  }}
+                  className={cn(
+                    badgeInfo.classNames,
+                    "hover:scale-105 hover:shadow-md active:scale-95 transition-all duration-150 cursor-pointer"
+                  )}
+                  aria-label={badgeInfo.ariaLabel}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setShowPendingTips(true);
+                    }
+                  }}
+                >
                   <Lightbulb className="w-3 h-3 inline mr-1" />
                   {badgeInfo.message}
-                </span>
+                </button>
               </div>
             );
           })()}
@@ -685,6 +704,17 @@ const MyPlantCard = ({
         plantName={name}
         onAcceptSuggestion={handlePatternScheduleAdjustment}
         onDismissAll={() => setShowPatternSuggestions(false)}
+      />
+
+      <PatternTipsModal
+        isOpen={showPendingTips}
+        onClose={() => setShowPendingTips(false)}
+        analysis={null}
+        insights={pendingInsights}
+        plantName={name}
+        onAcceptSuggestion={handlePatternScheduleAdjustment}
+        onDismissAll={() => setShowPendingTips(false)}
+        showPatternSummary={false}
       />
 
       <PostponeConfirmationDialog
