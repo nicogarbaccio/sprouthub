@@ -14,12 +14,48 @@ import { test, expect, testUsers, householdTestData } from '../../fixtures/test-
  */
 
 test.describe('Household Permissions', () => {
-  test.beforeEach(async ({ page, authPage }) => {
+  // Track household count before each test
+  let householdsBeforeTest = 0;
+
+  test.beforeEach(async ({ page, authPage, householdPage }) => {
     // Sign in as the primary test user
     await page.goto('/auth');
     await authPage.fillSignInForm(testUsers.validUser.email, testUsers.validUser.password);
     await authPage.submitSignIn();
     await page.waitForURL('**/');
+
+    // Record household count before test starts
+    await householdPage.goto();
+    householdsBeforeTest = await householdPage.getHouseholdCount();
+  });
+
+  test.afterEach(async ({ householdPage }) => {
+    // Clean up any households created during the test
+    try {
+      await householdPage.goto();
+      const householdsAfterTest = await householdPage.getHouseholdCount();
+
+      if (householdsAfterTest > householdsBeforeTest) {
+        console.log(`🧹 Cleaning up ${householdsAfterTest - householdsBeforeTest} test household(s)...`);
+
+        // Delete households created during this test (from the end)
+        for (let i = householdsAfterTest - 1; i >= householdsBeforeTest; i--) {
+          try {
+            await householdPage.deleteHousehold(i);
+            const hasConfirmDialog = await householdPage.page.locator('[role="dialog"]').isVisible({ timeout: 1000 }).catch(() => false);
+            if (hasConfirmDialog) {
+              await householdPage.confirmDeleteHousehold();
+              await householdPage.page.waitForTimeout(500); // Wait for deletion to complete
+            }
+          } catch (error) {
+            console.log(`⚠️ Failed to clean up household at index ${i}:`, error);
+            // Continue with other cleanups - global teardown will catch remaining households
+          }
+        }
+      }
+    } catch (error) {
+      console.log('⚠️ Cleanup failed, will be handled by global teardown:', error);
+    }
   });
 
   test.describe('Remove Member Permissions', () => {

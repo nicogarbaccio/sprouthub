@@ -11,7 +11,9 @@
     "test": "playwright test",
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
-    "test:report": "playwright show-report"
+    "test:report": "playwright show-report",
+    "cleanup:households": "tsx scripts/cleanup-test-households.ts",
+    "cleanup:households:dry-run": "tsx scripts/cleanup-test-households.ts --dry-run"
   },
   "dependencies": {
     "@capacitor/camera": "^7.0.2",
