@@ -43,6 +43,7 @@ import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences
 import { useLocation } from "@/hooks/useLocation";
 import { useWeatherData } from "@/hooks/useWeatherData";
 import { mapWeatherToFactors } from "@/utils/weatherMapping";
+import { calculateWeatherScheduleAdjustments, applyWeatherAdjustments } from "@/utils/weatherScheduleAdjustments";
 import { WeatherIndicator } from "@/components/WeatherIndicator";
 import { LocationPermissionDialog } from "@/components/LocationPermissionDialog";
 import type { LocationData } from "@/services/weatherTypes";
@@ -217,11 +218,38 @@ export const SmartWateringWizard = ({
         factors.careStyle &&
         factors.soilType
       ) {
-        const calculatedResult = calculateSmartWateringSchedule(
+        const baseResult = calculateSmartWateringSchedule(
           baseDays,
           factors as WateringFactors
         );
-        setResult(calculatedResult);
+
+        // Apply additional weather-based adjustments if weather data is available
+        let finalResult = baseResult;
+        if (enableWeatherData && weather.weatherData) {
+          const weatherAdjustments = calculateWeatherScheduleAdjustments(
+            weather.weatherData,
+            baseResult.recommendedDays
+          );
+
+          if (weatherAdjustments.adjustmentDays !== 0) {
+            const adjustedDays = applyWeatherAdjustments(
+              baseResult.recommendedDays,
+              weather.weatherData
+            );
+
+            finalResult = {
+              ...baseResult,
+              recommendedDays: adjustedDays,
+              totalAdjustment: baseResult.totalAdjustment + weatherAdjustments.adjustmentDays,
+              adjustmentReasons: [
+                ...baseResult.adjustmentReasons,
+                ...weatherAdjustments.reasons,
+              ],
+            };
+          }
+        }
+
+        setResult(finalResult);
       }
     }
     setCurrentStep((prev) => Math.min(4, prev + 1));
