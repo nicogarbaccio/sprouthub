@@ -47,6 +47,9 @@ export const useSmartWateringPreferences = () => {
    default_care_style: data.default_care_style as 'frequent' | 'balanced' | 'minimal',
    default_soil_type: data.default_soil_type as 'regular' | 'draining' | 'retaining',
    location: data.location,
+   use_weather_data: data.use_weather_data,
+   manual_location: data.manual_location,
+   last_weather_update: data.last_weather_update,
    created_at: data.created_at,
    updated_at: data.updated_at,
   };
@@ -79,6 +82,9 @@ export const useSmartWateringPreferences = () => {
   default_care_style: newPreferences.default_care_style,
   default_soil_type: newPreferences.default_soil_type,
   location: newPreferences.location || null,
+  use_weather_data: newPreferences.use_weather_data ?? null,
+  manual_location: newPreferences.manual_location || null,
+  last_weather_update: newPreferences.last_weather_update || null,
   updated_at: new Date().toISOString(),
   };
 
@@ -103,6 +109,9 @@ export const useSmartWateringPreferences = () => {
    default_care_style: data.default_care_style as 'frequent' | 'balanced' | 'minimal',
    default_soil_type: data.default_soil_type as 'regular' | 'draining' | 'retaining',
    location: data.location,
+   use_weather_data: data.use_weather_data,
+   manual_location: data.manual_location,
+   last_weather_update: data.last_weather_update,
    created_at: data.created_at,
    updated_at: data.updated_at,
   };
@@ -130,6 +139,9 @@ export const useSmartWateringPreferences = () => {
    default_care_style: data.default_care_style as 'frequent' | 'balanced' | 'minimal',
    default_soil_type: data.default_soil_type as 'regular' | 'draining' | 'retaining',
    location: data.location,
+   use_weather_data: data.use_weather_data,
+   manual_location: data.manual_location,
+   last_weather_update: data.last_weather_update,
    created_at: data.created_at,
    updated_at: data.updated_at,
   };
