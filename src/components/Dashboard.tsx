@@ -53,6 +53,9 @@ import { useProfile } from "@/hooks/useProfile";
 import { useSeasonalDetection } from "@/hooks/useSeasonalDetection";
 import { useSeasonalSuggestions } from "@/hooks/useSeasonalSuggestions";
 import { useWeatherData } from "@/hooks/useWeatherData";
+import { useLocation } from "@/hooks/useLocation";
+import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
+import { WeatherIndicator } from "@/components/WeatherIndicator";
 import AddPlantDialog from "./AddPlantDialog";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "./WaterConfirmationDialog";
@@ -75,7 +78,14 @@ import type { PatternInsight } from "@/types/wateringPatternTypes";
 const Dashboard = () => {
   const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule } = useUserPlants();
   const { profileData, isLoadingProfile } = useProfile();
-  const { weatherData } = useWeatherData();
+  const { preferences } = useSmartWateringPreferences();
+  const location = useLocation({
+    autoRequest: false, // Don't auto-request, only fetch if user has weather enabled
+  });
+  const weather = useWeatherData({
+    location: location.location,
+    autoFetch: !!preferences?.use_weather_data && !!location.location,
+  });
   const navigate = useNavigate();
 
   // Dialog states using useDialogState hook
@@ -122,7 +132,7 @@ const Dashboard = () => {
     hasUnappliedSuggestions,
   } = useSeasonalSuggestions({
     newSeason: pendingTransition?.to_season || null,
-    weatherConditions: weatherData,
+    weatherConditions: weather.weatherData,
     enabled: shouldShowReview && !!pendingTransition,
   });
 
@@ -152,6 +162,13 @@ const Dashboard = () => {
       plant => !dismissedSuggestions.has(plant.plantId)
     );
   }, [plantsWithSuggestions, dismissedSuggestions, isDismissedSuggestionsLoaded]);
+
+  // Request location if user has weather enabled and we don't have location yet
+  useEffect(() => {
+    if (preferences?.use_weather_data && !location.location && !location.isLoading) {
+      location.requestLocation();
+    }
+  }, [preferences?.use_weather_data, location]);
 
   // All hooks must be called before any conditional logic or early returns
   const isLoading = loading || isLoadingProfile;
@@ -615,6 +632,23 @@ const Dashboard = () => {
           overduePlants={overduePlants}
           recentlyAddedCount={recentlyAddedCount}
         />
+
+        {/* Weather Indicator - Only show if user has weather enabled */}
+        {preferences?.use_weather_data && (
+          <CascadingContainer delay={250}>
+            <div className="mb-6">
+              <WeatherIndicator
+                weatherData={weather.weatherData}
+                isLoading={weather.isLoading || location.isLoading}
+                isFallback={weather.isFallback}
+                error={weather.error?.message || location.error?.message}
+                onRefresh={() => {
+                  weather.refreshWeather();
+                }}
+              />
+            </div>
+          </CascadingContainer>
+        )}
 
         <CascadingContainer delay={300}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
