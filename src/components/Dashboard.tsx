@@ -12,6 +12,7 @@ import {
   CheckCircle2,
   Target,
   Activity,
+  CloudRain,
 } from "lucide-react";
 import { calculateWateringSchedule } from "@/utils/watering-schedule";
 import { hookLogger } from "@/utils/hookLogging";
@@ -56,6 +57,8 @@ import { useWeatherData } from "@/hooks/useWeatherData";
 import { useLocation } from "@/hooks/useLocation";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
 import { WeatherIndicator } from "@/components/WeatherIndicator";
+import { RainDelayNotification } from "@/components/RainDelayNotification";
+import { calculateRainDelay } from "@/utils/rainDelayLogic";
 import AddPlantDialog from "./AddPlantDialog";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "./WaterConfirmationDialog";
@@ -244,6 +247,26 @@ const Dashboard = () => {
 
       return 0; // Equal priority
     });
+
+  // Check for outdoor plants that should be rain-delayed
+  const outdoorPlantsWithRainDelay = useMemo(() => {
+    if (!weather.weatherData || !preferences?.use_weather_data) {
+      return [];
+    }
+
+    return plantsNeedingWater
+      .filter(plant => plant.is_outdoor_plant)
+      .map(plant => {
+        const rainDelay = calculateRainDelay(weather.weatherData, {
+          isOutdoorPlant: true,
+        });
+        return {
+          plant,
+          rainDelay,
+        };
+      })
+      .filter(item => item.rainDelay.shouldDelay);
+  }, [plantsNeedingWater, weather.weatherData, preferences?.use_weather_data]);
 
   // Get recent activities (recently watered plants)
   const recentlyWateredPlants = plants
@@ -646,6 +669,52 @@ const Dashboard = () => {
                   weather.refreshWeather();
                 }}
               />
+            </div>
+          </CascadingContainer>
+        )}
+
+        {/* Rain Delay Notification - Show when outdoor plants can skip watering */}
+        {outdoorPlantsWithRainDelay.length > 0 && weather.weatherData && (
+          <CascadingContainer delay={275}>
+            <div className="mb-6">
+              <Card className="border-blue-400 bg-blue-400/5">
+                <CardContent className="p-4">
+                  <div className="flex items-start gap-3">
+                    <CloudRain className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1 space-y-2">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h4 className="font-medium text-sprout-white">Rain Expected - Watering Can Wait</h4>
+                        <Badge variant="secondary" className="text-xs">
+                          {weather.weatherData.upcoming_rain_probability}% chance
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-sprout-light">
+                        {outdoorPlantsWithRainDelay.length} outdoor plant{outdoorPlantsWithRainDelay.length !== 1 ? 's' : ''} can skip watering due to expected rain:
+                      </p>
+                      <ul className="text-sm text-sprout-light space-y-1 ml-4">
+                        {outdoorPlantsWithRainDelay.slice(0, 3).map(item => (
+                          <li key={item.plant.id} className="list-disc">
+                            {item.plant.nickname || item.plant.plant_type}
+                          </li>
+                        ))}
+                        {outdoorPlantsWithRainDelay.length > 3 && (
+                          <li className="list-none text-xs">
+                            +{outdoorPlantsWithRainDelay.length - 3} more
+                          </li>
+                        )}
+                      </ul>
+                      {outdoorPlantsWithRainDelay[0]?.rainDelay.nextCheckDate && (
+                        <div className="flex items-center gap-2 text-xs text-sprout-light">
+                          <Calendar className="w-3 h-3" />
+                          <span>
+                            Check again on {outdoorPlantsWithRainDelay[0].rainDelay.nextCheckDate.toLocaleDateString()}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </CascadingContainer>
         )}
