@@ -12,6 +12,7 @@ import {
  Moon,
  Sun,
  Users,
+ CloudSun,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -36,12 +37,15 @@ import { ThemeToggle, SimpleThemeToggle } from "@/components/ui/theme-toggle";
 import { useTheme } from "@/contexts/ThemeContext";
 import { authToast } from "@/utils/toast-helpers";
 import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
+import { WeatherSettingsDialog } from "@/components/WeatherSettingsDialog";
+import { useDialogState } from "@/hooks/useDialogState";
 
 const Navigation = () => {
  const { user, signOut } = useAuth();
  const { profileData } = useProfileData();
  const { actualTheme, setTheme } = useTheme();
  const navigate = useNavigate();
+ const weatherSettingsDialog = useDialogState();
 
  const handleSignIn = () => {
  console.log("Navigation: Sign in button clicked, current user:", user);
@@ -79,9 +83,10 @@ const Navigation = () => {
  };
 
  return (
- <nav className="bg-background dark:bg-sprout-dark shadow-sm border-b border-sprout-cream/30 dark:border-sprout-cream/20 transition-colors backdrop-blur-sm" data-testid="navigation">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <div className="flex justify-between items-center h-16">
+  <React.Fragment>
+   <nav className="bg-background dark:bg-sprout-dark shadow-sm border-b border-sprout-cream/30 dark:border-sprout-cream/20 transition-colors backdrop-blur-sm" data-testid="navigation">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div className="flex justify-between items-center h-16">
    <Link to="/" className="flex items-center gap-3 group" data-testid="logo">
    <ThemeAwareLogo className="h-8 w-auto" />
    <span className="text-2xl font-bold text-sprout-primary dark:text-sprout-cream transition-colors duration-200">
@@ -175,6 +180,13 @@ const Navigation = () => {
      >
      <Users className="w-4 h-4 mr-2" />
      Households
+     </DropdownMenuItem>
+     <DropdownMenuItem
+     onClick={() => weatherSettingsDialog.open()}
+     className="cursor-pointer"
+     >
+     <CloudSun className="w-4 h-4 mr-2" />
+     Weather Settings
      </DropdownMenuItem>
      <DropdownMenuSeparator />
      <DropdownMenuItem
@@ -293,6 +305,14 @@ const Navigation = () => {
       </SheetClose>
       <Button
        variant="ghost"
+       onClick={() => weatherSettingsDialog.open()}
+       className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
+      >
+       <CloudSun className="w-4 h-4 mr-2" />
+       <span>Weather Settings</span>
+      </Button>
+      <Button
+       variant="ghost"
        onClick={() =>
        setTheme(actualTheme === "dark" ? "light" : "dark")
        }
@@ -345,10 +365,16 @@ const Navigation = () => {
     </div>
     </SheetContent>
    </Sheet>
-   </div>
-  </div>
-  </div>
- </nav>
+      </div>
+     </div>
+    </div>
+   </nav>
+   {/* Weather Settings Dialog */}
+   <WeatherSettingsDialog
+    isOpen={weatherSettingsDialog.isOpen}
+    onClose={() => weatherSettingsDialog.close()}
+   />
+  </React.Fragment>
  );
 };
 

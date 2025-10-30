@@ -4,6 +4,7 @@ import weatherService from '@/services/weatherService';
 import { createFallbackWeatherData } from '@/utils/weatherMapping';
 import { WateringFactors } from '@/utils/smartWateringSchedule';
 import { hookLogger } from '@/utils/hookLogging';
+import { ONE_HOUR_MS } from '@/constants/weather';
 
 const HOOK_NAME = 'useWeatherData';
 
@@ -26,7 +27,7 @@ export function useWeatherData(options: UseWeatherDataOptions = {}) {
     location,
     fallbackSeason,
     autoFetch = true,
-    cacheTimeout = 60 * 60 * 1000, // 1 hour
+    cacheTimeout = ONE_HOUR_MS,
     useCache = true,
   } = options;
 
@@ -109,30 +110,6 @@ export function useWeatherData(options: UseWeatherDataOptions = {}) {
     return fetchWeather(location);
   }, [fetchWeather, location]);
 
-  // Clear weather data
-  const clearWeather = useCallback(() => {
-    setState({
-      weatherData: null,
-      isLoading: false,
-      error: null,
-      isFallback: false,
-      lastUpdated: null,
-    });
-  }, []);
-
-  // Get fallback weather data without API call
-  const getFallbackWeather = useCallback(() => {
-    const fallbackData = createFallbackWeatherData(fallbackSeason);
-    setState({
-      weatherData: fallbackData,
-      isLoading: false,
-      error: null,
-      isFallback: true,
-      lastUpdated: new Date(),
-    });
-    return fallbackData;
-  }, [fallbackSeason]);
-
   // Auto-fetch weather when location changes
   useEffect(() => {
     if (autoFetch && location) {
@@ -149,8 +126,6 @@ export function useWeatherData(options: UseWeatherDataOptions = {}) {
     ...state,
     fetchWeather,
     refreshWeather,
-    clearWeather,
-    getFallbackWeather,
     isStale,
     isConfigured: weatherService.isConfigured(),
   };

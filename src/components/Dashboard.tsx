@@ -56,7 +56,8 @@ import { useSeasonalSuggestions } from "@/hooks/useSeasonalSuggestions";
 import { useWeatherData } from "@/hooks/useWeatherData";
 import { useLocation } from "@/hooks/useLocation";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
-import { WeatherIndicator } from "@/components/WeatherIndicator";
+import { useCalendarSeasonalNotification } from "@/hooks/useCalendarSeasonalNotification";
+import { WeatherMoodBanner } from "@/components/WeatherMoodBanner";
 import { RainDelayNotification } from "@/components/RainDelayNotification";
 import { calculateRainDelay } from "@/utils/rainDelayLogic";
 import AddPlantDialog from "./AddPlantDialog";
@@ -65,8 +66,11 @@ import WaterConfirmationDialog from "./WaterConfirmationDialog";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import { SeasonalReviewBanner } from "./SeasonalReviewBanner";
 import { SeasonalReviewDialog } from "./SeasonalReviewDialog";
+import { CalendarSeasonalBanner } from "./CalendarSeasonalBanner";
+import { CalendarSeasonalDialog } from "./CalendarSeasonalDialog";
 import { SmartSuggestionsBanner } from "./SmartSuggestionsBanner";
 import { SmartSuggestionsDialog } from "./SmartSuggestionsDialog";
+import { EnableWeatherPrompt } from "./EnableWeatherPrompt";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import { useBulkPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import {
@@ -95,6 +99,7 @@ const Dashboard = () => {
   const addDialog = useDialogState();
   const bulkWaterDialog = useDialogState();
   const seasonalReviewDialog = useDialogState();
+  const calendarSeasonalDialog = useDialogState();
   const smartSuggestionsDialog = useDialogState();
 
   const [dismissedSuggestions, setDismissedSuggestions] = useState<Set<string>>(new Set());
@@ -122,7 +127,7 @@ const Dashboard = () => {
     plantName: "",
   });
 
-  // Seasonal detection and suggestions
+  // Weather-based seasonal detection and suggestions (requires weather data enabled)
   const { pendingTransition, shouldShowReview, dismissReview, snoozeReview } =
     useSeasonalDetection();
 
@@ -138,6 +143,21 @@ const Dashboard = () => {
     weatherConditions: weather.weatherData,
     enabled: shouldShowReview && !!pendingTransition,
   });
+
+  // Calendar-based seasonal notifications (works without weather data)
+  const {
+    upcomingChange: calendarSeasonChange,
+    shouldShowNotification: shouldShowCalendarNotification,
+    plantSuggestions: calendarPlantSuggestions,
+    isLoading: isCalendarSuggestionsLoading,
+    dismissNotification: dismissCalendarNotification,
+    snoozeNotification: snoozeCalendarNotification,
+    applyAllSuggestions: applyAllCalendarSuggestions,
+    applySuggestion: applyCalendarSuggestion,
+  } = useCalendarSeasonalNotification(location.location?.latitude || 0);
+
+  // Track which plants have been applied in calendar suggestions
+  const [appliedCalendarPlants, setAppliedCalendarPlants] = useState<Set<string>>(new Set());
 
   // Smart suggestions analysis - stabilize plantIds to prevent infinite re-renders
   const plantIds = useMemo(() => plants.map(plant => plant.id), [plants]);
@@ -606,7 +626,23 @@ const Dashboard = () => {
         {/* Welcome Header */}
         <WelcomeHeader greeting={greeting} />
 
-        {/* Seasonal Review Banner */}
+        {/* Weather Mood Banner - Fun animated weather status (top priority) */}
+        {preferences?.use_weather_data && weather.weatherData && !weather.isLoading && (
+          <CascadingContainer delay={50}>
+            <div className="mb-6">
+              <WeatherMoodBanner
+                weatherData={weather.weatherData}
+                temperatureUnit={preferences?.temperature_unit || 'F'}
+                lastUpdated={weather.lastUpdated}
+                onRefresh={() => weather.refreshWeather()}
+                isRefreshing={weather.isLoading}
+                isFallback={weather.isFallback}
+              />
+            </div>
+          </CascadingContainer>
+        )}
+
+        {/* Weather-based Seasonal Review Banner (requires weather enabled) */}
         {shouldShowReview && pendingTransition && (
           <CascadingContainer delay={50}>
             <SeasonalReviewBanner
@@ -615,6 +651,19 @@ const Dashboard = () => {
               onReviewClick={() => seasonalReviewDialog.open()}
               onDismiss={dismissReview}
               onSnooze={snoozeReview}
+            />
+          </CascadingContainer>
+        )}
+
+        {/* Calendar-based Seasonal Notification (works without weather) */}
+        {shouldShowCalendarNotification && calendarSeasonChange && !shouldShowReview && (
+          <CascadingContainer delay={50}>
+            <CalendarSeasonalBanner
+              upcomingChange={calendarSeasonChange}
+              plantCount={calendarPlantSuggestions.length}
+              onReviewClick={() => calendarSeasonalDialog.open()}
+              onDismiss={dismissCalendarNotification}
+              onSnooze={snoozeCalendarNotification}
             />
           </CascadingContainer>
         )}
@@ -656,20 +705,10 @@ const Dashboard = () => {
           recentlyAddedCount={recentlyAddedCount}
         />
 
-        {/* Weather Indicator - Only show if user has weather enabled */}
-        {preferences?.use_weather_data && (
-          <CascadingContainer delay={250}>
-            <div className="mb-6">
-              <WeatherIndicator
-                weatherData={weather.weatherData}
-                isLoading={weather.isLoading || location.isLoading}
-                isFallback={weather.isFallback}
-                error={weather.error?.message || location.error?.message}
-                onRefresh={() => {
-                  weather.refreshWeather();
-                }}
-              />
-            </div>
+        {/* Enable Weather Prompt - Show when weather is disabled */}
+        {!preferences?.use_weather_data && (
+          <CascadingContainer delay={200}>
+            <EnableWeatherPrompt />
           </CascadingContainer>
         )}
 
@@ -1161,7 +1200,7 @@ const Dashboard = () => {
           plantName={fullscreenImage.plantName}
         />
 
-        {/* Seasonal Review Dialog */}
+        {/* Weather-based Seasonal Review Dialog */}
         {pendingTransition && (
           <SeasonalReviewDialog
             isOpen={seasonalReviewDialog.isOpen}
@@ -1179,6 +1218,27 @@ const Dashboard = () => {
                   .map((s) => s.plant_id)
               )
             }
+          />
+        )}
+
+        {/* Calendar-based Seasonal Dialog */}
+        {calendarSeasonChange && (
+          <CalendarSeasonalDialog
+            isOpen={calendarSeasonalDialog.isOpen}
+            onClose={() => calendarSeasonalDialog.close()}
+            season={calendarSeasonChange.nextSeason}
+            changeDate={calendarSeasonChange.changeDate}
+            suggestions={calendarPlantSuggestions}
+            isLoading={isCalendarSuggestionsLoading}
+            onApplySuggestion={async (plantId, days) => {
+              await applyCalendarSuggestion(plantId, days);
+              setAppliedCalendarPlants(prev => new Set([...prev, plantId]));
+            }}
+            onApplyAll={async () => {
+              await applyAllCalendarSuggestions();
+              calendarSeasonalDialog.close();
+            }}
+            appliedPlants={appliedCalendarPlants}
           />
         )}
 

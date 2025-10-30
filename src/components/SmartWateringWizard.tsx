@@ -409,6 +409,7 @@ export const SmartWateringWizard = ({
                   isLoading={weather.isLoading}
                   isFallback={weather.isFallback}
                   error={weather.error?.message}
+                  temperatureUnit={preferences?.temperature_unit || 'F'}
                   onRefresh={weather.refreshWeather}
                   compact
                 />

@@ -12,6 +12,7 @@ export interface UserWateringPreferences {
  use_weather_data?: boolean;
  manual_location?: string;
  last_weather_update?: string;
+ temperature_unit?: 'F' | 'C';
  created_at?: string;
  updated_at?: string;
 }

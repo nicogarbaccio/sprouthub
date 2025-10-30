@@ -50,6 +50,7 @@ export const useSmartWateringPreferences = () => {
    use_weather_data: data.use_weather_data,
    manual_location: data.manual_location,
    last_weather_update: data.last_weather_update,
+   temperature_unit: data.temperature_unit as 'F' | 'C',
    created_at: data.created_at,
    updated_at: data.updated_at,
   };
@@ -76,15 +77,16 @@ export const useSmartWateringPreferences = () => {
  try {
   const preferenceData = {
   user_id: user.id,
-  default_light_level: newPreferences.default_light_level,
-  default_temperature: newPreferences.default_temperature,
-  default_humidity: newPreferences.default_humidity,
-  default_care_style: newPreferences.default_care_style,
-  default_soil_type: newPreferences.default_soil_type,
+  default_light_level: newPreferences.default_light_level || preferences?.default_light_level || 'medium',
+  default_temperature: newPreferences.default_temperature || preferences?.default_temperature || 'normal',
+  default_humidity: newPreferences.default_humidity || preferences?.default_humidity || 'normal',
+  default_care_style: newPreferences.default_care_style || preferences?.default_care_style || 'balanced',
+  default_soil_type: newPreferences.default_soil_type || preferences?.default_soil_type || 'regular',
   location: newPreferences.location || null,
-  use_weather_data: newPreferences.use_weather_data ?? null,
+  use_weather_data: newPreferences.use_weather_data ?? preferences?.use_weather_data ?? false,
   manual_location: newPreferences.manual_location || null,
   last_weather_update: newPreferences.last_weather_update || null,
+  temperature_unit: newPreferences.temperature_unit || preferences?.temperature_unit || 'F',
   updated_at: new Date().toISOString(),
   };
 
@@ -98,7 +100,7 @@ export const useSmartWateringPreferences = () => {
    .single();
 
   if (error) throw error;
-  
+
   // Convert database format to our UserWateringPreferences format
   const convertedPreferences: UserWateringPreferences = {
    id: data.id,
@@ -112,6 +114,7 @@ export const useSmartWateringPreferences = () => {
    use_weather_data: data.use_weather_data,
    manual_location: data.manual_location,
    last_weather_update: data.last_weather_update,
+   temperature_unit: data.temperature_unit as 'F' | 'C',
    created_at: data.created_at,
    updated_at: data.updated_at,
   };
@@ -128,7 +131,7 @@ export const useSmartWateringPreferences = () => {
    .single();
 
   if (error) throw error;
-  
+
   // Convert database format to our UserWateringPreferences format
   const convertedPreferences: UserWateringPreferences = {
    id: data.id,
@@ -142,6 +145,7 @@ export const useSmartWateringPreferences = () => {
    use_weather_data: data.use_weather_data,
    manual_location: data.manual_location,
    last_weather_update: data.last_weather_update,
+   temperature_unit: data.temperature_unit as 'F' | 'C',
    created_at: data.created_at,
    updated_at: data.updated_at,
   };
@@ -149,10 +153,8 @@ export const useSmartWateringPreferences = () => {
   setHasPreferences(true);
   }
 
-  toast({
-  title: 'Preferences Saved',
-  description: 'Your smart watering preferences have been saved for future use.',
-  });
+  // Broadcast update event so other components can reload
+  window.dispatchEvent(new CustomEvent('weatherPreferencesUpdated'));
 
   return true;
  } catch (error) {
@@ -227,6 +229,21 @@ export const useSmartWateringPreferences = () => {
  // Load preferences when user changes
  useEffect(() => {
  loadPreferences();
+ }, [loadPreferences]);
+
+ // Listen for preference updates via custom events
+ useEffect(() => {
+ const handlePreferencesUpdate = () => {
+  hookLogger.info(HOOK_NAME, 'Preferences update event received, reloading...');
+  loadPreferences();
+ };
+
+ // Listen for custom event
+ window.addEventListener('weatherPreferencesUpdated', handlePreferencesUpdate);
+
+ return () => {
+  window.removeEventListener('weatherPreferencesUpdated', handlePreferencesUpdate);
+ };
  }, [loadPreferences]);
 
  return {

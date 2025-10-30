@@ -780,7 +780,7 @@ const AddPlantDialog = ({
                 !formData.plant_type.trim() ||
                 isSubmitting
               }
-              className="flex-1 bg-sprout-success hover:bg-sprout-success/90 text-sprout-white rounded-xl font-medium"
+              className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl font-medium"
             >
               {isSubmitting ? "Adding..." : "Add Plant"}
             </Button>
