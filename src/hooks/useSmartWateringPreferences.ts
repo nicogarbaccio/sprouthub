@@ -38,21 +38,23 @@ export const useSmartWateringPreferences = () => {
 
   if (data) {
   // Convert database format to our UserWateringPreferences format
+  // Cast to any because Supabase types may not include all columns yet
+  const dbData = data as any;
   const convertedPreferences: UserWateringPreferences = {
-   id: data.id,
-   user_id: data.user_id,
-   default_light_level: data.default_light_level as 'low' | 'medium' | 'high',
-   default_temperature: data.default_temperature as 'cool' | 'normal' | 'warm',
-   default_humidity: data.default_humidity as 'dry' | 'normal' | 'humid',
-   default_care_style: data.default_care_style as 'frequent' | 'balanced' | 'minimal',
-   default_soil_type: data.default_soil_type as 'regular' | 'draining' | 'retaining',
-   location: data.location,
-   use_weather_data: data.use_weather_data,
-   manual_location: data.manual_location,
-   last_weather_update: data.last_weather_update,
-   temperature_unit: data.temperature_unit as 'F' | 'C',
-   created_at: data.created_at,
-   updated_at: data.updated_at,
+   id: dbData.id,
+   user_id: dbData.user_id,
+   default_light_level: dbData.default_light_level as 'low' | 'medium' | 'high',
+   default_temperature: dbData.default_temperature as 'cool' | 'normal' | 'warm',
+   default_humidity: dbData.default_humidity as 'dry' | 'normal' | 'humid',
+   default_care_style: dbData.default_care_style as 'frequent' | 'balanced' | 'minimal',
+   default_soil_type: dbData.default_soil_type as 'regular' | 'draining' | 'retaining',
+   location: dbData.location,
+   use_weather_data: dbData.use_weather_data,
+   manual_location: dbData.manual_location,
+   last_weather_update: dbData.last_weather_update,
+   temperature_unit: dbData.temperature_unit as 'F' | 'C',
+   created_at: dbData.created_at,
+   updated_at: dbData.updated_at,
   };
   setPreferences(convertedPreferences);
   setHasPreferences(true);
@@ -102,21 +104,23 @@ export const useSmartWateringPreferences = () => {
   if (error) throw error;
 
   // Convert database format to our UserWateringPreferences format
+  // Cast to any because Supabase types may not include all columns yet
+  const dbData = data as any;
   const convertedPreferences: UserWateringPreferences = {
-   id: data.id,
-   user_id: data.user_id,
-   default_light_level: data.default_light_level as 'low' | 'medium' | 'high',
-   default_temperature: data.default_temperature as 'cool' | 'normal' | 'warm',
-   default_humidity: data.default_humidity as 'dry' | 'normal' | 'humid',
-   default_care_style: data.default_care_style as 'frequent' | 'balanced' | 'minimal',
-   default_soil_type: data.default_soil_type as 'regular' | 'draining' | 'retaining',
-   location: data.location,
-   use_weather_data: data.use_weather_data,
-   manual_location: data.manual_location,
-   last_weather_update: data.last_weather_update,
-   temperature_unit: data.temperature_unit as 'F' | 'C',
-   created_at: data.created_at,
-   updated_at: data.updated_at,
+   id: dbData.id,
+   user_id: dbData.user_id,
+   default_light_level: dbData.default_light_level as 'low' | 'medium' | 'high',
+   default_temperature: dbData.default_temperature as 'cool' | 'normal' | 'warm',
+   default_humidity: dbData.default_humidity as 'dry' | 'normal' | 'humid',
+   default_care_style: dbData.default_care_style as 'frequent' | 'balanced' | 'minimal',
+   default_soil_type: dbData.default_soil_type as 'regular' | 'draining' | 'retaining',
+   location: dbData.location,
+   use_weather_data: dbData.use_weather_data,
+   manual_location: dbData.manual_location,
+   last_weather_update: dbData.last_weather_update,
+   temperature_unit: dbData.temperature_unit as 'F' | 'C',
+   created_at: dbData.created_at,
+   updated_at: dbData.updated_at,
   };
   setPreferences(convertedPreferences);
   } else {
@@ -133,21 +137,23 @@ export const useSmartWateringPreferences = () => {
   if (error) throw error;
 
   // Convert database format to our UserWateringPreferences format
+  // Cast to any because Supabase types may not include all columns yet
+  const dbData = data as any;
   const convertedPreferences: UserWateringPreferences = {
-   id: data.id,
-   user_id: data.user_id,
-   default_light_level: data.default_light_level as 'low' | 'medium' | 'high',
-   default_temperature: data.default_temperature as 'cool' | 'normal' | 'warm',
-   default_humidity: data.default_humidity as 'dry' | 'normal' | 'humid',
-   default_care_style: data.default_care_style as 'frequent' | 'balanced' | 'minimal',
-   default_soil_type: data.default_soil_type as 'regular' | 'draining' | 'retaining',
-   location: data.location,
-   use_weather_data: data.use_weather_data,
-   manual_location: data.manual_location,
-   last_weather_update: data.last_weather_update,
-   temperature_unit: data.temperature_unit as 'F' | 'C',
-   created_at: data.created_at,
-   updated_at: data.updated_at,
+   id: dbData.id,
+   user_id: dbData.user_id,
+   default_light_level: dbData.default_light_level as 'low' | 'medium' | 'high',
+   default_temperature: dbData.default_temperature as 'cool' | 'normal' | 'warm',
+   default_humidity: dbData.default_humidity as 'dry' | 'normal' | 'humid',
+   default_care_style: dbData.default_care_style as 'frequent' | 'balanced' | 'minimal',
+   default_soil_type: dbData.default_soil_type as 'regular' | 'draining' | 'retaining',
+   location: dbData.location,
+   use_weather_data: dbData.use_weather_data,
+   manual_location: dbData.manual_location,
+   last_weather_update: dbData.last_weather_update,
+   temperature_unit: dbData.temperature_unit as 'F' | 'C',
+   created_at: dbData.created_at,
+   updated_at: dbData.updated_at,
   };
   setPreferences(convertedPreferences);
   setHasPreferences(true);
