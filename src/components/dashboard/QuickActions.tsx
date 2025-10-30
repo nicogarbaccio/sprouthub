@@ -28,7 +28,7 @@ export const QuickActions = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <Button
           onClick={onAddPlantClick}
-          className="h-16 bg-sprout-success hover:bg-sprout-success/90 text-white rounded-xl font-medium text-lg"
+          className="h-16 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl font-medium text-lg"
           size="lg"
         >
           <Plus className="w-6 h-6 mr-3" />
@@ -37,7 +37,7 @@ export const QuickActions = ({
 
         <Button
           variant="outline"
-          className="h-16 bg-sprout-water text-white rounded-xl font-medium text-lg hover:bg-sprout-water/90 hover:text-white border-sprout-water"
+          className="h-16 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl font-medium text-lg border-0"
           size="lg"
           onClick={handleWaterButtonClick}
         >

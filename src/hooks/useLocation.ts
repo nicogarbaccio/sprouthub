@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { LocationData, WeatherError } from '@/services/weatherTypes';
 import weatherService from '@/services/weatherService';
+import { TEN_SECONDS_MS, FIVE_MINUTES_MS } from '@/constants/weather';
 
 export interface LocationState {
   location: LocationData | null;
@@ -20,8 +21,8 @@ export function useLocation(options: UseLocationOptions = {}) {
   const {
     autoRequest = false,
     enableHighAccuracy = false,
-    timeout = 10000,
-    maximumAge = 300000, // 5 minutes
+    timeout = TEN_SECONDS_MS,
+    maximumAge = FIVE_MINUTES_MS,
   } = options;
 
   const [state, setState] = useState<LocationState>({
@@ -89,16 +90,6 @@ export function useLocation(options: UseLocationOptions = {}) {
     }
   }, []);
 
-  // Clear location data
-  const clearLocation = useCallback(() => {
-    setState({
-      location: null,
-      isLoading: false,
-      error: null,
-      hasPermission: null,
-    });
-  }, []);
-
   // Check if geolocation is supported
   const isGeolocationSupported = 'geolocation' in navigator;
 
@@ -115,7 +106,6 @@ export function useLocation(options: UseLocationOptions = {}) {
     ...state,
     requestLocation,
     getLocationFromCity,
-    clearLocation,
     isGeolocationSupported,
   };
 }

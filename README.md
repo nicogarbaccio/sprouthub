@@ -491,9 +491,13 @@ We use conventional commits for automated versioning:
 
 ## 📚 Additional Documentation
 
+### Features & Functionality
 - [Plant Care Schedules](docs/plant-care-schedules.md) - Complete documentation of watering schedule algorithms, overwatering detection, and smart recommendations
 - [Smart Watering System](docs/smart-watering-system.md) - Comprehensive guide to the intelligent watering features and algorithms
 - [Password Reset Flow](docs/password-reset-flow.md) - Detailed documentation of the password reset functionality
+
+### Development Guides
+- [UI Components & Patterns](docs/ui-components-patterns.md) - Guide to using toast notifications (Sonner) and other UI components
 
 ## 📄 License
 MIT License - see [LICENSE](LICENSE) file for details.

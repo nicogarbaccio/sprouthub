@@ -7,10 +7,17 @@ import {
   CachedWeatherData,
   WeatherServiceOptions,
 } from './weatherTypes';
+import { hookLogger } from '@/utils/hookLogging';
+import {
+  DEFAULT_WEATHER_CACHE_TIMEOUT_MS,
+  GEOLOCATION_TIMEOUT_MS,
+  GEOLOCATION_MAX_AGE_MS,
+  WEATHER_CACHE_LOCATION_THRESHOLD_KM,
+} from '@/constants/weather';
 
 const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 const CACHE_KEY = 'sprouthub_weather_cache';
-const DEFAULT_CACHE_TIMEOUT = 60 * 60 * 1000; // 1 hour in milliseconds
+const SERVICE_NAME = 'WeatherService';
 
 class WeatherService {
   private baseUrl = 'https://api.openweathermap.org/data/2.5';
@@ -22,7 +29,7 @@ class WeatherService {
     location: LocationData,
     options: WeatherServiceOptions = {}
   ): Promise<WeatherData> {
-    const { cacheTimeout = DEFAULT_CACHE_TIMEOUT, useCache = true } = options;
+    const { cacheTimeout = DEFAULT_WEATHER_CACHE_TIMEOUT_MS, useCache = true } = options;
 
     // Check cache first
     if (useCache) {
@@ -117,9 +124,9 @@ class WeatherService {
           reject(this.createWeatherError(errorType, message));
         },
         {
-          timeout: 10000, // 10 seconds
+          timeout: GEOLOCATION_TIMEOUT_MS,
           enableHighAccuracy: false,
-          maximumAge: 300000, // 5 minutes
+          maximumAge: GEOLOCATION_MAX_AGE_MS,
         }
       );
     });
@@ -131,7 +138,7 @@ class WeatherService {
   async getLocationFromCity(cityName: string): Promise<LocationData> {
     try {
       const url = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(cityName)}&limit=1&appid=${OPENWEATHER_API_KEY}`;
-      
+
       const response = await fetch(url);
       if (!response.ok) {
         throw this.createWeatherError(response.status === 404 ? 'invalid_location' : 'network', 'Failed to find location');
@@ -155,6 +162,49 @@ class WeatherService {
       }
       throw this.createWeatherError('unknown', 'Unknown error occurred');
     }
+  }
+
+  /**
+   * Get location from ZIP code (private - only used internally)
+   */
+  private async getLocationFromZip(zipCode: string, countryCode: string = 'US'): Promise<LocationData> {
+    try {
+      const url = `https://api.openweathermap.org/geo/1.0/zip?zip=${encodeURIComponent(zipCode)},${countryCode}&appid=${OPENWEATHER_API_KEY}`;
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw this.createWeatherError(response.status === 404 ? 'invalid_location' : 'network', 'Failed to find location');
+      }
+
+      const data = await response.json();
+      return {
+        latitude: data.lat,
+        longitude: data.lon,
+        city: data.name,
+        country: data.country || countryCode,
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        throw this.handleWeatherError(error);
+      }
+      throw this.createWeatherError('unknown', 'Unknown error occurred');
+    }
+  }
+
+  /**
+   * Get location from manual input (auto-detects ZIP code or city name)
+   */
+  async getLocationFromInput(input: string): Promise<LocationData> {
+    const trimmedInput = input.trim();
+
+    // Check if it's a US ZIP code (5 digits or 5-4 format)
+    const zipRegex = /^\d{5}(-\d{4})?$/;
+    if (zipRegex.test(trimmedInput)) {
+      return this.getLocationFromZip(trimmedInput.split('-')[0]);
+    }
+
+    // Otherwise treat as city name
+    return this.getLocationFromCity(trimmedInput);
   }
 
   /**
@@ -223,7 +273,7 @@ class WeatherService {
         cachedData.location.longitude
       );
 
-      if (distance > 10) {
+      if (distance > WEATHER_CACHE_LOCATION_THRESHOLD_KM) {
         localStorage.removeItem(CACHE_KEY);
         return null;
       }
@@ -249,7 +299,7 @@ class WeatherService {
       localStorage.setItem(CACHE_KEY, JSON.stringify(cachedData));
     } catch (error) {
       // Silently fail if localStorage is not available
-      console.warn('Failed to cache weather data:', error);
+      hookLogger.warn(SERVICE_NAME, 'Failed to cache weather data:', error);
     }
   }
 
@@ -305,13 +355,6 @@ class WeatherService {
     }
     
     return this.createWeatherError('unknown', error.message);
-  }
-
-  /**
-   * Clear cached weather data
-   */
-  clearCache(): void {
-    localStorage.removeItem(CACHE_KEY);
   }
 
   /**

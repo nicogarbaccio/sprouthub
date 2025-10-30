@@ -47,7 +47,7 @@ export function SmartSuggestionsBanner({
   };
 
   return (
-    <Alert className="mb-6 text-blue-700 bg-blue-50 border-blue-200 border-l-4 dark:text-blue-300 dark:bg-blue-950/20 dark:border-blue-800">
+    <Alert className="mb-6 text-blue-700 bg-blue-50 border-blue-200 border-l-4 dark:text-blue-100 dark:bg-blue-950/60 dark:border-blue-600">
       <div className="flex items-start justify-between">
         <div className="flex items-start space-x-3 flex-1">
           <Brain className="h-6 w-6 mt-0.5 flex-shrink-0" />
@@ -58,7 +58,7 @@ export function SmartSuggestionsBanner({
               {highPriorityCount > 0 && (
                 <Badge
                   variant="outline"
-                  className="text-xs bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-950/20 dark:text-orange-300 dark:border-orange-800"
+                  className="text-xs bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-950/70 dark:text-orange-100 dark:border-orange-600"
                 >
                   {highPriorityCount} high priority
                 </Badge>
@@ -91,7 +91,7 @@ export function SmartSuggestionsBanner({
               <Button
                 onClick={onReviewClick}
                 size="sm"
-                className="bg-white/80 hover:bg-white text-current border border-current/20 dark:bg-blue-950/50 dark:hover:bg-blue-950/70"
+                className="bg-white/80 hover:bg-white text-current border border-current/20 dark:bg-blue-900/50 dark:hover:bg-blue-900/70 dark:border-blue-400/30"
               >
                 <Eye className="h-4 w-4 mr-1" />
                 Review Suggestions

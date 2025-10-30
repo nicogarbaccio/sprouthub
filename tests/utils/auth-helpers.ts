@@ -56,10 +56,14 @@ export async function isUsingAuthStorage(page: any): Promise<boolean> {
  * Skips auth if using authenticated storage state from project config
  *
  * @example
+ * // With auth page object (full flow)
  * const testUser = getTestUser('my-test');
  * await setupAuthenticatedUser(page, authPage, testUser);
+ *
+ * // Simple usage (relies on auth storage or redirects to login)
+ * await setupAuthenticatedUser(page);
  */
-export async function setupAuthenticatedUser(page: any, authPage: any, testUser: TestUser) {
+export async function setupAuthenticatedUser(page: any, authPage?: any, testUser?: TestUser) {
   // Check if we're already authenticated via storage state
   if (await isUsingAuthStorage(page)) {
     // Verify auth is working by navigating to home
@@ -68,14 +72,37 @@ export async function setupAuthenticatedUser(page: any, authPage: any, testUser:
     return; // Skip manual auth
   }
 
+  // If no authPage provided, just navigate and check auth state
+  if (!authPage || !testUser) {
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+
+    // Check if already authenticated
+    const userDropdown = page.getByTestId('user-dropdown-trigger');
+    const isAuth = await userDropdown.isVisible({ timeout: 2000 }).catch(() => false);
+
+    if (isAuth) {
+      return; // Already authenticated
+    }
+
+    // Not authenticated and no credentials provided - navigate to auth page
+    await page.goto('/auth');
+    await page.waitForLoadState('domcontentloaded');
+
+    // Wait for user to manually authenticate or for test to set up auth
+    console.warn('⚠️  Authentication required but no authPage/testUser provided');
+    console.warn('    Either use authenticated storage state or provide auth credentials');
+    return;
+  }
+
   // Navigate to auth page
   await page.goto('/auth');
   await page.waitForLoadState('domcontentloaded');
-  
+
   // Switch to sign-up form
   await authPage.switchToSignUp();
   await authPage.expectSignUpFormVisible();
-  
+
   // Fill and submit sign-up form
   const userData = {
     firstName: testUser.firstName,
@@ -85,24 +112,24 @@ export async function setupAuthenticatedUser(page: any, authPage: any, testUser:
     password: testUser.password,
     confirmPassword: testUser.confirmPassword || testUser.password
   };
-  
+
   await authPage.fillSignUpForm(userData);
   await authPage.submitSignUp();
-  
+
   // Wait for navigation after sign-up (might stay on /auth if user already exists)
   await page.waitForLoadState('domcontentloaded');
-  
+
   // Check if we need to sign in (common flow - user already exists or needs confirmation)
   const currentUrl = page.url();
   if (currentUrl.includes('/auth')) {
     // Switch to sign-in if still on auth page
     await authPage.switchToSignIn();
     await authPage.expectSignInFormVisible();
-    
+
     // Fill and submit sign-in form
     await authPage.fillSignInForm(testUser.email, testUser.password);
     await authPage.submitSignIn();
-    
+
     // Wait for either navigation OR auth indicators (app might handle auth differently)
     try {
       await page.waitForURL(url => !url.pathname.includes('/auth'), { timeout: 8000 });
@@ -111,7 +138,7 @@ export async function setupAuthenticatedUser(page: any, authPage: any, testUser:
       // Navigation might not happen, check for auth indicators instead
       const userMenu = page.getByTestId('user-menu');
       const addPlantButton = page.getByRole('button', { name: /add.*plant/i }).first();
-      
+
       try {
         await Promise.race([
           userMenu.waitFor({ state: 'visible', timeout: 5000 }),
@@ -123,11 +150,11 @@ export async function setupAuthenticatedUser(page: any, authPage: any, testUser:
       }
     }
   }
-  
+
   // Verify authentication by checking for user menu or add plant button
   const userMenu = page.getByTestId('user-menu');
   const addPlantButton = page.getByRole('button', { name: /add.*plant/i }).first();
-  
+
   // Wait for either indicator of successful auth
   try {
     await Promise.race([

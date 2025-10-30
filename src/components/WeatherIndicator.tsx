@@ -32,6 +32,7 @@ interface WeatherIndicatorProps {
   error?: string | null;
   onRefresh?: () => void;
   compact?: boolean;
+  temperatureUnit?: 'F' | 'C';
   className?: string;
 }
 
@@ -42,6 +43,7 @@ export function WeatherIndicator({
   error = null,
   onRefresh,
   compact = false,
+  temperatureUnit = 'F',
   className,
 }: WeatherIndicatorProps) {
   if (isLoading) {
@@ -120,7 +122,7 @@ export function WeatherIndicator({
             <div className={cn("flex items-center gap-1", className)}>
               {getTemperatureIcon(weatherData.current_temp_celsius)}
               <span className="text-sm text-sprout-light">
-                {formatTemperature(weatherData.current_temp_celsius)}
+                {formatTemperature(weatherData.current_temp_celsius, temperatureUnit)}
               </span>
               <Droplets className="w-3 h-3 text-sprout-water ml-1" />
               <span className="text-sm text-sprout-light">
@@ -189,7 +191,7 @@ export function WeatherIndicator({
             <div>
               <p className="text-sm text-sprout-light">Temperature</p>
               <p className="font-medium text-sprout-white">
-                {formatTemperature(weatherData.current_temp_celsius)}
+                {formatTemperature(weatherData.current_temp_celsius, temperatureUnit)}
               </p>
             </div>
           </div>
