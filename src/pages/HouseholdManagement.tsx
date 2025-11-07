@@ -86,7 +86,8 @@ const HouseholdManagement = () => {
   const [isAddPlantDialogOpen, setIsAddPlantDialogOpen] = useState(false);
   const [editingPlant, setEditingPlant] = useState<UserPlant | null>(null);
   const [isEditPlantDialogOpen, setIsEditPlantDialogOpen] = useState(false);
-  const [wateringHistoryPlant, setWateringHistoryPlant] = useState<UserPlant | null>(null);
+  const [wateringHistoryPlant, setWateringHistoryPlant] =
+    useState<UserPlant | null>(null);
   const [isWateringHistoryOpen, setIsWateringHistoryOpen] = useState(false);
 
   // Find the current household
@@ -111,7 +112,10 @@ const HouseholdManagement = () => {
     setIsWateringHistoryOpen(true);
   };
 
-  const handleUpdatePlant = async (plantId: string, updates: Partial<UserPlant>) => {
+  const handleUpdatePlant = async (
+    plantId: string,
+    updates: Partial<UserPlant>
+  ) => {
     try {
       await updatePlant(plantId, updates);
       setIsEditPlantDialogOpen(false);
@@ -510,7 +514,9 @@ const HouseholdManagement = () => {
 
                                 {wateringCalc.isOverdue && (
                                   <DropdownMenuItem
-                                    onClick={() => handlePostponePlant(plant.id)}
+                                    onClick={() =>
+                                      handlePostponePlant(plant.id)
+                                    }
                                     className="cursor-pointer"
                                   >
                                     <Clock className="w-4 h-4 mr-2" />
@@ -627,6 +633,7 @@ const HouseholdManagement = () => {
             setIsWateringHistoryOpen(false);
             setWateringHistoryPlant(null);
           }}
+          onPlantDataChange={refetchPlants}
         />
 
         <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>

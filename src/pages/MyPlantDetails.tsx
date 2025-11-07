@@ -753,7 +753,7 @@ const MyPlantDetails = () => {
         onClose={() => setShowHistoryDialog(false)}
         plant={plant}
         onPlantDataChange={() => {
-          // Refresh plant data when postponements are deleted
+          // Refresh plant data when watering records are deleted
           fetchPlants();
         }}
       />

@@ -498,6 +498,7 @@ We use conventional commits for automated versioning:
 
 ### Development Guides
 - [UI Components & Patterns](docs/ui-components-patterns.md) - Guide to using toast notifications (Sonner) and other UI components
+- [Optimistic UI Updates](docs/optimistic-ui-updates.md) - Implementation details of the optimistic update pattern for smooth user experience
 
 ## 📄 License
 MIT License - see [LICENSE](LICENSE) file for details.

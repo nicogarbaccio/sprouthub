@@ -50,18 +50,19 @@ export interface UserPlant {
 const HOOK_NAME = 'useUserPlants';
 
 export const useUserPlants = () => {
- const { user } = useAuth();
- const { toast } = useToast();
- const [plants, setPlants] = useState<UserPlant[]>([]);
- const [loading, setLoading] = useState(true);
+const { user } = useAuth();
+const { toast } = useToast();
+const [plants, setPlants] = useState<UserPlant[]>([]);
+const [loading, setLoading] = useState(true);
+const [isInitialLoad, setIsInitialLoad] = useState(true);
 
- // Use custom hooks
- const { fetchPostponementsGrouped } = usePostponementData();
- const {
-   overwateringByPlantId,
-   computeRisks,
-   isComputing: isComputingRisks,
- } = useOverwateringAnalysis();
+// Use custom hooks
+const { fetchPostponementsGrouped } = usePostponementData();
+const {
+  overwateringByPlantId,
+  computeRisks,
+  isComputing: isComputingRisks,
+} = useOverwateringAnalysis();
 
  /**
   * Fetches user's personal plants from database
@@ -174,6 +175,7 @@ export const useUserPlants = () => {
   if (!user) {
    setPlants([]);
    setLoading(false);
+   setIsInitialLoad(false);
    return;
   }
 
@@ -203,6 +205,7 @@ export const useUserPlants = () => {
    setPlants([]);
   } finally {
    setLoading(false);
+   setIsInitialLoad(false);
   }
  }, [user, fetchUserPlants, enrichPlantsWithData, computeRisks]);
 
@@ -272,110 +275,147 @@ export const useUserPlants = () => {
  }
  };
 
- const waterPlant = async (plantId: string, notes?: string) => {
- if (!user) return false;
+const waterPlant = async (plantId: string, notes?: string) => {
+if (!user) return false;
 
- const tracker = trackOperation(HOOK_NAME, 'waterPlant');
+const tracker = trackOperation(HOOK_NAME, 'waterPlant');
 
- try {
-  // First, delete any existing postponement records for this plant
-  const { error: deleteError } = await supabase
-  .from('watering_records')
-  .delete()
-  .eq('plant_id', plantId)
-  .like('notes', '%POSTPONEMENT:%');
+try {
+ // Get plant name for toast notification before updating
+ const plant = plants.find(p => p.id === plantId);
+ const plantName = plant?.nickname || 'Plant';
 
-  if (deleteError) {
-  hookLogger.warn(HOOK_NAME, 'Could not delete postponement records', {
-   error: deleteError,
-  });
-  // Don't fail the watering if postponement cleanup fails
-  }
+ // Optimistically update the UI
+ const wateringDate = new Date().toISOString();
+ setPlants(prevPlants => 
+  prevPlants.map(p => 
+   p.id === plantId 
+    ? { 
+       ...p, 
+       latest_watering: wateringDate,
+       days_since_watering: 0,
+       // Clear postponement since we're watering
+       postponement_date: undefined,
+       postponement_notes: undefined
+      }
+    : p
+  )
+ );
 
-  // Create the actual watering record
-  const { error } = await supabase
-  .from('watering_records')
-  .insert({
-   plant_id: plantId,
-   watered_at: new Date().toISOString(),
-   notes: notes || null,
-   performed_by: user.id,
-  });
+ // First, delete any existing postponement records for this plant
+ const { error: deleteError } = await supabase
+ .from('watering_records')
+ .delete()
+ .eq('plant_id', plantId)
+ .like('notes', '%POSTPONEMENT:%');
 
-  if (error) throw error;
-
-  // Get plant name for toast notification
-  const plant = plants.find(p => p.id === plantId);
-  const plantName = plant?.nickname || 'Plant';
-
-  wateringToast.recorded(plantName);
-
-  // Check overwatering risk for this plant and notify if needed
-  await checkOverwatering(plantId);
-
-  await fetchPlants();
-  tracker.complete({ plantId });
-  return true;
- } catch (error) {
-  tracker.fail(error);
-  handleApiError(error, 'Failed to record watering', toast);
-  return false;
+ if (deleteError) {
+ hookLogger.warn(HOOK_NAME, 'Could not delete postponement records', {
+  error: deleteError,
+ });
+ // Don't fail the watering if postponement cleanup fails
  }
- };
 
- const postponeWatering = async (plantId: string) => {
- if (!user) return false;
+ // Create the actual watering record
+ const { error } = await supabase
+ .from('watering_records')
+ .insert({
+  plant_id: plantId,
+  watered_at: wateringDate,
+  notes: notes || null,
+  performed_by: user.id,
+ });
 
- const tracker = trackOperation(HOOK_NAME, 'postponeWatering');
+ if (error) throw error;
 
- try {
-  // First, check if there's already a postponement record for this plant
-  const { data: existingPostponements, error: fetchError } = await supabase
-  .from('watering_records')
-  .select('*')
-  .eq('plant_id', plantId)
-  .like('notes', '%POSTPONEMENT:%')
-  .gt('watered_at', new Date().toISOString());
+ wateringToast.recorded(plantName);
 
-  if (fetchError) throw fetchError;
+ // Check overwatering risk for this plant and notify if needed
+ await checkOverwatering(plantId);
 
-  // If there's already a future postponement, don't create another one
-  if (existingPostponements && existingPostponements.length > 0) {
-  utilityToast.info('Already Postponed', 'This plant\'s watering is already postponed');
-  tracker.complete({ plantId, alreadyPostponed: true });
-  return true;
-  }
+ // Fetch fresh data in the background to ensure accuracy
+ await fetchPlants();
+ tracker.complete({ plantId });
+ return true;
+} catch (error) {
+ tracker.fail(error);
+ handleApiError(error, 'Failed to record watering', toast);
+ // Revert optimistic update on error
+ await fetchPlants();
+ return false;
+}
+};
 
-  const tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  tomorrow.setHours(9, 0, 0, 0); // Set to 9 AM tomorrow for consistency
+const postponeWatering = async (plantId: string) => {
+if (!user) return false;
 
-  const { error } = await supabase
-  .from('watering_records')
-  .insert({
-   plant_id: plantId,
-   watered_at: tomorrow.toISOString(),
-   notes: 'POSTPONEMENT: Watering postponed - plant didn\'t need water yet',
-   performed_by: user.id,
-  });
+const tracker = trackOperation(HOOK_NAME, 'postponeWatering');
 
-  if (error) throw error;
+try {
+ // Get plant name for toast
+ const plant = plants.find(p => p.id === plantId);
+ const plantName = plant?.nickname || 'Plant';
 
-  // Get plant name for toast
-  const plant = plants.find(p => p.id === plantId);
-  const plantName = plant?.nickname || 'Plant';
+ // First, check if there's already a postponement record for this plant
+ const { data: existingPostponements, error: fetchError } = await supabase
+ .from('watering_records')
+ .select('*')
+ .eq('plant_id', plantId)
+ .like('notes', '%POSTPONEMENT:%')
+ .gt('watered_at', new Date().toISOString());
 
-  utilityToast.info('Watering Postponed', `${plantName} watering pushed to tomorrow`);
+ if (fetchError) throw fetchError;
 
-  await fetchPlants();
-  tracker.complete({ plantId });
-  return true;
- } catch (error) {
-  tracker.fail(error);
-  handleApiError(error, 'Failed to postpone watering', toast);
-  return false;
+ // If there's already a future postponement, don't create another one
+ if (existingPostponements && existingPostponements.length > 0) {
+ utilityToast.info('Already Postponed', 'This plant\'s watering is already postponed');
+ tracker.complete({ plantId, alreadyPostponed: true });
+ return true;
  }
- };
+
+ const tomorrow = new Date();
+ tomorrow.setDate(tomorrow.getDate() + 1);
+ tomorrow.setHours(9, 0, 0, 0); // Set to 9 AM tomorrow for consistency
+
+ // Optimistically update the UI
+ const postponementDate = tomorrow.toISOString();
+ setPlants(prevPlants => 
+  prevPlants.map(p => 
+   p.id === plantId 
+    ? { 
+       ...p, 
+       postponement_date: postponementDate,
+       postponement_notes: 'POSTPONEMENT: Watering postponed - plant didn\'t need water yet'
+      }
+    : p
+  )
+ );
+
+ const { error } = await supabase
+ .from('watering_records')
+ .insert({
+  plant_id: plantId,
+  watered_at: postponementDate,
+  notes: 'POSTPONEMENT: Watering postponed - plant didn\'t need water yet',
+  performed_by: user.id,
+ });
+
+ if (error) throw error;
+
+ utilityToast.info('Watering Postponed', `${plantName} watering pushed to tomorrow`);
+
+ // Fetch fresh data in the background to ensure accuracy
+ await fetchPlants();
+ tracker.complete({ plantId });
+ return true;
+} catch (error) {
+ tracker.fail(error);
+ handleApiError(error, 'Failed to postpone watering', toast);
+ // Revert optimistic update on error
+ await fetchPlants();
+ return false;
+}
+};
 
  const checkOverwatering = async (plantId: string) => {
  const tracker = trackOperation(HOOK_NAME, 'checkOverwatering');
@@ -488,20 +528,22 @@ export const useUserPlants = () => {
   }
  };
 
- useEffect(() => {
-  fetchPlants();
- }, [fetchPlants]);
+useEffect(() => {
+ fetchPlants();
+}, [fetchPlants]);
 
- return {
-  plants,
-  loading: loading || isComputingRisks,
-  overwateringByPlantId,
-  fetchPlants,
-  addPlant,
-  waterPlant,
-  postponeWatering,
-  updatePlantSchedule,
-  deletePlant,
-  checkOverwatering,
- };
+return {
+ plants,
+ // Only include isComputingRisks in loading during initial load
+ // This prevents the loading state from triggering on background updates
+ loading: loading || (isInitialLoad && isComputingRisks),
+ overwateringByPlantId,
+ fetchPlants,
+ addPlant,
+ waterPlant,
+ postponeWatering,
+ updatePlantSchedule,
+ deletePlant,
+ checkOverwatering,
+};
 };

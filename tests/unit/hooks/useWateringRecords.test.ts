@@ -375,6 +375,42 @@ describe('useWateringRecords', () => {
       expect(utilityToast.deleted).toHaveBeenCalledWith('Postponement');
       expect(mockOnPlantDataChange).toHaveBeenCalled();
     });
+
+    it('should call onPlantDataChange for regular watering deletions', async () => {
+      const mockOnPlantDataChange = vi.fn();
+      const { result } = renderHook(() => useWateringRecords(mockOnPlantDataChange));
+
+      // Load records first
+      await act(async () => {
+        await result.current.loadWateringRecords(mockPlantId);
+      });
+
+      // Delete a regular watering record (not a postponement)
+      await act(async () => {
+        await result.current.deleteWateringRecord('record-1');
+      });
+
+      expect(wateringToast.deleted).toHaveBeenCalled();
+      expect(mockOnPlantDataChange).toHaveBeenCalled();
+    });
+
+    it('should call onPlantDataChange for postponement deletions', async () => {
+      const mockOnPlantDataChange = vi.fn();
+      const { result } = renderHook(() => useWateringRecords(mockOnPlantDataChange));
+
+      // Load records first
+      await act(async () => {
+        await result.current.loadWateringRecords(mockPlantId);
+      });
+
+      // Delete a postponement record
+      await act(async () => {
+        await result.current.deleteWateringRecord('record-3');
+      });
+
+      expect(utilityToast.deleted).toHaveBeenCalledWith('Postponement');
+      expect(mockOnPlantDataChange).toHaveBeenCalled();
+    });
   });
 
   describe('addPostponement', () => {

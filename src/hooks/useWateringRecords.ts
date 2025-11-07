@@ -128,13 +128,15 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
           // For postponements, we need to use a generic toast message since the wateringToast utility
           // doesn't have a specific success method
           utilityToast.deleted('Postponement');
-          
-          // Trigger plant data refresh callback if provided
-          if (onPlantDataChange) {
-            onPlantDataChange();
-          }
         } else {
           wateringToast.deleted();
+        }
+        
+        // Trigger plant data refresh callback if provided
+        // This is important for both regular waterings and postponements to ensure
+        // the parent component's plant data is updated (e.g., updating the pill status on plant cards)
+        if (onPlantDataChange) {
+          onPlantDataChange();
         }
         
         // Don't refresh from server for regular records - trust our optimistic update

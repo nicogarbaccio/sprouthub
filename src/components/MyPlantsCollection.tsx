@@ -171,10 +171,13 @@ const MyPlantsCollection = () => {
   };
 
   // Handle schedule adjustment from pattern suggestions
-  const handleScheduleAdjustment = async (plantId: string, newSchedule: number): Promise<void> => {
+  const handleScheduleAdjustment = async (
+    plantId: string,
+    newSchedule: number
+  ): Promise<void> => {
     try {
       const result = await updatePlantWateringSchedule(plantId, newSchedule);
-      
+
       if (result.success) {
         utilityToast.info(
           "Schedule Updated",
@@ -184,13 +187,15 @@ const MyPlantsCollection = () => {
         // Refresh plants data to show updated schedule
         await fetchPlants();
       } else {
-        throw new Error(result.error || 'Failed to update schedule');
+        throw new Error(result.error || "Failed to update schedule");
       }
     } catch (error) {
-      console.error('Error updating plant schedule:', error);
+      console.error("Error updating plant schedule:", error);
       utilityToast.error(
         "Update Failed",
-        error instanceof Error ? error.message : "Failed to update watering schedule"
+        error instanceof Error
+          ? error.message
+          : "Failed to update watering schedule"
       );
     }
   };
@@ -415,6 +420,7 @@ const MyPlantsCollection = () => {
           isOpen={isHistoryDialogOpen}
           onClose={handleCloseHistoryDialog}
           onScheduleAdjustment={handleScheduleAdjustment}
+          onPlantDataChange={fetchPlants}
         />
       </div>
     </section>
