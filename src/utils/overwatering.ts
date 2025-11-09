@@ -43,11 +43,26 @@ export function computeOverwateringRisk(params: {
  }
 
  let level: OverwateringRisk['level'] = 'none';
- if (count >= 3) level = 'high';
- else if (count >= 2) level = 'low';
-
- if (avgIntervalDays !== undefined && avgIntervalDays < suggestedDaysRaw * 0.5) {
- level = level === 'none' ? 'low' : 'high';
+ 
+ // Only flag as overwatering if we have interval data and it's significantly less than suggested
+ if (avgIntervalDays !== undefined) {
+  // High risk: watering more than twice as frequently as suggested (interval < 50% of suggested)
+  if (avgIntervalDays < suggestedDaysRaw * 0.5) {
+   level = 'high';
+  }
+  // Low risk: watering somewhat too frequently (interval < 70% of suggested)
+  // Removed the count >= 3 requirement to make "low" risk more achievable
+  else if (avgIntervalDays < suggestedDaysRaw * 0.7) {
+   level = 'low';
+  }
+  // No risk: watering at an appropriate interval (>= 70% of suggested), even if there are many waterings
+  else {
+   level = 'none';
+  }
+ } else if (count >= 4) {
+  // Fallback: If we can't calculate intervals but there are 4+ waterings in the window,
+  // that's definitely too many (even without interval data)
+  level = 'high';
  }
 
  return { level, count, windowDays, avgIntervalDays };

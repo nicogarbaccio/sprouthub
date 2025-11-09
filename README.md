@@ -286,8 +286,14 @@ npm run test:e2e:report
 
 **Comprehensive Testing Infrastructure** with both unit and end-to-end testing:
 
-#### **Unit Tests** - 188 tests with 99.81% coverage
-- ✅ **Overwatering Risk Assessment** (8 tests) - Smart watering risk calculation
+#### **Unit Tests** - 193 tests with 99.81% coverage
+- ✅ **Overwatering Risk Assessment** (15 tests) - Interval-based overwatering detection:
+  - Tests consistent watering at suggested intervals (e.g., every 14 days for 14-day schedule)
+  - Tests detection of moderately too-frequent watering (60-70% of suggested schedule)
+  - Tests detection of very frequent watering (< 50% of suggested schedule)
+  - Tests edge cases: single watering, postponements, future dates, and multiple waterings
+  - Validates that consistent watering patterns don't trigger false warnings
+  - Ensures Smart Watering Insights and warning badges show consistent messages
 - ✅ **Watering Schedule Management** (29 tests) - Core schedule calculations and postponement
 - ✅ **Smart Watering Schedule** (34 tests) - Environmental factor calculations
 - ✅ **Weather Integration** (24 tests) - Weather data mapping and rain delay logic
@@ -375,7 +381,7 @@ supabase/
 └── migrations/        # Database migrations
 
 src/utils/__tests__/    # Comprehensive unit test suite
-├── overwatering.test.ts         # Overwatering risk calculation (8 tests)
+├── overwatering.test.ts         # Interval-based overwatering detection (15 tests)
 ├── watering-schedule.test.ts    # Core watering schedule logic (29 tests)
 ├── smartWateringSchedule.test.ts # Smart watering algorithms (34 tests)
 ├── auth-validation.test.ts      # Form validation security (46 tests)
