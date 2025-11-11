@@ -82,15 +82,15 @@ const PlantCard = ({
   </div>
 
   <div className="p-6">
-  <h3 className="text-lg font-semibold text-foreground mb-1 ">
+  <h3 className="text-lg font-semibold text-foreground mb-1 " data-testid="plant-name">
    {name}
   </h3>
-  <p className="text-sm text-muted-foreground italic mb-4">
+  <p className="text-sm text-muted-foreground italic mb-4" data-testid="plant-botanical-name">
    {botanicalName}
   </p>
 
   <div className="space-y-3 mb-4">
-   <div className="flex items-center space-x-2">
+   <div className="flex items-center space-x-2" data-testid="plant-watering-info">
    <Droplets className="w-4 h-4 text-plant-primary dark:text-plant-secondary" />
    <div>
     <span className="text-sm text-foreground">
@@ -103,7 +103,7 @@ const PlantCard = ({
     )}
    </div>
    </div>
-   <div className="flex items-center space-x-2">
+   <div className="flex items-center space-x-2" data-testid="plant-light-info">
    <Sun className="w-4 h-4 text-plant-primary dark:text-plant-secondary" />
    <span className="text-sm text-foreground">{lightRequirement}</span>
    </div>
@@ -113,6 +113,7 @@ const PlantCard = ({
    <Button
    onClick={onViewDetails}
    className="w-full bg-sprout-primary hover:bg-sprout-primary/90 text-sprout-white rounded-xl font-medium border border-sprout-light/30 hover:border-sprout-light/50"
+   data-testid="view-details-button"
    >
    <Eye className="w-4 h-4 mr-2" />
    View Details
@@ -122,6 +123,7 @@ const PlantCard = ({
    <Button
     onClick={onAddToCollection}
     className="w-full bg-sprout-success hover:bg-sprout-success/90 text-sprout-white rounded-xl font-medium"
+    data-testid="add-to-collection-button"
    >
     <Plus className="w-4 h-4 mr-2" />
     Add to Collection
@@ -130,6 +132,7 @@ const PlantCard = ({
    <Button
     onClick={onSignInToAdd}
     className="w-full bg-sprout-light hover:bg-sprout-medium text-sprout-white rounded-xl font-medium"
+    data-testid="sign-in-to-add-button"
    >
     <LogIn className="w-4 h-4 mr-2" />
     Sign in to Add

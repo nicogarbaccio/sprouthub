@@ -68,6 +68,11 @@ export const wateringToast = {
   description: "Watering record has been removed",
  }),
 
+ updated: () =>
+ toast.success(`Record Updated`, {
+  description: "Watering record has been updated successfully",
+ }),
+
  error: (action: string) =>
  toast.error(`Watering ${action} Failed`, {
   description: `Unable to ${action.toLowerCase()} watering record`,

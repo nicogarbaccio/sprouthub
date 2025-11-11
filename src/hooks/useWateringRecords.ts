@@ -170,6 +170,48 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
   );
 
   /**
+   * Updates an existing watering record
+   */
+  const updateWateringRecord = useCallback(
+    async (recordId: string, date: Date, notes?: string) => {
+      if (!user) return false;
+
+      try {
+        // Find the record to get its plant_id for refresh
+        const recordToUpdate = records.find(r => r.id === recordId);
+        if (!recordToUpdate) throw new Error('Record not found');
+
+        const { error } = await supabase
+          .from('watering_records')
+          .update({
+            watered_at: date.toISOString(),
+            notes: notes || null,
+          })
+          .eq('id', recordId);
+
+        if (error) throw error;
+
+        // Refresh records to show the updated one
+        await loadWateringRecords(recordToUpdate.plant_id);
+        
+        // Trigger plant data refresh callback if provided
+        if (onPlantDataChange) {
+          onPlantDataChange();
+        }
+
+        // Show success toast
+        wateringToast.updated();
+        return true;
+      } catch (error) {
+        hookLogger.error(HOOK_NAME, 'Error updating watering record:', error);
+        wateringToast.error('update');
+        return false;
+      }
+    },
+    [user, records, loadWateringRecords, onPlantDataChange]
+  );
+
+  /**
    * Adds a postponement record
    */
   const addPostponement = useCallback(
@@ -209,6 +251,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
     deleteLoadingRecords,
     loadWateringRecords,
     addWateringRecord,
+    updateWateringRecord,
     deleteWateringRecord,
     addPostponement
   };

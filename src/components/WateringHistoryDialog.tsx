@@ -24,6 +24,7 @@ import {
   AlertTriangle,
   Trash2,
   Clock,
+  Pencil,
 } from "lucide-react";
 import { computeOverwateringRisk } from "@/utils/overwatering";
 import { wateringToast } from "@/utils/toast-helpers";
@@ -36,6 +37,7 @@ import {
 } from "@/hooks/useWateringRecords";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import type { UserPlant } from "@/data/types";
+import EditWateringRecordDialog from "@/components/EditWateringRecordDialog";
 
 interface WateringHistoryDialogProps {
   plant: UserPlant | null;
@@ -62,6 +64,7 @@ const WateringHistoryDialog = memo(
       records: wateringRecords,
       isLoading,
       loadWateringRecords,
+      updateWateringRecord,
       deleteWateringRecord,
     } = useWateringRecords(onPlantDataChange);
 
@@ -84,6 +87,11 @@ const WateringHistoryDialog = memo(
 
     // Track which record is pending deletion for confirmation dialog
     const [recordToDelete, setRecordToDelete] = useState<WateringRecord | null>(
+      null
+    );
+    
+    // Track which record is being edited
+    const [recordToEdit, setRecordToEdit] = useState<WateringRecord | null>(
       null
     );
 
@@ -184,6 +192,14 @@ const WateringHistoryDialog = memo(
         setRecordToDelete(null);
       }
     }, [recordToDelete, deleteWateringRecord, plant, loadWateringRecords]);
+
+    // Handle update record
+    const handleUpdateRecord = useCallback(
+      async (recordId: string, date: Date, notes?: string) => {
+        return await updateWateringRecord(recordId, date, notes);
+      },
+      [updateWateringRecord]
+    );
 
     const formatDate = (dateString: string) => {
       try {
@@ -475,15 +491,25 @@ const WateringHistoryDialog = memo(
                                       : "Past Postponement"
                                     : "Watered"}
                                 </p>
-                                <div className="flex items-center">
+                                <div className="flex items-center gap-1">
                                   <span className="text-base sm:text-sm text-muted-foreground mt-1 sm:mt-0">
                                     {formatDate(record.watered_at)}
                                   </span>
                                   <Button
                                     variant="ghost"
                                     size="sm"
+                                    onClick={() => setRecordToEdit(record)}
+                                    className="text-foreground hover:text-sprout-cream ml-2 flex-shrink-0"
+                                    title="Edit record"
+                                  >
+                                    <Pencil className="w-4 h-4" />
+                                  </Button>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
                                     onClick={() => setRecordToDelete(record)}
-                                    className="text-red-500 hover:text-red-700 ml-2 flex-shrink-0"
+                                    className="text-red-500 hover:text-red-700 flex-shrink-0"
+                                    title="Delete record"
                                   >
                                     <Trash2 className="w-4 h-4" />
                                   </Button>
@@ -544,6 +570,14 @@ const WateringHistoryDialog = memo(
             </div>
           </DialogContent>
         </Dialog>
+
+        {/* Edit Watering Record Dialog */}
+        <EditWateringRecordDialog
+          isOpen={!!recordToEdit}
+          onClose={() => setRecordToEdit(null)}
+          record={recordToEdit}
+          onUpdate={handleUpdateRecord}
+        />
 
         {/* Delete Confirmation Dialog */}
         <AlertDialog

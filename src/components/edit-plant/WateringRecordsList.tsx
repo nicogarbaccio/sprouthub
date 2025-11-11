@@ -1,23 +1,19 @@
 import { Button } from "@/components/ui/button";
-import { Trash2, Loader2, Droplets, Clock } from "lucide-react";
+import { Trash2, Loader2, Droplets, Clock, Pencil } from "lucide-react";
 import { format, isFuture } from "date-fns";
-
-interface WateringRecord {
-  id: string;
-  watered_at: string;
-  notes?: string;
-  is_postponement?: boolean;
-}
+import type { WateringRecord } from "@/hooks/useWateringRecords";
 
 interface WateringRecordsListProps {
   records: WateringRecord[];
   onDeleteRecord: (recordId: string) => Promise<void>;
+  onEditRecord?: (record: WateringRecord) => void;
   deleteLoadingRecords?: Set<string>;
 }
 
 const WateringRecordsList = ({
   records,
   onDeleteRecord,
+  onEditRecord,
   deleteLoadingRecords = new Set(),
 }: WateringRecordsListProps) => {
   return (
@@ -63,19 +59,34 @@ const WateringRecordsList = ({
                     </div>
                   )}
                 </div>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onDeleteRecord(record.id)}
-                  disabled={isDeleting}
-                  className="text-red-500 hover:text-red-700 ml-2 flex-shrink-0 disabled:opacity-50"
-                >
-                  {isDeleting ? (
-                    <Loader2 className="w-5 h-5 sm:w-4 sm:h-4 animate-spin" />
-                  ) : (
-                    <Trash2 className="w-5 h-5 sm:w-4 sm:h-4" />
+                <div className="flex gap-1 ml-2 flex-shrink-0">
+                  {onEditRecord && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => onEditRecord(record)}
+                      disabled={isDeleting}
+                      className="text-foreground hover:text-sprout-cream disabled:opacity-50"
+                      title="Edit record"
+                    >
+                      <Pencil className="w-5 h-5 sm:w-4 sm:h-4" />
+                    </Button>
                   )}
-                </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => onDeleteRecord(record.id)}
+                    disabled={isDeleting}
+                    className="text-red-500 hover:text-red-700 disabled:opacity-50"
+                    title="Delete record"
+                  >
+                    {isDeleting ? (
+                      <Loader2 className="w-5 h-5 sm:w-4 sm:h-4 animate-spin" />
+                    ) : (
+                      <Trash2 className="w-5 h-5 sm:w-4 sm:h-4" />
+                    )}
+                  </Button>
+                </div>
               </div>
               {index < records.length - 1 && (
                 <div className="border-b border-sprout-cream/10 dark:border-sprout-cream/5 mx-4 mt-4" />

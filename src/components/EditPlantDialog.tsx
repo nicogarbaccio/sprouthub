@@ -15,6 +15,7 @@ import PlantDetailsForm from "./edit-plant/PlantDetailsForm";
 import WateringRecordForm from "./edit-plant/WateringRecordForm";
 import WateringRecordsList from "./edit-plant/WateringRecordsList";
 import { ScheduleHistoryCard } from "./ScheduleHistoryCard";
+import EditWateringRecordDialog from "./EditWateringRecordDialog";
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -63,6 +64,7 @@ const EditPlantDialog = ({
   const [deleteLoadingRecords, setDeleteLoadingRecords] = useState<Set<string>>(
     new Set()
   );
+  const [recordToEdit, setRecordToEdit] = useState<WateringRecord | null>(null);
 
   // Fetch households for assignment
   const { households } = useHouseholds();
@@ -224,6 +226,41 @@ const EditPlantDialog = ({
     }
   };
 
+  const handleEditWatering = async (
+    recordId: string,
+    date: Date,
+    notes?: string
+  ) => {
+    if (!plant) return false;
+
+    try {
+      const { error } = await supabase
+        .from("watering_records")
+        .update({
+          watered_at: date.toISOString(),
+          notes: notes || null,
+        })
+        .eq("id", recordId);
+
+      if (error) throw error;
+
+      // Refresh records to show the updated one
+      await loadWateringRecords(plant.id);
+
+      // Show success toast
+      wateringToast.updated();
+      
+      // Notify parent to refresh plant data
+      onUpdate();
+      
+      return true;
+    } catch (error) {
+      console.error("Error updating watering record:", error);
+      wateringToast.error("update");
+      return false;
+    }
+  };
+
   const handleDeleteWatering = async (recordId: string) => {
     if (!plant || deleteLoadingRecords.has(recordId)) return;
 
@@ -324,6 +361,7 @@ const EditPlantDialog = ({
   };
 
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader className="border-b border-sprout-cream/30 dark:border-sprout-cream/20 pb-4 mb-6">
@@ -385,6 +423,7 @@ const EditPlantDialog = ({
             <WateringRecordsList
               records={wateringRecords}
               onDeleteRecord={handleDeleteWatering}
+              onEditRecord={(record) => setRecordToEdit(record)}
               deleteLoadingRecords={deleteLoadingRecords}
             />
           </TabsContent>
@@ -447,6 +486,15 @@ const EditPlantDialog = ({
         </Tabs>
       </DialogContent>
     </Dialog>
+    
+    {/* Edit Watering Record Dialog */}
+    <EditWateringRecordDialog
+      isOpen={!!recordToEdit}
+      onClose={() => setRecordToEdit(null)}
+      record={recordToEdit}
+      onUpdate={handleEditWatering}
+    />
+    </>
   );
 };
 

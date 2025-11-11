@@ -11,6 +11,10 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
+    // Ensure TypeScript types are available
+    typecheck: {
+      include: ['**/*.{test,spec}.{ts,tsx}']
+    },
     include: [
       'src/**/*.{test,spec}.ts',
       'src/**/*.{test,spec}.tsx',

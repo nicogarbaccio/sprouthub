@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "composite": true,
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
+    "moduleResolution": "bundler"
+  },
+  "include": [
+    "src/**/*",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+    "tests/**/*.test.ts",
+    "tests/**/*.test.tsx",
+    "vitest.config.ts"
+  ],
+  "exclude": [
+    "tests/e2e/**",
+    "node_modules"
+  ]
+}
+

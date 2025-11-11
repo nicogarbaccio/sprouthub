@@ -122,10 +122,11 @@ const RoomSection = ({
 
   return (
     <CascadingContainer delay={delay}>
-      <div className="mb-12">
+      <div className="mb-12" data-testid="room-section" data-room={roomKey}>
         {/* Enhanced Room Header */}
         <div
           className={`${roomTheme.background} ${roomTheme.border} border-2 rounded-2xl p-4 sm:p-6 mb-6 transition-all duration-300 hover:shadow-md`}
+          data-testid="room-header"
         >
           <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
             <div className="flex items-center gap-3 sm:gap-4">
@@ -133,7 +134,7 @@ const RoomSection = ({
                 <span className="text-2xl sm:text-3xl">{roomIcon}</span>
               </div>
               <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1">
+                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1" data-testid="room-name">
                   {roomLabel}
                 </h3>
                 <div className="flex items-center gap-2">
@@ -156,11 +157,12 @@ const RoomSection = ({
             </div>
 
             {/* Room Statistics Badges */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2" data-testid="room-stats">
               {healthyCount > 0 && (
                 <Badge
                   variant="secondary"
                   className="bg-green-100 text-green-700 hover:bg-green-100 text-xs"
+                  data-testid="healthy-count-badge"
                 >
                   <CheckCircle className="w-3 h-3 mr-1" />
                   {healthyCount} healthy
@@ -170,6 +172,7 @@ const RoomSection = ({
                 <Badge
                   variant="secondary"
                   className="bg-yellow-100 text-yellow-700 hover:bg-yellow-100 text-xs"
+                  data-testid="due-today-count-badge"
                 >
                   <Clock className="w-3 h-3 mr-1" />
                   {dueTodayCount} due today
@@ -179,6 +182,7 @@ const RoomSection = ({
                 <Badge
                   variant="destructive"
                   className="bg-red-100 text-red-700 hover:bg-red-100 text-xs"
+                  data-testid="overdue-count-badge"
                 >
                   <AlertTriangle className="w-3 h-3 mr-1" />
                   {overdueCount} overdue
@@ -188,6 +192,7 @@ const RoomSection = ({
                 <Badge
                   variant="secondary"
                   className="bg-gray-100 text-gray-700 hover:bg-gray-100 text-xs"
+                  data-testid="unknown-count-badge"
                 >
                   <Droplets className="w-3 h-3 mr-1" />
                   {unknownCount} unknown

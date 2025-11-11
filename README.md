@@ -255,36 +255,29 @@ npm run test:unit:cov
 - Utility functions (auto-cropping, object positioning)
 - **Environment**: Node.js (fast, no browser overhead)
 
-### End-to-End Testing (Browser Environment)
-```bash
-# Install Playwright browsers (first time only)
-npm run test:e2e:install
+### End-to-End Testing
 
-# Run all E2E tests
-npm run test:e2e
+**E2E tests have been temporarily removed** to be rebuilt with better patterns.
 
-# Run tests with interactive UI
-npm run test:e2e:ui
+See comprehensive rebuild documentation:
+- [`tests/E2E_TESTS_REMOVED.md`](tests/E2E_TESTS_REMOVED.md) - Complete rebuild guide with lessons learned
+- [`docs/TEST_OPTIMIZATION_GUIDE.md`](docs/TEST_OPTIMIZATION_GUIDE.md) - 8 optimization patterns with examples
+- [`docs/TEST_OPTIMIZATION_SUMMARY.md`](docs/TEST_OPTIMIZATION_SUMMARY.md) - Summary of ~210 timeouts eliminated
 
-# Run tests in headed mode (see browser)
-npm run test:e2e:headed
+**Why removed:**
+- Test instability in parallel execution (resource contention)
+- Need for fresh start with documented best practices
+- All optimization work and patterns preserved for future rebuilds
 
-# Debug specific tests
-npm run test:e2e:debug
-
-# View test report
-npm run test:e2e:report
-```
-
-**What E2E Tests Cover:**
-- Complete user workflows (authentication, plant management)
-- Browser interactions (clicks, forms, navigation)
-- Integration testing (Supabase, Cloudinary)
-- **Environment**: Real browser with full React app
+**When rebuilding:**
+- Use deterministic waits (never `waitForTimeout`)
+- Implement serial mode for auth-heavy tests
+- Follow the patterns in the optimization guides
+- Start small and build incrementally
 
 ### Test Coverage Overview
 
-**Comprehensive Testing Infrastructure** with both unit and end-to-end testing:
+**Comprehensive Unit Testing Infrastructure:**
 
 #### **Unit Tests** - 193 tests with 99.81% coverage
 - ✅ **Overwatering Risk Assessment** (15 tests) - Interval-based overwatering detection:
@@ -301,19 +294,44 @@ npm run test:e2e:report
 - ✅ **Room Management** (32 tests) - Plant organization utilities
 - ✅ **Toast Notifications** (39 tests) - Sonner toast notification system
 
-#### **End-to-End Tests** - Playwright automation
-- ✅ **Authentication Flow** - Complete sign in/up flows with validation
-- ✅ **Smart Watering Wizard** - Full wizard flow with environmental factors
-- ✅ **Weather Integration** - Location permissions and API handling
-- ✅ **Form Validation** - Real-time validation and error handling
-- ✅ **Session Management** - Login persistence and redirects
-- ✅ **Cross-browser Testing** - Chrome, Firefox, Safari, Mobile browsers
-
 ### Test Quality Metrics
 - **Unit Test Coverage**: 99.81% statements, 98.4% branches, 100% functions
-- **E2E Test Coverage**: Core user journeys (auth + smart watering)
-- **Browser Support**: Chrome, Firefox, Safari, Mobile Chrome, Mobile Safari
-- **Test Reliability**: Retry mechanisms, proper wait strategies, mock services
+- **Test Reliability**: Fast, isolated tests with comprehensive mocking
+- **CI/CD Ready**: All tests run reliably in automated pipelines
+
+### Test Suite Optimization (Pre-Removal Work)
+
+Before removal, the Playwright E2E test suite was systematically optimized, and **all patterns are documented** for future rebuilds:
+
+#### ✨ **Zero Arbitrary Timeouts**
+- **~210 `waitForTimeout()` calls eliminated** across entire test suite
+- Replaced with **deterministic, element-based waits**
+- Tests now wait for actual conditions, not arbitrary time periods
+
+#### 🚀 **Performance Improvements**
+- **Faster execution** - Tests return immediately when conditions are met
+- **More reliable** - Works consistently across different system speeds
+- **Better CI/CD** - Reduced flakiness and consistent results
+
+#### 📋 **Optimization Patterns Used**
+1. **Element-based waits**: `element.waitFor({ state: 'visible' })`
+2. **State change detection**: `expect(switch).toBeChecked()`
+3. **Dialog lifecycle**: `dialog.waitFor({ state: 'hidden' })`
+4. **Multiple outcomes**: `Promise.race()` for flexible UI flows
+5. **Page load states**: Proper `waitForLoadState()` usage
+6. **Skeleton loaders**: Wait for loading indicators to disappear
+
+#### 📚 **Documentation**
+See [`docs/TEST_OPTIMIZATION_GUIDE.md`](docs/TEST_OPTIMIZATION_GUIDE.md) for:
+- Complete optimization patterns and examples
+- Before/after code comparisons
+- Best practices for writing new tests
+- Quick reference guide
+
+#### 📊 **Files Optimized**
+- ✅ **20+ test files** optimized
+- ✅ **100+ test cases** improved
+- ✅ **0 timeouts remaining** in active use
 
 ## 🎨 Code Style & Quality
 

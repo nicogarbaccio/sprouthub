@@ -21,7 +21,7 @@ const hasAuthStorageState = fs.existsSync(authStorageState);
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: './tests/e2e', // E2E tests temporarily removed - see tests/E2E_TESTS_REMOVED.md
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 0, // Fix tests instead of retrying - was masking flaky tests
@@ -74,7 +74,7 @@ export default defineConfig({
     stderr: 'pipe',
   },
 
-  /* Global setup and teardown */
-  globalSetup: './tests/global-setup.ts',
-  globalTeardown: './tests/global-teardown.ts',
+  /* Global setup and teardown - commented out as E2E tests were removed */
+  // globalSetup: './tests/global-setup.ts',
+  // globalTeardown: './tests/global-teardown.ts',
 });

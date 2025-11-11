@@ -101,7 +101,7 @@ const PlantSearchFilters = ({
      value={selectedCategory}
      onValueChange={setSelectedCategory}
      >
-     <SelectTrigger className="border-plant-secondary/30 w-full h-11">
+     <SelectTrigger className="border-plant-secondary/30 w-full h-11" data-testid="category-filter">
       <SelectValue placeholder="All Categories" />
      </SelectTrigger>
      <SelectContent className="bg-card border border-plant-secondary/30 shadow-lg z-50 max-h-60">
@@ -123,7 +123,7 @@ const PlantSearchFilters = ({
      value={selectedCareLevel}
      onValueChange={setSelectedCareLevel}
      >
-     <SelectTrigger className="border-plant-secondary/30 w-full h-11">
+     <SelectTrigger className="border-plant-secondary/30 w-full h-11" data-testid="care-level-filter">
       <SelectValue placeholder="All Levels" />
      </SelectTrigger>
      <SelectContent className="bg-card border border-plant-secondary/30 shadow-lg z-50 max-h-60">
@@ -145,7 +145,7 @@ const PlantSearchFilters = ({
      value={selectedLightRequirement}
      onValueChange={setSelectedLightRequirement}
      >
-     <SelectTrigger className="border-plant-secondary/30 w-full h-11">
+     <SelectTrigger className="border-plant-secondary/30 w-full h-11" data-testid="light-requirement-filter">
       <SelectValue placeholder="All Light Types" />
      </SelectTrigger>
      <SelectContent className="bg-card border border-plant-secondary/30 shadow-lg z-50 max-h-60">
@@ -167,6 +167,7 @@ const PlantSearchFilters = ({
      variant="ghost"
      onClick={clearAllFilters}
      className="text-muted-foreground hover:text-foreground hover:bg-accent px-4 py-2 transition-colors"
+     data-testid="clear-filters-button"
      >
      <X className="w-4 h-4 mr-2" />
      Clear All Filters
