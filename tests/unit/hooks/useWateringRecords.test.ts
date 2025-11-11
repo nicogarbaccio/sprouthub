@@ -308,7 +308,7 @@ describe('useWateringRecords', () => {
 
       // Resolve the first deletion
       act(() => {
-        resolveDeletion!();
+        resolveDeletion!({ data: null, error: null });
       });
 
       await firstDeletion;

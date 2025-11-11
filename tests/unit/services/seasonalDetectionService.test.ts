@@ -16,8 +16,7 @@ describe('SeasonalDetectionService', () => {
     latitude: 40.7128,
     longitude: -74.0060,
     city: 'New York',
-    country: 'US',
-    timezone: 'America/New_York'
+    country: 'US'
   };
 
   const createMockWeatherData = (overrides: Partial<WeatherData> = {}): WeatherData => ({

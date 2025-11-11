@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { useSeasonalDetection } from '@/hooks/useSeasonalDetection';
-import { seasonalDetectionService } from '@/services/seasonalDetectionService';
+import { seasonalDetectionService, type SeasonalTransition } from '@/services/seasonalDetectionService';
 import { useAuth } from '@/contexts/AuthContext';
 import { useWeatherData } from '@/hooks/useWeatherData';
 import { useLocation } from '@/hooks/useLocation';
@@ -408,7 +408,7 @@ describe('useSeasonalDetection', () => {
 
     it('should show loading state during transition detection', async () => {
       let resolveDetection: (value: any) => void;
-      const detectionPromise = new Promise(resolve => {
+      const detectionPromise = new Promise<SeasonalTransition | null>(resolve => {
         resolveDetection = resolve;
       });
 
