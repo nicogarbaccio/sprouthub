@@ -30,7 +30,8 @@ export function WaterConfirmationDialog({
 }: WaterConfirmationDialogProps) {
  const handleConfirm = () => {
  onConfirm();
- onOpenChange(false);
+ // Don't manually close the dialog here - let the parent component handle it
+ // to avoid race conditions with state updates
  };
 
  return (

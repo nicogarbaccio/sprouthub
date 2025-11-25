@@ -494,14 +494,14 @@ const Dashboard = () => {
   };
 
   const handleConfirmQuickWater = async () => {
-    const success = await waterPlant(
-      waterConfirmation.plantId,
-      `Quick watered from dashboard`
-    );
-    if (success) {
-      // Optionally show a success message or update UI
-    }
+    // Capture the plant ID before closing the dialog
+    const plantId = waterConfirmation.plantId;
+
+    // Close dialog immediately to prevent duplicate confirmations
     setWaterConfirmation({ show: false, plantId: "", plantName: "" });
+
+    // Then process the watering asynchronously
+    await waterPlant(plantId, `Quick watered from dashboard`);
   };
 
   const handleImageClick = (imageSrc: string, plantName: string) => {
@@ -514,7 +514,13 @@ const Dashboard = () => {
   };
 
   const handleBulkWater = async () => {
+    // Close dialog first to prevent UI issues
     bulkWaterDialog.close();
+
+    // Don't proceed if there are no plants to water
+    if (plantsNeedingWater.length === 0) {
+      return;
+    }
 
     // Water all plants that need watering today
     const waterPromises = plantsNeedingWater.map((plant) =>
@@ -693,7 +699,11 @@ const Dashboard = () => {
         <QuickActions
           plantsNeedingWaterCount={plantsNeedingWater.length}
           onAddPlantClick={() => addDialog.open()}
-          onWaterPlantsClick={() => bulkWaterDialog.open()}
+          onWaterPlantsClick={() => {
+            if (plantsNeedingWater.length > 0) {
+              bulkWaterDialog.open();
+            }
+          }}
           onViewAllPlantsClick={() => navigate("/my-plants")}
         />
 
@@ -1093,7 +1103,11 @@ const Dashboard = () => {
 
         <AlertDialog
           open={bulkWaterDialog.isOpen}
-          onOpenChange={bulkWaterDialog.toggle}
+          onOpenChange={(open) => {
+            if (!open) {
+              bulkWaterDialog.close();
+            }
+          }}
         >
           <AlertDialogContent>
             <AlertDialogHeader>
