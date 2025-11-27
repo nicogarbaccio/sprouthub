@@ -36,19 +36,19 @@ export function WaterConfirmationDialog({
 
  return (
  <AlertDialog open={open} onOpenChange={onOpenChange}>
-  <AlertDialogContent>
+  <AlertDialogContent data-testid="water-confirmation-dialog">
   <AlertDialogHeader>
-   <AlertDialogTitle className="flex items-center">
+   <AlertDialogTitle data-testid="water-confirmation-title" className="flex items-center">
    <Droplets className="w-5 h-5 mr-2 text-sprout-water" />
    Water {plantName}?
    </AlertDialogTitle>
-   <AlertDialogDescription className="space-y-2">
+   <AlertDialogDescription data-testid="water-confirmation-description" className="space-y-2">
    <p>
     Are you sure you want to water <strong>{plantName}</strong> now?
    </p>
 
    {showOverwateringWarning && (
-    <div className="flex items-start space-x-2 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+    <div data-testid="overwatering-warning" className="flex items-start space-x-2 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg">
     <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
     <div className="text-sm text-amber-800 dark:text-amber-200">
      <p className="font-medium mb-1">
@@ -73,8 +73,9 @@ export function WaterConfirmationDialog({
    </AlertDialogDescription>
   </AlertDialogHeader>
   <AlertDialogFooter>
-   <AlertDialogCancel>Cancel</AlertDialogCancel>
+   <AlertDialogCancel data-testid="water-cancel-button">Cancel</AlertDialogCancel>
    <AlertDialogAction
+   data-testid="water-confirm-button"
    onClick={handleConfirm}
    className="bg-sprout-water hover:bg-sprout-water/90 text-sprout-white"
    >

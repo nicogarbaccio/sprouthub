@@ -99,6 +99,7 @@ const ImageUpload = ({
    onChange={(e) => onChange(e.target.value)}
    placeholder={placeholder}
    className="w-full border-sprout-medium/30 focus:border-sprout-primary"
+   data-testid="image-url-input"
   />
 
   {/* Upload Button */}
@@ -109,6 +110,7 @@ const ImageUpload = ({
    onClick={handleUploadClick}
    disabled={isUploading}
    className="flex-1 bg-sprout-light hover:bg-sprout-light/90 text-white border-sprout-light"
+   data-testid="upload-image-button"
    >
    {isUploading ? (
     <>
@@ -130,6 +132,7 @@ const ImageUpload = ({
     size="icon"
     onClick={handleRemoveImage}
     className="text-red-600 hover:text-red-700"
+    data-testid="remove-image-button"
    >
     <X className="w-4 h-4" />
    </Button>
@@ -155,6 +158,7 @@ const ImageUpload = ({
     onError={(e) => {
     e.currentTarget.style.display = "none";
     }}
+    data-testid="image-preview"
    />
    </div>
   )}

@@ -363,9 +363,9 @@ const EditPlantDialog = ({
   return (
     <>
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+      <DialogContent data-testid="edit-plant-dialog" className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader className="border-b border-sprout-cream/30 dark:border-sprout-cream/20 pb-4 mb-6">
-          <DialogTitle>Edit Plant Details</DialogTitle>
+          <DialogTitle data-testid="edit-plant-dialog-title">Edit Plant Details</DialogTitle>
           <DialogDescription>
             Update your plant's information, care schedule, and watering
             history.
@@ -373,11 +373,11 @@ const EditPlantDialog = ({
         </DialogHeader>
 
         <Tabs defaultValue="details" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto md:h-10 gap-2">
-            <TabsTrigger value="details" className="!rounded-md">Plant Details</TabsTrigger>
-            <TabsTrigger value="watering" className="!rounded-md">Watering History</TabsTrigger>
-            <TabsTrigger value="schedule" className="!rounded-md">Schedule History</TabsTrigger>
-            <TabsTrigger value="settings" className="!rounded-md">Settings</TabsTrigger>
+          <TabsList data-testid="edit-plant-tabs" className="grid w-full grid-cols-2 md:grid-cols-4 h-auto md:h-10 gap-2">
+            <TabsTrigger data-testid="details-tab" value="details" className="!rounded-md">Plant Details</TabsTrigger>
+            <TabsTrigger data-testid="watering-history-tab" value="watering" className="!rounded-md">Watering History</TabsTrigger>
+            <TabsTrigger data-testid="schedule-history-tab" value="schedule" className="!rounded-md">Schedule History</TabsTrigger>
+            <TabsTrigger data-testid="settings-tab" value="settings" className="!rounded-md">Settings</TabsTrigger>
           </TabsList>
 
           <TabsContent value="details" className="space-y-6 mt-8 md:mt-2">
@@ -400,10 +400,11 @@ const EditPlantDialog = ({
             />
 
             <div className="flex justify-end space-x-2 pt-4">
-              <Button variant="outline" onClick={onClose}>
+              <Button data-testid="cancel-edit-button" variant="outline" onClick={onClose}>
                 Cancel
               </Button>
               <Button
+                data-testid="save-plant-button"
                 onClick={handleSave}
                 disabled={isLoading || !hasChanges()}
                 className={`${
@@ -417,7 +418,7 @@ const EditPlantDialog = ({
             </div>
           </TabsContent>
 
-          <TabsContent value="watering" className="space-y-4 mt-8 md:mt-2">
+          <TabsContent data-testid="watering-history-content" value="watering" className="space-y-4 mt-8 md:mt-2">
             <h3 className="text-lg font-semibold">Watering History</h3>
             <WateringRecordForm onAddWatering={handleAddWatering} />
             <WateringRecordsList
@@ -437,9 +438,9 @@ const EditPlantDialog = ({
               />
             )}
           </TabsContent>
-          <TabsContent value="settings" className="space-y-4 mt-8 md:mt-2">
+          <TabsContent data-testid="settings-content" value="settings" className="space-y-4 mt-8 md:mt-2">
             {/* Danger Zone for Delete Plant */}
-            <div className="border border-red-200 bg-red-50 rounded-lg p-6 flex flex-col items-center">
+            <div data-testid="danger-zone" className="border border-red-200 bg-red-50 rounded-lg p-6 flex flex-col items-center">
               <h4 className="text-red-700 font-semibold mb-2">Danger Zone</h4>
               <p className="text-sm text-red-600 mb-4 text-center">
                 Deleting this plant will remove it and all its watering records
@@ -451,6 +452,7 @@ const EditPlantDialog = ({
               >
                 <AlertDialogTrigger asChild>
                   <Button
+                    data-testid="delete-plant-trigger-button"
                     type="button"
                     className="bg-sprout-error hover:bg-sprout-error/90 text-sprout-white"
                     onClick={() => setIsDeleteDialogOpen(true)}
@@ -459,19 +461,20 @@ const EditPlantDialog = ({
                     Delete Plant
                   </Button>
                 </AlertDialogTrigger>
-                <AlertDialogContent>
+                <AlertDialogContent data-testid="delete-plant-confirmation-dialog">
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Delete Plant</AlertDialogTitle>
+                    <AlertDialogTitle data-testid="delete-plant-confirmation-title">Delete Plant</AlertDialogTitle>
                     <AlertDialogDescription>
                       Are you sure you want to delete this plant? This action
                       cannot be undone.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter>
-                    <AlertDialogCancel disabled={isDeleting}>
+                    <AlertDialogCancel data-testid="delete-plant-cancel-button" disabled={isDeleting}>
                       Cancel
                     </AlertDialogCancel>
                     <AlertDialogAction
+                      data-testid="delete-plant-confirm-button"
                       className="bg-sprout-error hover:bg-sprout-error/90 text-white"
                       onClick={handleDeletePlant}
                       disabled={isDeleting}

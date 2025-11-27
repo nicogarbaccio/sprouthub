@@ -107,12 +107,13 @@ const PlantDetailsForm = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div data-testid="plant-details-form" className="space-y-4">
       <h3 className="text-lg font-semibold">Plant Information</h3>
 
       <div className="space-y-2">
         <Label htmlFor="nickname">Nickname</Label>
         <Input
+          data-testid="plant-nickname-input"
           id="nickname"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
@@ -123,6 +124,7 @@ const PlantDetailsForm = ({
       <div className="space-y-2">
         <Label htmlFor="plantType">Plant Type</Label>
         <Input
+          data-testid="plant-type-input"
           id="plantType"
           value={plantType}
           onChange={(e) => setPlantType(e.target.value)}
@@ -144,7 +146,7 @@ const PlantDetailsForm = ({
             }
           }}
         >
-          <SelectTrigger>
+          <SelectTrigger data-testid="room-select">
             <SelectValue placeholder="Select a room or leave empty" />
           </SelectTrigger>
           <SelectContent>
@@ -167,6 +169,7 @@ const PlantDetailsForm = ({
               Custom Room Name
             </Label>
             <Input
+              data-testid="custom-room-input"
               id="custom_room"
               value={customRoom}
               onChange={(e) => {
@@ -187,7 +190,7 @@ const PlantDetailsForm = ({
             value={householdId || "personal"}
             onValueChange={(value) => setHouseholdId(value === "personal" ? "" : value)}
           >
-            <SelectTrigger>
+            <SelectTrigger data-testid="household-select">
               <SelectValue placeholder="Select assignment" />
             </SelectTrigger>
             <SelectContent>
@@ -230,7 +233,7 @@ const PlantDetailsForm = ({
           value={getCurrentSelectValue()}
           onValueChange={handleWateringScheduleChange}
         >
-          <SelectTrigger>
+          <SelectTrigger data-testid="watering-schedule-select">
             <SelectValue placeholder="Select watering frequency" />
           </SelectTrigger>
           <SelectContent>
@@ -244,6 +247,7 @@ const PlantDetailsForm = ({
         </Select>
 
         <Button
+          data-testid="smart-watering-wizard-button"
           type="button"
           className="w-full mt-2 text-sm bg-sprout-success hover:bg-sprout-success/90 text-white border-none"
           onClick={() => setIsSmartWizardOpen(true)}
@@ -258,6 +262,7 @@ const PlantDetailsForm = ({
               Custom days
             </Label>
             <Input
+              data-testid="custom-watering-days-input"
               id="customDays"
               type="number"
               min="1"
@@ -280,6 +285,7 @@ const PlantDetailsForm = ({
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
             <Checkbox
+              data-testid="outdoor-plant-checkbox"
               id="is-outdoor-plant-edit"
               checked={isOutdoorPlant}
               onCheckedChange={(checked) => setIsOutdoorPlant(checked === true)}

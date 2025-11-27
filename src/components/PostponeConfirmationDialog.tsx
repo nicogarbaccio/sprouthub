@@ -35,25 +35,25 @@ export function PostponeConfirmationDialog({
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
+      <AlertDialogContent data-testid="postpone-confirmation-dialog">
         <AlertDialogHeader>
-          <AlertDialogTitle className="flex items-center">
+          <AlertDialogTitle data-testid="postpone-confirmation-title" className="flex items-center">
             <Clock className="w-5 h-5 mr-2 text-sprout-water" />
             Postpone watering for {plantName}?
           </AlertDialogTitle>
-          <AlertDialogDescription className="space-y-3">
+          <AlertDialogDescription data-testid="postpone-confirmation-description" className="space-y-3">
             <p>
               Are you sure you want to postpone watering{" "}
               <strong>{plantName}</strong>?
             </p>
 
-            <div className="flex items-center space-x-4 p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <div data-testid="postpone-date-info" className="flex items-center space-x-4 p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
               <Calendar className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
               <div className="text-sm">
-                <div className="text-blue-800 dark:text-blue-200 font-medium">
+                <div data-testid="current-next-watering" className="text-blue-800 dark:text-blue-200 font-medium">
                   Current next watering: {currentNextWatering}
                 </div>
-                <div className="text-blue-700 dark:text-blue-300">
+                <div data-testid="new-next-watering" className="text-blue-700 dark:text-blue-300">
                   New next watering: {postponedNextWatering}
                 </div>
               </div>
@@ -66,8 +66,9 @@ export function PostponeConfirmationDialog({
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel data-testid="postpone-cancel-button">Cancel</AlertDialogCancel>
           <AlertDialogAction
+            data-testid="postpone-confirm-button"
             onClick={handleConfirm}
             className="bg-sprout-water hover:bg-sprout-water/90 text-sprout-white"
           >

@@ -56,7 +56,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
    )}
   </Button>
   </div>
-  {error && <p className="text-sm text-red-500">{error}</p>}
+  {error && <p className="text-sm text-red-500" data-testid={`${id}-error`}>{error}</p>}
  </div>
  );
 };

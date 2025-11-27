@@ -627,7 +627,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="py-8 bg-background min-h-[calc(100vh-4rem)]">
+    <div data-testid="dashboard" className="py-8 bg-background min-h-[calc(100vh-4rem)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Welcome Header */}
         <WelcomeHeader greeting={greeting} />
@@ -635,7 +635,7 @@ const Dashboard = () => {
         {/* Weather Mood Banner - Fun animated weather status (top priority) */}
         {preferences?.use_weather_data && weather.weatherData && !weather.isLoading && (
           <CascadingContainer delay={50}>
-            <div className="mb-6">
+            <div data-testid="weather-mood-banner" className="mb-6">
               <WeatherMoodBanner
                 weatherData={weather.weatherData}
                 temperatureUnit={preferences?.temperature_unit || 'F'}
@@ -651,33 +651,38 @@ const Dashboard = () => {
         {/* Weather-based Seasonal Review Banner (requires weather enabled) */}
         {shouldShowReview && pendingTransition && (
           <CascadingContainer delay={50}>
-            <SeasonalReviewBanner
+            <div data-testid="seasonal-review-banner">
+              <SeasonalReviewBanner
               transition={pendingTransition}
               plantsNeedingReview={suggestions.length}
               onReviewClick={() => seasonalReviewDialog.open()}
               onDismiss={dismissReview}
               onSnooze={snoozeReview}
             />
+            </div>
           </CascadingContainer>
         )}
 
         {/* Calendar-based Seasonal Notification (works without weather) */}
         {shouldShowCalendarNotification && calendarSeasonChange && !shouldShowReview && (
           <CascadingContainer delay={50}>
-            <CalendarSeasonalBanner
+            <div data-testid="calendar-seasonal-banner">
+              <CalendarSeasonalBanner
               upcomingChange={calendarSeasonChange}
               plantCount={calendarPlantSuggestions.length}
               onReviewClick={() => calendarSeasonalDialog.open()}
               onDismiss={dismissCalendarNotification}
               onSnooze={snoozeCalendarNotification}
             />
+            </div>
           </CascadingContainer>
         )}
 
         {/* Smart Suggestions Banner */}
         {shouldShowSmartSuggestionsBanner && (
           <CascadingContainer delay={100}>
-            <SmartSuggestionsBanner
+            <div data-testid="smart-suggestions-banner">
+              <SmartSuggestionsBanner
               plantsWithSuggestions={activePlantsWithSuggestions.map(plant => {
                 const plantData = plants.find(p => p.id === plant.plantId);
                 return {
@@ -692,6 +697,7 @@ const Dashboard = () => {
               onDismiss={handleDismissAllSuggestions}
               onSnooze={handleSnoozeSuggestions}
             />
+            </div>
           </CascadingContainer>
         )}
 
@@ -718,14 +724,16 @@ const Dashboard = () => {
         {/* Enable Weather Prompt - Show when weather is disabled */}
         {!preferences?.use_weather_data && (
           <CascadingContainer delay={200}>
-            <EnableWeatherPrompt />
+            <div data-testid="enable-weather-prompt">
+              <EnableWeatherPrompt />
+            </div>
           </CascadingContainer>
         )}
 
         {/* Rain Delay Notification - Show when outdoor plants can skip watering */}
         {outdoorPlantsWithRainDelay.length > 0 && weather.weatherData && (
           <CascadingContainer delay={275}>
-            <div className="mb-6">
+            <div data-testid="rain-delay-notification" className="mb-6">
               <Card className="border-blue-400 bg-blue-400/5">
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
@@ -771,7 +779,7 @@ const Dashboard = () => {
         <CascadingContainer delay={300}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             {/* Today's Tasks */}
-            <Card id="todays-tasks" className="border-border">
+            <Card id="todays-tasks" data-testid="todays-tasks-card" className="border-border">
               <CardHeader>
                 <CardTitle className="flex items-center text-foreground">
                   <Calendar className="w-5 h-5 mr-2 text-plant-primary dark:text-plant-secondary" />
@@ -783,19 +791,20 @@ const Dashboard = () => {
               </CardHeader>
               <CardContent>
                 {plantsNeedingWater.length === 0 ? (
-                  <div className="text-center py-8">
+                  <div data-testid="no-tasks-message" className="text-center py-8">
                     <CheckCircle className="w-12 h-12 text-green-500 dark:text-green-400 mx-auto mb-3" />
                     <p className="text-muted-foreground">
                       All caught up! No plants need watering today.
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-3">
+                  <div data-testid="tasks-list" className="space-y-3">
                     {plantsNeedingWater.slice(0, 5).map((plant) => {
                       const wateringCalc = calculateWateringSchedule(plant);
                       return (
                         <div
                           key={plant.id}
+                          data-testid={`task-item-${plant.id}`}
                           className="flex items-center justify-between p-3 bg-muted/30 dark:bg-muted/20 rounded-lg border border-border/50"
                         >
                           <div
@@ -830,16 +839,17 @@ const Dashboard = () => {
                           </div>
                           <div className="flex items-center space-x-2">
                             {wateringCalc.isOverdue ? (
-                              <Badge className="text-xs bg-sprout-error text-white">
+                              <Badge data-testid={`overdue-badge-${plant.id}`} className="text-xs bg-sprout-error text-white">
                                 {Math.abs(wateringCalc.daysUntilWatering)} days
                                 overdue
                               </Badge>
                             ) : (
-                              <Badge variant="secondary" className="text-xs">
+                              <Badge data-testid={`due-today-badge-${plant.id}`} variant="secondary" className="text-xs">
                                 Due today
                               </Badge>
                             )}
                             <Button
+                              data-testid={`quick-water-button-${plant.id}`}
                               size="sm"
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -865,7 +875,7 @@ const Dashboard = () => {
             </Card>
 
             {/* Recent Activity Feed */}
-            <Card className="border-border">
+            <Card data-testid="recent-activity-card" className="border-border">
               <CardHeader>
                 <CardTitle className="flex items-center text-foreground">
                   <Activity className="w-5 h-5 mr-2 text-plant-primary dark:text-plant-secondary" />
@@ -877,17 +887,18 @@ const Dashboard = () => {
               </CardHeader>
               <CardContent>
                 {recentlyWateredPlants.length === 0 ? (
-                  <div className="text-center py-8">
+                  <div data-testid="no-recent-activity" className="text-center py-8">
                     <Clock className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
                     <p className="text-muted-foreground">
                       No recent activity. Start caring for your plants!
                     </p>
                   </div>
                 ) : (
-                  <div className="space-y-3">
+                  <div data-testid="recent-activity-list" className="space-y-3">
                     {recentlyWateredPlants.map((plant) => (
                       <div
                         key={plant.id}
+                        data-testid={`recent-activity-item-${plant.id}`}
                         className="flex items-center space-x-3 p-3 bg-muted/30 dark:bg-muted/20 rounded-lg border border-border/50"
                       >
                         <PlantImage
@@ -924,7 +935,7 @@ const Dashboard = () => {
 
         {/* Plant Health Insights */}
         <CascadingContainer delay={400}>
-          <Card className="border-border mb-8">
+          <Card data-testid="plant-health-insights-card" className="border-border mb-8">
             <CardHeader>
               <CardTitle className="flex items-center text-foreground">
                 <Target className="w-5 h-5 mr-2 text-plant-primary dark:text-plant-secondary" />
@@ -977,7 +988,7 @@ const Dashboard = () => {
                   </h4>
                   <div className="space-y-2">
                     {overduePlants > 0 && (
-                      <div className="flex items-start space-x-2 p-3 bg-sprout-warning/10 rounded-lg border border-sprout-warning/30">
+                      <div data-testid="overdue-plants-warning" className="flex items-start space-x-2 p-3 bg-sprout-warning/10 rounded-lg border border-sprout-warning/30">
                         <AlertTriangle className="w-4 h-4 text-sprout-warning mt-0.5 flex-shrink-0" />
                         <p className="text-sm text-sprout-warning">
                           {overduePlants} plant{overduePlants > 1 ? "s" : ""}{" "}
@@ -986,7 +997,7 @@ const Dashboard = () => {
                       </div>
                     )}
                     {plantsWithoutWateringData > 0 && (
-                      <div className="flex items-start space-x-2 p-3 bg-sprout-cream/15 rounded-lg border border-sprout-cream/40">
+                      <div data-testid="missing-watering-data-warning" className="flex items-start space-x-2 p-3 bg-sprout-cream/15 rounded-lg border border-sprout-cream/40">
                         <Clock className="w-4 h-4 text-sprout-dark mt-0.5 flex-shrink-0" />
                         <p className="text-sm text-sprout-dark">
                           {plantsWithoutWateringData} plant
@@ -998,7 +1009,7 @@ const Dashboard = () => {
                     {overduePlants === 0 &&
                       plantsWithoutWateringData === 0 &&
                       totalPlants > 0 && (
-                        <div className="flex items-start space-x-2 p-3 bg-green-50 dark:bg-green-500/10 rounded-lg border border-green-200 dark:border-green-500/30">
+                        <div data-testid="all-plants-healthy-message" className="flex items-start space-x-2 p-3 bg-green-50 dark:bg-green-500/10 rounded-lg border border-green-200 dark:border-green-500/30">
                           <CheckCircle className="w-4 h-4 text-plant-secondary dark:text-plant-secondary mt-0.5 flex-shrink-0" />
                           <p className="text-sm text-green-700 dark:text-green-300">
                             Great job! All your plants are well cared for. Keep
@@ -1007,11 +1018,12 @@ const Dashboard = () => {
                         </div>
                       )}
                     {totalPlants === 0 && (
-                      <div className="text-center p-4 bg-blue-50 dark:bg-blue-500/10 rounded-lg border border-blue-200 dark:border-blue-500/30">
+                      <div data-testid="add-first-plant-prompt" className="text-center p-4 bg-blue-50 dark:bg-blue-500/10 rounded-lg border border-blue-200 dark:border-blue-500/30">
                         <p className="text-sm text-blue-700 dark:text-blue-300 mb-3">
                           Start your plant journey by adding your first plant!
                         </p>
                         <Button
+                          data-testid="add-first-plant-button"
                           onClick={() => addDialog.open()}
                           className="bg-sprout-success hover:bg-sprout-success/90 text-white"
                           size="sm"
@@ -1031,7 +1043,7 @@ const Dashboard = () => {
         {/* Quick Plant Gallery */}
         {favoritePlants.length > 0 && (
           <CascadingContainer delay={500}>
-            <Card className="border-border">
+            <Card data-testid="plant-gallery-card" className="border-border">
               <CardHeader>
                 <CardTitle className="flex items-center text-foreground">
                   <Flower2 className="w-5 h-5 mr-2 text-plant-primary dark:text-plant-secondary" />
@@ -1042,10 +1054,11 @@ const Dashboard = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div data-testid="plant-gallery-grid" className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {favoritePlants.map((plant) => (
-                    <div key={plant.id} className="group">
+                    <div key={plant.id} data-testid={`gallery-plant-${plant.id}`} className="group">
                       <div
+                        data-testid={`gallery-plant-image-${plant.id}`}
                         className="aspect-square bg-plant-neutral dark:bg-plant-neutral rounded-lg overflow-hidden mb-2 cursor-pointer hover:shadow-lg transition-all duration-300"
                         onClick={() =>
                           handleImageClick(
@@ -1109,7 +1122,7 @@ const Dashboard = () => {
             }
           }}
         >
-          <AlertDialogContent>
+          <AlertDialogContent data-testid="bulk-water-dialog">
             <AlertDialogHeader>
               <AlertDialogTitle className="flex items-center">
                 <Droplets className="w-5 h-5 mr-2 text-sprout-water" />
@@ -1122,7 +1135,7 @@ const Dashboard = () => {
               </AlertDialogDescription>
             </AlertDialogHeader>
 
-            <div className="max-h-48 overflow-y-auto space-y-2 my-4">
+            <div data-testid="bulk-water-plants-list" className="max-h-48 overflow-y-auto space-y-2 my-4">
               {plantsNeedingWater.map((plant) => (
                 <div
                   key={plant.id}
@@ -1171,8 +1184,9 @@ const Dashboard = () => {
             </div>
 
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel data-testid="bulk-water-cancel-button">Cancel</AlertDialogCancel>
               <AlertDialogAction
+                data-testid="bulk-water-confirm-button"
                 onClick={handleBulkWater}
                 className="bg-sprout-water hover:bg-sprout-water/90 text-white"
               >

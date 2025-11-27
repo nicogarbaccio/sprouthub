@@ -78,15 +78,16 @@ export function SeasonalReviewBanner({
   };
 
   return (
-    <Alert className={`mb-6 ${seasonColorClass} border-l-4`}>
+    <Alert data-testid="seasonal-review-banner-alert" className={`mb-6 ${seasonColorClass} border-l-4`}>
       <div className="flex items-start justify-between">
         <div className="flex items-start space-x-3 flex-1">
           <SeasonIcon className="h-6 w-6 mt-0.5 flex-shrink-0" />
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center space-x-2 mb-2">
-              <h3 className="font-semibold text-lg">{getSeasonMessage()}</h3>
+              <h3 data-testid="seasonal-banner-title" className="font-semibold text-lg">{getSeasonMessage()}</h3>
               <Badge
+                data-testid="seasonal-confidence-badge"
                 variant="outline"
                 className={`text-xs ${getConfidenceColor(
                   transition.confidence
@@ -96,7 +97,7 @@ export function SeasonalReviewBanner({
               </Badge>
             </div>
 
-            <AlertDescription className="text-sm mb-3">
+            <AlertDescription data-testid="seasonal-banner-description" className="text-sm mb-3">
               <div className="flex items-center space-x-1 mb-2">
                 <Droplets className="h-4 w-4" />
                 <span>
@@ -117,6 +118,7 @@ export function SeasonalReviewBanner({
 
             <div className="flex flex-wrap gap-2">
               <Button
+                data-testid="review-schedules-button"
                 onClick={onReviewClick}
                 size="sm"
                 className="bg-white/80 hover:bg-white text-current border border-current/20"
@@ -127,6 +129,7 @@ export function SeasonalReviewBanner({
 
               <div className="flex items-center space-x-1">
                 <Button
+                  data-testid="snooze-1-week-button"
                   variant="ghost"
                   size="sm"
                   onClick={() => onSnooze(1)}
@@ -136,6 +139,7 @@ export function SeasonalReviewBanner({
                 </Button>
 
                 <Button
+                  data-testid="snooze-2-weeks-button"
                   variant="ghost"
                   size="sm"
                   onClick={() => onSnooze(2)}
@@ -149,6 +153,7 @@ export function SeasonalReviewBanner({
         </div>
 
         <Button
+          data-testid="dismiss-seasonal-banner-button"
           variant="ghost"
           size="sm"
           onClick={onDismiss}

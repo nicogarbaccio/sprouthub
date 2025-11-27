@@ -44,7 +44,7 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
  };
 
  return (
- <Card>
+ <Card data-testid="profile-information-card">
   <CardHeader>
   <div className="flex items-center space-x-2">
    <User className="w-5 h-5" />
@@ -85,6 +85,7 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
    <div className="space-y-2">
    <Label htmlFor="first_name">First Name</Label>
    <Input
+    data-testid="first-name-input"
     id="first_name"
     value={profileData.first_name}
     onChange={(e) =>
@@ -100,6 +101,7 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
    <div className="space-y-2">
    <Label htmlFor="last_name">Last Name</Label>
    <Input
+    data-testid="last-name-input"
     id="last_name"
     value={profileData.last_name}
     onChange={(e) =>
@@ -116,6 +118,7 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
   <div className="space-y-2">
    <Label htmlFor="username">Username</Label>
    <Input
+   data-testid="username-input"
    id="username"
    value={profileData.username}
    onChange={(e) =>
@@ -128,6 +131,7 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
   <div className="space-y-2">
    <Label htmlFor="email">Email</Label>
    <Input
+   data-testid="email-input"
    id="email"
    type="email"
    value={profileData.email}
@@ -140,6 +144,7 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
   </div>
 
   <Button
+   data-testid="update-profile-button"
    onClick={handleUpdateProfile}
    disabled={isLoading || !hasProfileChanges()}
    className={`w-full font-medium ${

@@ -103,9 +103,9 @@ export function SeasonalReviewDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] flex flex-col">
+      <DialogContent data-testid="seasonal-review-dialog" className="max-w-4xl max-h-[90vh] flex flex-col">
         <DialogHeader>
-          <DialogTitle className="flex items-center space-x-2">
+          <DialogTitle data-testid="seasonal-review-dialog-title" className="flex items-center space-x-2">
             <Sparkles className="h-5 w-5 text-blue-500" />
             <span>{seasonDisplayName} Schedule Review</span>
           </DialogTitle>
@@ -120,8 +120,8 @@ export function SeasonalReviewDialog({
           <ScrollArea className="h-full pr-4">
             <div className="space-y-4">
               {/* Summary Stats */}
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <Card>
+              <div data-testid="seasonal-summary-stats" className="grid grid-cols-3 gap-4 mb-6">
+                <Card data-testid="total-plants-stat">
                   <CardContent className="p-4 text-center">
                     <div className="text-2xl font-bold text-blue-600">
                       {suggestions.length}
@@ -129,7 +129,7 @@ export function SeasonalReviewDialog({
                     <div className="text-sm text-gray-600">Total Plants</div>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card data-testid="updated-plants-stat">
                   <CardContent className="p-4 text-center">
                     <div className="text-2xl font-bold text-green-600">
                       {appliedSuggestions.size}
@@ -137,7 +137,7 @@ export function SeasonalReviewDialog({
                     <div className="text-sm text-gray-600">Updated</div>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card data-testid="pending-plants-stat">
                   <CardContent className="p-4 text-center">
                     <div className="text-2xl font-bold text-orange-600">
                       {unappliedSuggestions.length}
@@ -158,11 +158,12 @@ export function SeasonalReviewDialog({
                 return (
                   <Card
                     key={suggestion.plant_id}
+                    data-testid={`seasonal-suggestion-${suggestion.plant_id}`}
                     className={isApplied ? "opacity-75" : ""}
                   >
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-lg flex items-center space-x-2">
+                        <CardTitle data-testid={`suggestion-plant-name-${suggestion.plant_id}`} className="text-lg flex items-center space-x-2">
                           <span>{suggestion.plant_nickname}</span>
                           {isApplied && (
                             <CheckCircle className="h-5 w-5 text-green-500" />
@@ -291,6 +292,7 @@ export function SeasonalReviewDialog({
                               {isEditing ? (
                                 <>
                                   <Button
+                                    data-testid={`apply-custom-${suggestion.plant_id}`}
                                     size="sm"
                                     onClick={() =>
                                       handleApplyCustom(suggestion.plant_id)
@@ -300,6 +302,7 @@ export function SeasonalReviewDialog({
                                     Apply Custom
                                   </Button>
                                   <Button
+                                    data-testid={`cancel-custom-${suggestion.plant_id}`}
                                     variant="outline"
                                     size="sm"
                                     onClick={() => setEditingPlant(null)}
@@ -310,6 +313,7 @@ export function SeasonalReviewDialog({
                               ) : (
                                 <>
                                   <Button
+                                    data-testid={`apply-suggestion-${suggestion.plant_id}`}
                                     size="sm"
                                     onClick={() =>
                                       onApplySuggestion(
@@ -322,6 +326,7 @@ export function SeasonalReviewDialog({
                                     Apply Suggestion
                                   </Button>
                                   <Button
+                                    data-testid={`customize-suggestion-${suggestion.plant_id}`}
                                     variant="outline"
                                     size="sm"
                                     onClick={() =>
@@ -363,12 +368,12 @@ export function SeasonalReviewDialog({
             </div>
 
             <div className="flex space-x-2">
-              <Button variant="outline" onClick={onClose}>
+              <Button data-testid="close-seasonal-review-button" variant="outline" onClick={onClose}>
                 Close
               </Button>
 
               {unappliedSuggestions.length > 0 && (
-                <Button onClick={onApplyAll} disabled={isLoading}>
+                <Button data-testid="apply-all-suggestions-button" onClick={onApplyAll} disabled={isLoading}>
                   {isLoading ? (
                     <>
                       <Clock className="h-4 w-4 mr-2 animate-spin" />

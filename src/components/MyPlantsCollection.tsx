@@ -247,35 +247,35 @@ const MyPlantsCollection = () => {
   };
 
   return (
-    <section className="py-8 bg-background min-h-[calc(100vh-4rem)]">
+    <section data-testid="my-plants-collection" className="py-8 bg-background min-h-[calc(100vh-4rem)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <CascadingContainer delay={0}>
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
             <div>
-              <h2 className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
+              <h2 data-testid="collection-header" className="text-3xl md:text-4xl font-semibold text-foreground mb-4">
                 My Plant Collection
               </h2>
-              <div className="flex flex-wrap gap-4 text-sm">
-                <span className="bg-sprout-medium text-white px-3 py-1 rounded-full">
+              <div data-testid="collection-stats" className="flex flex-wrap gap-4 text-sm">
+                <span data-testid="plants-total-badge" className="bg-sprout-medium text-white px-3 py-1 rounded-full">
                   {plants.length} plants total
                 </span>
                 {roomCount > 0 && (
-                  <span className="bg-sprout-water text-white px-3 py-1 rounded-full">
+                  <span data-testid="room-count-badge" className="bg-sprout-water text-white px-3 py-1 rounded-full">
                     {roomCount} room{roomCount !== 1 ? "s" : ""}
                   </span>
                 )}
                 {overdueCount > 0 && (
-                  <span className="bg-sprout-error text-white px-3 py-1 rounded-full">
+                  <span data-testid="overdue-count-badge" className="bg-sprout-error text-white px-3 py-1 rounded-full">
                     {overdueCount} overdue
                   </span>
                 )}
                 {dueToday > 0 && (
-                  <span className="bg-sprout-warning text-white px-3 py-1 rounded-full">
+                  <span data-testid="due-today-badge" className="bg-sprout-warning text-white px-3 py-1 rounded-full">
                     {dueToday} due today
                   </span>
                 )}
                 {unknownWateringCount > 0 && (
-                  <span className="bg-neutral-light text-neutral-dark px-3 py-1 rounded-full">
+                  <span data-testid="unknown-schedule-badge" className="bg-neutral-light text-neutral-dark px-3 py-1 rounded-full">
                     {unknownWateringCount} unknown schedule
                   </span>
                 )}
@@ -283,7 +283,7 @@ const MyPlantsCollection = () => {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full cursor-help">
+                        <span data-testid="overwatering-risk-badge" className="bg-red-100 text-red-700 px-3 py-1 rounded-full cursor-help">
                           {overwateringCount} overwatering risk
                         </span>
                       </TooltipTrigger>
@@ -302,6 +302,7 @@ const MyPlantsCollection = () => {
             </div>
 
             <Button
+              data-testid="add-plant-button"
               onClick={handleAddPlant}
               className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl mt-4 md:mt-0 font-medium"
             >
@@ -313,7 +314,7 @@ const MyPlantsCollection = () => {
 
         {plants.length === 0 ? (
           <CascadingContainer delay={200}>
-            <div className="bg-gradient-to-br from-plant-secondary/10 to-plant-primary/5 rounded-3xl p-12 text-center">
+            <div data-testid="empty-collection-state" className="bg-gradient-to-br from-plant-secondary/10 to-plant-primary/5 rounded-3xl p-12 text-center">
               <div className="w-32 h-32 bg-gradient-to-br from-plant-primary to-plant-secondary rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg">
                 <img
                   src="/LogoDark.svg"
@@ -367,6 +368,7 @@ const MyPlantsCollection = () => {
               </div>
 
               <Button
+                data-testid="add-first-plant-button"
                 onClick={handleAddPlant}
                 size="lg"
                 className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-all duration-300 font-medium"

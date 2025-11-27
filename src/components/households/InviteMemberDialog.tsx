@@ -62,18 +62,19 @@ export const InviteMemberDialog: React.FC<InviteMemberDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent data-testid="invite-member-dialog" className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Invite Member</DialogTitle>
+          <DialogTitle data-testid="invite-member-title">Invite Member</DialogTitle>
           <DialogDescription>
             Send an invitation to collaborate on this household's plants.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit}>
+        <form data-testid="invite-member-form" onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="invite-email">Email Address</Label>
               <Input
+                data-testid="invite-email-input"
                 id="invite-email"
                 type="email"
                 placeholder="friend@example.com"
@@ -86,11 +87,11 @@ export const InviteMemberDialog: React.FC<InviteMemberDialogProps> = ({
             <div className="grid gap-2">
               <Label htmlFor="invite-role">Role</Label>
               <Select value={role} onValueChange={(value: 'member' | 'admin') => setRole(value)}>
-                <SelectTrigger>
+                <SelectTrigger data-testid="invite-role-select">
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="member">
+                <SelectContent data-testid="invite-role-options">
+                  <SelectItem data-testid="role-member-option" value="member">
                     <div>
                       <div className="font-medium">Member</div>
                       <div className="text-sm text-muted-foreground">
@@ -98,7 +99,7 @@ export const InviteMemberDialog: React.FC<InviteMemberDialogProps> = ({
                       </div>
                     </div>
                   </SelectItem>
-                  <SelectItem value="admin">
+                  <SelectItem data-testid="role-admin-option" value="admin">
                     <div>
                       <div className="font-medium">Admin</div>
                       <div className="text-sm text-muted-foreground">
@@ -112,6 +113,7 @@ export const InviteMemberDialog: React.FC<InviteMemberDialogProps> = ({
           </div>
           <DialogFooter>
             <Button
+              data-testid="invite-member-cancel-button"
               type="button"
               variant="outline"
               onClick={handleClose}
@@ -119,7 +121,7 @@ export const InviteMemberDialog: React.FC<InviteMemberDialogProps> = ({
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={!email.trim() || isSubmitting}>
+            <Button data-testid="invite-member-submit-button" type="submit" disabled={!email.trim() || isSubmitting}>
               {isSubmitting ? 'Sending...' : 'Send Invitation'}
             </Button>
           </DialogFooter>

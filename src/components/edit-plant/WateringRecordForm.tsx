@@ -29,7 +29,7 @@ const WateringRecordForm = ({ onAddWatering }: WateringRecordFormProps) => {
  };
 
  return (
- <div className="p-4 border rounded-lg space-y-3">
+ <div data-testid="watering-record-form" className="p-4 border rounded-lg space-y-3">
   <h4 className="font-medium">Add Watering Record</h4>
 
   <div className="space-y-2">
@@ -37,6 +37,7 @@ const WateringRecordForm = ({ onAddWatering }: WateringRecordFormProps) => {
   <Popover>
    <PopoverTrigger asChild>
    <Button
+    data-testid="watering-date-picker-button"
     variant="outline"
     className={cn(
     "w-full justify-start text-left font-normal",
@@ -49,6 +50,7 @@ const WateringRecordForm = ({ onAddWatering }: WateringRecordFormProps) => {
    </PopoverTrigger>
    <PopoverContent className="w-auto p-0" align="start">
    <Calendar
+    data-testid="watering-date-calendar"
     mode="single"
     selected={newWateringDate}
     onSelect={setNewWateringDate}
@@ -61,6 +63,7 @@ const WateringRecordForm = ({ onAddWatering }: WateringRecordFormProps) => {
   <div className="space-y-2">
   <Label htmlFor="notes">Notes (optional)</Label>
   <Textarea
+   data-testid="watering-notes-input"
    id="notes"
    value={newWateringNotes}
    onChange={(e) => setNewWateringNotes(e.target.value)}
@@ -70,6 +73,7 @@ const WateringRecordForm = ({ onAddWatering }: WateringRecordFormProps) => {
   </div>
 
   <Button
+  data-testid="add-watering-record-button"
   onClick={handleAddWatering}
   disabled={!newWateringDate}
   className="w-full bg-plant-water text-white hover:bg-plant-water/90 hover:text-white"

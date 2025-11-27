@@ -355,7 +355,7 @@ const AddPlantDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto" data-testid="add-plant-dialog">
         <DialogHeader>
           <DialogTitle className="text-plant-text dark:text-zinc-200 ">
             {plantData
@@ -384,6 +384,7 @@ const AddPlantDialog = ({
               placeholder="Give your plant a nickname"
               className="border-plant-secondary/30 focus:border-plant-primary"
               required
+              data-testid="plant-nickname-input"
             />
           </div>
 
@@ -402,6 +403,7 @@ const AddPlantDialog = ({
                   setIsPlantTypePopoverOpen(!isPlantTypePopoverOpen)
                 }
                 className="w-full justify-between border-plant-secondary/30 focus:border-plant-primary font-normal"
+                data-testid="plant-type-trigger"
               >
                 <span className="font-normal text-muted-foreground">
                   {formData.plant_type || "Search or select plant type..."}
@@ -417,6 +419,7 @@ const AddPlantDialog = ({
                       onChange={(e) => setPlantTypeSearch(e.target.value)}
                       className="border-0 focus:ring-0 focus:outline-none"
                       autoFocus
+                      data-testid="plant-type-search-input"
                     />
                   </div>
                   <div
@@ -495,6 +498,7 @@ const AddPlantDialog = ({
                   placeholder="Enter custom plant type"
                   className="border-plant-secondary/30 focus:border-plant-primary"
                   required
+                  data-testid="custom-plant-type-input"
                 />
               </div>
             )}
@@ -518,7 +522,7 @@ const AddPlantDialog = ({
                   )
                 }
               >
-                <SelectTrigger className="border-plant-secondary/30 focus:border-plant-primary">
+                <SelectTrigger className="border-plant-secondary/30 focus:border-plant-primary" data-testid="household-select-trigger">
                   <SelectValue placeholder="Personal plant or assign to household" />
                 </SelectTrigger>
                 <SelectContent>
@@ -570,7 +574,7 @@ const AddPlantDialog = ({
                 }
               }}
             >
-              <SelectTrigger className="border-plant-secondary/30 focus:border-plant-primary">
+              <SelectTrigger className="border-plant-secondary/30 focus:border-plant-primary" data-testid="room-select-trigger">
                 <SelectValue placeholder="Select a room or leave empty" />
               </SelectTrigger>
               <SelectContent>
@@ -604,6 +608,7 @@ const AddPlantDialog = ({
                   }}
                   placeholder="Enter custom room name"
                   className="border-plant-secondary/30 focus:border-plant-primary"
+                  data-testid="custom-room-input"
                 />
               </div>
             )}
@@ -618,6 +623,7 @@ const AddPlantDialog = ({
                 <Button
                   variant="outline"
                   className="w-full justify-start text-left font-normal border-plant-secondary/30 focus:border-plant-primary"
+                  data-testid="last-watered-date-trigger"
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {lastWateredDate
@@ -665,7 +671,7 @@ const AddPlantDialog = ({
               value={getCurrentSelectValue()}
               onValueChange={handleWateringScheduleChange}
             >
-              <SelectTrigger className="border-plant-secondary/30 focus:border-plant-primary">
+              <SelectTrigger className="border-plant-secondary/30 focus:border-plant-primary" data-testid="watering-schedule-trigger">
                 <SelectValue placeholder="Select watering frequency" />
               </SelectTrigger>
               <SelectContent>
@@ -709,6 +715,7 @@ const AddPlantDialog = ({
                   onChange={(e) => handleCustomDaysChange(e.target.value)}
                   placeholder="Enter days between watering"
                   className="border-plant-secondary/30 focus:border-plant-primary"
+                  data-testid="custom-days-input"
                 />
                 <p className="text-xs text-muted-foreground">
                   Enter a number between 1 and 365 days
@@ -737,6 +744,7 @@ const AddPlantDialog = ({
               onChange={(e) => handleInputChange("notes", e.target.value)}
               placeholder="Care instructions, botanical name, etc."
               className="border-plant-secondary/30 focus:border-plant-primary min-h-20"
+              data-testid="plant-notes-textarea"
             />
           </div>
 
@@ -748,6 +756,7 @@ const AddPlantDialog = ({
                 onCheckedChange={(checked) =>
                   handleInputChange("is_outdoor_plant", checked === true)
                 }
+                data-testid="outdoor-plant-checkbox"
               />
               <Label
                 htmlFor="is-outdoor-plant"
@@ -770,6 +779,7 @@ const AddPlantDialog = ({
               onClick={onClose}
               className="flex-1 border-plant-secondary/30 hover:bg-plant-secondary/10"
               disabled={isSubmitting}
+              data-testid="add-plant-cancel-button"
             >
               Cancel
             </Button>
@@ -781,6 +791,7 @@ const AddPlantDialog = ({
                 isSubmitting
               }
               className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl font-medium"
+              data-testid="add-plant-submit-button"
             >
               {isSubmitting ? "Adding..." : "Add Plant"}
             </Button>

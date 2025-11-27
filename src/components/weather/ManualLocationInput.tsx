@@ -46,12 +46,14 @@ export function ManualLocationInput({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           disabled={isGeocoding}
+          data-testid="manual-location-input"
         />
         <Button
           variant="outline"
           size="icon"
           onClick={onGeocode}
           disabled={isGeocoding || !value.trim()}
+          data-testid="manual-location-search-button"
         >
           {isGeocoding ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -61,7 +63,7 @@ export function ManualLocationInput({
         </Button>
       </div>
       {error && (
-        <p className="text-xs text-red-500">{error}</p>
+        <p className="text-xs text-red-500" data-testid="manual-location-error">{error}</p>
       )}
       <p className="text-xs text-muted-foreground flex items-start gap-1">
         <Info className="h-3 w-3 mt-0.5 flex-shrink-0" />

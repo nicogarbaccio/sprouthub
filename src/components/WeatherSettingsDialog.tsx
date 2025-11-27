@@ -142,7 +142,7 @@ export function WeatherSettingsDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col">
+      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col" data-testid="weather-settings-dialog">
         <DialogHeader className="flex-shrink-0">
           <DialogTitle className="flex items-center gap-2">
             <CloudSun className="h-5 w-5 text-blue-500" />
@@ -172,6 +172,7 @@ export function WeatherSettingsDialog({
                   checked={useWeather}
                   onCheckedChange={handleToggleWeather}
                   className="data-[state=unchecked]:bg-gray-300 dark:data-[state=unchecked]:bg-gray-600"
+                  data-testid="weather-toggle"
                 />
               </div>
             </CardContent>
@@ -190,13 +191,13 @@ export function WeatherSettingsDialog({
                     onValueChange={(value) => setTemperatureUnit(value as 'F' | 'C')}
                   >
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="F" id="fahrenheit" />
+                      <RadioGroupItem value="F" id="fahrenheit" data-testid="temp-unit-f" />
                       <Label htmlFor="fahrenheit" className="font-normal cursor-pointer">
                         Fahrenheit (°F)
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="C" id="celsius" />
+                      <RadioGroupItem value="C" id="celsius" data-testid="temp-unit-c" />
                       <Label htmlFor="celsius" className="font-normal cursor-pointer">
                         Celsius (°C)
                       </Label>
@@ -252,10 +253,10 @@ export function WeatherSettingsDialog({
         </div>
 
         <DialogFooter className="flex-shrink-0">
-          <Button variant="outline" onClick={onClose}>
+          <Button variant="outline" onClick={onClose} data-testid="cancel-settings-button">
             Cancel
           </Button>
-          <Button onClick={handleSave} disabled={isSavingPreferences}>
+          <Button onClick={handleSave} disabled={isSavingPreferences} data-testid="save-settings-button">
             {isSavingPreferences && (
               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
             )}

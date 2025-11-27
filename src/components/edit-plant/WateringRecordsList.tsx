@@ -17,7 +17,7 @@ const WateringRecordsList = ({
   deleteLoadingRecords = new Set(),
 }: WateringRecordsListProps) => {
   return (
-    <div className="space-y-4">
+    <div data-testid="watering-records-list" className="space-y-4">
       {records.length > 0 ? (
         records.map((record, index) => {
           const isDeleting = deleteLoadingRecords.has(record.id);
@@ -26,11 +26,13 @@ const WateringRecordsList = ({
 
           return (
             <div key={record.id}>
-              <div className={`flex items-center justify-between p-4 sm:p-3 border rounded-lg hover:shadow-sm transition-shadow
-                ${isPostponement 
+              <div
+                data-testid={`watering-record-${record.id}`}
+                className={`flex items-center justify-between p-4 sm:p-3 border rounded-lg hover:shadow-sm transition-shadow
+                ${isPostponement
                   ? isFutureDate
                     ? "bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/30"
-                    : "bg-gray-50 dark:bg-gray-800/20 border-gray-200 dark:border-gray-700/30" 
+                    : "bg-gray-50 dark:bg-gray-800/20 border-gray-200 dark:border-gray-700/30"
                   : "bg-card"}`
                 }
               >
@@ -62,6 +64,7 @@ const WateringRecordsList = ({
                 <div className="flex gap-1 ml-2 flex-shrink-0">
                   {onEditRecord && (
                     <Button
+                      data-testid={`edit-watering-record-${record.id}`}
                       variant="ghost"
                       size="sm"
                       onClick={() => onEditRecord(record)}
@@ -73,6 +76,7 @@ const WateringRecordsList = ({
                     </Button>
                   )}
                   <Button
+                    data-testid={`delete-watering-record-${record.id}`}
                     variant="ghost"
                     size="sm"
                     onClick={() => onDeleteRecord(record.id)}
@@ -95,7 +99,7 @@ const WateringRecordsList = ({
           );
         })
       ) : (
-        <p className="text-muted-foreground text-center py-8">
+        <p data-testid="no-watering-records" className="text-muted-foreground text-center py-8">
           No watering records yet
         </p>
       )}

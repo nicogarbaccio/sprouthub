@@ -79,7 +79,7 @@ export function LocationSection({
 
         {/* Browser Location Success */}
         {browserLocation && !manualLocationData && (
-          <Alert>
+          <Alert data-testid="browser-location-success">
             <CheckCircle className="h-4 w-4 text-green-500" />
             <AlertDescription>
               <div className="font-medium">Browser location detected</div>
@@ -93,7 +93,7 @@ export function LocationSection({
 
         {/* Manual Location Success */}
         {manualLocationData && (
-          <Alert>
+          <Alert data-testid="manual-location-success">
             <CheckCircle className="h-4 w-4 text-green-500" />
             <AlertDescription>
               <div className="flex items-start justify-between">
@@ -110,6 +110,7 @@ export function LocationSection({
                   size="sm"
                   onClick={onClearManualLocation}
                   className="h-6 w-6 p-0"
+                  data-testid="clear-manual-location-button"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -134,6 +135,7 @@ export function LocationSection({
             variant="outline"
             onClick={onRequestBrowserLocation}
             className="w-full"
+            data-testid="detect-location-button"
           >
             <MapPin className="h-4 w-4 mr-2" />
             Detect My Location

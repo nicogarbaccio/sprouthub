@@ -54,18 +54,19 @@ export const CreateHouseholdDialog: React.FC<CreateHouseholdDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent data-testid="create-household-dialog" className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create Household</DialogTitle>
+          <DialogTitle data-testid="create-household-title">Create Household</DialogTitle>
           <DialogDescription>
             Create a new household to collaborate with others on plant care.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit}>
+        <form data-testid="create-household-form" onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="household-name">Household Name</Label>
               <Input
+                data-testid="household-name-input"
                 id="household-name"
                 placeholder="e.g., The Smith Family, Apartment 4B"
                 value={name}
@@ -77,6 +78,7 @@ export const CreateHouseholdDialog: React.FC<CreateHouseholdDialogProps> = ({
             <div className="grid gap-2">
               <Label htmlFor="household-description">Description (Optional)</Label>
               <Textarea
+                data-testid="household-description-input"
                 id="household-description"
                 placeholder="Brief description of your household..."
                 value={description}
@@ -88,6 +90,7 @@ export const CreateHouseholdDialog: React.FC<CreateHouseholdDialogProps> = ({
           </div>
           <DialogFooter>
             <Button
+              data-testid="create-household-cancel-button"
               type="button"
               variant="outline"
               onClick={handleClose}
@@ -95,7 +98,7 @@ export const CreateHouseholdDialog: React.FC<CreateHouseholdDialogProps> = ({
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={!name.trim() || isSubmitting}>
+            <Button data-testid="create-household-submit-button" type="submit" disabled={!name.trim() || isSubmitting}>
               {isSubmitting ? 'Creating...' : 'Create Household'}
             </Button>
           </DialogFooter>
