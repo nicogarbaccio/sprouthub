@@ -103,9 +103,14 @@ export default defineConfig(({ mode }) => ({
       },
     })
   ].filter(Boolean),
-  resolve: {
+    resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  test: {
+    globals: true,
+    environment: "jsdom",
+    setupFiles: "./src/setupTests.ts",
   },
 }));

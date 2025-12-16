@@ -38,6 +38,8 @@ import {
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import type { UserPlant } from "@/data/types";
 import EditWateringRecordDialog from "@/components/EditWateringRecordDialog";
+import { plants as catalogPlants } from "@/data/plantData";
+import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 
 interface WateringHistoryDialogProps {
   plant: UserPlant | null;
@@ -89,7 +91,7 @@ const WateringHistoryDialog = memo(
     const [recordToDelete, setRecordToDelete] = useState<WateringRecord | null>(
       null
     );
-    
+
     // Track which record is being edited
     const [recordToEdit, setRecordToEdit] = useState<WateringRecord | null>(
       null
@@ -288,6 +290,15 @@ const WateringHistoryDialog = memo(
 
     if (!plant) return null;
 
+    const catalogPlant = catalogPlants.find(
+      (p) =>
+        p.name.toLowerCase() === plant.plant_type.toLowerCase() ||
+        p.botanicalName.toLowerCase() === plant.plant_type.toLowerCase()
+    );
+
+    const plantImage =
+      plant.image || catalogPlant?.image || PLANT_FALLBACK_IMAGE;
+
     // Use key to force complete unmount/remount when plant changes
     return (
       <>
@@ -308,9 +319,9 @@ const WateringHistoryDialog = memo(
               {/* Plant Overview */}
               <div className="bg-sprout-pale dark:bg-sprout-dark/20 rounded-lg p-6">
                 <div className="flex items-center gap-6">
-                  {plant.image && (
+                  {plantImage && (
                     <img
-                      src={plant.image}
+                      src={plantImage}
                       alt={plant.nickname}
                       className="w-20 h-20 sm:w-16 sm:h-16 rounded-lg object-cover flex-shrink-0"
                     />

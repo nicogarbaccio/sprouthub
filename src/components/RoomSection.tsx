@@ -11,6 +11,8 @@ import {
   calculateWateringSchedule,
   getNextWateringDate as getNextWateringDateUtil,
 } from "@/utils/watering-schedule";
+import { plants as catalogPlants } from "@/data/plantData";
+import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 
 interface RoomSectionProps {
   roomKey: string;
@@ -20,7 +22,10 @@ interface RoomSectionProps {
   onAddPlant: () => void;
   onPostponeWatering?: (plantId: string) => void;
   onViewHistory?: (plant: UserPlant) => void;
-  onScheduleAdjustment?: (plantId: string, newSchedule: number) => Promise<void>;
+  onScheduleAdjustment?: (
+    plantId: string,
+    newSchedule: number
+  ) => Promise<void>;
   formatDate: (dateString: string) => string;
   getNextWateringDate: (
     lastWatered: string | undefined,
@@ -134,7 +139,10 @@ const RoomSection = ({
                 <span className="text-2xl sm:text-3xl">{roomIcon}</span>
               </div>
               <div>
-                <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-1" data-testid="room-name">
+                <h3
+                  className="text-xl sm:text-2xl font-bold text-foreground mb-1"
+                  data-testid="room-name"
+                >
                   {roomLabel}
                 </h3>
                 <div className="flex items-center gap-2">
@@ -232,6 +240,13 @@ const RoomSection = ({
             // Use the new watering schedule calculation utility
             const wateringCalc = calculateWateringSchedule(plant);
 
+            // Find matching plant data from catalog for image fallback
+            const catalogPlant = catalogPlants.find(
+              (p) =>
+                p.name.toLowerCase() === plant.plant_type.toLowerCase() ||
+                p.botanicalName.toLowerCase() === plant.plant_type.toLowerCase()
+            );
+
             return (
               <MyPlantCard
                 key={plant.id}
@@ -239,8 +254,7 @@ const RoomSection = ({
                 name={plant.nickname}
                 plantType={plant.plant_type}
                 image={
-                  plant.image ||
-                  "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=400&h=300&fit=crop"
+                  plant.image || catalogPlant?.image || PLANT_FALLBACK_IMAGE
                 }
                 lastWatered={
                   plant.latest_watering
@@ -250,7 +264,13 @@ const RoomSection = ({
                 lastWateredDate={plant.latest_watering}
                 nextWateringDue={getNextWateringDateUtil(
                   plant.latest_watering,
-                  plant.latest_watering ? Math.round((new Date().getTime() - new Date(plant.latest_watering).getTime()) / (1000 * 60 * 60 * 24)) : undefined,
+                  plant.latest_watering
+                    ? Math.round(
+                        (new Date().getTime() -
+                          new Date(plant.latest_watering).getTime()) /
+                          (1000 * 60 * 60 * 24)
+                      )
+                    : undefined,
                   plant.suggested_watering_days || 7,
                   formatDate,
                   plant.postponement_date

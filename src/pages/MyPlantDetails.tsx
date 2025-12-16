@@ -54,6 +54,7 @@ import { calculateWateringSchedule } from "@/utils/watering-schedule";
 import { getRoomIcon, getRoomLabel } from "@/utils/rooms";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { PatternSuggestionsDialog } from "@/components/watering-patterns";
+import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 
 const MyPlantDetails = () => {
   const { plantId } = useParams();
@@ -494,7 +495,9 @@ const MyPlantDetails = () => {
                 aria-label={`View ${plant.nickname} image in fullscreen`}
               >
                 <PlantImage
-                  src={plant.image || ""}
+                  src={
+                    plant.image || catalogPlant?.image || PLANT_FALLBACK_IMAGE
+                  }
                   alt={plant.nickname}
                   className="w-full h-[280px] lg:h-[320px] object-cover rounded-lg shadow-md"
                 />
@@ -761,7 +764,7 @@ const MyPlantDetails = () => {
       <FullscreenImageModal
         isOpen={showFullscreenImage}
         onClose={() => setShowFullscreenImage(false)}
-        imageSrc={plant.image || ""}
+        imageSrc={plant.image || catalogPlant?.image || PLANT_FALLBACK_IMAGE}
         imageAlt={plant.nickname}
         plantName={plant.nickname}
       />

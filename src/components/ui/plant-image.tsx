@@ -76,6 +76,13 @@ const PlantImage = ({
   const [isLoading, setIsLoading] = useState(true);
   const [optimalObjectPosition, setOptimalObjectPosition] = useState("center");
 
+  // Reset state when src changes
+  useEffect(() => {
+    setHasError(false);
+    setIsLoading(true);
+    setOptimalObjectPosition("center");
+  }, [src]);
+
   // Generate optimized image URL
   const imageUrl = useAutoCrop ? getAutoCroppedImageUrl(src) : src;
 
