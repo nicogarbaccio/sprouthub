@@ -10,6 +10,7 @@ interface FullscreenImageModalProps {
   imageSrc: string;
   imageAlt: string;
   plantName?: string;
+  imageSource?: string;
   className?: string;
 }
 
@@ -43,6 +44,7 @@ const FullscreenImageModal: React.FC<FullscreenImageModalProps> = ({
   imageSrc,
   imageAlt,
   plantName,
+  imageSource,
   className,
 }) => {
   const [scale, setScale] = React.useState(1);
@@ -188,12 +190,19 @@ const FullscreenImageModal: React.FC<FullscreenImageModalProps> = ({
       >
         <div className="flex items-center space-x-2">
           {plantName && (
-            <h2
-              id="fullscreen-image-title"
-              className="text-white text-lg font-medium "
-            >
-              {plantName}
-            </h2>
+            <div className="flex flex-col">
+              <h2
+                id="fullscreen-image-title"
+                className="text-white text-lg font-medium "
+              >
+                {plantName}
+              </h2>
+              {imageSource && (
+                <p className="text-white/70 text-xs mt-0.5 max-w-[200px] truncate">
+                  Source: {imageSource}
+                </p>
+              )}
+            </div>
           )}
         </div>
 

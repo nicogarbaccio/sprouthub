@@ -24,11 +24,12 @@ interface HouseholdInfo {
  * User plant with all household and watering information
  */
 export interface UserPlant {
- id: string;
- nickname: string;
- plant_type: string;
- image?: string;
- room?: string;
+  id: string;
+  nickname: string;
+  plant_type: string;
+  image?: string;
+  image_source?: string;
+  room?: string;
  suggested_watering_days?: number;
  latest_watering?: string;
  days_since_watering?: number;
@@ -210,10 +211,11 @@ const {
  }, [user, fetchUserPlants, enrichPlantsWithData, computeRisks]);
 
  const addPlant = async (plantData: {
- nickname: string;
- plant_type: string;
- image?: string;
- room?: string;
+  nickname: string;
+  plant_type: string;
+  image?: string;
+  image_source?: string;
+  room?: string;
  suggested_watering_days?: number;
  last_watered_date?: string;
  is_outdoor_plant?: boolean;
@@ -231,6 +233,7 @@ const {
    nickname: plantData.nickname,
    plant_type: plantData.plant_type,
    image: plantData.image,
+   image_source: plantData.image_source,
    room: plantData.room,
    suggested_watering_days: plantData.suggested_watering_days,
    is_outdoor_plant: plantData.is_outdoor_plant || false,

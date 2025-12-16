@@ -316,7 +316,7 @@ export const floweringPlants: Plant[] = [
  {
  name: 'Pentas',
     botanicalName: 'Pentas lanceolata',
-    image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750963241/Pentas-lanceolata_ceozih.jpg',
+    image: PLANT_IMAGES_BASE_URL + '/Pentas.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Direct Light',

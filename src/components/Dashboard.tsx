@@ -120,6 +120,7 @@ const Dashboard = () => {
     src: string;
     alt: string;
     plantName: string;
+    imageSource?: string;
   }>({
     show: false,
     src: "",
@@ -504,12 +505,13 @@ const Dashboard = () => {
     await waterPlant(plantId, `Quick watered from dashboard`);
   };
 
-  const handleImageClick = (imageSrc: string, plantName: string) => {
+  const handleImageClick = (imageSrc: string, plantName: string, imageSource?: string) => {
     setFullscreenImage({
       show: true,
       src: imageSrc,
       alt: plantName,
       plantName,
+      imageSource,
     });
   };
 
@@ -1065,8 +1067,7 @@ const Dashboard = () => {
                             plant.image ||
                               "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop",
                             plant.nickname,
-                            // Since we don't have source in UserPlant type yet, we pass undefined
-                            undefined
+                            plant.image_source
                           )
                         }
                         role="button"
@@ -1078,7 +1079,7 @@ const Dashboard = () => {
                               plant.image ||
                                 "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop",
                               plant.nickname,
-                              undefined
+                              plant.image_source
                             );
                           }
                         }}
