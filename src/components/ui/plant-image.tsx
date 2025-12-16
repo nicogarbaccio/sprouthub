@@ -79,7 +79,7 @@ const PlantImage = ({
   // Reset state when src changes
   useEffect(() => {
     setHasError(false);
-    setIsLoading(true);
+    setIsLoading(!!src);
     setOptimalObjectPosition("center");
   }, [src]);
 
@@ -103,18 +103,19 @@ const PlantImage = ({
   };
 
   const finalObjectPosition = customObjectPosition || optimalObjectPosition;
+  const showFallback = hasError || !src;
 
   return (
     <div className={cn("relative overflow-hidden", className)}>
       <img
-        src={hasError ? fallbackSrc : imageUrl}
+        src={showFallback ? fallbackSrc : imageUrl}
         alt={alt}
         className="w-full h-full object-cover"
         style={{ objectPosition: finalObjectPosition }}
         onError={handleError}
         onLoad={handleLoad}
       />
-      {isLoading && (
+      {isLoading && !showFallback && (
         <div className="absolute inset-0 bg-plant-neutral animate-pulse" />
       )}
     </div>

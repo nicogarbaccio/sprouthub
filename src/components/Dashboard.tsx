@@ -21,7 +21,7 @@ import { WelcomeHeader } from "@/components/dashboard/WelcomeHeader";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { CareStatusOverview } from "@/components/dashboard/CareStatusOverview";
 
-const COMPONENT_NAME = 'Dashboard';
+const COMPONENT_NAME = "Dashboard";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -77,13 +77,14 @@ import {
   loadDismissedSuggestions,
   saveDismissedSuggestions,
   dismissSuggestion,
-  dismissSuggestions
+  dismissSuggestions,
 } from "@/utils/suggestionPersistence";
 import { format, formatDistanceToNow } from "date-fns";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 
 const Dashboard = () => {
-  const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule } = useUserPlants();
+  const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule } =
+    useUserPlants();
   const { profileData, isLoadingProfile } = useProfile();
   const { preferences } = useSmartWateringPreferences();
   const location = useLocation({
@@ -102,8 +103,11 @@ const Dashboard = () => {
   const calendarSeasonalDialog = useDialogState();
   const smartSuggestionsDialog = useDialogState();
 
-  const [dismissedSuggestions, setDismissedSuggestions] = useState<Set<string>>(new Set());
-  const [isDismissedSuggestionsLoaded, setIsDismissedSuggestionsLoaded] = useState(false);
+  const [dismissedSuggestions, setDismissedSuggestions] = useState<Set<string>>(
+    new Set()
+  );
+  const [isDismissedSuggestionsLoaded, setIsDismissedSuggestionsLoaded] =
+    useState(false);
   const [waterConfirmation, setWaterConfirmation] = useState<{
     show: boolean;
     plantId: string;
@@ -158,10 +162,12 @@ const Dashboard = () => {
   } = useCalendarSeasonalNotification(location.location?.latitude || 0);
 
   // Track which plants have been applied in calendar suggestions
-  const [appliedCalendarPlants, setAppliedCalendarPlants] = useState<Set<string>>(new Set());
+  const [appliedCalendarPlants, setAppliedCalendarPlants] = useState<
+    Set<string>
+  >(new Set());
 
   // Smart suggestions analysis - stabilize plantIds to prevent infinite re-renders
-  const plantIds = useMemo(() => plants.map(plant => plant.id), [plants]);
+  const plantIds = useMemo(() => plants.map((plant) => plant.id), [plants]);
   const {
     plantsWithSuggestions,
     totalSuggestions,
@@ -183,13 +189,21 @@ const Dashboard = () => {
       return []; // Return empty array until dismissed suggestions are loaded
     }
     return plantsWithSuggestions.filter(
-      plant => !dismissedSuggestions.has(plant.plantId)
+      (plant) => !dismissedSuggestions.has(plant.plantId)
     );
-  }, [plantsWithSuggestions, dismissedSuggestions, isDismissedSuggestionsLoaded]);
+  }, [
+    plantsWithSuggestions,
+    dismissedSuggestions,
+    isDismissedSuggestionsLoaded,
+  ]);
 
   // Request location if user has weather enabled and we don't have location yet
   useEffect(() => {
-    if (preferences?.use_weather_data && !location.location && !location.isLoading) {
+    if (
+      preferences?.use_weather_data &&
+      !location.location &&
+      !location.isLoading
+    ) {
       location.requestLocation();
     }
   }, [preferences?.use_weather_data, location]);
@@ -276,8 +290,8 @@ const Dashboard = () => {
     }
 
     return plantsNeedingWater
-      .filter(plant => plant.is_outdoor_plant)
-      .map(plant => {
+      .filter((plant) => plant.is_outdoor_plant)
+      .map((plant) => {
         const rainDelay = calculateRainDelay(weather.weatherData, {
           isOutdoorPlant: true,
         });
@@ -286,7 +300,7 @@ const Dashboard = () => {
           rainDelay,
         };
       })
-      .filter(item => item.rainDelay.shouldDelay);
+      .filter((item) => item.rainDelay.shouldDelay);
   }, [plantsNeedingWater, weather.weatherData, preferences?.use_weather_data]);
 
   // Get recent activities (recently watered plants)
@@ -311,7 +325,9 @@ const Dashboard = () => {
 
   // Check if we should show the smart suggestions banner - only after dismissed suggestions are loaded
   const shouldShowSmartSuggestionsBanner = useMemo(() => {
-    return isDismissedSuggestionsLoaded && activePlantsWithSuggestions.length > 0;
+    return (
+      isDismissedSuggestionsLoaded && activePlantsWithSuggestions.length > 0
+    );
   }, [isDismissedSuggestionsLoaded, activePlantsWithSuggestions]);
 
   // Now handle loading states and early returns AFTER all hooks are called
@@ -505,7 +521,11 @@ const Dashboard = () => {
     await waterPlant(plantId, `Quick watered from dashboard`);
   };
 
-  const handleImageClick = (imageSrc: string, plantName: string, imageSource?: string) => {
+  const handleImageClick = (
+    imageSrc: string,
+    plantName: string,
+    imageSource?: string
+  ) => {
     setFullscreenImage({
       show: true,
       src: imageSrc,
@@ -543,19 +563,23 @@ const Dashboard = () => {
   };
 
   const handleDismissAllSuggestions = () => {
-    const allPlantIds = activePlantsWithSuggestions.map(plant => plant.plantId);
+    const allPlantIds = activePlantsWithSuggestions.map(
+      (plant) => plant.plantId
+    );
     const newDismissedSet = new Set([...dismissedSuggestions, ...allPlantIds]);
     setDismissedSuggestions(newDismissedSet);
-    saveDismissedSuggestions(newDismissedSet, 'user_dismissed');
+    saveDismissedSuggestions(newDismissedSet, "user_dismissed");
   };
 
   const handleSnoozeSuggestions = (weeks: number) => {
     // For now, just dismiss suggestions with snooze tracking
     // In a real implementation, you could implement time-based snoozing
-    const allPlantIds = activePlantsWithSuggestions.map(plant => plant.plantId);
+    const allPlantIds = activePlantsWithSuggestions.map(
+      (plant) => plant.plantId
+    );
     const newDismissedSet = new Set([...dismissedSuggestions, ...allPlantIds]);
     setDismissedSuggestions(newDismissedSet);
-    saveDismissedSuggestions(newDismissedSet, 'user_dismissed');
+    saveDismissedSuggestions(newDismissedSet, "user_dismissed");
   };
 
   const handleApplyAllSuggestions = async () => {
@@ -567,15 +591,22 @@ const Dashboard = () => {
         if (insight.suggestion && insight.actionable) {
           try {
             // Find the plant in our plants array to apply the schedule change
-            const plantData = plants.find(p => p.id === plant.plantId);
+            const plantData = plants.find((p) => p.id === plant.plantId);
             if (plantData && onScheduleAdjustment) {
-              await onScheduleAdjustment(plant.plantId, insight.suggestion.suggestedSchedule);
+              await onScheduleAdjustment(
+                plant.plantId,
+                insight.suggestion.suggestedSchedule
+              );
               if (!appliedPlantIds.includes(plant.plantId)) {
                 appliedPlantIds.push(plant.plantId);
               }
             }
           } catch (error) {
-            hookLogger.error(COMPONENT_NAME, `Failed to apply suggestion for plant ${plant.plantId}`, error);
+            hookLogger.error(
+              COMPONENT_NAME,
+              `Failed to apply suggestion for plant ${plant.plantId}`,
+              error
+            );
           }
         }
       }
@@ -583,29 +614,42 @@ const Dashboard = () => {
 
     // Mark applied suggestions as dismissed with 'applied' reason
     if (appliedPlantIds.length > 0) {
-      const newDismissedSet = new Set([...dismissedSuggestions, ...appliedPlantIds]);
+      const newDismissedSet = new Set([
+        ...dismissedSuggestions,
+        ...appliedPlantIds,
+      ]);
       setDismissedSuggestions(newDismissedSet);
-      saveDismissedSuggestions(newDismissedSet, 'applied');
+      saveDismissedSuggestions(newDismissedSet, "applied");
     }
 
     // Refresh suggestions after applying changes
     setTimeout(() => refreshSuggestionsAnalysis(), 1000);
   };
 
-  const handleApplySuggestion = async (plantId: string, insight: PatternInsight) => {
+  const handleApplySuggestion = async (
+    plantId: string,
+    insight: PatternInsight
+  ) => {
     if (insight.suggestion && onScheduleAdjustment) {
       try {
-        await onScheduleAdjustment(plantId, insight.suggestion.suggestedSchedule);
+        await onScheduleAdjustment(
+          plantId,
+          insight.suggestion.suggestedSchedule
+        );
 
         // Mark this plant's suggestions as dismissed with 'applied' reason
         const newDismissedSet = new Set([...dismissedSuggestions, plantId]);
         setDismissedSuggestions(newDismissedSet);
-        saveDismissedSuggestions(newDismissedSet, 'applied');
+        saveDismissedSuggestions(newDismissedSet, "applied");
 
         // Refresh suggestions after applying change
         setTimeout(() => refreshSuggestionsAnalysis(), 1000);
       } catch (error) {
-        hookLogger.error(COMPONENT_NAME, `Failed to apply suggestion for plant ${plantId}`, error);
+        hookLogger.error(
+          COMPONENT_NAME,
+          `Failed to apply suggestion for plant ${plantId}`,
+          error
+        );
       }
     }
   };
@@ -613,7 +657,7 @@ const Dashboard = () => {
   const handleDismissPlantSuggestions = (plantId: string) => {
     const newDismissedSet = new Set([...dismissedSuggestions, plantId]);
     setDismissedSuggestions(newDismissedSet);
-    saveDismissedSuggestions(newDismissedSet, 'user_dismissed');
+    saveDismissedSuggestions(newDismissedSet, "user_dismissed");
   };
 
   const handleViewPlantHistory = (plantId: string) => {
@@ -629,76 +673,92 @@ const Dashboard = () => {
   };
 
   return (
-    <div data-testid="dashboard" className="py-8 bg-background min-h-[calc(100vh-4rem)]">
+    <div
+      data-testid="dashboard"
+      className="py-8 bg-background min-h-[calc(100vh-4rem)]"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Welcome Header */}
         <WelcomeHeader greeting={greeting} />
 
         {/* Weather Mood Banner - Fun animated weather status (top priority) */}
-        {preferences?.use_weather_data && weather.weatherData && !weather.isLoading && (
-          <CascadingContainer delay={50}>
-            <div data-testid="weather-mood-banner" className="mb-6">
-              <WeatherMoodBanner
-                weatherData={weather.weatherData}
-                temperatureUnit={preferences?.temperature_unit || 'F'}
-                lastUpdated={weather.lastUpdated}
-                onRefresh={() => weather.refreshWeather()}
-                isRefreshing={weather.isLoading}
-                isFallback={weather.isFallback}
-              />
-            </div>
-          </CascadingContainer>
-        )}
+        {preferences?.use_weather_data &&
+          weather.weatherData &&
+          !weather.isLoading && (
+            <CascadingContainer delay={50}>
+              <div data-testid="weather-mood-banner" className="mb-6">
+                <WeatherMoodBanner
+                  weatherData={weather.weatherData}
+                  temperatureUnit={preferences?.temperature_unit || "F"}
+                  lastUpdated={weather.lastUpdated}
+                  onRefresh={() => weather.refreshWeather()}
+                  isRefreshing={weather.isLoading}
+                  isFallback={weather.isFallback}
+                />
+              </div>
+            </CascadingContainer>
+          )}
 
         {/* Weather-based Seasonal Review Banner (requires weather enabled) */}
         {shouldShowReview && pendingTransition && (
           <CascadingContainer delay={50}>
             <div data-testid="seasonal-review-banner">
               <SeasonalReviewBanner
-              transition={pendingTransition}
-              plantsNeedingReview={suggestions.length}
-              onReviewClick={() => seasonalReviewDialog.open()}
-              onDismiss={dismissReview}
-              onSnooze={snoozeReview}
-            />
+                transition={pendingTransition}
+                plantsNeedingReview={suggestions.length}
+                onReviewClick={() => seasonalReviewDialog.open()}
+                onDismiss={dismissReview}
+                onSnooze={snoozeReview}
+              />
             </div>
           </CascadingContainer>
         )}
 
         {/* Calendar-based Seasonal Notification (works without weather) */}
-        {shouldShowCalendarNotification && calendarSeasonChange && !shouldShowReview && (
-          <CascadingContainer delay={50}>
-            <div data-testid="calendar-seasonal-banner">
-              <CalendarSeasonalBanner
-              upcomingChange={calendarSeasonChange}
-              plantCount={calendarPlantSuggestions.length}
-              onReviewClick={() => calendarSeasonalDialog.open()}
-              onDismiss={dismissCalendarNotification}
-              onSnooze={snoozeCalendarNotification}
-            />
-            </div>
-          </CascadingContainer>
-        )}
+        {shouldShowCalendarNotification &&
+          calendarSeasonChange &&
+          !shouldShowReview && (
+            <CascadingContainer delay={50}>
+              <div data-testid="calendar-seasonal-banner">
+                <CalendarSeasonalBanner
+                  upcomingChange={calendarSeasonChange}
+                  plantCount={calendarPlantSuggestions.length}
+                  onReviewClick={() => calendarSeasonalDialog.open()}
+                  onDismiss={dismissCalendarNotification}
+                  onSnooze={snoozeCalendarNotification}
+                />
+              </div>
+            </CascadingContainer>
+          )}
 
         {/* Smart Suggestions Banner */}
         {shouldShowSmartSuggestionsBanner && (
           <CascadingContainer delay={100}>
             <div data-testid="smart-suggestions-banner">
               <SmartSuggestionsBanner
-              plantsWithSuggestions={activePlantsWithSuggestions.map(plant => {
-                const plantData = plants.find(p => p.id === plant.plantId);
-                return {
-                  id: plant.plantId,
-                  name: plantData?.nickname || "Unknown Plant",
-                  suggestionsCount: plant.insights.length,
-                  highPrioritySuggestions: plant.insights.filter(i => i.severity === 'high').length,
-                };
-              })}
-              totalSuggestions={activePlantsWithSuggestions.reduce((sum, plant) => sum + plant.insights.length, 0)}
-              onReviewClick={handleSmartSuggestionsReview}
-              onDismiss={handleDismissAllSuggestions}
-              onSnooze={handleSnoozeSuggestions}
-            />
+                plantsWithSuggestions={activePlantsWithSuggestions.map(
+                  (plant) => {
+                    const plantData = plants.find(
+                      (p) => p.id === plant.plantId
+                    );
+                    return {
+                      id: plant.plantId,
+                      name: plantData?.nickname || "Unknown Plant",
+                      suggestionsCount: plant.insights.length,
+                      highPrioritySuggestions: plant.insights.filter(
+                        (i) => i.severity === "high"
+                      ).length,
+                    };
+                  }
+                )}
+                totalSuggestions={activePlantsWithSuggestions.reduce(
+                  (sum, plant) => sum + plant.insights.length,
+                  0
+                )}
+                onReviewClick={handleSmartSuggestionsReview}
+                onDismiss={handleDismissAllSuggestions}
+                onSnooze={handleSnoozeSuggestions}
+              />
             </div>
           </CascadingContainer>
         )}
@@ -742,16 +802,21 @@ const Dashboard = () => {
                     <CloudRain className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
                     <div className="flex-1 space-y-2">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="font-medium text-sprout-white">Rain Expected - Watering Can Wait</h4>
+                        <h4 className="font-medium text-sprout-white">
+                          Rain Expected - Watering Can Wait
+                        </h4>
                         <Badge variant="secondary" className="text-xs">
-                          {weather.weatherData.upcoming_rain_probability}% chance
+                          {weather.weatherData.upcoming_rain_probability}%
+                          chance
                         </Badge>
                       </div>
                       <p className="text-sm text-sprout-light">
-                        {outdoorPlantsWithRainDelay.length} outdoor plant{outdoorPlantsWithRainDelay.length !== 1 ? 's' : ''} can skip watering due to expected rain:
+                        {outdoorPlantsWithRainDelay.length} outdoor plant
+                        {outdoorPlantsWithRainDelay.length !== 1 ? "s" : ""} can
+                        skip watering due to expected rain:
                       </p>
                       <ul className="text-sm text-sprout-light space-y-1 ml-4">
-                        {outdoorPlantsWithRainDelay.slice(0, 3).map(item => (
+                        {outdoorPlantsWithRainDelay.slice(0, 3).map((item) => (
                           <li key={item.plant.id} className="list-disc">
                             {item.plant.nickname || item.plant.plant_type}
                           </li>
@@ -762,11 +827,13 @@ const Dashboard = () => {
                           </li>
                         )}
                       </ul>
-                      {outdoorPlantsWithRainDelay[0]?.rainDelay.nextCheckDate && (
+                      {outdoorPlantsWithRainDelay[0]?.rainDelay
+                        .nextCheckDate && (
                         <div className="flex items-center gap-2 text-xs text-sprout-light">
                           <Calendar className="w-3 h-3" />
                           <span>
-                            Check again on {outdoorPlantsWithRainDelay[0].rainDelay.nextCheckDate.toLocaleDateString()}
+                            Check again on{" "}
+                            {outdoorPlantsWithRainDelay[0].rainDelay.nextCheckDate.toLocaleDateString()}
                           </span>
                         </div>
                       )}
@@ -781,7 +848,11 @@ const Dashboard = () => {
         <CascadingContainer delay={300}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             {/* Today's Tasks */}
-            <Card id="todays-tasks" data-testid="todays-tasks-card" className="border-border">
+            <Card
+              id="todays-tasks"
+              data-testid="todays-tasks-card"
+              className="border-border"
+            >
               <CardHeader>
                 <CardTitle className="flex items-center text-foreground">
                   <Calendar className="w-5 h-5 mr-2 text-plant-primary dark:text-plant-secondary" />
@@ -793,7 +864,10 @@ const Dashboard = () => {
               </CardHeader>
               <CardContent>
                 {plantsNeedingWater.length === 0 ? (
-                  <div data-testid="no-tasks-message" className="text-center py-8">
+                  <div
+                    data-testid="no-tasks-message"
+                    className="text-center py-8"
+                  >
                     <CheckCircle className="w-12 h-12 text-green-500 dark:text-green-400 mx-auto mb-3" />
                     <p className="text-muted-foreground">
                       All caught up! No plants need watering today.
@@ -823,10 +897,8 @@ const Dashboard = () => {
                             aria-label={`View details for ${plant.nickname}`}
                           >
                             <PlantImage
-                              src={
-                                plant.image ||
-                                "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=60&h=60&fit=crop"
-                              }
+                              src={plant.image || ""}
+                              fallbackSrc="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=60&h=60&fit=crop"
                               alt={plant.nickname}
                               className="w-10 h-10 rounded-full object-cover"
                             />
@@ -841,12 +913,19 @@ const Dashboard = () => {
                           </div>
                           <div className="flex items-center space-x-2">
                             {wateringCalc.isOverdue ? (
-                              <Badge data-testid={`overdue-badge-${plant.id}`} className="text-xs bg-sprout-error text-white">
+                              <Badge
+                                data-testid={`overdue-badge-${plant.id}`}
+                                className="text-xs bg-sprout-error text-white"
+                              >
                                 {Math.abs(wateringCalc.daysUntilWatering)} days
                                 overdue
                               </Badge>
                             ) : (
-                              <Badge data-testid={`due-today-badge-${plant.id}`} variant="secondary" className="text-xs">
+                              <Badge
+                                data-testid={`due-today-badge-${plant.id}`}
+                                variant="secondary"
+                                className="text-xs"
+                              >
                                 Due today
                               </Badge>
                             )}
@@ -889,7 +968,10 @@ const Dashboard = () => {
               </CardHeader>
               <CardContent>
                 {recentlyWateredPlants.length === 0 ? (
-                  <div data-testid="no-recent-activity" className="text-center py-8">
+                  <div
+                    data-testid="no-recent-activity"
+                    className="text-center py-8"
+                  >
                     <Clock className="w-12 h-12 text-muted-foreground/50 mx-auto mb-3" />
                     <p className="text-muted-foreground">
                       No recent activity. Start caring for your plants!
@@ -904,10 +986,8 @@ const Dashboard = () => {
                         className="flex items-center space-x-3 p-3 bg-muted/30 dark:bg-muted/20 rounded-lg border border-border/50"
                       >
                         <PlantImage
-                          src={
-                            plant.image ||
-                            "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=40&h=40&fit=crop"
-                          }
+                          src={plant.image || ""}
+                          fallbackSrc="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=40&h=40&fit=crop"
                           alt={plant.nickname}
                           className="w-8 h-8 rounded-full object-cover"
                         />
@@ -937,7 +1017,10 @@ const Dashboard = () => {
 
         {/* Plant Health Insights */}
         <CascadingContainer delay={400}>
-          <Card data-testid="plant-health-insights-card" className="border-border mb-8">
+          <Card
+            data-testid="plant-health-insights-card"
+            className="border-border mb-8"
+          >
             <CardHeader>
               <CardTitle className="flex items-center text-foreground">
                 <Target className="w-5 h-5 mr-2 text-plant-primary dark:text-plant-secondary" />
@@ -990,7 +1073,10 @@ const Dashboard = () => {
                   </h4>
                   <div className="space-y-2">
                     {overduePlants > 0 && (
-                      <div data-testid="overdue-plants-warning" className="flex items-start space-x-2 p-3 bg-sprout-warning/10 rounded-lg border border-sprout-warning/30">
+                      <div
+                        data-testid="overdue-plants-warning"
+                        className="flex items-start space-x-2 p-3 bg-sprout-warning/10 rounded-lg border border-sprout-warning/30"
+                      >
                         <AlertTriangle className="w-4 h-4 text-sprout-warning mt-0.5 flex-shrink-0" />
                         <p className="text-sm text-sprout-warning">
                           {overduePlants} plant{overduePlants > 1 ? "s" : ""}{" "}
@@ -999,7 +1085,10 @@ const Dashboard = () => {
                       </div>
                     )}
                     {plantsWithoutWateringData > 0 && (
-                      <div data-testid="missing-watering-data-warning" className="flex items-start space-x-2 p-3 bg-sprout-cream/15 rounded-lg border border-sprout-cream/40">
+                      <div
+                        data-testid="missing-watering-data-warning"
+                        className="flex items-start space-x-2 p-3 bg-sprout-cream/15 rounded-lg border border-sprout-cream/40"
+                      >
                         <Clock className="w-4 h-4 text-sprout-dark mt-0.5 flex-shrink-0" />
                         <p className="text-sm text-sprout-dark">
                           {plantsWithoutWateringData} plant
@@ -1011,7 +1100,10 @@ const Dashboard = () => {
                     {overduePlants === 0 &&
                       plantsWithoutWateringData === 0 &&
                       totalPlants > 0 && (
-                        <div data-testid="all-plants-healthy-message" className="flex items-start space-x-2 p-3 bg-green-50 dark:bg-green-500/10 rounded-lg border border-green-200 dark:border-green-500/30">
+                        <div
+                          data-testid="all-plants-healthy-message"
+                          className="flex items-start space-x-2 p-3 bg-green-50 dark:bg-green-500/10 rounded-lg border border-green-200 dark:border-green-500/30"
+                        >
                           <CheckCircle className="w-4 h-4 text-plant-secondary dark:text-plant-secondary mt-0.5 flex-shrink-0" />
                           <p className="text-sm text-green-700 dark:text-green-300">
                             Great job! All your plants are well cared for. Keep
@@ -1020,7 +1112,10 @@ const Dashboard = () => {
                         </div>
                       )}
                     {totalPlants === 0 && (
-                      <div data-testid="add-first-plant-prompt" className="text-center p-4 bg-blue-50 dark:bg-blue-500/10 rounded-lg border border-blue-200 dark:border-blue-500/30">
+                      <div
+                        data-testid="add-first-plant-prompt"
+                        className="text-center p-4 bg-blue-50 dark:bg-blue-500/10 rounded-lg border border-blue-200 dark:border-blue-500/30"
+                      >
                         <p className="text-sm text-blue-700 dark:text-blue-300 mb-3">
                           Start your plant journey by adding your first plant!
                         </p>
@@ -1056,9 +1151,16 @@ const Dashboard = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div data-testid="plant-gallery-grid" className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div
+                  data-testid="plant-gallery-grid"
+                  className="grid grid-cols-2 md:grid-cols-4 gap-4"
+                >
                   {favoritePlants.map((plant) => (
-                    <div key={plant.id} data-testid={`gallery-plant-${plant.id}`} className="group">
+                    <div
+                      key={plant.id}
+                      data-testid={`gallery-plant-${plant.id}`}
+                      className="group"
+                    >
                       <div
                         data-testid={`gallery-plant-image-${plant.id}`}
                         className="aspect-square bg-plant-neutral dark:bg-plant-neutral rounded-lg overflow-hidden mb-2 cursor-pointer hover:shadow-lg transition-all duration-300"
@@ -1086,10 +1188,8 @@ const Dashboard = () => {
                         aria-label={`View ${plant.nickname} image in fullscreen`}
                       >
                         <PlantImage
-                          src={
-                            plant.image ||
-                            "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop"
-                          }
+                          src={plant.image || ""}
+                          fallbackSrc="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop"
                           alt={plant.nickname}
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
@@ -1139,17 +1239,18 @@ const Dashboard = () => {
               </AlertDialogDescription>
             </AlertDialogHeader>
 
-            <div data-testid="bulk-water-plants-list" className="max-h-48 overflow-y-auto space-y-2 my-4">
+            <div
+              data-testid="bulk-water-plants-list"
+              className="max-h-48 overflow-y-auto space-y-2 my-4"
+            >
               {plantsNeedingWater.map((plant) => (
                 <div
                   key={plant.id}
                   className="flex items-center space-x-3 p-2 bg-card border border-border rounded-lg"
                 >
                   <PlantImage
-                    src={
-                      plant.image ||
-                      "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=40&h=40&fit=crop"
-                    }
+                    src={plant.image || ""}
+                    fallbackSrc="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=40&h=40&fit=crop"
                     alt={plant.nickname}
                     className="w-8 h-8 rounded-full object-cover"
                   />
@@ -1188,7 +1289,9 @@ const Dashboard = () => {
             </div>
 
             <AlertDialogFooter>
-              <AlertDialogCancel data-testid="bulk-water-cancel-button">Cancel</AlertDialogCancel>
+              <AlertDialogCancel data-testid="bulk-water-cancel-button">
+                Cancel
+              </AlertDialogCancel>
               <AlertDialogAction
                 data-testid="bulk-water-confirm-button"
                 onClick={handleBulkWater}
@@ -1264,7 +1367,7 @@ const Dashboard = () => {
             isLoading={isCalendarSuggestionsLoading}
             onApplySuggestion={async (plantId, days) => {
               await applyCalendarSuggestion(plantId, days);
-              setAppliedCalendarPlants(prev => new Set([...prev, plantId]));
+              setAppliedCalendarPlants((prev) => new Set([...prev, plantId]));
             }}
             onApplyAll={async () => {
               await applyAllCalendarSuggestions();
@@ -1278,8 +1381,8 @@ const Dashboard = () => {
         <SmartSuggestionsDialog
           isOpen={smartSuggestionsDialog.isOpen}
           onClose={() => smartSuggestionsDialog.close()}
-          plantSuggestions={activePlantsWithSuggestions.map(plant => {
-            const plantData = plants.find(p => p.id === plant.plantId);
+          plantSuggestions={activePlantsWithSuggestions.map((plant) => {
+            const plantData = plants.find((p) => p.id === plant.plantId);
             return {
               plantId: plant.plantId,
               plantName: plantData?.nickname || "Unknown Plant",
