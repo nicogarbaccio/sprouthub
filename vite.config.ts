@@ -13,49 +13,13 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     VitePWA({
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.js',
       registerType: 'autoUpdate',
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,webp,woff,woff2,ttf,eot}'],
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/.*\.supabase\.co\/auth\/.*/i,
-            handler: 'NetworkOnly', // Never cache auth requests
-          },
-          {
-            urlPattern: /^https:\/\/.*\.supabase\.co\/.*/i,
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'supabase-api-cache',
-              expiration: {
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 5, // 5 minutes instead of 24 hours
-              },
-              networkTimeoutSeconds: 3, // Faster timeout
-            },
-          },
-          {
-            urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'images-cache',
-              expiration: {
-                maxEntries: 60,
-                maxAgeSeconds: 60 * 60 * 24 * 30, // 30 days
-              },
-            },
-          },
-          {
-            urlPattern: /\.(?:js|css)$/,
-            handler: 'StaleWhileRevalidate',
-            options: {
-              cacheName: 'static-resources',
-            },
-          },
-        ],
-        cleanupOutdatedCaches: true,
-        skipWaiting: true,
+      injectManifest: {
+        minify: false,
       },
-      includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
       manifest: {
         name: 'SproutHub - Plant Care Tracker',
         short_name: 'SproutHub',
