@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => ({
     VitePWA({
       strategies: 'injectManifest',
       srcDir: 'src',
-      filename: 'sw.js',
+      filename: 'sw.ts',
       registerType: 'autoUpdate',
       injectManifest: {
         minify: false,

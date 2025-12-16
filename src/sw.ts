@@ -9,6 +9,8 @@ import {
 import { ExpirationPlugin } from "workbox-expiration";
 import { clientsClaim } from "workbox-core";
 
+declare const self: any;
+
 self.skipWaiting();
 clientsClaim();
 cleanupOutdatedCaches();
