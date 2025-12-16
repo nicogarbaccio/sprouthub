@@ -434,7 +434,8 @@ const MyPlantCard = ({
           <PlantImage
             src={image}
             alt={name}
-            className="w-full h-48 object-cover"
+            className="w-full h-48"
+            imageClassName="object-contain"
           />
 
           {/* Status Badge - Top Right of image */}
@@ -506,7 +507,7 @@ const MyPlantCard = ({
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
+                    if (e.key === "Enter" || e.key === " ") {
                       e.preventDefault();
                       e.stopPropagation();
                       setShowPendingTips(true);
@@ -557,7 +558,7 @@ const MyPlantCard = ({
             <div className="mb-4">
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <p className="text-sm text-muted-foreground line-clamp-1 cursor-help">
+                  <p className="text-sm text-muted-foreground line-clamp-1">
                     {plantType}
                   </p>
                 </TooltipTrigger>
@@ -605,7 +606,6 @@ const MyPlantCard = ({
                   </span>
                 </div>
               )}
-
             </div>
 
             {/* Action Dropdown Menu */}
@@ -664,10 +664,7 @@ const MyPlantCard = ({
                     </DropdownMenuItem>
                   )}
 
-                  <DropdownMenuItem
-                    onClick={onEdit}
-                    className="cursor-pointer"
-                  >
+                  <DropdownMenuItem onClick={onEdit} className="cursor-pointer">
                     <Edit className="w-4 h-4 mr-2" />
                     Edit Plant
                   </DropdownMenuItem>

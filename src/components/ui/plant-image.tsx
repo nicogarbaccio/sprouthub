@@ -13,6 +13,8 @@ interface PlantImageProps {
   alt: string;
   /** Additional CSS classes to apply to the container */
   className?: string;
+  /** Additional CSS classes to apply to the image element */
+  imageClassName?: string;
   /** Custom fallback image URL (defaults to the standard plant placeholder) */
   fallbackSrc?: string;
   /** Whether to use auto-cropping (default: true) */
@@ -68,6 +70,7 @@ const PlantImage = ({
   src,
   alt,
   className,
+  imageClassName,
   fallbackSrc = PLANT_FALLBACK_IMAGE,
   useAutoCrop = true,
   objectPosition: customObjectPosition,
@@ -110,7 +113,7 @@ const PlantImage = ({
       <img
         src={showFallback ? fallbackSrc : imageUrl}
         alt={alt}
-        className="w-full h-full object-cover"
+        className={cn("w-full h-full object-cover", imageClassName)}
         style={{ objectPosition: finalObjectPosition }}
         onError={handleError}
         onLoad={handleLoad}

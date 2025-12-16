@@ -6,6 +6,7 @@ export const airPlants: Plant[] = [
   {
     name: 'Blushing Bride',
     botanicalName: 'Tillandsia ionantha',
+    otherNames: ['Sky Plant', 'Air Plant'],
     image: PLANT_IMAGES_BASE_URL + '/Blushing%20Bride.jpg',
     wateringFrequency: 'Weekly',
     suggestedWateringDays: 7,
@@ -33,6 +34,7 @@ export const airPlants: Plant[] = [
   {
     name: 'Spanish Moss',
     botanicalName: 'Tillandsia usneoides',
+    otherNames: ['Old Man\'s Beard', 'Grandpa\'s Beard'],
     image: PLANT_IMAGES_BASE_URL + '/Spanish%20Moss.jpg',
     wateringFrequency: 'Twice weekly',
     suggestedWateringDays: 3,
@@ -60,6 +62,7 @@ export const airPlants: Plant[] = [
   {
     name: 'Queen of Air Plants',
     botanicalName: 'Tillandsia xerographica',
+    otherNames: ['Xeros'],
     image: PLANT_IMAGES_BASE_URL + '/Queen%20of%20Air%20Plants.jpg',
     wateringFrequency: 'Weekly',
     suggestedWateringDays: 10,
@@ -87,6 +90,7 @@ export const airPlants: Plant[] = [
   {
     name: 'Pink Quill',
     botanicalName: 'Tillandsia cyanea',
+    otherNames: ['Blue-flowered Torch', 'Fan Flower'],
     image: PLANT_IMAGES_BASE_URL + '/Pink%20Quill.jpg',
     wateringFrequency: 'Weekly',
     suggestedWateringDays: 7,
@@ -114,6 +118,7 @@ export const airPlants: Plant[] = [
   {
     name: 'Potbelly Air Plant',
     botanicalName: 'Tillandsia bulbosa',
+    otherNames: ['Bulbous Air Plant'],
     image: PLANT_IMAGES_BASE_URL + '/Potbelly%20Air%20Plant.jpg',
     wateringFrequency: 'Weekly',
     suggestedWateringDays: 7,

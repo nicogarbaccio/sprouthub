@@ -57,6 +57,7 @@ interface PlantData {
   suggestedWateringDays?: number;
   lightRequirement: string;
   careLevel: string;
+  otherNames?: string[];
 }
 
 interface AddPlantDialogProps {
@@ -85,6 +86,7 @@ const AddPlantDialog = ({
     notes: "",
     is_outdoor_plant: false,
     household_id: "",
+    alternative_names: [] as string[],
   });
   const [lastWateredDate, setLastWateredDate] = useState<Date | undefined>(
     new Date()
@@ -114,6 +116,7 @@ const AddPlantDialog = ({
           notes: `Botanical name: ${plantData.botanicalName}\nWatering: ${plantData.wateringFrequency}\nLight: ${plantData.lightRequirement}\nCare level: ${plantData.careLevel}`,
           is_outdoor_plant: false,
           household_id: defaultHouseholdId || "",
+          alternative_names: plantData.otherNames || [],
         });
         setIsCustomPlantType(false);
         setCustomPlantType("");
@@ -138,6 +141,7 @@ const AddPlantDialog = ({
           notes: "",
           is_outdoor_plant: false,
           household_id: defaultHouseholdId || "",
+          alternative_names: [],
         });
         setIsCustomPlantType(false);
         setCustomPlantType("");
@@ -182,6 +186,7 @@ const AddPlantDialog = ({
       last_watered_date: lastWateredDate?.toISOString(),
       is_outdoor_plant: formData.is_outdoor_plant,
       household_id: formData.household_id || undefined,
+      alternative_names: formData.alternative_names,
     });
 
     if (success) {
@@ -294,6 +299,7 @@ const AddPlantDialog = ({
       ...prev,
       plant_type: selectedPlantName,
       image: selectedPlant?.image || prev.image, // Auto-assign catalog image if available
+      alternative_names: selectedPlant?.otherNames || [],
     }));
 
     // If plant found in catalog, update watering frequency
@@ -355,7 +361,10 @@ const AddPlantDialog = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto" data-testid="add-plant-dialog">
+      <DialogContent
+        className="sm:max-w-md max-h-[90vh] overflow-y-auto"
+        data-testid="add-plant-dialog"
+      >
         <DialogHeader>
           <DialogTitle className="text-plant-text dark:text-zinc-200 ">
             {plantData
@@ -522,7 +531,10 @@ const AddPlantDialog = ({
                   )
                 }
               >
-                <SelectTrigger className="border-plant-secondary/30 focus:border-plant-primary" data-testid="household-select-trigger">
+                <SelectTrigger
+                  className="border-plant-secondary/30 focus:border-plant-primary"
+                  data-testid="household-select-trigger"
+                >
                   <SelectValue placeholder="Personal plant or assign to household" />
                 </SelectTrigger>
                 <SelectContent>
@@ -574,7 +586,10 @@ const AddPlantDialog = ({
                 }
               }}
             >
-              <SelectTrigger className="border-plant-secondary/30 focus:border-plant-primary" data-testid="room-select-trigger">
+              <SelectTrigger
+                className="border-plant-secondary/30 focus:border-plant-primary"
+                data-testid="room-select-trigger"
+              >
                 <SelectValue placeholder="Select a room or leave empty" />
               </SelectTrigger>
               <SelectContent>
@@ -671,7 +686,10 @@ const AddPlantDialog = ({
               value={getCurrentSelectValue()}
               onValueChange={handleWateringScheduleChange}
             >
-              <SelectTrigger className="border-plant-secondary/30 focus:border-plant-primary" data-testid="watering-schedule-trigger">
+              <SelectTrigger
+                className="border-plant-secondary/30 focus:border-plant-primary"
+                data-testid="watering-schedule-trigger"
+              >
                 <SelectValue placeholder="Select watering frequency" />
               </SelectTrigger>
               <SelectContent>

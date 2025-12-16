@@ -4,19 +4,32 @@ import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const tropicalPlants: Plant[] = [
  {
- name: 'Monstera Deliciosa',
-    botanicalName: 'Monstera deliciosa',
-    image: PLANT_IMAGES_BASE_URL + '/Monstera%20Deliciosa.png',
-    wateringFrequency: 'Bi-weekly',
+  name: 'Monstera Deliciosa',
+  botanicalName: 'Monstera deliciosa',
+  otherNames: ['Swiss Cheese Plant', 'Split-Leaf Philodendron', 'Fruit Salad Plant'],
+  image: PLANT_IMAGES_BASE_URL + '/Monstera%20Deliciosa.png',
+  wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Medium' as const,
  category: 'Tropical Plants'
  },
  {
- name: 'Bird of Paradise',
-    botanicalName: 'Strelitzia nicolai',
-    image: PLANT_IMAGES_BASE_URL + '/Bird%20of%20Paradise.jpg',
+  name: 'Bird of Paradise',
+  botanicalName: 'Strelitzia nicolai',
+  otherNames: ['Crane Flower', 'White Bird of Paradise', 'Giant Bird of Paradise'],
+  image: PLANT_IMAGES_BASE_URL + '/Bird%20of%20Paradise.jpg',
+  wateringFrequency: 'Weekly',
+ suggestedWateringDays: 7,
+ lightRequirement: 'Bright Indirect Light',
+ careLevel: 'Hard' as const,
+ category: 'Tropical Plants'
+ },
+ {
+  name: 'African Mask',
+  botanicalName: 'Alocasia amazonica',
+  otherNames: ['African Mask Plant', 'Amazonian Elephant\'s Ear', 'Alocasia Polly'],
+  image: PLANT_IMAGES_BASE_URL + '/African%20Mask.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -24,19 +37,10 @@ export const tropicalPlants: Plant[] = [
  category: 'Tropical Plants'
  },
  {
- name: 'African Mask',
-    botanicalName: 'Alocasia amazonica',
-    image: PLANT_IMAGES_BASE_URL + '/African%20Mask.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Hard' as const,
- category: 'Tropical Plants'
- },
- {
- name: 'Monstera Adansonii',
-    botanicalName: 'Monstera adansonii',
-    image: PLANT_IMAGES_BASE_URL + '/Monstera%20Adansonii.jpg',
+  name: 'Monstera Adansonii',
+  botanicalName: 'Monstera adansonii',
+  otherNames: ['Swiss Cheese Vine', 'Adanson\'s Monstera', 'Five Holes Plant'],
+  image: PLANT_IMAGES_BASE_URL + '/Monstera%20Adansonii.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -44,9 +48,10 @@ export const tropicalPlants: Plant[] = [
  category: 'Tropical Plants'
  },
  {
- name: 'Dumb Cane',
-    botanicalName: 'Dieffenbachia seguine',
-    image: PLANT_IMAGES_BASE_URL + '/Dumb%20Cane.jpg',
+  name: 'Dumb Cane',
+  botanicalName: 'Dieffenbachia seguine',
+  otherNames: ['Leopard Lily', 'Mother-in-Law Plant'],
+  image: PLANT_IMAGES_BASE_URL + '/Dumb%20Cane.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
@@ -54,9 +59,10 @@ export const tropicalPlants: Plant[] = [
  category: 'Tropical Plants'
  },
  {
- name: 'Philodendron Brasil',
-    botanicalName: 'Philodendron hederaceum',
-    image: PLANT_IMAGES_BASE_URL + '/Philodendron%20Brasil.jpg',
+  name: 'Philodendron Brasil',
+  botanicalName: 'Philodendron hederaceum',
+  otherNames: ['Variegated Heartleaf Philodendron'],
+  image: PLANT_IMAGES_BASE_URL + '/Philodendron%20Brasil.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
@@ -81,9 +87,10 @@ export const tropicalPlants: Plant[] = [
  ]
  },
  {
- name: 'Kentia Palm',
-    botanicalName: 'Howea forsteriana',
-    image: PLANT_IMAGES_BASE_URL + '/Kentia%20Palm.jpg',
+  name: 'Kentia Palm',
+  botanicalName: 'Howea forsteriana',
+  otherNames: ['Thatch Palm', 'Sentry Palm', 'Paradise Palm'],
+  image: PLANT_IMAGES_BASE_URL + '/Kentia%20Palm.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
@@ -108,9 +115,10 @@ export const tropicalPlants: Plant[] = [
  ]
  },
  {
- name: 'Banana Plant',
-    botanicalName: 'Musa acuminata',
-    image: PLANT_IMAGES_BASE_URL + '/Banana%20Plant.jpg',
+  name: 'Banana Plant',
+  botanicalName: 'Musa acuminata',
+  otherNames: ['Dwarf Banana', 'Edible Banana'],
+  image: PLANT_IMAGES_BASE_URL + '/Banana%20Plant.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 5,
  lightRequirement: 'Bright Direct Light',
@@ -135,9 +143,10 @@ export const tropicalPlants: Plant[] = [
  ]
  },
  {
- name: 'Croton',
-    botanicalName: 'Codiaeum variegatum',
-    image: PLANT_IMAGES_BASE_URL + '/Croton.jpg',
+  name: 'Croton',
+  botanicalName: 'Codiaeum variegatum',
+  otherNames: ['Garden Croton', 'Variegated Croton', 'Joseph\'s Coat'],
+  image: PLANT_IMAGES_BASE_URL + '/Croton.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Direct Light',
@@ -162,9 +171,10 @@ export const tropicalPlants: Plant[] = [
  ]
  },
  {
- name: 'Philodendron Pink Princess',
-    botanicalName: 'Philodendron erubescens',
-    image: PLANT_IMAGES_BASE_URL + '/Philodendron%20Pink%20Princess.jpg',
+  name: 'Philodendron Pink Princess',
+  botanicalName: 'Philodendron erubescens',
+  otherNames: ['Blushing Philodendron', 'Red-leaf Philodendron'],
+  image: PLANT_IMAGES_BASE_URL + '/Philodendron%20Pink%20Princess.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -189,9 +199,10 @@ export const tropicalPlants: Plant[] = [
  ]
  },
  {
- name: 'Elephant Ear',
-    botanicalName: 'Alocasia macrorrhiza',
-    image: PLANT_IMAGES_BASE_URL + '/Elephant%20Ear.jpg',
+  name: 'Elephant Ear',
+  botanicalName: 'Alocasia macrorrhiza',
+  otherNames: ['Giant Tarot', 'Giant Alocasia'],
+  image: PLANT_IMAGES_BASE_URL + '/Elephant%20Ear.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',

@@ -57,6 +57,7 @@ const EditPlantDialog = ({
   const [suggestedWateringDays, setSuggestedWateringDays] = useState<number>(7);
   const [isOutdoorPlant, setIsOutdoorPlant] = useState(false);
   const [householdId, setHouseholdId] = useState("");
+  const [alternativeNames, setAlternativeNames] = useState<string[]>([]);
   const [wateringRecords, setWateringRecords] = useState<WateringRecord[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -78,6 +79,7 @@ const EditPlantDialog = ({
     suggestedWateringDays: 7,
     isOutdoorPlant: false,
     householdId: "",
+    alternativeNames: [] as string[],
   });
 
   useEffect(() => {
@@ -89,6 +91,7 @@ const EditPlantDialog = ({
       const initialWateringDays = plant.suggested_watering_days || 7;
       const initialIsOutdoorPlant = plant.is_outdoor_plant || false;
       const initialHouseholdId = plant.household_id || "";
+      const initialAlternativeNames = plant.alternative_names || [];
 
       // Set current values
       setNickname(initialNickname);
@@ -98,6 +101,7 @@ const EditPlantDialog = ({
       setSuggestedWateringDays(initialWateringDays);
       setIsOutdoorPlant(initialIsOutdoorPlant);
       setHouseholdId(initialHouseholdId);
+      setAlternativeNames(initialAlternativeNames);
 
       // Store original values for comparison
       setOriginalValues({
@@ -108,6 +112,7 @@ const EditPlantDialog = ({
         suggestedWateringDays: initialWateringDays,
         isOutdoorPlant: initialIsOutdoorPlant,
         householdId: initialHouseholdId,
+        alternativeNames: initialAlternativeNames,
       });
 
       loadWateringRecords(plant.id);
@@ -125,7 +130,9 @@ const EditPlantDialog = ({
       room !== originalValues.room ||
       suggestedWateringDays !== originalValues.suggestedWateringDays ||
       isOutdoorPlant !== originalValues.isOutdoorPlant ||
-      householdId !== originalValues.householdId
+      householdId !== originalValues.householdId ||
+      JSON.stringify(alternativeNames) !==
+        JSON.stringify(originalValues.alternativeNames)
     );
   };
 
@@ -138,13 +145,13 @@ const EditPlantDialog = ({
         .order("watered_at", { ascending: false });
 
       if (error) throw error;
-      
+
       // Add is_postponement flag for UI differentiation
-      const processedRecords = (data || []).map(record => ({
+      const processedRecords = (data || []).map((record) => ({
         ...record,
-        is_postponement: record.notes?.includes('POSTPONEMENT:') || false
+        is_postponement: record.notes?.includes("POSTPONEMENT:") || false,
       }));
-      
+
       setWateringRecords(processedRecords);
     } catch (error) {
       console.error("Error loading watering records:", error);
@@ -168,6 +175,7 @@ const EditPlantDialog = ({
         suggested_watering_days: suggestedWateringDays,
         is_outdoor_plant: isOutdoorPlant,
         household_id: householdId || null,
+        alternative_names: alternativeNames,
         updated_at: new Date().toISOString(),
       };
 
@@ -249,10 +257,10 @@ const EditPlantDialog = ({
 
       // Show success toast
       wateringToast.updated();
-      
+
       // Notify parent to refresh plant data
       onUpdate();
-      
+
       return true;
     } catch (error) {
       console.error("Error updating watering record:", error);
@@ -272,12 +280,12 @@ const EditPlantDialog = ({
       const recordToDelete = wateringRecords.find(
         (record): record is WateringRecord => record.id === recordId
       );
-      if (!recordToDelete) throw new Error('Record not found');
-      
+      if (!recordToDelete) throw new Error("Record not found");
+
       const isPostponement =
         (recordToDelete as WateringRecord).is_postponement ||
-        recordToDelete.notes?.includes('POSTPONEMENT:');
-      
+        recordToDelete.notes?.includes("POSTPONEMENT:");
+
       // Optimistic UI update - remove the record from the local state immediately
       setWateringRecords((currentRecords) =>
         currentRecords.filter((record) => record.id !== recordId)
@@ -287,11 +295,11 @@ const EditPlantDialog = ({
       // This ensures that when a user deletes a postponement, the plant is no longer considered postponed
       if (isPostponement) {
         const { error: deleteAllError } = await supabase
-          .from('watering_records')
+          .from("watering_records")
           .delete()
-          .eq('plant_id', plant.id)
-          .like('notes', '%POSTPONEMENT:%')
-          .gt('watered_at', new Date().toISOString());
+          .eq("plant_id", plant.id)
+          .like("notes", "%POSTPONEMENT:%")
+          .gt("watered_at", new Date().toISOString());
 
         if (deleteAllError) throw deleteAllError;
       } else {
@@ -311,7 +319,7 @@ const EditPlantDialog = ({
       } else {
         wateringToast.deleted();
       }
-      
+
       // Don't refresh from server - trust our optimistic update
       // This avoids race conditions where the server response hasn't fully processed the deletion yet
     } catch (error) {
@@ -362,141 +370,195 @@ const EditPlantDialog = ({
 
   return (
     <>
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent data-testid="edit-plant-dialog" className="max-w-2xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader className="border-b border-sprout-cream/30 dark:border-sprout-cream/20 pb-4 mb-6">
-          <DialogTitle data-testid="edit-plant-dialog-title">Edit Plant Details</DialogTitle>
-          <DialogDescription>
-            Update your plant's information, care schedule, and watering
-            history.
-          </DialogDescription>
-        </DialogHeader>
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent
+          data-testid="edit-plant-dialog"
+          className="max-w-2xl max-h-[80vh] overflow-y-auto"
+        >
+          <DialogHeader className="border-b border-sprout-cream/30 dark:border-sprout-cream/20 pb-4 mb-6">
+            <DialogTitle data-testid="edit-plant-dialog-title">
+              Edit Plant Details
+            </DialogTitle>
+            <DialogDescription>
+              Update your plant's information, care schedule, and watering
+              history.
+            </DialogDescription>
+          </DialogHeader>
 
-        <Tabs defaultValue="details" className="space-y-6">
-          <TabsList data-testid="edit-plant-tabs" className="grid w-full grid-cols-2 md:grid-cols-4 h-auto md:h-10 gap-2">
-            <TabsTrigger data-testid="details-tab" value="details" className="!rounded-md">Plant Details</TabsTrigger>
-            <TabsTrigger data-testid="watering-history-tab" value="watering" className="!rounded-md">Watering History</TabsTrigger>
-            <TabsTrigger data-testid="schedule-history-tab" value="schedule" className="!rounded-md">Schedule History</TabsTrigger>
-            <TabsTrigger data-testid="settings-tab" value="settings" className="!rounded-md">Settings</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="details" className="space-y-6 mt-8 md:mt-2">
-            <PlantDetailsForm
-              nickname={nickname}
-              setNickname={setNickname}
-              plantType={plantType}
-              setPlantType={setPlantType}
-              image={image}
-              setImage={setImage}
-              room={room}
-              setRoom={setRoom}
-              suggestedWateringDays={suggestedWateringDays}
-              setSuggestedWateringDays={setSuggestedWateringDays}
-              isOutdoorPlant={isOutdoorPlant}
-              setIsOutdoorPlant={setIsOutdoorPlant}
-              householdId={householdId}
-              setHouseholdId={setHouseholdId}
-              households={households}
-            />
-
-            <div className="flex justify-end space-x-2 pt-4">
-              <Button data-testid="cancel-edit-button" variant="outline" onClick={onClose}>
-                Cancel
-              </Button>
-              <Button
-                data-testid="save-plant-button"
-                onClick={handleSave}
-                disabled={isLoading || !hasChanges()}
-                className={`${
-                  hasChanges()
-                    ? "bg-sprout-primary hover:bg-sprout-primary/90 text-white dark:bg-sprout-medium dark:hover:bg-sprout-medium/90"
-                    : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed hover:bg-gray-300 dark:hover:bg-gray-600"
-                }`}
+          <Tabs defaultValue="details" className="space-y-6">
+            <TabsList
+              data-testid="edit-plant-tabs"
+              className="grid w-full grid-cols-2 md:grid-cols-4 h-auto md:h-10 gap-2"
+            >
+              <TabsTrigger
+                data-testid="details-tab"
+                value="details"
+                className="!rounded-md"
               >
-                {isLoading ? "Saving..." : "Save Changes"}
-              </Button>
-            </div>
-          </TabsContent>
+                Plant Details
+              </TabsTrigger>
+              <TabsTrigger
+                data-testid="watering-history-tab"
+                value="watering"
+                className="!rounded-md"
+              >
+                Watering History
+              </TabsTrigger>
+              <TabsTrigger
+                data-testid="schedule-history-tab"
+                value="schedule"
+                className="!rounded-md"
+              >
+                Schedule History
+              </TabsTrigger>
+              <TabsTrigger
+                data-testid="settings-tab"
+                value="settings"
+                className="!rounded-md"
+              >
+                Settings
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent data-testid="watering-history-content" value="watering" className="space-y-4 mt-8 md:mt-2">
-            <h3 className="text-lg font-semibold">Watering History</h3>
-            <WateringRecordForm onAddWatering={handleAddWatering} />
-            <WateringRecordsList
-              records={wateringRecords}
-              onDeleteRecord={handleDeleteWatering}
-              onEditRecord={(record) => setRecordToEdit(record)}
-              deleteLoadingRecords={deleteLoadingRecords}
-            />
-          </TabsContent>
-
-          <TabsContent value="schedule" className="space-y-4 mt-8 md:mt-2">
-            {plant && (
-              <ScheduleHistoryCard
-                plantId={plant.id}
-                plantName={plant.nickname}
-                currentSchedule={plant.suggested_watering_days}
+            <TabsContent value="details" className="space-y-6 mt-8 md:mt-2">
+              <PlantDetailsForm
+                nickname={nickname}
+                setNickname={setNickname}
+                plantType={plantType}
+                setPlantType={setPlantType}
+                image={image}
+                setImage={setImage}
+                room={room}
+                setRoom={setRoom}
+                suggestedWateringDays={suggestedWateringDays}
+                setSuggestedWateringDays={setSuggestedWateringDays}
+                isOutdoorPlant={isOutdoorPlant}
+                setIsOutdoorPlant={setIsOutdoorPlant}
+                householdId={householdId}
+                setHouseholdId={setHouseholdId}
+                households={households}
+                alternativeNames={alternativeNames}
+                setAlternativeNames={setAlternativeNames}
               />
-            )}
-          </TabsContent>
-          <TabsContent data-testid="settings-content" value="settings" className="space-y-4 mt-8 md:mt-2">
-            {/* Danger Zone for Delete Plant */}
-            <div data-testid="danger-zone" className="border border-red-200 bg-red-50 rounded-lg p-6 flex flex-col items-center">
-              <h4 className="text-red-700 font-semibold mb-2">Danger Zone</h4>
-              <p className="text-sm text-red-600 mb-4 text-center">
-                Deleting this plant will remove it and all its watering records
-                from your collection. This action cannot be undone.
-              </p>
-              <AlertDialog
-                open={isDeleteDialogOpen}
-                onOpenChange={setIsDeleteDialogOpen}
+
+              <div className="flex justify-end space-x-2 pt-4">
+                <Button
+                  data-testid="cancel-edit-button"
+                  variant="outline"
+                  onClick={onClose}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  data-testid="save-plant-button"
+                  onClick={handleSave}
+                  disabled={isLoading || !hasChanges()}
+                  className={`${
+                    hasChanges()
+                      ? "bg-sprout-primary hover:bg-sprout-primary/90 text-white dark:bg-sprout-medium dark:hover:bg-sprout-medium/90"
+                      : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed hover:bg-gray-300 dark:hover:bg-gray-600"
+                  }`}
+                >
+                  {isLoading ? "Saving..." : "Save Changes"}
+                </Button>
+              </div>
+            </TabsContent>
+
+            <TabsContent
+              data-testid="watering-history-content"
+              value="watering"
+              className="space-y-4 mt-8 md:mt-2"
+            >
+              <h3 className="text-lg font-semibold">Watering History</h3>
+              <WateringRecordForm onAddWatering={handleAddWatering} />
+              <WateringRecordsList
+                records={wateringRecords}
+                onDeleteRecord={handleDeleteWatering}
+                onEditRecord={(record) => setRecordToEdit(record)}
+                deleteLoadingRecords={deleteLoadingRecords}
+              />
+            </TabsContent>
+
+            <TabsContent value="schedule" className="space-y-4 mt-8 md:mt-2">
+              {plant && (
+                <ScheduleHistoryCard
+                  plantId={plant.id}
+                  plantName={plant.nickname}
+                  currentSchedule={plant.suggested_watering_days}
+                />
+              )}
+            </TabsContent>
+            <TabsContent
+              data-testid="settings-content"
+              value="settings"
+              className="space-y-4 mt-8 md:mt-2"
+            >
+              {/* Danger Zone for Delete Plant */}
+              <div
+                data-testid="danger-zone"
+                className="border border-red-200 bg-red-50 rounded-lg p-6 flex flex-col items-center"
               >
-                <AlertDialogTrigger asChild>
-                  <Button
-                    data-testid="delete-plant-trigger-button"
-                    type="button"
-                    className="bg-sprout-error hover:bg-sprout-error/90 text-sprout-white"
-                    onClick={() => setIsDeleteDialogOpen(true)}
-                    disabled={isLoading || isDeleting}
-                  >
-                    Delete Plant
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent data-testid="delete-plant-confirmation-dialog">
-                  <AlertDialogHeader>
-                    <AlertDialogTitle data-testid="delete-plant-confirmation-title">Delete Plant</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Are you sure you want to delete this plant? This action
-                      cannot be undone.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel data-testid="delete-plant-cancel-button" disabled={isDeleting}>
-                      Cancel
-                    </AlertDialogCancel>
-                    <AlertDialogAction
-                      data-testid="delete-plant-confirm-button"
-                      className="bg-sprout-error hover:bg-sprout-error/90 text-white"
-                      onClick={handleDeletePlant}
-                      disabled={isDeleting}
+                <h4 className="text-red-700 font-semibold mb-2">Danger Zone</h4>
+                <p className="text-sm text-red-600 mb-4 text-center">
+                  Deleting this plant will remove it and all its watering
+                  records from your collection. This action cannot be undone.
+                </p>
+                <AlertDialog
+                  open={isDeleteDialogOpen}
+                  onOpenChange={setIsDeleteDialogOpen}
+                >
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      data-testid="delete-plant-trigger-button"
+                      type="button"
+                      className="bg-sprout-error hover:bg-sprout-error/90 text-sprout-white"
+                      onClick={() => setIsDeleteDialogOpen(true)}
+                      disabled={isLoading || isDeleting}
                     >
-                      {isDeleting ? "Deleting..." : "Delete"}
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </DialogContent>
-    </Dialog>
-    
-    {/* Edit Watering Record Dialog */}
-    <EditWateringRecordDialog
-      isOpen={!!recordToEdit}
-      onClose={() => setRecordToEdit(null)}
-      record={recordToEdit}
-      onUpdate={handleEditWatering}
-    />
+                      Delete Plant
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent data-testid="delete-plant-confirmation-dialog">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle data-testid="delete-plant-confirmation-title">
+                        Delete Plant
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to delete this plant? This action
+                        cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel
+                        data-testid="delete-plant-cancel-button"
+                        disabled={isDeleting}
+                      >
+                        Cancel
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        data-testid="delete-plant-confirm-button"
+                        className="bg-sprout-error hover:bg-sprout-error/90 text-white"
+                        onClick={handleDeletePlant}
+                        disabled={isDeleting}
+                      >
+                        {isDeleting ? "Deleting..." : "Delete"}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Watering Record Dialog */}
+      <EditWateringRecordDialog
+        isOpen={!!recordToEdit}
+        onClose={() => setRecordToEdit(null)}
+        record={recordToEdit}
+        onUpdate={handleEditWatering}
+      />
     </>
   );
 };

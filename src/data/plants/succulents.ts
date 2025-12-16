@@ -4,19 +4,32 @@ import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const succulents: Plant[] = [
  {
- name: 'Snake Plant',
-    botanicalName: 'Sansevieria trifasciata',
-    image: PLANT_IMAGES_BASE_URL + '/Snake%20Plant.jpg',
-    wateringFrequency: 'Monthly',
+  name: 'Snake Plant',
+  botanicalName: 'Sansevieria trifasciata',
+  otherNames: ['Mother-in-Law\'s Tongue', 'Viper\'s Bowstring Hemp', 'Saint George\'s Sword'],
+  image: PLANT_IMAGES_BASE_URL + '/Snake%20Plant.jpg',
+  wateringFrequency: 'Monthly',
  suggestedWateringDays: 30,
  lightRequirement: 'Low Light',
  careLevel: 'Easy' as const,
  category: 'Succulents'
  },
  {
- name: 'Aloe Vera',
-    botanicalName: 'Aloe barbadensis',
-    image: PLANT_IMAGES_BASE_URL + '/Aloe%20Vera.jpg',
+  name: 'Aloe Vera',
+  botanicalName: 'Aloe barbadensis',
+  otherNames: ['Chinese Aloe', 'True Aloe', 'Burn Plant'],
+  image: PLANT_IMAGES_BASE_URL + '/Aloe%20Vera.jpg',
+  wateringFrequency: 'Bi-weekly',
+ suggestedWateringDays: 14,
+ lightRequirement: 'Bright Direct Light',
+ careLevel: 'Easy' as const,
+ category: 'Succulents'
+ },
+ {
+  name: 'Jade Plant',
+  botanicalName: 'Crassula ovata',
+  otherNames: ['Lucky Plant', 'Money Plant', 'Money Tree'],
+  image: PLANT_IMAGES_BASE_URL + '/Jade%20Plant.jpg',
     wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Direct Light',
@@ -24,9 +37,10 @@ export const succulents: Plant[] = [
  category: 'Succulents'
  },
  {
- name: 'Jade Plant',
-    botanicalName: 'Crassula ovata',
-    image: PLANT_IMAGES_BASE_URL + '/Jade%20Plant.jpg',
+  name: 'Echeveria',
+  botanicalName: 'Echeveria elegans',
+  otherNames: ['Mexican Snowball', 'Mexican Gem', 'White Mexican Rose'],
+  image: PLANT_IMAGES_BASE_URL + '/Echeveria.jpg',
     wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Direct Light',
@@ -34,19 +48,10 @@ export const succulents: Plant[] = [
  category: 'Succulents'
  },
  {
- name: 'Echeveria',
-    botanicalName: 'Echeveria elegans',
-    image: PLANT_IMAGES_BASE_URL + '/Echeveria.jpg',
-    wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Succulents'
- },
- {
- name: 'String of Pearls',
-    botanicalName: 'Senecio rowleyanus',
-    image: PLANT_IMAGES_BASE_URL + '/String%20of%20Pearls.jpg',
+  name: 'String of Pearls',
+  botanicalName: 'Senecio rowleyanus',
+  otherNames: ['String of Beads'],
+  image: PLANT_IMAGES_BASE_URL + '/String%20of%20Pearls.jpg',
     wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Indirect Light',
@@ -54,9 +59,10 @@ export const succulents: Plant[] = [
  category: 'Succulents'
  },
  {
- name: 'Crystal Succulent',
-    botanicalName: 'Haworthia cooperi',
-    image: PLANT_IMAGES_BASE_URL + '/Crystal%20Succulent.jpg',
+  name: 'Crystal Succulent',
+  botanicalName: 'Haworthia cooperi',
+  otherNames: ['Cooper\'s Haworthia', 'Window Haworthia', 'Pussy Foot'],
+  image: PLANT_IMAGES_BASE_URL + '/Crystal%20Succulent.jpg',
     wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Indirect Light',
@@ -64,9 +70,10 @@ export const succulents: Plant[] = [
  category: 'Succulents'
  },
  {
- name: 'Barrel Cactus',
-    botanicalName: 'Ferocactus wislizeni',
-    image: PLANT_IMAGES_BASE_URL + '/Barrel%20Cactus.jpg',
+  name: 'Barrel Cactus',
+  botanicalName: 'Ferocactus wislizeni',
+  otherNames: ['Fishhook Barrel Cactus', 'Candy Barrel Cactus', 'Compass Barrel Cactus'],
+  image: PLANT_IMAGES_BASE_URL + '/Barrel%20Cactus.jpg',
     wateringFrequency: 'Monthly',
  suggestedWateringDays: 30,
  lightRequirement: 'Bright Direct Light',
@@ -91,9 +98,10 @@ export const succulents: Plant[] = [
  ]
  },
  {
- name: 'Lithops',
-    botanicalName: 'Lithops species',
-    image: PLANT_IMAGES_BASE_URL + '/Lithops.jpg',
+  name: 'Lithops',
+  botanicalName: 'Lithops species',
+  otherNames: ['Living Stones', 'Flowering Stones', 'Pebble Plants'],
+  image: PLANT_IMAGES_BASE_URL + '/Lithops.jpg',
     wateringFrequency: 'Monthly',
  suggestedWateringDays: 45,
  lightRequirement: 'Bright Direct Light',
@@ -118,9 +126,10 @@ export const succulents: Plant[] = [
  ]
  },
  {
- name: 'Prickly Pear Cactus',
-    botanicalName: 'Opuntia microdasys',
-    image: PLANT_IMAGES_BASE_URL + '/Prickly%20Pear%20Cactus.jpg',
+  name: 'Prickly Pear Cactus',
+  botanicalName: 'Opuntia microdasys',
+  otherNames: ['Bunny Ears Cactus', 'Polka-Dot Cactus', 'Angel\'s Wings'],
+  image: PLANT_IMAGES_BASE_URL + '/Prickly%20Pear%20Cactus.jpg',
     wateringFrequency: 'Monthly',
  suggestedWateringDays: 30,
  lightRequirement: 'Bright Direct Light',
@@ -145,9 +154,10 @@ export const succulents: Plant[] = [
  ]
  },
  {
- name: 'Zebra Plant',
-    botanicalName: 'Haworthia fasciata',
-    image: PLANT_IMAGES_BASE_URL + '/Zebra%20Plant.jpg',
+  name: 'Zebra Plant',
+  botanicalName: 'Haworthia fasciata',
+  otherNames: ['Zebra Cactus', 'Zebra Haworthia'],
+  image: PLANT_IMAGES_BASE_URL + '/Zebra%20Plant.jpg',
     wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Indirect Light',
@@ -172,9 +182,10 @@ export const succulents: Plant[] = [
  ]
  },
  {
- name: 'Paddle Plant',
-    botanicalName: 'Kalanchoe thyrsiflora',
-    image: PLANT_IMAGES_BASE_URL + '/Paddle%20Plant.jpg',
+  name: 'Paddle Plant',
+  botanicalName: 'Kalanchoe thyrsiflora',
+  otherNames: ['Flapjack Plant', 'Desert Cabbage', 'White Lady'],
+  image: PLANT_IMAGES_BASE_URL + '/Paddle%20Plant.jpg',
     wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Direct Light',
@@ -199,9 +210,10 @@ export const succulents: Plant[] = [
  ]
  },
  {
- name: 'String of Buttons',
-    botanicalName: 'Crassula perforata',
-    image: PLANT_IMAGES_BASE_URL + '/String%20of%20Buttons.jpg',
+  name: 'String of Buttons',
+  botanicalName: 'Crassula perforata',
+  otherNames: ['Necklace Vine', 'Pagoda Plant'],
+  image: PLANT_IMAGES_BASE_URL + '/String%20of%20Buttons.jpg',
     wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Direct Light',
@@ -225,9 +237,10 @@ export const succulents: Plant[] = [
   'Slow growth: Normal for this species'
  ]
  },
- {
+   {
    name: 'Aloe Aristata',
       botanicalName: 'Aloe aristata',
+      otherNames: ['Lace Aloe', 'Torch Plant', 'Guinea-fowl Aloe'],
       image: PLANT_IMAGES_BASE_URL + '/Aloe%20Aristata.jpg',
       wateringFrequency: 'Bi-weekly',
    suggestedWateringDays: 14,
@@ -253,9 +266,10 @@ export const succulents: Plant[] = [
    ]
    },
  {
- name: 'Ghost Plant',
-    botanicalName: 'Graptopetalum paraguayense',
-    image: PLANT_IMAGES_BASE_URL + '/Ghost%20Plant.jpg',
+  name: 'Ghost Plant',
+  botanicalName: 'Graptopetalum paraguayense',
+  otherNames: ['Mother-of-Pearl Plant'],
+  image: PLANT_IMAGES_BASE_URL + '/Ghost%20Plant.jpg',
     wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Direct Light',

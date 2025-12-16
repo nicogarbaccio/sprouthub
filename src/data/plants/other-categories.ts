@@ -4,9 +4,10 @@ import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const otherPlants: Plant[] = [
  {
- name: 'ZZ Plant',
-    botanicalName: 'Zamioculcas zamiifolia',
-    image: PLANT_IMAGES_BASE_URL + '/ZZ%20Plant.png',
+  name: 'ZZ Plant',
+  botanicalName: 'Zamioculcas zamiifolia',
+  otherNames: ['Zanzibar Gem', 'Zuzu Plant'],
+  image: PLANT_IMAGES_BASE_URL + '/ZZ%20Plant.png',
     wateringFrequency: 'Monthly',
  suggestedWateringDays: 30,
  lightRequirement: 'Low to Medium Light',
@@ -14,9 +15,10 @@ export const otherPlants: Plant[] = [
  category: 'Low Maintenance'
  },
  {
- name: 'Boston Fern',
-    botanicalName: 'Nephrolepis exaltata',
-    image: PLANT_IMAGES_BASE_URL + '/Boston%20Fern.jpg',
+  name: 'Boston Fern',
+  botanicalName: 'Nephrolepis exaltata',
+  otherNames: ['Sword Fern'],
+  image: PLANT_IMAGES_BASE_URL + '/Boston%20Fern.jpg',
     wateringFrequency: 'Twice weekly',
  suggestedWateringDays: 3,
  lightRequirement: 'Bright Indirect Light',
@@ -24,9 +26,10 @@ export const otherPlants: Plant[] = [
  category: 'Ferns'
  },
  {
- name: 'Chinese Money Plant',
-    botanicalName: 'Pilea peperomioides',
-    image: PLANT_IMAGES_BASE_URL + '/Chinese%20Money%20Plant.jpg',
+  name: 'Chinese Money Plant',
+  botanicalName: 'Pilea peperomioides',
+  otherNames: ['Pancake Plant', 'UFO Plant'],
+  image: PLANT_IMAGES_BASE_URL + '/Chinese%20Money%20Plant.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -34,9 +37,10 @@ export const otherPlants: Plant[] = [
  category: 'Small Plants'
  },
  {
- name: 'Calathea',
-    botanicalName: 'Calathea orbifolia',
-    image: PLANT_IMAGES_BASE_URL + '/Calathea.jpg',
+  name: 'Calathea',
+  botanicalName: 'Calathea orbifolia',
+  otherNames: ['Round-leaved Calathea'],
+  image: PLANT_IMAGES_BASE_URL + '/Calathea.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
@@ -44,9 +48,10 @@ export const otherPlants: Plant[] = [
  category: 'Prayer Plants'
  },
  {
- name: 'Majesty Palm',
-    botanicalName: 'Ravenea rivularis',
-    image: PLANT_IMAGES_BASE_URL + '/Majesty%20Palm.jpg',
+  name: 'Majesty Palm',
+  botanicalName: 'Ravenea rivularis',
+  otherNames: ['Ravenea', 'Majestic Palm'],
+  image: PLANT_IMAGES_BASE_URL + '/Majesty%20Palm.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -54,9 +59,10 @@ export const otherPlants: Plant[] = [
  category: 'Palms'
  },
  {
- name: 'Peperomia',
-    botanicalName: 'Peperomia obtusifolia',
-    image: PLANT_IMAGES_BASE_URL + '/Peperomia.jpg',
+  name: 'Peperomia',
+  botanicalName: 'Peperomia obtusifolia',
+  otherNames: ['Baby Rubber Plant'],
+  image: PLANT_IMAGES_BASE_URL + '/Peperomia.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 10,
  lightRequirement: 'Medium Light',
@@ -64,9 +70,10 @@ export const otherPlants: Plant[] = [
  category: 'Small Plants'
  },
  {
- name: 'Ponytail Palm',
-    botanicalName: 'Beaucarnea recurvata',
-    image: PLANT_IMAGES_BASE_URL + '/Ponytail%20Palm.jpg',
+  name: 'Ponytail Palm',
+  botanicalName: 'Beaucarnea recurvata',
+  otherNames: ['Elephant\'s Foot'],
+  image: PLANT_IMAGES_BASE_URL + '/Ponytail%20Palm.jpg',
     wateringFrequency: 'Monthly',
  suggestedWateringDays: 30,
  lightRequirement: 'Bright Direct Light',
@@ -74,9 +81,10 @@ export const otherPlants: Plant[] = [
  category: 'Palms'
  },
  {
- name: 'Prayer Plant',
-    botanicalName: 'Maranta leuconeura',
-    image: PLANT_IMAGES_BASE_URL + '/Prayer%20Plant.jpg',
+  name: 'Prayer Plant',
+  botanicalName: 'Maranta leuconeura',
+  otherNames: ['Rabbit Tracks'],
+  image: PLANT_IMAGES_BASE_URL + '/Prayer%20Plant.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
@@ -84,9 +92,10 @@ export const otherPlants: Plant[] = [
  category: 'Prayer Plants'
  },
  {
- name: 'Parlor Palm',
-    botanicalName: 'Chamaedorea elegans',
-    image: PLANT_IMAGES_BASE_URL + '/Parlor%20Palm.jpg',
+  name: 'Parlor Palm',
+  botanicalName: 'Chamaedorea elegans',
+  otherNames: ['Neanthe Bella Palm'],
+  image: PLANT_IMAGES_BASE_URL + '/Parlor%20Palm.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Low to Medium Light',
@@ -94,9 +103,10 @@ export const otherPlants: Plant[] = [
  category: 'Palms'
  },
  {
- name: 'Maidenhair Fern',
-    botanicalName: 'Adiantum raddianum',
-    image: PLANT_IMAGES_BASE_URL + '/Maidenhair%20Fern.jpg',
+  name: 'Maidenhair Fern',
+  botanicalName: 'Adiantum raddianum',
+  otherNames: ['Venus Hair Fern'],
+  image: PLANT_IMAGES_BASE_URL + '/Maidenhair%20Fern.jpg',
     wateringFrequency: 'Twice weekly',
  suggestedWateringDays: 3,
  lightRequirement: 'Bright Indirect Light',
@@ -121,9 +131,10 @@ export const otherPlants: Plant[] = [
  ]
  },
  {
- name: 'Staghorn Fern',
-    botanicalName: 'Platycerium bifurcatum',
-    image: PLANT_IMAGES_BASE_URL + '/Staghorn%20Fern.jpg',
+  name: 'Staghorn Fern',
+  botanicalName: 'Platycerium bifurcatum',
+  otherNames: ['Elkhorn Fern'],
+  image: PLANT_IMAGES_BASE_URL + '/Staghorn%20Fern.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -148,9 +159,10 @@ export const otherPlants: Plant[] = [
  ]
  },
  {
- name: 'Bird\'s Nest Fern',
-    botanicalName: 'Asplenium nidus',
-    image: PLANT_IMAGES_BASE_URL + '/Birds%20Nest%20Fern.jpg',
+  name: 'Bird\'s Nest Fern',
+  botanicalName: 'Asplenium nidus',
+  otherNames: ['Crow\'s Nest Fern'],
+  image: PLANT_IMAGES_BASE_URL + '/Birds%20Nest%20Fern.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
@@ -175,9 +187,10 @@ export const otherPlants: Plant[] = [
  ]
  },
  {
- name: 'Coleus',
-    botanicalName: 'Solenostemon scutellarioides',
-    image: PLANT_IMAGES_BASE_URL + '/Coleus.jpg',
+  name: 'Coleus',
+  botanicalName: 'Solenostemon scutellarioides',
+  otherNames: ['Painted Nettle'],
+  image: PLANT_IMAGES_BASE_URL + '/Coleus.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 5,
  lightRequirement: 'Bright Indirect Light',
@@ -202,9 +215,10 @@ export const otherPlants: Plant[] = [
  ]
  },
  {
- name: 'Caladium',
-    botanicalName: 'Caladium bicolor',
-    image: PLANT_IMAGES_BASE_URL + '/Caladium.jpg',
+  name: 'Caladium',
+  botanicalName: 'Caladium bicolor',
+  otherNames: ['Angel Wings', 'Elephant Ear'],
+  image: PLANT_IMAGES_BASE_URL + '/Caladium.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -229,9 +243,10 @@ export const otherPlants: Plant[] = [
  ]
  },
  {
- name: 'Nerve Plant',
-    botanicalName: 'Fittonia albivenis',
-    image: PLANT_IMAGES_BASE_URL + '/Nerve%20Plant.jpg',
+  name: 'Nerve Plant',
+  botanicalName: 'Fittonia albivenis',
+  otherNames: ['Mosaic Plant'],
+  image: PLANT_IMAGES_BASE_URL + '/Nerve%20Plant.jpg',
     wateringFrequency: 'Twice weekly',
  suggestedWateringDays: 3,
  lightRequirement: 'Medium Light',
@@ -256,9 +271,10 @@ export const otherPlants: Plant[] = [
  ]
  },
  {
- name: 'Cast Iron Plant',
-    botanicalName: 'Aspidistra elatior',
-    image: PLANT_IMAGES_BASE_URL + '/Cast%20Iron%20Plant.jpg',
+  name: 'Cast Iron Plant',
+  botanicalName: 'Aspidistra elatior',
+  otherNames: ['Bar Room Plant'],
+  image: PLANT_IMAGES_BASE_URL + '/Cast%20Iron%20Plant.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 10,
  lightRequirement: 'Low Light',
@@ -310,9 +326,10 @@ export const otherPlants: Plant[] = [
  ]
  },
  {
- name: 'Aluminum Plant',
-    botanicalName: 'Pilea cadierei',
-    image: PLANT_IMAGES_BASE_URL + '/Aluminum%20Plant.jpg',
+  name: 'Aluminum Plant',
+  botanicalName: 'Pilea cadierei',
+  otherNames: ['Watermelon Pilea'],
+  image: PLANT_IMAGES_BASE_URL + '/Aluminum%20Plant.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -337,9 +354,10 @@ export const otherPlants: Plant[] = [
  ]
  },
  {
- name: 'Swedish Ivy',
-    botanicalName: 'Plectranthus australis',
-    image: PLANT_IMAGES_BASE_URL + '/Swedish%20Ivy.jpg',
+  name: 'Swedish Ivy',
+  botanicalName: 'Plectranthus australis',
+  otherNames: ['Creeping Charlie'],
+  image: PLANT_IMAGES_BASE_URL + '/Swedish%20Ivy.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -364,9 +382,10 @@ export const otherPlants: Plant[] = [
  ]
  },
  {
- name: 'Arrowhead Plant',
-    botanicalName: 'Syngonium podophyllum',
-    image: PLANT_IMAGES_BASE_URL + '/Arrowhead%20Plant.jpg',
+  name: 'Arrowhead Plant',
+  botanicalName: 'Syngonium podophyllum',
+  otherNames: ['Goosefoot', 'Syngonium'],
+  image: PLANT_IMAGES_BASE_URL + '/Arrowhead%20Plant.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
@@ -391,9 +410,10 @@ export const otherPlants: Plant[] = [
  ]
  },
  {
- name: 'Wandering Jew',
-    botanicalName: 'Tradescantia fluminensis',
-    image: PLANT_IMAGES_BASE_URL + '/Wandering%20Jew.jpg',
+  name: 'Wandering Jew',
+  botanicalName: 'Tradescantia fluminensis',
+  otherNames: ['Inch Plant', 'Spiderwort'],
+  image: PLANT_IMAGES_BASE_URL + '/Wandering%20Jew.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',

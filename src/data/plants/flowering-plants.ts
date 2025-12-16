@@ -4,29 +4,32 @@ import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const floweringPlants: Plant[] = [
  {
- name: 'Peace Lily',
- botanicalName: 'Spathiphyllum wallisii',
- image: PLANT_IMAGES_BASE_URL + '/Peace%20Lily.jpg',
- wateringFrequency: 'Weekly',
+  name: 'Peace Lily',
+  botanicalName: 'Spathiphyllum wallisii',
+  otherNames: ['Spath', 'White Sails', 'Mauna Loa'],
+  image: PLANT_IMAGES_BASE_URL + '/Peace%20Lily.jpg',
+  wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Low to Medium Light',
  careLevel: 'Easy' as const,
  category: 'Flowering Plants'
  },
  {
- name: 'Flamingo Flower',
-    botanicalName: 'Anthurium andraeanum',
-    image: PLANT_IMAGES_BASE_URL + '/Flamingo%20Flower.jpg',
-    wateringFrequency: 'Weekly',
+  name: 'Flamingo Flower',
+  botanicalName: 'Anthurium andraeanum',
+  otherNames: ['Anthurium', 'Laceleaf', 'Tailflower'],
+  image: PLANT_IMAGES_BASE_URL + '/Flamingo%20Flower.jpg',
+  wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Medium' as const,
  category: 'Flowering Plants'
  },
  {
- name: 'African Violet',
-    botanicalName: 'Saintpaulia ionantha',
-    image: PLANT_IMAGES_BASE_URL + '/African%20Violet.jpg',
+  name: 'African Violet',
+  botanicalName: 'Saintpaulia ionantha',
+  otherNames: ['Saintpaulia'],
+  image: PLANT_IMAGES_BASE_URL + '/African%20Violet.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -34,9 +37,10 @@ export const floweringPlants: Plant[] = [
  category: 'Flowering Plants'
  },
  {
- name: 'Christmas Cactus',
-    botanicalName: 'Schlumbergera truncata',
-    image: PLANT_IMAGES_BASE_URL + '/Christmas%20Cactus.jpg',
+  name: 'Christmas Cactus',
+  botanicalName: 'Schlumbergera truncata',
+  otherNames: ['Holiday Cactus', 'Thanksgiving Cactus', 'Crab Cactus'],
+  image: PLANT_IMAGES_BASE_URL + '/Christmas%20Cactus.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 10,
  lightRequirement: 'Bright Indirect Light',
@@ -44,9 +48,10 @@ export const floweringPlants: Plant[] = [
  category: 'Flowering Plants'
  },
  {
- name: 'Begonia Rex',
-    botanicalName: 'Begonia rex',
-    image: PLANT_IMAGES_BASE_URL + '/Begonia%20Rex.jpg',
+  name: 'Begonia Rex',
+  botanicalName: 'Begonia rex',
+  otherNames: ['Painted-Leaf Begonia', 'King Begonia', 'Rex Begonia'],
+  image: PLANT_IMAGES_BASE_URL + '/Begonia%20Rex.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -71,9 +76,10 @@ export const floweringPlants: Plant[] = [
  ]
  },
  {
- name: 'Sowbread',
-    botanicalName: 'Cyclamen persicum',
-    image: PLANT_IMAGES_BASE_URL + '/Sowbread.jpg',
+  name: 'Sowbread',
+  botanicalName: 'Cyclamen persicum',
+  otherNames: ['Persian Cyclamen', 'Florist\'s Cyclamen'],
+  image: PLANT_IMAGES_BASE_URL + '/Sowbread.jpg',
     wateringFrequency: 'Twice weekly',
  suggestedWateringDays: 3,
  lightRequirement: 'Bright Indirect Light',
@@ -98,9 +104,10 @@ export const floweringPlants: Plant[] = [
  ]
  },
  {
- name: 'Geranium',
-    botanicalName: 'Pelargonium x hortorum',
-    image: PLANT_IMAGES_BASE_URL + '/Geranium.jpg',
+  name: 'Geranium',
+  botanicalName: 'Pelargonium x hortorum',
+  otherNames: ['Zonal Geranium', 'Garden Geranium'],
+  image: PLANT_IMAGES_BASE_URL + '/Geranium.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Direct Light',
@@ -125,9 +132,10 @@ export const floweringPlants: Plant[] = [
  ]
  },
  {
- name: 'Flaming Katy',
-    botanicalName: 'Kalanchoe blossfeldiana',
-    image: PLANT_IMAGES_BASE_URL + '/Flaming%20Katy.jpg',
+  name: 'Flaming Katy',
+  botanicalName: 'Kalanchoe blossfeldiana',
+  otherNames: ['Christmas Kalanchoe', 'Florist Kalanchoe', 'Madagascar Widow\'s-thrill'],
+  image: PLANT_IMAGES_BASE_URL + '/Flaming%20Katy.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 10,
  lightRequirement: 'Bright Direct Light',
@@ -152,9 +160,10 @@ export const floweringPlants: Plant[] = [
  ]
  },
  {
- name: 'Touch-Me-Not',
-    botanicalName: 'Impatiens walleriana',
-    image: PLANT_IMAGES_BASE_URL + '/Touch%20Me%20Not.jpg',
+  name: 'Touch-Me-Not',
+  botanicalName: 'Impatiens walleriana',
+  otherNames: ['Bizzy Lizzy', 'Patience Plant', 'Sultana'],
+  image: PLANT_IMAGES_BASE_URL + '/Touch%20Me%20Not.jpg',
     wateringFrequency: 'Twice weekly',
  suggestedWateringDays: 3,
  lightRequirement: 'Bright Indirect Light',
@@ -179,9 +188,10 @@ export const floweringPlants: Plant[] = [
  ]
  },
  {
- name: 'Orchid',
-    botanicalName: 'Phalaenopsis species',
-    image: PLANT_IMAGES_BASE_URL + '/Orchid.jpg',
+  name: 'Orchid',
+  botanicalName: 'Phalaenopsis species',
+  otherNames: ['Moth Orchid'],
+  image: PLANT_IMAGES_BASE_URL + '/Orchid.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -206,9 +216,10 @@ export const floweringPlants: Plant[] = [
  ]
  },
  {
- name: 'Flowering Maple',
-    botanicalName: 'Abutilon pictum',
-    image: PLANT_IMAGES_BASE_URL + '/Flowering%20Maple.jpg',
+  name: 'Flowering Maple',
+  botanicalName: 'Abutilon pictum',
+  otherNames: ['Chinese Lantern', 'Parlor Maple', 'Indian Mallow'],
+  image: PLANT_IMAGES_BASE_URL + '/Flowering%20Maple.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Direct Light',
@@ -233,9 +244,10 @@ export const floweringPlants: Plant[] = [
  ]
  },
  {
- name: 'Hibiscus',
-    botanicalName: 'Hibiscus rosa-sinensis',
-    image: PLANT_IMAGES_BASE_URL + '/Hibiscus.jpg',
+  name: 'Hibiscus',
+  botanicalName: 'Hibiscus rosa-sinensis',
+  otherNames: ['Chinese Hibiscus', 'China Rose', 'Hawaiian Hibiscus'],
+  image: PLANT_IMAGES_BASE_URL + '/Hibiscus.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 5,
  lightRequirement: 'Bright Direct Light',
@@ -260,9 +272,10 @@ export const floweringPlants: Plant[] = [
  ]
  },
  {
- name: 'Paper Flower',
-    botanicalName: 'Bougainvillea spectabilis',
-    image: PLANT_IMAGES_BASE_URL + '/Paper%20Flower.jpg',
+  name: 'Paper Flower',
+  botanicalName: 'Bougainvillea spectabilis',
+  otherNames: ['Bougainvillea', 'Great Bougainvillea'],
+  image: PLANT_IMAGES_BASE_URL + '/Paper%20Flower.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Direct Light',
@@ -287,9 +300,10 @@ export const floweringPlants: Plant[] = [
  ]
  },
  {
- name: 'Crown of Thorns',
-    botanicalName: 'Euphorbia milii',
-    image: PLANT_IMAGES_BASE_URL + '/Crown%20of%20Thorns.jpg',
+  name: 'Crown of Thorns',
+  botanicalName: 'Euphorbia milii',
+  otherNames: ['Christ Plant', 'Christ Thorn'],
+  image: PLANT_IMAGES_BASE_URL + '/Crown%20of%20Thorns.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 10,
  lightRequirement: 'Bright Direct Light',
@@ -314,9 +328,10 @@ export const floweringPlants: Plant[] = [
  ]
  },
  {
- name: 'Pentas',
-    botanicalName: 'Pentas lanceolata',
-    image: PLANT_IMAGES_BASE_URL + '/Pentas.jpg',
+  name: 'Pentas',
+  botanicalName: 'Pentas lanceolata',
+  otherNames: ['Egyptian Starcluster', 'Star Flower'],
+  image: PLANT_IMAGES_BASE_URL + '/Pentas.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Direct Light',

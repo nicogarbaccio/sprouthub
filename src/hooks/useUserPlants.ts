@@ -33,10 +33,11 @@ export interface UserPlant {
  suggested_watering_days?: number;
  latest_watering?: string;
  days_since_watering?: number;
- is_outdoor_plant?: boolean;
- household_id?: string;
- created_at: string;
- updated_at: string;
+  is_outdoor_plant?: boolean;
+  household_id?: string;
+  alternative_names?: string[];
+  created_at: string;
+  updated_at: string;
  // Postponement fields
  postponement_date?: string;
  postponement_notes?: string;
@@ -216,10 +217,11 @@ const {
   image?: string;
   image_source?: string;
   room?: string;
- suggested_watering_days?: number;
- last_watered_date?: string;
- is_outdoor_plant?: boolean;
- household_id?: string;
+  suggested_watering_days?: number;
+  last_watered_date?: string;
+  is_outdoor_plant?: boolean;
+  household_id?: string;
+  alternative_names?: string[];
  }) => {
  if (!user) return false;
 
@@ -238,6 +240,7 @@ const {
    suggested_watering_days: plantData.suggested_watering_days,
    is_outdoor_plant: plantData.is_outdoor_plant || false,
    household_id: plantData.household_id || null,
+   alternative_names: plantData.alternative_names || [],
    user_id: user.id,
   })
   .select()

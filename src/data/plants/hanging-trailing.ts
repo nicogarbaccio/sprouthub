@@ -4,9 +4,10 @@ import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const hangingTrailingPlants: Plant[] = [
  {
- name: 'Pothos',
-    botanicalName: 'Epipremnum aureum',
-    image: PLANT_IMAGES_BASE_URL + '/Pothos.png',
+  name: 'Pothos',
+  botanicalName: 'Epipremnum aureum',
+  otherNames: ['Devil\'s Ivy', 'Golden Pothos', 'Hunter\'s Robe'],
+  image: PLANT_IMAGES_BASE_URL + '/Pothos.png',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
@@ -14,9 +15,10 @@ export const hangingTrailingPlants: Plant[] = [
  category: 'Hanging & Trailing Plants'
  },
  {
- name: 'Spider Plant',
-    botanicalName: 'Chlorophytum comosum',
-    image: PLANT_IMAGES_BASE_URL + '/Spider%20Plant.jpg',
+  name: 'Spider Plant',
+  botanicalName: 'Chlorophytum comosum',
+  otherNames: ['Airplane Plant', 'Ribbon Plant', 'Spider Ivy'],
+  image: PLANT_IMAGES_BASE_URL + '/Spider%20Plant.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -24,9 +26,10 @@ export const hangingTrailingPlants: Plant[] = [
  category: 'Hanging & Trailing Plants'
  },
  {
- name: 'English Ivy',
-    botanicalName: 'Hedera helix',
-    image: PLANT_IMAGES_BASE_URL + '/English%20Ivy.jpg',
+  name: 'English Ivy',
+  botanicalName: 'Hedera helix',
+  otherNames: ['Common Ivy', 'European Ivy'],
+  image: PLANT_IMAGES_BASE_URL + '/English%20Ivy.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
@@ -51,9 +54,10 @@ export const hangingTrailingPlants: Plant[] = [
  ]
  },
  {
- name: 'String of Hearts',
-    botanicalName: 'Ceropegia woodii',
-    image: PLANT_IMAGES_BASE_URL + '/String%20of%20Hearts.jpg',
+  name: 'String of Hearts',
+  botanicalName: 'Ceropegia woodii',
+  otherNames: ['Rosary Vine', 'Chain of Hearts', 'Hearts-on-a-String'],
+  image: PLANT_IMAGES_BASE_URL + '/String%20of%20Hearts.jpg',
     wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Indirect Light',
@@ -78,9 +82,10 @@ export const hangingTrailingPlants: Plant[] = [
  ]
  },
  {
- name: 'Heartleaf Philodendron',
-    botanicalName: 'Philodendron hederaceum',
-    image: PLANT_IMAGES_BASE_URL + '/Heartleaf%20Philodendron.jpg',
+  name: 'Heartleaf Philodendron',
+  botanicalName: 'Philodendron hederaceum',
+  otherNames: ['Sweetheart Plant', 'Philodendron Scandens'],
+  image: PLANT_IMAGES_BASE_URL + '/Heartleaf%20Philodendron.jpg',
     wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
@@ -105,9 +110,10 @@ export const hangingTrailingPlants: Plant[] = [
  ]
  },
  {
- name: 'String of Bananas',
-    botanicalName: 'Senecio radicans',
-    image: PLANT_IMAGES_BASE_URL + '/String%20of%20Bananas.jpg',
+  name: 'String of Bananas',
+  botanicalName: 'Senecio radicans',
+  otherNames: ['Fishhooks Senecio', 'Necklace Plant'],
+  image: PLANT_IMAGES_BASE_URL + '/String%20of%20Bananas.jpg',
     wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Indirect Light',
@@ -132,9 +138,10 @@ export const hangingTrailingPlants: Plant[] = [
  ]
  },
  {
- name: 'Burro\'s Tail',
-    botanicalName: 'Sedum morganianum',
-    image: PLANT_IMAGES_BASE_URL + '/Burros%20Tail.jpg',
+  name: 'Burro\'s Tail',
+  botanicalName: 'Sedum morganianum',
+  otherNames: ['Donkey\'s Tail', 'Lamb\'s Tail'],
+  image: PLANT_IMAGES_BASE_URL + '/Burros%20Tail.jpg',
     wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Direct Light',

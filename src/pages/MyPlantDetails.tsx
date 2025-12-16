@@ -465,6 +465,17 @@ const MyPlantDetails = () => {
                 {plant.plant_type}
               </p>
 
+              {(plant.alternative_names?.length > 0 ||
+                catalogPlant?.otherNames?.length > 0) && (
+                <p className="text-sm text-muted-foreground mb-4">
+                  <span className="font-semibold">Also known as:</span>{" "}
+                  {(plant.alternative_names?.length > 0
+                    ? plant.alternative_names
+                    : catalogPlant?.otherNames
+                  )?.join(", ")}
+                </p>
+              )}
+
               <div className="flex flex-wrap justify-center lg:justify-start gap-2">
                 {plant.room && (
                   <Badge variant="secondary">

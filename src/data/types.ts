@@ -18,6 +18,7 @@ export interface CatalogPlant {
   careInstructions?: string[];
   commonProblems?: string[];
   isOutdoorPlant?: boolean; // Added for weather-based rain delay feature
+  otherNames?: string[];
 }
 
 /**

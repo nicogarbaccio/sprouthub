@@ -144,11 +144,8 @@ const PlantDetails = () => {
           </CascadingContainer>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <CascadingContainer delay={100}>
-              <PlantImageSection
-                image={plant.image}
-                name={plant.name}
-              />
+            <CascadingContainer delay={100} className="h-full">
+              <PlantImageSection image={plant.image} name={plant.name} />
             </CascadingContainer>
 
             <div className="space-y-6">
@@ -156,6 +153,7 @@ const PlantDetails = () => {
                 <PlantInfoSection
                   name={plant.name}
                   botanicalName={plant.botanicalName}
+                  otherNames={plant.otherNames}
                   description={
                     plant.description ||
                     `The ${plant.name} is a beautiful plant that makes a great addition to any home. It's known for its unique characteristics and is perfect for plant enthusiasts.`

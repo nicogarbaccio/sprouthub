@@ -31,6 +31,8 @@ interface PlantDetailsFormProps {
   householdId?: string;
   setHouseholdId?: (value: string) => void;
   households?: Array<{ id: string; name: string; member_count: number }>;
+  alternativeNames?: string[];
+  setAlternativeNames?: (value: string[]) => void;
 }
 
 const PlantDetailsForm = ({
@@ -49,6 +51,8 @@ const PlantDetailsForm = ({
   householdId = "",
   setHouseholdId,
   households = [],
+  alternativeNames = [],
+  setAlternativeNames,
 }: PlantDetailsFormProps) => {
   const [isCustomRoom, setIsCustomRoom] = useState(false);
   const [customRoom, setCustomRoom] = useState("");
@@ -132,6 +136,29 @@ const PlantDetailsForm = ({
         />
       </div>
 
+      {setAlternativeNames && (
+        <div className="space-y-2">
+          <Label htmlFor="alternativeNames">Alternative Names</Label>
+          <Input
+            data-testid="alternative-names-input"
+            id="alternativeNames"
+            value={alternativeNames.join(", ")}
+            onChange={(e) => {
+              const value = e.target.value;
+              const names = value
+                .split(",")
+                .map((name) => name.trim())
+                .filter(Boolean);
+              setAlternativeNames(names);
+            }}
+            placeholder="Separate names with commas (e.g. Snake Plant, Mother-in-Law's Tongue)"
+          />
+          <p className="text-xs text-muted-foreground">
+            Other names this plant is known by
+          </p>
+        </div>
+      )}
+
       <div className="space-y-2">
         <Label htmlFor="room">Room (Optional)</Label>
         <Select
@@ -188,7 +215,9 @@ const PlantDetailsForm = ({
           <Label htmlFor="household">Assignment</Label>
           <Select
             value={householdId || "personal"}
-            onValueChange={(value) => setHouseholdId(value === "personal" ? "" : value)}
+            onValueChange={(value) =>
+              setHouseholdId(value === "personal" ? "" : value)
+            }
           >
             <SelectTrigger data-testid="household-select">
               <SelectValue placeholder="Select assignment" />
@@ -205,17 +234,18 @@ const PlantDetailsForm = ({
                   <div className="flex items-center gap-2">
                     <span>🏠</span>
                     <span>{household.name}</span>
-                    <span className="text-xs text-muted-foreground">({household.member_count} members)</span>
+                    <span className="text-xs text-muted-foreground">
+                      ({household.member_count} members)
+                    </span>
                   </div>
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
           <p className="text-xs text-muted-foreground">
-            {householdId 
+            {householdId
               ? "This plant will be visible and manageable by all household members"
-              : "This plant is only visible to you"
-            }
+              : "This plant is only visible to you"}
           </p>
         </div>
       )}

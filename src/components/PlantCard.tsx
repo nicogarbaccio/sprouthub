@@ -7,6 +7,7 @@ import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 interface PlantCardProps {
   name: string;
   botanicalName: string;
+  otherNames?: string[];
   image: string;
   wateringFrequency: string;
   suggestedWateringDays?: number;
@@ -21,6 +22,7 @@ interface PlantCardProps {
 const PlantCard = ({
   name,
   botanicalName,
+  otherNames,
   image,
   wateringFrequency,
   suggestedWateringDays,
@@ -68,6 +70,7 @@ const PlantCard = ({
             src={image}
             alt={name}
             className="w-full h-48"
+            imageClassName="object-contain"
           />
         </div>
         <div className="absolute top-3 right-3">
@@ -82,15 +85,36 @@ const PlantCard = ({
       </div>
 
       <div className="p-6">
-        <h3 className="text-lg font-semibold text-foreground mb-1 " data-testid="plant-name">
-          {name}
+        <h3
+          className="text-lg font-semibold text-foreground mb-1 "
+          data-testid="plant-name"
+        >
+          <button
+            onClick={onViewDetails}
+            className="text-left hover:text-primary transition-colors duration-200 cursor-pointer hover:underline w-full"
+          >
+            {name}
+          </button>
         </h3>
-        <p className="text-sm text-muted-foreground italic mb-4" data-testid="plant-botanical-name">
+        <p
+          className="text-sm text-muted-foreground italic mb-1"
+          data-testid="plant-botanical-name"
+        >
           {botanicalName}
         </p>
 
+        {otherNames && otherNames.length > 0 && (
+          <p className="text-xs text-muted-foreground/80 mb-4 line-clamp-1">
+            <span className="font-medium">aka:</span> {otherNames.join(", ")}
+          </p>
+        )}
+        {!otherNames?.length && <div className="mb-4"></div>}
+
         <div className="space-y-3 mb-4">
-          <div className="flex items-center space-x-2" data-testid="plant-watering-info">
+          <div
+            className="flex items-center space-x-2"
+            data-testid="plant-watering-info"
+          >
             <Droplets className="w-4 h-4 text-plant-primary dark:text-plant-secondary" />
             <div>
               <span className="text-sm text-foreground">
@@ -103,7 +127,10 @@ const PlantCard = ({
               )}
             </div>
           </div>
-          <div className="flex items-center space-x-2" data-testid="plant-light-info">
+          <div
+            className="flex items-center space-x-2"
+            data-testid="plant-light-info"
+          >
             <Sun className="w-4 h-4 text-plant-primary dark:text-plant-secondary" />
             <span className="text-sm text-foreground">{lightRequirement}</span>
           </div>
