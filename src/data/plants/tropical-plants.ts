@@ -1,12 +1,13 @@
 
 import { Plant } from '../types';
+import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const tropicalPlants: Plant[] = [
  {
  name: 'Monstera Deliciosa',
- botanicalName: 'Monstera deliciosa',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748540196/united-nursery-monstera-plants-21887-64_600_qccheq.jpg',
- wateringFrequency: 'Bi-weekly',
+    botanicalName: 'Monstera deliciosa',
+    image: PLANT_IMAGES_BASE_URL + '/Monstera%20Deliciosa.png',
+    wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Medium' as const,
@@ -14,19 +15,19 @@ export const tropicalPlants: Plant[] = [
  },
  {
  name: 'Bird of Paradise',
- botanicalName: 'Strelitzia nicolai',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748540227/multi-planted-bird-of-paradise-strelitzia-nicolai-25cm-pot-my-jungle-home-142052_tycvp3.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Strelitzia nicolai',
+    image: PLANT_IMAGES_BASE_URL + '/Bird%20of%20Paradise.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Hard' as const,
  category: 'Tropical Plants'
  },
  {
- name: 'Alocasia',
- botanicalName: 'Alocasia amazonica',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748540250/alocasia-amazonica-potted-plant-elephant-ear__0653981_pe708210_s5_n3zpxt.jpg',
- wateringFrequency: 'Weekly',
+ name: 'African Mask',
+    botanicalName: 'Alocasia amazonica',
+    image: PLANT_IMAGES_BASE_URL + '/African%20Mask.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Hard' as const,
@@ -34,19 +35,19 @@ export const tropicalPlants: Plant[] = [
  },
  {
  name: 'Monstera Adansonii',
- botanicalName: 'Monstera adansonii',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748540275/Monstera_Adansonii_Swiss_Cheese_Plant_btuaki.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Monstera adansonii',
+    image: PLANT_IMAGES_BASE_URL + '/Monstera%20Adansonii.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Medium' as const,
  category: 'Tropical Plants'
  },
  {
- name: 'Dieffenbachia',
- botanicalName: 'Dieffenbachia seguine',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748540302/DG5_1024px_anuzkc.jpg',
- wateringFrequency: 'Weekly',
+ name: 'Dumb Cane',
+    botanicalName: 'Dieffenbachia seguine',
+    image: PLANT_IMAGES_BASE_URL + '/Dumb%20Cane.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
  careLevel: 'Easy' as const,
@@ -54,9 +55,9 @@ export const tropicalPlants: Plant[] = [
  },
  {
  name: 'Philodendron Brasil',
- botanicalName: 'Philodendron hederaceum',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750805312/1713224407501_s5dqa4.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Philodendron hederaceum',
+    image: PLANT_IMAGES_BASE_URL + '/Philodendron%20Brasil.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
  careLevel: 'Easy' as const,
@@ -81,9 +82,9 @@ export const tropicalPlants: Plant[] = [
  },
  {
  name: 'Kentia Palm',
- botanicalName: 'Howea forsteriana',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750805262/07_PALM_KENTIA_6-7FT_01_fdrgw2.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Howea forsteriana',
+    image: PLANT_IMAGES_BASE_URL + '/Kentia%20Palm.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
  careLevel: 'Easy' as const,
@@ -108,9 +109,9 @@ export const tropicalPlants: Plant[] = [
  },
  {
  name: 'Banana Plant',
- botanicalName: 'Musa acuminata',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750804910/banana-musa-plant-in-pot-royalty-free-image-1699118571.jpg_ozao1i.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Musa acuminata',
+    image: PLANT_IMAGES_BASE_URL + '/Banana%20Plant.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 5,
  lightRequirement: 'Bright Direct Light',
  careLevel: 'Hard' as const,
@@ -134,37 +135,10 @@ export const tropicalPlants: Plant[] = [
  ]
  },
  {
- name: 'Fiddle Leaf Fig',
- botanicalName: 'Ficus lyrata',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750805185/bloomscape_fiddle-leaf-fig_charcoal-e1652800894846_vlfmkt.jpg',
- wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Hard' as const,
- category: 'Tropical Plants',
- description: 'A trendy houseplant with large, violin-shaped leaves. Known for being finicky but creates a dramatic statement in any room.',
- toxicity: 'Toxic to pets if ingested',
- temperature: '65-75°F (18-24°C)',
- humidity: '40-50%',
- careInstructions: [
-  'Water when top inch of soil is dry',
-  'Provide consistent bright, indirect light',
-  'Avoid moving or rotating frequently',
-  'Clean leaves weekly with damp cloth',
-  'Fertilize monthly during growing season'
- ],
- commonProblems: [
-  'Brown spots: Usually from overwatering or inconsistent watering',
-  'Leaf drop: Stress from changes in light, water, or location',
-  'Brown edges: Low humidity or root problems',
-  'Slow growth: Normal, be patient with this plant'
- ]
- },
- {
  name: 'Croton',
- botanicalName: 'Codiaeum variegatum',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750805039/large-croton-house-plant-PL112322.425_zamfnl.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Codiaeum variegatum',
+    image: PLANT_IMAGES_BASE_URL + '/Croton.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Direct Light',
  careLevel: 'Medium' as const,
@@ -188,37 +162,10 @@ export const tropicalPlants: Plant[] = [
  ]
  },
  {
- name: 'Calathea Orbifolia',
- botanicalName: 'Calathea Orbifolia',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750804970/lighter_r1ycrj.jpg',
- wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Medium Light',
- careLevel: 'Hard' as const,
- category: 'Tropical Plants',
- description: 'A prayer plant with large, round leaves featuring distinctive silver and green stripes. Leaves fold up at night like hands in prayer.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-75°F (18-24°C)',
- humidity: '60-70%',
- careInstructions: [
-  'Keep soil consistently moist but not soggy',
-  'Use distilled or filtered water',
-  'Provide bright, indirect light',
-  'Maintain high humidity with humidifier',
-  'Avoid cold drafts and temperature fluctuations'
- ],
- commonProblems: [
-  'Brown leaf edges: Low humidity or fluoride in water',
-  'Curling leaves: Low humidity or underwatering',
-  'Fading patterns: Needs more filtered light',
-  'Spider mites: Common in low humidity'
- ]
- },
- {
  name: 'Philodendron Pink Princess',
- botanicalName: 'Philodendron erubescens',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750805349/20250120211054_file_678ebbdea2df9_x3scee.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Philodendron erubescens',
+    image: PLANT_IMAGES_BASE_URL + '/Philodendron%20Pink%20Princess.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Medium' as const,
@@ -243,9 +190,9 @@ export const tropicalPlants: Plant[] = [
  },
  {
  name: 'Elephant Ear',
- botanicalName: 'Alocasia macrorrhiza',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750805164/DETA-1855_jqndwt.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Alocasia macrorrhiza',
+    image: PLANT_IMAGES_BASE_URL + '/Elephant%20Ear.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Hard' as const,

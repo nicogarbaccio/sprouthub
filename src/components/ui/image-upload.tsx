@@ -7,164 +7,173 @@ import { imageToast } from "@/utils/toast-helpers";
 import { supabase } from "@/integrations/supabase/client";
 
 interface ImageUploadProps {
- value: string;
- onChange: (url: string) => void;
- label?: string;
- placeholder?: string;
- showPreview?: boolean;
+  value: string;
+  onChange: (url: string) => void;
+  label?: string;
+  placeholder?: string;
+  showPreview?: boolean;
 }
 
 const ImageUpload = ({
- value,
- onChange,
- label = "Image",
- placeholder = "Enter image URL or upload",
- showPreview = true,
+  value,
+  onChange,
+  label = "Image",
+  placeholder = "Enter image URL or upload",
+  showPreview = true,
 }: ImageUploadProps) => {
- const [isUploading, setIsUploading] = useState(false);
- const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
- const uploadToCloudinary = async (file: File) => {
- const formData = new FormData();
- formData.append("file", file);
+  const uploadToSupabase = async (file: File) => {
+    try {
+      // 1. Create a unique file path
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${crypto.randomUUID()}.${fileExt}`;
+      const filePath = `${fileName}`;
 
- try {
-  const { data, error } = await supabase.functions.invoke("upload-image", {
-  body: formData,
-  });
+      // 2. Upload directly to Supabase Storage
+      const { error: uploadError } = await supabase.storage
+        .from('plant-images')
+        .upload(filePath, file, {
+          upsert: false,
+          contentType: file.type,
+        });
 
-  if (error) {
-  console.error("Supabase function error:", error);
-  throw new Error("Upload failed");
-  }
+      if (uploadError) throw uploadError;
 
-  return data.secure_url;
- } catch (error) {
-  console.error("Cloudinary upload error:", error);
-  throw error;
- }
- };
+      // 3. Get the public URL
+      const { data } = supabase.storage
+        .from('plant-images')
+        .getPublicUrl(filePath);
 
- const handleFileSelect = async (
- event: React.ChangeEvent<HTMLInputElement>
- ) => {
- const file = event.target.files?.[0];
- if (!file) return;
+      return data.publicUrl;
+    } catch (error) {
+      console.error("Supabase upload error:", error);
+      throw error;
+    }
+  };
 
- // Validate file type
- if (!file.type.startsWith("image/")) {
-  imageToast.invalidType();
-  return;
- }
+  const handleFileSelect = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
- // Validate file size (5MB limit)
- if (file.size > 5 * 1024 * 1024) {
-  imageToast.tooLarge();
-  return;
- }
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      imageToast.invalidType();
+      return;
+    }
 
- setIsUploading(true);
- try {
-  const imageUrl = await uploadToCloudinary(file);
-  onChange(imageUrl);
-  imageToast.uploaded();
- } catch (error) {
-  imageToast.uploadError();
- } finally {
-  setIsUploading(false);
-  // Reset file input
-  if (fileInputRef.current) {
-  fileInputRef.current.value = "";
-  }
- }
- };
+    // Validate file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      imageToast.tooLarge();
+      return;
+    }
 
- const handleUploadClick = () => {
- fileInputRef.current?.click();
- };
+    setIsUploading(true);
+    try {
+      const imageUrl = await uploadToSupabase(file);
+      onChange(imageUrl);
+      imageToast.uploaded();
+    } catch (error) {
+      console.error(error);
+      imageToast.uploadError();
+    } finally {
+      setIsUploading(false);
+      // Reset file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  };
 
- const handleRemoveImage = () => {
- onChange("");
- };
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
 
- return (
- <div className="w-full space-y-2">
-  <Label htmlFor="image">{label}</Label>
+  const handleRemoveImage = () => {
+    onChange("");
+  };
 
-  <div className="space-y-3">
-  {/* URL Input */}
-  <Input
-   id="image"
-   value={value}
-   onChange={(e) => onChange(e.target.value)}
-   placeholder={placeholder}
-   className="w-full border-sprout-medium/30 focus:border-sprout-primary"
-   data-testid="image-url-input"
-  />
+  return (
+    <div className="w-full space-y-2">
+      <Label htmlFor="image">{label}</Label>
 
-  {/* Upload Button */}
-  <div className="flex gap-2 w-full">
-   <Button
-   type="button"
-   variant="outline"
-   onClick={handleUploadClick}
-   disabled={isUploading}
-   className="flex-1 bg-sprout-light hover:bg-sprout-light/90 text-white border-sprout-light"
-   data-testid="upload-image-button"
-   >
-   {isUploading ? (
-    <>
-    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-    Uploading...
-    </>
-   ) : (
-    <>
-    <Upload className="w-4 h-4 mr-2" />
-    Upload Image
-    </>
-   )}
-   </Button>
+      <div className="space-y-3">
+        {/* URL Input */}
+        <Input
+          id="image"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          className="w-full border-sprout-medium/30 focus:border-sprout-primary"
+          data-testid="image-url-input"
+        />
 
-   {value && (
-   <Button
-    type="button"
-    variant="outline"
-    size="icon"
-    onClick={handleRemoveImage}
-    className="text-red-600 hover:text-red-700"
-    data-testid="remove-image-button"
-   >
-    <X className="w-4 h-4" />
-   </Button>
-   )}
-  </div>
+        {/* Upload Button */}
+        <div className="flex gap-2 w-full">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleUploadClick}
+            disabled={isUploading}
+            className="flex-1 bg-sprout-light hover:bg-sprout-light/90 text-white border-sprout-light"
+            data-testid="upload-image-button"
+          >
+            {isUploading ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Uploading...
+              </>
+            ) : (
+              <>
+                <Upload className="w-4 h-4 mr-2" />
+                Upload Image
+              </>
+            )}
+          </Button>
 
-  {/* Hidden file input */}
-  <input
-   ref={fileInputRef}
-   type="file"
-   accept="image/*"
-   onChange={handleFileSelect}
-   className="hidden"
-  />
+          {value && (
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              onClick={handleRemoveImage}
+              className="text-red-600 hover:text-red-700"
+              data-testid="remove-image-button"
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          )}
+        </div>
 
-  {/* Image Preview */}
-  {value && showPreview && (
-   <div className="mt-2">
-   <img
-    src={value}
-    alt="Preview"
-    className="w-20 h-20 object-cover rounded-lg border"
-    onError={(e) => {
-    e.currentTarget.style.display = "none";
-    }}
-    data-testid="image-preview"
-   />
-   </div>
-  )}
-  </div>
- </div>
- );
+        {/* Hidden file input */}
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileSelect}
+          className="hidden"
+        />
+
+        {/* Image Preview */}
+        {value && showPreview && (
+          <div className="mt-2">
+            <img
+              src={value}
+              alt="Preview"
+              className="w-20 h-20 object-cover rounded-lg border"
+              onError={(e) => {
+                e.currentTarget.style.display = "none";
+              }}
+              data-testid="image-preview"
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default ImageUpload;

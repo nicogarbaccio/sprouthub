@@ -1064,7 +1064,9 @@ const Dashboard = () => {
                           handleImageClick(
                             plant.image ||
                               "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop",
-                            plant.nickname
+                            plant.nickname,
+                            // Since we don't have source in UserPlant type yet, we pass undefined
+                            undefined
                           )
                         }
                         role="button"
@@ -1075,7 +1077,8 @@ const Dashboard = () => {
                             handleImageClick(
                               plant.image ||
                                 "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop",
-                              plant.nickname
+                              plant.nickname,
+                              undefined
                             );
                           }
                         }}

@@ -1,11 +1,12 @@
 import { Plant } from '../types';
+import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const treesLargePlants: Plant[] = [
  {
  name: 'Fiddle Leaf Fig',
- botanicalName: 'Ficus lyrata',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748540002/bloomscape_fiddle-leaf-fig_charcoal-e1652800894846_gszilp.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Ficus lyrata',
+    image: PLANT_IMAGES_BASE_URL + '/Fiddle%20Leaf%20Fig.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Hard' as const,
@@ -13,9 +14,9 @@ export const treesLargePlants: Plant[] = [
  },
  {
  name: 'Rubber Plant',
- botanicalName: 'Ficus elastica',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748540022/RubberTreePlant_f8ks90.jpg',
- wateringFrequency: 'Bi-weekly',
+    botanicalName: 'Ficus elastica',
+    image: PLANT_IMAGES_BASE_URL + '/Rubber%20Plant.jpg',
+    wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Medium' as const,
@@ -23,9 +24,9 @@ export const treesLargePlants: Plant[] = [
  },
  {
  name: 'Dracaena',
- botanicalName: 'Dracaena marginata',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748540063/dracaena-plant-care-66578f39338ba.jpg_tpgdmd.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Dracaena marginata',
+    image: PLANT_IMAGES_BASE_URL + '/Dracaena.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 10,
  lightRequirement: 'Medium Light',
  careLevel: 'Easy' as const,
@@ -33,9 +34,9 @@ export const treesLargePlants: Plant[] = [
  },
  {
  name: 'Schefflera',
- botanicalName: 'Schefflera actinophylla',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748540141/Schefflera-actinophylla-scaled_hhfm1s.webp',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Schefflera actinophylla',
+    image: PLANT_IMAGES_BASE_URL + '/Schefflera.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Easy' as const,
@@ -43,9 +44,9 @@ export const treesLargePlants: Plant[] = [
  },
  {
  name: 'Yucca',
- botanicalName: 'Yucca elephantipes',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748540108/yucca-elephantipes-potted-plant-spineless-yucca-2-stem__0413416_pe570661_s5_f2nkxq.jpg',
- wateringFrequency: 'Bi-weekly',
+    botanicalName: 'Yucca elephantipes',
+    image: PLANT_IMAGES_BASE_URL + '/Yucca.jpg',
+    wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Direct Light',
  careLevel: 'Easy' as const,
@@ -53,9 +54,9 @@ export const treesLargePlants: Plant[] = [
  },
  {
  name: 'Norfolk Pine',
- botanicalName: 'Araucaria heterophylla',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1748540164/norfolk-island-pine-28038312362026_x560.progressive_j0hab5.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Araucaria heterophylla',
+    image: PLANT_IMAGES_BASE_URL + '/Norfolk%20Pine.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Medium' as const,

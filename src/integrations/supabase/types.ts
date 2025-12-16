@@ -311,6 +311,7 @@ export type Database = {
           last_weather_update: string | null
           location: string | null
           manual_location: string | null
+          temperature_unit: string
           updated_at: string | null
           use_weather_data: boolean | null
           user_id: string
@@ -326,6 +327,7 @@ export type Database = {
           last_weather_update?: string | null
           location?: string | null
           manual_location?: string | null
+          temperature_unit?: string
           updated_at?: string | null
           use_weather_data?: boolean | null
           user_id: string
@@ -341,6 +343,7 @@ export type Database = {
           last_weather_update?: string | null
           location?: string | null
           manual_location?: string | null
+          temperature_unit?: string
           updated_at?: string | null
           use_weather_data?: boolean | null
           user_id?: string
@@ -432,10 +435,9 @@ export type Database = {
         Args: { invitation_id: string }
         Returns: boolean
       }
-      delete_test_user: {
-        Args: Record<PropertyKey, never> | { user_id: string }
-        Returns: Json
-      }
+      delete_test_user:
+        | { Args: never; Returns: undefined }
+        | { Args: { user_id: string }; Returns: Json }
       get_user_emails: {
         Args: { user_ids: string[] }
         Returns: {
@@ -458,10 +460,7 @@ export type Database = {
         }
         Returns: string
       }
-      leave_household: {
-        Args: { household_id: string }
-        Returns: boolean
-      }
+      leave_household: { Args: { household_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never

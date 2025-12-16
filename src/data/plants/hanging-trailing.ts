@@ -1,12 +1,13 @@
 
 import { Plant } from '../types';
+import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const hangingTrailingPlants: Plant[] = [
  {
  name: 'Pothos',
- botanicalName: 'Epipremnum aureum',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750946347/Bellr2024relaunchpots-618copy_700x700_ho1bh7.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Epipremnum aureum',
+    image: PLANT_IMAGES_BASE_URL + '/Pothos.png',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
  careLevel: 'Easy' as const,
@@ -14,9 +15,9 @@ export const hangingTrailingPlants: Plant[] = [
  },
  {
  name: 'Spider Plant',
- botanicalName: 'Chlorophytum comosum',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750963317/beautiful-spider-plant-chlorophytum-isolated-in-a-royalty-free-image-1727206150.jpg_yt6k2y.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Chlorophytum comosum',
+    image: PLANT_IMAGES_BASE_URL + '/Spider%20Plant.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Easy' as const,
@@ -24,9 +25,9 @@ export const hangingTrailingPlants: Plant[] = [
  },
  {
  name: 'English Ivy',
- botanicalName: 'Hedera helix',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750946390/Efeja_Pitsburgh_nshddi.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Hedera helix',
+    image: PLANT_IMAGES_BASE_URL + '/English%20Ivy.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Easy' as const,
@@ -51,9 +52,9 @@ export const hangingTrailingPlants: Plant[] = [
  },
  {
  name: 'String of Hearts',
- botanicalName: 'Ceropegia woodii',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750963534/Ceropegia-woodii_-Silver-Glory-jpj_1_v4y4eh.jpg',
- wateringFrequency: 'Bi-weekly',
+    botanicalName: 'Ceropegia woodii',
+    image: PLANT_IMAGES_BASE_URL + '/String%20of%20Hearts.jpg',
+    wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Easy' as const,
@@ -78,9 +79,9 @@ export const hangingTrailingPlants: Plant[] = [
  },
  {
  name: 'Heartleaf Philodendron',
- botanicalName: 'Philodendron hederaceum',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750947262/1497a495dc858270b1a03662db1473f7_dwersd.jpg',
- wateringFrequency: 'Weekly',
+    botanicalName: 'Philodendron hederaceum',
+    image: PLANT_IMAGES_BASE_URL + '/Heartleaf%20Philodendron.jpg',
+    wateringFrequency: 'Weekly',
  suggestedWateringDays: 7,
  lightRequirement: 'Medium Light',
  careLevel: 'Easy' as const,
@@ -105,9 +106,9 @@ export const hangingTrailingPlants: Plant[] = [
  },
  {
  name: 'String of Bananas',
- botanicalName: 'Senecio radicans',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750963424/PhotoRoom-20220930_190520_1800x_y8vyyw.png',
- wateringFrequency: 'Bi-weekly',
+    botanicalName: 'Senecio radicans',
+    image: PLANT_IMAGES_BASE_URL + '/String%20of%20Bananas.jpg',
+    wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Indirect Light',
  careLevel: 'Easy' as const,
@@ -132,9 +133,9 @@ export const hangingTrailingPlants: Plant[] = [
  },
  {
  name: 'Burro\'s Tail',
- botanicalName: 'Sedum morganianum',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750946114/Donkey-Tail-Plant-_Sedum-morganianum_-1-Gallon-1_1400x_ncdkdy.jpg',
- wateringFrequency: 'Bi-weekly',
+    botanicalName: 'Sedum morganianum',
+    image: PLANT_IMAGES_BASE_URL + '/Burros%20Tail.jpg',
+    wateringFrequency: 'Bi-weekly',
  suggestedWateringDays: 14,
  lightRequirement: 'Bright Direct Light',
  careLevel: 'Easy' as const,
@@ -155,33 +156,6 @@ export const hangingTrailingPlants: Plant[] = [
   'Stretching: Needs more direct sunlight',
   'Wrinkled leaves: Usually needs water',
   'Root rot: Ensure proper drainage'
- ]
- },
- {
- name: 'String of Dolphins',
- botanicalName: 'Senecio peregrinus',
- image: 'https://res.cloudinary.com/dojdglovh/image/upload/v1750963486/String-of-Dolphins-6-inch-shop_4675c1d6-5cc3-45d6-b9e7-dec07c3c3c48_bgtams.jpg',
- wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Hanging & Trailing Plants',
- description: 'A whimsical succulent with leaves shaped like jumping dolphins. This hybrid of String of Pearls creates a unique conversation piece.',
- toxicity: 'Mildly toxic to pets',
- temperature: '65-75°F (18-24°C)',
- humidity: '30-40%',
- careInstructions: [
-  'Water thoroughly when soil is dry',
-  'Provide bright, indirect light',
-  'Handle gently to avoid leaf damage',
-  'Use well-draining succulent mix',
-  'Propagate from stem cuttings'
- ],
- commonProblems: [
-  'Overwatering: Can quickly cause root rot',
-  'Leggy growth: Needs more bright light',
-  'Leaf drop: From handling or stress',
-  'Slow growth: Normal for this specialty hybrid'
  ]
  },
 ];
