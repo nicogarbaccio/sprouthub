@@ -22,6 +22,7 @@ import {
   useQuickPatternAnalysis,
   useWateringPatternAnalysis,
 } from "@/hooks/useWateringPatternAnalysis";
+import { wateringPatternAnalyzer } from "@/utils/watering-pattern-analyzer";
 import { useNavigate } from "react-router-dom";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import {
@@ -312,9 +313,6 @@ const MyPlantCard = ({
           setPatternAnalysis(analysis);
 
           // Generate insights from the analysis
-          const { wateringPatternAnalyzer } = await import(
-            "@/utils/watering-pattern-analyzer"
-          );
           const insights = wateringPatternAnalyzer.generateInsights(analysis);
           setPatternInsights(insights);
 
