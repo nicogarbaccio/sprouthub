@@ -36,10 +36,10 @@ const seasonIcons: Record<
 };
 
 const seasonColors: Record<Season, string> = {
-  spring: "text-green-600 bg-green-50 border-green-200",
-  summer: "text-yellow-600 bg-yellow-50 border-yellow-200",
-  fall: "text-orange-600 bg-orange-50 border-orange-200",
-  winter: "text-blue-600 bg-blue-50 border-blue-200",
+  spring: "text-green-900 dark:text-green-100 bg-green-100 dark:bg-green-900/40 border-green-400 dark:border-green-600",
+  summer: "text-yellow-900 dark:text-yellow-100 bg-yellow-100 dark:bg-yellow-900/40 border-yellow-400 dark:border-yellow-600",
+  fall: "text-orange-900 dark:text-orange-100 bg-orange-100 dark:bg-orange-900/40 border-orange-400 dark:border-orange-600",
+  winter: "text-blue-900 dark:text-blue-100 bg-blue-100 dark:bg-blue-900/40 border-blue-400 dark:border-blue-600",
 };
 
 const seasonEmoji: Record<Season, string> = {
@@ -69,11 +69,11 @@ export function SeasonalReviewBanner({
   const getConfidenceColor = (confidence: SeasonalTransition["confidence"]) => {
     switch (confidence) {
       case "high":
-        return "bg-green-100 text-green-800";
+        return "bg-green-200 dark:bg-green-800 text-green-900 dark:text-green-100 border-green-300 dark:border-green-700";
       case "medium":
-        return "bg-yellow-100 text-yellow-800";
+        return "bg-yellow-200 dark:bg-yellow-800 text-yellow-900 dark:text-yellow-100 border-yellow-300 dark:border-yellow-700";
       case "low":
-        return "bg-gray-100 text-gray-800";
+        return "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-600";
     }
   };
 
@@ -97,11 +97,11 @@ export function SeasonalReviewBanner({
               </Badge>
             </div>
 
-            <AlertDescription data-testid="seasonal-banner-description" className="text-sm mb-3">
+            <AlertDescription data-testid="seasonal-banner-description" className="text-sm mb-3 font-medium">
               <div className="flex items-center space-x-1 mb-2">
                 <Droplets className="h-4 w-4" />
                 <span>
-                  <strong>{plantsNeedingReview}</strong> plant
+                  <strong className="font-bold">{plantsNeedingReview}</strong> plant
                   {plantsNeedingReview !== 1 ? "s" : ""}
                   {plantsNeedingReview === 1 ? " needs" : " need"} seasonal
                   watering schedule review
@@ -109,8 +109,8 @@ export function SeasonalReviewBanner({
               </div>
 
               {transition.triggering_factors.length > 0 && (
-                <div className="text-xs opacity-75 mt-1">
-                  <strong>Detected changes:</strong>{" "}
+                <div className="text-xs mt-1 opacity-90">
+                  <strong className="font-bold">Detected changes:</strong>{" "}
                   {transition.triggering_factors.join(", ")}
                 </div>
               )}
@@ -121,7 +121,7 @@ export function SeasonalReviewBanner({
                 data-testid="review-schedules-button"
                 onClick={onReviewClick}
                 size="sm"
-                className="bg-white/80 hover:bg-white text-current border border-current/20"
+                className="bg-white dark:bg-white/20 hover:bg-white/90 dark:hover:bg-white/30 text-current border-2 border-current/40 dark:border-current/60 font-semibold shadow-sm backdrop-blur-sm"
               >
                 <Calendar className="h-4 w-4 mr-1" />
                 Review Schedules
@@ -133,7 +133,7 @@ export function SeasonalReviewBanner({
                   variant="ghost"
                   size="sm"
                   onClick={() => onSnooze(1)}
-                  className="text-xs opacity-75 hover:opacity-100"
+                  className="text-xs font-medium hover:bg-white/60 dark:hover:bg-white/20"
                 >
                   <Clock className="h-3 w-3 mr-1" />1 week
                 </Button>
@@ -143,7 +143,7 @@ export function SeasonalReviewBanner({
                   variant="ghost"
                   size="sm"
                   onClick={() => onSnooze(2)}
-                  className="text-xs opacity-75 hover:opacity-100"
+                  className="text-xs font-medium hover:bg-white/60 dark:hover:bg-white/20"
                 >
                   2 weeks
                 </Button>

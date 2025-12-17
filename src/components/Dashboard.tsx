@@ -20,6 +20,7 @@ import { useDialogState } from "@/hooks/useDialogState";
 import { WelcomeHeader } from "@/components/dashboard/WelcomeHeader";
 import { QuickActions } from "@/components/dashboard/QuickActions";
 import { CareStatusOverview } from "@/components/dashboard/CareStatusOverview";
+import { getPlantImageUrl } from "@/utils/plantImageUtils";
 
 const COMPONENT_NAME = "Dashboard";
 import { Button } from "@/components/ui/button";
@@ -897,7 +898,11 @@ const Dashboard = () => {
                             aria-label={`View details for ${plant.nickname}`}
                           >
                             <PlantImage
-                              src={plant.image || ""}
+                              src={getPlantImageUrl(
+                                plant.image,
+                                plant.plant_type,
+                                ""
+                              )}
                               fallbackSrc="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=60&h=60&fit=crop"
                               alt={plant.nickname}
                               className="w-10 h-10 rounded-full object-cover"
@@ -986,7 +991,11 @@ const Dashboard = () => {
                         className="flex items-center space-x-3 p-3 bg-muted/30 dark:bg-muted/20 rounded-lg border border-border/50"
                       >
                         <PlantImage
-                          src={plant.image || ""}
+                          src={getPlantImageUrl(
+                            plant.image,
+                            plant.plant_type,
+                            ""
+                          )}
                           fallbackSrc="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=40&h=40&fit=crop"
                           alt={plant.nickname}
                           className="w-8 h-8 rounded-full object-cover"
@@ -1166,8 +1175,11 @@ const Dashboard = () => {
                         className="aspect-square bg-plant-neutral dark:bg-plant-neutral rounded-lg overflow-hidden mb-2 cursor-pointer hover:shadow-lg transition-all duration-300"
                         onClick={() =>
                           handleImageClick(
-                            plant.image ||
-                              "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop",
+                            getPlantImageUrl(
+                              plant.image,
+                              plant.plant_type,
+                              "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop"
+                            ),
                             plant.nickname,
                             plant.image_source
                           )
@@ -1178,8 +1190,11 @@ const Dashboard = () => {
                           if (e.key === "Enter" || e.key === " ") {
                             e.preventDefault();
                             handleImageClick(
-                              plant.image ||
-                                "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop",
+                              getPlantImageUrl(
+                                plant.image,
+                                plant.plant_type,
+                                "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop"
+                              ),
                               plant.nickname,
                               plant.image_source
                             );
@@ -1188,7 +1203,11 @@ const Dashboard = () => {
                         aria-label={`View ${plant.nickname} image in fullscreen`}
                       >
                         <PlantImage
-                          src={plant.image || ""}
+                          src={getPlantImageUrl(
+                            plant.image,
+                            plant.plant_type,
+                            ""
+                          )}
                           fallbackSrc="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=200&h=200&fit=crop"
                           alt={plant.nickname}
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -1249,7 +1268,11 @@ const Dashboard = () => {
                   className="flex items-center space-x-3 p-2 bg-card border border-border rounded-lg"
                 >
                   <PlantImage
-                    src={plant.image || ""}
+                    src={getPlantImageUrl(
+                      plant.image,
+                      plant.plant_type,
+                      ""
+                    )}
                     fallbackSrc="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=40&h=40&fit=crop"
                     alt={plant.nickname}
                     className="w-8 h-8 rounded-full object-cover"

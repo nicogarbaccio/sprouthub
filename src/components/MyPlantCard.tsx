@@ -434,8 +434,8 @@ const MyPlantCard = ({
           <PlantImage
             src={image}
             alt={name}
-            className="w-full h-48"
-            imageClassName="object-contain"
+            className="w-full h-56"
+            imageClassName="object-cover"
           />
 
           {/* Status Badge - Top Right of image */}

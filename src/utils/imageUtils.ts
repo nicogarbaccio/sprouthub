@@ -90,21 +90,21 @@ export function getOptimalObjectPosition(imageUrl: string): Promise<string> {
     img.onload = () => {
       const { width, height } = img;
       const aspectRatio = width / height;
-      
-      // For plant images, we typically want to focus on the center-top
-      // to capture more of the plant foliage
-      if (aspectRatio > 1.2) {
-        // Wide images - focus on center-top
-        resolve("center top");
-      } else if (aspectRatio < 0.8) {
-        // Tall images - focus on center
-        resolve("center");
+
+      // For plant images with object-cover, we want to show the most important parts
+      // Most plant photos have the plant in the center, often with foliage at top
+      if (aspectRatio > 1.3) {
+        // Wide landscape images - focus on center to capture the plant
+        resolve("center center");
+      } else if (aspectRatio < 0.7) {
+        // Very tall portrait images - focus slightly up to show more foliage
+        resolve("center 40%");
       } else {
-        // Square-ish images - center is usually good
-        resolve("center");
+        // Square-ish or moderate portrait images - center works well
+        resolve("center center");
       }
     };
-    img.onerror = () => resolve("center"); // fallback
+    img.onerror = () => resolve("center center"); // fallback
     img.src = imageUrl;
   });
 }

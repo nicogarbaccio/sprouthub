@@ -69,8 +69,8 @@ const PlantCard = ({
           <PlantImage
             src={image}
             alt={name}
-            className="w-full h-48"
-            imageClassName="object-contain"
+            className="w-full h-56"
+            imageClassName="object-cover"
           />
         </div>
         <div className="absolute top-3 right-3">

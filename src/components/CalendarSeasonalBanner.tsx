@@ -34,10 +34,10 @@ const seasonIcons: Record<
 };
 
 const seasonColors: Record<Season, string> = {
-  spring: "text-green-600 bg-green-50 border-green-200",
-  summer: "text-yellow-600 bg-yellow-50 border-yellow-200",
-  fall: "text-orange-600 bg-orange-50 border-orange-200",
-  winter: "text-blue-600 bg-blue-50 border-blue-200",
+  spring: "text-green-900 dark:text-green-100 bg-green-100 dark:bg-green-900/40 border-green-400 dark:border-green-600",
+  summer: "text-yellow-900 dark:text-yellow-100 bg-yellow-100 dark:bg-yellow-900/40 border-yellow-400 dark:border-yellow-600",
+  fall: "text-orange-900 dark:text-orange-100 bg-orange-100 dark:bg-orange-900/40 border-orange-400 dark:border-orange-600",
+  winter: "text-blue-900 dark:text-blue-100 bg-blue-100 dark:bg-blue-900/40 border-blue-400 dark:border-blue-600",
 };
 
 const seasonEmoji: Record<Season, string> = {
@@ -103,12 +103,12 @@ export function CalendarSeasonalBanner({
           <div className="flex-1 min-w-0">
             <div className="flex items-center space-x-2 mb-2">
               <h3 className="font-semibold text-lg">{getSeasonMessage()}</h3>
-              <Badge variant="outline" className="text-xs">
+              <Badge variant="outline" className="text-xs bg-white/60 dark:bg-white/20 border-current/30 dark:border-current/60 font-semibold backdrop-blur-sm">
                 {getChangeDate()}
               </Badge>
             </div>
 
-            <AlertDescription className="text-sm mb-3">
+            <AlertDescription className="text-sm mb-3 font-medium">
               <p className="mb-2">{getGuidanceMessage()}</p>
 
               <div className="flex items-center space-x-1">
@@ -116,7 +116,7 @@ export function CalendarSeasonalBanner({
                 <span>
                   {plantCount > 0 ? (
                     <>
-                      <strong>{plantCount}</strong> plant
+                      <strong className="font-bold">{plantCount}</strong> plant
                       {plantCount !== 1 ? "s" : ""} may benefit from schedule
                       adjustments
                     </>
@@ -131,7 +131,7 @@ export function CalendarSeasonalBanner({
               <Button
                 onClick={onReviewClick}
                 size="sm"
-                className="bg-white/80 hover:bg-white text-current border border-current/20"
+                className="bg-white dark:bg-white/20 hover:bg-white/90 dark:hover:bg-white/30 text-current border-2 border-current/40 dark:border-current/60 font-semibold shadow-sm backdrop-blur-sm"
               >
                 <Calendar className="h-4 w-4 mr-1" />
                 Review Schedules
@@ -142,7 +142,7 @@ export function CalendarSeasonalBanner({
                   variant="ghost"
                   size="sm"
                   onClick={() => onSnooze(3)}
-                  className="text-xs opacity-75 hover:opacity-100"
+                  className="text-xs font-medium hover:bg-white/60 dark:hover:bg-white/20"
                 >
                   <Clock className="h-3 w-3 mr-1" />3 days
                 </Button>
@@ -151,7 +151,7 @@ export function CalendarSeasonalBanner({
                   variant="ghost"
                   size="sm"
                   onClick={() => onSnooze(7)}
-                  className="text-xs opacity-75 hover:opacity-100"
+                  className="text-xs font-medium hover:bg-white/60 dark:hover:bg-white/20"
                 >
                   1 week
                 </Button>
