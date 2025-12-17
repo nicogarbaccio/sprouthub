@@ -2,70 +2,214 @@ import { Plant } from '../types';
 import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const treesLargePlants: Plant[] = [
- {
-  name: 'Fiddle Leaf Fig',
-  botanicalName: 'Ficus lyrata',
-  otherNames: ['Banjo Fig'],
-  image: PLANT_IMAGES_BASE_URL + '/Fiddle%20Leaf%20Fig.jpg',
+  {
+    name: 'Fiddle Leaf Fig',
+    botanicalName: 'Ficus lyrata',
+    otherNames: ['Banjo Fig', 'Lyre Leaf Fig'],
+    image: PLANT_IMAGES_BASE_URL + '/Fiddle%20Leaf%20Fig.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Hard' as const,
- category: 'Trees & Large Plants'
- },
- {
-  name: 'Rubber Plant',
-  botanicalName: 'Ficus elastica',
-  otherNames: ['Rubber Fig', 'Rubber Tree'],
-  image: PLANT_IMAGES_BASE_URL + '/Rubber%20Plant.jpg',
-    wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Trees & Large Plants'
- },
- {
-  name: 'Dracaena',
-  botanicalName: 'Dracaena marginata',
-  otherNames: ['Dragon Tree', 'Madagascar Dragon Tree'],
-  image: PLANT_IMAGES_BASE_URL + '/Dracaena.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Hard' as const,
+    category: 'Trees & Large Plants',
+    description: 'Native to the lowland rainforests of West Africa, Fiddle Leaf Fig has become the "it plant" of interior design, gracing magazine covers and Instagram feeds with its dramatic, sculptural presence. This stunning tree features enormous, violin-shaped leaves (up to 18 inches long) with prominent veining that creates bold texture and tropical elegance. Growing 6-10 feet indoors (up to 50 feet in nature), it makes a powerful architectural statement as a floor plant or tree-form specimen. However, its celebrity status comes with a notorious reputation for being finicky - it\'s extremely sensitive to changes in watering, light, temperature, and location, often responding with dramatic leaf drop or brown spots. Fiddle Leaf Figs demand consistency and attention, making them a challenge even for experienced plant parents. Success requires understanding its specific needs and maintaining unwavering routine.',
+    toxicity: 'Toxic to pets and humans if ingested - milky sap causes irritation',
+    temperature: '60-75°F (15-24°C) - no fluctuations',
+    humidity: '40-60%',
+    careInstructions: [
+      'Water only when top 2-3 inches of soil are dry - typically weekly',
+      'Maintain absolutely consistent watering schedule - inconsistency causes brown spots',
+      'Provide bright, indirect light - 6+ hours near east or west window',
+      'Never move the plant once it\'s acclimated - hates location changes',
+      'Rotate plant weekly by quarter turn for even growth',
+      'Wipe leaves monthly with damp cloth to remove dust and check for pests',
+      'Fertilize monthly during growing season with diluted balanced fertilizer',
+      'Prune strategically to encourage branching - cut just above node',
+      'Keep away from drafts, heating vents, and AC units'
+    ],
+    commonProblems: [
+      'Brown spots: Inconsistent watering, root rot, bacterial infection, or low humidity',
+      'Leaf drop: Changes in light, temperature, watering, or location - very sensitive',
+      'Yellow leaves: Overwatering (most common) or root rot',
+      'Brown edges: Underwatering, low humidity, or fluoride/salt buildup',
+      'Small new leaves: Insufficient light or nutrients',
+      'Drooping leaves: Underwatering or root rot from overwatering',
+      'Leggy growth: Insufficient light - needs bright conditions'
+    ]
+  },
+  {
+    name: 'Rubber Plant',
+    botanicalName: 'Ficus elastica',
+    otherNames: ['Rubber Fig', 'Rubber Tree', 'India Rubber Plant'],
+    image: PLANT_IMAGES_BASE_URL + '/Rubber%20Plant.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 10,
- lightRequirement: 'Medium Light',
- careLevel: 'Easy' as const,
- category: 'Trees & Large Plants'
- },
- {
-  name: 'Schefflera',
-  botanicalName: 'Schefflera actinophylla',
-  otherNames: ['Umbrella Tree', 'Octopus Tree'],
-  image: PLANT_IMAGES_BASE_URL + '/Schefflera.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Trees & Large Plants',
+    description: 'Native to the tropical regions of India and Southeast Asia, Rubber Plant is a bold, architectural beauty featuring large, glossy, oval leaves in deep burgundy-black, variegated cream and green, or classic dark green that can grow 8-12 inches long. Much easier and more forgiving than its finicky cousin the Fiddle Leaf Fig, Rubber Plant tolerates a wider range of conditions while still making a dramatic statement. Growing 6-10 feet indoors (100+ feet in nature), it develops a thick trunk and can be pruned to encourage branching or maintained as a single-stem tree. The plant earned its name from the milky white latex sap that was historically used to make rubber. Fast-growing and adaptable, it\'s perfect for filling large spaces with bold tropical presence without the extreme maintenance demands of other statement plants.',
+    toxicity: 'Toxic to pets and humans - milky sap causes irritation',
+    temperature: '60-80°F (15-27°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Water when top 2-3 inches of soil are dry - typically weekly',
+      'Allow to dry more between waterings in winter',
+      'Provide bright, indirect light for best growth and color',
+      'Tolerates medium light but grows slower',
+      'Wipe leaves every 1-2 weeks with damp cloth for glossy appearance',
+      'Prune top growth to encourage branching - new shoots emerge below cut',
+      'Fertilize monthly during growing season with balanced fertilizer',
+      'Rotate occasionally for even growth',
+      'Repot every 2-3 years or when roots emerge from drainage holes'
+    ],
+    commonProblems: [
+      'Yellow leaves: Overwatering (most common) or natural shedding of lower leaves',
+      'Leaf drop: Temperature fluctuations, overwatering, or moving the plant',
+      'Brown leaf edges: Underwatering, low humidity, or fluoride sensitivity',
+      'Leggy growth: Insufficient light - move to brighter location',
+      'Small new leaves: Needs more light or fertilizer',
+      'Milky sap dripping: Normal when leaves are damaged - can stain surfaces',
+      'Brown spots: Overwatering, root rot, or bacterial leaf spot'
+    ]
+  },
+  {
+    name: 'Dracaena',
+    botanicalName: 'Dracaena marginata',
+    otherNames: ['Dragon Tree', 'Madagascar Dragon Tree', 'Red-Edge Dracaena'],
+    image: PLANT_IMAGES_BASE_URL + '/Dracaena.jpg',
+    wateringFrequency: 'Every 10 days',
+    suggestedWateringDays: 10,
+    lightRequirement: 'Medium to Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Trees & Large Plants',
+    description: 'Native to Madagascar and Mauritius, Dracaena marginata is one of the most popular and forgiving indoor trees, featuring long, narrow, arching leaves with distinctive red or pink edges that emerge from woody, gray stems in fountain-like clusters. The unique growth pattern creates a palm-like silhouette that brings tropical elegance without demanding tropical care. Growing 6-8 feet indoors (15+ feet in nature), it develops multiple stems that can be trained or pruned for various forms - single trunk, multi-trunk, or braided. As a slow-growing, low-maintenance plant, it tolerates neglect, irregular watering, and less-than-ideal light better than most trees. NASA studies show it\'s excellent at removing toxins from indoor air. Perfect for beginners wanting a dramatic, sculptural plant without finicky requirements.',
+    toxicity: 'Toxic to pets - causes vomiting, drooling, and weakness',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '40-50%',
+    careInstructions: [
+      'Water when top 2-3 inches of soil are dry - every 10-14 days typically',
+      'Allow to dry more between waterings in winter',
+      'Thrives in medium to bright indirect light - tolerates lower light',
+      'Use filtered or distilled water if possible - sensitive to fluoride',
+      'Wipe leaves occasionally to remove dust',
+      'Fertilize every 2-3 months during growing season with diluted fertilizer',
+      'Prune cane tips to control height - new shoots emerge below cuts',
+      'Remove yellowing lower leaves as part of natural growth',
+      'Very drought tolerant - underwatering better than overwatering'
+    ],
+    commonProblems: [
+      'Brown leaf tips: Fluoride or chlorine in tap water (most common) or low humidity',
+      'Yellow leaves: Overwatering or natural aging of lower leaves',
+      'Drooping leaves: Underwatering or root rot from overwatering',
+      'Brown spots: Overwatering, bacterial leaf spot, or cold damage',
+      'Slow growth: Normal - naturally slow-growing plant',
+      'Leggy growth: Insufficient light over extended period',
+      'Spider mites: Occasionally problematic - increase humidity and treat'
+    ]
+  },
+  {
+    name: 'Schefflera',
+    botanicalName: 'Schefflera actinophylla',
+    otherNames: ['Umbrella Tree', 'Octopus Tree', 'Queensland Umbrella Tree'],
+    image: PLANT_IMAGES_BASE_URL + '/Schefflera.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Easy' as const,
- category: 'Trees & Large Plants'
- },
- {
-  name: 'Yucca',
-  botanicalName: 'Yucca elephantipes',
-  otherNames: ['Spineless Yucca', 'Stick Yucca'],
-  image: PLANT_IMAGES_BASE_URL + '/Yucca.jpg',
-    wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Trees & Large Plants'
- },
- {
-  name: 'Norfolk Pine',
-  botanicalName: 'Araucaria heterophylla',
-  otherNames: ['Norfolk Island Pine', 'Star Pine'],
-  image: PLANT_IMAGES_BASE_URL + '/Norfolk%20Pine.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Trees & Large Plants'
- }
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Trees & Large Plants',
+    description: 'Native to the rainforests of Australia, New Guinea, and Java, Schefflera is a fast-growing, architectural plant featuring glossy, palmate leaves composed of 7-16 leaflets radiating from a central point like umbrella spokes or octopus tentacles - hence its common names. The leaves can reach 12 inches across, creating bold tropical impact. Growing rapidly to 6-8 feet indoors (40+ feet outdoors in tropical climates), it tolerates a wide range of conditions including lower light, making it one of the most adaptable large plants available. The compact dwarf variety (S. arboricola) is also popular and more manageable for smaller spaces. Easy to care for and extremely forgiving of neglect, it\'s perfect for beginners wanting a substantial, low-maintenance plant that fills space quickly with lush, tropical foliage.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals',
+    temperature: '60-75°F (15-24°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Water when top 2 inches of soil are dry - typically weekly',
+      'Reduce watering in winter when growth slows',
+      'Provide bright, indirect light for best growth',
+      'Tolerates medium and even low light but grows slower',
+      'Pinch or prune growing tips to encourage bushier, fuller growth',
+      'Wipe leaves occasionally to remove dust',
+      'Fertilize monthly during growing season with balanced fertilizer',
+      'Rotate occasionally for even growth on all sides',
+      'Can grow quite large - prune to maintain desired size'
+    ],
+    commonProblems: [
+      'Leaf drop: Overwatering (most common), sudden temperature changes, or relocation',
+      'Yellow leaves: Overwatering or natural aging of lower leaves',
+      'Brown leaf tips: Underwatering, low humidity, or fluoride sensitivity',
+      'Leggy, sparse growth: Insufficient light - move to brighter location',
+      'Spider mites or aphids: Common pests - treat with insecticidal soap',
+      'Slow growth: Insufficient light, nutrients, or normal winter dormancy',
+      'Black spots on leaves: Overwatering causing fungal or bacterial issues'
+    ]
+  },
+  {
+    name: 'Yucca',
+    botanicalName: 'Yucca elephantipes',
+    otherNames: ['Spineless Yucca', 'Stick Yucca', 'Giant Yucca'],
+    image: PLANT_IMAGES_BASE_URL + '/Yucca.jpg',
+    wateringFrequency: 'Every 10-14 days',
+    suggestedWateringDays: 14,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Trees & Large Plants',
+    description: 'Native to Mexico and Central America, Yucca elephantipes (nicknamed "Spineless Yucca" because it lacks the sharp leaf tips of other yucca species) is a bold, architectural plant featuring rosettes of long, sword-shaped, leathery leaves emerging from thick, woody canes that resemble elephant legs. The dramatic upright form with spiky foliage creates instant southwestern or modern aesthetic appeal. Growing 5-8 feet indoors (30+ feet outdoors), it typically has multiple canes of varying heights topped with leaf clusters, creating a sculptural, tree-like presence. Extremely drought-tolerant and low-maintenance, it thrives on neglect and bright light, making it perfect for sunny windows, forgetful plant owners, and anyone wanting bold architectural presence with minimal effort. One of the toughest, most forgiving large houseplants available.',
+    toxicity: 'Toxic to pets - causes vomiting, diarrhea, and drooling',
+    temperature: '50-90°F (10-32°C) - extremely temperature tolerant',
+    humidity: '30-50% - tolerates very dry air',
+    careInstructions: [
+      'Water deeply only when soil is completely dry - every 10-14 days or less',
+      'In winter, reduce watering to every 3-4 weeks',
+      'Provide maximum bright, direct sunlight - 6+ hours daily',
+      'Extremely drought tolerant - underwatering far better than overwatering',
+      'Use well-draining potting mix with added sand or perlite',
+      'Wipe leaves occasionally to remove dust',
+      'Fertilize only 2-3 times per year during growing season',
+      'Prune canes to desired height - new rosettes emerge below cuts',
+      'Can tolerate significant neglect and irregular watering'
+    ],
+    commonProblems: [
+      'Soft, mushy cane: Root rot from overwatering - usually fatal',
+      'Brown leaf tips: Natural aging, underwatering, or fluoride sensitivity',
+      'Yellow leaves: Overwatering (most common) or natural shedding of lower leaves',
+      'Drooping leaves: Overwatering causing root rot',
+      'Leggy growth with sparse leaves: Insufficient light - needs full sun',
+      'Slow or no growth: Normal - naturally slow-growing, especially indoors',
+      'Pests (rare): Occasionally scale or mealybugs - treat promptly'
+    ]
+  },
+  {
+    name: 'Norfolk Pine',
+    botanicalName: 'Araucaria heterophylla',
+    otherNames: ['Norfolk Island Pine', 'Star Pine', 'Living Christmas Tree'],
+    image: PLANT_IMAGES_BASE_URL + '/Norfolk%20Pine.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Trees & Large Plants',
+    description: 'Native exclusively to Norfolk Island in the South Pacific, Norfolk Pine is not actually a pine but an ancient conifer from the Araucariaceae family. It features distinctive symmetrical tiers of soft, needle-like branches that create a perfect pyramidal Christmas tree shape - making it a popular living holiday decoration. The bright green, feathery foliage grows in horizontal whorls around the trunk, creating geometric perfection. Growing 3-6 feet indoors over many years (200+ feet in nature), it brings the charm of an evergreen tree to indoor spaces. However, it requires specific conditions to thrive: high humidity, consistent moisture, cool temperatures, and bright light. Without these, branches brown and drop from the bottom up. It\'s moderately challenging but rewards proper care with years of elegant, architectural beauty.',
+    toxicity: 'Mildly toxic to pets - can cause vomiting and oral irritation',
+    temperature: '60-70°F (15-21°C) - prefers cool conditions',
+    humidity: '50-60% minimum - high humidity essential',
+    careInstructions: [
+      'Keep soil consistently moist but not soggy - water when top inch feels dry',
+      'Never allow soil to completely dry out - causes irreversible browning',
+      'Provide bright, indirect light - near east or west window ideal',
+      'Maintain high humidity with humidifier or frequent misting',
+      'Keep in cool room away from heating vents',
+      'Fertilize monthly during growing season with diluted balanced fertilizer',
+      'Rotate plant weekly for even growth on all sides',
+      'Never cut the top leader - destroys pyramidal shape permanently',
+      'Mist daily or use pebble tray to increase humidity'
+    ],
+    commonProblems: [
+      'Brown, dropping lower branches: Low humidity, dry soil, or natural aging (irreversible)',
+      'Dry, crispy needles: Underwatering, low humidity, or too warm',
+      'Yellow needles: Overwatering, poor drainage, or insufficient light',
+      'Loss of bottom branches: Natural as tree ages, but accelerated by dry conditions',
+      'Leggy, sparse growth: Insufficient light - needs bright conditions',
+      'Top leader damage: Destroys symmetry - never prune the top point',
+      'Spider mites: Common in dry conditions - increase humidity and treat'
+    ]
+  }
 ];

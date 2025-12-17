@@ -1,358 +1,496 @@
-
 import { Plant } from '../types';
 import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const floweringPlants: Plant[] = [
- {
-  name: 'Peace Lily',
-  botanicalName: 'Spathiphyllum wallisii',
-  otherNames: ['Spath', 'White Sails', 'Mauna Loa'],
-  image: PLANT_IMAGES_BASE_URL + '/Peace%20Lily.jpg',
-  wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Low to Medium Light',
- careLevel: 'Easy' as const,
- category: 'Flowering Plants'
- },
- {
-  name: 'Flamingo Flower',
-  botanicalName: 'Anthurium andraeanum',
-  otherNames: ['Anthurium', 'Laceleaf', 'Tailflower'],
-  image: PLANT_IMAGES_BASE_URL + '/Flamingo%20Flower.jpg',
-  wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Flowering Plants'
- },
- {
-  name: 'African Violet',
-  botanicalName: 'Saintpaulia ionantha',
-  otherNames: ['Saintpaulia'],
-  image: PLANT_IMAGES_BASE_URL + '/African%20Violet.jpg',
+  {
+    name: 'Peace Lily',
+    botanicalName: 'Spathiphyllum wallisii',
+    otherNames: ['Spath', 'White Sails', 'Mauna Loa'],
+    image: PLANT_IMAGES_BASE_URL + '/Peace%20Lily.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Hard' as const,
- category: 'Flowering Plants'
- },
- {
-  name: 'Christmas Cactus',
-  botanicalName: 'Schlumbergera truncata',
-  otherNames: ['Holiday Cactus', 'Thanksgiving Cactus', 'Crab Cactus'],
-  image: PLANT_IMAGES_BASE_URL + '/Christmas%20Cactus.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Low to Medium Light',
+    careLevel: 'Easy' as const,
+    category: 'Flowering Plants',
+    description: 'One of the most popular and forgiving houseplants, the Peace Lily is celebrated for its elegant white spathes (often mistaken for flowers) that bloom throughout the year and its remarkable air-purifying qualities. Native to the tropical rainforests of Central and South America, this graceful plant features glossy, deep green leaves that arch elegantly and distinctive white "blooms" that emerge on tall stems. Growing 1-4 feet tall depending on variety, it\'s famous for dramatically drooping when thirsty, then perking up quickly after watering - making it perfect for beginners who want visual watering cues. It thrives in low to medium light where most flowering plants struggle, making it ideal for offices and north-facing rooms.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Water when top inch of soil is dry or when leaves begin to droop slightly',
+      'Thrives in low to medium indirect light - one of few flowering plants for dim spaces',
+      'Keep soil consistently moist but not waterlogged during growing season',
+      'Wipe leaves monthly to remove dust and enhance photosynthesis',
+      'Use filtered or distilled water if possible - sensitive to fluoride and chlorine',
+      'Fertilize monthly during spring and summer with diluted balanced fertilizer',
+      'Provide higher humidity for more frequent blooming',
+      'Remove spent flowers and yellow leaves at the base'
+    ],
+    commonProblems: [
+      'Brown leaf tips: Usually from fluoride/chlorine in tap water or low humidity',
+      'Drooping leaves: Needs water - will recover quickly after watering',
+      'Yellow leaves: Overwatering, poor drainage, or natural aging of older leaves',
+      'No blooms: Needs brighter light or may be too young (blooms when mature)',
+      'Brown spots on leaves: Fungal disease from overwatering or poor air circulation'
+    ]
+  },
+  {
+    name: 'Flamingo Flower',
+    botanicalName: 'Anthurium andraeanum',
+    otherNames: ['Anthurium', 'Laceleaf', 'Tailflower'],
+    image: PLANT_IMAGES_BASE_URL + '/Flamingo%20Flower.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 10,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Easy' as const,
- category: 'Flowering Plants'
- },
- {
-  name: 'Begonia Rex',
-  botanicalName: 'Begonia rex',
-  otherNames: ['Painted-Leaf Begonia', 'King Begonia', 'Rex Begonia'],
-  image: PLANT_IMAGES_BASE_URL + '/Begonia%20Rex.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Flowering Plants',
+    description: 'A stunning tropical plant native to Colombia and Ecuador, Flamingo Flower produces glossy, heart-shaped "flowers" (actually modified leaves called spathes) in vibrant reds, pinks, whites, or even purple, each lasting 6-8 weeks. The true flowers are the tiny bumps on the protruding spadix in the center. With proper care, anthuriums can bloom year-round, making them one of the longest-flowering houseplants available. The plant grows 12-18 inches tall with dark green, leathery leaves that provide a beautiful backdrop to the colorful blooms. As an epiphyte in nature, it appreciates well-draining conditions and high humidity, bringing a touch of the rainforest to indoor spaces.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '60-80%',
+    careInstructions: [
+      'Water when top 1-2 inches of soil are dry - prefers consistent moisture',
+      'Use well-draining potting mix (orchid bark, perlite, and peat)',
+      'Provide bright, indirect light - direct sun will scorch leaves',
+      'Maintain high humidity with pebble tray, humidifier, or regular misting',
+      'Fertilize every 6-8 weeks with diluted balanced or phosphorus-rich fertilizer',
+      'Wipe leaves regularly to keep them glossy and remove dust',
+      'Repot every 2-3 years in spring using loose, well-aerated mix',
+      'Remove spent flowers by cutting at the base of the stem'
+    ],
+    commonProblems: [
+      'Brown leaf tips/edges: Low humidity, fluoride sensitivity, or salt buildup',
+      'Yellow leaves: Overwatering, poor drainage, or too much direct sun',
+      'No blooms: Insufficient light, needs more phosphorus, or plant too young',
+      'Brown spots on flowers/leaves: Bacterial blight - improve air circulation',
+      'Root rot: Overwatering or poor drainage - ensure pot has drainage holes'
+    ]
+  },
+  {
+    name: 'African Violet',
+    botanicalName: 'Streptocarpus ionanthus',
+    otherNames: ['Saintpaulia', 'Usambara Violet'],
+    image: PLANT_IMAGES_BASE_URL + '/African%20Violet.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Flowering Plants',
- description: 'Begonias are prized for their stunning colorful foliage and occasional small flowers. Their leaves display incredible patterns and colors.',
- toxicity: 'Mildly toxic to pets if ingested',
- temperature: '65-75°F (18-24°C)',
- humidity: '50-60%',
- careInstructions: [
-  'Keep soil consistently moist but well-draining',
-  'Provide bright, indirect light',
-  'Maintain high humidity around the plant',
-  'Avoid getting water on leaves',
-  'Fertilize monthly during growing season'
- ],
- commonProblems: [
-  'Powdery mildew: Improve air circulation and avoid wet leaves',
-  'Brown leaf edges: Low humidity or fluoride sensitivity',
-  'Leaf drop: Usually from temperature fluctuations',
-  'Fading colors: Needs brighter indirect light'
- ]
- },
- {
-  name: 'Sowbread',
-  botanicalName: 'Cyclamen persicum',
-  otherNames: ['Persian Cyclamen', 'Florist\'s Cyclamen'],
-  image: PLANT_IMAGES_BASE_URL + '/Sowbread.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Flowering Plants',
+    description: 'Native to the cloud forests of Tanzania and Kenya, African Violets are beloved for their jewel-toned flowers in shades of purple, pink, blue, white, or bi-colors that bloom nearly year-round with proper care. These compact plants form rosettes of fuzzy, rounded leaves that are just as ornamental as the delicate five-petaled flowers that hover above them. Growing only 6-8 inches wide, they\'re perfect for small spaces, windowsills, or creating colorful collections. While they have a reputation for being fussy, modern cultivars are more forgiving, and once you understand their preferences for bottom watering and consistent conditions, they\'re rewarding and prolific bloomers that can flower continuously for months.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-75°F (18-24°C) - avoid temperature fluctuations',
+    humidity: '50-60%',
+    careInstructions: [
+      'Water from bottom by placing pot in water dish for 10-15 minutes until soil moistens',
+      'Never get water on leaves or crown - causes spotting and rot',
+      'Use room temperature water only - cold water causes leaf spots',
+      'Provide 10-12 hours of bright, indirect light daily for continuous blooming',
+      'Use African violet-specific potting mix (light, well-draining, slightly acidic)',
+      'Fertilize every 2-3 weeks with African violet fertilizer at half strength',
+      'Remove spent flowers and damaged leaves promptly to encourage more blooms',
+      'Repot annually in fresh mix - they prefer being slightly rootbound'
+    ],
+    commonProblems: [
+      'No blooms: Insufficient light (most common), needs 10-12 hours daily',
+      'White spots on leaves: Cold water on foliage - use room temperature water only',
+      'Crown rot: Water in center of plant - always water from bottom',
+      'Brown leaf edges: Low humidity, over-fertilizing, or root-bound',
+      'Leggy growth: Insufficient light - move closer to light source',
+      'Powdery mildew: Poor air circulation and high humidity on leaves'
+    ]
+  },
+  {
+    name: 'Christmas Cactus',
+    botanicalName: 'Schlumbergera x buckleyi',
+    otherNames: ['Holiday Cactus', 'Thanksgiving Cactus', 'Crab Cactus'],
+    image: PLANT_IMAGES_BASE_URL + '/Christmas%20Cactus.jpg',
+    wateringFrequency: 'Weekly',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Flowering Plants',
+    description: 'A long-lived Brazilian rainforest cactus that can be passed down through generations, Christmas Cactus produces cascades of tubular flowers in pink, red, white, orange, or purple at the ends of its segmented, leaf-like stems during winter months. Unlike desert cacti, this epiphyte naturally grows on trees in humid forests and requires more water and less sun. The flat, jointed stems create an attractive trailing or arching form that looks beautiful in hanging baskets or on pedestals. With proper care including a rest period and cool fall temperatures, it reliably blooms during the holidays and can live for 20-30 years or more, becoming a cherished family heirloom that grows more spectacular with age.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '60-70°F (15-21°C) - cooler temps trigger blooming',
+    humidity: '50-60%',
+    careInstructions: [
+      'Water when top inch of soil is dry - more frequently than desert cacti',
+      'Use well-draining cactus mix with added perlite or orchid bark',
+      'Provide bright, indirect light - avoid direct sun which causes red-tinged stems',
+      'To trigger blooming: Give 12-14 hours of darkness and 50-55°F temps for 6 weeks in fall',
+      'Reduce watering slightly during fall rest period (October-November)',
+      'Resume normal watering when buds form',
+      'Fertilize monthly spring through summer with diluted balanced fertilizer',
+      'Avoid moving plant once buds form - causes bud drop'
+    ],
+    commonProblems: [
+      'Bud drop: Plant moved after bud formation, temperature fluctuations, or inconsistent watering',
+      'No blooms: Needs fall rest period with longer darkness and cooler temps',
+      'Limp, shriveled stems: Underwatering or root rot from overwatering',
+      'Red or purple stem edges: Too much direct sun - move to shadier spot',
+      'Stem segments falling off: Normal propagation method or severe stress'
+    ]
+  },
+  {
+    name: 'Begonia Rex',
+    botanicalName: 'Begonia rex-cultorum',
+    otherNames: ['Painted-Leaf Begonia', 'King Begonia', 'Rex Begonia'],
+    image: PLANT_IMAGES_BASE_URL + '/Begonia%20Rex.jpg',
+    wateringFrequency: 'Weekly',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Flowering Plants',
+    description: 'A showstopping foliage plant native to the Himalayan region of India, Rex Begonia is grown primarily for its extraordinary leaves rather than its small, unremarkable flowers. Each cultivar displays a unique masterpiece of colors and patterns - swirls of silver, purple, pink, red, and green with metallic sheens, spots, or spiral patterns that look hand-painted by an artist. The textured, asymmetrical leaves can be smooth or puckered, creating living art that rivals any flowering plant. Growing 12-18 inches tall and wide, these rhizomatous begonias make dramatic statement pieces for bright, humid spaces. While they require more attention than basic houseplants, the spectacular foliage display rewards dedicated care with year-round visual interest.',
+    toxicity: 'Mildly toxic to pets if ingested - can cause oral irritation and vomiting',
+    temperature: '60-75°F (15-24°C)',
+    humidity: '50-70%',
+    careInstructions: [
+      'Keep soil consistently moist but never soggy - water when top inch is dry',
+      'Use well-draining potting mix rich in organic matter',
+      'Provide bright, indirect light - too much sun fades the vibrant leaf patterns',
+      'Maintain high humidity with pebble tray or humidifier - critical for health',
+      'Water soil directly, never wet the leaves to prevent powdery mildew',
+      'Fertilize every 2-3 weeks during growing season with diluted balanced fertilizer',
+      'Remove small flowers as they appear to direct energy to foliage',
+      'Rotate plant weekly for even growth and color development'
+    ],
+    commonProblems: [
+      'Powdery mildew: Water on leaves combined with poor air circulation',
+      'Brown, crispy leaf edges: Low humidity or fluoride/chlorine in tap water',
+      'Leaf drop: Temperature fluctuations, drafts, or sudden environmental changes',
+      'Fading colors: Insufficient light - move to brighter indirect location',
+      'Root rot: Overwatering or poor drainage - reduce watering frequency',
+      'Leggy growth: Insufficient light - provide brighter conditions'
+    ]
+  },
+  {
+    name: 'Sowbread',
+    botanicalName: 'Cyclamen persicum',
+    otherNames: ['Persian Cyclamen', 'Florist\'s Cyclamen'],
+    image: PLANT_IMAGES_BASE_URL + '/Sowbread.jpg',
     wateringFrequency: 'Twice weekly',
- suggestedWateringDays: 3,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Hard' as const,
- category: 'Flowering Plants',
- description: 'Beautiful flowering plant with upswept petals and heart-shaped leaves. Cyclamen bloom in cooler months with proper care.',
- toxicity: 'Toxic to pets and children if ingested',
- temperature: '50-65°F (10-18°C)',
- humidity: '50-60%',
- careInstructions: [
-  'Water from bottom to avoid wetting the crown',
-  'Keep in cool, bright location',
-  'Remove spent flowers and yellowing leaves',
-  'Allow dormancy period in summer',
-  'Resume watering when new growth appears'
- ],
- commonProblems: [
-  'Crown rot: Avoid watering the center of the plant',
-  'Yellowing leaves: Natural dormancy or overwatering',
-  'Short bloom period: Needs cool temperatures',
-  'Wilting flowers: Too warm or needs water'
- ]
- },
- {
-  name: 'Geranium',
-  botanicalName: 'Pelargonium x hortorum',
-  otherNames: ['Zonal Geranium', 'Garden Geranium'],
-  image: PLANT_IMAGES_BASE_URL + '/Geranium.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Flowering Plants',
- description: 'Classic flowering houseplant with vibrant blooms and distinctive scented foliage. Geraniums are reliable bloomers with proper care.',
- toxicity: 'Mildly toxic to pets',
- temperature: '65-70°F (18-21°C)',
- humidity: '30-40%',
- careInstructions: [
-  'Water thoroughly when soil surface is dry',
-  'Provide at least 4-6 hours of direct sunlight',
-  'Deadhead spent flowers regularly',
-  'Pinch growing tips to encourage bushiness',
-  'Fertilize every 2-3 weeks during blooming season'
- ],
- commonProblems: [
-  'Lack of flowers: Usually insufficient light',
-  'Yellowing leaves: Overwatering or natural aging',
-  'Leggy growth: Needs more light and pinching',
-  'Leaf spots: Avoid overhead watering'
- ]
- },
- {
-  name: 'Flaming Katy',
-  botanicalName: 'Kalanchoe blossfeldiana',
-  otherNames: ['Christmas Kalanchoe', 'Florist Kalanchoe', 'Madagascar Widow\'s-thrill'],
-  image: PLANT_IMAGES_BASE_URL + '/Flaming%20Katy.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 10,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Flowering Plants',
- description: 'A succulent flowering plant that produces clusters of small, colorful flowers. Long-lasting blooms and easy care make it very popular.',
- toxicity: 'Toxic to pets if ingested',
- temperature: '65-75°F (18-24°C)',
- humidity: '30-40%',
- careInstructions: [
-  'Allow soil to dry between waterings',
-  'Provide bright, direct sunlight for blooming',
-  'Remove spent flower clusters',
-  'Rest plant in cool, dark place for 6 weeks to rebloom',
-  'Use well-draining potting mix'
- ],
- commonProblems: [
-  'No flowers: Needs more direct light or rest period',
-  'Overwatering: Can cause root rot quickly',
-  'Leggy growth: Pinch back after flowering',
-  'Short bloom period: Natural, but can be extended with care'
- ]
- },
- {
-  name: 'Touch-Me-Not',
-  botanicalName: 'Impatiens walleriana',
-  otherNames: ['Bizzy Lizzy', 'Patience Plant', 'Sultana'],
-  image: PLANT_IMAGES_BASE_URL + '/Touch%20Me%20Not.jpg',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Hard' as const,
+    category: 'Flowering Plants',
+    description: 'A stunning cool-season bloomer native to the Mediterranean, Cyclamen produces delicate, upswept butterfly-like flowers in shades of red, pink, white, or purple that appear to hover above a mound of heart-shaped, silver-marbled leaves. The elegant flowers bloom prolifically from fall through spring when most houseplants are dormant, making it a perfect winter companion. However, cyclamen has specific requirements: it\'s a cool-temperature plant that struggles in typical heated homes and follows a natural dormancy cycle in summer. The tuberous root (corm) sits at soil level and is prone to rot if watered incorrectly. While challenging, successfully maintaining a cyclamen through multiple bloom cycles is deeply rewarding for dedicated plant enthusiasts.',
+    toxicity: 'Toxic to pets and humans if ingested - contains cyclamine and other compounds',
+    temperature: '50-65°F (10-18°C) - cool temps essential for blooming',
+    humidity: '50-60%',
+    careInstructions: [
+      'Water from bottom by setting pot in water dish until soil surface moistens',
+      'Never water the crown/corm directly - causes fatal rot',
+      'Keep in cool location away from heating vents and heat sources',
+      'Provide bright, indirect light - south-facing window in winter is ideal',
+      'Remove spent flowers by tugging sharply at base - cutting leaves stubs that rot',
+      'Remove yellowing leaves the same way',
+      'After blooming ends in late spring, reduce watering gradually',
+      'Allow summer dormancy - store in cool, dry place and barely water',
+      'Resume watering when new growth appears in late summer/early fall'
+    ],
+    commonProblems: [
+      'Crown/corm rot: Watering the center of plant - always water from bottom',
+      'Yellowing leaves during bloom: Natural process, remove promptly',
+      'Short bloom period: Room too warm - needs consistent cool temperatures',
+      'Wilting despite moist soil: Crown rot - usually fatal',
+      'Bud blast (buds turn brown): Temperature too warm or fluctuating',
+      'No re-blooming: Didn\'t respect dormancy period or plant needs rest'
+    ]
+  },
+  {
+    name: 'Geranium',
+    botanicalName: 'Pelargonium x hortorum',
+    otherNames: ['Zonal Geranium', 'Garden Geranium'],
+    image: PLANT_IMAGES_BASE_URL + '/Geranium.jpg',
     wateringFrequency: 'Twice weekly',
- suggestedWateringDays: 3,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Flowering Plants',
- description: 'Colorful annual flowers that bloom continuously with proper care. Perfect for brightening indoor spaces with vibrant colors.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-75°F (18-24°C)',
- humidity: '50-60%',
- careInstructions: [
-  'Keep soil consistently moist but not soggy',
-  'Provide bright, filtered light',
-  'Deadhead spent flowers regularly',
-  'Fertilize every 2-3 weeks during blooming',
-  'Pinch growing tips to encourage bushiness'
- ],
- commonProblems: [
-  'Wilting: Usually needs more water or humidity',
-  'Fungal diseases: Improve air circulation',
-  'Leggy growth: Pinch regularly and provide adequate light',
-  'Dropping buds: Usually from stress or sudden changes'
- ]
- },
- {
-  name: 'Orchid',
-  botanicalName: 'Phalaenopsis species',
-  otherNames: ['Moth Orchid'],
-  image: PLANT_IMAGES_BASE_URL + '/Orchid.jpg',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Flowering Plants',
+    description: 'A classic flowering plant native to South Africa, geraniums (technically pelargoniums) have been beloved since Victorian times for their reliable, colorful blooms and distinctive scented foliage. They produce large, rounded clusters of flowers in vibrant reds, pinks, oranges, whites, or bi-colors atop sturdy stems with circular, zoned leaves that often feature darker horseshoe-shaped markings. Growing 12-24 inches tall, geraniums are among the easiest flowering plants to maintain indoors, thriving with lots of sun and minimal fussing. Unlike many houseplants, they actually prefer to dry out slightly between waterings and bloom more profusely when slightly pot-bound. With proper light and regular deadheading, they can flower almost continuously year-round.',
+    toxicity: 'Toxic to pets - can cause vomiting, depression, and dermatitis',
+    temperature: '65-75°F (18-24°C) during day, cooler at night',
+    humidity: '30-50%',
+    careInstructions: [
+      'Water when top 1-2 inches of soil are dry - prefers to dry between waterings',
+      'Provide at least 4-6 hours of direct sunlight daily for best blooming',
+      'Use well-draining potting mix - avoid moisture-retaining soils',
+      'Deadhead spent flower clusters regularly by removing entire stem',
+      'Pinch growing tips monthly to encourage bushiness and more flowers',
+      'Fertilize every 2-3 weeks during active growth with balanced fertilizer',
+      'Avoid overhead watering - water at soil level to prevent leaf diseases',
+      'Bring outdoors in summer for even more vigorous growth and flowering'
+    ],
+    commonProblems: [
+      'Lack of flowers: Insufficient light (most common) - needs direct sun',
+      'Yellowing lower leaves: Natural aging or slight overwatering',
+      'Leggy, stretched growth: Not enough light and needs regular pinching',
+      'Leaf spots or rust: Fungal disease from wet leaves - water only soil',
+      'Edema (corky bumps on leaves): Overwatering - allow to dry more between waterings'
+    ]
+  },
+  {
+    name: 'Flaming Katy',
+    botanicalName: 'Kalanchoe blossfeldiana',
+    otherNames: ['Christmas Kalanchoe', 'Florist Kalanchoe', 'Madagascar Widow\'s-thrill'],
+    image: PLANT_IMAGES_BASE_URL + '/Flaming%20Katy.jpg',
+    wateringFrequency: 'Every 10-14 days',
+    suggestedWateringDays: 10,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Flowering Plants',
+    description: 'A succulent flowering plant from Madagascar, Flaming Katy produces dense clusters of small, colorful four-petaled flowers in vibrant reds, pinks, oranges, yellows, or white that can last 6-8 weeks. The flowers sit atop thick, glossy, scalloped leaves that store water, making this plant remarkably drought-tolerant and forgiving of occasional neglect. Growing 6-12 inches tall, it\'s a popular gift plant during holidays due to its long-lasting blooms and easy care requirements. As a succulent, it needs less water than typical flowering plants and thrives on benign neglect. With proper rest periods and bright light, kalanchoe can be encouraged to rebloom year after year, providing colorful displays multiple times annually.',
+    toxicity: 'Toxic to pets if ingested - can cause vomiting and cardiac issues',
+    temperature: '60-85°F (15-29°C)',
+    humidity: '30-50%',
+    careInstructions: [
+      'Water thoroughly only when soil is completely dry - typically every 10-14 days',
+      'Use well-draining cactus/succulent potting mix',
+      'Provide at least 6 hours of bright, direct sunlight for abundant flowering',
+      'Remove spent flower clusters by cutting stem at base',
+      'After flowering, cut back stems by half to encourage bushiness',
+      'To trigger reblooming: Give 12-14 hours of complete darkness for 6 weeks',
+      'Fertilize monthly during active growth with diluted succulent fertilizer',
+      'Allow plant to rest in cooler temps (55-60°F) during fall darkness period'
+    ],
+    commonProblems: [
+      'No flowers after first bloom: Needs darkness treatment (12-14 hours for 6 weeks)',
+      'Root rot: Overwatering - this is a succulent that prefers dry conditions',
+      'Leggy growth after blooming: Normal - prune back by half to restore shape',
+      'Yellowing leaves: Overwatering most likely, or natural aging',
+      'Short bloom period: Natural, but cooler temps (60-65°F) extend flowering'
+    ]
+  },
+  {
+    name: 'Touch-Me-Not',
+    botanicalName: 'Impatiens walleriana',
+    otherNames: ['Busy Lizzie', 'Patience Plant', 'Sultana'],
+    image: PLANT_IMAGES_BASE_URL + '/Touch%20Me%20Not.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Flowering Plants',
+    description: 'Native to East Africa, Impatiens are beloved for their ability to bloom continuously in lower light conditions where most flowering plants fail. The common name "Touch-Me-Not" refers to the explosive seed pods that burst open when touched when mature. These cheerful plants produce abundant five-petaled flowers in vivid shades of pink, red, orange, white, purple, or bi-colors against bright green succulent stems and leaves. Growing 6-18 inches tall depending on variety, they create mounding, colorful displays perfect for brightening shady spots. While technically perennials in their native habitat, they\'re often grown as annuals but can be maintained indoors as long-term houseplants with proper attention to their high water and humidity needs.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-75°F (18-24°C)',
+    humidity: '50-70%',
+    careInstructions: [
+      'Keep soil consistently moist but not waterlogged - water when top feels dry',
+      'Provide bright, filtered light - avoid direct sun which scorches leaves',
+      'Maintain moderate to high humidity with pebble tray or regular misting',
+      'Deadhead spent flowers regularly to encourage continuous blooming',
+      'Pinch growing tips every few weeks to encourage bushiness and more flowers',
+      'Fertilize every 2-3 weeks during blooming with diluted balanced fertilizer',
+      'Water more frequently in warm weather or low humidity',
+      'Ensure good air circulation to prevent fungal diseases'
+    ],
+    commonProblems: [
+      'Wilting: Most common issue - needs water immediately or higher humidity',
+      'Fungal diseases (downy mildew, root rot): Overwatering, poor air circulation, or wet leaves',
+      'Leggy, stretched growth: Insufficient light or needs regular pinching',
+      'Dropping buds: Sudden environmental changes, stress, or temperature fluctuations',
+      'Spider mites: Common in dry conditions - increase humidity and mist regularly',
+      'Stem rot at soil line: Overwatering combined with poor drainage'
+    ]
+  },
+  {
+    name: 'Orchid',
+    botanicalName: 'Phalaenopsis species',
+    otherNames: ['Moth Orchid', 'Phal'],
+    image: PLANT_IMAGES_BASE_URL + '/Orchid.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Hard' as const,
- category: 'Flowering Plants',
- description: 'Elegant flowering plants with long-lasting blooms. Phalaenopsis orchids are among the easiest orchids to grow indoors.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-80°F (18-27°C)',
- humidity: '50-70%',
- careInstructions: [
-  'Water weekly with ice cubes or room temperature water',
-  'Use orchid bark mix for potting',
-  'Provide bright, indirect light',
-  'Maintain high humidity around plant',
-  'Fertilize monthly with orchid fertilizer'
- ],
- commonProblems: [
-  'Crown rot: Avoid getting water in the center',
-  'Root rot: Ensure excellent drainage',
-  'Lack of blooms: May need temperature variation',
-  'Yellowing leaves: Natural aging or overwatering'
- ]
- },
- {
-  name: 'Flowering Maple',
-  botanicalName: 'Abutilon pictum',
-  otherNames: ['Chinese Lantern', 'Parlor Maple', 'Indian Mallow'],
-  image: PLANT_IMAGES_BASE_URL + '/Flowering%20Maple.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Flowering Plants',
+    description: 'Native to tropical Asia and Australia, Phalaenopsis orchids are the most popular and beginner-friendly orchids for good reason: they produce spectacular sprays of large, moth-like flowers in white, pink, purple, yellow, or patterned varieties that can last 2-3 months per bloom spike. These epiphytic plants naturally grow on tree branches in humid forests, with thick, leathery leaves and exposed silvery-green aerial roots that photosynthesize and absorb moisture from the air. Growing 12-24 inches tall when in bloom, modern hybrids are remarkably adaptable to home conditions. With proper care, phalaenopsis can rebloom multiple times per year, making them one of the longest-flowering plants available and dispelling the myth that orchids are impossibly difficult.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C) day, 10-15°F cooler at night',
+    humidity: '50-70%',
+    careInstructions: [
+      'Water weekly by running tepid water through pot for 30 seconds, then drain completely',
+      'Never let roots sit in water - orchids need air circulation around roots',
+      'Use clear orchid pot to monitor root health (green/silver roots are healthy)',
+      'Plant in orchid bark mix or sphagnum moss - never regular potting soil',
+      'Provide bright, indirect light - east window is ideal',
+      'Fertilize weekly with diluted orchid fertilizer ("weakly weekly")',
+      'After flowers fade, cut spike above second node to encourage reblooming',
+      'Maintain humidity with pebble tray - avoid misting which can cause crown rot'
+    ],
+    commonProblems: [
+      'Crown rot (center turns black/mushy): Water trapped in center - tip plant to drain',
+      'Root rot: Overwatering, old bark breaking down, or poor drainage',
+      'Limp, wrinkled leaves: Severe dehydration or root death - increase watering',
+      'No reblooming: Insufficient light or needs temperature drop to trigger spike',
+      'Yellow leaves: Natural aging of oldest leaf, overwatering, or too much sun',
+      'Bud blast (buds turn yellow and drop): Ethylene gas from fruit, drafts, or stress'
+    ]
+  },
+  {
+    name: 'Flowering Maple',
+    botanicalName: 'Abutilon x hybridum',
+    otherNames: ['Chinese Lantern', 'Parlor Maple', 'Indian Mallow'],
+    image: PLANT_IMAGES_BASE_URL + '/Flowering%20Maple.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Medium' as const,
+    category: 'Flowering Plants',
+    description: 'Despite its common name, Flowering Maple isn\'t a maple at all but a member of the mallow family from Central and South America. It earned its nickname from its distinctive maple-like lobed leaves that provide an attractive backdrop to the real stars: pendulous, bell-shaped flowers in vibrant oranges, reds, pinks, yellows, or white that dangle like little lanterns from the stems. This fast-growing shrubby plant can reach 3-6 feet indoors and has the remarkable ability to bloom almost year-round with adequate light, producing flowers continuously rather than in seasonal flushes. The combination of ornamental foliage and nearly constant flowering makes it a prized specimen for bright rooms, sunrooms, or patios.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '60-75°F (15-24°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Keep soil consistently moist during growing season - water when top inch is dry',
+      'Reduce watering slightly in winter but don\'t allow to completely dry out',
+      'Provide at least 4-6 hours of bright light daily for continuous flowering',
+      'Use well-draining potting mix rich in organic matter',
+      'Pinch growing tips regularly to encourage bushiness and more flowering branches',
+      'Fertilize every 2-3 weeks during active growth with balanced fertilizer',
+      'Prune in late winter to maintain desired size and shape',
+      'Rotate plant weekly for even growth and flowering'
+    ],
+    commonProblems: [
+      'Lack of flowers: Insufficient light is most common cause - needs bright conditions',
+      'Leggy, stretched growth: Not enough light combined with inadequate pinching',
+      'Yellowing leaves: Overwatering, poor drainage, or natural aging of older leaves',
+      'Whiteflies: Common pest - treat with insecticidal soap and isolate plant',
+      'Spider mites: Especially in dry conditions - increase humidity and treat promptly',
+      'Leaf drop: Sudden environmental changes, drafts, or inconsistent watering'
+    ]
+  },
+  {
+    name: 'Hibiscus',
+    botanicalName: 'Hibiscus rosa-sinensis',
+    otherNames: ['Chinese Hibiscus', 'China Rose', 'Hawaiian Hibiscus', 'Rose Mallow'],
+    image: PLANT_IMAGES_BASE_URL + '/Hibiscus.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Medium' as const,
+    category: 'Flowering Plants',
+    description: 'A tropical showstopper native to East Asia, Chinese Hibiscus produces enormous, flamboyant flowers (4-8 inches wide) in stunning shades of red, pink, orange, yellow, white, or multi-colored varieties with prominent stamens that extend from the center. While individual blooms last only 1-2 days, healthy plants produce new flowers continuously throughout warm months, creating an ever-changing display. The glossy, dark green foliage provides an elegant backdrop even when not in bloom. This woody shrub can grow 4-10 feet indoors and adapts well to container growing. Native to warm climates, it thrives outdoors in summer and needs protection from cold, but rewards dedicated care with spectacular tropical beauty that transforms any space into a paradise.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '60-90°F (15-32°C) - warm temps encourage blooming',
+    humidity: '50-70%',
+    careInstructions: [
+      'Water when top inch of soil is dry - typically every 2-3 days in warm weather',
+      'Keep soil consistently moist but well-draining during growing season',
+      'Provide at least 6 hours of direct sunlight daily for abundant flowering',
+      'Use rich, well-draining potting mix with added compost',
+      'Fertilize every 2 weeks during growing season with high-potassium fertilizer',
+      'Prune in late winter to maintain shape and encourage bushier growth',
+      'Maintain high humidity with pebble tray or regular misting',
+      'Move outdoors in summer for maximum flowering and vigor'
+    ],
+    commonProblems: [
+      'Bud drop before opening: Environmental stress, temperature fluctuations, or underwatering',
+      'No flowers: Insufficient sunlight (most common), needs minimum 6 hours direct sun',
+      'Yellow leaves with green veins: Chlorosis from alkaline soil or iron deficiency',
+      'Aphids and spider mites: Common pests - treat with insecticidal soap',
+      'Leaf drop: Sudden environmental changes, cold drafts, or inconsistent watering',
+      'Wilting despite moist soil: Root rot from overwatering or poor drainage'
+    ]
+  },
+  {
+    name: 'Paper Flower',
+    botanicalName: 'Bougainvillea spectabilis',
+    otherNames: ['Bougainvillea', 'Great Bougainvillea'],
+    image: PLANT_IMAGES_BASE_URL + '/Paper%20Flower.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Medium' as const,
- category: 'Flowering Plants',
- description: 'A fast-growing plant with maple-like leaves and bell-shaped flowers in various colors. Blooms almost year-round with proper care.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-75°F (18-24°C)',
- humidity: '40-50%',
- careInstructions: [
-  'Keep soil consistently moist during growing season',
-  'Provide bright light for best flowering',
-  'Pinch growing tips to encourage bushiness',
-  'Fertilize every 2-3 weeks during blooming',
-  'Prune to maintain desired size'
- ],
- commonProblems: [
-  'Lack of flowers: Usually insufficient light',
-  'Leggy growth: Pinch regularly and provide more light',
-  'Yellowing leaves: Natural aging or overwatering',
-  'Pest issues: Watch for whiteflies and aphids'
- ]
- },
- {
-  name: 'Hibiscus',
-  botanicalName: 'Hibiscus rosa-sinensis',
-  otherNames: ['Chinese Hibiscus', 'China Rose', 'Hawaiian Hibiscus'],
-  image: PLANT_IMAGES_BASE_URL + '/Hibiscus.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 5,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Medium' as const,
- category: 'Flowering Plants',
- description: 'Tropical flowering shrub with large, showy blooms. Individual flowers last only a day but new ones appear regularly.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-80°F (18-27°C)',
- humidity: '50-60%',
- careInstructions: [
-  'Keep soil consistently moist but well-draining',
-  'Provide at least 6 hours of direct sunlight',
-  'Fertilize regularly during growing season',
-  'Prune to maintain shape and encourage blooming',
-  'Maintain high humidity around the plant'
- ],
- commonProblems: [
-  'Lack of flowers: Usually insufficient light',
-  'Bud drop: From stress or environmental changes',
-  'Yellow leaves: Normal aging or inconsistent watering',
-  'Pest issues: Watch for aphids and spider mites'
- ]
- },
- {
-  name: 'Paper Flower',
-  botanicalName: 'Bougainvillea spectabilis',
-  otherNames: ['Bougainvillea', 'Great Bougainvillea'],
-  image: PLANT_IMAGES_BASE_URL + '/Paper%20Flower.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Medium' as const,
- category: 'Flowering Plants',
- description: 'Vibrant climbing plant with colorful bracts that surround small white flowers. Thorny but spectacular when in bloom.',
- toxicity: 'Mildly toxic to pets',
- temperature: '65-75°F (18-24°C)',
- humidity: '40-50%',
- careInstructions: [
-  'Allow soil to dry slightly between waterings',
-  'Provide maximum direct sunlight',
-  'Prune after flowering to maintain shape',
-  'Support climbing growth with trellis',
-  'Fertilize monthly during growing season'
- ],
- commonProblems: [
-  'Lack of color: Needs more direct sunlight',
-  'Thorns: Handle with gloves when pruning',
-  'Leggy growth: Prune regularly to maintain shape',
-  'Leaf drop: Usually from environmental stress'
- ]
- },
- {
-  name: 'Crown of Thorns',
-  botanicalName: 'Euphorbia milii',
-  otherNames: ['Christ Plant', 'Christ Thorn'],
-  image: PLANT_IMAGES_BASE_URL + '/Crown%20of%20Thorns.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 10,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Medium' as const,
- category: 'Flowering Plants',
- description: 'A thorny succulent that produces small, colorful bracts year-round. Very drought tolerant and blooms continuously with proper care.',
- toxicity: 'Toxic to pets and humans - sap causes skin irritation',
- temperature: '65-75°F (18-24°C)',
- humidity: '30-40%',
- careInstructions: [
-  'Water when top inch of soil is dry',
-  'Provide at least 4 hours of direct sunlight',
-  'Handle with gloves due to thorns and toxic sap',
-  'Deadhead spent bracts to encourage more blooms',
-  'Use well-draining succulent potting mix'
- ],
- commonProblems: [
-  'Lack of flowers: Usually insufficient light',
-  'Leaf drop: Natural response to stress',
-  'Skin irritation: Always wear gloves when handling',
-  'Root rot: From overwatering in cool conditions'
- ]
- },
- {
-  name: 'Pentas',
-  botanicalName: 'Pentas lanceolata',
-  otherNames: ['Egyptian Starcluster', 'Star Flower'],
-  image: PLANT_IMAGES_BASE_URL + '/Pentas.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Flowering Plants',
- description: 'Star-shaped flowers in clusters that bloom continuously. Easy to care for and attracts butterflies when placed outdoors.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-75°F (18-24°C)',
- humidity: '40-50%',
- careInstructions: [
-  'Keep soil consistently moist but well-draining',
-  'Provide bright, direct sunlight',
-  'Deadhead spent flowers regularly',
-  'Pinch growing tips to encourage bushiness',
-  'Fertilize every 2-3 weeks during blooming season'
- ],
- commonProblems: [
-  'Lack of flowers: Usually insufficient light',
-  'Leggy growth: Pinch regularly and provide more light',
-  'Wilting: Usually needs more water',
-  'Pest issues: Watch for aphids and whiteflies'
- ]
- }
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Medium' as const,
+    category: 'Flowering Plants',
+    description: 'Native to the coastal regions of Brazil, Bougainvillea is an iconic tropical plant that produces spectacular displays of papery, tissue-like bracts in vivid magenta, purple, red, orange, white, or pink that can last for months. The true flowers are actually tiny and white, tucked inside the colorful bracts that steal the show. This vigorous climbing or sprawling plant can grow 20+ feet in ideal conditions but adapts well to containers with regular pruning, maintaining 3-6 feet indoors. The stems are armed with sharp thorns (handle with care!), and the plant has a Mediterranean temperament: it thrives on sun, heat, and strategic neglect. When stressed by drought and given maximum sun, it produces the most prolific color displays, creating walls of vibrant bracts.',
+    toxicity: 'Mildly toxic to pets - can cause oral irritation and stomach upset',
+    temperature: '65-85°F (18-29°C) - loves heat',
+    humidity: '40-60%',
+    careInstructions: [
+      'Allow soil to dry out between waterings - drought stress actually encourages blooming',
+      'Water thoroughly when dry, then let it dry significantly before watering again',
+      'Provide maximum direct sunlight - 6+ hours daily, more is better',
+      'Use well-draining cactus or sandy potting mix',
+      'Prune after flowering to maintain shape and control size - wear gloves!',
+      'Provide trellis or support for climbing growth habit',
+      'Fertilize monthly during growing season with low-nitrogen, high-phosphorus fertilizer',
+      'Reduce watering in winter to trigger dormancy and spring bloom cycle'
+    ],
+    commonProblems: [
+      'Lack of color: Insufficient direct sunlight - needs maximum sun exposure',
+      'Green bracts instead of colored: Too much nitrogen fertilizer or shade',
+      'Leaf drop: Natural response to stress, environmental changes, or dormancy',
+      'Leggy growth with few flowers: Needs harder pruning and more sun',
+      'Thorns: Natural defense - always wear thick gloves when handling or pruning',
+      'Root rot: Overwatering - allow to dry significantly between waterings'
+    ]
+  },
+  {
+    name: 'Crown of Thorns',
+    botanicalName: 'Euphorbia milii',
+    otherNames: ['Christ Plant', 'Christ Thorn'],
+    image: PLANT_IMAGES_BASE_URL + '/Crown%20of%20Thorns.jpg',
+    wateringFrequency: 'Every 10-14 days',
+    suggestedWateringDays: 10,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Flowering Plants',
+    description: 'Native to Madagascar, Crown of Thorns is a succulent shrub that combines dramatic spiny stems with delicate, colorful blooms that appear year-round with proper care. The small, bright flowers (actually colored bracts) come in reds, pinks, whites, yellows, or orange and cluster at the tips of thorny branches. Despite its fierce appearance, it\'s one of the easiest and most reliable flowering houseplants available, tolerating neglect, dry air, and drought while blooming continuously. The thick stems store water and sport fierce thorns (the source of its biblical common name), and the plant produces a milky white sap when cut that can irritate skin. Growing 1-3 feet indoors, it\'s perfect for sunny windowsills where its combination of exotic flowers and sculptural form creates dramatic interest.',
+    toxicity: 'Toxic to pets and humans - milky sap causes severe skin and eye irritation',
+    temperature: '65-85°F (18-29°C) - tolerates heat well',
+    humidity: '30-50%',
+    careInstructions: [
+      'Water deeply only when soil is completely dry - every 10-14 days typically',
+      'Use well-draining cactus/succulent potting mix',
+      'Provide at least 4-6 hours of direct sunlight daily for blooming',
+      'Always wear gloves when handling - thorns are sharp and sap is caustic',
+      'Deadhead spent bracts by pinching off to encourage continuous blooming',
+      'Fertilize monthly during growing season with diluted succulent fertilizer',
+      'Reduce watering in winter when growth slows',
+      'If sap contacts skin, wash immediately with soap and water'
+    ],
+    commonProblems: [
+      'Lack of flowers: Insufficient direct sunlight - needs bright light to bloom',
+      'Leaf drop: Natural response to underwatering or stress - not usually harmful',
+      'Skin irritation: Contact with milky sap - always wear gloves when pruning',
+      'Root rot: Overwatering in cool conditions - reduce watering frequency',
+      'Leggy, sparse growth: Insufficient light - provide more direct sun',
+      'Yellow leaves: Overwatering most likely, or natural aging of lower leaves'
+    ]
+  },
+  {
+    name: 'Pentas',
+    botanicalName: 'Pentas lanceolata',
+    otherNames: ['Egyptian Starcluster', 'Star Flower', 'Star Cluster'],
+    image: PLANT_IMAGES_BASE_URL + '/Pentas.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Flowering Plants',
+    description: 'Native to tropical Africa and Arabia, Pentas produces dense clusters of small, tubular star-shaped flowers in vibrant shades of red, pink, white, or lavender that bloom continuously from spring through fall with proper care. The clusters can contain 20-50+ individual flowers, creating colorful pompom-like displays that are magnets for butterflies and hummingbirds when placed outdoors. The lance-shaped leaves provide an attractive backdrop to the prolific blooms. Growing 1-3 feet tall, this reliable bloomer is one of the easiest flowering houseplants to maintain, asking only for bright light and regular watering in exchange for months of non-stop color. It\'s particularly beginner-friendly and forgiving of minor care mistakes while still rewarding with abundant flowers.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '60-75°F (15-24°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Water when top inch of soil is dry - keep consistently moist during blooming',
+      'Provide at least 4-6 hours of direct or very bright indirect light daily',
+      'Use well-draining potting mix rich in organic matter',
+      'Deadhead spent flower clusters regularly to encourage continuous blooming',
+      'Pinch growing tips every few weeks to promote bushier growth and more flowers',
+      'Fertilize every 2-3 weeks during blooming season with balanced fertilizer',
+      'Can be moved outdoors in summer where it attracts butterflies',
+      'Prune back by one-third in late winter to rejuvenate plant'
+    ],
+    commonProblems: [
+      'Lack of flowers: Insufficient light is most common cause - needs bright conditions',
+      'Leggy, stretched growth: Inadequate light and needs regular pinching',
+      'Wilting: Underwatering - increase watering frequency during warm weather',
+      'Aphids and whiteflies: Common pests attracted to new growth - treat promptly',
+      'Yellow leaves: Natural aging of older leaves or overwatering',
+      'Spider mites: Especially in dry indoor air - increase humidity and treat'
+    ]
+  }
 ];

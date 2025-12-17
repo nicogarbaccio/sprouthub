@@ -1,440 +1,698 @@
-
 import { Plant } from '../types';
 import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const otherPlants: Plant[] = [
- {
-  name: 'ZZ Plant',
-  botanicalName: 'Zamioculcas zamiifolia',
-  otherNames: ['Zanzibar Gem', 'Zuzu Plant'],
-  image: PLANT_IMAGES_BASE_URL + '/ZZ%20Plant.png',
-    wateringFrequency: 'Monthly',
- suggestedWateringDays: 30,
- lightRequirement: 'Low to Medium Light',
- careLevel: 'Easy' as const,
- category: 'Low Maintenance'
- },
- {
-  name: 'Boston Fern',
-  botanicalName: 'Nephrolepis exaltata',
-  otherNames: ['Sword Fern'],
-  image: PLANT_IMAGES_BASE_URL + '/Boston%20Fern.jpg',
+  {
+    name: 'ZZ Plant',
+    botanicalName: 'Zamioculcas zamiifolia',
+    otherNames: ['Zanzibar Gem', 'Zuzu Plant', 'Eternity Plant'],
+    image: PLANT_IMAGES_BASE_URL + '/ZZ%20Plant.png',
+    wateringFrequency: 'Every 2-3 weeks',
+    suggestedWateringDays: 21,
+    lightRequirement: 'Low to Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Low Maintenance',
+    description: 'Native to East Africa, the ZZ Plant is one of the most indestructible houseplants available, earning its nickname "Eternity Plant" for its ability to survive extreme neglect. This architectural beauty features thick, succulent-like stems with glossy, waxy leaflets arranged in graceful, feather-like fronds that grow upright from underground rhizomes. The deep green foliage has a natural shine that looks almost artificial, making it a stunning addition to modern interiors. Growing 2-3 feet tall, it thrives in a remarkable range of conditions from low light corners to bright rooms, tolerates irregular watering, and is virtually pest-free. Its slow growth means minimal maintenance, and its dramatic sculptural form provides maximum impact with minimal effort - the ultimate plant for busy people or frequent travelers.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals',
+    temperature: '60-75°F (15-24°C)',
+    humidity: '30-50% - tolerates dry air',
+    careInstructions: [
+      'Water only when soil is completely dry - every 2-3 weeks typically',
+      'Thrives in low to bright indirect light - extremely adaptable',
+      'Allow soil to dry out completely between waterings to prevent rot',
+      'Use well-draining potting mix - add perlite if needed',
+      'Wipe leaves monthly with damp cloth to maintain glossy appearance',
+      'Fertilize only 2-3 times per year during growing season',
+      'Repot only when severely root-bound (every 2-3 years)',
+      'Can tolerate several weeks without water due to water-storing rhizomes'
+    ],
+    commonProblems: [
+      'Yellow leaves: Almost always from overwatering - most common cause of death',
+      'Brown leaf tips: Natural aging or fluoride sensitivity from tap water',
+      'Stems falling over: Overwatering causing root/rhizome rot',
+      'Slow growth: Completely normal - ZZ is naturally slow-growing',
+      'Root rot: From overwatering or poor drainage - use very well-draining soil',
+      'Wrinkled stems: Severe underwatering - soak thoroughly when dry'
+    ]
+  },
+  {
+    name: 'Boston Fern',
+    botanicalName: 'Nephrolepis exaltata',
+    otherNames: ['Sword Fern', 'Boston Sword Fern'],
+    image: PLANT_IMAGES_BASE_URL + '/Boston%20Fern.jpg',
     wateringFrequency: 'Twice weekly',
- suggestedWateringDays: 3,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Ferns'
- },
- {
-  name: 'Chinese Money Plant',
-  botanicalName: 'Pilea peperomioides',
-  otherNames: ['Pancake Plant', 'UFO Plant'],
-  image: PLANT_IMAGES_BASE_URL + '/Chinese%20Money%20Plant.jpg',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Ferns',
+    description: 'A classic Victorian-era houseplant native to tropical regions worldwide, Boston Fern features lush, arching fronds composed of hundreds of small leaflets that create a full, fountain-like display perfect for hanging baskets or pedestals. The graceful, cascading fronds can reach 2-3 feet long, creating a dramatic tropical effect that softens any space. As one of the best natural air purifiers, it removes formaldehyde and other toxins while adding humidity to dry indoor air. However, Boston Fern has a reputation for being somewhat demanding - it requires consistent moisture, high humidity, and cool temperatures, making it more challenging than modern easy-care plants but absolutely worth the effort for its lush, timeless beauty and air-cleaning benefits.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '60-75°F (15-24°C) - prefers cooler temps',
+    humidity: '50-80% - high humidity essential',
+    careInstructions: [
+      'Keep soil consistently moist but never soggy - water when top feels slightly dry',
+      'Provide bright, indirect light - avoid direct sun which scorches fronds',
+      'Maintain high humidity with daily misting, pebble tray, or humidifier',
+      'Use room temperature water - cold water shocks the plant',
+      'Fertilize every 2-4 weeks during growing season with diluted balanced fertilizer',
+      'Trim brown or dead fronds at the base to encourage new growth',
+      'Keep away from heating vents and drafts',
+      'Place in bathroom or kitchen where humidity is naturally higher'
+    ],
+    commonProblems: [
+      'Brown, crispy fronds: Low humidity (most common) or underwatering',
+      'Yellow fronds: Overwatering, poor drainage, or too much direct sun',
+      'Dropping leaflets: Sudden environmental changes, drafts, or low humidity',
+      'Slow or no new growth: Needs more humidity, light, or fertilizer',
+      'Brown tips: Low humidity, fluoride/chlorine in tap water, or over-fertilizing',
+      'Pale fronds: Insufficient light or nutrient deficiency'
+    ]
+  },
+  {
+    name: 'Chinese Money Plant',
+    botanicalName: 'Pilea peperomioides',
+    otherNames: ['Pancake Plant', 'UFO Plant', 'Missionary Plant'],
+    image: PLANT_IMAGES_BASE_URL + '/Chinese%20Money%20Plant.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Easy' as const,
- category: 'Small Plants'
- },
- {
-  name: 'Calathea',
-  botanicalName: 'Calathea orbifolia',
-  otherNames: ['Round-leaved Calathea'],
-  image: PLANT_IMAGES_BASE_URL + '/Calathea.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Medium Light',
- careLevel: 'Hard' as const,
- category: 'Prayer Plants'
- },
- {
-  name: 'Majesty Palm',
-  botanicalName: 'Ravenea rivularis',
-  otherNames: ['Ravenea', 'Majestic Palm'],
-  image: PLANT_IMAGES_BASE_URL + '/Majesty%20Palm.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Palms'
- },
- {
-  name: 'Peperomia',
-  botanicalName: 'Peperomia obtusifolia',
-  otherNames: ['Baby Rubber Plant'],
-  image: PLANT_IMAGES_BASE_URL + '/Peperomia.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 10,
- lightRequirement: 'Medium Light',
- careLevel: 'Easy' as const,
- category: 'Small Plants'
- },
- {
-  name: 'Ponytail Palm',
-  botanicalName: 'Beaucarnea recurvata',
-  otherNames: ['Elephant\'s Foot'],
-  image: PLANT_IMAGES_BASE_URL + '/Ponytail%20Palm.jpg',
-    wateringFrequency: 'Monthly',
- suggestedWateringDays: 30,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Palms'
- },
- {
-  name: 'Prayer Plant',
-  botanicalName: 'Maranta leuconeura',
-  otherNames: ['Rabbit Tracks'],
-  image: PLANT_IMAGES_BASE_URL + '/Prayer%20Plant.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Medium Light',
- careLevel: 'Medium' as const,
- category: 'Prayer Plants'
- },
- {
-  name: 'Parlor Palm',
-  botanicalName: 'Chamaedorea elegans',
-  otherNames: ['Neanthe Bella Palm'],
-  image: PLANT_IMAGES_BASE_URL + '/Parlor%20Palm.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Low to Medium Light',
- careLevel: 'Easy' as const,
- category: 'Palms'
- },
- {
-  name: 'Maidenhair Fern',
-  botanicalName: 'Adiantum raddianum',
-  otherNames: ['Venus Hair Fern'],
-  image: PLANT_IMAGES_BASE_URL + '/Maidenhair%20Fern.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Small Plants',
+    description: 'A charming plant from the Yunnan Province in southern China, Chinese Money Plant became an Instagram sensation in recent years thanks to its distinctive round, coin-shaped leaves that sit atop delicate stems like little green pancakes or UFOs. Each perfectly circular leaf can grow 2-4 inches across, creating a unique, geometric display that looks modern and whimsical. The plant grows 8-12 inches tall and readily produces babies (offsets) from the base that can be separated and shared - leading to its spread around the world through plant swaps rather than commercial trade. Easy to care for with minimal demands, it rotates its leaves toward light sources, so regular turning keeps growth symmetrical. Its quirky appearance and generous nature make it a favorite among plant collectors.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '55-75°F (13-24°C)',
+    humidity: '40-50%',
+    careInstructions: [
+      'Water when top 1-2 inches of soil are dry - typically weekly',
+      'Provide bright, indirect light for best growth and leaf color',
+      'Rotate plant weekly by a quarter turn to maintain symmetrical growth',
+      'Use well-draining potting mix to prevent root rot',
+      'Remove baby plants (pups) from base to encourage main plant growth',
+      'Fertilize monthly during growing season with diluted balanced fertilizer',
+      'Wipe leaves occasionally to remove dust',
+      'Prune lower leaves as they age and yellow naturally'
+    ],
+    commonProblems: [
+      'Curling leaves: Underwatering or too much direct sun',
+      'Yellow leaves: Overwatering (most common) or natural aging of lower leaves',
+      'Leaning toward light: Natural behavior - rotate regularly for even growth',
+      'Dropping leaves: Underwatering, overwatering, or temperature stress',
+      'Brown leaf edges: Inconsistent watering or fluoride sensitivity',
+      'Leggy, sparse growth: Insufficient light - move to brighter location'
+    ]
+  },
+  {
+    name: 'Calathea',
+    botanicalName: 'Calathea orbifolia',
+    otherNames: ['Round-leaved Calathea', 'Prayer Plant'],
+    image: PLANT_IMAGES_BASE_URL + '/Calathea.jpg',
     wateringFrequency: 'Twice weekly',
- suggestedWateringDays: 3,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Hard' as const,
- category: 'Ferns',
- description: 'Delicate and graceful fern with fine, lacy fronds. Known for being finicky but absolutely stunning when properly cared for.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-75°F (18-24°C)',
- humidity: '60-80%',
- careInstructions: [
-  'Keep soil consistently moist but not soggy',
-  'Provide high humidity with pebble tray or humidifier',
-  'Avoid direct sunlight',
-  'Use distilled or rainwater if possible',
-  'Mist regularly but avoid getting water on fronds'
- ],
- commonProblems: [
-  'Brown, crispy fronds: Low humidity or dry air',
-  'Yellowing fronds: Natural aging or overwatering',
-  'Dropping leaflets: Shock from environmental changes',
-  'Slow growth: Needs more humidity or filtered light'
- ]
- },
- {
-  name: 'Staghorn Fern',
-  botanicalName: 'Platycerium bifurcatum',
-  otherNames: ['Elkhorn Fern'],
-  image: PLANT_IMAGES_BASE_URL + '/Staghorn%20Fern.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Ferns',
- description: 'An epiphytic fern with distinctive antler-shaped fronds. Often mounted on wood or grown in hanging baskets for dramatic effect.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-80°F (18-27°C)',
- humidity: '50-70%',
- careInstructions: [
-  'Soak weekly by submerging the entire mount',
-  'Provide bright, indirect light',
-  'Ensure good air circulation',
-  'Don\'t remove brown shield fronds',
-  'Fertilize monthly with diluted liquid fertilizer'
- ],
- commonProblems: [
-  'Brown frond tips: Low humidity or over-fertilizing',
-  'Yellowing fronds: Usually overwatering',
-  'Pests: Watch for scale insects',
-  'Slow growth: May need more light or nutrients'
- ]
- },
- {
-  name: 'Bird\'s Nest Fern',
-  botanicalName: 'Asplenium nidus',
-  otherNames: ['Crow\'s Nest Fern'],
-  image: PLANT_IMAGES_BASE_URL + '/Birds%20Nest%20Fern.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Medium Light',
- careLevel: 'Easy' as const,
- category: 'Ferns',
- description: 'A tropical fern with broad, glossy fronds that emerge from a central crown, resembling a bird\'s nest. Perfect for bathrooms.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-80°F (18-27°C)',
- humidity: '50-60%',
- careInstructions: [
-  'Water around the base, avoid the center crown',
-  'Keep soil consistently moist',
-  'Provide filtered or indirect light',
-  'Clean leaves with damp cloth occasionally',
-  'Don\'t touch or handle new fronds'
- ],
- commonProblems: [
-  'Brown leaf tips: Low humidity or fluoride in water',
-  'Yellowing fronds: Natural aging or overwatering',
-  'Crown rot: Avoid watering into the center',
-  'Torn fronds: Handle carefully, new growth is delicate'
- ]
- },
- {
-  name: 'Coleus',
-  botanicalName: 'Solenostemon scutellarioides',
-  otherNames: ['Painted Nettle'],
-  image: PLANT_IMAGES_BASE_URL + '/Coleus.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 5,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Easy' as const,
- category: 'Colorful Foliage',
- description: 'Vibrant foliage plant with incredible color combinations. Coleus comes in countless varieties with unique leaf patterns and colors.',
- toxicity: 'Mildly toxic to pets',
- temperature: '65-75°F (18-24°C)',
- humidity: '40-50%',
- careInstructions: [
-  'Keep soil consistently moist',
-  'Pinch flower spikes to maintain foliage',
-  'Provide bright, indirect light for best colors',
-  'Pinch growing tips to encourage bushiness',
-  'Easy to propagate from cuttings'
- ],
- commonProblems: [
-  'Fading colors: Usually needs more light',
-  'Leggy growth: Pinch regularly and provide adequate light',
-  'Wilting: Usually needs more water or humidity',
-  'Flower spikes: Pinch to redirect energy to foliage'
- ]
- },
- {
-  name: 'Caladium',
-  botanicalName: 'Caladium bicolor',
-  otherNames: ['Angel Wings', 'Elephant Ear'],
-  image: PLANT_IMAGES_BASE_URL + '/Caladium.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Colorful Foliage',
- description: 'Stunning tropical plant with heart-shaped leaves in brilliant colors. Caladiums are perfect for adding dramatic color to indoor spaces.',
- toxicity: 'Toxic to pets and children if ingested',
- temperature: '70-80°F (21-27°C)',
- humidity: '50-60%',
- careInstructions: [
-  'Keep soil consistently moist during growing season',
-  'Provide bright, filtered light',
-  'Maintain high humidity',
-  'Allow dormancy in winter',
-  'Store tubers in warm, dry place during dormancy'
- ],
- commonProblems: [
-  'Leaf drop: Natural in fall/winter or too cold',
-  'Fading colors: Needs brighter indirect light',
-  'Brown leaf edges: Low humidity or fluoride sensitivity',
-  'Dormancy: Natural cycle, reduce watering'
- ]
- },
- {
-  name: 'Nerve Plant',
-  botanicalName: 'Fittonia albivenis',
-  otherNames: ['Mosaic Plant'],
-  image: PLANT_IMAGES_BASE_URL + '/Nerve%20Plant.jpg',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Medium to Bright Indirect Light',
+    careLevel: 'Hard' as const,
+    category: 'Prayer Plants',
+    description: 'Native to the tropical rainforests of South America, Calathea orbifolia is one of the most striking members of the prayer plant family, featuring large, round leaves (up to 12 inches wide) with distinctive silvery-green stripes that look hand-painted. Like other Calatheas, it performs nyctinastic movement - the leaves rise at night and lower during the day, creating a gentle rustling sound. Growing 2-3 feet tall, it creates a bold tropical statement piece. However, Calatheas are notoriously demanding, requiring high humidity, consistent moisture, filtered water, and stable temperatures. They\'re sensitive to fluoride, chlorine, and mineral buildup, often rewarding even experienced plant parents with crispy edges. Despite their fussy reputation, their extraordinary foliage and living movement make them irresistible to dedicated plant enthusiasts.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C) - no fluctuations',
+    humidity: '60-80% - high humidity critical',
+    careInstructions: [
+      'Water with filtered, distilled, or rainwater when top inch feels dry',
+      'Never use tap water - extremely sensitive to fluoride and chlorine',
+      'Maintain high humidity with humidifier, pebble tray, or grouping with plants',
+      'Provide medium to bright indirect light - never direct sun',
+      'Use well-draining, peat-based potting mix that retains some moisture',
+      'Fertilize monthly during growing season with diluted fertilizer at half strength',
+      'Mist regularly but ensure leaves dry before nightfall',
+      'Keep away from drafts, heating vents, and temperature fluctuations'
+    ],
+    commonProblems: [
+      'Brown, crispy leaf edges: Tap water fluoride/chlorine (most common), low humidity, or inconsistent watering',
+      'Curling leaves: Underwatering, low humidity, or too much light',
+      'Yellow leaves: Overwatering, root rot, or too much direct light',
+      'Fading leaf patterns: Insufficient light or natural aging',
+      'Spider mites: Common in low humidity - increase humidity and treat promptly',
+      'Brown spots: Fungal disease from water sitting on leaves overnight'
+    ]
+  },
+  {
+    name: 'Majesty Palm',
+    botanicalName: 'Ravenea rivularis',
+    otherNames: ['Ravenea Palm', 'Majestic Palm'],
+    image: PLANT_IMAGES_BASE_URL + '/Majesty%20Palm.jpg',
     wateringFrequency: 'Twice weekly',
- suggestedWateringDays: 3,
- lightRequirement: 'Medium Light',
- careLevel: 'Medium' as const,
- category: 'Small Plants',
- description: 'A small plant with intricate white or pink veined leaves. Perfect for terrariums and adds beautiful texture to plant collections.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-75°F (18-24°C)',
- humidity: '60-70%',
- careInstructions: [
-  'Keep soil consistently moist but not soggy',
-  'Provide medium to bright indirect light',
-  'Maintain high humidity around the plant',
-  'Pinch flowers to encourage foliage growth',
-  'Propagate easily from stem cuttings'
- ],
- commonProblems: [
-  'Wilting: Usually needs more water or humidity',
-  'Leggy growth: Pinch regularly to maintain compact shape',
-  'Brown leaf tips: Low humidity or fluoride sensitivity',
-  'Fading patterns: May need brighter indirect light'
- ]
- },
- {
-  name: 'Cast Iron Plant',
-  botanicalName: 'Aspidistra elatior',
-  otherNames: ['Bar Room Plant'],
-  image: PLANT_IMAGES_BASE_URL + '/Cast%20Iron%20Plant.jpg',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Indirect to Direct Light',
+    careLevel: 'Hard' as const,
+    category: 'Palms',
+    description: 'Native to the riverbanks of Madagascar, Majesty Palm is an elegant tropical palm that can grow to impressive heights (6-10 feet indoors, 80+ feet in nature), featuring graceful, arching fronds that bring instant vacation vibes to any space. The feathery, bright green fronds emerge from a single trunk, creating a classic palm tree silhouette that evokes tropical paradise. However, Majesty Palm has a reputation as one of the most challenging houseplants - it\'s frequently sold as an easy-care plant but actually requires very bright light, high humidity, consistent watering, and specific conditions that are difficult to replicate indoors. Many struggle and decline in typical home environments. Success requires dedication to meeting its demanding tropical needs, but when happy, it\'s a stunning focal point.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-85°F (18-29°C)',
+    humidity: '50-60% minimum',
+    careInstructions: [
+      'Water when top 1-2 inches of soil are dry - keep consistently moist',
+      'Requires very bright light - 6+ hours near a bright window, some direct sun beneficial',
+      'Maintain moderate to high humidity with humidifier or frequent misting',
+      'Use well-draining potting mix that retains some moisture',
+      'Fertilize every 2-4 weeks during growing season with palm fertilizer',
+      'Mist fronds regularly to increase humidity and remove dust',
+      'Trim only brown or dead fronds - never cut green growth',
+      'Rotate weekly for even growth on all sides'
+    ],
+    commonProblems: [
+      'Brown, crispy frond tips: Low humidity (most common), underwatering, or fluoride sensitivity',
+      'Yellow fronds: Overwatering, poor drainage, or nutrient deficiency',
+      'Brown fronds: Natural aging of lower fronds, or insufficient light',
+      'Spider mites: Very common in dry conditions - increase humidity, treat immediately',
+      'Slow/no growth: Insufficient light or nutrients - needs very bright conditions',
+      'Overall decline: Most common - conditions too far from natural tropical habitat'
+    ]
+  },
+  {
+    name: 'Peperomia',
+    botanicalName: 'Peperomia obtusifolia',
+    otherNames: ['Baby Rubber Plant', 'American Rubber Plant', 'Pepper Face'],
+    image: PLANT_IMAGES_BASE_URL + '/Peperomia.jpg',
+    wateringFrequency: 'Every 10 days',
+    suggestedWateringDays: 10,
+    lightRequirement: 'Medium to Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Small Plants',
+    description: 'Native to Central and South American rainforests, Peperomia obtusifolia is a compact, low-maintenance plant featuring thick, glossy, spoon-shaped leaves that resemble rubber plant foliage in miniature form. Growing only 6-12 inches tall, this petite beauty comes in varieties with solid green leaves or variegated cream and green patterns. The succulent-like leaves store water, making it quite drought-tolerant and forgiving of occasional neglect. As an epiphyte in nature, it prefers quick-draining soil and less frequent watering than typical houseplants. Peperomias are perfect for small spaces, desks, shelves, or terrariums, and their compact size and easy care make them ideal for beginners. With over 1,000 Peperomia species, collectors love building diverse collections of these charming little plants.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '40-50%',
+    careInstructions: [
+      'Water only when soil is mostly dry - every 10-14 days typically',
+      'Thick leaves store water - underwatering is better than overwatering',
+      'Provide medium to bright indirect light for best growth',
+      'Use well-draining potting mix with perlite or orchid bark',
+      'Wipe leaves occasionally to maintain glossy appearance',
+      'Fertilize every 2-3 months during growing season with diluted fertilizer',
+      'Avoid overwatering which quickly causes root rot',
+      'Propagate easily from leaf or stem cuttings'
+    ],
+    commonProblems: [
+      'Root rot: Overwatering is the most common cause of death',
+      'Drooping, wrinkled leaves: Underwatering - give thorough soak',
+      'Yellow leaves: Overwatering or too much direct sun',
+      'Leggy growth: Insufficient light - move to brighter location',
+      'Brown leaf tips: Inconsistent watering or low humidity',
+      'Leaf drop: Sudden temperature changes or overwatering'
+    ]
+  },
+  {
+    name: 'Ponytail Palm',
+    botanicalName: 'Beaucarnea recurvata',
+    otherNames: ['Elephant\'s Foot', 'Bottle Palm', 'Nolina'],
+    image: PLANT_IMAGES_BASE_URL + '/Ponytail%20Palm.jpg',
+    wateringFrequency: 'Every 2-3 weeks',
+    suggestedWateringDays: 21,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Palms',
+    description: 'Native to the semi-desert regions of southeastern Mexico, Ponytail Palm is actually not a palm at all but a succulent from the Asparagaceae family. This quirky plant features a dramatically swollen, bulbous trunk base (caudex) that resembles an elephant\'s foot, which stores water for drought tolerance. From the top emerges a crown of long, thin, arching leaves that cascade like a ponytail or fountain, giving the plant its charming common name. Growing very slowly, it can eventually reach 6-8 feet indoors (20+ feet in nature), but most remain 2-4 feet for years. Its sculptural form, extreme drought tolerance, and minimal care requirements make it perfect for forgetful plant owners, frequent travelers, and anyone wanting a striking conversation piece that thrives on benign neglect.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '60-80°F (15-27°C) - tolerates wide range',
+    humidity: '30-50% - tolerates dry air',
+    careInstructions: [
+      'Water deeply only when soil is completely dry - every 2-4 weeks',
+      'The swollen trunk stores water - err on side of underwatering',
+      'Provide bright, direct sunlight - 4+ hours daily ideal',
+      'Use very well-draining cactus or succulent potting mix',
+      'Fertilize only 2-3 times per year during growing season',
+      'Clean leaves occasionally by wiping or gentle shower',
+      'Repot only when severely root-bound (every 3-5 years)',
+      'Can survive weeks without water - perfect for travelers'
+    ],
+    commonProblems: [
+      'Soft, mushy trunk: Root/trunk rot from overwatering - usually fatal',
+      'Brown leaf tips: Natural aging, fluoride sensitivity, or inconsistent watering',
+      'Yellowing leaves: Overwatering most likely, or natural shedding of old leaves',
+      'Slow growth: Completely normal - naturally very slow-growing',
+      'Leaning: Growing toward light source - rotate regularly',
+      'Pests (rare): Occasionally spider mites or mealybugs in dry conditions'
+    ]
+  },
+  {
+    name: 'Prayer Plant',
+    botanicalName: 'Maranta leuconeura',
+    otherNames: ['Rabbit Tracks', 'Herringbone Plant', 'Red Prayer Plant'],
+    image: PLANT_IMAGES_BASE_URL + '/Prayer%20Plant.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Medium to Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Prayer Plants',
+    description: 'Native to the Brazilian rainforest floor, Prayer Plant is named for its fascinating nyctinastic movement - the leaves fold upward at night like hands in prayer, then open again at sunrise, creating gentle rustling sounds. The stunning foliage features emerald green leaves with distinctive dark green or chocolate brown spots arranged along the midrib (resembling rabbit tracks) and striking red veins, all on burgundy undersides. Growing 6-12 inches tall and spreading wider, it creates a low, spreading mound perfect for hanging baskets or tabletops. While not as demanding as Calatheas, Prayer Plants still require consistent moisture, humidity, and filtered water to prevent the crispy edges they\'re prone to. Their living movement and extraordinary foliage patterns make them captivating additions despite moderate care needs.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '50-60% minimum',
+    careInstructions: [
+      'Water when top inch of soil feels dry with filtered, distilled, or rainwater',
+      'Keep soil consistently moist but never soggy',
+      'Avoid tap water if possible - sensitive to fluoride and chlorine',
+      'Provide medium to bright indirect light - never direct sun',
+      'Maintain moderate to high humidity with pebble tray or humidifier',
+      'Fertilize every 2 weeks during growing season with half-strength fertilizer',
+      'Trim brown leaf edges with clean scissors if they develop',
+      'Propagate by division when repotting in spring'
+    ],
+    commonProblems: [
+      'Brown, crispy leaf edges: Tap water fluoride/chlorine, low humidity, or inconsistent watering',
+      'Curling leaves: Underwatering, low humidity, or too much light',
+      'Yellow leaves: Overwatering or poor drainage',
+      'Fading leaf patterns: Insufficient light or too much direct sun',
+      'Spider mites: Common in low humidity - increase humidity and treat',
+      'Leggy growth: Insufficient light - move to brighter location'
+    ]
+  },
+  {
+    name: 'Parlor Palm',
+    botanicalName: 'Chamaedorea elegans',
+    otherNames: ['Neanthe Bella Palm', 'Good Luck Palm', 'Dwarf Mountain Palm'],
+    image: PLANT_IMAGES_BASE_URL + '/Parlor%20Palm.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 10,
- lightRequirement: 'Low Light',
- careLevel: 'Easy' as const,
- category: 'Low Maintenance',
- description: 'Nearly indestructible plant with dark green, leathery leaves. Perfect for low-light areas and tolerates neglect better than most plants.',
- toxicity: 'Non-toxic to pets',
- temperature: '55-75°F (13-24°C)',
- humidity: '30-50%',
- careInstructions: [
-  'Water when soil feels dry to touch',
-  'Tolerates very low light conditions',
-  'Clean leaves with damp cloth occasionally',
-  'Very drought tolerant once established',
-  'Fertilize sparingly, if at all'
- ],
- commonProblems: [
-  'Brown leaf tips: Usually from overwatering or poor water quality',
-  'Slow growth: Normal and expected for this plant',
-  'Scale insects: Occasionally problematic, treat promptly',
-  'Yellowing leaves: Natural aging or excessive watering'
- ]
- },
- {
- name: 'Polka Dot Plant',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Low to Medium Light',
+    careLevel: 'Easy' as const,
+    category: 'Palms',
+    description: 'Native to the rainforests of southern Mexico and Guatemala, Parlor Palm has been a beloved houseplant since Victorian times when it graced the parlors of wealthy homes, earning its common name. This graceful, compact palm features delicate, arching fronds composed of small leaflets that bring tropical elegance without the space demands of larger palms. Growing slowly to 2-4 feet indoors (6 feet maximum), it\'s perfectly sized for apartments and small spaces. Unlike most palms, Parlor Palm thrives in low to medium light and tolerates typical indoor conditions remarkably well, making it one of the easiest and most forgiving palms for beginners. It\'s also an excellent air purifier, and occasionally produces tiny yellow flowers even indoors, adding to its charm.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '40-50%',
+    careInstructions: [
+      'Water when top 1-2 inches of soil are dry - typically weekly',
+      'Keep soil consistently moist but never waterlogged',
+      'Thrives in low to medium indirect light - tolerates shade well',
+      'Use well-draining potting mix that retains some moisture',
+      'Fertilize every 2-3 months during growing season with diluted palm fertilizer',
+      'Mist fronds occasionally to increase humidity and remove dust',
+      'Trim only brown or dead fronds at base - never cut green growth',
+      'Repot only when severely root-bound (every 2-3 years)'
+    ],
+    commonProblems: [
+      'Brown frond tips: Fluoride/chlorine in tap water, low humidity, or underwatering',
+      'Yellow fronds: Overwatering or poor drainage most common',
+      'Brown fronds: Natural aging of lower fronds, or severe underwatering',
+      'Spider mites: Check regularly, increase humidity, treat promptly',
+      'Slow growth: Normal - Parlor Palm is naturally slow-growing',
+      'Root rot: Overwatering or pot without drainage holes'
+    ]
+  },
+  {
+    name: 'Maidenhair Fern',
+    botanicalName: 'Adiantum raddianum',
+    otherNames: ['Venus Hair Fern', 'Delta Maidenhair'],
+    image: PLANT_IMAGES_BASE_URL + '/Maidenhair%20Fern.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Hard' as const,
+    category: 'Ferns',
+    description: 'Native to tropical regions of the Americas, Maidenhair Fern is considered the most delicate and elegant of all ferns, featuring impossibly fine, lacy fronds composed of tiny fan-shaped leaflets on glossy black stems that look like human hair - hence its poetic name. The ethereal, feathery foliage creates a cloud-like appearance that seems to float in space. Growing 12-18 inches tall and wide, it brings an air of Victorian romance and delicate beauty unmatched by other houseplants. However, Maidenhair Fern is notoriously difficult, with a reputation for being the "drama queen" of the plant world. It requires consistently moist (never wet or dry) soil, high humidity, filtered water, and stable conditions, rewarding even slight neglect with instant brown crispy fronds. Only for dedicated plant enthusiasts willing to meet its exacting demands.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '60-75°F (15-24°C) - prefers cool conditions',
+    humidity: '60-80% - high humidity essential',
+    careInstructions: [
+      'Keep soil consistently moist but never soggy - check daily',
+      'Use distilled, filtered, or rainwater only - very sensitive to chemicals',
+      'Never allow soil to completely dry out - will crisp immediately',
+      'Provide bright, indirect light - avoid direct sun completely',
+      'Maintain high humidity with humidifier, pebble tray, or terrarium',
+      'Mist regularly but ensure fronds dry before nightfall',
+      'Fertilize monthly during growing season with diluted fertilizer at quarter strength',
+      'Keep away from heating vents, drafts, and temperature fluctuations'
+    ],
+    commonProblems: [
+      'Brown, crispy fronds: Soil dried out (most common), low humidity, or tap water chemicals',
+      'Yellowing fronds: Overwatering, poor drainage, or too much light',
+      'Dropping leaflets: Sudden environmental changes, drafts, or inconsistent moisture',
+      'Entire plant dying: Let soil dry out or humidity dropped - very unforgiving',
+      'Slow or no growth: Insufficient humidity, light, or nutrients',
+      'Brown tips: Fluoride/chlorine in water or over-fertilizing'
+    ]
+  },
+  {
+    name: 'Staghorn Fern',
+    botanicalName: 'Platycerium bifurcatum',
+    otherNames: ['Elkhorn Fern', 'Common Staghorn Fern'],
+    image: PLANT_IMAGES_BASE_URL + '/Staghorn%20Fern.jpg',
+    wateringFrequency: 'Weekly',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Ferns',
+    description: 'An extraordinary epiphytic fern native to Australia, Southeast Asia, and Africa, Staghorn Fern grows naturally attached to tree trunks in tropical forests. It features two distinct types of fronds: flat, shield-shaped basal fronds that attach to surfaces and turn brown (don\'t remove these - they\'re healthy!), and large, antler-shaped fertile fronds that fork dramatically and can span 2-3 feet, resembling actual stag horns. Typically mounted on wood plaques or grown in baskets, these sculptural plants make stunning living wall art. The fuzzy, silvery-green fronds collect moisture and nutrients from the air. While more demanding than basic houseplants, Staghorns are easier than maidenhair ferns and reward proper care with dramatic growth, making impressive conversation pieces.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '60-80°F (15-27°C)',
+    humidity: '50-70%',
+    careInstructions: [
+      'Water by soaking entire mount in room temperature water for 10-15 minutes weekly',
+      'In summer or dry conditions, soak twice weekly',
+      'Allow to drain completely after soaking - never leave waterlogged',
+      'Provide bright, indirect light - can tolerate some early morning sun',
+      'Never remove brown shield fronds - they protect roots and absorb nutrients',
+      'Fertilize monthly during growing season by adding diluted fertilizer to soaking water',
+      'Ensure excellent air circulation to prevent rot',
+      'Mist fronds between soakings in dry conditions'
+    ],
+    commonProblems: [
+      'Brown frond tips: Underwatering, low humidity, or over-fertilizing',
+      'Yellowing fronds: Overwatering - ensure proper drainage after soaking',
+      'Shield fronds turning brown: Normal and healthy - never remove',
+      'Pests (scale insects): Check undersides of fronds, treat with horticultural oil',
+      'Slow or no growth: Insufficient light or nutrients',
+      'Fronds drooping: Usually needs water - soak thoroughly'
+    ]
+  },
+  {
+    name: 'Bird\'s Nest Fern',
+    botanicalName: 'Asplenium nidus',
+    otherNames: ['Crow\'s Nest Fern', 'Nest Fern'],
+    image: PLANT_IMAGES_BASE_URL + '/Birds%20Nest%20Fern.jpg',
+    wateringFrequency: 'Weekly',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Medium to Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Ferns',
+    description: 'Native to the tropical regions of Asia, Australia, and East Africa, Bird\'s Nest Fern is an epiphytic fern that grows in tree crevices in nature. Unlike typical lacy ferns, it features glossy, undivided fronds that are bright apple-green and ripple-edged, emerging from a central rosette that resembles a bird\'s nest (hence the name). The fronds grow upward and outward, creating a dramatic shuttlecock shape that can reach 3-5 feet across in ideal conditions. New fronds unfurl from the fuzzy brown center and are extremely delicate when young. Much easier to care for than most ferns, Bird\'s Nest Fern tolerates lower humidity and is more forgiving of care mistakes, making it perfect for beginners wanting the tropical look of ferns without the extreme demands. Excellent for bathrooms where humidity is naturally higher.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '60-80°F (15-27°C)',
+    humidity: '50-70%',
+    careInstructions: [
+      'Water around the base and edges only - never pour water into the central crown',
+      'Keep soil consistently moist but not waterlogged',
+      'Provide medium to bright indirect light - tolerates lower light than most ferns',
+      'Use well-draining potting mix that retains some moisture',
+      'Never touch or handle new emerging fronds - they tear easily and won\'t recover',
+      'Wipe mature leaves gently with damp cloth to remove dust',
+      'Fertilize monthly during growing season with diluted liquid fertilizer',
+      'Keep away from cold drafts and heating vents'
+    ],
+    commonProblems: [
+      'Crown rot: Water poured into center of plant - always water around edges',
+      'Brown leaf tips: Low humidity, fluoride in tap water, or inconsistent watering',
+      'Yellowing fronds: Natural aging of outer fronds, or overwatering',
+      'Torn or damaged fronds: Touching new growth before it hardens - leaves scar permanently',
+      'Brown spots: Bacterial or fungal disease from water on fronds',
+      'Slow growth: Insufficient light or nutrients'
+    ]
+  },
+  {
+    name: 'Coleus',
+    botanicalName: 'Plectranthus scutellarioides',
+    otherNames: ['Painted Nettle', 'Flame Nettle'],
+    image: PLANT_IMAGES_BASE_URL + '/Coleus.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Colorful Foliage',
+    description: 'Native to Southeast Asia and Malaysia, Coleus is a fast-growing foliage plant that rivals flowers with its extraordinary leaf colors and patterns. The velvety, serrated leaves come in virtually every color combination imaginable - burgundy, pink, yellow, orange, chartreuse, purple, and more - often with intricate patterns, spots, or edges in contrasting colors. With hundreds of varieties available, collectors can create entire rainbow gardens. Growing 1-3 feet tall, Coleus is technically a tender perennial but often grown as an annual. Indoors, it provides year-round color with minimal care. While it produces small, insignificant flower spikes, these should be pinched off to direct energy to the spectacular foliage. Easy to propagate from cuttings, fast-growing, and incredibly colorful, Coleus is perfect for beginners wanting dramatic impact.',
+    toxicity: 'Mildly toxic to pets if ingested in large quantities',
+    temperature: '60-75°F (15-24°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Keep soil consistently moist - water when top inch feels dry',
+      'Provide bright, indirect light for most intense coloration',
+      'Some varieties tolerate partial shade but colors may fade',
+      'Pinch off flower spikes as soon as they appear to maintain foliage',
+      'Pinch growing tips regularly every 2-3 weeks to encourage bushiness',
+      'Fertilize every 2-3 weeks during growing season with balanced fertilizer',
+      'Propagate easily from stem cuttings in water or soil',
+      'Trim leggy growth to maintain compact, full shape'
+    ],
+    commonProblems: [
+      'Fading colors: Insufficient light - move to brighter location',
+      'Leggy, sparse growth: Not enough light or inadequate pinching',
+      'Wilting despite moist soil: Root rot from overwatering',
+      'Wilting with dry soil: Needs more frequent watering - increase frequency',
+      'Flower spikes: Pinch immediately to redirect energy to foliage',
+      'Mealybugs or aphids: Common pests - treat with insecticidal soap'
+    ]
+  },
+  {
+    name: 'Caladium',
+    botanicalName: 'Caladium bicolor',
+    otherNames: ['Angel Wings', 'Elephant Ear', 'Heart of Jesus'],
+    image: PLANT_IMAGES_BASE_URL + '/Caladium.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Colorful Foliage',
+    description: 'Native to the tropical forests of South America, Caladium produces some of the most spectacular foliage in the plant world - large, paper-thin, heart or arrow-shaped leaves in stunning combinations of pink, red, white, and green with intricate veining and patterns that look hand-painted. Each leaf is a unique work of art growing 6-12 inches long on slender stems. The plant grows 12-24 inches tall from underground tubers. However, Caladiums are seasonal plants that follow a natural dormancy cycle - they grow actively in warm months, then die back in fall/winter, requiring a rest period where the tubers are stored dry. While not difficult during active growth, this dormancy requirement and sensitivity to cold make them more involved than evergreen houseplants. Their breathtaking beauty makes them worth the seasonal commitment.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals',
+    temperature: '70-85°F (21-29°C) - prefers warm conditions',
+    humidity: '50-70%',
+    careInstructions: [
+      'Keep soil consistently moist but not soggy during active growth',
+      'Provide bright, indirect light - avoid direct sun which scorches leaves',
+      'Maintain moderate to high humidity for best leaf development',
+      'Fertilize every 2-3 weeks during active growth with balanced fertilizer',
+      'As fall approaches and temperatures cool, reduce watering gradually',
+      'When leaves die back completely, stop watering and store tubers',
+      'Store tubers in dry peat moss at 50-60°F during dormancy (2-3 months)',
+      'Repot tubers in spring when new growth begins'
+    ],
+    commonProblems: [
+      'Leaf drop in fall: Natural dormancy cycle - not a problem',
+      'Leaves dying back: Normal seasonal response - prepare for dormancy',
+      'Fading colors: Insufficient light or too much direct sun',
+      'Brown, crispy leaf edges: Low humidity or fluoride sensitivity',
+      'Yellowing leaves: Overwatering, poor drainage, or approaching dormancy',
+      'No growth after dormancy: Tubers may need warmer temperatures or weren\'t stored properly'
+    ]
+  },
+  {
+    name: 'Nerve Plant',
+    botanicalName: 'Fittonia albivenis',
+    otherNames: ['Mosaic Plant', 'Painted Net Leaf'],
+    image: PLANT_IMAGES_BASE_URL + '/Nerve%20Plant.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Medium to Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Small Plants',
+    description: 'Native to the rainforest floors of Peru, Nerve Plant is a small, dramatic foliage plant featuring oval leaves with intricate networks of bright veins in white, pink, or red against deep green backgrounds - looking like delicate stained glass or an artist\'s interpretation of leaf venation. Growing only 3-6 inches tall and spreading wider, this petite plant creates a colorful groundcover effect perfect for terrariums, dish gardens, or small pots. Despite its delicate appearance, Nerve Plant is famously dramatic - it wilts immediately when thirsty, flopping over completely to signal it needs water, then perks back up within hours of watering. This "fainting" habit makes it an excellent choice for beginners learning to read plant signals, though it requires more attention than truly low-maintenance plants.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '50-70%',
+    careInstructions: [
+      'Keep soil consistently moist but not soggy - water when top feels barely dry',
+      'Plant will dramatically wilt when thirsty - this is normal signaling behavior',
+      'Provide medium to bright indirect light - avoid direct sun',
+      'Maintain moderate to high humidity - thrives in terrariums',
+      'Pinch off flower spikes to encourage foliage growth',
+      'Fertilize monthly during growing season with diluted balanced fertilizer',
+      'Pinch growing tips regularly to maintain compact, bushy shape',
+      'Propagate easily from stem cuttings'
+    ],
+    commonProblems: [
+      'Wilting/fainting: Needs water immediately - will recover quickly after watering',
+      'Leggy, sparse growth: Insufficient light or needs regular pinching',
+      'Brown, crispy leaf tips: Low humidity or fluoride in tap water',
+      'Fading vein patterns: Insufficient light - move to brighter location',
+      'Yellow leaves: Overwatering or poor drainage',
+      'Leaf drop: Temperature fluctuations or environmental stress'
+    ]
+  },
+  {
+    name: 'Cast Iron Plant',
+    botanicalName: 'Aspidistra elatior',
+    otherNames: ['Bar Room Plant', 'Iron Plant'],
+    image: PLANT_IMAGES_BASE_URL + '/Cast%20Iron%20Plant.jpg',
+    wateringFrequency: 'Every 10-14 days',
+    suggestedWateringDays: 10,
+    lightRequirement: 'Low to Medium Light',
+    careLevel: 'Easy' as const,
+    category: 'Low Maintenance',
+    description: 'Native to the forests of Taiwan and Japan, Cast Iron Plant earned its common name from its legendary ability to withstand neglect, low light, temperature extremes, and poor conditions that would kill most houseplants. This Victorian-era favorite features long, lance-shaped, dark green leathery leaves (or variegated cream and green) that emerge directly from the soil on individual stems, creating an elegant, upright clump 2-3 feet tall. While extremely slow-growing (producing only 2-5 new leaves per year), it\'s virtually indestructible once established. Perfect for dark corners, offices with fluorescent lighting, drafty hallways, or for plant owners who frequently forget to water. It may not be exciting or fast-growing, but it\'s the ultimate survivor that provides dependable greenery anywhere.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '45-85°F (7-29°C) - extremely temperature tolerant',
+    humidity: '30-50% - tolerates dry air',
+    careInstructions: [
+      'Water when soil feels dry to touch - every 10-14 days or less',
+      'Extremely drought tolerant once established - underwatering preferred',
+      'Thrives in low to medium light where other plants fail',
+      'Can survive in near darkness but grows better with some light',
+      'Clean leaves with damp cloth monthly to remove dust',
+      'Fertilize only 2-3 times per year, if at all - too much causes problems',
+      'Repot only when severely pot-bound (every 3-5 years)',
+      'Extremely slow growth is normal and expected'
+    ],
+    commonProblems: [
+      'Brown leaf tips: Usually from fluoride/chlorine in tap water or over-fertilizing',
+      'Brown spots on leaves: Overwatering or fungal disease',
+      'Slow or no growth: Completely normal - this plant grows very slowly',
+      'Yellow leaves: Natural aging of older leaves or overwatering',
+      'Scale insects: Occasionally problematic - treat with horticultural oil',
+      'Leaf damage: Usually from being bumped - leaves scar permanently'
+    ]
+  },
+  {
+    name: 'Polka Dot Plant',
     botanicalName: 'Hypoestes phyllostachya',
+    otherNames: ['Freckle Face', 'Flamingo Plant', 'Measles Plant'],
     image: PLANT_IMAGES_BASE_URL + '/Polka%20Dot%20Plant.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Colorful Foliage',
+    description: 'Native to Madagascar, Polka Dot Plant is a cheerful, compact foliage plant featuring oval leaves heavily spotted or splashed with bright pink, red, white, or rose against a green background - like someone flicked paint across each leaf. Modern cultivars have been bred for more intense spotting, with some varieties showing more color than green. Growing 1-2 feet tall, this fast-growing plant creates vibrant pops of color perfect for small spaces, desks, or terrariums. While easy to care for, it does require regular pinching to prevent legginess and maintain compact, bushy form. Polka Dot Plant brings playful, cheerful color to indoor gardens and is particularly popular for adding bright accents to dish gardens and mixed plantings.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '50-60%',
+    careInstructions: [
+      'Keep soil consistently moist but well-draining',
+      'Water when top inch feels dry - typically twice weekly',
+      'Provide bright, indirect light for most vibrant spotting',
+      'Pinch off flower spikes as they appear to maintain foliage',
+      'Pinch growing tips every 2-3 weeks to encourage bushy, compact growth',
+      'Maintain moderate humidity - tolerates average home conditions',
+      'Fertilize every 2-3 weeks during growing season with balanced fertilizer',
+      'Propagate easily from stem cuttings'
+    ],
+    commonProblems: [
+      'Fading spots/colors: Insufficient light - move to brighter indirect location',
+      'Leggy, sparse growth: Not enough light or inadequate pinching',
+      'Wilting: Usually needs water or higher humidity',
+      'Loss of lower leaves: Natural growth pattern or insufficient light',
+      'Flower spikes: Pinch to redirect energy to colorful foliage',
+      'Yellow leaves: Overwatering or poor drainage'
+    ]
+  },
+  {
+    name: 'Aluminum Plant',
+    botanicalName: 'Pilea cadierei',
+    otherNames: ['Watermelon Pilea', 'Silver Leaf Plant'],
+    image: PLANT_IMAGES_BASE_URL + '/Aluminum%20Plant.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 5,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Easy' as const,
- category: 'Colorful Foliage',
- description: 'A compact plant with spotted leaves in pink, white, or red. Perfect for adding splashes of color to small spaces and terrariums.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-75°F (18-24°C)',
- humidity: '50-60%',
- careInstructions: [
-  'Keep soil consistently moist but well-draining',
-  'Provide bright, indirect light for best coloration',
-  'Pinch flower spikes to maintain foliage',
-  'Maintain moderate humidity',
-  'Propagate easily from stem cuttings'
- ],
- commonProblems: [
-  'Fading spots: Needs more bright, indirect light',
-  'Leggy growth: Pinch regularly to maintain compact shape',
-  'Wilting: Usually needs more water or humidity',
-  'Loss of color: Insufficient light or overwatering'
- ]
- },
- {
-  name: 'Aluminum Plant',
-  botanicalName: 'Pilea cadierei',
-  otherNames: ['Watermelon Pilea'],
-  image: PLANT_IMAGES_BASE_URL + '/Aluminum%20Plant.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Small Plants',
+    description: 'Native to the rainforests of Vietnam and China, Aluminum Plant is a compact, bushy foliage plant featuring distinctive quilted leaves with striking metallic silver patches between green veins - resembling brushed aluminum or watermelon rind patterns. Growing 8-12 inches tall, this charming Pilea creates a mounding, spreading form perfect for small pots, terrariums, or as part of mixed plantings. The silvery variegation is actually air pockets beneath the leaf surface that reflect light, creating the metallic appearance. Fast-growing and easy to propagate, it rewards minimal care with attractive foliage and tolerates typical indoor conditions well. Regular pinching keeps it compact and bushy rather than leggy, making it a delightful low-maintenance addition to any plant collection.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '60-75°F (15-24°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Water when top inch of soil feels dry - typically weekly',
+      'Provide bright, indirect light for best silver coloration',
+      'Use well-draining potting mix',
+      'Pinch growing tips regularly every few weeks to encourage bushiness',
+      'Fertilize monthly during growing season with diluted balanced fertilizer',
+      'Rotate plant occasionally for even growth',
+      'Propagate easily from stem cuttings in water or soil',
+      'Trim leggy stems to maintain compact shape'
+    ],
+    commonProblems: [
+      'Leggy, sparse growth: Insufficient light or needs more frequent pinching',
+      'Fading silver markings: Needs brighter light',
+      'Yellow leaves: Usually overwatering - allow to dry more between waterings',
+      'Dropping leaves: Environmental stress, overwatering, or temperature fluctuations',
+      'Brown leaf tips: Low humidity or fluoride in tap water',
+      'Stretching toward light: Natural - rotate regularly and provide brighter conditions'
+    ]
+  },
+  {
+    name: 'Swedish Ivy',
+    botanicalName: 'Plectranthus verticillatus',
+    otherNames: ['Whorled Plectranthus', 'Swedish Begonia'],
+    image: PLANT_IMAGES_BASE_URL + '/Swedish%20Ivy.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Easy' as const,
- category: 'Small Plants',
- description: 'A small plant with distinctive silver markings on green leaves. Easy to care for and perfect for terrariums or small containers.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-75°F (18-24°C)',
- humidity: '40-50%',
- careInstructions: [
-  'Water when top inch of soil feels dry',
-  'Provide bright, indirect light',
-  'Pinch growing tips to encourage bushiness',
-  'Rotate occasionally for even growth',
-  'Easy to propagate from stem cuttings'
- ],
- commonProblems: [
-  'Leggy growth: Pinch regularly and provide adequate light',
-  'Fading silver markings: Needs more bright light',
-  'Yellowing leaves: Usually overwatering',
-  'Dropping leaves: Environmental stress or overwatering'
- ]
- },
- {
-  name: 'Swedish Ivy',
-  botanicalName: 'Plectranthus australis',
-  otherNames: ['Creeping Charlie'],
-  image: PLANT_IMAGES_BASE_URL + '/Swedish%20Ivy.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Low Maintenance',
+    description: 'Despite its common name, Swedish Ivy is neither Swedish nor an ivy - it\'s actually a member of the mint family native to Africa and parts of Asia. This fast-growing, trailing plant features round, scalloped, glossy green leaves (or variegated white and green) on cascading stems that create lush, full growth perfect for hanging baskets or spilling over container edges. The succulent-like stems root easily at nodes, making propagation almost foolproof. Growing vigorously with minimal care, stems can reach 3-4 feet long in a single season. Swedish Ivy tolerates a wide range of conditions, bounces back quickly from neglect, and produces small white or purple flowers when happy. Its forgiving nature, rapid growth, and ease of propagation make it perfect for beginners or anyone wanting instant greenery.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '60-75°F (15-24°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Water when top inch of soil feels dry - typically weekly',
+      'Provide bright, indirect light for best growth and fuller appearance',
+      'Pinch growing tips regularly to encourage bushier, fuller growth',
+      'Extremely easy to propagate in water - roots develop in days',
+      'Fertilize every 2-3 weeks during active growth with balanced fertilizer',
+      'Trim back leggy stems by half to rejuvenate plant',
+      'Can be moved outdoors in summer for vigorous growth',
+      'Very forgiving and resilient - bounces back from neglect'
+    ],
+    commonProblems: [
+      'Leggy, sparse growth: Insufficient light or needs more frequent pinching',
+      'Yellow leaves: Usually overwatering or natural aging of older leaves',
+      'Dropping leaves: Underwatering, environmental stress, or cold drafts',
+      'Slow growth: Needs more light, fertilizer, or warmer temperatures',
+      'Brown edges: Low humidity or inconsistent watering',
+      'Stretching: Natural growth habit - pinch regularly to maintain fullness'
+    ]
+  },
+  {
+    name: 'Arrowhead Plant',
+    botanicalName: 'Syngonium podophyllum',
+    otherNames: ['Goosefoot Plant', 'Nephthytis', 'African Evergreen'],
+    image: PLANT_IMAGES_BASE_URL + '/Arrowhead%20Plant.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Easy' as const,
- category: 'Low Maintenance',
- description: 'A fast-growing trailing plant with round, scalloped leaves. Despite its name, it\'s not an ivy and is much easier to care for.',
- toxicity: 'Non-toxic to pets',
- temperature: '60-75°F (15-24°C)',
- humidity: '40-50%',
- careInstructions: [
-  'Water when top inch of soil feels dry',
-  'Provide bright, indirect light',
-  'Pinch growing tips to encourage bushiness',
-  'Very easy to propagate in water',
-  'Fertilize monthly during growing season'
- ],
- commonProblems: [
-  'Leggy growth: Pinch regularly and provide adequate light',
-  'Yellowing leaves: Usually overwatering or natural aging',
-  'Dropping leaves: Environmental stress or underwatering',
-  'Slow growth: May need more light or nutrients'
- ]
- },
- {
-  name: 'Arrowhead Plant',
-  botanicalName: 'Syngonium podophyllum',
-  otherNames: ['Goosefoot', 'Syngonium'],
-  image: PLANT_IMAGES_BASE_URL + '/Arrowhead%20Plant.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Medium to Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Low Maintenance',
+    description: 'Native to the tropical rainforests of Central and South America, Arrowhead Plant is a versatile, easy-care plant that undergoes a fascinating transformation as it matures. Young plants produce arrow-shaped leaves in various colors - green, white, pink, or burgundy, often with striking variegation. As the plant ages, leaves become more deeply lobed and vine-like, and the plant transitions from bushy to climbing. Most growers keep them pruned for compact, bushy growth, but they can be trained up moss poles to display mature foliage. Growing 3-6 feet indoors depending on training method, Syngonium adapts well to typical home conditions and comes in dozens of stunning varieties, making it popular with collectors seeking colorful, low-maintenance plants.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals',
+    temperature: '60-80°F (15-27°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Water when top 1-2 inches of soil are dry - typically weekly',
+      'Provide medium to bright indirect light - tolerates lower light',
+      'Prune regularly to maintain bushy, compact shape',
+      'Provide moss pole or trellis if you want climbing growth with mature leaves',
+      'Fertilize monthly during growing season with balanced fertilizer',
+      'Propagate easily from stem cuttings',
+      'Wipe leaves occasionally to remove dust',
+      'More light intensifies variegation in colorful varieties'
+    ],
+    commonProblems: [
+      'Yellow leaves: Usually overwatering - allow to dry more between waterings',
+      'Brown leaf tips: Low humidity, fluoride sensitivity, or inconsistent watering',
+      'Leggy growth: Insufficient light or needs regular pruning',
+      'Loss of variegation: Insufficient light - move to brighter location',
+      'Drooping leaves: Underwatering - increase watering frequency',
+      'Spider mites or aphids: Treat with insecticidal soap'
+    ]
+  },
+  {
+    name: 'Wandering Jew',
+    botanicalName: 'Tradescantia zebrina',
+    otherNames: ['Inch Plant', 'Spiderwort', 'Silver Inch Plant'],
+    image: PLANT_IMAGES_BASE_URL + '/Wandering%20Jew.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Medium Light',
- careLevel: 'Easy' as const,
- category: 'Low Maintenance',
- description: 'A versatile plant that changes leaf shape as it matures. Can be grown as a bushy plant or allowed to climb with support.',
- toxicity: 'Toxic to pets if ingested',
- temperature: '65-75°F (18-24°C)',
- humidity: '50-60%',
- careInstructions: [
-  'Water when top inch of soil feels dry',
-  'Provide medium to bright indirect light',
-  'Support climbing growth with moss pole',
-  'Prune to maintain desired shape',
-  'Propagate easily from stem cuttings'
- ],
- commonProblems: [
-  'Yellowing leaves: Usually overwatering',
-  'Brown leaf tips: Low humidity or fluoride sensitivity',
-  'Leggy growth: Needs more light or pruning',
-  'Loss of variegation: May need more bright light'
- ]
- },
- {
-  name: 'Wandering Jew',
-  botanicalName: 'Tradescantia fluminensis',
-  otherNames: ['Inch Plant', 'Spiderwort'],
-  image: PLANT_IMAGES_BASE_URL + '/Wandering%20Jew.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Easy' as const,
- category: 'Low Maintenance',
- description: 'A fast-growing trailing plant with green and white striped leaves. Extremely easy to propagate and perfect for beginners.',
- toxicity: 'Mildly toxic to pets - may cause skin irritation',
- temperature: '65-75°F (18-24°C)',
- humidity: '40-50%',
- careInstructions: [
-  'Keep soil consistently moist but not soggy',
-  'Provide bright light for best variegation',
-  'Pinch regularly to maintain compact growth',
-  'Propagate easily in water or soil',
-  'Trim regularly to prevent legginess'
- ],
- commonProblems: [
-  'Fading variegation: Needs more bright light',
-  'Leggy growth: Pinch regularly and provide adequate light',
-  'Brown tips: Low humidity or fluoride sensitivity',
-  'Overgrowing: Vigorous grower, trim regularly'
- ]
- }
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Low Maintenance',
+    description: 'Native to Mexico, Central America, and South America, Tradescantia zebrina is a fast-growing trailing plant featuring stunning two-toned leaves with silver and green stripes on top and rich purple undersides that create a beautiful color contrast. The succulent-like stems trail rapidly, creating full, colorful displays in hanging baskets or spilling over container edges. Growing vigorously (several inches per week in good conditions), it can quickly fill a space with lush, colorful foliage. Extremely easy to propagate - simply stick cuttings in water or soil and they root within days. While the common name "Wandering Jew" is traditional, many now prefer using the botanical name Tradescantia due to cultural sensitivity. Regardless of name, this is one of the easiest and fastest-growing houseplants available.',
+    toxicity: 'Mildly toxic to pets - can cause skin irritation and stomach upset if ingested',
+    temperature: '60-80°F (15-27°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Keep soil consistently moist but not soggy during active growth',
+      'Provide bright, indirect light for most vibrant coloration and purple undersides',
+      'Pinch growing tips regularly to encourage fuller, bushier growth',
+      'Propagate extremely easily in water or directly in soil',
+      'Fertilize every 2-3 weeks during growing season with balanced fertilizer',
+      'Trim back leggy stems by half to rejuvenate plant',
+      'Bright light intensifies purple coloring on leaf undersides',
+      'Very forgiving and grows vigorously with minimal care'
+    ],
+    commonProblems: [
+      'Fading variegation and purple color: Insufficient light - move to brighter location',
+      'Leggy, sparse growth: Not enough light or needs more frequent pinching',
+      'Brown, crispy leaf tips: Low humidity or fluoride in tap water',
+      'Overgrowing container: Very vigorous grower - trim regularly or repot',
+      'Pale leaves: Needs more light or fertilizer',
+      'Yellow leaves: Usually overwatering or natural aging'
+    ]
+  }
 ];

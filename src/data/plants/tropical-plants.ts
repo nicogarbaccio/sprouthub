@@ -1,229 +1,377 @@
-
 import { Plant } from '../types';
 import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const tropicalPlants: Plant[] = [
- {
-  name: 'Monstera Deliciosa',
-  botanicalName: 'Monstera deliciosa',
-  otherNames: ['Swiss Cheese Plant', 'Split-Leaf Philodendron', 'Fruit Salad Plant'],
-  image: PLANT_IMAGES_BASE_URL + '/Monstera%20Deliciosa.png',
-  wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Tropical Plants'
- },
- {
-  name: 'Bird of Paradise',
-  botanicalName: 'Strelitzia nicolai',
-  otherNames: ['Crane Flower', 'White Bird of Paradise', 'Giant Bird of Paradise'],
-  image: PLANT_IMAGES_BASE_URL + '/Bird%20of%20Paradise.jpg',
-  wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Hard' as const,
- category: 'Tropical Plants'
- },
- {
-  name: 'African Mask',
-  botanicalName: 'Alocasia amazonica',
-  otherNames: ['African Mask Plant', 'Amazonian Elephant\'s Ear', 'Alocasia Polly'],
-  image: PLANT_IMAGES_BASE_URL + '/African%20Mask.jpg',
+  {
+    name: 'Monstera Deliciosa',
+    botanicalName: 'Monstera deliciosa',
+    otherNames: ['Swiss Cheese Plant', 'Split-Leaf Philodendron', 'Fruit Salad Plant', 'Ceriman'],
+    image: PLANT_IMAGES_BASE_URL + '/Monstera%20Deliciosa.png',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Hard' as const,
- category: 'Tropical Plants'
- },
- {
-  name: 'Monstera Adansonii',
-  botanicalName: 'Monstera adansonii',
-  otherNames: ['Swiss Cheese Vine', 'Adanson\'s Monstera', 'Five Holes Plant'],
-  image: PLANT_IMAGES_BASE_URL + '/Monstera%20Adansonii.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Medium to Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Tropical Plants',
+    description: 'Native to the rainforests of Central America, Monstera deliciosa is one of the most iconic and Instagram-famous houseplants, beloved for its massive, glossy leaves with dramatic natural splits (fenestrations) and holes that create a striking Swiss cheese appearance. Young plants start with solid, heart-shaped leaves, developing the characteristic splits and holes as they mature - a fascinating transformation to witness. In nature, this climbing vine uses aerial roots to scale trees up to 70 feet, but indoors it typically reaches 6-8 feet. With proper support like a moss pole, the leaves can grow 2-3 feet across. The name "deliciosa" refers to the edible fruit it produces in tropical conditions (rarely indoors), which tastes like a combination of pineapple and banana. Easy to care for and fast-growing, it brings instant jungle vibes to any space.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals',
+    temperature: '65-85°F (18-29°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Water when top 2-3 inches of soil are dry - typically weekly',
+      'Provide medium to bright indirect light - tolerates lower light but grows slower',
+      'Provide moss pole or trellis for climbing - encourages larger, more fenestrated leaves',
+      'Wipe leaves monthly with damp cloth to remove dust',
+      'Aerial roots are normal and beneficial - don\'t cut them off',
+      'Fertilize monthly during growing season with balanced fertilizer',
+      'Prune to control size or shape - cut just above a node',
+      'Rotate occasionally for even growth'
+    ],
+    commonProblems: [
+      'No leaf holes/splits: Normal for young plants, or needs more light as it matures',
+      'Yellow leaves: Overwatering (most common) or natural aging of older leaves',
+      'Brown leaf tips/edges: Low humidity, underwatering, or fluoride sensitivity',
+      'Leggy growth: Insufficient light - move to brighter location',
+      'Drooping leaves: Underwatering or needs support for climbing',
+      'Brown spots: Overwatering, root rot, or bacterial/fungal infection'
+    ]
+  },
+  {
+    name: 'Bird of Paradise',
+    botanicalName: 'Strelitzia nicolai',
+    otherNames: ['White Bird of Paradise', 'Giant Bird of Paradise', 'Wild Banana'],
+    image: PLANT_IMAGES_BASE_URL + '/Bird%20of%20Paradise.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Tropical Plants'
- },
- {
-  name: 'Dumb Cane',
-  botanicalName: 'Dieffenbachia seguine',
-  otherNames: ['Leopard Lily', 'Mother-in-Law Plant'],
-  image: PLANT_IMAGES_BASE_URL + '/Dumb%20Cane.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect to Direct Light',
+    careLevel: 'Medium' as const,
+    category: 'Tropical Plants',
+    description: 'Native to South Africa, Strelitzia nicolai is a dramatic, architectural plant featuring enormous, paddle-shaped leaves on tall stems that create a bold tropical statement. The leaves are similar to banana leaves and can reach 5-6 feet long, giving any space an instant resort-like atmosphere. Growing 6-10 feet indoors (20-30 feet outdoors), it develops a palm-like appearance despite not being a palm. The name comes from the distinctive white and blue flowers that resemble a bird\'s head (though flowering is rare indoors, requiring years of maturity, bright light, and proper conditions). While not as difficult as its reputation suggests, Bird of Paradise needs space, bright light, and consistent care. It\'s naturally prone to split leaves - this is not damage but an adaptation to withstand wind, adding to its exotic character.',
+    toxicity: 'Toxic to pets if ingested - can cause vomiting and drowsiness',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '50-60%',
+    careInstructions: [
+      'Water when top 2 inches of soil are dry - keep soil consistently moist during growth',
+      'Provide bright, indirect light with some direct sun for best growth',
+      'Minimum 4-6 hours of bright light daily for flowering potential',
+      'Clean large leaves regularly with damp cloth to remove dust',
+      'Fertilize monthly during growing season with balanced fertilizer',
+      'Leaf splits are natural and not a problem - don\'t remove',
+      'Rotate occasionally for even growth on all sides',
+      'Requires ample space - not suitable for small rooms',
+      'Repot every 2-3 years or when severely root-bound'
+    ],
+    commonProblems: [
+      'Split, torn leaves: Natural wind adaptation, not damage - perfectly normal',
+      'Brown, crispy leaf edges: Underwatering, low humidity, or fluoride sensitivity',
+      'Yellow leaves: Overwatering, poor drainage, or natural aging',
+      'Curling leaves: Underwatering or low humidity',
+      'No flowers: Normal indoors - requires maturity (5+ years), intense light, and crowded roots',
+      'Slow growth: Insufficient light or nutrients',
+      'Brown spots: Overwatering causing bacterial or fungal issues'
+    ]
+  },
+  {
+    name: 'African Mask',
+    botanicalName: 'Alocasia x amazonica',
+    otherNames: ['Alocasia Polly', 'Amazonian Elephant\'s Ear', 'Elephant Ear'],
+    image: PLANT_IMAGES_BASE_URL + '/African%20Mask.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Hard' as const,
+    category: 'Tropical Plants',
+    description: 'A hybrid Alocasia (not actually from the Amazon despite the name), African Mask is one of the most striking foliage plants available, featuring dramatic arrow-shaped leaves in deep green with bold white or silvery veining and purple undersides. The glossy, almost plastic-looking leaves emerge tightly rolled and unfurl to reveal their stunning patterns - like living art painted with a brush. Growing 1-2 feet tall, it\'s compact but makes a huge visual impact. However, Alocasias are notoriously finicky and challenging, earning their "hard" reputation honestly. They demand high humidity, consistent moisture, bright indirect light, and stable conditions. They\'re prone to dormancy in winter (losing all leaves), sensitive to changes, and attractive to spider mites. Only for dedicated plant parents willing to meet their exacting tropical needs.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals',
+    temperature: '65-80°F (18-27°C) - no fluctuations',
+    humidity: '60-80% - high humidity essential',
+    careInstructions: [
+      'Keep soil consistently moist but never soggy - water when top inch feels barely dry',
+      'Use distilled or filtered water - very sensitive to tap water chemicals',
+      'Provide bright, indirect light - avoid direct sun which scorches leaves',
+      'Maintain high humidity with humidifier - essential for survival',
+      'Keep away from drafts, AC vents, and heating vents',
+      'Fertilize every 2-3 weeks during active growth with diluted fertilizer',
+      'May go dormant in winter (lose all leaves) - reduce watering but don\'t stop',
+      'Resume normal care when new growth emerges from dormancy',
+      'Wipe leaves gently to remove dust and check for spider mites'
+    ],
+    commonProblems: [
+      'Spider mites: Most common pest - increase humidity, treat immediately',
+      'Brown, crispy leaf edges: Low humidity (most common), underwatering, or tap water',
+      'Yellow leaves: Overwatering, root rot, or dormancy approaching',
+      'Drooping leaves: Underwatering, low humidity, or root rot',
+      'Dormancy (losing all leaves): Natural winter response or stress - keep bulb alive',
+      'No new growth after dormancy: Bulb may have rotted - check for firmness',
+      'Curling leaves: Underwatering or low humidity'
+    ]
+  },
+  {
+    name: 'Monstera Adansonii',
+    botanicalName: 'Monstera adansonii',
+    otherNames: ['Swiss Cheese Vine', 'Adanson\'s Monstera', 'Five Holes Plant', 'Monkey Mask'],
+    image: PLANT_IMAGES_BASE_URL + '/Monstera%20Adansonii.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Medium Light',
- careLevel: 'Easy' as const,
- category: 'Tropical Plants'
- },
- {
-  name: 'Philodendron Brasil',
-  botanicalName: 'Philodendron hederaceum',
-  otherNames: ['Variegated Heartleaf Philodendron'],
-  image: PLANT_IMAGES_BASE_URL + '/Philodendron%20Brasil.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Tropical Plants',
+    description: 'Native to Central and South American rainforests, Monstera adansonii is the delicate, vining cousin of the famous Monstera deliciosa, featuring smaller heart-shaped leaves (4-8 inches) with oblong holes and fenestrations that create intricate, lacy patterns. Unlike its upright relative, this climbing vine naturally trails or climbs with aerial roots, making it perfect for hanging baskets, trellises, or cascading from shelves. The leaves emerge solid and develop holes as they mature, creating beautiful textural interest. Fast-growing and more compact than M. deliciosa, it can quickly fill a space with lush, perforated foliage. Much easier to care for than other tropical plants, it tolerates a range of conditions while still delivering that coveted Swiss cheese leaf aesthetic. Perfect for adding vertical interest or trailing beauty without the space demands of larger Monsteras.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '50-70%',
+    careInstructions: [
+      'Water when top 1-2 inches of soil are dry - typically weekly',
+      'Provide bright, indirect light for best growth and fenestration',
+      'Can tolerate medium light but grows slower with fewer holes',
+      'Provide moss pole or trellis for climbing, or allow to trail',
+      'Aerial roots are normal and help the plant climb',
+      'Fertilize monthly during growing season with diluted balanced fertilizer',
+      'Prune to control length or encourage bushier growth',
+      'Propagates easily from stem cuttings in water',
+      'Higher humidity encourages larger leaves with more fenestrations'
+    ],
+    commonProblems: [
+      'Yellow leaves: Overwatering (most common) or natural aging',
+      'Brown leaf tips: Low humidity, underwatering, or fluoride sensitivity',
+      'Small leaves with few holes: Insufficient light or young plant',
+      'Leggy, sparse growth: Not enough light - move to brighter location',
+      'Root rot: Overwatering or poor drainage',
+      'Drooping leaves: Underwatering or needs support for climbing'
+    ]
+  },
+  {
+    name: 'Dumb Cane',
+    botanicalName: 'Dieffenbachia seguine',
+    otherNames: ['Leopard Lily', 'Mother-in-Law Plant', 'Tuftroot'],
+    image: PLANT_IMAGES_BASE_URL + '/Dumb%20Cane.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Medium Light',
- careLevel: 'Easy' as const,
- category: 'Tropical Plants',
- description: 'A stunning variegated philodendron with heart-shaped leaves featuring bright yellow and green patterns. Fast-growing and easy to care for.',
- toxicity: 'Toxic to pets if ingested',
- temperature: '65-78°F (18-26°C)',
- humidity: '40-60%',
- careInstructions: [
-  'Water when top inch of soil feels dry',
-  'Provide medium to bright indirect light',
-  'Wipe leaves clean regularly',
-  'Provide climbing support for best growth',
-  'Propagate easily in water'
- ],
- commonProblems: [
-  'Loss of variegation: Needs more bright light',
-  'Yellowing leaves: Usually overwatering',
-  'Leggy growth: Needs more light or pruning',
-  'Brown leaf tips: Low humidity or fluoride sensitivity'
- ]
- },
- {
-  name: 'Kentia Palm',
-  botanicalName: 'Howea forsteriana',
-  otherNames: ['Thatch Palm', 'Sentry Palm', 'Paradise Palm'],
-  image: PLANT_IMAGES_BASE_URL + '/Kentia%20Palm.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Medium to Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Tropical Plants',
+    description: 'Native to the tropical rainforests of Central and South America, Dieffenbachia is a popular, easy-care foliage plant featuring large, oval leaves dramatically painted with patterns of cream, white, yellow, and green - each variety with unique variegation. Growing 3-5 feet tall with a bushy, upright form, it creates a bold tropical presence. The common name "Dumb Cane" comes from the extremely toxic sap that causes temporary speechlessness and throat swelling if ingested - this is a serious safety concern around children and pets. Despite this danger, it\'s beloved for tolerating low light, irregular watering, and typical indoor conditions better than most tropical plants. Fast-growing and forgiving, it\'s perfect for filling spaces with lush foliage, though the toxicity requires careful placement and handling.',
+    toxicity: 'HIGHLY toxic to pets, humans, and children - causes severe mouth/throat swelling and temporary inability to speak',
+    temperature: '65-75°F (18-24°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Water when top 1-2 inches of soil are dry - typically weekly',
+      'Tolerates medium light but grows better in bright, indirect light',
+      'Keep away from children and pets - extremely dangerous if ingested',
+      'Wear gloves when pruning - sap causes skin and eye irritation',
+      'Wipe leaves monthly to maintain variegation and remove dust',
+      'Fertilize monthly during growing season with balanced fertilizer',
+      'Prune leggy stems to encourage bushier growth - dispose of cuttings safely',
+      'Remove lower yellow leaves as part of natural growth'
+    ],
+    commonProblems: [
+      'Yellow leaves: Overwatering (most common), cold drafts, or natural aging',
+      'Brown leaf edges: Underwatering, low humidity, or fluoride sensitivity',
+      'Loss of variegation: Insufficient light - move to brighter location',
+      'Leggy growth: Not enough light or needs pruning',
+      'Drooping leaves: Underwatering or root rot from overwatering',
+      'Spider mites: Common in dry conditions - increase humidity and treat'
+    ]
+  },
+  {
+    name: 'Philodendron Brasil',
+    botanicalName: 'Philodendron hederaceum \'Brasil\'',
+    otherNames: ['Brasil Philodendron', 'Variegated Heartleaf Philodendron'],
+    image: PLANT_IMAGES_BASE_URL + '/Philodendron%20Brasil.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Medium Light',
- careLevel: 'Easy' as const,
- category: 'Tropical Plants',
- description: 'An elegant palm with arching fronds that adds a tropical feel to any space. Very tolerant of indoor conditions and low light.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-80°F (18-27°C)',
- humidity: '40-50%',
- careInstructions: [
-  'Water when top inch of soil is dry',
-  'Provide medium to bright indirect light',
-  'Clean fronds with damp cloth monthly',
-  'Rotate occasionally for even growth',
-  'Fertilize monthly during growing season'
- ],
- commonProblems: [
-  'Brown frond tips: Low humidity or over-fertilizing',
-  'Yellow fronds: Natural aging or overwatering',
-  'Scale insects: Common pest, treat promptly',
-  'Slow growth: Normal for this species'
- ]
- },
- {
-  name: 'Banana Plant',
-  botanicalName: 'Musa acuminata',
-  otherNames: ['Dwarf Banana', 'Edible Banana'],
-  image: PLANT_IMAGES_BASE_URL + '/Banana%20Plant.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Medium to Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Tropical Plants',
+    description: 'A stunning variegated cultivar of the classic Heartleaf Philodendron, Brasil features heart-shaped leaves painted with vibrant chartreuse yellow or lime green splashes against dark green - like someone brushed bright paint across each leaf. This fast-growing trailing or climbing vine can reach 10-20 feet, creating lush displays cascading from hanging baskets, shelves, or climbing up moss poles. The variegation is stable but needs adequate light to maintain the bright coloring. Even easier to care for than its already-forgiving parent species, Brasil tolerates a wide range of conditions including lower light (though variegation fades). It propagates effortlessly in water, grows vigorously, and brings cheerful color without the maintenance demands of fussier variegated plants. Perfect for beginners wanting colorful, fast-growing foliage.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Water when top 1-2 inches of soil are dry - typically weekly',
+      'Provide bright, indirect light to maintain vibrant yellow variegation',
+      'Can tolerate medium light but colors will fade to more green',
+      'Wipe leaves regularly to remove dust and showcase variegation',
+      'Provide moss pole or trellis for climbing, or allow to trail',
+      'Fertilize monthly during growing season with balanced fertilizer',
+      'Prune to encourage bushier growth or control length',
+      'Propagates extremely easily from stem cuttings in water'
+    ],
+    commonProblems: [
+      'Loss of yellow variegation: Insufficient light - move to brighter location',
+      'All-green leaves: Reversion - prune completely green sections to maintain variegation',
+      'Yellow leaves: Overwatering (most common) or natural aging',
+      'Brown leaf tips: Low humidity, underwatering, or fluoride sensitivity',
+      'Leggy growth: Insufficient light or needs regular pruning',
+      'Root rot: Overwatering or poor drainage'
+    ]
+  },
+  {
+    name: 'Kentia Palm',
+    botanicalName: 'Howea forsteriana',
+    otherNames: ['Thatch Palm', 'Paradise Palm', 'Sentry Palm'],
+    image: PLANT_IMAGES_BASE_URL + '/Kentia%20Palm.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 5,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Hard' as const,
- category: 'Tropical Plants',
- description: 'A dramatic tropical plant with large paddle-shaped leaves. Can produce small bananas indoors with proper care and sufficient light.',
- toxicity: 'Non-toxic to pets',
- temperature: '75-85°F (24-29°C)',
- humidity: '60-70%',
- careInstructions: [
-  'Keep soil consistently moist but not waterlogged',
-  'Provide maximum bright light (6+ hours)',
-  'Maintain high humidity with humidifier',
-  'Fertilize regularly during growing season',
-  'Remove damaged leaves promptly'
- ],
- commonProblems: [
-  'Brown leaf edges: Low humidity or fluoride sensitivity',
-  'Yellowing leaves: Natural aging or inconsistent watering',
-  'Pest issues: Spider mites in low humidity',
-  'Slow growth: Needs more light, heat, or nutrients'
- ]
- },
- {
-  name: 'Croton',
-  botanicalName: 'Codiaeum variegatum',
-  otherNames: ['Garden Croton', 'Variegated Croton', 'Joseph\'s Coat'],
-  image: PLANT_IMAGES_BASE_URL + '/Croton.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Low to Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Tropical Plants',
+    description: 'Native exclusively to Lord Howe Island off the coast of Australia, Kentia Palm is the ultimate elegant, low-maintenance palm featuring gracefully arching, dark green fronds that create a refined tropical ambiance. Growing slowly to 6-10 feet indoors (60 feet in nature), it develops a slender trunk with a feathery crown of pinnate leaves. Unlike most palms, Kentia tolerates low light remarkably well - it was a Victorian parlor favorite for this very reason. It also handles dry air, irregular watering, and typical indoor conditions with grace. Slow-growing means low-maintenance and minimal pruning. Its tolerance, elegance, and air-purifying qualities make it the gold standard for indoor palms and a favorite for offices, hotels, and homes seeking sophisticated tropical beauty without demanding care.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-75°F (18-24°C)',
+    humidity: '40-50%',
+    careInstructions: [
+      'Water when top 2 inches of soil are dry - typically weekly',
+      'Allow to dry slightly more between waterings in winter',
+      'Thrives in low to bright indirect light - extremely adaptable',
+      'Avoid direct sun which can scorch fronds',
+      'Clean fronds monthly with damp cloth to remove dust',
+      'Fertilize every 2-3 months during growing season with palm fertilizer',
+      'Trim only brown or dead fronds - never cut green growth',
+      'Very slow-growing - patience required but minimal pruning needed',
+      'Rotate occasionally for even growth on all sides'
+    ],
+    commonProblems: [
+      'Brown frond tips: Fluoride or salt buildup (most common), underwatering, or low humidity',
+      'Yellow fronds: Overwatering, poor drainage, or natural aging of lower fronds',
+      'Brown spots on fronds: Overwatering, fungal disease, or cold damage',
+      'Spider mites or scale: Occasionally problematic - treat promptly',
+      'Slow or no growth: Completely normal - Kentia Palms are naturally slow-growing',
+      'Lower fronds dying: Natural aging - trim at base when completely brown'
+    ]
+  },
+  {
+    name: 'Banana Plant',
+    botanicalName: 'Musa acuminata',
+    otherNames: ['Dwarf Banana', 'Dwarf Cavendish', 'Edible Banana'],
+    image: PLANT_IMAGES_BASE_URL + '/Banana%20Plant.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Hard' as const,
+    category: 'Tropical Plants',
+    description: 'Native to Southeast Asia, the dwarf banana plant is a dramatic tropical specimen featuring enormous, paddle-shaped leaves that can reach 2-3 feet long and emerge from a thick pseudostem (not a true woody trunk but tightly wrapped leaf sheaths). Growing 4-6 feet indoors, it creates instant jungle drama and exotic appeal. While called "dwarf," it\'s still substantial. With exceptional care - bright light, warmth, high humidity, consistent moisture, and heavy feeding - mature plants (3+ years) can produce small, edible bananas indoors, though flowering and fruiting are rare and challenging. The large leaves tear easily and brown at edges even with good care - this is natural. Demanding and space-consuming, it\'s for dedicated tropical plant enthusiasts with bright, warm spaces who want the ultimate tropical statement.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '75-85°F (24-29°C) - prefers warm conditions',
+    humidity: '60-80% - high humidity essential',
+    careInstructions: [
+      'Keep soil consistently moist but not waterlogged - water when top inch feels barely dry',
+      'In active growth, may need watering every 2-3 days',
+      'Provide maximum bright light - 6+ hours of direct or very bright indirect',
+      'Maintain high humidity with humidifier - essential for healthy growth',
+      'Fertilize every 1-2 weeks during growing season with high-potassium fertilizer',
+      'Remove damaged or brown leaves promptly - tearing is normal',
+      'Provide warm temperatures - cold stunts growth and causes damage',
+      'Repot annually in spring - very fast-growing and heavy feeder'
+    ],
+    commonProblems: [
+      'Brown, torn leaf edges: Natural from large leaves - not preventable even with good care',
+      'Yellow leaves: Natural aging of older leaves, or inconsistent watering',
+      'Spider mites: Common in low humidity - increase humidity and treat immediately',
+      'Slow growth: Insufficient light, temperature, humidity, or nutrients',
+      'No fruit: Normal indoors - requires maturity, perfect conditions, and pollination',
+      'Brown spots: Overwatering, fungal disease, or cold damage'
+    ]
+  },
+  {
+    name: 'Croton',
+    botanicalName: 'Codiaeum variegatum',
+    otherNames: ['Garden Croton', 'Variegated Croton', 'Joseph\'s Coat', 'Fire Croton'],
+    image: PLANT_IMAGES_BASE_URL + '/Croton.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Medium' as const,
- category: 'Tropical Plants',
- description: 'A colorful tropical plant with vibrant, multicolored leaves. Crotons need bright light to maintain their stunning foliage colors.',
- toxicity: 'Toxic to pets and children if ingested',
- temperature: '70-80°F (21-27°C)',
- humidity: '50-60%',
- careInstructions: [
-  'Keep soil consistently moist but well-draining',
-  'Provide bright, direct light for best colors',
-  'Maintain high humidity around the plant',
-  'Avoid cold drafts and temperature fluctuations',
-  'Fertilize monthly during growing season'
- ],
- commonProblems: [
-  'Leaf drop: Usually from stress or sudden environmental changes',
-  'Fading colors: Needs more bright, direct light',
-  'Spider mites: Common in low humidity conditions',
-  'Brown leaf tips: Low humidity or fluoride sensitivity'
- ]
- },
- {
-  name: 'Philodendron Pink Princess',
-  botanicalName: 'Philodendron erubescens',
-  otherNames: ['Blushing Philodendron', 'Red-leaf Philodendron'],
-  image: PLANT_IMAGES_BASE_URL + '/Philodendron%20Pink%20Princess.jpg',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Medium' as const,
+    category: 'Tropical Plants',
+    description: 'Native to Indonesia, Malaysia, and Pacific islands, Croton is one of the most colorful foliage plants available, featuring thick, leathery leaves in stunning combinations of red, orange, yellow, pink, green, and even purple - often with multiple colors swirling within a single leaf like an artist\'s palette. Leaf shapes vary from narrow and linear to broad and lobed. Growing 3-6 feet indoors (10+ feet outdoors), it creates a bold, tropical statement. However, the spectacular colors come with demands: Croton requires bright, direct light to maintain vibrant coloring (colors fade dramatically in shade), consistent moisture, warmth, and stable conditions. It\'s notoriously dramatic about changes, dropping leaves at the slightest provocation. For those who can provide bright light and consistency, it\'s a stunning showpiece.',
+    toxicity: 'Toxic to pets and humans if ingested - milky sap causes irritation',
+    temperature: '60-85°F (15-29°C) - prefers warmth, avoid cold',
+    humidity: '50-70%',
+    careInstructions: [
+      'Keep soil consistently moist but not soggy during active growth',
+      'Water when top inch feels dry - typically weekly',
+      'Provide bright, direct light (6+ hours) for vivid colors - essential',
+      'Colors fade dramatically in insufficient light - sun is critical',
+      'Maintain moderate to high humidity - mist regularly or use humidifier',
+      'Avoid cold drafts, temperature fluctuations, and moving the plant',
+      'Fertilize every 2-3 weeks during growing season with balanced fertilizer',
+      'Wipe leaves to remove dust and check for spider mites'
+    ],
+    commonProblems: [
+      'Leaf drop: Environmental stress, moving plant, cold, drafts, or watering changes',
+      'Fading colors: Insufficient light - needs bright, direct sun',
+      'Spider mites: Very common, especially in low humidity - treat aggressively',
+      'Brown leaf tips: Low humidity, underwatering, or fluoride sensitivity',
+      'Leggy growth: Not enough light - provide maximum sun',
+      'Yellow leaves: Overwatering, underwatering, or temperature stress'
+    ]
+  },
+  {
+    name: 'Philodendron Pink Princess',
+    botanicalName: 'Philodendron erubescens \'Pink Princess\'',
+    otherNames: ['Pink Princess Philodendron', 'PPP'],
+    image: PLANT_IMAGES_BASE_URL + '/Philodendron%20Pink%20Princess.jpg',
     wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Tropical Plants',
- description: 'A rare and coveted philodendron with dark green leaves splashed with pink variegation. The pink coloring is unpredictable and highly prized.',
- toxicity: 'Toxic to pets if ingested',
- temperature: '65-80°F (18-27°C)',
- humidity: '50-60%',
- careInstructions: [
-  'Water when top inch of soil feels dry',
-  'Provide bright, indirect light for pink coloration',
-  'Support climbing growth with moss pole',
-  'Prune all-green growth to maintain variegation',
-  'Maintain consistent humidity'
- ],
- commonProblems: [
-  'Loss of pink: May revert, prune green sections',
-  'Yellowing leaves: Usually overwatering',
-  'Brown leaf tips: Low humidity or fluoride sensitivity',
-  'Slow growth: Normal for variegated plants'
- ]
- },
- {
-  name: 'Elephant Ear',
-  botanicalName: 'Alocasia macrorrhiza',
-  otherNames: ['Giant Tarot', 'Giant Alocasia'],
-  image: PLANT_IMAGES_BASE_URL + '/Elephant%20Ear.jpg',
-    wateringFrequency: 'Weekly',
- suggestedWateringDays: 7,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Hard' as const,
- category: 'Tropical Plants',
- description: 'A dramatic plant with enormous arrow-shaped leaves that can grow several feet long. Creates a bold tropical statement indoors.',
- toxicity: 'Toxic to pets and children if ingested',
- temperature: '65-80°F (18-27°C)',
- humidity: '60-70%',
- careInstructions: [
-  'Keep soil consistently moist but well-draining',
-  'Provide bright, indirect light',
-  'Maintain high humidity with humidifier',
-  'Clean large leaves regularly',
-  'Allow dormancy period in winter'
- ],
- commonProblems: [
-  'Brown leaf edges: Low humidity or fluoride sensitivity',
-  'Yellowing leaves: Natural aging or dormancy',
-  'Drooping leaves: Usually underwatering or low humidity',
-  'Pest issues: Watch for spider mites and aphids'
- ]
- }
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Tropical Plants',
+    description: 'A highly coveted cultivar of Philodendron erubescens, Pink Princess features dark green to nearly black leaves dramatically splashed with bubblegum pink variegation that ranges from small spots to half-pink leaves. The pink is caused by a lack of chlorophyll, making each leaf unique and unpredictable. The burgundy stems add to the dramatic coloring. Growing as a climbing vine to 4-6 feet indoors, it creates a stunning, Instagram-worthy display. However, the pink variegation is unstable - plants can produce all-green or all-pink (non-viable) leaves that must be pruned. High demand and slow propagation have made it expensive. While not extremely difficult, maintaining the pink variegation requires proper light, and the plant\'s unpredictable nature means patience and acceptance that not every leaf will be perfectly pink.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '50-70%',
+    careInstructions: [
+      'Water when top 1-2 inches of soil are dry - typically weekly',
+      'Provide bright, indirect light for best pink variegation',
+      'Too much light bleaches leaves, too little reduces pink',
+      'Provide moss pole or trellis to encourage climbing and larger leaves',
+      'Prune all-green stems immediately to prevent reversion',
+      'Prune all-pink (no green) leaves as they can\'t photosynthesize',
+      'Fertilize monthly during growing season with diluted balanced fertilizer',
+      'Maintain moderate to high humidity for best growth',
+      'Be patient - variegation is unpredictable and inconsistent'
+    ],
+    commonProblems: [
+      'Loss of pink (reverting to green): Prune all-green growth immediately',
+      'All-pink leaves: Cannot survive without chlorophyll - prune these too',
+      'Yellow leaves: Overwatering most common, or natural aging',
+      'Brown leaf tips: Low humidity, underwatering, or fluoride sensitivity',
+      'Inconsistent variegation: Normal and expected - nature of this cultivar',
+      'Slow growth: Normal for highly variegated plants with less chlorophyll'
+    ]
+  },
+  {
+    name: 'Elephant Ear',
+    botanicalName: 'Alocasia macrorrhiza',
+    otherNames: ['Giant Taro', 'Giant Alocasia', "Giant Elephant's Ear"],
+    image: PLANT_IMAGES_BASE_URL + '/Elephant%20Ear.jpg',
+    wateringFrequency: 'Twice weekly',
+    suggestedWateringDays: 3,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Hard' as const,
+    category: 'Tropical Plants',
+    description: 'Native to Southeast Asia and the Pacific, Alocasia macrorrhiza is the largest Alocasia species, producing absolutely enormous, glossy arrow-shaped leaves that can grow 3-6 feet long - truly earning the "elephant ear" name. The massive leaves emerge from thick stems in an upright, architectural form that commands attention and creates instant tropical drama. Growing 6-8 feet tall indoors (15+ feet outdoors), it needs substantial space. Like other Alocasias, it\'s notoriously challenging, demanding high humidity, consistent moisture, bright light, and stable conditions. It may go dormant in winter, losing all leaves and retreating to its corm. The giant leaves make a spectacular statement but require serious commitment to tropical conditions, space, and the acceptance that perfection is difficult with such massive, delicate foliage.',
+    toxicity: 'Toxic to pets, humans, and children if ingested - contains calcium oxalate crystals',
+    temperature: '65-80°F (18-27°C) - no fluctuations',
+    humidity: '60-80% - high humidity essential',
+    careInstructions: [
+      'Keep soil consistently moist but not waterlogged during active growth',
+      'Use filtered or distilled water - sensitive to tap water chemicals',
+      'Provide bright, indirect light - never direct sun which scorches',
+      'Maintain high humidity with humidifier - absolutely essential',
+      'Clean large leaves regularly with damp cloth',
+      'Fertilize every 2-3 weeks during active growth with diluted fertilizer',
+      'May go dormant in winter (lose all leaves) - reduce but don\'t stop watering',
+      'Resume normal care when new growth emerges in spring',
+      'Provide ample space - leaves are enormous'
+    ],
+    commonProblems: [
+      'Brown, crispy leaf edges: Low humidity (most common), underwatering, or tap water',
+      'Yellow leaves: Overwatering, root rot, or approaching dormancy',
+      'Drooping leaves: Underwatering, low humidity, or root issues',
+      'Spider mites: Common in low humidity - increase humidity immediately and treat',
+      'Winter dormancy (losing all leaves): Natural response - keep corm alive with minimal water',
+      'No growth after dormancy: Corm may have rotted - should be firm',
+      'Torn or damaged leaves: Natural with such large leaves - minimize handling'
+    ]
+  }
 ];

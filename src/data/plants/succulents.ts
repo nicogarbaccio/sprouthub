@@ -1,296 +1,467 @@
-
 import { Plant } from '../types';
 import { PLANT_IMAGES_BASE_URL } from '@/constants/supabase';
 
 export const succulents: Plant[] = [
- {
-  name: 'Snake Plant',
-  botanicalName: 'Sansevieria trifasciata',
-  otherNames: ['Mother-in-Law\'s Tongue', 'Viper\'s Bowstring Hemp', 'Saint George\'s Sword'],
-  image: PLANT_IMAGES_BASE_URL + '/Snake%20Plant.jpg',
-  wateringFrequency: 'Monthly',
- suggestedWateringDays: 30,
- lightRequirement: 'Low Light',
- careLevel: 'Easy' as const,
- category: 'Succulents'
- },
- {
-  name: 'Aloe Vera',
-  botanicalName: 'Aloe barbadensis',
-  otherNames: ['Chinese Aloe', 'True Aloe', 'Burn Plant'],
-  image: PLANT_IMAGES_BASE_URL + '/Aloe%20Vera.jpg',
-  wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Succulents'
- },
- {
-  name: 'Jade Plant',
-  botanicalName: 'Crassula ovata',
-  otherNames: ['Lucky Plant', 'Money Plant', 'Money Tree'],
-  image: PLANT_IMAGES_BASE_URL + '/Jade%20Plant.jpg',
-    wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Succulents'
- },
- {
-  name: 'Echeveria',
-  botanicalName: 'Echeveria elegans',
-  otherNames: ['Mexican Snowball', 'Mexican Gem', 'White Mexican Rose'],
-  image: PLANT_IMAGES_BASE_URL + '/Echeveria.jpg',
-    wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Succulents'
- },
- {
-  name: 'String of Pearls',
-  botanicalName: 'Senecio rowleyanus',
-  otherNames: ['String of Beads'],
-  image: PLANT_IMAGES_BASE_URL + '/String%20of%20Pearls.jpg',
-    wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Medium' as const,
- category: 'Succulents'
- },
- {
-  name: 'Crystal Succulent',
-  botanicalName: 'Haworthia cooperi',
-  otherNames: ['Cooper\'s Haworthia', 'Window Haworthia', 'Pussy Foot'],
-  image: PLANT_IMAGES_BASE_URL + '/Crystal%20Succulent.jpg',
-    wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Easy' as const,
- category: 'Succulents'
- },
- {
-  name: 'Barrel Cactus',
-  botanicalName: 'Ferocactus wislizeni',
-  otherNames: ['Fishhook Barrel Cactus', 'Candy Barrel Cactus', 'Compass Barrel Cactus'],
-  image: PLANT_IMAGES_BASE_URL + '/Barrel%20Cactus.jpg',
-    wateringFrequency: 'Monthly',
- suggestedWateringDays: 30,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Succulents',
- description: 'A classic desert cactus with a distinctive barrel shape and prominent spines. Very drought tolerant and perfect for sunny windowsills.',
- toxicity: 'Non-toxic but has sharp spines',
- temperature: '70-80°F (21-27°C)',
- humidity: '10-30%',
- careInstructions: [
-  'Water deeply but infrequently',
-  'Ensure excellent drainage',
-  'Provide maximum sunlight',
-  'Avoid watering in winter',
-  'Use cactus-specific potting mix'
- ],
- commonProblems: [
-  'Root rot: Usually from overwatering',
-  'Soft/mushy sections: Sign of rot, needs immediate attention',
-  'Lack of growth: May need more light or nutrients',
-  'Pests: Watch for mealybugs and scale'
- ]
- },
- {
-  name: 'Lithops',
-  botanicalName: 'Lithops species',
-  otherNames: ['Living Stones', 'Flowering Stones', 'Pebble Plants'],
-  image: PLANT_IMAGES_BASE_URL + '/Lithops.jpg',
-    wateringFrequency: 'Monthly',
- suggestedWateringDays: 45,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Hard' as const,
- category: 'Succulents',
- description: 'Known as Living Stones, these fascinating succulents mimic rocks in their natural habitat. They require very specific care and watering schedules.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-80°F (18-27°C)',
- humidity: '10-30%',
- careInstructions: [
-  'Water only during active growing season',
-  'Stop watering when splitting begins',
-  'Provide maximum direct sunlight',
-  'Use very well-draining mineral soil',
-  'Never water during dormancy'
- ],
- commonProblems: [
-  'Overwatering: Most common cause of death',
-  'Stretching: Insufficient light',
-  'Not splitting: Natural cycle, be patient',
-  'Soft plants: Usually from too much water'
- ]
- },
- {
-  name: 'Prickly Pear Cactus',
-  botanicalName: 'Opuntia microdasys',
-  otherNames: ['Bunny Ears Cactus', 'Polka-Dot Cactus', 'Angel\'s Wings'],
-  image: PLANT_IMAGES_BASE_URL + '/Prickly%20Pear%20Cactus.jpg',
-    wateringFrequency: 'Monthly',
- suggestedWateringDays: 30,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Succulents',
- description: 'A charming paddle-shaped cactus with fuzzy spines. Easy to care for and produces beautiful yellow flowers when mature.',
- toxicity: 'Non-toxic but has irritating glochids (tiny spines)',
- temperature: '70-80°F (21-27°C)',
- humidity: '10-30%',
- careInstructions: [
-  'Water sparingly, especially in winter',
-  'Provide maximum direct sunlight',
-  'Use cactus potting mix with excellent drainage',
-  'Handle with thick gloves to avoid glochids',
-  'Allow soil to dry completely between waterings'
- ],
- commonProblems: [
-  'Overwatering: Can cause root rot quickly',
-  'Soft pads: Usually sign of overwatering',
-  'Glochid irritation: Use tweezers to remove spines from skin',
-  'Slow growth: Normal for cacti, be patient'
- ]
- },
- {
-  name: 'Zebra Plant',
-  botanicalName: 'Haworthia fasciata',
-  otherNames: ['Zebra Cactus', 'Zebra Haworthia'],
-  image: PLANT_IMAGES_BASE_URL + '/Zebra%20Plant.jpg',
-    wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Indirect Light',
- careLevel: 'Easy' as const,
- category: 'Succulents',
- description: 'A small succulent with distinctive white stripes on dark green leaves. Perfect for beginners and produces small white flowers.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-80°F (18-27°C)',
- humidity: '30-40%',
- careInstructions: [
-  'Water when soil is dry to touch',
-  'Provide bright, indirect light',
-  'Use well-draining succulent soil',
-  'Remove flower stalks after blooming',
-  'Propagate from offsets'
- ],
- commonProblems: [
-  'Root rot: From overwatering',
-  'Stretching: Needs more light',
-  'Brown tips: Usually low humidity or poor water quality',
-  'Slow growth: Normal for small succulents'
- ]
- },
- {
-  name: 'Paddle Plant',
-  botanicalName: 'Kalanchoe thyrsiflora',
-  otherNames: ['Flapjack Plant', 'Desert Cabbage', 'White Lady'],
-  image: PLANT_IMAGES_BASE_URL + '/Paddle%20Plant.jpg',
-    wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Succulents',
- description: 'A striking succulent with large, flat, paddle-shaped leaves that develop red edges in bright light. Also called Flapjack Plant.',
- toxicity: 'Toxic to pets if ingested',
- temperature: '65-75°F (18-24°C)',
- humidity: '30-40%',
- careInstructions: [
-  'Water when soil is completely dry',
-  'Provide bright, direct sunlight for red coloring',
-  'Use well-draining succulent mix',
-  'Remove flower stalk to preserve plant energy',
-  'Propagate from leaf cuttings'
- ],
- commonProblems: [
-  'Green color (no red): Needs more direct sunlight',
-  'Overwatering: Can cause root rot',
-  'Stretching: Insufficient light',
-  'Dying after flowering: Natural lifecycle, propagate before'
- ]
- },
- {
-  name: 'String of Buttons',
-  botanicalName: 'Crassula perforata',
-  otherNames: ['Necklace Vine', 'Pagoda Plant'],
-  image: PLANT_IMAGES_BASE_URL + '/String%20of%20Buttons.jpg',
-    wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Succulents',
- description: 'An unusual succulent where triangular leaves appear to be threaded on the stem like buttons. Forms interesting geometric patterns.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-75°F (18-24°C)',
- humidity: '30-40%',
- careInstructions: [
-  'Water thoroughly when soil is dry',
-  'Provide bright, direct light',
-  'Use well-draining succulent soil',
-  'Pinch growing tips to encourage branching',
-  'Easy to propagate from stem cuttings'
- ],
- commonProblems: [
-  'Stretching: Needs more bright light',
-  'Overwatering: Watch for soft, mushy stems',
-  'Leggy growth: Pinch tips regularly',
-  'Slow growth: Normal for this species'
- ]
- },
-   {
-   name: 'Aloe Aristata',
-      botanicalName: 'Aloe aristata',
-      otherNames: ['Lace Aloe', 'Torch Plant', 'Guinea-fowl Aloe'],
-      image: PLANT_IMAGES_BASE_URL + '/Aloe%20Aristata.jpg',
-      wateringFrequency: 'Bi-weekly',
-   suggestedWateringDays: 14,
-   lightRequirement: 'Bright Indirect Light',
-   careLevel: 'Easy' as const,
-   category: 'Succulents',
-   description: 'A compact aloe with distinctive white spots and soft spines. Perfect for small spaces and produces attractive flower spikes.',
-   toxicity: 'Mildly toxic to pets',
-   temperature: '65-80°F (18-27°C)',
-   humidity: '30-40%',
-   careInstructions: [
-    'Water deeply but infrequently',
-    'Provide bright, indirect light',
-    'Use well-draining succulent soil',
-    'Allow soil to dry completely between waterings',
-    'Remove flower stalks after blooming'
-   ],
-   commonProblems: [
-    'Root rot: Most common from overwatering',
-    'Stretching: Needs more bright light',
-    'Brown tips: Usually from low humidity',
-    'Slow growth: Normal for small aloes'
-   ]
-   },
- {
-  name: 'Ghost Plant',
-  botanicalName: 'Graptopetalum paraguayense',
-  otherNames: ['Mother-of-Pearl Plant'],
-  image: PLANT_IMAGES_BASE_URL + '/Ghost%20Plant.jpg',
-    wateringFrequency: 'Bi-weekly',
- suggestedWateringDays: 14,
- lightRequirement: 'Bright Direct Light',
- careLevel: 'Easy' as const,
- category: 'Succulents',
- description: 'A beautiful rosette succulent with silvery-blue leaves that take on pink hues in bright light. Very hardy and produces many offsets.',
- toxicity: 'Non-toxic to pets',
- temperature: '65-80°F (18-27°C)',
- humidity: '30-40%',
- careInstructions: [
-  'Water when soil is completely dry',
-  'Provide bright light for best coloration',
-  'Use well-draining succulent mix',
-  'Remove offsets to propagate',
-  'Protect from extreme heat'
- ],
- commonProblems: [
-  'Loss of color: Needs more bright light',
-  'Overwatering: Can cause root rot',
-  'Stretching: Insufficient light',
-  'Pest issues: Watch for mealybugs'
- ]
- }
+  {
+    name: 'Snake Plant',
+    botanicalName: 'Dracaena trifasciata',
+    otherNames: ['Mother-in-Law\'s Tongue', 'Viper\'s Bowstring Hemp', 'Saint George\'s Sword', 'Sansevieria'],
+    image: PLANT_IMAGES_BASE_URL + '/Snake%20Plant.jpg',
+    wateringFrequency: 'Every 2-3 weeks',
+    suggestedWateringDays: 21,
+    lightRequirement: 'Low to Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Succulents',
+    description: 'Native to West Africa, Snake Plant is legendary as one of the most indestructible houseplants available, tolerating extreme neglect, low light, irregular watering, and poor conditions that would kill most plants. The architectural sword-shaped leaves grow upright in rosettes, featuring striking patterns of dark green with lighter green horizontal bands - like snake skin markings. Varieties range from compact 6-inch types to tall 4-foot specimens. The thick, succulent leaves store water, allowing it to survive weeks or even months without watering. NASA studies have shown it\'s one of the best air purifiers, removing toxins and uniquely producing oxygen at night. Its combination of stunning sculptural form, extreme hardiness, and air-cleaning abilities makes it the ultimate plant for beginners, busy people, low-light spaces, or anyone who\'s ever said "I kill every plant I touch."',
+    toxicity: 'Toxic to pets if ingested - contains saponins',
+    temperature: '55-85°F (13-29°C) - extremely temperature tolerant',
+    humidity: '30-50% - tolerates very dry air',
+    careInstructions: [
+      'Water only when soil is completely dry - every 2-4 weeks typically',
+      'In winter, water even less frequently (monthly or less)',
+      'Thrives in low to bright indirect light - one of best low-light plants',
+      'Use well-draining potting mix or add sand/perlite to regular soil',
+      'Wipe leaves monthly with damp cloth to remove dust',
+      'Fertilize only 2-3 times per year during growing season',
+      'Extremely drought tolerant - underwatering far better than overwatering',
+      'Can survive in dark corners, offices, and with minimal care'
+    ],
+    commonProblems: [
+      'Root rot: Overwatering is the only real way to kill this plant',
+      'Soft, mushy leaves: Severe overwatering and rot - usually fatal',
+      'Wrinkled, shriveled leaves: Severe underwatering - water thoroughly',
+      'Brown tips: Natural aging or fluoride sensitivity',
+      'Falling over: Overwatering causing root rot, or pot too small for height',
+      'Slow/no growth: Completely normal - Snake Plants are slow growers'
+    ]
+  },
+  {
+    name: 'Aloe Vera',
+    botanicalName: 'Aloe barbadensis miller',
+    otherNames: ['True Aloe', 'Medicinal Aloe', 'Burn Plant', 'First Aid Plant'],
+    image: PLANT_IMAGES_BASE_URL + '/Aloe%20Vera.jpg',
+    wateringFrequency: 'Every 2-3 weeks',
+    suggestedWateringDays: 14,
+    lightRequirement: 'Bright Indirect to Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Succulents',
+    description: 'Native to the Arabian Peninsula but now cultivated worldwide, Aloe Vera is a medicinal succulent prized for over 6,000 years for the soothing gel inside its thick, fleshy leaves that treats burns, cuts, and skin irritations. The plant forms rosettes of upright, lance-shaped, gray-green leaves with serrated edges, growing 12-24 inches tall and producing numerous offsets (pups) that create clusters. Mature plants send up tall spikes with tubular yellow or orange flowers. The leaves are plump and filled with clear gel that\'s 96% water, making the plant remarkably drought-tolerant. Beyond its medicinal benefits, Aloe Vera is an easy-care houseplant that thrives on neglect, making it perfect for beginners who want both ornamental beauty and practical first-aid benefits literally at their fingertips.',
+    toxicity: 'Toxic to pets if ingested - causes vomiting and diarrhea',
+    temperature: '55-80°F (13-27°C)',
+    humidity: '30-50% - tolerates dry air',
+    careInstructions: [
+      'Water deeply only when soil is completely dry - every 2-3 weeks',
+      'In winter, reduce watering to monthly or less',
+      'Provide bright, indirect light or some direct sun (morning sun ideal)',
+      'Use well-draining cactus or succulent potting mix',
+      'Ensure pot has drainage holes - sitting in water causes fatal rot',
+      'Harvest gel from outer leaves by cutting at base, let cut seal before using',
+      'Remove pups (baby plants) to propagate or prevent overcrowding',
+      'Fertilize only 2-3 times per year with diluted succulent fertilizer'
+    ],
+    commonProblems: [
+      'Soft, mushy leaves: Overwatering causing rot - reduce watering immediately',
+      'Brown or black leaves: Severe overwatering and rot, cold damage, or sunburn',
+      'Thin, curling leaves: Underwatering - increase watering frequency slightly',
+      'Leaves turning brown/red: Too much direct sun - move to filtered light',
+      'Falling over/drooping: Insufficient light or overwatering',
+      'Root rot: Most common cause of death - ensure excellent drainage'
+    ]
+  },
+  {
+    name: 'Jade Plant',
+    botanicalName: 'Crassula ovata',
+    otherNames: ['Lucky Plant', 'Money Plant', 'Money Tree', 'Friendship Tree'],
+    image: PLANT_IMAGES_BASE_URL + '/Jade%20Plant.jpg',
+    wateringFrequency: 'Every 2-3 weeks',
+    suggestedWateringDays: 14,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Succulents',
+    description: 'Native to South Africa, Jade Plant is a beloved succulent that can live for decades, becoming a cherished family heirloom passed down through generations. It features thick, woody stems and plump, glossy, oval leaves that resemble jade gemstones. With proper care, it develops into a miniature tree with a substantial trunk, growing 2-3 feet tall indoors (up to 6 feet with age). In Asian cultures, it\'s considered a symbol of good luck and prosperity, often given as gifts for new businesses or homes. Mature plants (10+ years) reward patient growers with clusters of small, star-shaped white or pink flowers in winter. Its tree-like form, longevity, and low-maintenance nature make it perfect for bonsai-style cultivation or as a living sculpture that improves with age.',
+    toxicity: 'Toxic to pets if ingested - causes vomiting',
+    temperature: '65-75°F (18-24°C) - prefers cooler winters',
+    humidity: '30-50% - tolerates dry air',
+    careInstructions: [
+      'Water deeply only when soil is completely dry - every 2-3 weeks',
+      'Reduce watering in winter to monthly to encourage flowering',
+      'Provide at least 4-6 hours of direct sunlight daily for compact growth',
+      'Use well-draining cactus or succulent potting mix',
+      'Prune to shape into tree form and encourage branching',
+      'Fertilize monthly during growing season with diluted balanced fertilizer',
+      'Repot every 2-3 years in spring, or keep root-bound for bonsai effect',
+      'Rotate weekly for even growth and prevent leaning toward light'
+    ],
+    commonProblems: [
+      'Dropping leaves: Overwatering (most common), underwatering, or sudden changes',
+      'Shriveled, wrinkled leaves: Severe underwatering - water thoroughly',
+      'Soft, mushy stems/leaves: Overwatering causing rot',
+      'Leggy, stretched growth: Insufficient light - needs direct sun',
+      'No flowers: Needs cooler winter temps (50-55°F) and reduced watering',
+      'Black spots on leaves: Fungal disease from overwatering or poor air circulation'
+    ]
+  },
+  {
+    name: 'Echeveria',
+    botanicalName: 'Echeveria elegans',
+    otherNames: ['Mexican Snowball', 'Mexican Gem', 'White Mexican Rose', 'Mexican Hen and Chicks'],
+    image: PLANT_IMAGES_BASE_URL + '/Echeveria.jpg',
+    wateringFrequency: 'Every 10-14 days',
+    suggestedWateringDays: 14,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Succulents',
+    description: 'Native to Mexico and Central America, Echeveria elegans is one of the most popular succulent species, forming perfect rosettes of powdery, blue-gray leaves that look like carved stone roses dusted with frost. The farina (natural powdery coating) gives it a soft, matte finish and protects it from sun damage - never wipe this off as it won\'t regenerate. Growing 4-6 inches wide, these symmetrical beauties produce tall flower stalks with coral-pink blooms in spring and summer. They readily produce offsets, creating clusters of rosettes perfect for dish gardens or arrangements. Echeverias are among the easiest succulents for beginners, forgiving occasional neglect while rewarding proper care with stunning, architectural perfection. With hundreds of varieties in different colors and sizes, they\'re highly collectible.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '30-50% - tolerates dry air',
+    careInstructions: [
+      'Water deeply only when soil is completely dry - every 10-14 days',
+      'Use "soak and dry" method - water thoroughly then allow to dry completely',
+      'Never get water on leaves - causes rot and removes protective farina',
+      'Provide at least 6 hours of bright, direct light daily',
+      'Use very well-draining cactus/succulent mix with added perlite',
+      'Never touch or wipe leaves - damages powdery coating permanently',
+      'Remove spent flower stalks after blooming',
+      'Propagate from leaves or offsets'
+    ],
+    commonProblems: [
+      'Stretching (etiolation): Insufficient light - needs full sun',
+      'Rot: Overwatering or water trapped in rosette center',
+      'Brown, crispy leaves: Sunburn from sudden sun exposure - acclimate gradually',
+      'Lower leaves shriveling: Natural as plant grows, or needs water',
+      'Powdery coating damaged: From touching - coating won\'t grow back',
+      'Mealybugs: Common pest - remove with isopropyl alcohol on cotton swab'
+    ]
+  },
+  {
+    name: 'String of Pearls',
+    botanicalName: 'Curio rowleyanus',
+    otherNames: ['String of Beads', 'Rosary Vine'],
+    image: PLANT_IMAGES_BASE_URL + '/String%20of%20Pearls.jpg',
+    wateringFrequency: 'Every 10-14 days',
+    suggestedWateringDays: 14,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Succulents',
+    description: 'Native to the dry regions of southwest Africa, String of Pearls is an unusual succulent featuring long, trailing stems adorned with spherical, pea-sized leaves that look exactly like strings of green beads or pearls - one of nature\'s most whimsical designs. Each "pearl" has a translucent window stripe that allows light to penetrate for photosynthesis. The delicate stems can trail 2-3 feet long, creating stunning cascading displays in hanging baskets. When happy, it produces small white flowers with a cinnamon-like fragrance. However, String of Pearls has a reputation for being finicky - the pearls drop easily when touched, it\'s prone to rot, and it requires specific watering and light conditions. Success requires understanding its needs, but the enchanting appearance makes it worth the effort for patient growers.',
+    toxicity: 'Toxic to pets if ingested - can cause vomiting and diarrhea',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '30-50% - prefers dry air',
+    careInstructions: [
+      'Water only when pearls show slight wrinkling - every 10-14 days typically',
+      'Water soil directly, never overhead - wet pearls rot easily',
+      'Provide bright, indirect light - some morning sun beneficial',
+      'Use very well-draining succulent mix in shallow pot',
+      'Handle gently - pearls detach easily when touched',
+      'Propagate from stem cuttings laid on soil surface',
+      'Fertilize every 2-3 months during growing season with diluted fertilizer',
+      'Bottom watering method works well for this plant'
+    ],
+    commonProblems: [
+      'Shriveling pearls: Needs water - water when slightly wrinkled',
+      'Mushy, translucent pearls: Overwatering causing rot - reduce watering',
+      'Pearl drop: Normal when touched, or from overwatering/underwatering',
+      'Stretching with spaces between pearls: Insufficient light',
+      'Bare stems near base: Natural growth pattern - trim and replant to fill in',
+      'Root rot: Most common cause of death - use well-draining soil'
+    ]
+  },
+  {
+    name: 'Crystal Succulent',
+    botanicalName: 'Haworthia cooperi',
+    otherNames: ['Cooper\'s Haworthia', 'Window Haworthia', 'Pussy Foot'],
+    image: PLANT_IMAGES_BASE_URL + '/Crystal%20Succulent.jpg',
+    wateringFrequency: 'Every 2-3 weeks',
+    suggestedWateringDays: 14,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Succulents',
+    description: 'Native to South Africa, Haworthia cooperi is one of the most fascinating and jewel-like succulents available, featuring clusters of plump, translucent leaves that look like tiny glass beads, crystals, or water droplets arranged in tight rosettes. The leaf tips have transparent "windows" that allow light to penetrate deep into the leaf interior - an adaptation for growing partially buried in sandy soil in nature. Growing only 2-3 inches tall and forming clumps as it produces offsets, this miniature succulent is perfect for small pots, terrariums, or succulent arrangements. When backlit, the translucent leaves glow like precious gems. Easier to care for than most Haworthias and tolerant of lower light than many succulents, it\'s perfect for collectors wanting something truly unique.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '30-50%',
+    careInstructions: [
+      'Water when soil is completely dry - every 2-3 weeks typically',
+      'Provide bright, indirect light - avoid intense direct sun which can burn',
+      'Use well-draining succulent mix with added pumice or perlite',
+      'Can tolerate lower light than most succulents',
+      'Fertilize every 2-3 months during growing season with diluted fertilizer',
+      'Remove offsets to propagate or prevent overcrowding',
+      'Keep away from cold drafts and freezing temperatures',
+      'Water less frequently in winter dormancy period'
+    ],
+    commonProblems: [
+      'Shriveling leaves: Needs water - increase watering frequency slightly',
+      'Turning brown or red: Too much direct sun - move to filtered light',
+      'Stretching: Insufficient light - provide brighter conditions',
+      'Root rot: Overwatering - ensure excellent drainage',
+      'Leaves losing translucency: Natural aging or too much direct sun',
+      'Mealybugs: Occasional pest - treat with isopropyl alcohol'
+    ]
+  },
+  {
+    name: 'Barrel Cactus',
+    botanicalName: 'Ferocactus wislizeni',
+    otherNames: ['Fishhook Barrel Cactus', 'Arizona Barrel Cactus', 'Compass Barrel Cactus'],
+    image: PLANT_IMAGES_BASE_URL + '/Barrel%20Cactus.jpg',
+    wateringFrequency: 'Every 3-4 weeks',
+    suggestedWateringDays: 28,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Succulents',
+    description: 'Native to the Sonoran and Chihuahuan deserts of the southwestern United States and Mexico, Barrel Cactus is an iconic desert plant featuring a distinctive barrel or cylindrical shape with prominent vertical ribs covered in fierce, hooked spines that can be red, yellow, or white. In nature, these can grow to 10 feet tall, but as houseplants, they remain compact at 6-12 inches for many years. Mature specimens (20+ years) produce striking orange, red, or yellow flowers in a crown at the top in summer. The name "Compass Cactus" comes from their tendency to lean toward the south sun. Extremely drought-tolerant and virtually indestructible if given proper light and minimal water, they\'re perfect for sunny windowsills and forgetful plant owners.',
+    toxicity: 'Non-toxic but has very sharp, dangerous spines',
+    temperature: '50-90°F (10-32°C) - very temperature tolerant',
+    humidity: '10-30% - prefers very dry air',
+    careInstructions: [
+      'Water deeply only when soil is completely dry - every 3-4 weeks in summer',
+      'In winter dormancy, water monthly or less (some experts say not at all)',
+      'Provide maximum direct sunlight - 6+ hours daily minimum',
+      'Use very well-draining cactus mix with added sand and perlite',
+      'Ensure pot has excellent drainage - never let sit in water',
+      'Handle with thick gloves or rolled newspaper - spines are extremely sharp',
+      'Fertilize only 1-2 times during growing season with diluted cactus fertilizer',
+      'Cool winter rest period (50-55°F) encourages flowering'
+    ],
+    commonProblems: [
+      'Root rot: Overwatering or poor drainage - most common cause of death',
+      'Soft, mushy sections: Rot - usually fatal, cut above rot if caught early',
+      'Lack of growth: May be in natural slow growth phase, needs more light, or dormant',
+      'Etiolation (narrowing at top): Insufficient light - needs full sun',
+      'Yellowing: Overwatering, root rot, or extreme underwatering',
+      'Mealybugs or scale: Treat with isopropyl alcohol or systemic insecticide'
+    ]
+  },
+  {
+    name: 'Lithops',
+    botanicalName: 'Lithops species',
+    otherNames: ['Living Stones', 'Flowering Stones', 'Pebble Plants', 'Mimicry Plants'],
+    image: PLANT_IMAGES_BASE_URL + '/Lithops.jpg',
+    wateringFrequency: 'Very rarely - follow growth cycle',
+    suggestedWateringDays: 45,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Hard' as const,
+    category: 'Succulents',
+    description: 'Native to the rocky deserts of southern Africa, Lithops are among the most unusual plants in existence - they\'ve evolved to look exactly like small pebbles or stones as camouflage from grazing animals. Each plant consists of just two thick, fused leaves separated by a fissure from which flowers and new leaves emerge. The flat or slightly rounded tops often have intricate patterns and colors mimicking the stones in their habitat. Growing only 1-2 inches tall, they\'re miniature marvels of evolution. However, Lithops are notoriously difficult because they follow a specific annual cycle and require NO water during certain periods. Watering at the wrong time is fatal. They\'re strictly for experienced succulent growers who can resist the urge to water and understand their unique lifecycle.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C) during growth, cooler in dormancy',
+    humidity: '10-30% - very dry air essential',
+    careInstructions: [
+      'CRITICAL: Follow the annual water cycle exactly - wrong timing kills the plant',
+      'Summer (dormant): NO water at all',
+      'Fall (active growth): Water sparingly every 3-4 weeks when soil completely dry',
+      'Winter (flowering): Water lightly every 3-4 weeks',
+      'Spring (splitting): NO water until old leaves completely dry and papery',
+      'Provide maximum direct sunlight - south-facing window ideal',
+      'Use extremely well-draining mineral mix (50%+ pumice/grit)',
+      'Never water during splitting period or old leaves won\'t dry properly'
+    ],
+    commonProblems: [
+      'Overwatering: Most common cause of death - leads to rot and bursting',
+      'Watering during splitting: Prevents old leaves from drying, causes rot',
+      'Soft, mushy plants: Fatal overwatering - usually cannot be saved',
+      'Stretching (etiolation): Insufficient light - needs maximum sun',
+      'Not splitting: May be too young or not getting proper rest period',
+      'Bursting: Overwatering causing cells to rupture - usually fatal'
+    ]
+  },
+  {
+    name: 'Prickly Pear Cactus',
+    botanicalName: 'Opuntia microdasys',
+    otherNames: ['Bunny Ears Cactus', 'Polka-Dot Cactus', 'Angel\'s Wings'],
+    image: PLANT_IMAGES_BASE_URL + '/Prickly%20Pear%20Cactus.jpg',
+    wateringFrequency: 'Every 2-3 weeks',
+    suggestedWateringDays: 21,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Succulents',
+    description: 'Native to central and northern Mexico, Opuntia microdasys is one of the most charming and distinctive cacti, featuring flat, oval pads (cladodes) that resemble bunny ears, covered in fuzzy-looking clusters of golden, reddish, or white glochids (tiny hair-like spines) arranged in polka-dot patterns. Don\'t be fooled by the soft appearance - these glochids are barbed and extremely irritating if they contact skin, embedding themselves deeply and causing itching for days. Growing 2-3 feet tall indoors with a branching, bushy form, mature plants produce yellow flowers and edible purple fruit (though flowering rarely occurs indoors). Despite the dangerous spines, it\'s easy to grow with bright light and minimal water, making it perfect for experienced cactus lovers who understand proper handling.',
+    toxicity: 'Non-toxic but has severely irritating glochids (barbed micro-spines)',
+    temperature: '50-85°F (10-29°C)',
+    humidity: '10-30% - prefers very dry air',
+    careInstructions: [
+      'Water deeply when soil is completely dry - every 2-3 weeks in summer',
+      'In winter, reduce watering to monthly or less',
+      'Provide maximum direct sunlight - 6+ hours daily',
+      'Use well-draining cactus mix with added sand and perlite',
+      'ALWAYS handle with thick leather gloves, tongs, or rolled newspaper',
+      'If glochids contact skin, remove with duct tape or tweezers, not fingers',
+      'Fertilize monthly during growing season with diluted cactus fertilizer',
+      'Cool winter rest period (50-60°F) encourages flowering'
+    ],
+    commonProblems: [
+      'Root rot: Overwatering or poor drainage - most common problem',
+      'Soft, wrinkled pads: Severe overwatering causing rot',
+      'Glochid irritation: Extremely common - always use thick gloves when handling',
+      'Yellowing pads: Overwatering, root rot, or pest infestation',
+      'Etiolation (thin new growth): Insufficient light - needs full sun',
+      'Scale or mealybugs: Remove with cotton swab and rubbing alcohol'
+    ]
+  },
+  {
+    name: 'Zebra Plant',
+    botanicalName: 'Haworthiopsis attenuata',
+    otherNames: ['Zebra Haworthia', 'Zebra Cactus'],
+    image: PLANT_IMAGES_BASE_URL + '/Zebra%20Plant.jpg',
+    wateringFrequency: 'Every 2-3 weeks',
+    suggestedWateringDays: 14,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Succulents',
+    description: 'Native to South Africa, Zebra Plant is one of the most popular small succulents, forming compact rosettes of thick, dark green, triangular leaves dramatically striped with raised white horizontal bands - like a zebra\'s stripes. Growing only 4-6 inches tall, it\'s perfect for small pots, desks, windowsills, or succulent arrangements. It readily produces offsets (pups), creating clusters of rosettes that can fill a pot. Unlike many succulents, Zebra Plant tolerates lower light and is more forgiving of watering mistakes, making it ideal for beginners. Mature plants send up thin stalks with small tubular white flowers, though these are insignificant compared to the striking foliage. Its compact size, distinctive appearance, and easy care have made it a staple in succulent collections worldwide.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '30-50%',
+    careInstructions: [
+      'Water when soil is dry to touch - every 2-3 weeks typically',
+      'Provide bright, indirect light - tolerates lower light than most succulents',
+      'Can handle some direct morning sun but avoid intense afternoon sun',
+      'Use well-draining succulent potting mix',
+      'Remove flower stalks after blooming to redirect energy to foliage',
+      'Separate offsets (pups) to propagate or prevent overcrowding',
+      'Fertilize every 2-3 months during growing season with diluted succulent fertilizer',
+      'Water less frequently in winter'
+    ],
+    commonProblems: [
+      'Root rot: From overwatering - most common problem',
+      'Stretching (leaves spreading apart): Insufficient light - move to brighter location',
+      'Brown, crispy leaf tips: Underwatering, low humidity, or poor water quality',
+      'Turning brown or orange: Too much direct sun - move to filtered light',
+      'Soft, mushy leaves: Overwatering - reduce watering frequency',
+      'Slow or no growth: Normal - Haworthias are naturally slow-growing'
+    ]
+  },
+  {
+    name: 'Paddle Plant',
+    botanicalName: 'Kalanchoe luciae',
+    otherNames: ['Flapjack Plant', 'Desert Cabbage', 'Red Pancakes'],
+    image: PLANT_IMAGES_BASE_URL + '/Paddle%20Plant.jpg',
+    wateringFrequency: 'Every 2-3 weeks',
+    suggestedWateringDays: 14,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Succulents',
+    description: 'Native to South Africa, Paddle Plant (often confused with the similar K. thyrsiflora) is a striking succulent featuring large, flat, paddle or clam-shaped leaves stacked in opposing pairs that create a dramatic architectural form. The gray-green leaves develop stunning red or crimson edges when grown in bright light and cooler temperatures - the more sun stress, the more intense the coloring. Growing 12-24 inches tall, the plant forms a rosette that reaches 12-18 inches wide. After several years, it produces a tall (2-3 feet) flower spike with yellow tubular flowers, after which the main rosette dies (monocarpic), but it produces many offsets before flowering. The combination of sculptural form and color-changing ability makes it a showstopper in succulent collections.',
+    toxicity: 'Toxic to pets if ingested - contains cardiac glycosides',
+    temperature: '60-85°F (15-29°C) - cooler temps enhance red coloring',
+    humidity: '30-50% - tolerates dry air',
+    careInstructions: [
+      'Water deeply only when soil is completely dry - every 2-3 weeks',
+      'Reduce watering in winter to monthly',
+      'Provide maximum direct sunlight for best red coloring on leaf edges',
+      'Use well-draining cactus or succulent potting mix',
+      'Cool temperatures (50-60°F) in fall/winter intensify red coloring',
+      'Remove tall flower stalk if desired to preserve plant energy (delays death)',
+      'Propagate from offsets before main plant flowers and dies',
+      'Fertilize every 2-3 months during growing season with diluted fertilizer'
+    ],
+    commonProblems: [
+      'Green leaves with no red edges: Insufficient direct sunlight or too warm',
+      'Soft, mushy leaves: Overwatering causing rot',
+      'Stretching (leaves separating): Insufficient light - needs full sun',
+      'Plant dying after flowering: Natural lifecycle (monocarpic) - propagate offsets',
+      'Brown, crispy leaf edges: Sunburn from sudden sun exposure - acclimate gradually',
+      'Mealybugs: Common pest - treat with isopropyl alcohol'
+    ]
+  },
+  {
+    name: 'String of Buttons',
+    botanicalName: 'Crassula perforata',
+    otherNames: ['Necklace Vine', 'Pagoda Plant', 'String of Buttons'],
+    image: PLANT_IMAGES_BASE_URL + '/String%20of%20Buttons.jpg',
+    wateringFrequency: 'Every 2-3 weeks',
+    suggestedWateringDays: 14,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Succulents',
+    description: 'Native to South Africa, String of Buttons is a unique and architectural succulent where triangular, blue-green leaves appear threaded directly onto upright or trailing stems - like buttons on a string or beads on a necklace. The leaves are stacked in perfect alternating pairs, creating fascinating geometric patterns and spiral effects. With bright light, the leaf margins develop pink or red edges. Growing 12-18 inches tall, stems can sprawl or be trained upright, making it versatile for arrangements. It produces small, pale yellow flowers on stalks in late winter to spring. The unusual growth pattern, ease of care, and striking architectural form make it popular in modern succulent arrangements and as a specimen plant for those wanting something geometrically interesting.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '30-50% - tolerates dry air',
+    careInstructions: [
+      'Water thoroughly only when soil is completely dry - every 2-3 weeks',
+      'Provide bright, direct sunlight for compact growth and pink/red edges',
+      'Use well-draining cactus or succulent potting mix',
+      'Pinch growing tips to encourage branching and bushier growth',
+      'Propagate easily from stem cuttings - roots develop quickly',
+      'Fertilize every 2-3 months during growing season with diluted fertilizer',
+      'Prune leggy growth to maintain compact form',
+      'Can be grown upright or allowed to trail over pot edges'
+    ],
+    commonProblems: [
+      'Stretching with spaces between leaves: Insufficient light - needs direct sun',
+      'Soft, mushy stems: Overwatering causing rot',
+      'Leggy, sparse growth: Insufficient light or needs regular pinching',
+      'Loss of pink/red edges: Not enough light or stress',
+      'Slow growth: Normal for this species - naturally moderate grower',
+      'Lower leaves drying: Natural as plant grows taller'
+    ]
+  },
+  {
+    name: 'Aloe Aristata',
+    botanicalName: 'Aristaloe aristata',
+    otherNames: ['Lace Aloe', 'Torch Plant', 'Guinea-fowl Aloe'],
+    image: PLANT_IMAGES_BASE_URL + '/Aloe%20Aristata.jpg',
+    wateringFrequency: 'Every 2-3 weeks',
+    suggestedWateringDays: 14,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Succulents',
+    description: 'Native to South Africa, Lace Aloe is a compact, clump-forming succulent that resembles Aloe Vera but is actually in its own genus. It forms neat rosettes of dark green, lance-shaped leaves covered with distinctive white spots and bumps (tubercles) that create a textured, lacy appearance, with white "teeth" along the margins and soft white bristles on leaf tips. Growing only 6-8 inches tall and wide, it\'s perfect for small spaces and readily produces offsets, forming attractive clusters. Unlike many aloes, it blooms reliably indoors, sending up tall (12-18 inch) spikes with tubular orange or red flowers in late spring or summer - a stunning display. More compact and easier to bloom than larger aloes, it\'s perfect for beginners wanting an attractive, flowering succulent for bright windowsills.',
+    toxicity: 'Mildly toxic to pets if ingested',
+    temperature: '60-80°F (15-27°C)',
+    humidity: '30-50%',
+    careInstructions: [
+      'Water deeply only when soil is completely dry - every 2-3 weeks',
+      'Provide bright, indirect light - can tolerate some direct morning sun',
+      'Use well-draining cactus or succulent potting mix',
+      'Allow soil to dry completely between waterings',
+      'Remove spent flower stalks after blooming by cutting at base',
+      'Separate offsets to propagate or prevent overcrowding',
+      'Fertilize every 2-3 months during growing season with diluted succulent fertilizer',
+      'Water less frequently in winter'
+    ],
+    commonProblems: [
+      'Root rot: Overwatering - most common cause of death',
+      'Stretching (rosette opening up): Insufficient light - provide brighter conditions',
+      'Brown, shriveled leaf tips: Underwatering or low humidity',
+      'Leaves turning brown: Too much direct sun causing sunburn',
+      'No flowers: Insufficient light or too much nitrogen fertilizer',
+      'Soft, mushy leaves: Overwatering causing rot'
+    ]
+  },
+  {
+    name: 'Ghost Plant',
+    botanicalName: 'Graptopetalum paraguayense',
+    otherNames: ['Mother-of-Pearl Plant', 'Sedum weinbergii'],
+    image: PLANT_IMAGES_BASE_URL + '/Ghost%20Plant.jpg',
+    wateringFrequency: 'Every 2-3 weeks',
+    suggestedWateringDays: 14,
+    lightRequirement: 'Bright Direct Light',
+    careLevel: 'Easy' as const,
+    category: 'Succulents',
+    description: 'Native to Mexico, Ghost Plant is a stunning succulent that forms rosettes of thick, opalescent leaves in ethereal colors - silvery-blue, gray, pink, or lavender with a powdery coating (farina) that gives it a ghostly, frosted appearance. The rosettes grow on trailing or upright stems that can reach 12-18 inches, perfect for hanging baskets or spilling over container edges. With bright light and temperature stress, the leaves develop beautiful pink, purple, or yellow tones - like mother-of-pearl iridescence. It\'s one of the easiest and most prolific succulents, producing numerous offsets and rooting readily from dropped leaves. Small, star-shaped white or yellow flowers with red spots appear in spring. Its ethereal coloring, hardy nature, and generous propagation make it a favorite for beginners and collectors alike.',
+    toxicity: 'Non-toxic to pets and humans',
+    temperature: '65-80°F (18-27°C)',
+    humidity: '30-50% - tolerates dry air',
+    careInstructions: [
+      'Water deeply only when soil is completely dry - every 2-3 weeks',
+      'Provide bright, direct light for best coloration and compact growth',
+      'Morning sun with afternoon shade ideal in hot climates',
+      'Use well-draining cactus or succulent potting mix',
+      'Don\'t touch or wipe leaves - removes protective powdery coating',
+      'Remove offsets to propagate or allow to form clusters',
+      'Propagate easily from leaves or stem cuttings',
+      'Fertilize every 2-3 months during growing season with diluted fertilizer'
+    ],
+    commonProblems: [
+      'Loss of opalescent color: Insufficient light - needs bright conditions',
+      'Stretching (etiolation): Not enough light - provide direct sun',
+      'Root rot: Overwatering - ensure excellent drainage',
+      'Powdery coating removed: From handling - won\'t regenerate on those leaves',
+      'Pest issues (mealybugs): Treat with isopropyl alcohol on cotton swab',
+      'Lower leaves shriveling: Natural as plant grows, or needs water'
+    ]
+  }
 ];
