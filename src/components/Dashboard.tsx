@@ -74,12 +74,7 @@ import { SmartSuggestionsDialog } from "./SmartSuggestionsDialog";
 import { EnableWeatherPrompt } from "./EnableWeatherPrompt";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import { useBulkPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
-import {
-  loadDismissedSuggestions,
-  saveDismissedSuggestions,
-  dismissSuggestion,
-  dismissSuggestions,
-} from "@/utils/suggestionPersistence";
+import { useDismissedSuggestions } from "@/hooks/useDismissedSuggestions";
 import { format, formatDistanceToNow } from "date-fns";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 
@@ -104,11 +99,16 @@ const Dashboard = () => {
   const calendarSeasonalDialog = useDialogState();
   const smartSuggestionsDialog = useDialogState();
 
-  const [dismissedSuggestions, setDismissedSuggestions] = useState<Set<string>>(
-    new Set()
-  );
-  const [isDismissedSuggestionsLoaded, setIsDismissedSuggestionsLoaded] =
-    useState(false);
+  // Use database-backed dismissed suggestions hook
+  const {
+    dismissedPlantIds: dismissedSuggestions,
+    dismissSuggestion: dismissSingleSuggestion,
+    dismissSuggestions: dismissMultipleSuggestions,
+    loading: isDismissedSuggestionsLoading,
+    migrateLocalToDatabase,
+  } = useDismissedSuggestions();
+
+  const isDismissedSuggestionsLoaded = !isDismissedSuggestionsLoading;
   const [waterConfirmation, setWaterConfirmation] = useState<{
     show: boolean;
     plantId: string;
@@ -177,12 +177,10 @@ const Dashboard = () => {
     refreshAnalysis: refreshSuggestionsAnalysis,
   } = useBulkPatternAnalysis(plantIds);
 
-  // Load dismissed suggestions from localStorage on mount
+  // Migrate localStorage dismissed suggestions to database (one-time migration)
   useEffect(() => {
-    const dismissed = loadDismissedSuggestions();
-    setDismissedSuggestions(dismissed);
-    setIsDismissedSuggestionsLoaded(true);
-  }, []);
+    migrateLocalToDatabase();
+  }, [migrateLocalToDatabase]);
 
   // Filter out dismissed suggestions - only after dismissed suggestions are loaded
   const activePlantsWithSuggestions = useMemo(() => {
@@ -567,9 +565,7 @@ const Dashboard = () => {
     const allPlantIds = activePlantsWithSuggestions.map(
       (plant) => plant.plantId
     );
-    const newDismissedSet = new Set([...dismissedSuggestions, ...allPlantIds]);
-    setDismissedSuggestions(newDismissedSet);
-    saveDismissedSuggestions(newDismissedSet, "user_dismissed");
+    dismissMultipleSuggestions(allPlantIds, "user_dismissed");
   };
 
   const handleSnoozeSuggestions = (weeks: number) => {
@@ -578,9 +574,7 @@ const Dashboard = () => {
     const allPlantIds = activePlantsWithSuggestions.map(
       (plant) => plant.plantId
     );
-    const newDismissedSet = new Set([...dismissedSuggestions, ...allPlantIds]);
-    setDismissedSuggestions(newDismissedSet);
-    saveDismissedSuggestions(newDismissedSet, "user_dismissed");
+    dismissMultipleSuggestions(allPlantIds, "user_dismissed");
   };
 
   const handleApplyAllSuggestions = async () => {
@@ -615,12 +609,7 @@ const Dashboard = () => {
 
     // Mark applied suggestions as dismissed with 'applied' reason
     if (appliedPlantIds.length > 0) {
-      const newDismissedSet = new Set([
-        ...dismissedSuggestions,
-        ...appliedPlantIds,
-      ]);
-      setDismissedSuggestions(newDismissedSet);
-      saveDismissedSuggestions(newDismissedSet, "applied");
+      dismissMultipleSuggestions(appliedPlantIds, "applied");
     }
 
     // Refresh suggestions after applying changes
@@ -639,9 +628,7 @@ const Dashboard = () => {
         );
 
         // Mark this plant's suggestions as dismissed with 'applied' reason
-        const newDismissedSet = new Set([...dismissedSuggestions, plantId]);
-        setDismissedSuggestions(newDismissedSet);
-        saveDismissedSuggestions(newDismissedSet, "applied");
+        dismissSingleSuggestion(plantId, "applied");
 
         // Refresh suggestions after applying change
         setTimeout(() => refreshSuggestionsAnalysis(), 1000);
@@ -656,9 +643,7 @@ const Dashboard = () => {
   };
 
   const handleDismissPlantSuggestions = (plantId: string) => {
-    const newDismissedSet = new Set([...dismissedSuggestions, plantId]);
-    setDismissedSuggestions(newDismissedSet);
-    saveDismissedSuggestions(newDismissedSet, "user_dismissed");
+    dismissSingleSuggestion(plantId, "user_dismissed");
   };
 
   const handleViewPlantHistory = (plantId: string) => {

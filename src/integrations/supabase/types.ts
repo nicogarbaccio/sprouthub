@@ -43,6 +43,48 @@ export type Database = {
           },
         ]
       }
+      dismissed_suggestions: {
+        Row: {
+          dismissed_at: string
+          expires_at: string
+          id: string
+          plant_id: string
+          reason: string
+          user_id: string
+        }
+        Insert: {
+          dismissed_at?: string
+          expires_at: string
+          id?: string
+          plant_id: string
+          reason: string
+          user_id: string
+        }
+        Update: {
+          dismissed_at?: string
+          expires_at?: string
+          id?: string
+          plant_id?: string
+          reason?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dismissed_suggestions_plant_id_fkey"
+            columns: ["plant_id"]
+            isOneToOne: false
+            referencedRelation: "user_plants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dismissed_suggestions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       household_invitations: {
         Row: {
           created_at: string | null
