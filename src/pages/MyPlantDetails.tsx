@@ -784,6 +784,7 @@ const MyPlantDetails = () => {
         isOpen={showSuggestionsDialog}
         onClose={() => setShowSuggestionsDialog(false)}
         plantName={plant.nickname}
+        plantId={plant.id}
         analysis={analysis}
         insights={getActionableInsights()}
       />

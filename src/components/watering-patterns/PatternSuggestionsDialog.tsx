@@ -2,7 +2,7 @@
  * Dialog for showing proactive pattern suggestions after watering
  */
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -13,22 +13,24 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { 
-  Brain, 
-  TrendingUp, 
-  TrendingDown, 
-  Clock, 
-  CheckCircle, 
+import {
+  Brain,
+  TrendingUp,
+  TrendingDown,
+  Clock,
+  CheckCircle,
   X,
   Calendar,
   Lightbulb,
   Target
 } from 'lucide-react';
-import { 
-  PatternInsight, 
-  WateringPatternAnalysis 
+import {
+  PatternInsight,
+  WateringPatternAnalysis
 } from '@/types/wateringPatternTypes';
 import { cn } from '@/lib/utils';
+import WateringInsightLearnMore from './WateringInsightLearnMore';
+import { useDismissedInsights } from '@/hooks/useDismissedInsights';
 
 interface PatternSuggestionsDialogProps {
   isOpen: boolean;
@@ -36,6 +38,7 @@ interface PatternSuggestionsDialogProps {
   analysis: WateringPatternAnalysis | null;
   insights: PatternInsight[];
   plantName?: string;
+  plantId?: string;
   onAcceptSuggestion?: (insight: PatternInsight) => void;
   onDismissAll?: () => void;
 }
@@ -46,19 +49,22 @@ const PatternSuggestionsDialog = ({
   analysis,
   insights,
   plantName = 'your plant',
+  plantId,
   onAcceptSuggestion,
   onDismissAll,
 }: PatternSuggestionsDialogProps) => {
-  const [dismissedInsights, setDismissedInsights] = useState<Set<string>>(new Set());
+  const [learnMoreInsight, setLearnMoreInsight] = useState<PatternInsight | null>(null);
+  const { filterDismissed, dismissInsight } = useDismissedInsights(plantId);
 
   if (!analysis) return null;
 
-  const activeInsights = insights.filter((insight, index) => 
-    !dismissedInsights.has(`${insight.type}-${index}`)
+  const activeInsights = useMemo(
+    () => filterDismissed(insights),
+    [filterDismissed, insights]
   );
 
-  const handleDismissInsight = (insight: PatternInsight, index: number) => {
-    setDismissedInsights(prev => new Set([...prev, `${insight.type}-${index}`]));
+  const handleDismissInsight = async (insight: PatternInsight) => {
+    await dismissInsight(insight);
   };
 
   const handleAcceptSuggestion = (insight: PatternInsight) => {
@@ -176,7 +182,7 @@ const PatternSuggestionsDialog = ({
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleDismissInsight(insight, index)}
+                        onClick={() => handleDismissInsight(insight)}
                         className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
                       >
                         <X className="w-3 h-3" />
@@ -229,7 +235,7 @@ const PatternSuggestionsDialog = ({
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => handleDismissInsight(insight, index)}
+                            onClick={() => handleDismissInsight(insight)}
                             className="px-3"
                           >
                             Not Now
@@ -241,13 +247,18 @@ const PatternSuggestionsDialog = ({
                     {/* Non-schedule actionable insights */}
                     {!insight.suggestion && insight.actionable && (
                       <div className="flex gap-2">
-                        <Button size="sm" variant="outline" className="flex-1">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="flex-1"
+                          onClick={() => setLearnMoreInsight(insight)}
+                        >
                           Learn More
                         </Button>
                         <Button
                           size="sm"
                           variant="ghost"
-                          onClick={() => handleDismissInsight(insight, index)}
+                          onClick={() => handleDismissInsight(insight)}
                           className="px-3"
                         >
                           Dismiss
@@ -292,6 +303,14 @@ const PatternSuggestionsDialog = ({
           </div>
         </div>
       </DialogContent>
+
+      {/* Learn More Dialog */}
+      <WateringInsightLearnMore
+        isOpen={!!learnMoreInsight}
+        onClose={() => setLearnMoreInsight(null)}
+        insight={learnMoreInsight}
+        plantName={plantName}
+      />
     </Dialog>
   );
 };

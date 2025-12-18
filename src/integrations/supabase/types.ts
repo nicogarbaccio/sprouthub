@@ -14,6 +14,35 @@ export type Database = {
   }
   public: {
     Tables: {
+      dismissed_pattern_insights: {
+        Row: {
+          dismissed_at: string | null
+          id: string
+          insight_type: string
+          user_plant_id: string
+        }
+        Insert: {
+          dismissed_at?: string | null
+          id?: string
+          insight_type: string
+          user_plant_id: string
+        }
+        Update: {
+          dismissed_at?: string | null
+          id?: string
+          insight_type?: string
+          user_plant_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "dismissed_pattern_insights_user_plant_id_fkey"
+            columns: ["user_plant_id"]
+            isOneToOne: false
+            referencedRelation: "user_plants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       household_invitations: {
         Row: {
           created_at: string | null

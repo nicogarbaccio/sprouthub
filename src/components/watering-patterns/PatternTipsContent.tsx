@@ -3,7 +3,7 @@
  * Used in both drawer (mobile) and dialog (desktop) contexts
  */
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
@@ -23,11 +23,14 @@ import {
   WateringPatternAnalysis
 } from '@/types/wateringPatternTypes';
 import { cn } from '@/lib/utils';
+import WateringInsightLearnMore from './WateringInsightLearnMore';
+import { useDismissedInsights } from '@/hooks/useDismissedInsights';
 
 interface PatternTipsContentProps {
   analysis: WateringPatternAnalysis | null;
   insights: PatternInsight[];
   plantName?: string;
+  plantId?: string;
   onAcceptSuggestion?: (insight: PatternInsight) => void;
   onDismissInsight?: (insight: PatternInsight, index: number) => void;
   onDismissAll?: () => void;
@@ -39,20 +42,23 @@ const PatternTipsContent = ({
   analysis,
   insights,
   plantName = 'your plant',
+  plantId,
   onAcceptSuggestion,
   onDismissInsight,
   onDismissAll,
   onClose,
   showPatternSummary = true,
 }: PatternTipsContentProps) => {
-  const [dismissedInsights, setDismissedInsights] = useState<Set<string>>(new Set());
+  const [learnMoreInsight, setLearnMoreInsight] = useState<PatternInsight | null>(null);
+  const { filterDismissed, dismissInsight } = useDismissedInsights(plantId);
 
-  const activeInsights = insights.filter((insight, index) =>
-    !dismissedInsights.has(`${insight.type}-${index}`)
+  const activeInsights = useMemo(
+    () => filterDismissed(insights),
+    [filterDismissed, insights]
   );
 
-  const handleDismissInsight = (insight: PatternInsight, index: number) => {
-    setDismissedInsights(prev => new Set([...prev, `${insight.type}-${index}`]));
+  const handleDismissInsight = async (insight: PatternInsight, index: number) => {
+    await dismissInsight(insight);
     onDismissInsight?.(insight, index);
   };
 
@@ -226,7 +232,12 @@ const PatternTipsContent = ({
                 {/* Non-schedule actionable insights */}
                 {!insight.suggestion && insight.actionable && (
                   <div className="flex flex-col sm:flex-row gap-2">
-                    <Button size="sm" variant="outline" className="flex-1">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => setLearnMoreInsight(insight)}
+                    >
                       Learn More
                     </Button>
                     <Button
@@ -275,6 +286,14 @@ const PatternTipsContent = ({
           {hasActionableInsights ? 'Review Later' : 'Got It'}
         </Button>
       </div>
+
+      {/* Learn More Dialog */}
+      <WateringInsightLearnMore
+        isOpen={!!learnMoreInsight}
+        onClose={() => setLearnMoreInsight(null)}
+        insight={learnMoreInsight}
+        plantName={plantName}
+      />
     </div>
   );
 };

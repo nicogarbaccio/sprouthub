@@ -33,6 +33,7 @@ interface PatternTipsModalProps {
   analysis: WateringPatternAnalysis | null;
   insights: PatternInsight[];
   plantName?: string;
+  plantId?: string;
   onAcceptSuggestion?: (insight: PatternInsight) => void;
   onDismissInsight?: (insight: PatternInsight, index: number) => void;
   onDismissAll?: () => void;
@@ -45,6 +46,7 @@ const PatternTipsModal = ({
   analysis,
   insights,
   plantName = 'your plant',
+  plantId,
   onAcceptSuggestion,
   onDismissInsight,
   onDismissAll,
@@ -82,6 +84,7 @@ const PatternTipsModal = ({
       analysis={analysis}
       insights={insights}
       plantName={plantName}
+      plantId={plantId}
       onAcceptSuggestion={handleAcceptWithFeedback}
       onDismissInsight={handleDismissWithFeedback}
       onDismissAll={onDismissAll}

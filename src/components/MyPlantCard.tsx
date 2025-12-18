@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Droplets,
@@ -25,6 +25,7 @@ import {
 import { wateringPatternAnalyzer } from "@/utils/watering-pattern-analyzer";
 import { useNavigate } from "react-router-dom";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
+import { useDismissedInsights } from "@/hooks/useDismissedInsights";
 import {
   Tooltip,
   TooltipContent,
@@ -104,6 +105,13 @@ const MyPlantCard = ({
     autoRefresh: true,
   });
 
+  // Filter out dismissed insights
+  const { filterDismissed } = useDismissedInsights(id);
+  const visiblePendingInsights = useMemo(
+    () => filterDismissed(pendingInsights),
+    [filterDismissed, pendingInsights]
+  );
+
   const isOverwateringActive = !!(
     overwatering && overwatering.level !== "none"
   );
@@ -112,14 +120,14 @@ const MyPlantCard = ({
   const { showWarning: showOverwateringWarning, daysSinceLastWatered } =
     shouldShowOverwateringWarning(lastWateredDate, suggestedWateringDays);
 
-  // Check if there are pending actionable insights
-  const hasPendingSuggestions = pendingInsights.some(
+  // Check if there are pending actionable insights (after filtering dismissed ones)
+  const hasPendingSuggestions = visiblePendingInsights.some(
     (insight) => insight.actionable
   );
 
   // Helper functions to analyze pending insights for better badge messaging
   const getActionableInsights = () =>
-    pendingInsights.filter((insight) => insight.actionable);
+    visiblePendingInsights.filter((insight) => insight.actionable);
 
   const getSuggestionMetadata = () => {
     const actionableInsights = getActionableInsights();
@@ -697,6 +705,7 @@ const MyPlantCard = ({
         analysis={patternAnalysis}
         insights={patternInsights}
         plantName={name}
+        plantId={id}
         onAcceptSuggestion={handlePatternScheduleAdjustment}
         onDismissAll={() => setShowPatternSuggestions(false)}
       />
@@ -705,8 +714,9 @@ const MyPlantCard = ({
         isOpen={showPendingTips}
         onClose={() => setShowPendingTips(false)}
         analysis={null}
-        insights={pendingInsights}
+        insights={visiblePendingInsights}
         plantName={name}
+        plantId={id}
         onAcceptSuggestion={handlePatternScheduleAdjustment}
         onDismissAll={() => setShowPendingTips(false)}
         showPatternSummary={false}
