@@ -103,22 +103,24 @@ export function SeasonalReviewDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent data-testid="seasonal-review-dialog" className="max-w-4xl max-h-[90vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle data-testid="seasonal-review-dialog-title" className="flex items-center space-x-2">
-            <Sparkles className="h-5 w-5 text-blue-500" />
-            <span>{seasonDisplayName} Schedule Review</span>
-          </DialogTitle>
-          <DialogDescription>
-            Review and update your plant watering schedules for the new season.
-            Our suggestions are based on weather patterns and your plant care
-            history.
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent data-testid="seasonal-review-dialog" className="max-w-4xl max-h-[90vh] p-0 gap-0 flex flex-col overflow-hidden">
+        <div className="p-6 pb-4">
+          <DialogHeader>
+            <DialogTitle data-testid="seasonal-review-dialog-title" className="flex items-center space-x-2">
+              <Sparkles className="h-5 w-5 text-blue-500" />
+              <span>{seasonDisplayName} Schedule Review</span>
+            </DialogTitle>
+            <DialogDescription>
+              Review and update your plant watering schedules for the new season.
+              Our suggestions are based on weather patterns and your plant care
+              history.
+            </DialogDescription>
+          </DialogHeader>
+        </div>
 
-        <div className="flex-1 overflow-hidden">
-          <ScrollArea className="h-full pr-4">
-            <div className="space-y-4">
+        <div className="flex-1 overflow-hidden px-6">
+          <ScrollArea className="h-full">
+            <div className="space-y-4 pr-4">
               {/* Summary Stats */}
               <div data-testid="seasonal-summary-stats" className="grid grid-cols-3 gap-4 mb-6">
                 <Card data-testid="total-plants-stat">
@@ -359,34 +361,36 @@ export function SeasonalReviewDialog({
 
         <Separator />
 
-        <DialogFooter>
-          <div className="flex items-center justify-between w-full">
-            <div className="text-sm text-gray-600">
-              {unappliedSuggestions.length > 0 && (
-                <span>{unappliedSuggestions.length} changes pending</span>
-              )}
-            </div>
+        <div className="p-6 pt-4">
+          <DialogFooter>
+            <div className="flex items-center justify-between w-full">
+              <div className="text-sm text-gray-600">
+                {unappliedSuggestions.length > 0 && (
+                  <span>{unappliedSuggestions.length} changes pending</span>
+                )}
+              </div>
 
-            <div className="flex space-x-2">
-              <Button data-testid="close-seasonal-review-button" variant="outline" onClick={onClose}>
-                Close
-              </Button>
-
-              {unappliedSuggestions.length > 0 && (
-                <Button data-testid="apply-all-suggestions-button" onClick={onApplyAll} disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <Clock className="h-4 w-4 mr-2 animate-spin" />
-                      Applying...
-                    </>
-                  ) : (
-                    `Apply All (${unappliedSuggestions.length})`
-                  )}
+              <div className="flex space-x-2">
+                <Button data-testid="close-seasonal-review-button" variant="outline" onClick={onClose}>
+                  Close
                 </Button>
-              )}
+
+                {unappliedSuggestions.length > 0 && (
+                  <Button data-testid="apply-all-suggestions-button" onClick={onApplyAll} disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        <Clock className="h-4 w-4 mr-2 animate-spin" />
+                        Applying...
+                      </>
+                    ) : (
+                      `Apply All (${unappliedSuggestions.length})`
+                    )}
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
-        </DialogFooter>
+          </DialogFooter>
+        </div>
       </DialogContent>
     </Dialog>
   );

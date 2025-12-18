@@ -86,7 +86,8 @@ export function useSeasonalDetection(): UseSeasonalDetectionReturn {
     } catch (error) {
       tracker.fail(error);
       hookLogger.error(HOOK_NAME, 'Error checking notification history', error);
-      return false;
+      // Default to TRUE (has been notified) to prevent spamming the user if DB check fails
+      return true;
     }
   }, []);
 

@@ -701,7 +701,7 @@ const Dashboard = () => {
           )}
 
         {/* Weather-based Seasonal Review Banner (requires weather enabled) */}
-        {shouldShowReview && pendingTransition && (
+        {shouldShowReview && pendingTransition && suggestions.length > 0 && (
           <CascadingContainer delay={50}>
             <div data-testid="seasonal-review-banner">
               <SeasonalReviewBanner
@@ -1268,11 +1268,7 @@ const Dashboard = () => {
                   className="flex items-center space-x-3 p-2 bg-card border border-border rounded-lg"
                 >
                   <PlantImage
-                    src={getPlantImageUrl(
-                      plant.image,
-                      plant.plant_type,
-                      ""
-                    )}
+                    src={getPlantImageUrl(plant.image, plant.plant_type, "")}
                     fallbackSrc="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=40&h=40&fit=crop"
                     alt={plant.nickname}
                     className="w-8 h-8 rounded-full object-cover"

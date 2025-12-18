@@ -52,6 +52,12 @@ class ScheduleVersioningService {
       const currentYear = new Date().getFullYear();
 
       for (const plant of plants) {
+        // Check if plant needs review before generating suggestion
+        const needsReview = await this.needsSeasonalReview(plant.id, newSeason, currentYear);
+        if (!needsReview) {
+          continue;
+        }
+
         const suggestion = await this.generatePlantSuggestion(
           plant,
           newSeason,
