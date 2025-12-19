@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 /**
  * Site-wide footer for SproutHub.
@@ -22,9 +23,9 @@ const Footer: React.FC = () => (
   
   {/* Navigation Links */}
   <div className="flex items-center justify-center gap-4 mb-3 text-sm">
-   <a href="#" className="text-white/80 hover:text-white transition-colors">
+   <Link to="/about" className="text-white/80 hover:text-white transition-colors">
     About
-   </a>
+   </Link>
    <span className="text-white/40">•</span>
    <a href="#" className="text-white/80 hover:text-white transition-colors">
     FAQ

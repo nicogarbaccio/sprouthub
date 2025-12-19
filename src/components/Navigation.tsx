@@ -13,7 +13,6 @@ import {
  Sun,
  Users,
  CloudSun,
- Info,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -118,16 +117,6 @@ const Navigation = () => {
     >
     <BookOpen className="w-4 h-4" />
     <span>Plant Catalog</span>
-    </Button>
-   </Link>
-   <Link to="/about">
-    <Button
-    variant="ghost"
-    className="text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-    data-testid="nav-about-button"
-    >
-    <Info className="w-4 h-4" />
-    <span>About</span>
     </Button>
    </Link>
    {user && (
@@ -274,18 +263,6 @@ const Navigation = () => {
       >
        <BookOpen className="w-4 h-4 mr-2" />
        <span>Plant Catalog</span>
-      </Button>
-      </Link>
-     </SheetClose>
-     <SheetClose asChild>
-      <Link to="/about">
-      <Button
-       variant="ghost"
-       className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-       data-testid="mobile-nav-about-button"
-      >
-       <Info className="w-4 h-4 mr-2" />
-       <span>About</span>
       </Button>
       </Link>
      </SheetClose>
