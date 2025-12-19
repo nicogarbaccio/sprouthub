@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CascadingContainer } from "@/components/ui/cascading-container";
+import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import {
@@ -31,56 +32,56 @@ const About = () => {
       title: "Smart Watering",
       description:
         "AI-powered watering schedules that adapt to weather, season, and your plant's unique needs. Never overwater or underwater again.",
-      color: "text-blue-500",
+      color: "text-blue-600 dark:text-blue-400",
     },
     {
       icon: <CloudRain className="w-6 h-6" />,
       title: "Weather Integration",
       description:
         "Real-time weather data automatically adjusts watering schedules. Rain delay feature for outdoor plants when precipitation is expected.",
-      color: "text-cyan-500",
+      color: "text-cyan-600 dark:text-cyan-400",
     },
     {
       icon: <Calendar className="w-6 h-6" />,
       title: "Seasonal Intelligence",
       description:
         "Automatic seasonal detection with smart schedule suggestions. Track performance across seasons and years.",
-      color: "text-orange-500",
+      color: "text-orange-600 dark:text-orange-400",
     },
     {
       icon: <Search className="w-6 h-6" />,
       title: "Plant Catalog",
       description:
         "Browse a curated library of plants with detailed care guides, botanical info, and beautiful images.",
-      color: "text-green-500",
+      color: "text-green-600 dark:text-green-400",
     },
     {
       icon: <Home className="w-6 h-6" />,
       title: "Room Management",
       description:
         "Organize plants by rooms with visual themes, health indicators, and care statistics for each space.",
-      color: "text-purple-500",
+      color: "text-purple-600 dark:text-purple-400",
     },
     {
       icon: <Smartphone className="w-6 h-6" />,
       title: "Mobile-First",
       description:
         "Progressive Web App that works perfectly on any device. Install like a native app with offline support.",
-      color: "text-pink-500",
+      color: "text-pink-600 dark:text-pink-400",
     },
     {
       icon: <Brain className="w-6 h-6" />,
       title: "Pattern Analysis",
       description:
         "Learn from your watering history with smart insights and recommendations to improve plant care.",
-      color: "text-indigo-500",
+      color: "text-indigo-600 dark:text-indigo-400",
     },
     {
       icon: <Shield className="w-6 h-6" />,
       title: "Secure & Private",
       description:
         "Your data is protected with industry-standard authentication and row-level security. You own your plant data.",
-      color: "text-red-500",
+      color: "text-red-600 dark:text-red-400",
     },
   ];
 
@@ -94,8 +95,8 @@ const About = () => {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <CascadingContainer delay={0}>
               <div className="flex justify-center mb-6">
-                <div className="bg-sprout-primary/10 p-4 rounded-2xl">
-                  <Droplets className="w-12 h-12 text-sprout-primary" />
+                <div className="bg-sprout-primary/10 dark:bg-sprout-primary/20 p-4 rounded-2xl">
+                  <ThemeAwareLogo className="h-16 w-auto" />
                 </div>
               </div>
               <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
