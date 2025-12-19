@@ -95,13 +95,11 @@ const About = () => {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <CascadingContainer delay={0}>
               <div className="flex justify-center mb-6">
-                <div className="bg-sprout-cream dark:bg-sprout-cream/90 p-6 rounded-2xl">
-                  <img
-                    src="/LogoDark.svg"
-                    alt="sprouthub logo"
-                    className="h-16 w-auto"
-                  />
-                </div>
+                <img
+                  src="/LogoDark.svg"
+                  alt="sprouthub logo"
+                  className="h-16 w-auto"
+                />
               </div>
               <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
                 About sprouthub
