@@ -16,6 +16,7 @@ import MyPlantDetails from "./pages/MyPlantDetails";
 import Households from "./pages/Households";
 import HouseholdManagement from "./pages/HouseholdManagement";
 import Profile from "./pages/Profile";
+import About from "./pages/About";
 import SkeletonDemo from "./pages/SkeletonDemo";
 import ToastDemo from "./components/ToastDemo";
 import NotFound from "./pages/NotFound";
@@ -51,6 +52,7 @@ const App = () => (
                   element={<HouseholdManagement />}
                 />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/skeleton-demo" element={<SkeletonDemo />} />
                 <Route path="/toast-demo" element={<ToastDemo />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
