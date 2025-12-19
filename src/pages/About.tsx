@@ -123,7 +123,7 @@ const About = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Sun className="w-5 h-5 text-sprout-primary" />
+                    <Sun className="w-5 h-5 text-sprout-primary dark:text-sprout-cream" />
                     Our Mission
                   </CardTitle>
                 </CardHeader>
@@ -184,7 +184,7 @@ const About = () => {
               <Card className="border-sprout-primary/20">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Zap className="w-5 h-5 text-sprout-primary" />
+                    <Zap className="w-5 h-5 text-sprout-primary dark:text-sprout-cream" />
                     Why Choose sprouthub?
                   </CardTitle>
                   <CardDescription>
@@ -194,7 +194,7 @@ const About = () => {
                 <CardContent className="space-y-4">
                   <div className="space-y-3">
                     <div className="flex gap-3">
-                      <div className="text-sprout-primary mt-1">
+                      <div className="text-sprout-primary dark:text-sprout-cream mt-1">
                         <Droplets className="w-5 h-5" />
                       </div>
                       <div>
@@ -208,7 +208,7 @@ const About = () => {
                     </div>
 
                     <div className="flex gap-3">
-                      <div className="text-sprout-primary mt-1">
+                      <div className="text-sprout-primary dark:text-sprout-cream mt-1">
                         <Users className="w-5 h-5" />
                       </div>
                       <div>
@@ -221,7 +221,7 @@ const About = () => {
                     </div>
 
                     <div className="flex gap-3">
-                      <div className="text-sprout-primary mt-1">
+                      <div className="text-sprout-primary dark:text-sprout-cream mt-1">
                         <Shield className="w-5 h-5" />
                       </div>
                       <div>
@@ -254,7 +254,7 @@ const About = () => {
                   <Button
                     size="lg"
                     onClick={() => navigate("/")}
-                    className="bg-sprout-primary hover:bg-sprout-primary/90"
+                    className="bg-sprout-primary hover:bg-sprout-primary/90 text-white dark:text-gray-900"
                   >
                     <Home className="w-4 h-4 mr-2" />
                     Go to Dashboard
@@ -264,7 +264,7 @@ const About = () => {
                     <Button
                       size="lg"
                       onClick={() => navigate("/auth")}
-                      className="bg-sprout-primary hover:bg-sprout-primary/90"
+                      className="bg-sprout-primary hover:bg-sprout-primary/90 text-white dark:text-gray-900"
                     >
                       <Droplets className="w-4 h-4 mr-2" />
                       Get Started Free
