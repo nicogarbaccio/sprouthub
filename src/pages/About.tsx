@@ -1,7 +1,13 @@
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
@@ -20,6 +26,7 @@ import {
   Zap,
   Heart,
   Users,
+  LogIn,
 } from "lucide-react";
 
 const About = () => {
@@ -91,7 +98,7 @@ const About = () => {
 
       <main>
         {/* Hero Section */}
-        <section className="bg-gradient-to-b from-sprout-primary/5 to-background py-16 sm:py-20">
+        <section className="bg-gradient-to-b from-sprout-primary/5 to-background pt-16 sm:pt-20 pb-4">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <CascadingContainer delay={0}>
               <div className="flex justify-center mb-6">
@@ -105,88 +112,80 @@ const About = () => {
                 About sprouthub
               </h1>
               <p className="text-xl text-muted-foreground mb-6 max-w-2xl mx-auto">
-                A comprehensive plant care tracker designed for plant lovers who want intelligent,
-                data-driven insights to keep their indoor gardens thriving.
+                A comprehensive plant care tracker designed for plant lovers who
+                want intelligent, data-driven insights to keep their indoor
+                gardens thriving.
               </p>
-              <Badge variant="secondary" className="text-sm">
-                <Heart className="w-3 h-3 mr-1" />
-                Built with love for plant parents everywhere
-              </Badge>
             </CascadingContainer>
           </div>
         </section>
 
         {/* Mission & Why Choose Section */}
-        <section className="py-12 sm:py-16">
+        <section className="pb-8 sm:pb-12 pt-2">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <CascadingContainer delay={100}>
               <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Sun className="w-5 h-5 text-sprout-primary dark:text-sprout-cream" />
-                    Our Mission
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6">
+                <CardContent className="space-y-6 pt-6">
                   <div className="space-y-4">
+                    <h2 className="flex items-center gap-2 text-xl font-semibold">
+                      <Sun className="w-5 h-5 text-sprout-primary dark:text-sprout-cream" />
+                      Our Mission
+                    </h2>
                     <p className="text-muted-foreground">
-                      We believe that everyone deserves to experience the joy of a thriving indoor
-                      garden, regardless of their experience level. sprouthub removes the guesswork
-                      from plant care by combining real-time weather data, seasonal intelligence, and
-                      your personal care history to provide truly smart recommendations.
+                      We believe that everyone deserves to experience the joy of
+                      a thriving indoor garden, regardless of their experience
+                      level. sprouthub removes the guesswork from plant care by
+                      combining real-time weather data, seasonal intelligence,
+                      and your personal care history to provide truly smart
+                      recommendations.
                     </p>
                     <p className="text-muted-foreground">
-                      Whether you're a seasoned plant parent managing dozens of plants across multiple
-                      rooms, or just starting with your first succulent, sprouthub adapts to your needs
-                      and helps you build the green space of your dreams.
+                      Whether you're a seasoned plant parent managing dozens of
+                      plants across multiple rooms, or just starting with your
+                      first succulent, sprouthub adapts to your needs and helps
+                      you build the green space of your dreams.
                     </p>
                   </div>
 
-                  <div className="border-t pt-6">
-                    <h3 className="flex items-center gap-2 text-lg font-semibold mb-4">
+                  <div className="border-t pt-6 space-y-4">
+                    <h2 className="flex items-center gap-2 text-xl font-semibold">
                       <Zap className="w-5 h-5 text-sprout-primary dark:text-sprout-cream" />
                       Why Choose sprouthub?
-                    </h3>
-                    <div className="space-y-4">
-                      <div className="flex gap-3">
-                        <div className="text-sprout-primary dark:text-sprout-cream mt-1">
-                          <Droplets className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold mb-1">Truly Intelligent Watering</h4>
-                          <p className="text-muted-foreground">
-                            Not just static reminders—our algorithm considers weather, season, your
-                            watering history, and plant-specific needs to give you the most accurate
-                            recommendations possible.
-                          </p>
-                        </div>
-                      </div>
+                    </h2>
 
-                      <div className="flex gap-3">
-                        <div className="text-sprout-primary dark:text-sprout-cream mt-1">
-                          <Users className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold mb-1">Built for Real Plant Parents</h4>
-                          <p className="text-muted-foreground">
-                            Every feature was designed based on real needs—from managing households
-                            with shared plants to organizing by rooms to tracking seasonal changes.
-                          </p>
-                        </div>
+                    <div className="flex gap-3">
+                      <div className="text-sprout-primary dark:text-sprout-cream mt-1">
+                        <Droplets className="w-5 h-5" />
                       </div>
+                      <p className="text-muted-foreground">
+                        <strong>Truly Intelligent Watering:</strong> Not just
+                        static reminders—our algorithm considers weather,
+                        season, your watering history, and plant-specific needs
+                        to give you the most accurate recommendations possible.
+                      </p>
+                    </div>
 
-                      <div className="flex gap-3">
-                        <div className="text-sprout-primary dark:text-sprout-cream mt-1">
-                          <Shield className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold mb-1">Privacy-First Design</h4>
-                          <p className="text-muted-foreground">
-                            Your plant data is yours. Row-level security ensures you only see your own
-                            plants, and we never sell or share your information.
-                          </p>
-                        </div>
+                    <div className="flex gap-3">
+                      <div className="text-sprout-primary dark:text-sprout-cream mt-1">
+                        <Users className="w-5 h-5" />
                       </div>
+                      <p className="text-muted-foreground">
+                        <strong>Built for Real Plant Parents:</strong> Every
+                        feature was designed based on real needs—from managing
+                        households with shared plants to organizing by rooms to
+                        tracking seasonal changes.
+                      </p>
+                    </div>
+
+                    <div className="flex gap-3">
+                      <div className="text-sprout-primary dark:text-sprout-cream mt-1">
+                        <Shield className="w-5 h-5" />
+                      </div>
+                      <p className="text-muted-foreground">
+                        <strong>Privacy-First Design:</strong> Your plant data
+                        is yours. Row-level security ensures you only see your
+                        own plants, and we never sell or share your information.
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -204,21 +203,29 @@ const About = () => {
                   Powerful Features
                 </h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                  Everything you need to care for your plants, all in one beautiful app
+                  Everything you need to care for your plants, all in one
+                  beautiful app
                 </p>
               </div>
             </CascadingContainer>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {features.map((feature, index) => (
-                <CascadingContainer key={feature.title} delay={200 + index * 50}>
+                <CascadingContainer
+                  key={feature.title}
+                  delay={200 + index * 50}
+                >
                   <Card className="h-full hover:shadow-lg transition-shadow">
                     <CardHeader>
-                      <div className={`${feature.color} mb-3`}>{feature.icon}</div>
+                      <div className={`${feature.color} mb-3`}>
+                        {feature.icon}
+                      </div>
                       <CardTitle className="text-lg">{feature.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-muted-foreground">{feature.description}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {feature.description}
+                      </p>
                     </CardContent>
                   </Card>
                 </CascadingContainer>
@@ -235,14 +242,15 @@ const About = () => {
                 Ready to Grow Your Green Space?
               </h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-                Join plant parents who are keeping their plants thriving with smart, data-driven care.
+                Join plant parents who are keeping their plants thriving with
+                smart, data-driven care.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 {user ? (
                   <Button
                     size="lg"
                     onClick={() => navigate("/")}
-                    className="bg-sprout-primary hover:bg-sprout-primary/90 text-white dark:text-gray-900"
+                    className="bg-sprout-primary hover:bg-sprout-primary/90 text-white"
                   >
                     <Home className="w-4 h-4 mr-2" />
                     Go to Dashboard
@@ -254,8 +262,8 @@ const About = () => {
                       onClick={() => navigate("/auth")}
                       className="bg-sprout-primary hover:bg-sprout-primary/90 text-white dark:text-gray-900"
                     >
-                      <Droplets className="w-4 h-4 mr-2" />
-                      Get Started Free
+                      <LogIn className="w-4 h-4 mr-2" />
+                      Log In / Sign Up
                     </Button>
                     <Button
                       size="lg"
