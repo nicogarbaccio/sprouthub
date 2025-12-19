@@ -97,7 +97,7 @@ const About = () => {
               <div className="flex justify-center mb-6">
                 <div className="bg-sprout-cream dark:bg-sprout-cream/90 p-6 rounded-2xl">
                   <img
-                    src="/Logo.svg"
+                    src="/LogoDark.svg"
                     alt="sprouthub logo"
                     className="h-16 w-auto"
                   />
