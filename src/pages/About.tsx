@@ -154,7 +154,7 @@ const About = () => {
                         </div>
                         <div>
                           <h4 className="font-semibold mb-1">Truly Intelligent Watering</h4>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-muted-foreground">
                             Not just static reminders—our algorithm considers weather, season, your
                             watering history, and plant-specific needs to give you the most accurate
                             recommendations possible.
@@ -168,7 +168,7 @@ const About = () => {
                         </div>
                         <div>
                           <h4 className="font-semibold mb-1">Built for Real Plant Parents</h4>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-muted-foreground">
                             Every feature was designed based on real needs—from managing households
                             with shared plants to organizing by rooms to tracking seasonal changes.
                           </p>
@@ -181,7 +181,7 @@ const About = () => {
                         </div>
                         <div>
                           <h4 className="font-semibold mb-1">Privacy-First Design</h4>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-muted-foreground">
                             Your plant data is yours. Row-level security ensures you only see your own
                             plants, and we never sell or share your information.
                           </p>
