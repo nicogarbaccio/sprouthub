@@ -19,9 +19,6 @@ import {
   Zap,
   Heart,
   Users,
-  Code,
-  Database,
-  Palette,
 } from "lucide-react";
 
 const About = () => {
@@ -84,29 +81,6 @@ const About = () => {
       description:
         "Your data is protected with industry-standard authentication and row-level security. You own your plant data.",
       color: "text-red-500",
-    },
-  ];
-
-  const techStack = [
-    {
-      category: "Frontend",
-      icon: <Code className="w-5 h-5" />,
-      technologies: ["React 18", "TypeScript", "Vite", "Tailwind CSS", "shadcn/ui"],
-    },
-    {
-      category: "Backend",
-      icon: <Database className="w-5 h-5" />,
-      technologies: ["Supabase", "PostgreSQL", "Edge Functions", "Real-time Sync"],
-    },
-    {
-      category: "Mobile",
-      icon: <Smartphone className="w-5 h-5" />,
-      technologies: ["PWA", "Capacitor", "iOS App", "Offline Support"],
-    },
-    {
-      category: "Design",
-      icon: <Palette className="w-5 h-5" />,
-      technologies: ["Radix UI", "Framer Motion", "Responsive Design", "Dark Mode"],
     },
   ];
 
@@ -200,50 +174,10 @@ const About = () => {
           </div>
         </section>
 
-        {/* Tech Stack Section */}
-        <section className="py-12 sm:py-16">
+        {/* Why sprouthub Section */}
+        <section className="py-12 sm:py-16 bg-gradient-to-b from-muted/30 to-sprout-primary/5">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <CascadingContainer delay={400}>
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-foreground mb-4">
-                  Built with Modern Technology
-                </h2>
-                <p className="text-lg text-muted-foreground">
-                  Fast, reliable, and built to scale
-                </p>
-              </div>
-            </CascadingContainer>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {techStack.map((stack, index) => (
-                <CascadingContainer key={stack.category} delay={450 + index * 50}>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2 text-lg">
-                        <span className="text-sprout-primary">{stack.icon}</span>
-                        {stack.category}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="flex flex-wrap gap-2">
-                        {stack.technologies.map((tech) => (
-                          <Badge key={tech} variant="secondary" className="text-xs">
-                            {tech}
-                          </Badge>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </CascadingContainer>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Why sprouthub Section */}
-        <section className="py-12 sm:py-16 bg-gradient-to-b from-background to-sprout-primary/5">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <CascadingContainer delay={600}>
               <Card className="border-sprout-primary/20">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -305,7 +239,7 @@ const About = () => {
         {/* CTA Section */}
         <section className="py-16 sm:py-20">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <CascadingContainer delay={700}>
+            <CascadingContainer delay={500}>
               <h2 className="text-3xl font-bold text-foreground mb-4">
                 Ready to Grow Your Green Space?
               </h2>
