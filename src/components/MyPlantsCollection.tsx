@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Edit, Droplets, Home } from "lucide-react";
+import { Plus, Edit, Droplets, Home, ListChecks, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MyPlantCardSkeleton, Skeleton } from "@/components/ui/skeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
@@ -26,8 +26,15 @@ import {
 } from "@/utils/watering-schedule";
 import { updatePlantWateringSchedule } from "@/utils/plant-schedule-updater";
 import { utilityToast } from "@/utils/toast-helpers";
+import { toast } from "sonner";
+import { FloatingActionButton } from "@/components/ui/floating-action-button";
+import { useKeyboardShortcuts, createPlantShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { BulkSelectionProvider, useBulkSelection } from "@/contexts/BulkSelectionContext";
+import { BulkActionsBar } from "@/components/BulkActionsBar";
+import { SearchFilterBar, type PlantStatus, type SortOption } from "@/components/SearchFilterBar";
+import { applyFiltersAndSort, getUniqueRooms } from "@/utils/plant-filtering";
 
-const MyPlantsCollection = () => {
+const MyPlantsCollectionContent = () => {
   const { user } = useAuth();
   const {
     plants,
@@ -36,16 +43,49 @@ const MyPlantsCollection = () => {
     waterPlant,
     postponeWatering,
     overwateringByPlantId,
+    deletePlant,
   } = useUserPlants();
+  const { enterSelectionMode } = useBulkSelection();
   const [editingPlant, setEditingPlant] = useState<UserPlant | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [historyPlant, setHistoryPlant] = useState<UserPlant | null>(null);
   const [isHistoryDialogOpen, setIsHistoryDialogOpen] = useState(false);
 
+  // Search and filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState<PlantStatus>('all');
+  const [roomFilter, setRoomFilter] = useState('all');
+  const [sortBy, setSortBy] = useState<SortOption>('name-asc');
+
+  // Apply filters and sorting
+  const filteredPlants = applyFiltersAndSort(plants, {
+    searchQuery,
+    status: statusFilter,
+    room: roomFilter,
+    sortBy,
+  });
+
+  const availableRooms = getUniqueRooms(plants);
+
+  const handleClearFilters = () => {
+    setSearchQuery('');
+    setStatusFilter('all');
+    setRoomFilter('all');
+  };
+
   const { showLoading, isReady } = useGracefulLoading(loading, {
     minLoadingTime: 0,
     staggerDelay: 0,
+  });
+
+  // Setup keyboard shortcuts - MUST be before any early returns
+  useKeyboardShortcuts({
+    shortcuts: createPlantShortcuts({
+      onAddPlant: () => {
+        setIsAddDialogOpen(true);
+      },
+    }),
   });
 
   if (!user) {
@@ -135,7 +175,7 @@ const MyPlantsCollection = () => {
   }).length;
 
   // Room statistics
-  const roomGroups = groupPlantsByRoom(plants);
+  const roomGroups = groupPlantsByRoom(filteredPlants);
   const roomCount = Object.keys(roomGroups).length;
 
   const handleEditPlant = (plant: UserPlant) => {
@@ -168,6 +208,25 @@ const MyPlantsCollection = () => {
   const handleCloseHistoryDialog = () => {
     setIsHistoryDialogOpen(false);
     setHistoryPlant(null);
+  };
+
+  // Bulk action handlers
+  const handleBulkWater = async (plantIds: string[]) => {
+    try {
+      await Promise.all(plantIds.map(id => waterPlant(id)));
+      toast.success(`Successfully watered ${plantIds.length} plant${plantIds.length > 1 ? 's' : ''}`);
+    } catch (error) {
+      toast.error('Failed to water some plants');
+    }
+  };
+
+  const handleBulkDelete = async (plantIds: string[]) => {
+    try {
+      await Promise.all(plantIds.map(id => deletePlant(id)));
+      toast.success(`Successfully deleted ${plantIds.length} plant${plantIds.length > 1 ? 's' : ''}`);
+    } catch (error) {
+      toast.error('Failed to delete some plants');
+    }
   };
 
   // Handle schedule adjustment from pattern suggestions
@@ -301,16 +360,46 @@ const MyPlantsCollection = () => {
               </div>
             </div>
 
-            <Button
-              data-testid="add-plant-button"
-              onClick={handleAddPlant}
-              className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl mt-4 md:mt-0 font-medium"
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              Add New Plant
-            </Button>
+            <div className="flex gap-2 mt-4 md:mt-0">
+              <Button
+                variant="outline"
+                onClick={enterSelectionMode}
+                className="rounded-xl font-medium"
+              >
+                <ListChecks className="w-4 h-4 mr-2" />
+                Select
+              </Button>
+              <Button
+                data-testid="add-plant-button"
+                onClick={handleAddPlant}
+                className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl font-medium"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Add New Plant
+              </Button>
+            </div>
           </div>
         </CascadingContainer>
+
+        {/* Search and Filter Bar */}
+        {plants.length > 0 && (
+          <CascadingContainer delay={150}>
+            <div className="mb-6">
+              <SearchFilterBar
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                status={statusFilter}
+                onStatusChange={setStatusFilter}
+                room={roomFilter}
+                onRoomChange={setRoomFilter}
+                sortBy={sortBy}
+                onSortChange={setSortBy}
+                availableRooms={availableRooms}
+                onClearAll={handleClearFilters}
+              />
+            </div>
+          </CascadingContainer>
+        )}
 
         {plants.length === 0 ? (
           <CascadingContainer delay={200}>
@@ -378,10 +467,26 @@ const MyPlantsCollection = () => {
               </Button>
             </div>
           </CascadingContainer>
+        ) : filteredPlants.length === 0 ? (
+          <CascadingContainer delay={200}>
+            <div className="bg-muted/50 rounded-lg p-12 text-center">
+              <Search className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
+              <h3 className="text-xl font-semibold text-foreground mb-2">
+                No plants found
+              </h3>
+              <p className="text-muted-foreground mb-4">
+                Try adjusting your search or filters
+              </p>
+              <Button variant="outline" onClick={handleClearFilters}>
+                <X className="h-4 w-4 mr-2" />
+                Clear Filters
+              </Button>
+            </div>
+          </CascadingContainer>
         ) : (
           <>
             {/* Render Plants by Room */}
-            {Object.entries(groupPlantsByRoom(plants)).map(
+            {Object.entries(groupPlantsByRoom(filteredPlants)).map(
               ([roomKey, roomPlants], index) => (
                 <RoomSection
                   key={roomKey}
@@ -424,8 +529,26 @@ const MyPlantsCollection = () => {
           onScheduleAdjustment={handleScheduleAdjustment}
           onPlantDataChange={fetchPlants}
         />
+
+        {/* Floating Action Button */}
+        <FloatingActionButton onClick={handleAddPlant} />
+
+        {/* Bulk Actions Bar */}
+        <BulkActionsBar
+          onBulkWater={handleBulkWater}
+          onBulkDelete={handleBulkDelete}
+          allPlantIds={plants.map(p => p.id)}
+        />
       </div>
     </section>
+  );
+};
+
+const MyPlantsCollection = () => {
+  return (
+    <BulkSelectionProvider>
+      <MyPlantsCollectionContent />
+    </BulkSelectionProvider>
   );
 };
 

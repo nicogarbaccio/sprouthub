@@ -98,7 +98,14 @@ export function MobilePlantCard({
     setShowActions(false);
   };
 
-  const handleConfirmWater = () => {
+  const handleConfirmWater = (notes?: string) => {
+    onWater?.(plant.id);
+    success();
+  };
+
+  const handleAlreadyWatered = (date: string, notes?: string) => {
+    // TODO: Implement backdating watering to a specific date
+    // For now, just water the plant normally
     onWater?.(plant.id);
     success();
   };
@@ -343,9 +350,12 @@ export function MobilePlantCard({
         open={showWaterConfirmation}
         onOpenChange={setShowWaterConfirmation}
         onConfirm={handleConfirmWater}
+        onAlreadyWatered={handleAlreadyWatered}
         plantName={plant.name}
         showOverwateringWarning={showOverwateringWarning}
         daysSinceLastWatered={daysSinceLastWatered}
+        wateringScheduleDays={plant.suggested_watering_days || 7}
+        lastWateredDate={plant.last_watered}
       />
 
       <FullscreenImageModal

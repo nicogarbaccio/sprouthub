@@ -13,6 +13,7 @@ import { CascadingContainer } from "@/components/ui/cascading-container";
 import { useGracefulLoading } from "@/hooks/useGracefulLoading";
 import { PlantDetailsPageSkeleton } from "@/components/ui/skeleton";
 import { plants } from "@/data/plantData";
+import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
 const PlantDetails = () => {
   const { plantName } = useParams();
@@ -24,16 +25,17 @@ const PlantDetails = () => {
   // Simulate loading state (in a real app, this would be actual data fetching)
   const [isLoading, setIsLoading] = useState(true);
 
+  // MUST call useGracefulLoading before any useEffect hooks
+  const { showLoading, isReady } = useGracefulLoading(isLoading, {
+    minLoadingTime: 0,
+    staggerDelay: 0,
+  });
+
   useEffect(() => {
     // Simulate API call delay
     const timer = setTimeout(() => setIsLoading(false), 600);
     return () => clearTimeout(timer);
   }, [plantName]);
-
-  const { showLoading, isReady } = useGracefulLoading(isLoading, {
-    minLoadingTime: 0,
-    staggerDelay: 0,
-  });
 
   // Find the plant in the plant data by matching the name
   const plant = plants.find(
@@ -137,6 +139,15 @@ const PlantDetails = () => {
       <Navigation />
       <div className="pt-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Breadcrumbs */}
+          <PageBreadcrumbs
+            items={[
+              { label: "Plant Catalog", href: "/plant-catalog" },
+              { label: plant.name },
+            ]}
+            className="mb-6"
+          />
+
           <CascadingContainer delay={0}>
             <PlantDetailsHeader
               onBackClick={() => navigate("/plant-catalog")}

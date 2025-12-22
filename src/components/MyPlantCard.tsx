@@ -8,6 +8,7 @@ import {
   History,
   Lightbulb,
   ChevronDown,
+  CheckCircle2,
 } from "lucide-react";
 import type { OverwateringRisk } from "@/utils/overwatering";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
@@ -26,6 +27,8 @@ import { wateringPatternAnalyzer } from "@/utils/watering-pattern-analyzer";
 import { useNavigate } from "react-router-dom";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import { useDismissedInsights } from "@/hooks/useDismissedInsights";
+import { useBulkSelection } from "@/contexts/BulkSelectionContext";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Tooltip,
   TooltipContent,
@@ -87,6 +90,7 @@ const MyPlantCard = ({
   overwatering,
 }: MyPlantCardProps) => {
   const navigate = useNavigate();
+  const { isSelectionMode, isPlantSelected, togglePlantSelection } = useBulkSelection();
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
   const [showPostponeConfirmation, setShowPostponeConfirmation] =
     useState(false);
@@ -95,6 +99,8 @@ const MyPlantCard = ({
   const [showPendingTips, setShowPendingTips] = useState(false);
   const [patternAnalysis, setPatternAnalysis] = useState(null);
   const [patternInsights, setPatternInsights] = useState([]);
+
+  const isSelected = isPlantSelected(id);
 
   // Quick pattern analysis hook for post-watering suggestions
   const { analyzeQuick, isAnalyzing } = useQuickPatternAnalysis();
@@ -309,7 +315,7 @@ const MyPlantCard = ({
     }
   };
 
-  const handleConfirmWater = async () => {
+  const handleConfirmWater = async (notes?: string) => {
     // First, complete the watering action
     onWater();
 
@@ -345,6 +351,12 @@ const MyPlantCard = ({
         console.error("Error analyzing watering pattern:", error);
       }
     }, 2000); // Wait 2 seconds for watering record to be saved
+  };
+
+  const handleAlreadyWatered = async (date: string, notes?: string) => {
+    // TODO: Implement backdating watering to a specific date
+    // For now, just water the plant normally
+    onWater();
   };
 
   const handleNameClick = (e: React.MouseEvent) => {
@@ -429,15 +441,44 @@ const MyPlantCard = ({
     return `Water in ${daysUntilWatering} days`;
   };
 
+  const handleCardClick = () => {
+    if (isSelectionMode) {
+      togglePlantSelection(id);
+    } else {
+      setShowFullscreenImage(true);
+    }
+  };
+
   return (
     <>
       <div
-        className="relative bg-card border border-border rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden"
+        className={cn(
+          "relative bg-card border rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden",
+          isSelectionMode && "cursor-pointer",
+          isSelected && "ring-2 ring-sprout-primary border-sprout-primary"
+        )}
         data-testid="plant-card"
+        onClick={isSelectionMode ? () => togglePlantSelection(id) : undefined}
       >
+        {/* Selection Checkbox - Top Left */}
+        {isSelectionMode && (
+          <div className="absolute top-3 left-3 z-10">
+            <div
+              className={cn(
+                "h-6 w-6 rounded-md border-2 flex items-center justify-center transition-colors",
+                isSelected
+                  ? "bg-sprout-primary border-sprout-primary"
+                  : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+              )}
+            >
+              {isSelected && <CheckCircle2 className="h-4 w-4 text-white" />}
+            </div>
+          </div>
+        )}
+
         <div
           className="cursor-pointer relative"
-          onClick={() => setShowFullscreenImage(true)}
+          onClick={!isSelectionMode ? handleCardClick : undefined}
         >
           <PlantImage
             src={image}
@@ -687,9 +728,13 @@ const MyPlantCard = ({
         open={showWaterConfirmation}
         onOpenChange={setShowWaterConfirmation}
         onConfirm={handleConfirmWater}
+        onPostpone={onPostpone}
+        onAlreadyWatered={handleAlreadyWatered}
         plantName={name}
         showOverwateringWarning={showOverwateringWarning}
         daysSinceLastWatered={daysSinceLastWatered}
+        wateringScheduleDays={suggestedWateringDays || 7}
+        lastWateredDate={lastWateredDate}
       />
 
       <FullscreenImageModal

@@ -77,9 +77,11 @@ import { useBulkPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { useDismissedSuggestions } from "@/hooks/useDismissedSuggestions";
 import { format, formatDistanceToNow } from "date-fns";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
+import { FloatingActionButton } from "@/components/ui/floating-action-button";
+import { useKeyboardShortcuts, createPlantShortcuts } from "@/hooks/useKeyboardShortcuts";
 
 const Dashboard = () => {
-  const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule } =
+  const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule, postponeWatering } =
     useUserPlants();
   const { profileData, isLoadingProfile } = useProfile();
   const { preferences } = useSmartWateringPreferences();
@@ -222,6 +224,22 @@ const Dashboard = () => {
 
   // Calculate care statistics using the new watering calculation utility
   const totalPlants = plants.length;
+
+  // Setup keyboard shortcuts - MUST be before any early returns
+  useKeyboardShortcuts({
+    shortcuts: createPlantShortcuts({
+      onAddPlant: () => addDialog.open(),
+      onWaterAllDue: () => {
+        const plantsNeedingWater = plants.filter((plant) => {
+          const calc = calculateWateringSchedule(plant);
+          return calc.isOverdue || calc.daysUntilWatering === 0;
+        });
+        if (plantsNeedingWater.length > 0) {
+          bulkWaterDialog.open();
+        }
+      },
+    }),
+  });
 
   const careStats = plants.reduce(
     (stats, plant) => {
@@ -509,7 +527,7 @@ const Dashboard = () => {
     });
   };
 
-  const handleConfirmQuickWater = async () => {
+  const handleConfirmQuickWater = async (notes?: string) => {
     // Capture the plant ID before closing the dialog
     const plantId = waterConfirmation.plantId;
 
@@ -517,7 +535,21 @@ const Dashboard = () => {
     setWaterConfirmation({ show: false, plantId: "", plantName: "" });
 
     // Then process the watering asynchronously
-    await waterPlant(plantId, `Quick watered from dashboard`);
+    await waterPlant(plantId, notes || `Quick watered from dashboard`);
+  };
+
+  const handleQuickPostpone = async () => {
+    const plantId = waterConfirmation.plantId;
+    setWaterConfirmation({ show: false, plantId: "", plantName: "" });
+    await postponeWatering(plantId);
+  };
+
+  const handleAlreadyWatered = async (date: string, notes?: string) => {
+    const plantId = waterConfirmation.plantId;
+    setWaterConfirmation({ show: false, plantId: "", plantName: "" });
+    // TODO: Implement backdating watering to a specific date
+    // For now, just water the plant normally
+    await waterPlant(plantId, notes || `Backdated watering from dashboard`);
   };
 
   const handleImageClick = (
@@ -1108,20 +1140,70 @@ const Dashboard = () => {
                     {totalPlants === 0 && (
                       <div
                         data-testid="add-first-plant-prompt"
-                        className="text-center p-4 bg-blue-50 dark:bg-blue-500/10 rounded-lg border border-blue-200 dark:border-blue-500/30"
+                        className="text-center p-6 bg-gradient-to-br from-plant-primary/5 to-plant-secondary/5 dark:from-plant-primary/10 dark:to-plant-secondary/10 rounded-xl border-2 border-plant-primary/20"
                       >
-                        <p className="text-sm text-blue-700 dark:text-blue-300 mb-3">
-                          Start your plant journey by adding your first plant!
+                        <div className="w-16 h-16 bg-gradient-to-br from-plant-primary to-plant-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Flower2 className="w-8 h-8 text-white" />
+                        </div>
+                        <h4 className="text-lg font-semibold text-foreground mb-2">
+                          Start Your Plant Journey
+                        </h4>
+                        <p className="text-sm text-muted-foreground mb-4 max-w-sm mx-auto">
+                          Add your first plant to unlock smart watering schedules, care reminders, and personalized insights!
                         </p>
-                        <Button
-                          data-testid="add-first-plant-button"
-                          onClick={() => addDialog.open()}
-                          className="bg-sprout-success hover:bg-sprout-success/90 text-white"
-                          size="sm"
-                        >
-                          <Plus className="w-4 h-4 mr-2" />
-                          Add Your First Plant
-                        </Button>
+                        <div className="flex flex-col sm:flex-row gap-2 justify-center">
+                          <Button
+                            data-testid="add-first-plant-button"
+                            onClick={() => addDialog.open()}
+                            className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-medium"
+                            size="sm"
+                          >
+                            <Plus className="w-4 h-4 mr-2" />
+                            Add Your First Plant
+                          </Button>
+                          <Button
+                            variant="outline"
+                            onClick={() => navigate("/plant-catalog")}
+                            size="sm"
+                            className="border-plant-primary/30 hover:bg-plant-primary/5"
+                          >
+                            Browse Plant Catalog
+                          </Button>
+                        </div>
+
+                        {/* Quick Start Guide */}
+                        <div className="mt-6 pt-6 border-t border-border">
+                          <p className="text-xs font-semibold text-muted-foreground mb-3">QUICK START GUIDE</p>
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+                            <div className="flex gap-2">
+                              <div className="w-6 h-6 rounded-full bg-plant-primary text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                1
+                              </div>
+                              <div>
+                                <p className="text-xs font-medium text-foreground">Add a Plant</p>
+                                <p className="text-xs text-muted-foreground">Give it a nickname</p>
+                              </div>
+                            </div>
+                            <div className="flex gap-2">
+                              <div className="w-6 h-6 rounded-full bg-plant-primary text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                2
+                              </div>
+                              <div>
+                                <p className="text-xs font-medium text-foreground">Set Schedule</p>
+                                <p className="text-xs text-muted-foreground">Use Smart Wizard</p>
+                              </div>
+                            </div>
+                            <div className="flex gap-2">
+                              <div className="w-6 h-6 rounded-full bg-plant-primary text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                3
+                              </div>
+                              <div>
+                                <p className="text-xs font-medium text-foreground">Track Care</p>
+                                <p className="text-xs text-muted-foreground">Get reminders</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -1314,6 +1396,8 @@ const Dashboard = () => {
             setWaterConfirmation({ ...waterConfirmation, show: open })
           }
           onConfirm={handleConfirmQuickWater}
+          onPostpone={handleQuickPostpone}
+          onAlreadyWatered={handleAlreadyWatered}
           plantName={waterConfirmation.plantName}
           showOverwateringWarning={
             shouldShowOverwateringWarning(
@@ -1327,6 +1411,8 @@ const Dashboard = () => {
               waterConfirmation.suggestedWateringDays
             ).daysSinceLastWatered
           }
+          wateringScheduleDays={waterConfirmation.suggestedWateringDays || 7}
+          lastWateredDate={waterConfirmation.lastWatered}
         />
 
         <FullscreenImageModal
@@ -1402,6 +1488,9 @@ const Dashboard = () => {
           dismissedPlantIds={dismissedSuggestions}
           isLoading={isSuggestionsAnalyzing || !isDismissedSuggestionsLoaded}
         />
+
+        {/* Floating Action Button */}
+        <FloatingActionButton onClick={() => addDialog.open()} />
       </div>
     </div>
   );

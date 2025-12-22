@@ -55,6 +55,7 @@ import { getRoomIcon, getRoomLabel } from "@/utils/rooms";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { PatternSuggestionsDialog } from "@/components/watering-patterns";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
+import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
 const MyPlantDetails = () => {
   const { plantId } = useParams();
@@ -97,6 +98,12 @@ const MyPlantDetails = () => {
     autoRefresh: false, // Disable auto-refresh to prevent flickering
   });
 
+  // MUST call useGracefulLoading before any useEffect hooks
+  const { showLoading, isReady } = useGracefulLoading(isLoading, {
+    minLoadingTime: 0,
+    staggerDelay: 0,
+  });
+
   // Find matching plant data from catalog for care information
   const catalogPlant = plant
     ? catalogPlants.find(
@@ -117,11 +124,6 @@ const MyPlantDetails = () => {
     }
   }, [loading, plants]);
 
-  const { showLoading, isReady } = useGracefulLoading(isLoading, {
-    minLoadingTime: 0,
-    staggerDelay: 0,
-  });
-
   // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !user) {
@@ -135,9 +137,18 @@ const MyPlantDetails = () => {
     setShowWaterConfirmation(true);
   }, []);
 
-  const handleConfirmWater = useCallback(async () => {
+  const handleConfirmWater = useCallback(async (notes?: string) => {
     if (plant) {
-      await waterPlant(plant.id);
+      await waterPlant(plant.id, notes);
+      setShowWaterConfirmation(false);
+    }
+  }, [plant, waterPlant]);
+
+  const handleAlreadyWatered = useCallback(async (date: string, notes?: string) => {
+    if (plant) {
+      // TODO: Implement backdating watering to a specific date
+      // For now, just water the plant normally
+      await waterPlant(plant.id, notes);
       setShowWaterConfirmation(false);
     }
   }, [plant, waterPlant]);
@@ -444,16 +455,16 @@ const MyPlantDetails = () => {
       <Navigation />
       <main className="py-4 sm:py-6">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8">
+          {/* Breadcrumbs */}
           <CascadingContainer delay={0}>
-            <Button
-              variant="outline"
-              onClick={() => navigate("/my-plants")}
-              className="mb-3 sm:mb-4"
-              size="sm"
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to My Plants
-            </Button>
+            <PageBreadcrumbs
+              items={[
+                { label: "My Plants", href: "/my-plants" },
+                ...(plant.room ? [{ label: plant.room }] : []),
+                { label: plant.nickname },
+              ]}
+              className="mb-4"
+            />
           </CascadingContainer>
 
           {/* Plant Header */}
@@ -749,9 +760,13 @@ const MyPlantDetails = () => {
         open={showWaterConfirmation}
         onOpenChange={setShowWaterConfirmation}
         onConfirm={handleConfirmWater}
+        onPostpone={handlePostpone}
+        onAlreadyWatered={handleAlreadyWatered}
         plantName={plant.nickname}
         showOverwateringWarning={showOverwateringWarning}
         daysSinceLastWatered={daysSinceLastWatered}
+        wateringScheduleDays={plant.suggested_watering_days || 7}
+        lastWateredDate={plant.latest_watering || undefined}
       />
 
       <EditPlantDialog

@@ -12,7 +12,9 @@ import {
   Moon,
   Sun,
   Users,
-  CloudSun,
+  Settings as SettingsIcon,
+  Bell,
+  BarChart3,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,15 +39,27 @@ import { ThemeToggle, SimpleThemeToggle } from "@/components/ui/theme-toggle";
 import { useTheme } from "@/contexts/ThemeContext";
 import { authToast } from "@/utils/toast-helpers";
 import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
-import { WeatherSettingsDialog } from "@/components/WeatherSettingsDialog";
-import { useDialogState } from "@/hooks/useDialogState";
+import { useNotifications } from "@/contexts/NotificationContext";
+import { NotificationCenter } from "@/components/NotificationCenter";
+import { Badge } from "@/components/ui/badge";
+import { QuickActionsMenu } from "@/components/QuickActionsMenu";
+import { useGlobalShortcuts } from "@/hooks/useGlobalShortcuts";
 
 const Navigation = () => {
   const { user, signOut } = useAuth();
   const { profileData } = useProfileData();
   const { actualTheme, setTheme } = useTheme();
   const navigate = useNavigate();
-  const weatherSettingsDialog = useDialogState();
+  const { unreadCount } = useNotifications();
+  const [showNotificationCenter, setShowNotificationCenter] = React.useState(false);
+  const [showQuickActions, setShowQuickActions] = React.useState(false);
+
+  // Global keyboard shortcuts
+  useGlobalShortcuts({
+    onQuickActionsOpen: () => setShowQuickActions(true),
+    onNotificationsOpen: () => setShowNotificationCenter(true),
+    onThemeToggle: () => setTheme(actualTheme === 'dark' ? 'light' : 'dark'),
+  });
 
   const handleSignIn = () => {
     console.log("Navigation: Sign in button clicked, current user:", user);
@@ -105,16 +119,35 @@ const Navigation = () => {
             <div className="hidden md:flex items-center space-x-4">
               <ThemeToggle />
               {user && (
-                <Link to="/">
+                <>
                   <Button
                     variant="ghost"
-                    className="text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                    data-testid="nav-dashboard-button"
+                    size="icon"
+                    className="relative text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white transition-all duration-200 rounded-lg"
+                    onClick={() => setShowNotificationCenter(true)}
+                    data-testid="nav-notifications-button"
                   >
-                    <Home className="w-4 h-4" />
-                    <span>Dashboard</span>
+                    <Bell className="w-5 h-5" />
+                    {unreadCount > 0 && (
+                      <Badge
+                        variant="destructive"
+                        className="absolute -top-1 -right-1 h-5 min-w-5 px-1 text-xs flex items-center justify-center"
+                      >
+                        {unreadCount > 9 ? '9+' : unreadCount}
+                      </Badge>
+                    )}
                   </Button>
-                </Link>
+                  <Link to="/">
+                    <Button
+                      variant="ghost"
+                      className="text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
+                      data-testid="nav-dashboard-button"
+                    >
+                      <Home className="w-4 h-4" />
+                      <span>Dashboard</span>
+                    </Button>
+                  </Link>
+                </>
               )}
               <Link to="/plant-catalog">
                 <Button
@@ -189,11 +222,18 @@ const Navigation = () => {
                       Households
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      onClick={() => weatherSettingsDialog.open()}
+                      onClick={() => navigate("/analytics")}
                       className="cursor-pointer"
                     >
-                      <CloudSun className="w-4 h-4 mr-2" />
-                      Weather Settings
+                      <BarChart3 className="w-4 h-4 mr-2" />
+                      Analytics
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => navigate("/settings")}
+                      className="cursor-pointer"
+                    >
+                      <SettingsIcon className="w-4 h-4 mr-2" />
+                      Settings
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -314,14 +354,17 @@ const Navigation = () => {
                               </Button>
                             </Link>
                           </SheetClose>
-                          <Button
-                            variant="ghost"
-                            onClick={() => weatherSettingsDialog.open()}
-                            className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                          >
-                            <CloudSun className="w-4 h-4 mr-2" />
-                            <span>Weather Settings</span>
-                          </Button>
+                          <SheetClose asChild>
+                            <Link to="/settings">
+                              <Button
+                                variant="ghost"
+                                className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
+                              >
+                                <SettingsIcon className="w-4 h-4 mr-2" />
+                                <span>Settings</span>
+                              </Button>
+                            </Link>
+                          </SheetClose>
                           <Button
                             variant="ghost"
                             onClick={() =>
@@ -384,10 +427,17 @@ const Navigation = () => {
           </div>
         </div>
       </nav>
-      {/* Weather Settings Dialog */}
-      <WeatherSettingsDialog
-        isOpen={weatherSettingsDialog.isOpen}
-        onClose={() => weatherSettingsDialog.close()}
+
+      {/* Notification Center */}
+      <NotificationCenter
+        open={showNotificationCenter}
+        onOpenChange={setShowNotificationCenter}
+      />
+
+      {/* Quick Actions Menu */}
+      <QuickActionsMenu
+        open={showQuickActions}
+        onOpenChange={setShowQuickActions}
       />
     </React.Fragment>
   );
