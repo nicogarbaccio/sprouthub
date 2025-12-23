@@ -146,8 +146,9 @@ const MyPlantDetails = () => {
 
   const handleAlreadyWatered = useCallback(async (date: string, notes?: string) => {
     if (plant) {
-      // TODO: Implement backdating watering to a specific date
-      // For now, just water the plant normally
+      // FUTURE FEATURE: Implement backdating watering to a specific date
+      // This would require modifying waterPlant to accept a date parameter
+      // For now, just water the plant with current timestamp
       await waterPlant(plant.id, notes);
       setShowWaterConfirmation(false);
     }

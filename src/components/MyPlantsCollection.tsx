@@ -33,6 +33,7 @@ import { BulkSelectionProvider, useBulkSelection } from "@/contexts/BulkSelectio
 import { BulkActionsBar } from "@/components/BulkActionsBar";
 import { SearchFilterBar, type PlantStatus, type SortOption } from "@/components/SearchFilterBar";
 import { applyFiltersAndSort, getUniqueRooms } from "@/utils/plant-filtering";
+import { usePlantNotifications, useManualNotifications } from "@/hooks/usePlantNotifications";
 
 const MyPlantsCollectionContent = () => {
   const { user } = useAuth();
@@ -78,6 +79,12 @@ const MyPlantsCollectionContent = () => {
     minLoadingTime: 0,
     staggerDelay: 0,
   });
+
+  // Automatically generate notifications from plant data
+  usePlantNotifications(plants, !loading);
+
+  // Manual notification helpers
+  const { notifyWateringSuccess, notifyBulkWatering } = useManualNotifications();
 
   // Setup keyboard shortcuts - MUST be before any early returns
   useKeyboardShortcuts({
@@ -210,11 +217,21 @@ const MyPlantsCollectionContent = () => {
     setHistoryPlant(null);
   };
 
+  // Individual plant water handler with notification
+  const handleWaterPlant = async (plantId: string) => {
+    const plant = plants.find(p => p.id === plantId);
+    await waterPlant(plantId);
+    if (plant) {
+      notifyWateringSuccess(plant.nickname);
+    }
+  };
+
   // Bulk action handlers
   const handleBulkWater = async (plantIds: string[]) => {
     try {
       await Promise.all(plantIds.map(id => waterPlant(id)));
       toast.success(`Successfully watered ${plantIds.length} plant${plantIds.length > 1 ? 's' : ''}`);
+      notifyBulkWatering(plantIds.length);
     } catch (error) {
       toast.error('Failed to water some plants');
     }
@@ -492,7 +509,7 @@ const MyPlantsCollectionContent = () => {
                   key={roomKey}
                   roomKey={roomKey}
                   plants={roomPlants}
-                  onWaterPlant={waterPlant}
+                  onWaterPlant={handleWaterPlant}
                   onEditPlant={handleEditPlant}
                   onAddPlant={handleAddPlant}
                   onPostponeWatering={postponeWatering}

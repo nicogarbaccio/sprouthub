@@ -13,8 +13,9 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FeatureErrorBoundary } from "@/components/ui/feature-error-boundary";
 
-const Settings = () => {
+const SettingsContent = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("account");
@@ -104,6 +105,14 @@ const Settings = () => {
       </main>
       <Footer />
     </div>
+  );
+};
+
+const Settings = () => {
+  return (
+    <FeatureErrorBoundary featureName="Settings">
+      <SettingsContent />
+    </FeatureErrorBoundary>
   );
 };
 

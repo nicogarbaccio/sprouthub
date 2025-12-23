@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -14,6 +14,9 @@ export const useSmartWateringPreferences = () => {
  const [preferences, setPreferences] = useState<UserWateringPreferences | null>(null);
  const [isLoading, setIsLoading] = useState(false);
  const [hasPreferences, setHasPreferences] = useState(false);
+
+ // Ref to stabilize loadPreferences callback for event listener
+ const loadPreferencesRef = useRef<() => Promise<void>>();
 
  // Load user preferences
  const loadPreferences = useCallback(async () => {
@@ -70,6 +73,11 @@ export const useSmartWateringPreferences = () => {
   setIsLoading(false);
  }
  }, [user]);
+
+ // Update ref when loadPreferences changes
+ useEffect(() => {
+  loadPreferencesRef.current = loadPreferences;
+ }, [loadPreferences]);
 
  // Save or update preferences
  const savePreferences = async (newPreferences: Partial<UserWateringPreferences>) => {
@@ -241,7 +249,7 @@ export const useSmartWateringPreferences = () => {
  useEffect(() => {
  const handlePreferencesUpdate = () => {
   hookLogger.info(HOOK_NAME, 'Preferences update event received, reloading...');
-  loadPreferences();
+  loadPreferencesRef.current?.();
  };
 
  // Listen for custom event
@@ -250,7 +258,7 @@ export const useSmartWateringPreferences = () => {
  return () => {
   window.removeEventListener('weatherPreferencesUpdated', handlePreferencesUpdate);
  };
- }, [loadPreferences]);
+ }, []); // Empty dependency - listener persists, callbacks accessed via ref
 
  return {
  preferences,

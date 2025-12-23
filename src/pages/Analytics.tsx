@@ -31,8 +31,9 @@ import {
 import { CascadingContainer } from '@/components/ui/cascading-container';
 import { PageBreadcrumbs } from '@/components/ui/page-breadcrumbs';
 import { format } from 'date-fns';
+import { FeatureErrorBoundary } from '@/components/ui/feature-error-boundary';
 
-const Analytics = () => {
+const AnalyticsContent = () => {
   const { user } = useAuth();
   const { plants, loading } = useUserPlants();
   const navigate = useNavigate();
@@ -111,8 +112,7 @@ const Analytics = () => {
                 <CardContent>
                   <ul className="space-y-2">
                     {insights.map((insight, idx) => (
-                      <li key={idx} className="text-sm text-foreground flex items-start gap-2">
-                        <span className="text-blue-500 mt-0.5">•</span>
+                      <li key={idx} className="text-sm text-foreground">
                         {insight}
                       </li>
                     ))}
@@ -357,6 +357,14 @@ const Analytics = () => {
       </main>
       <Footer />
     </div>
+  );
+};
+
+const Analytics = () => {
+  return (
+    <FeatureErrorBoundary featureName="Analytics">
+      <AnalyticsContent />
+    </FeatureErrorBoundary>
   );
 };
 

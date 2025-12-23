@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface UseGlobalShortcutsOptions {
@@ -20,6 +20,22 @@ export const useGlobalShortcuts = ({
 }: UseGlobalShortcutsOptions = {}) => {
   const navigate = useNavigate();
 
+  // Use refs to stabilize callback references and prevent event listener churn
+  const callbacksRef = useRef({
+    onQuickActionsOpen,
+    onNotificationsOpen,
+    onThemeToggle,
+  });
+
+  // Update refs when callbacks change
+  useEffect(() => {
+    callbacksRef.current = {
+      onQuickActionsOpen,
+      onNotificationsOpen,
+      onThemeToggle,
+    };
+  }, [onQuickActionsOpen, onNotificationsOpen, onThemeToggle]);
+
   useEffect(() => {
     if (!enabled) return;
 
@@ -37,7 +53,7 @@ export const useGlobalShortcuts = ({
       // Allow Shift+? even in form elements for help
       if (event.key === '?' && event.shiftKey) {
         event.preventDefault();
-        onQuickActionsOpen?.();
+        callbacksRef.current.onQuickActionsOpen?.();
         return;
       }
 
@@ -92,14 +108,14 @@ export const useGlobalShortcuts = ({
         case 'n':
           if (!event.ctrlKey && !event.metaKey && !event.shiftKey) {
             event.preventDefault();
-            onNotificationsOpen?.();
+            callbacksRef.current.onNotificationsOpen?.();
           }
           break;
 
         case 't':
           if (!event.ctrlKey && !event.metaKey && !event.shiftKey) {
             event.preventDefault();
-            onThemeToggle?.();
+            callbacksRef.current.onThemeToggle?.();
           }
           break;
 
@@ -124,5 +140,5 @@ export const useGlobalShortcuts = ({
       window.removeEventListener('keydown', handleKeyDown);
       if (sequenceTimeout) clearTimeout(sequenceTimeout);
     };
-  }, [enabled, navigate, onQuickActionsOpen, onNotificationsOpen, onThemeToggle]);
+  }, [enabled, navigate]); // Callbacks now accessed via ref to prevent listener churn
 };

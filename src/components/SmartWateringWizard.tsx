@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Dialog,
   DialogContent,
@@ -124,7 +124,7 @@ export const SmartWateringWizard = ({
   const labels = getFactorLabels();
 
   // Initialize factors from user preferences if available
-  const initializeFromPreferences = () => {
+  const initializeFromPreferences = useCallback(() => {
     const defaultFactors = getDefaultFactors();
     setFactors((prev) => ({
       ...prev,
@@ -135,10 +135,10 @@ export const SmartWateringWizard = ({
       careStyle: defaultFactors.careStyle || undefined,
       soilType: defaultFactors.soilType || undefined,
     }));
-  };
+  }, [getDefaultFactors]);
 
   // Apply weather data to factors when available
-  const applyWeatherData = () => {
+  const applyWeatherData = useCallback(() => {
     if (!weather.weatherData || !enableWeatherData) return;
 
     const mappingResult = mapWeatherToFactors(weather.weatherData);
@@ -149,38 +149,28 @@ export const SmartWateringWizard = ({
       season: mappingResult.factors.season,
     }));
     setWeatherMappingReasons(mappingResult.mappingReasons);
-  };
+  }, [weather.weatherData, enableWeatherData]);
 
   // Initialize on first render if preferences are available
   useEffect(() => {
     if (preferences) {
       initializeFromPreferences();
     }
-  }, [preferences]);
+  }, [preferences, initializeFromPreferences]);
 
   // Apply weather data when it becomes available
   useEffect(() => {
     if (enableWeatherData && weather.weatherData) {
       applyWeatherData();
     }
-  }, [enableWeatherData, weather.weatherData]);
+  }, [enableWeatherData, weather.weatherData, applyWeatherData]);
 
-  // Check if we need to show location dialog
+  // Check if we need to show location dialog when weather is enabled
   useEffect(() => {
-    if (
-      enableWeatherData &&
-      !location.location &&
-      !location.isLoading &&
-      !showLocationDialog
-    ) {
+    if (enableWeatherData && !location.location && !location.isLoading) {
       setShowLocationDialog(true);
     }
-  }, [
-    enableWeatherData,
-    location.location,
-    location.isLoading,
-    showLocationDialog,
-  ]);
+  }, [enableWeatherData, location.location, location.isLoading]);
 
   const updateFactor = <K extends keyof WateringFactors>(
     key: K,

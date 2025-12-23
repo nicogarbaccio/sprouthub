@@ -52,9 +52,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+    let timeoutId: NodeJS.Timeout | null = null;
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!isMounted) return;
+
       // Prevent auto-login for password recovery sessions
       if (event === "PASSWORD_RECOVERY") {
         // Don't set user/session for recovery - require manual password reset
@@ -69,26 +74,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     });
 
     // Set a fallback timeout to prevent hanging on slow networks
-    const timeoutId = setTimeout(() => {
-      hookLogger.warn(CONTEXT_NAME, "Auth loading timeout - proceeding without auth");
-      setLoading(false);
+    timeoutId = setTimeout(() => {
+      if (isMounted) {
+        hookLogger.warn(CONTEXT_NAME, "Auth loading timeout - proceeding without auth");
+        setLoading(false);
+      }
     }, 3000);
 
     supabase.auth
       .getSession()
       .then(({ data: { session } }) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
+        if (isMounted) {
+          setSession(session);
+          setUser(session?.user ?? null);
+          setLoading(false);
+          // Clear timeout since we got a response
+          if (timeoutId) clearTimeout(timeoutId);
+        }
       })
       .catch((error) => {
-        hookLogger.warn(CONTEXT_NAME, "Auth session error", { error });
-        setLoading(false);
+        if (isMounted) {
+          hookLogger.warn(CONTEXT_NAME, "Auth session error", { error });
+          setLoading(false);
+          // Clear timeout since we got a response (even if error)
+          if (timeoutId) clearTimeout(timeoutId);
+        }
       });
 
     return () => {
+      isMounted = false;
       subscription.unsubscribe();
-      clearTimeout(timeoutId);
+      if (timeoutId) clearTimeout(timeoutId);
     };
   }, []);
 

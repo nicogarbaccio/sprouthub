@@ -547,8 +547,9 @@ const Dashboard = () => {
   const handleAlreadyWatered = async (date: string, notes?: string) => {
     const plantId = waterConfirmation.plantId;
     setWaterConfirmation({ show: false, plantId: "", plantName: "" });
-    // TODO: Implement backdating watering to a specific date
-    // For now, just water the plant normally
+    // FUTURE FEATURE: Implement backdating watering to a specific date
+    // This would require modifying waterPlant to accept a date parameter
+    // For now, just water the plant with current timestamp
     await waterPlant(plantId, notes || `Backdated watering from dashboard`);
   };
 

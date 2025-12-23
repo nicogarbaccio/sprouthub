@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Droplets,
@@ -13,6 +13,7 @@ import {
 import type { OverwateringRisk } from "@/utils/overwatering";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import { cn } from "@/lib/utils";
+import { TIMING } from "@/lib/constants";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
 import PostponeConfirmationDialog from "@/components/PostponeConfirmationDialog";
@@ -57,6 +58,7 @@ interface MyPlantCardProps {
   isPostponed?: boolean; // If the latest watering record is a postponement
   suggestedWateringDays?: number; // For overwatering warning calculation
   householdName?: string; // Name of household this plant belongs to
+  householdId?: string; // ID of household this plant belongs to
   onWater: () => void;
   onEdit: () => void;
   onPostpone?: () => void;
@@ -82,6 +84,7 @@ const MyPlantCard = ({
   isPostponed,
   suggestedWateringDays = 7,
   householdName,
+  householdId,
   onWater,
   onEdit,
   onPostpone,
@@ -100,6 +103,9 @@ const MyPlantCard = ({
   const [patternAnalysis, setPatternAnalysis] = useState(null);
   const [patternInsights, setPatternInsights] = useState([]);
 
+  // Ref to track async timeout for pattern analysis
+  const patternAnalysisTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const isSelected = isPlantSelected(id);
 
   // Quick pattern analysis hook for post-watering suggestions
@@ -117,6 +123,15 @@ const MyPlantCard = ({
     () => filterDismissed(pendingInsights),
     [filterDismissed, pendingInsights]
   );
+
+  // Cleanup timeout on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (patternAnalysisTimeoutRef.current) {
+        clearTimeout(patternAnalysisTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const isOverwateringActive = !!(
     overwatering && overwatering.level !== "none"
@@ -319,8 +334,13 @@ const MyPlantCard = ({
     // First, complete the watering action
     onWater();
 
+    // Clear any existing timeout
+    if (patternAnalysisTimeoutRef.current) {
+      clearTimeout(patternAnalysisTimeoutRef.current);
+    }
+
     // Then, analyze watering patterns for suggestions (after a brief delay to ensure watering is recorded)
-    setTimeout(async () => {
+    patternAnalysisTimeoutRef.current = setTimeout(async () => {
       try {
         const analysis = await analyzeQuick(id);
         if (analysis) {
@@ -350,18 +370,29 @@ const MyPlantCard = ({
       } catch (error) {
         console.error("Error analyzing watering pattern:", error);
       }
-    }, 2000); // Wait 2 seconds for watering record to be saved
+      patternAnalysisTimeoutRef.current = null;
+    }, TIMING.WATERING_PATTERN_DELAY);
   };
 
   const handleAlreadyWatered = async (date: string, notes?: string) => {
-    // TODO: Implement backdating watering to a specific date
-    // For now, just water the plant normally
+    // FUTURE FEATURE: Implement backdating watering to a specific date
+    // This would require modifying the onWater callback to accept a date parameter
+    // and updating the watering_records table insert to use the provided date
+    // For now, just water the plant with current timestamp
     onWater();
   };
 
   const handleNameClick = (e: React.MouseEvent) => {
     e.preventDefault();
     navigate(`/my-plants/${id}`);
+  };
+
+  const handleHouseholdClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (householdId) {
+      navigate(`/households/${householdId}`);
+    }
   };
 
   // Handle schedule adjustment from pattern suggestions
@@ -597,9 +628,17 @@ const MyPlantCard = ({
                 </Tooltip>
               </h3>
               {householdName && (
-                <span className="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs rounded-full font-medium flex items-center gap-1 flex-shrink-0">
+                <button
+                  onClick={handleHouseholdClick}
+                  className={cn(
+                    "px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs rounded-full font-medium flex items-center gap-1 flex-shrink-0 transition-colors",
+                    householdId &&
+                      "hover:bg-blue-200 dark:hover:bg-blue-800 cursor-pointer"
+                  )}
+                  disabled={!householdId}
+                >
                   🏠 {householdName}
-                </span>
+                </button>
               )}
             </div>
 

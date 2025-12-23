@@ -104,8 +104,9 @@ export function MobilePlantCard({
   };
 
   const handleAlreadyWatered = (date: string, notes?: string) => {
-    // TODO: Implement backdating watering to a specific date
-    // For now, just water the plant normally
+    // FUTURE FEATURE: Implement backdating watering to a specific date
+    // This would require modifying onWater to accept a date parameter
+    // For now, just water the plant with current timestamp
     onWater?.(plant.id);
     success();
   };

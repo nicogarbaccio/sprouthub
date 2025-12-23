@@ -21,7 +21,15 @@ export default defineConfig(({ mode }) => ({
         }
       }
     },
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        // Remove console.* calls in production (except console.error and console.warn)
+        drop_console: ['log', 'debug', 'info'],
+        drop_debugger: true,
+      },
+    },
   },
   plugins: [
     react(),

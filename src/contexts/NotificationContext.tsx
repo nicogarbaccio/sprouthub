@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import type { Notification, NotificationGroup, NotificationType } from '@/types/notificationTypes';
+import { storage } from '@/utils/storage';
+import { NOTIFICATIONS, TIMING } from '@/lib/constants';
 
 interface NotificationContextType {
   notifications: Notification[];
@@ -16,33 +18,40 @@ interface NotificationContextType {
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 const STORAGE_KEY = 'sprouthub_notifications';
-const MAX_NOTIFICATIONS = 50; // Keep only the last 50 notifications
 
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
-  // Load notifications from localStorage on mount
+  // Load notifications from storage on mount
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
+    const stored = storage.getItem<Notification[]>(STORAGE_KEY, {
+      version: NOTIFICATIONS.STORAGE_VERSION,
+      validate: (data) => Array.isArray(data),
+    });
+
     if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        // Convert timestamp strings back to Date objects
-        const notificationsWithDates = parsed.map((n: any) => ({
-          ...n,
-          timestamp: new Date(n.timestamp),
-        }));
-        setNotifications(notificationsWithDates);
-      } catch (error) {
-        console.error('Error loading notifications:', error);
-      }
+      // Convert timestamp strings back to Date objects
+      const notificationsWithDates = stored.map((n: any) => ({
+        ...n,
+        timestamp: new Date(n.timestamp),
+      }));
+      setNotifications(notificationsWithDates);
     }
   }, []);
 
-  // Save notifications to localStorage whenever they change
+  // Save notifications to storage with debouncing to optimize performance
   useEffect(() => {
     if (notifications.length > 0) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(notifications));
+      // Debounce storage writes to avoid excessive writes when notifications are added rapidly
+      const timeoutId = setTimeout(() => {
+        // Exclude icon property as React components can't be serialized
+        const serializableNotifications = notifications.map(({ icon, ...rest }) => rest);
+        storage.setItem(STORAGE_KEY, serializableNotifications, {
+          version: NOTIFICATIONS.STORAGE_VERSION,
+        });
+      }, TIMING.STORAGE_WRITE_DEBOUNCE);
+
+      return () => clearTimeout(timeoutId);
     }
   }, [notifications]);
 
@@ -56,8 +65,8 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     };
 
     setNotifications(prev => {
-      // Add new notification and keep only the last MAX_NOTIFICATIONS
-      const updated = [newNotification, ...prev].slice(0, MAX_NOTIFICATIONS);
+      // Add new notification and keep only the last N notifications
+      const updated = [newNotification, ...prev].slice(0, NOTIFICATIONS.MAX_NOTIFICATIONS);
       return updated;
     });
   }, []);

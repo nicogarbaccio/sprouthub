@@ -6,8 +6,9 @@ import { MyPlantCardSkeleton, Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/contexts/AuthContext";
 import Footer from "@/components/Footer";
 import { toast } from "@/hooks/use-toast";
+import { FeatureErrorBoundary } from "@/components/ui/feature-error-boundary";
 
-const MyPlants = () => {
+const MyPlantsContent = () => {
  const { user, loading } = useAuth();
  const navigate = useNavigate();
 
@@ -68,6 +69,14 @@ const MyPlants = () => {
   </main>
   <Footer />
  </div>
+ );
+};
+
+const MyPlants = () => {
+ return (
+ <FeatureErrorBoundary featureName="My Plants">
+  <MyPlantsContent />
+ </FeatureErrorBoundary>
  );
 };
 

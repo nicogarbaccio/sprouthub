@@ -1,4 +1,4 @@
 import '@testing-library/jest-dom';
-import 'vitest/globals';
 
 // Setup file for Vitest
+// Note: Global test functions (describe, it, expect) are configured via vite.config.ts

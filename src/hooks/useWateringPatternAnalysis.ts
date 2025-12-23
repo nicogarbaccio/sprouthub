@@ -2,7 +2,7 @@
  * React hook for watering pattern analysis with Supabase integration
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { wateringPatternAnalyzer } from '@/utils/watering-pattern-analyzer';
@@ -44,6 +44,9 @@ export function useWateringPatternAnalysis(
   const [stats, setStats] = useState<PatternAnalysisStats | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Ref to stabilize refreshAnalysis callback for real-time subscription
+  const refreshAnalysisRef = useRef<() => Promise<void>>();
 
   // Generate insights from current analysis
   const insights = useMemo(() => {
@@ -156,6 +159,11 @@ export function useWateringPatternAnalysis(
     }
   }, [plantId, fetchWateringRecords, fetchPlantDetails, toast]);
 
+  // Update ref when refreshAnalysis changes
+  useEffect(() => {
+    refreshAnalysisRef.current = refreshAnalysis;
+  }, [refreshAnalysis]);
+
   /**
    * Analyze multiple plants at once
    */
@@ -206,7 +214,7 @@ export function useWateringPatternAnalysis(
         () => {
           // Refresh analysis when new watering record is added
           if (autoRefresh) {
-            refreshAnalysis();
+            refreshAnalysisRef.current?.();
           }
         }
       )
@@ -215,7 +223,7 @@ export function useWateringPatternAnalysis(
     return () => {
       subscription.unsubscribe();
     };
-  }, [plantId, enableRealTimeUpdates, autoRefresh, refreshAnalysis]);
+  }, [plantId, enableRealTimeUpdates, autoRefresh]); // refreshAnalysis accessed via ref to prevent re-subscription
 
   /**
    * Initial analysis load

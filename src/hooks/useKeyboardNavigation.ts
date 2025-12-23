@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 interface UseKeyboardNavigationProps {
  onNextPage: () => void;
@@ -19,6 +19,20 @@ export const useKeyboardNavigation = ({
  hasPreviousPage,
  isEnabled = true,
 }: UseKeyboardNavigationProps) => {
+ // Use refs to stabilize callback references and prevent event listener churn
+ const callbacksRef = useRef({
+  onNextPage,
+  onPreviousPage,
+ });
+
+ // Update refs when callbacks change
+ useEffect(() => {
+  callbacksRef.current = {
+   onNextPage,
+   onPreviousPage,
+  };
+ }, [onNextPage, onPreviousPage]);
+
  useEffect(() => {
  if (!isEnabled) return;
 
@@ -37,17 +51,17 @@ export const useKeyboardNavigation = ({
   if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
   if (hasNextPage) {
    event.preventDefault();
-   onNextPage();
+   callbacksRef.current.onNextPage();
   }
   } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
   if (hasPreviousPage) {
    event.preventDefault();
-   onPreviousPage();
+   callbacksRef.current.onPreviousPage();
   }
   }
  };
 
  document.addEventListener('keydown', handleKeyDown);
  return () => document.removeEventListener('keydown', handleKeyDown);
- }, [onNextPage, onPreviousPage, hasNextPage, hasPreviousPage, isEnabled]);
+ }, [hasNextPage, hasPreviousPage, isEnabled]); // Callbacks now accessed via ref to prevent listener churn
 }; 
