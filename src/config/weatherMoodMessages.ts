@@ -102,6 +102,32 @@ export const weatherMoodMessages = {
   },
 
   /**
+   * SNOWY
+   * Triggers: Snowing condition detected
+   * Snowing
+   */
+  snowy: {
+    messages: [
+      "Let it snow! ❄️",
+      "Winter wonderland outside! ☃️",
+      "Snow day for your plants! 🌨️",
+      "Frosty flakes are falling! ❄️",
+      "Keep your plants cozy inside! 🧣",
+      "Snowy vibes today! 🏂",
+    ],
+    advice: [
+      "Ensure outdoor plants are protected from frost",
+      "Brush heavy snow off branches gently",
+      "Keep indoor humidity up as heating dries air",
+      "Great time to plan your spring garden",
+      "Avoid watering outdoor plants in freezing temps",
+    ],
+    emoji: "🌨️",
+    gradient: "linear-gradient(135deg, #E0EAFC 0%, #CFDEF3 100%)",
+    animation: "cold" as const,
+  },
+
+  /**
    * COLD
    * Triggers: <10°C
    * Chilly weather conditions

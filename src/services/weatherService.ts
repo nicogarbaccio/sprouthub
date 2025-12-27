@@ -16,7 +16,7 @@ import {
 } from '@/constants/weather';
 
 const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
-const CACHE_KEY = 'sprouthub_weather_cache';
+const CACHE_KEY = 'sprouthub_weather_cache_v2';
 const SERVICE_NAME = 'WeatherService';
 
 class WeatherService {
@@ -55,20 +55,41 @@ class WeatherService {
       
       const forecastResponse = await fetch(forecastUrl);
       let rainProbability = 0;
+      let isForecastSnow = false;
       
       if (forecastResponse.ok) {
         const forecastData: OpenWeatherForecastResponse = await forecastResponse.json();
         // Calculate max rain probability in next 24 hours
-        rainProbability = Math.max(...forecastData.list.map(item => item.pop * 100));
+        rainProbability = Math.max(...forecastData.list.map(item => {
+          // Check if this forecast item is snow (ID 6xx) or if it's precipitating near freezing
+          const isSnowId = item.weather.some(w => w.id >= 600 && w.id < 700);
+          const isFreezingPrecip = item.pop > 0 && item.main.temp <= 1; // <= 1°C
+          
+          if ((item.pop > 0.3 && isSnowId) || (item.pop > 0.5 && isFreezingPrecip)) {
+            isForecastSnow = true;
+          }
+          return item.pop * 100;
+        }));
       }
+
+      const currentCondition = currentData.weather[0]?.main || 'Clear';
+      const currentId = currentData.weather[0]?.id || 800;
+      const currentTemp = Math.round(currentData.main.temp);
+      
+      // Determine if it's currently snowing based on ID (6xx) or temperature + rain
+      const isCurrentSnow = 
+        (currentId >= 600 && currentId < 700) || 
+        (currentCondition === 'Rain' && currentTemp <= 1); // If it says rain but it's freezing, it's snow/sleet
 
       // Convert to our WeatherData format
       const weatherData: WeatherData = {
-        current_temp_celsius: Math.round(currentData.main.temp),
+        current_temp_celsius: currentTemp,
         current_humidity_percent: currentData.main.humidity,
         season: this.calculateSeason(new Date(), location.latitude),
         daylight_hours: this.calculateDaylightHours(currentData.sys.sunrise, currentData.sys.sunset),
         upcoming_rain_probability: Math.round(rainProbability),
+        is_snowing: isCurrentSnow || isForecastSnow,
+        weather_condition: isCurrentSnow ? 'Snow' : currentCondition,
       };
 
       // Cache the result

@@ -4,6 +4,8 @@ export interface WeatherData {
   season: 'winter' | 'spring' | 'summer' | 'fall';
   daylight_hours: number;
   upcoming_rain_probability: number; // 0-100
+  is_snowing: boolean;
+  weather_condition: string;
 }
 
 export interface LocationData {
@@ -19,6 +21,7 @@ export interface OpenWeatherResponse {
     humidity: number;
   };
   weather: Array<{
+    id: number;
     main: string;
     description: string;
   }>;

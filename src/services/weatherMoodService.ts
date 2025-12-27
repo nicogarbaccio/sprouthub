@@ -32,6 +32,16 @@ class WeatherMoodService {
     const humidity = weather.current_humidity_percent;
     const rainProb = weather.upcoming_rain_probability;
 
+    // Snowy conditions
+    if (weather.is_snowing) {
+      return this.buildMood(
+        "fair",
+        weatherMoodMessages.snowy,
+        { temp, humidity, rainProb },
+        temperatureUnit
+      );
+    }
+
     // Perfect conditions: 18-24°C, 40-60% humidity, low rain
     if (temp >= 18 && temp <= 24 && humidity >= 40 && humidity <= 60 && rainProb < 30) {
       return this.buildMood('excellent', weatherMoodMessages.perfect, { temp, humidity, rainProb }, temperatureUnit);

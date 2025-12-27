@@ -93,7 +93,7 @@ export function WeatherMoodBanner({
               </div>
               {weatherData.upcoming_rain_probability > 0 && (
                 <div className="text-white text-xs font-medium drop-shadow-md">
-                  ☔ {weatherData.upcoming_rain_probability}% rain
+                  {weatherData.is_snowing ? "❄️" : "☔"} {weatherData.upcoming_rain_probability}% {weatherData.is_snowing ? "snow" : "rain"}
                 </div>
               )}
             </div>
@@ -163,14 +163,18 @@ export function WeatherMoodBanner({
                   </div>
                 </div>
 
-                {/* Rain Probability */}
+                {/* Rain/Snow Probability */}
                 <div className="flex items-center gap-3">
                   <div className="flex-shrink-0">
-                    <CloudDrizzle className="h-5 w-5 text-white/90" />
+                    {weatherData.is_snowing ? (
+                      <Snowflake className="h-5 w-5 text-white/90" />
+                    ) : (
+                      <CloudDrizzle className="h-5 w-5 text-white/90" />
+                    )}
                   </div>
                   <div>
                     <p className="text-white/70 text-xs font-medium drop-shadow-md">
-                      Rain Chance
+                      {weatherData.is_snowing ? "Snow Chance" : "Rain Chance"}
                     </p>
                     <p className="text-white text-sm font-semibold drop-shadow-md">
                       {weatherData.upcoming_rain_probability}%

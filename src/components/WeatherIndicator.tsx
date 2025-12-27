@@ -6,6 +6,7 @@ import {
   Droplets,
   AlertCircle,
   RefreshCw,
+  Snowflake,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -107,9 +108,13 @@ export function WeatherIndicator({
     return <Thermometer className="w-4 h-4 text-sprout-light" />;
   };
 
-  const getRainIcon = (probability: number) => {
+  const getPrecipitationIcon = (probability: number, isSnow: boolean = false) => {
     if (probability > 60)
-      return <CloudRain className="w-4 h-4 text-blue-400" />;
+      return isSnow ? (
+        <Snowflake className="w-4 h-4 text-white" />
+      ) : (
+        <CloudRain className="w-4 h-4 text-blue-400" />
+      );
     if (probability > 30) return <Cloud className="w-4 h-4 text-gray-400" />;
     return <Sun className="w-4 h-4 text-yellow-400" />;
   };
@@ -207,11 +212,13 @@ export function WeatherIndicator({
             </div>
           </div>
 
-          {/* Rain Probability */}
+          {/* Rain/Snow Probability */}
           <div className="flex items-center gap-2">
-            {getRainIcon(weatherData.upcoming_rain_probability)}
+            {getPrecipitationIcon(weatherData.upcoming_rain_probability, weatherData.is_snowing)}
             <div>
-              <p className="text-sm text-sprout-light">Rain Chance</p>
+              <p className="text-sm text-sprout-light">
+                {weatherData.is_snowing ? "Snow Chance" : "Rain Chance"}
+              </p>
               <p className="font-medium text-sprout-white">
                 {weatherData.upcoming_rain_probability}%
               </p>

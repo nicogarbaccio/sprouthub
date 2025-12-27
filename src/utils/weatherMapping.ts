@@ -104,9 +104,9 @@ export function getWeatherSummary(weatherData: WeatherData): string {
   let summary = `${formatTemperature(temp)}, ${humidity}% humidity`;
   
   if (rain > 70) {
-    summary += `, high chance of rain (${rain}%)`;
+    summary += `, high chance of ${weatherData.is_snowing ? 'snow' : 'rain'} (${rain}%)`;
   } else if (rain > 30) {
-    summary += `, possible rain (${rain}%)`;
+    summary += `, possible ${weatherData.is_snowing ? 'snow' : 'rain'} (${rain}%)`;
   }
 
   return summary;
@@ -128,9 +128,10 @@ export function shouldDelayWateringForRain(
   }
 
   if (weatherData.upcoming_rain_probability >= rainThreshold) {
+    const precipType = weatherData.is_snowing ? 'Snow' : 'Rain';
     return {
       shouldDelay: true,
-      reason: `Rain expected (${weatherData.upcoming_rain_probability}% chance) - outdoor watering can be delayed`,
+      reason: `${precipType} expected (${weatherData.upcoming_rain_probability}% chance) - outdoor watering can be delayed`,
     };
   }
 
@@ -256,5 +257,7 @@ export function createFallbackWeatherData(
     season: fallbackSeason,
     daylight_hours: defaults.daylight,
     upcoming_rain_probability: 20, // Conservative default
+    is_snowing: false,
+    weather_condition: 'Partly Cloudy',
   };
 }

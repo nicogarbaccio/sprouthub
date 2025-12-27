@@ -109,7 +109,10 @@ const About = () => {
                 />
               </div>
               <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-                About sprouthub
+                About{" "}
+                <span className="text-sprout-primary dark:text-sprout-cream">
+                  sprouthub
+                </span>
               </h1>
               <p className="text-xl text-muted-foreground mb-6 max-w-2xl mx-auto">
                 A comprehensive plant care tracker designed for plant lovers who
@@ -132,25 +135,35 @@ const About = () => {
                       Our Mission
                     </h2>
                     <p className="text-muted-foreground">
-                      We believe that everyone deserves to experience the joy of
-                      a thriving indoor garden, regardless of their experience
-                      level. sprouthub removes the guesswork from plant care by
-                      combining real-time weather data, seasonal intelligence,
-                      and your personal care history to provide truly smart
-                      recommendations.
+                      We've all been there: plants dying from overwatering,
+                      underwatering, or simply losing track of when we last
+                      cared for them. sprouthub eliminates the guesswork.
                     </p>
                     <p className="text-muted-foreground">
-                      Whether you're a seasoned plant parent managing dozens of
-                      plants across multiple rooms, or just starting with your
-                      first succulent, sprouthub adapts to your needs and helps
-                      you build the green space of your dreams.
+                      By combining real-time weather data, seasonal
+                      intelligence, and your personal care history, sprouthub
+                      tells you exactly when and how to care for each plant. And
+                      because plant care is often a shared responsibility,
+                      sprouthub lets you collaborate with your
+                      household—everyone stays in sync on what's been watered
+                      and what needs attention.
+                    </p>
+                    <p className="text-muted-foreground">
+                      No more "I thought you watered it!" No more wondering if
+                      it's too soon or too late.
+                    </p>
+                    <p className="text-muted-foreground">
+                      Whether you're managing one succulent or dozens of plants
+                      across multiple rooms, sprouthub adapts to your experience
+                      level and helps you give your plants their best shot at
+                      thriving.
                     </p>
                   </div>
 
                   <div className="border-t pt-6 space-y-4">
                     <h2 className="flex items-center gap-2 text-xl font-semibold">
                       <Zap className="w-5 h-5 text-sprout-primary dark:text-sprout-cream" />
-                      Why Choose sprouthub?
+                      Why Use sprouthub?
                     </h2>
 
                     <div className="flex gap-3">
