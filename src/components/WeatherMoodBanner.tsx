@@ -91,11 +91,6 @@ export function WeatherMoodBanner({
               <div className="text-white text-xs font-medium drop-shadow-md">
                 💧 {weatherData.current_humidity_percent}% humidity
               </div>
-              {weatherData.upcoming_rain_probability > 0 && (
-                <div className="text-white text-xs font-medium drop-shadow-md">
-                  {weatherData.is_snowing ? "❄️" : "☔"} {weatherData.upcoming_rain_probability}% {weatherData.is_snowing ? "snow" : "rain"}
-                </div>
-              )}
             </div>
           </div>
         </div>

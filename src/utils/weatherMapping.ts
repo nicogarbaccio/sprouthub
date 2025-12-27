@@ -50,35 +50,35 @@ export function mapWeatherToFactors(
   let temperature: WateringFactors['temperature'];
   if (weatherData.current_temp_celsius < temperatureThresholds.cool) {
     temperature = 'cool';
-    reasons.push(`Cool temperature (${formatTemperature(weatherData.current_temp_celsius)}) slows water evaporation`);
+    reasons.push(`Cool temperature (${formatTemperature(weatherData.current_temp_celsius)}) slows plant metabolism and water use`);
   } else if (weatherData.current_temp_celsius > temperatureThresholds.warm) {
     temperature = 'warm';
-    reasons.push(`Warm temperature (${formatTemperature(weatherData.current_temp_celsius)}) increases evaporation rate`);
+    reasons.push(`Warm temperature (${formatTemperature(weatherData.current_temp_celsius)}) increases plant water consumption`);
   } else {
     temperature = 'normal';
-    reasons.push(`Moderate temperature (${formatTemperature(weatherData.current_temp_celsius)}) provides baseline conditions`);
+    reasons.push(`Comfortable temperature (${formatTemperature(weatherData.current_temp_celsius)}) for most houseplants`);
   }
 
   // Map humidity
   let humidity: WateringFactors['humidity'];
   if (weatherData.current_humidity_percent < humidityThresholds.dry) {
     humidity = 'dry';
-    reasons.push(`Low humidity (${weatherData.current_humidity_percent}%) increases water loss through transpiration`);
+    reasons.push(`Low indoor humidity (${weatherData.current_humidity_percent}%) increases plant water needs`);
   } else if (weatherData.current_humidity_percent > humidityThresholds.humid) {
     humidity = 'humid';
-    reasons.push(`High humidity (${weatherData.current_humidity_percent}%) reduces water loss`);
+    reasons.push(`High humidity (${weatherData.current_humidity_percent}%) reduces plant water needs`);
   } else {
     humidity = 'normal';
-    reasons.push(`Moderate humidity (${weatherData.current_humidity_percent}%) provides baseline conditions`);
+    reasons.push(`Comfortable humidity (${weatherData.current_humidity_percent}%) for most houseplants`);
   }
 
   // Map season (already calculated in weather service based on location)
   const season = weatherData.season;
   const seasonDescriptions = {
-    winter: 'Winter dormancy significantly reduces water needs',
-    spring: 'Spring growing season increases water consumption',
-    summer: 'Summer peak growth increases water consumption',
-    fall: 'Fall season begins to slow plant metabolism',
+    winter: 'Winter season - many houseplants enter slower growth and need less water',
+    spring: 'Spring season - plants actively grow and need more water',
+    summer: 'Summer season - peak growth period with higher water needs',
+    fall: 'Fall season - growth slows as days get shorter',
   };
   reasons.push(seasonDescriptions[season]);
 
@@ -114,6 +114,7 @@ export function getWeatherSummary(weatherData: WeatherData): string {
 
 /**
  * Determine if outdoor watering should be delayed due to expected rain
+ * Note: This is primarily for outdoor plants, less relevant for indoor gardening
  */
 export function shouldDelayWateringForRain(
   weatherData: WeatherData,
@@ -123,6 +124,7 @@ export function shouldDelayWateringForRain(
   shouldDelay: boolean;
   reason?: string;
 } {
+  // Rain primarily affects outdoor plants, not relevant for indoor plants
   if (!isOutdoorPlant) {
     return { shouldDelay: false };
   }
@@ -152,7 +154,7 @@ export function getExtremeWeatherAdjustment(weatherData: WeatherData): {
   if (temp > 30) {
     return {
       adjustment: -1,
-      reason: `Heat wave conditions (${formatTemperature(temp)}) require more frequent watering`,
+      reason: `Hot indoor conditions (${formatTemperature(temp)}) increase plant water needs`,
     };
   }
 
@@ -160,7 +162,7 @@ export function getExtremeWeatherAdjustment(weatherData: WeatherData): {
   if (temp < 5) {
     return {
       adjustment: +2,
-      reason: `Cold conditions (${formatTemperature(temp)}) significantly slow plant metabolism`,
+      reason: `Cold conditions (${formatTemperature(temp)}) slow plant growth significantly`,
     };
   }
 
@@ -168,7 +170,7 @@ export function getExtremeWeatherAdjustment(weatherData: WeatherData): {
   if (humidity < 20) {
     return {
       adjustment: -1,
-      reason: `Extremely dry air (${humidity}%) increases water loss`,
+      reason: `Very dry indoor air (${humidity}%) increases plant water loss`,
     };
   }
 
@@ -176,7 +178,7 @@ export function getExtremeWeatherAdjustment(weatherData: WeatherData): {
   if (humidity > 90) {
     return {
       adjustment: +1,
-      reason: `Very high humidity (${humidity}%) reduces water needs`,
+      reason: `High humidity (${humidity}%) means plants need less water`,
     };
   }
 
@@ -209,7 +211,7 @@ export function getDaylightAdjustment(weatherData: WeatherData): {
   if (daylight < 9) {
     return {
       adjustment: +1,
-      reason: `Short daylight hours (${daylight}h) reduce photosynthesis and water needs`,
+      reason: `Short days (${daylight}h) mean less light and reduced water needs for plants`,
     };
   }
 
@@ -217,7 +219,7 @@ export function getDaylightAdjustment(weatherData: WeatherData): {
   if (daylight > 15) {
     return {
       adjustment: -1,
-      reason: `Long daylight hours (${daylight}h) increase photosynthesis and water consumption`,
+      reason: `Long days (${daylight}h) provide more light and increase plant water use`,
     };
   }
 

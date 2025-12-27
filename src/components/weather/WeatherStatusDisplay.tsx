@@ -36,13 +36,7 @@ export function WeatherStatusDisplay({
                 weatherData.current_temp_celsius,
                 temperatureUnit
               )}
-              ,{weatherData.current_humidity_percent}% humidity
-              {weatherData.upcoming_rain_probability > 0 && (
-                <>
-                  , {weatherData.upcoming_rain_probability}% chance of{" "}
-                  {weatherData.is_snowing ? "snow" : "rain"}
-                </>
-              )}
+              , {weatherData.current_humidity_percent}% humidity
             </div>
             {isFallback && (
               <Badge variant="secondary" className="mt-2 text-xs">

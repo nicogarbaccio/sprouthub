@@ -46,6 +46,7 @@ export interface OpenWeatherForecastResponse {
       humidity: number;
     };
     weather: Array<{
+      id: number;
       main: string;
       description: string;
     }>;
