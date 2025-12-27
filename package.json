@@ -73,6 +73,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^7.4.4",
+    "@playwright/test": "^1.57.0",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
     "@types/react": "^18.3.12",
