@@ -239,6 +239,7 @@ const Navigation = () => {
                     <DropdownMenuItem
                       onClick={(event) => handleSignOut(event)}
                       className="text-sprout-warning dark:text-sprout-warning cursor-pointer"
+                      data-testid="sign-out-button"
                     >
                       <LogOut className="w-4 h-4 mr-2" />
                       Sign Out
