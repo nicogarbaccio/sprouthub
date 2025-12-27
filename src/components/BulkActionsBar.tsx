@@ -94,24 +94,28 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
         )}
       >
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             {/* Left side - Selection info */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center justify-between w-full md:w-auto md:justify-start md:gap-4">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={exitSelectionMode}
-                className="h-9"
+                className="h-9 px-2 md:px-4"
               >
                 <X className="h-4 w-4 mr-2" />
                 Cancel
               </Button>
 
+              <Badge variant="secondary" className="h-7 px-3 whitespace-nowrap">
+                {selectedCount} selected
+              </Badge>
+
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={handleToggleSelectAll}
-                className="h-9"
+                className="h-9 px-2 md:px-4"
               >
                 {allSelected ? (
                   <CheckSquare className="h-4 w-4 mr-2" />
@@ -120,23 +124,19 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
                 )}
                 {allSelected ? 'Deselect All' : 'Select All'}
               </Button>
-
-              <Badge variant="secondary" className="h-7 px-3">
-                {selectedCount} selected
-              </Badge>
             </div>
 
             {/* Right side - Actions */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 w-full md:w-auto">
               <Button
                 variant="default"
                 size="sm"
                 onClick={handleBulkWater}
                 disabled={selectedCount === 0 || isProcessing}
-                className="h-9"
+                className="h-9 flex-1 md:flex-none"
               >
                 <Droplets className="h-4 w-4 mr-2" />
-                Water {selectedCount > 0 && `(${selectedCount})`}
+                Water
               </Button>
 
               <Button
@@ -144,10 +144,10 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
                 size="sm"
                 onClick={() => setShowDeleteConfirm(true)}
                 disabled={selectedCount === 0 || isProcessing}
-                className="h-9"
+                className="h-9 flex-1 md:flex-none"
               >
                 <Trash2 className="h-4 w-4 mr-2" />
-                Delete {selectedCount > 0 && `(${selectedCount})`}
+                Delete
               </Button>
             </div>
           </div>

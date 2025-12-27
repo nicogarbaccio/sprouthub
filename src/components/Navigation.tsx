@@ -257,7 +257,26 @@ const Navigation = () => {
             </div>
 
             {/* Mobile Nav */}
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center gap-2">
+              {user && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative text-foreground"
+                  onClick={() => setShowNotificationCenter(true)}
+                  data-testid="mobile-nav-notifications-button"
+                >
+                  <Bell className="h-6 w-6" />
+                  {unreadCount > 0 && (
+                    <Badge
+                      variant="destructive"
+                      className="absolute -top-1 -right-1 h-4 min-w-4 px-1 text-[10px] flex items-center justify-center"
+                    >
+                      {unreadCount > 9 ? "9+" : unreadCount}
+                    </Badge>
+                  )}
+                </Button>
+              )}
               <Sheet>
                 <SheetTrigger asChild>
                   <Button

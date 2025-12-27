@@ -35,9 +35,10 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
     }
 
     // Check if we already have active notifications for these conditions
+    // We check this to avoid duplicates, BUT if we found new IDs that need notifying,
+    // we should proceed regardless of whether there's an existing notification.
     const hasOverdueNotification = notifications.some(n => n.type === 'overdue_watering' && !n.dismissed);
     const hasDueTodayNotification = notifications.some(n => n.type === 'due_today' && !n.dismissed);
-    const hasOverwateringNotification = notifications.some(n => n.type === 'overwatering_risk' && !n.dismissed);
 
     // Generate notifications from current plant state
     const newNotifications = generatePlantNotifications(plants);
@@ -45,6 +46,19 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
     // Helper to manage acknowledged notifications in local storage
     const getAcknowledgedIds = (type: string): string[] => {
       try {
+        // For overdue watering, we want to clear acknowledgements daily to ensure daily reminders
+        if (type === 'overdue_watering') {
+          const lastAckDate = localStorage.getItem(`sprouthub:notification:acknowledged:${type}:date`);
+          const today = new Date().toDateString();
+          
+          if (lastAckDate !== today) {
+            // New day, clear acknowledgements for overdue plants
+            localStorage.removeItem(`sprouthub:notification:acknowledged:${type}`);
+            localStorage.setItem(`sprouthub:notification:acknowledged:${type}:date`, today);
+            return [];
+          }
+        }
+
         const stored = localStorage.getItem(`sprouthub:notification:acknowledged:${type}`);
         return stored ? JSON.parse(stored) : [];
       } catch (e) {
@@ -55,19 +69,22 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
     const setAcknowledgedIds = (type: string, ids: string[]) => {
       try {
         localStorage.setItem(`sprouthub:notification:acknowledged:${type}`, JSON.stringify(ids));
+        if (type === 'overdue_watering') {
+          localStorage.setItem(`sprouthub:notification:acknowledged:${type}:date`, new Date().toDateString());
+        }
       } catch (e) {
         // ignore
       }
     };
 
-    // Add notifications only if they don't already exist AND user has that type enabled
-    // AND we haven't already notified about these specific plants (state tracking)
+    // Add notifications only if they don't already exist OR if there are new plants to notify about
     newNotifications.forEach(notification => {
       const type = notification.type;
       const currentIds: string[] = notification.metadata?.plantIds || [];
       const acknowledgedIds = getAcknowledgedIds(type);
 
       // Check if there are any new IDs that haven't been acknowledged
+      // If acknowledgedIds is empty (e.g. after storage clear), hasNewIds will be true for all currentIds
       const hasNewIds = currentIds.some(id => !acknowledgedIds.includes(id));
       
       // Update acknowledged list to match current state (handles plants being watered/fixed)
@@ -83,20 +100,34 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
 
       // Should we notify?
       // 1. User preferences must allow it
-      // 2. No active notification of this type (already handled by checks below)
-      // 3. There must be NEW plants involved (hasNewIds)
+      // 2. We must have new plants to notify about (hasNewIds)
+      // 3. We allow multiple notifications of the same type if they are about different plants (implied by hasNewIds)
+      //    OR if the previous one was dismissed (checked at start of effect)
       
       let shouldNotify = false;
-      if (type === 'overdue_watering' && !hasOverdueNotification && preferences.overdueWatering) {
-        shouldNotify = hasNewIds;
-      } else if (type === 'due_today' && !hasDueTodayNotification && preferences.dueTodayWatering) {
-        shouldNotify = hasNewIds;
-      } else if (type === 'overwatering_risk' && !hasOverwateringNotification && preferences.overwateringRisk) {
+      if (type === 'overdue_watering' && preferences.overdueWatering) {
+        // Notify if we have new unacknowledged plants, regardless of existing notifications
+        // The existing notification check was preventing regeneration after clearing storage/dismissal
+        shouldNotify = hasNewIds; 
+      } else if (type === 'due_today' && preferences.dueTodayWatering) {
         shouldNotify = hasNewIds;
       }
 
       if (shouldNotify) {
-        addNotification(notification);
+        // If there's already an active notification of this type, we might want to update it instead of adding a new one
+        // But for now, adding a new one ensures visibility. The context handles distinct IDs.
+        
+        // Prevent adding duplicate notification if one already exists with the EXACT same content
+        // This is a safety check against rapid re-renders
+        const isDuplicate = notifications.some(n => 
+          n.type === type && 
+          !n.dismissed && 
+          JSON.stringify(n.metadata?.plantIds) === JSON.stringify(currentIds)
+        );
+
+        if (!isDuplicate) {
+           addNotification(notification);
+        }
       }
     });
 

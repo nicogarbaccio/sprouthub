@@ -47,11 +47,6 @@ export function generatePlantNotifications(plants: UserPlant[]): Omit<Notificati
     if (daysUntilWatering === 0 && !isOverdue) {
       dueTodayPlants.push(plant);
     }
-
-    // Collect overwatering risks
-    if (hasOverwateringRisk) {
-      overwateringRiskPlants.push(plant);
-    }
   });
 
   // Create overdue notification (high priority)
@@ -102,32 +97,6 @@ export function generatePlantNotifications(plants: UserPlant[]): Omit<Notificati
       metadata: {
         count: dueTodayPlants.length,
         plantIds: dueTodayPlants.map(p => p.id),
-      },
-    });
-  }
-
-  // Create overwatering risk notification (medium priority)
-  if (overwateringRiskPlants.length > 0) {
-    const plantNames = overwateringRiskPlants.slice(0, 3).map(p => p.nickname).join(', ');
-    const moreCount = overwateringRiskPlants.length > 3 ? ` and ${overwateringRiskPlants.length - 3} more` : '';
-
-    notifications.push({
-      type: 'overwatering_risk',
-      priority: 'medium',
-      title: 'Overwatering Risk Detected',
-      message: `${plantNames}${moreCount} may be getting too much water`,
-      actions: [
-        {
-          label: 'Review',
-          onClick: () => {
-            navigateToPlants();
-          },
-          variant: 'outline',
-        },
-      ],
-      metadata: {
-        count: overwateringRiskPlants.length,
-        plantIds: overwateringRiskPlants.map(p => p.id),
       },
     });
   }

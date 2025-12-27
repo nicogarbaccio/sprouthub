@@ -34,7 +34,10 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const notificationsWithDates = stored.map((n: any) => ({
         ...n,
         timestamp: new Date(n.timestamp),
-      }));
+      }))
+      // Filter out 'overwatering_risk' notifications from legacy storage
+      .filter((n: Notification) => n.type !== 'overwatering_risk');
+      
       setNotifications(notificationsWithDates);
     }
   }, []);

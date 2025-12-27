@@ -138,29 +138,6 @@ export const NotificationsTab = () => {
                     }
                   />
                 </div>
-
-                {/* Overwatering Risk */}
-                <div className="flex items-center justify-between gap-4">
-                  <div className="space-y-0.5 flex-1">
-                    <Label
-                      htmlFor="overwateringRisk"
-                      className="text-sm font-medium"
-                    >
-                      Overwatering Risk
-                    </Label>
-                    <div className="text-xs text-muted-foreground">
-                      Alert when plants might be getting too much water
-                    </div>
-                  </div>
-                  <Switch
-                    id="overwateringRisk"
-                    checked={preferences.overwateringRisk}
-                    disabled={!preferences.enabled}
-                    onCheckedChange={(checked) =>
-                      updatePreferences({ overwateringRisk: checked })
-                    }
-                  />
-                </div>
               </div>
             </div>
           </CascadingContainer>

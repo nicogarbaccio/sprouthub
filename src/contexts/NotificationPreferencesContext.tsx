@@ -8,7 +8,6 @@ export interface NotificationPreferences {
   // Specific notification types
   overdueWatering: boolean;
   dueTodayWatering: boolean;
-  overwateringRisk: boolean;
 
   // Success notifications
   wateringSuccess: boolean;
@@ -25,7 +24,6 @@ const DEFAULT_PREFERENCES: NotificationPreferences = {
   enabled: true,
   overdueWatering: true,
   dueTodayWatering: true,
-  overwateringRisk: true,
   wateringSuccess: true,
   bulkActions: true,
   patternInsights: true,

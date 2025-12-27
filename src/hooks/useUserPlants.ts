@@ -424,56 +424,8 @@ try {
 };
 
  const checkOverwatering = async (plantId: string) => {
- const tracker = trackOperation(HOOK_NAME, 'checkOverwatering');
-
- try {
-  const plant = plants.find((p) => p.id === plantId);
-  const suggestedDays = plant?.suggested_watering_days ?? 7;
-  const windowDays = Math.min(30, Math.max(suggestedDays, 2));
-  const now = new Date();
-  const start = new Date(now.getTime() - windowDays * 24 * 60 * 60 * 1000).toISOString();
-  const end = now.toISOString();
-
-  const { data: records, error } = await supabase
-  .from('watering_records')
-  .select('watered_at, notes')
-  .eq('plant_id', plantId)
-  .gte('watered_at', start)
-  .lte('watered_at', end);
-
-  if (error) throw error;
-
-  const risk = computeOverwateringRisk({
-  records: (records || []).map((r) => ({ watered_at: r.watered_at, notes: r.notes || '' })),
-  suggestedDays,
-  now,
-  });
-
-  if (risk.level !== 'none') {
-  const throttleKey = `sprouthub:overwatering:warned:${plantId}`;
-  const lastWarned = localStorage.getItem(throttleKey);
-  const nowMs = Date.now();
-  const lastMs = lastWarned ? parseInt(lastWarned, 10) : 0;
-  const dayMs = 24 * 60 * 60 * 1000;
-  if (!lastWarned || nowMs - lastMs > dayMs) {
-   const levelLabel = risk.level === 'high' ? 'Possible Overwatering' : 'Watch Watering Frequency';
-   const detail = `${risk.count} time${risk.count === 1 ? '' : 's'} in last ${risk.windowDays} days${risk.avgIntervalDays ? ` • Avg ${risk.avgIntervalDays}d vs ${suggestedDays}d` : ''}`;
-   utilityToast.warning(levelLabel, detail);
-   try {
-    localStorage.setItem(throttleKey, String(nowMs));
-   } catch (storageError) {
-    hookLogger.warn(HOOK_NAME, 'Could not save warning timestamp to localStorage', {
-     error: storageError,
-    });
-   }
-  }
-  }
-
-  tracker.complete({ plantId, riskLevel: risk.level });
- } catch (err) {
-  tracker.fail(err);
-  hookLogger.warn(HOOK_NAME, 'checkOverwatering failed', { error: err });
- }
+  // Overwatering check disabled
+  return;
  };
 
  const updatePlantSchedule = async (plantId: string, newSchedule: number) => {
