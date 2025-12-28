@@ -70,3 +70,6 @@ setup-push-notifications.sh
 test-notification.sh
 test-onesignal.html
 GENERATE_NEW_ONESIGNAL_KEY.md
+
+# Docs folder - keep documentation local only
+docs/
