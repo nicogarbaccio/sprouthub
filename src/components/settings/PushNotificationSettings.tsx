@@ -11,11 +11,12 @@ import { toast } from 'sonner';
 import { pushNotificationService } from '@/services/pushNotificationService';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import type { PermissionState as CapacitorPermissionState } from '@capacitor/core';
 
 export const PushNotificationSettings = () => {
   const { user } = useAuth();
   const [isSupported, setIsSupported] = useState(false);
-  const [permissionStatus, setPermissionStatus] = useState<'granted' | 'denied' | 'prompt'>('prompt');
+  const [permissionStatus, setPermissionStatus] = useState<CapacitorPermissionState>('prompt');
   const [pushEnabled, setPushEnabled] = useState(true);
   const [notificationTime, setNotificationTime] = useState('09:00:00');
   const [timezone, setTimezone] = useState('America/New_York');

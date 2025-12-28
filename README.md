@@ -10,6 +10,7 @@ sprouthub is a comprehensive plant care tracker that helps you manage your indoo
 - **My Plants Collection:** Track your personal plant collection with custom rooms and organization
 - **Smart Care Tracking:** Log watering, fertilizing, and other care activities with timestamp tracking
 - **Intelligent Reminders:** Never forget to care for your plants with smart notification system
+- **Push Notifications:** Server-side daily reminders that work even when the app is closed (iOS, Android, Web)
 - **Room Management:** Organize plants by rooms (Living Room, Bedroom, Kitchen, etc.) with visual themes and health statistics
 - **Plant Health Monitoring:** Track and visualize plant health over time with detailed status indicators
 
@@ -79,12 +80,14 @@ sprouthub is a comprehensive plant care tracker that helps you manage your indoo
 - **[Supabase](https://supabase.com/)** - Backend-as-a-Service with PostgreSQL
 - **[Supabase Auth](https://supabase.com/auth)** - Authentication and user management
 - **[Supabase Storage](https://supabase.com/storage)** - File storage for plant images
-- **[Supabase Edge Functions](https://supabase.com/edge-functions)** - Serverless functions
+- **[Supabase Edge Functions](https://supabase.com/edge-functions)** - Serverless functions for push notifications and scheduled tasks
+- **[OneSignal](https://onesignal.com/)** - Push notification delivery (iOS, Android, Web)
 
 ### Mobile & Native Features
 - **[Capacitor](https://capacitorjs.com/)** - Native iOS app development and deployment
+- **[Capacitor Push Notifications](https://capacitorjs.com/docs/apis/push-notifications)** - Native push notifications for iOS and Android
 - **iOS Integration** - Native hooks and platform-specific optimizations
-- **App Store Ready** - Configured for iOS App Store submission
+- **App Store Ready** - Configured for iOS App Store submission with push notification support
 
 ### State Management & Data Fetching
 - **[TanStack Query](https://tanstack.com/query/)** - Powerful data synchronization
@@ -209,19 +212,59 @@ npx cap open ios
 
 ### Database Setup
 The project uses Supabase with the following key tables:
-- `profiles` - User profile information
+- `profiles` - User profile information with push notification preferences
 - `user_plants` - User's plant collection
 - `watering_records` - Care activity tracking with smart postpone functionality
 - `user_watering_preferences` - Smart watering user preferences
+- `push_notification_tokens` - Device push notification tokens for iOS/Android/Web
+- `notification_logs` - Tracks sent push notifications for debugging
 - `plants_with_watering_info` - View combining plant and watering data (SECURITY INVOKER)
 - `plant_images` - Image storage metadata
 
 Database migrations are located in the `supabase/migrations/` directory.
 
-#### Database Security
+##### Database Security
 - **RLS Policies**: All tables have Row Level Security enabled to ensure users can only access their own data
 - **SECURITY INVOKER Views**: Views use `SECURITY INVOKER` to respect RLS policies for querying users
 - **Secure Functions**: Database functions follow security best practices with proper search_path configuration
+
+### Notification System
+
+SproutHub features a **dual notification system** that ensures you never miss watering your plants:
+
+#### 🔔 In-App Notifications
+- **Real-time updates** while app is open
+- **Smart detection** of overdue and due-today plants
+- **Customizable frequency** (real-time, hourly, daily)
+- **Notification center** with action buttons
+- **Pattern insights** based on watering history
+
+#### 📱 Push Notifications (Production Ready)
+- **Server-side scheduling** via Supabase Edge Functions
+- **Background delivery** - Works even when app is closed
+- **Daily reminders** at user's preferred time
+- **Multi-platform support** - iOS, Android, and Web (PWA)
+- **Timezone-aware** - Respects user's local timezone
+- **Battery efficient** - No constant polling or background processes
+- **OneSignal integration** - Reliable push notification delivery
+
+**How it works:**
+1. User logs in → Push notification service auto-initializes
+2. Device token registered in database
+3. Supabase Cron runs daily Edge Function
+4. Function checks all plants for watering needs
+5. OneSignal delivers notifications to devices
+6. User receives reminder even when app is closed!
+
+**User Controls:**
+- Enable/disable push notifications
+- Set preferred notification time (6 AM - 8 PM)
+- Choose timezone
+- View notification history and delivery status
+
+**Setup Guide:** See [`docs/PUSH_NOTIFICATIONS_SETUP.md`](docs/PUSH_NOTIFICATIONS_SETUP.md) for complete deployment instructions.
+
+**Cost:** Free for up to 10,000 users (OneSignal free tier + Supabase free tier)
 
 ## 🧪 Testing
 
@@ -367,23 +410,34 @@ src/
 │   ├── plant-details/  # Plant detail views
 │   ├── profile/        # User profile components
 │   ├── pwa/           # PWA-specific components
+│   ├── settings/       # Settings components
+│   │   ├── NotificationsTab.tsx          # In-app notification settings
+│   │   └── PushNotificationSettings.tsx  # Push notification settings UI
 │   └── ui/            # Base UI components (shadcn/ui)
 ├── contexts/           # React context providers
+│   ├── AuthContext.tsx                   # Auth with push notification integration
+│   ├── NotificationContext.tsx           # In-app notification state
+│   └── NotificationPreferencesContext.tsx # In-app notification preferences
 ├── data/              # Static data and mock data
 │   └── plants/        # Plant catalog data
 ├── hooks/             # Custom React hooks
-│   ├── use-capacitor.tsx     # Capacitor native functionality
-│   ├── useUserPlants.ts      # Plant management with smart features
-│   └── useSmartWateringPreferences.ts  # Smart watering preferences
+│   ├── use-capacitor.tsx              # Capacitor native functionality
+│   ├── useUserPlants.ts               # Plant management with smart features
+│   ├── usePlantNotifications.ts       # In-app notification generation
+│   └── useSmartWateringPreferences.ts # Smart watering preferences
 ├── integrations/      # External service integrations
 │   └── supabase/      # Supabase client and types
 ├── lib/               # Utility functions and helpers
 ├── pages/             # Top-level route components
+├── services/          # Service layer
+│   └── pushNotificationService.ts  # Push notification client service
 ├── types/             # TypeScript type definitions
-│   └── smartWateringTypes.ts  # Smart watering system types
+│   ├── smartWateringTypes.ts  # Smart watering system types
+│   └── notificationTypes.ts   # Notification type definitions
 ├── utils/             # Utility functions
-│   ├── rooms.ts             # Room management utilities
-│   └── smartWateringSchedule.ts  # Smart watering calculations
+│   ├── rooms.ts                    # Room management utilities
+│   ├── smartWateringSchedule.ts    # Smart watering calculations
+│   └── notification-generator.ts   # In-app notification generation logic
 └── vite-env.d.ts
 
 public/
@@ -396,7 +450,14 @@ ios/                   # iOS Capacitor project
 
 supabase/
 ├── functions/         # Edge functions
+│   ├── upload-image/  # Image upload processing
+│   └── send-plant-notifications/  # Daily push notification scheduler
 └── migrations/        # Database migrations
+    └── 20251227_add_push_notification_tokens.sql  # Push notification schema
+
+docs/                  # Documentation
+├── PUSH_NOTIFICATIONS_SETUP.md    # Complete push notification deployment guide
+└── PUSH_NOTIFICATIONS_SUMMARY.md  # Quick notification system overview
 
 src/utils/__tests__/    # Comprehensive unit test suite
 ├── overwatering.test.ts         # Interval-based overwatering detection (15 tests)
@@ -518,6 +579,8 @@ We use conventional commits for automated versioning:
 ### Features & Functionality
 - [Plant Care Schedules](docs/plant-care-schedules.md) - Complete documentation of watering schedule algorithms, overwatering detection, and smart recommendations
 - [Smart Watering System](docs/smart-watering-system.md) - Comprehensive guide to the intelligent watering features and algorithms
+- [Push Notifications Setup](docs/PUSH_NOTIFICATIONS_SETUP.md) - Complete deployment guide for server-side push notifications
+- [Push Notifications Summary](docs/PUSH_NOTIFICATIONS_SUMMARY.md) - Quick overview of the notification system
 - [Password Reset Flow](docs/password-reset-flow.md) - Detailed documentation of the password reset functionality
 
 ### Development Guides

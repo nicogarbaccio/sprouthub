@@ -220,12 +220,12 @@ class PushNotificationService {
   /**
    * Get current permission status
    */
-  async getPermissionStatus(): Promise<'granted' | 'denied' | 'prompt'> {
+  async getPermissionStatus() {
     try {
       const result = await PushNotifications.checkPermissions();
       return result.receive;
     } catch {
-      return 'denied';
+      return 'denied' as const;
     }
   }
 }
