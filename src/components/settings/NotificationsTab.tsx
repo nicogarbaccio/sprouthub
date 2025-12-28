@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { PushNotificationSettings } from "./PushNotificationSettings";
 
 export const NotificationsTab = () => {
   const { preferences, updatePreferences, resetToDefaults } = useNotificationPreferences();
@@ -32,6 +33,9 @@ export const NotificationsTab = () => {
 
   return (
     <div className="space-y-6">
+      {/* Push Notifications Card */}
+      <PushNotificationSettings />
+
       <Card>
         <CardHeader>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

@@ -6,6 +6,9 @@ import {
   PasswordValidationResult,
 } from "@/utils/passwordValidation";
 import { hookLogger } from "@/utils/hookLogging";
+import { pushNotificationService } from "@/services/pushNotificationService";
+import { oneSignalWebService } from "@/services/oneSignalWebService";
+import { Capacitor } from "@capacitor/core";
 
 const CONTEXT_NAME = 'AuthContext';
 
@@ -71,6 +74,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+
+      // Initialize push notifications on sign in
+      if (event === "SIGNED_IN" && session?.user) {
+        hookLogger.debug(CONTEXT_NAME, "User signed in - initializing push notifications");
+
+        // Use OneSignal Web for browsers, Capacitor for native apps
+        const pushService = Capacitor.isNativePlatform()
+          ? pushNotificationService
+          : oneSignalWebService;
+
+        pushService.initialize().catch((error) => {
+          hookLogger.warn(CONTEXT_NAME, "Failed to initialize push notifications", { error });
+        });
+      }
+
+      // Disable push notifications on sign out
+      if (event === "SIGNED_OUT") {
+        hookLogger.debug(CONTEXT_NAME, "User signed out - disabling push notifications");
+
+        const pushService = Capacitor.isNativePlatform()
+          ? pushNotificationService
+          : oneSignalWebService;
+
+        pushService.disable().catch((error) => {
+          hookLogger.warn(CONTEXT_NAME, "Failed to disable push notifications", { error });
+        });
+      }
     });
 
     // Set a fallback timeout to prevent hanging on slow networks
@@ -90,6 +120,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           setLoading(false);
           // Clear timeout since we got a response
           if (timeoutId) clearTimeout(timeoutId);
+
+          // Initialize push notifications for existing session
+          if (session?.user) {
+            hookLogger.debug(CONTEXT_NAME, "Existing session found - initializing push notifications");
+
+            const pushService = Capacitor.isNativePlatform()
+              ? pushNotificationService
+              : oneSignalWebService;
+
+            pushService.initialize().catch((error) => {
+              hookLogger.warn(CONTEXT_NAME, "Failed to initialize push notifications", { error });
+            });
+          }
         }
       })
       .catch((error) => {

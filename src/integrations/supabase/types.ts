@@ -258,6 +258,9 @@ export type Database = {
           last_name: string
           updated_at: string
           username: string
+          push_notifications_enabled: boolean | null
+          push_notification_time: string | null
+          push_notification_timezone: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -268,6 +271,9 @@ export type Database = {
           last_name: string
           updated_at?: string
           username: string
+          push_notifications_enabled?: boolean | null
+          push_notification_time?: string | null
+          push_notification_timezone?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -278,8 +284,103 @@ export type Database = {
           last_name?: string
           updated_at?: string
           username?: string
+          push_notifications_enabled?: boolean | null
+          push_notification_time?: string | null
+          push_notification_timezone?: string | null
         }
         Relationships: []
+      }
+      push_notification_tokens: {
+        Row: {
+          id: string
+          user_id: string
+          token: string
+          device_type: 'ios' | 'android' | 'web'
+          device_name: string | null
+          created_at: string
+          updated_at: string
+          last_used_at: string | null
+          is_active: boolean
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          token: string
+          device_type: 'ios' | 'android' | 'web'
+          device_name?: string | null
+          created_at?: string
+          updated_at?: string
+          last_used_at?: string | null
+          is_active?: boolean
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          token?: string
+          device_type?: 'ios' | 'android' | 'web'
+          device_name?: string | null
+          created_at?: string
+          updated_at?: string
+          last_used_at?: string | null
+          is_active?: boolean
+        }
+        Relationships: [
+          {
+            foreignKeyName: "push_notification_tokens_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      notification_logs: {
+        Row: {
+          id: string
+          user_id: string
+          notification_type: string
+          plant_id: string | null
+          sent_at: string
+          status: 'sent' | 'failed' | 'skipped'
+          error_message: string | null
+          metadata: Json | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          notification_type: string
+          plant_id?: string | null
+          sent_at?: string
+          status: 'sent' | 'failed' | 'skipped'
+          error_message?: string | null
+          metadata?: Json | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          notification_type?: string
+          plant_id?: string | null
+          sent_at?: string
+          status?: 'sent' | 'failed' | 'skipped'
+          error_message?: string | null
+          metadata?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_logs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_logs_plant_id_fkey"
+            columns: ["plant_id"]
+            isOneToOne: false
+            referencedRelation: "user_plants"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       seasonal_review_notifications: {
         Row: {
