@@ -48,3 +48,6 @@ screenshots/*.jpeg
 # Test debug files and temporary scripts
 tests/*-debug.png
 tests/test-*-cleanup.ts
+
+# OneSignal secrets - never commit actual API keys
+**/ONESIGNAL_*_KEY*

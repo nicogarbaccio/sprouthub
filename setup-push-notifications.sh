@@ -35,7 +35,7 @@ echo "Setting ONESIGNAL_APP_ID..."
 npx supabase secrets set ONESIGNAL_APP_ID=5db8206d-53e2-4cfc-a001-a97f630bafc1
 
 echo "Setting ONESIGNAL_API_KEY..."
-npx supabase secrets set ONESIGNAL_API_KEY=os_v2_app_lw4ca3kt4jgpziabvf7wgc5pygp47acrmmae5vubrlv5fp2i5miavqre73acywjktklsfwsniz5glbvwnxdaididi6r5jytiyu4neoq
+npx supabase secrets set ONESIGNAL_API_KEY=YOUR_ONESIGNAL_API_KEY_HERE
 
 echo ""
 echo -e "${GREEN}✅ Environment variables set successfully!${NC}"

@@ -23,7 +23,7 @@ Run these commands in your terminal:
 npx supabase secrets set ONESIGNAL_APP_ID=5db8206d-53e2-4cfc-a001-a97f630bafc1
 
 # Set OneSignal API Key
-npx supabase secrets set ONESIGNAL_API_KEY=os_v2_app_lw4ca3kt4jgpziabvf7wgc5pygp47acrmmae5vubrlv5fp2i5miavqre73acywjktklsfwsniz5glbvwnxdaididi6r5jytiyu4neoq
+npx supabase secrets set ONESIGNAL_API_KEY=YOUR_ONESIGNAL_API_KEY_HERE
 
 # Link to your project first if you haven't already
 npx supabase link --project-ref ufhjudswppdqupjbqbwm
@@ -36,7 +36,7 @@ npx supabase link --project-ref ufhjudswppdqupjbqbwm
 3. Click on the **Settings** or **Secrets** tab
 4. Add these two secrets:
    - Key: `ONESIGNAL_APP_ID`, Value: `5db8206d-53e2-4cfc-a001-a97f630bafc1`
-   - Key: `ONESIGNAL_API_KEY`, Value: `os_v2_app_lw4ca3kt4jgpziabvf7wgc5pygp47acrmmae5vubrlv5fp2i5miavqre73acywjktklsfwsniz5glbvwnxdaididi6r5jytiyu4neoq`
+   - Key: `ONESIGNAL_API_KEY`, Value: `YOUR_ONESIGNAL_API_KEY_HERE`
 
 ---
 

@@ -40,7 +40,7 @@ Make sure these are set in **Netlify** (or your production host):
 ```bash
 # In Netlify Environment Variables:
 VITE_ONESIGNAL_APP_ID=5db8206d-53e2-4cfc-a001-a97f630bafc1
-VITE_ONESIGNAL_API_KEY=os_v2_app_lw4ca3kt4jgpziabvf7wgc5pygp47acrmmae5vubrlv5fp2i5miavqre73acywjktklsfwsniz5glbvwnxdaididi6r5jytiyu4neoq
+VITE_ONESIGNAL_API_KEY=YOUR_ONESIGNAL_API_KEY_HERE
 ```
 
 Make sure these are also in **Supabase Edge Function Secrets**:
