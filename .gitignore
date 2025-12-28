@@ -51,3 +51,22 @@ tests/test-*-cleanup.ts
 
 # OneSignal secrets - never commit actual API keys
 **/ONESIGNAL_*_KEY*
+
+# Development/debugging documentation - don't commit
+ALMOST_THERE.md
+DEBUG_NOTIFICATION.md
+FIX_APPLIED.md
+GET_SERVICE_ROLE_KEY.md
+NEXT_STEPS.md
+QUICK_DEBUG.md
+SETUP_CRON_JOB.md
+TESTING_ONESIGNAL.md
+TEST_PUSH_NOTIFICATIONS.md
+VERIFY_SYSTEM.md
+check-notification-logs.sql
+check-onesignal-config.md
+manual-register-token.sql
+setup-push-notifications.sh
+test-notification.sh
+test-onesignal.html
+GENERATE_NEW_ONESIGNAL_KEY.md
