@@ -116,7 +116,7 @@ const Navigation = () => {
             </Link>
 
             {/* Desktop Nav - Grouped with user section */}
-            <div className="hidden md:flex items-center space-x-4">
+            <div className="hidden lg:flex items-center space-x-4">
               <ThemeToggle />
               {user && (
                 <Link to="/">
@@ -258,7 +258,7 @@ const Navigation = () => {
             </div>
 
             {/* Mobile Nav */}
-            <div className="md:hidden flex items-center gap-2">
+            <div className="lg:hidden flex items-center gap-2">
               {user && (
                 <Button
                   variant="ghost"
