@@ -9,17 +9,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { Bell, AlertCircle, Droplets, TrendingUp, CheckCircle, RotateCcw } from "lucide-react";
+import { Bell, Droplets, TrendingUp, CheckCircle, RotateCcw } from "lucide-react";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { useNotificationPreferences } from "@/contexts/NotificationPreferencesContext";
 import { Separator } from "@/components/ui/separator";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
 import { PushNotificationSettings } from "./PushNotificationSettings";
 
@@ -245,52 +238,6 @@ export const NotificationsTab = () => {
                     }
                   />
                 </div>
-              </div>
-            </div>
-          </CascadingContainer>
-
-          <Separator />
-
-          {/* Check Frequency */}
-          <CascadingContainer delay={200}>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-lg font-medium flex items-center gap-2 mb-1">
-                  <AlertCircle className="h-5 w-5 text-amber-500" />
-                  Check Frequency
-                </h3>
-                <p className="text-sm text-muted-foreground">
-                  How often to check for new notifications
-                </p>
-              </div>
-
-              <div className="sm:ml-7">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:max-w-md">
-                  <Label htmlFor="checkFrequency" className="text-sm font-medium">
-                    Update Frequency
-                  </Label>
-                  <Select
-                    value={preferences.checkFrequency}
-                    onValueChange={(value: 'realtime' | 'hourly' | 'daily') =>
-                      updatePreferences({ checkFrequency: value })
-                    }
-                    disabled={!preferences.enabled}
-                  >
-                    <SelectTrigger id="checkFrequency" className="w-full sm:w-[180px]">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="realtime">Real-time</SelectItem>
-                      <SelectItem value="hourly">Hourly</SelectItem>
-                      <SelectItem value="daily">Daily</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                  {preferences.checkFrequency === 'realtime' && 'Notifications generated immediately when conditions change'}
-                  {preferences.checkFrequency === 'hourly' && 'Check for new notifications once per hour'}
-                  {preferences.checkFrequency === 'daily' && 'Check for new notifications once per day'}
-                </p>
               </div>
             </div>
           </CascadingContainer>
