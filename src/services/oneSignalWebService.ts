@@ -112,6 +112,10 @@ class OneSignalWebService {
               if (result) {
                 console.log('[OneSignal] ✅ Permission granted!');
                 await this.registerDevice();
+
+                // Trigger immediate in-app notification check
+                console.log('[OneSignal] Triggering immediate notification check...');
+                window.dispatchEvent(new CustomEvent('push-permission-granted'));
               } else {
                 console.log('[OneSignal] ❌ Permission denied by user');
               }

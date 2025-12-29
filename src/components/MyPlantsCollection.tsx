@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Plus, Edit, Droplets, Home, ListChecks, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MyPlantCardSkeleton, Skeleton } from "@/components/ui/skeleton";
@@ -34,6 +34,8 @@ import { BulkActionsBar } from "@/components/BulkActionsBar";
 import { SearchFilterBar, type PlantStatus, type SortOption } from "@/components/SearchFilterBar";
 import { applyFiltersAndSort, getUniqueRooms } from "@/utils/plant-filtering";
 import { usePlantNotifications, useManualNotifications } from "@/hooks/usePlantNotifications";
+import { generatePlantNotifications } from "@/utils/notification-generator";
+import { useNotifications } from "@/contexts/NotificationContext";
 
 const MyPlantsCollectionContent = () => {
   const { user } = useAuth();
@@ -85,6 +87,29 @@ const MyPlantsCollectionContent = () => {
 
   // Manual notification helpers
   const { notifyWateringSuccess, notifyBulkWatering } = useManualNotifications();
+  const { addNotification } = useNotifications();
+
+  // Listen for push permission granted event to trigger immediate notification check
+  useEffect(() => {
+    const handlePushPermissionGranted = () => {
+      console.log('[MyPlantsCollection] Push permission granted, triggering immediate notification check...');
+
+      // Generate notifications immediately when push permission is granted
+      if (plants.length > 0) {
+        const notifications = generatePlantNotifications(plants);
+        notifications.forEach(notification => {
+          addNotification(notification);
+        });
+        console.log(`[MyPlantsCollection] Added ${notifications.length} notification(s)`);
+      }
+    };
+
+    window.addEventListener('push-permission-granted', handlePushPermissionGranted);
+
+    return () => {
+      window.removeEventListener('push-permission-granted', handlePushPermissionGranted);
+    };
+  }, [plants, addNotification]);
 
   // Setup keyboard shortcuts - MUST be before any early returns
   useKeyboardShortcuts({
