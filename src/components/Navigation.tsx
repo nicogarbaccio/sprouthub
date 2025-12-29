@@ -119,35 +119,16 @@ const Navigation = () => {
             <div className="hidden md:flex items-center space-x-4">
               <ThemeToggle />
               {user && (
-                <>
+                <Link to="/">
                   <Button
                     variant="ghost"
-                    size="icon"
-                    className="relative text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white transition-all duration-200 rounded-lg"
-                    onClick={() => setShowNotificationCenter(true)}
-                    data-testid="nav-notifications-button"
+                    className="text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
+                    data-testid="nav-dashboard-button"
                   >
-                    <Bell className="w-5 h-5" />
-                    {unreadCount > 0 && (
-                      <Badge
-                        variant="destructive"
-                        className="absolute -top-1 -right-1 h-5 min-w-5 px-1 text-xs flex items-center justify-center"
-                      >
-                        {unreadCount > 9 ? '9+' : unreadCount}
-                      </Badge>
-                    )}
+                    <Home className="w-4 h-4" />
+                    <span>Dashboard</span>
                   </Button>
-                  <Link to="/">
-                    <Button
-                      variant="ghost"
-                      className="text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                      data-testid="nav-dashboard-button"
-                    >
-                      <Home className="w-4 h-4" />
-                      <span>Dashboard</span>
-                    </Button>
-                  </Link>
-                </>
+                </Link>
               )}
               <Link to="/plant-catalog">
                 <Button
@@ -170,6 +151,25 @@ const Navigation = () => {
                     <span>My Plants</span>
                   </Button>
                 </Link>
+              )}
+              {user && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white transition-all duration-200 rounded-lg"
+                  onClick={() => setShowNotificationCenter(true)}
+                  data-testid="nav-notifications-button"
+                >
+                  <Bell className="w-5 h-5" />
+                  {unreadCount > 0 && (
+                    <Badge
+                      variant="destructive"
+                      className="absolute -top-1 -right-1 h-5 min-w-5 px-1 text-xs flex items-center justify-center"
+                    >
+                      {unreadCount > 9 ? '9+' : unreadCount}
+                    </Badge>
+                  )}
+                </Button>
               )}
 
               {user ? (
