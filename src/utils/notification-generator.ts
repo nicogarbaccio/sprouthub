@@ -111,7 +111,7 @@ export function createWelcomeNotification(): Omit<Notification, 'id' | 'timestam
   return {
     type: 'info',
     priority: 'low',
-    title: 'Welcome to SproutHub!',
+    title: 'Welcome to sprouthub!',
     message: 'Start by adding your first plant to begin tracking your plant care journey.',
     actions: [
       {

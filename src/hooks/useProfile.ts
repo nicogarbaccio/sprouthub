@@ -217,10 +217,6 @@ export const useProfile = () => {
  };
 
  const handleDeleteAccount = async () => {
- if (!window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
-  return;
- }
-
  setIsLoading(true);
  try {
   // Delete user plants first

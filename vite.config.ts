@@ -42,8 +42,8 @@ export default defineConfig(({ mode }) => ({
         minify: false,
       },
       manifest: {
-        name: 'SproutHub - Plant Care Tracker',
-        short_name: 'SproutHub',
+        name: 'sprouthub - Plant Care Tracker',
+        short_name: 'sprouthub',
         description: 'Track, care for, and grow your plant collection with intelligent reminders and insights',
         theme_color: '#4a6741',
         background_color: '#ffffff',
@@ -133,5 +133,12 @@ export default defineConfig(({ mode }) => ({
     globals: true,
     environment: "jsdom",
     setupFiles: "./src/setupTests.ts",
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/e2e/**',
+      '**/.{idea,git,cache,output,temp}/**',
+      '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,playwright}.config.*'
+    ],
   },
 }));

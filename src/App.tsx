@@ -11,6 +11,7 @@ import { setNotificationNavigate } from "@/utils/notification-generator";
 import { useEffect } from "react";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import Onboarding from "./pages/Onboarding";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import PlantCatalogPage from "./pages/PlantCatalog";
@@ -45,6 +46,7 @@ const AppRoutes = () => {
       <Routes>
                     <Route path="/" element={<Index />} />
                     <Route path="/auth" element={<Auth />} />
+                    <Route path="/onboarding" element={<Onboarding />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
                     <Route path="/plant-catalog" element={<PlantCatalogPage />} />

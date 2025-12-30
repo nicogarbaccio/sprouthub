@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Plus,
   Droplets,
@@ -81,10 +81,11 @@ import { FloatingActionButton } from "@/components/ui/floating-action-button";
 import { useKeyboardShortcuts, createPlantShortcuts } from "@/hooks/useKeyboardShortcuts";
 
 const Dashboard = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule, postponeWatering } =
     useUserPlants();
   const { profileData, isLoadingProfile } = useProfile();
-  const { preferences } = useSmartWateringPreferences();
+  const { preferences, loadPreferences } = useSmartWateringPreferences();
   const location = useLocation({
     autoRequest: false, // Don't auto-request, only fetch if user has weather enabled
   });
@@ -93,6 +94,32 @@ const Dashboard = () => {
     autoFetch: !!preferences?.use_weather_data && !!location.location,
   });
   const navigate = useNavigate();
+
+  // Handle refresh from onboarding
+  useEffect(() => {
+    const shouldRefresh = searchParams.get('refresh');
+    if (shouldRefresh === 'true') {
+      // Remove the refresh parameter from URL
+      const newParams = new URLSearchParams(searchParams);
+      newParams.delete('refresh');
+      setSearchParams(newParams, { replace: true });
+
+      // Reload preferences which will trigger location request via separate effect
+      if (loadPreferences) {
+        loadPreferences();
+      }
+    }
+  }, [searchParams, setSearchParams, loadPreferences]);
+
+  // Request location when weather is enabled in preferences
+  useEffect(() => {
+    if (preferences?.use_weather_data && !location.location && location.requestLocation) {
+      hookLogger.info(COMPONENT_NAME, 'Weather enabled, requesting location');
+      location.requestLocation().catch((error) => {
+        hookLogger.warn(COMPONENT_NAME, 'Failed to get location:', error);
+      });
+    }
+  }, [preferences?.use_weather_data, location.location]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Dialog states using useDialogState hook
   const addDialog = useDialogState();

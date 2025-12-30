@@ -95,7 +95,7 @@ export const authToast = {
 
  signUpSuccess: () =>
  toast.success(`Account Created!`, {
-  description: "Welcome to SproutHub! Start adding your plants",
+  description: "Welcome to sprouthub! Start adding your plants",
  }),
 
  signUpError: (error: string) =>

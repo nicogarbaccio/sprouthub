@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SignInForm from "@/components/auth/SignInForm";
 import SignUpForm from "@/components/auth/SignUpForm";
 import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
+import { supabase } from "@/integrations/supabase/client";
 
 const Auth = () => {
  const [isLoading, setIsLoading] = useState(false);
@@ -23,20 +24,67 @@ const Auth = () => {
  const [searchParams] = useSearchParams();
  const { signUp, signIn, user } = useAuth();
  const [hasShownSuccessToast, setHasShownSuccessToast] = useState(false);
+ const [isCheckingOnboarding, setIsCheckingOnboarding] = useState(false);
 
  useEffect(() => {
- if (user && !hasShownSuccessToast) {
-  // Show success toast when user signs in
-  authToast.signInSuccess();
-  setHasShownSuccessToast(true);
+ const checkOnboardingStatus = async () => {
+  if (user && !hasShownSuccessToast && !isCheckingOnboarding) {
+   setIsCheckingOnboarding(true);
 
-  // Navigate after a short delay to let user see the toast
-  setTimeout(() => {
-  const redirectTo = searchParams.get("redirect") || "/";
-  navigate(redirectTo);
-  }, 1000);
- }
- }, [user, navigate, searchParams, hasShownSuccessToast]);
+   try {
+    // Fetch user profile to check onboarding status
+    const { data: profile, error } = await supabase
+     .from("profiles")
+     .select("onboarding_completed")
+     .eq("id", user.id)
+     .single();
+
+    if (error) {
+     console.error("Error fetching profile:", error);
+     // If there's an error, default to regular flow
+     authToast.signInSuccess();
+     setHasShownSuccessToast(true);
+     setTimeout(() => {
+      const redirectTo = searchParams.get("redirect") || "/";
+      navigate(redirectTo);
+     }, 1000);
+     return;
+    }
+
+    // Check if user needs onboarding
+    const needsOnboarding = !profile?.onboarding_completed;
+
+    if (needsOnboarding) {
+     // New user - redirect to onboarding (toast already shown by SignUpForm)
+     setHasShownSuccessToast(true);
+     setTimeout(() => {
+      navigate("/onboarding");
+     }, 1000);
+    } else {
+     // Returning user - show regular toast
+     authToast.signInSuccess();
+     setHasShownSuccessToast(true);
+     setTimeout(() => {
+      const redirectTo = searchParams.get("redirect") || "/";
+      navigate(redirectTo);
+     }, 1000);
+    }
+   } catch (error) {
+    console.error("Unexpected error:", error);
+    authToast.signInSuccess();
+    setHasShownSuccessToast(true);
+    setTimeout(() => {
+     const redirectTo = searchParams.get("redirect") || "/";
+     navigate(redirectTo);
+    }, 1000);
+   } finally {
+    setIsCheckingOnboarding(false);
+   }
+  }
+ };
+
+ checkOnboardingStatus();
+ }, [user, navigate, searchParams, hasShownSuccessToast, isCheckingOnboarding]);
 
  const handleSignIn = async (emailOrUsername: string, password: string) => {
  setIsLoading(true);

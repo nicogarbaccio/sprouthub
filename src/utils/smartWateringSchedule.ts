@@ -206,7 +206,7 @@ export const getFactorLabels = () => ({
  },
  careStyle: {
  frequent: 'I like to check plants frequently',
- balanced: 'I prefer balanced care routine',
+ balanced: 'I prefer a balanced care routine',
  minimal: 'I want low-maintenance schedules'
  },
  soilType: {

@@ -166,7 +166,7 @@ test.describe('Sign Up Flow', () => {
     await page.getByTestId('sign-up-button').click();
 
     // Verify successful sign-up by checking for success toast
-    await expect(page.locator('text=Account Created!')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('text=Account Created!').first()).toBeVisible({ timeout: 10000 });
   });
 
   test('should reject duplicate email', async ({ page }) => {
@@ -209,7 +209,7 @@ test.describe('Sign Up Flow', () => {
     await page.getByTestId('sign-up-button').click();
 
     // Wait for success
-    await expect(page.locator('text=Account Created!')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('text=Account Created!').first()).toBeVisible({ timeout: 10000 });
 
     // Navigate back to sign up
     await page.goto('/auth');

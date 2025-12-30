@@ -1,4 +1,4 @@
-# SproutHub - Project Instructions
+# sprouthub - Project Instructions
 
 ## Supabase Configuration
 

@@ -261,6 +261,7 @@ export type Database = {
           push_notifications_enabled: boolean | null
           push_notification_time: string | null
           push_notification_timezone: string | null
+          onboarding_completed: boolean | null
         }
         Insert: {
           avatar_url?: string | null
@@ -274,6 +275,7 @@ export type Database = {
           push_notifications_enabled?: boolean | null
           push_notification_time?: string | null
           push_notification_timezone?: string | null
+          onboarding_completed?: boolean | null
         }
         Update: {
           avatar_url?: string | null
@@ -287,6 +289,7 @@ export type Database = {
           push_notifications_enabled?: boolean | null
           push_notification_time?: string | null
           push_notification_timezone?: string | null
+          onboarding_completed?: boolean | null
         }
         Relationships: []
       }

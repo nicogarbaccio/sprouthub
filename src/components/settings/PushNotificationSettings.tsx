@@ -193,9 +193,21 @@ export const PushNotificationSettings = () => {
                 </p>
                 <p className="text-sm text-muted-foreground">
                   {permissionStatus === 'denied'
-                    ? 'Please enable push notifications in your device/browser settings to receive watering reminders.'
+                    ? 'You previously blocked notifications. To re-enable them, you need to update your browser settings:'
                     : 'Enable push notifications to receive daily watering reminders even when the app is closed.'}
                 </p>
+                {permissionStatus === 'denied' && (
+                  <div className="mt-3 space-y-2 text-xs text-muted-foreground bg-background/50 rounded p-3">
+                    <p className="font-semibold text-foreground">How to re-enable notifications:</p>
+                    <div className="space-y-1.5">
+                      <p><strong>Chrome/Edge:</strong> Click the lock icon in the address bar → Site settings → Notifications → Allow</p>
+                      <p><strong>Firefox:</strong> Click the shield icon → Permissions → Notifications → Allow</p>
+                      <p><strong>Safari:</strong> Safari menu → Settings → Websites → Notifications → Allow for this site</p>
+                      <p><strong>Mobile:</strong> Open device Settings → Apps → Browser → Notifications → Enable</p>
+                    </div>
+                    <p className="mt-2 text-xs italic">After changing settings, refresh this page.</p>
+                  </div>
+                )}
                 {permissionStatus === 'prompt' && (
                   <Button onClick={requestPermission} size="sm" className="mt-2">
                     Enable Push Notifications

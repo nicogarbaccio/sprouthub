@@ -24,7 +24,7 @@ export const AppearanceTab = () => {
             <CardTitle>Appearance</CardTitle>
           </div>
           <CardDescription>
-            Customize how SproutHub looks and feels
+            Customize how sprouthub looks and feels
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
