@@ -15,33 +15,35 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
   const notifiedPlantStates = useRef<Map<string, { isOverdue: boolean; isDueToday: boolean; hasOverwateringRisk: boolean }>>(new Map());
 
   useEffect(() => {
-    // Check if notifications are globally disabled or locally disabled
-    if (!enabled || !preferences.enabled || plants.length === 0) return;
+    // Wrap the entire effect in a try-catch to prevent crashes
+    try {
+      // Check if notifications are globally disabled or locally disabled
+      if (!enabled || !preferences.enabled || plants.length === 0) return;
 
-    // Determine check frequency based on preferences
-    const now = new Date();
-    if (lastNotificationCheck.current) {
-      const timeSinceLastCheck = now.getTime() - lastNotificationCheck.current.getTime();
-      const hoursSinceLastCheck = timeSinceLastCheck / (1000 * 60 * 60);
-      const daysSinceLastCheck = timeSinceLastCheck / (1000 * 60 * 60 * 24);
+      // Determine check frequency based on preferences
+      const now = new Date();
+      if (lastNotificationCheck.current) {
+        const timeSinceLastCheck = now.getTime() - lastNotificationCheck.current.getTime();
+        const hoursSinceLastCheck = timeSinceLastCheck / (1000 * 60 * 60);
+        const daysSinceLastCheck = timeSinceLastCheck / (1000 * 60 * 60 * 24);
 
-      // Skip based on check frequency preference
-      if (preferences.checkFrequency === 'hourly' && hoursSinceLastCheck < 1) {
-        return;
-      } else if (preferences.checkFrequency === 'daily' && daysSinceLastCheck < 1) {
-        return;
+        // Skip based on check frequency preference
+        if (preferences.checkFrequency === 'hourly' && hoursSinceLastCheck < 1) {
+          return;
+        } else if (preferences.checkFrequency === 'daily' && daysSinceLastCheck < 1) {
+          return;
+        }
+        // realtime always proceeds (no skip)
       }
-      // realtime always proceeds (no skip)
-    }
 
-    // Check if we already have active notifications for these conditions
-    // We check this to avoid duplicates, BUT if we found new IDs that need notifying,
-    // we should proceed regardless of whether there's an existing notification.
-    const hasOverdueNotification = notifications.some(n => n.type === 'overdue_watering' && !n.dismissed);
-    const hasDueTodayNotification = notifications.some(n => n.type === 'due_today' && !n.dismissed);
+      // Check if we already have active notifications for these conditions
+      // We check this to avoid duplicates, BUT if we found new IDs that need notifying,
+      // we should proceed regardless of whether there's an existing notification.
+      const hasOverdueNotification = notifications.some(n => n.type === 'overdue_watering' && !n.dismissed);
+      const hasDueTodayNotification = notifications.some(n => n.type === 'due_today' && !n.dismissed);
 
-    // Generate notifications from current plant state
-    const newNotifications = generatePlantNotifications(plants);
+      // Generate notifications from current plant state
+      const newNotifications = generatePlantNotifications(plants);
 
     // Helper to manage acknowledged notifications in local storage
     const getAcknowledgedIds = (type: string): string[] => {
@@ -131,7 +133,11 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
       }
     });
 
-    lastNotificationCheck.current = now;
+      lastNotificationCheck.current = now;
+    } catch (error) {
+      // Log error to console but don't crash the app
+      console.error('[usePlantNotifications] Error generating notifications:', error);
+    }
   }, [plants, addNotification, notifications, enabled, preferences]);
 }
 

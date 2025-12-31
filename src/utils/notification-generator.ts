@@ -11,11 +11,15 @@ export function setNotificationNavigate(navigate: (path: string) => void) {
 }
 
 function navigateToPlants() {
-  if (navigateFunction) {
-    navigateFunction('/my-plants');
-  } else {
-    // Fallback to window.location if navigate not set
-    window.location.href = '/my-plants';
+  try {
+    if (navigateFunction) {
+      navigateFunction('/my-plants');
+    } else {
+      // Fallback to window.location if navigate not set
+      window.location.href = '/my-plants';
+    }
+  } catch (error) {
+    console.error('[notification-generator] Error navigating to plants:', error);
   }
 }
 
@@ -24,30 +28,31 @@ function navigateToPlants() {
  * This analyzes the current state of plants and creates relevant notifications
  */
 export function generatePlantNotifications(plants: UserPlant[]): Omit<Notification, 'id' | 'timestamp' | 'read' | 'dismissed'>[] {
-  const notifications: Omit<Notification, 'id' | 'timestamp' | 'read' | 'dismissed'>[] = [];
+  try {
+    const notifications: Omit<Notification, 'id' | 'timestamp' | 'read' | 'dismissed'>[] = [];
 
-  // Track counts for summary notifications
-  let overduePlants: UserPlant[] = [];
-  let dueTodayPlants: UserPlant[] = [];
-  let overwateringRiskPlants: UserPlant[] = [];
+    // Track counts for summary notifications
+    let overduePlants: UserPlant[] = [];
+    let dueTodayPlants: UserPlant[] = [];
+    let overwateringRiskPlants: UserPlant[] = [];
 
-  plants.forEach((plant) => {
-    const { daysUntilWatering, isOverdue } = calculateWateringSchedule(plant);
-    const { showWarning: hasOverwateringRisk } = shouldShowOverwateringWarning(
-      plant.latest_watering,
-      plant.suggested_watering_days || 7
-    );
+    plants.forEach((plant) => {
+      const { daysUntilWatering, isOverdue } = calculateWateringSchedule(plant);
+      const { showWarning: hasOverwateringRisk } = shouldShowOverwateringWarning(
+        plant.latest_watering,
+        plant.suggested_watering_days || 7
+      );
 
-    // Collect overdue plants
-    if (isOverdue) {
-      overduePlants.push(plant);
-    }
+      // Collect overdue plants
+      if (isOverdue) {
+        overduePlants.push(plant);
+      }
 
-    // Collect plants due today
-    if (daysUntilWatering === 0 && !isOverdue) {
-      dueTodayPlants.push(plant);
-    }
-  });
+      // Collect plants due today
+      if (daysUntilWatering === 0 && !isOverdue) {
+        dueTodayPlants.push(plant);
+      }
+    });
 
   // Create overdue notification (high priority)
   if (overduePlants.length > 0) {
@@ -61,9 +66,20 @@ export function generatePlantNotifications(plants: UserPlant[]): Omit<Notificati
       message: `${plantNames}${moreCount} ${overduePlants.length > 1 ? 'need' : 'needs'} watering`,
       actions: [
         {
-          label: 'View Plants',
+          label: overduePlants.length === 1 ? 'Water Now' : 'View Plants',
           onClick: () => {
-            navigateToPlants();
+            // If only one plant, navigate directly to its details page
+            // Otherwise, navigate to My Plants page
+            if (overduePlants.length === 1) {
+              const plantId = overduePlants[0].id;
+              if (navigateFunction) {
+                navigateFunction(`/my-plants/${plantId}`);
+              } else {
+                window.location.href = `/my-plants/${plantId}`;
+              }
+            } else {
+              navigateToPlants();
+            }
           },
           variant: 'default',
         },
@@ -89,7 +105,18 @@ export function generatePlantNotifications(plants: UserPlant[]): Omit<Notificati
         {
           label: 'Water Now',
           onClick: () => {
-            navigateToPlants();
+            // If only one plant, navigate directly to its details page
+            // Otherwise, navigate to My Plants page
+            if (dueTodayPlants.length === 1) {
+              const plantId = dueTodayPlants[0].id;
+              if (navigateFunction) {
+                navigateFunction(`/my-plants/${plantId}`);
+              } else {
+                window.location.href = `/my-plants/${plantId}`;
+              }
+            } else {
+              navigateToPlants();
+            }
           },
           variant: 'default',
         },
@@ -101,7 +128,11 @@ export function generatePlantNotifications(plants: UserPlant[]): Omit<Notificati
     });
   }
 
-  return notifications;
+    return notifications;
+  } catch (error) {
+    console.error('[notification-generator] Error generating plant notifications:', error);
+    return [];
+  }
 }
 
 /**

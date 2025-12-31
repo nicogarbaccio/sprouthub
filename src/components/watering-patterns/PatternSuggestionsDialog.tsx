@@ -56,12 +56,14 @@ const PatternSuggestionsDialog = ({
   const [learnMoreInsight, setLearnMoreInsight] = useState<PatternInsight | null>(null);
   const { filterDismissed, dismissInsight } = useDismissedInsights(plantId);
 
-  if (!analysis) return null;
-
+  // Always call hooks before any conditional returns (Rules of Hooks)
   const activeInsights = useMemo(
     () => filterDismissed(insights),
     [filterDismissed, insights]
   );
+
+  // Now we can safely do early returns
+  if (!analysis) return null;
 
   const handleDismissInsight = async (insight: PatternInsight) => {
     await dismissInsight(insight);

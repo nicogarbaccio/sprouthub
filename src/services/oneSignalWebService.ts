@@ -81,17 +81,31 @@ class OneSignalWebService {
             } else {
               console.log('[OneSignal] Calling OneSignal.init...');
 
-              await window.OneSignal.init({
-                appId: appId,
-                allowLocalhostAsSecureOrigin: true, // For development
-                serviceWorkerParam: { scope: '/' },
-                serviceWorkerPath: '/OneSignalSDKWorker.js',
-                notifyButton: {
-                  enable: false, // We'll use custom UI
-                },
-              });
+              try {
+                await window.OneSignal.init({
+                  appId: appId,
+                  allowLocalhostAsSecureOrigin: true, // For development
+                  serviceWorkerParam: { scope: '/' },
+                  serviceWorkerPath: '/OneSignalSDKWorker.js',
+                  notifyButton: {
+                    enable: false, // We'll use custom UI
+                  },
+                });
 
-              console.log('[OneSignal] ✅ Initialized successfully!');
+                console.log('[OneSignal] ✅ Initialized successfully!');
+              } catch (initError: any) {
+                // Check if it's a domain restriction error
+                if (initError?.message?.includes('Can only be used on')) {
+                  console.warn('[OneSignal] ⚠️ Domain restriction - OneSignal is configured for production only');
+                  console.warn('[OneSignal] This is expected in local development. Push notifications will not work.');
+                  // Don't throw - just log and continue
+                  resolve();
+                  return;
+                } else {
+                  // Re-throw other errors
+                  throw initError;
+                }
+              }
             }
 
             // Check permission status
@@ -126,8 +140,13 @@ class OneSignalWebService {
             this.isInitialized = true;
             resolve();
 
-          } catch (error) {
-            console.error('[OneSignal] Error in init callback:', error);
+          } catch (error: any) {
+            // If it's a domain restriction error, log it but don't crash
+            if (error?.message?.includes('Can only be used on')) {
+              console.warn('[OneSignal] ⚠️ Skipping OneSignal due to domain restriction');
+            } else {
+              console.error('[OneSignal] Error in init callback:', error);
+            }
             resolve(); // Resolve anyway to prevent hanging
           }
         });
