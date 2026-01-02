@@ -176,92 +176,108 @@ export const PushNotificationSettings = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Permission Status */}
-        {permissionStatus !== 'granted' && (
-          <CascadingContainer delay={0}>
-            <div className={`flex items-start gap-3 p-4 border rounded-lg ${
-              permissionStatus === 'denied' ? 'bg-destructive/5 border-destructive/20' : 'bg-yellow-50 border-yellow-200 dark:bg-yellow-950/20 dark:border-yellow-900/30'
-            }`}>
-              <AlertCircle className={`h-5 w-5 mt-0.5 ${
-                permissionStatus === 'denied' ? 'text-destructive' : 'text-yellow-600 dark:text-yellow-500'
-              }`} />
-              <div className="flex-1 space-y-2">
-                <p className="text-sm font-medium">
-                  {permissionStatus === 'denied'
-                    ? 'Push Notifications Blocked'
-                    : 'Push Notifications Not Enabled'}
+        {/* Browser Permission Status */}
+        <CascadingContainer delay={0}>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label className="text-sm font-medium">Browser Permission</Label>
+                <p className="text-xs text-muted-foreground">
+                  Controlled by your browser settings
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  {permissionStatus === 'denied'
-                    ? 'You previously blocked notifications. To re-enable them, you need to update your browser settings:'
-                    : 'Enable push notifications to receive daily watering reminders even when the app is closed.'}
-                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                {permissionStatus === 'granted' && (
+                  <div className="flex items-center gap-1.5 text-sm text-green-600 dark:text-green-500">
+                    <CheckCircle2 className="h-4 w-4" />
+                    <span className="font-medium">Granted</span>
+                  </div>
+                )}
                 {permissionStatus === 'denied' && (
-                  <div className="mt-3 space-y-2 text-xs text-muted-foreground bg-background/50 rounded p-3">
-                    <p className="font-semibold text-foreground">How to re-enable notifications:</p>
-                    <div className="space-y-1.5">
-                      <p><strong>Chrome/Edge:</strong> Click the lock icon in the address bar → Site settings → Notifications → Allow</p>
-                      <p><strong>Firefox:</strong> Click the shield icon → Permissions → Notifications → Allow</p>
-                      <p><strong>Safari:</strong> Safari menu → Settings → Websites → Notifications → Allow for this site</p>
-                      <p><strong>Mobile:</strong> Open device Settings → Apps → Browser → Notifications → Enable</p>
-                    </div>
-                    <p className="mt-2 text-xs italic">After changing settings, refresh this page.</p>
+                  <div className="flex items-center gap-1.5 text-sm text-destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <span className="font-medium">Blocked</span>
                   </div>
                 )}
                 {permissionStatus === 'prompt' && (
-                  <Button onClick={requestPermission} size="sm" className="mt-2">
-                    Enable Push Notifications
+                  <Button onClick={requestPermission} size="sm" variant="outline">
+                    Grant Permission
                   </Button>
                 )}
               </div>
             </div>
-          </CascadingContainer>
-        )}
 
-        {permissionStatus === 'granted' && (
-          <CascadingContainer delay={0}>
-            <div className="flex items-start gap-3 p-4 border rounded-lg bg-green-50 border-green-200 dark:bg-green-950/20 dark:border-green-900/30">
-              <CheckCircle2 className="h-5 w-5 mt-0.5 text-green-600 dark:text-green-500" />
-              <div className="flex-1">
-                <p className="text-sm font-medium">Push Notifications Enabled</p>
-                <p className="text-sm text-muted-foreground">
-                  You'll receive daily reminders for plants that need watering
-                </p>
+            {permissionStatus === 'denied' && (
+              <div className="mt-3 space-y-2 text-xs text-muted-foreground bg-destructive/5 border border-destructive/20 rounded p-3">
+                <p className="font-semibold text-foreground">How to unblock in browser:</p>
+                <div className="space-y-1">
+                  <p><strong>Chrome/Edge:</strong> Click lock icon → Site settings → Notifications → Allow</p>
+                  <p><strong>Firefox:</strong> Click shield icon → Permissions → Notifications → Allow</p>
+                  <p><strong>Safari:</strong> Safari menu → Settings → Websites → Notifications → Allow</p>
+                </div>
+                <p className="text-xs italic">After changing settings, refresh this page.</p>
               </div>
-            </div>
-          </CascadingContainer>
-        )}
+            )}
+          </div>
+        </CascadingContainer>
 
         <Separator />
 
-        {/* Enable/Disable Toggle */}
+        {/* App Settings Toggle */}
         <CascadingContainer delay={50}>
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="push-enabled" className="text-base font-medium">
-                Enable Push Notifications
-              </Label>
-              <div className="text-sm text-muted-foreground">
-                Receive daily watering reminders
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="space-y-0.5">
+                <Label htmlFor="push-enabled" className="text-sm font-medium">
+                  App Notifications
+                </Label>
+                <div className="text-xs text-muted-foreground">
+                  {permissionStatus === 'denied'
+                    ? 'Requires browser permission first'
+                    : 'Control whether you receive notifications'}
+                </div>
               </div>
+              <Switch
+                id="push-enabled"
+                checked={pushEnabled}
+                onCheckedChange={handleEnablePush}
+                disabled={permissionStatus !== 'granted'}
+              />
             </div>
-            <Switch
-              id="push-enabled"
-              checked={pushEnabled}
-              onCheckedChange={handleEnablePush}
-              disabled={permissionStatus === 'denied'}
-            />
+
+            {/* Status indicator */}
+            {permissionStatus === 'granted' && (
+              <div className={`flex items-center gap-2 text-xs px-3 py-2 rounded-md ${
+                pushEnabled
+                  ? 'bg-green-50 text-green-700 dark:bg-green-950/20 dark:text-green-400'
+                  : 'bg-muted text-muted-foreground'
+              }`}>
+                {pushEnabled ? (
+                  <>
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    <span>You'll receive daily watering reminders</span>
+                  </>
+                ) : (
+                  <>
+                    <AlertCircle className="h-3.5 w-3.5" />
+                    <span>Notifications paused - toggle on to resume</span>
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </CascadingContainer>
+
+        <Separator />
 
         {/* Notification Time */}
         <CascadingContainer delay={100}>
           <div className="space-y-2">
-            <Label htmlFor="notification-time">Daily Reminder Time</Label>
+            <Label htmlFor="notification-time" className="text-sm font-medium">Daily Reminder Time</Label>
             <Select
               value={notificationTime}
               onValueChange={handleTimeChange}
-              disabled={!pushEnabled}
+              disabled={!pushEnabled || permissionStatus !== 'granted'}
             >
               <SelectTrigger id="notification-time">
                 <SelectValue placeholder="Select time" />
@@ -280,7 +296,7 @@ export const PushNotificationSettings = () => {
               </SelectContent>
             </Select>
             <p className="text-xs text-muted-foreground">
-              Choose when you'd like to receive your daily watering reminders
+              When to receive your daily watering reminders
             </p>
           </div>
         </CascadingContainer>
@@ -288,11 +304,11 @@ export const PushNotificationSettings = () => {
         {/* Timezone */}
         <CascadingContainer delay={150}>
           <div className="space-y-2">
-            <Label htmlFor="timezone">Timezone</Label>
+            <Label htmlFor="timezone" className="text-sm font-medium">Timezone</Label>
             <Select
               value={timezone}
               onValueChange={handleTimezoneChange}
-              disabled={!pushEnabled}
+              disabled={!pushEnabled || permissionStatus !== 'granted'}
             >
               <SelectTrigger id="timezone">
                 <SelectValue placeholder="Select timezone" />
@@ -312,7 +328,7 @@ export const PushNotificationSettings = () => {
               </SelectContent>
             </Select>
             <p className="text-xs text-muted-foreground">
-              Your local timezone for accurate notification delivery
+              Your local timezone for accurate delivery
             </p>
           </div>
         </CascadingContainer>

@@ -175,16 +175,30 @@ class PushNotificationService {
     try {
       const { data: { user } } = await supabase.auth.getUser();
 
-      if (!user || !this.token) {
+      if (!user) {
         return;
       }
 
-      // Mark token as inactive in database
+      // Mark ALL tokens as inactive for this user (not just the current one)
       await supabase
         .from('push_notification_tokens')
         .update({ is_active: false })
-        .eq('user_id', user.id)
-        .eq('token', this.token);
+        .eq('user_id', user.id);
+
+      // For web platforms, unsubscribe from push notifications
+      if (!Capacitor.isNativePlatform() && 'serviceWorker' in navigator && 'PushManager' in window) {
+        try {
+          const registration = await navigator.serviceWorker.ready;
+          const subscription = await registration.pushManager.getSubscription();
+
+          if (subscription) {
+            await subscription.unsubscribe();
+            console.log('Push subscription unsubscribed');
+          }
+        } catch (error) {
+          console.error('Error unsubscribing from push:', error);
+        }
+      }
 
       // Remove listeners
       await PushNotifications.removeAllListeners();
@@ -222,10 +236,30 @@ class PushNotificationService {
    */
   async getPermissionStatus() {
     try {
+      // For web platforms, check the Notification API directly
+      if (!Capacitor.isNativePlatform() && 'Notification' in window) {
+        const permission = Notification.permission;
+
+        // Map browser permissions to Capacitor permission states
+        if (permission === 'granted') return 'granted';
+        if (permission === 'denied') return 'denied';
+        return 'prompt';
+      }
+
+      // For native platforms, use Capacitor's check
       const result = await PushNotifications.checkPermissions();
       return result.receive;
-    } catch {
-      return 'denied' as const;
+    } catch (error) {
+      console.error('Error checking permission status:', error);
+
+      // Fallback to browser Notification API if Capacitor fails
+      if ('Notification' in window) {
+        const permission = Notification.permission;
+        if (permission === 'granted') return 'granted';
+        if (permission === 'denied') return 'denied';
+      }
+
+      return 'prompt' as const;
     }
   }
 }
