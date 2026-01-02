@@ -9,6 +9,7 @@ import { NotificationProvider } from "@/contexts/NotificationContext";
 import { NotificationPreferencesProvider } from "@/contexts/NotificationPreferencesContext";
 import { setNotificationNavigate } from "@/utils/notification-generator";
 import { useEffect } from "react";
+import { App as CapacitorApp } from '@capacitor/app';
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Onboarding from "./pages/Onboarding";
@@ -38,6 +39,21 @@ const AppRoutes = () => {
   // Set up navigation for notification actions
   useEffect(() => {
     setNotificationNavigate(navigate);
+  }, [navigate]);
+
+  // Handle Android Hardware Back Button
+  useEffect(() => {
+    CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+      if (canGoBack) {
+        navigate(-1);
+      } else {
+        CapacitorApp.exitApp();
+      }
+    });
+
+    return () => {
+      CapacitorApp.removeAllListeners();
+    };
   }, [navigate]);
 
   return (

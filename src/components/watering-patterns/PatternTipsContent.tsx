@@ -211,17 +211,15 @@ const PatternTipsContent = ({
                     {/* Action buttons */}
                     <div className="flex flex-col sm:flex-row gap-2">
                       <Button
-                        size="sm"
                         onClick={() => handleAcceptSuggestion(insight)}
                         className="flex-1"
                       >
                         Apply Change
                       </Button>
                       <Button
-                        size="sm"
                         variant="outline"
                         onClick={() => handleDismissInsight(insight, index)}
-                        className="sm:px-3"
+                        className="flex-1 sm:flex-initial sm:px-3"
                       >
                         Not Now
                       </Button>
@@ -233,7 +231,6 @@ const PatternTipsContent = ({
                 {!insight.suggestion && insight.actionable && (
                   <div className="flex flex-col sm:flex-row gap-2">
                     <Button
-                      size="sm"
                       variant="outline"
                       className="flex-1"
                       onClick={() => setLearnMoreInsight(insight)}
@@ -241,10 +238,9 @@ const PatternTipsContent = ({
                       Learn More
                     </Button>
                     <Button
-                      size="sm"
                       variant="ghost"
                       onClick={() => handleDismissInsight(insight, index)}
-                      className="sm:px-3"
+                      className="flex-1 sm:flex-initial sm:px-3"
                     >
                       Dismiss
                     </Button>

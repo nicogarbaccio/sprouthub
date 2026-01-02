@@ -7,6 +7,10 @@
     /* Light mode - using new SproutHub palette colors */
     --background: 0 0% 100%; /* sprout-white #ffffff */
     --foreground: 120 8% 24%; /* neutral-dark #3a423a converted to HSL */
+    
+    /* Safe Area Variables */
+    --safe-area-top: env(safe-area-inset-top);
+    --safe-area-bottom: env(safe-area-inset-bottom);
 
     --card: 0 0% 100%; /* sprout-white */
     --card-foreground: 120 8% 24%; /* neutral-dark */
@@ -92,6 +96,8 @@
     transition-property: background-color, border-color, color, fill, stroke;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
+    /* Remove grey tap highlight on mobile */
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
@@ -101,6 +107,17 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+    
+    /* Native app feel */
+    -webkit-user-select: none;
+    user-select: none;
+    overscroll-behavior-y: none;
+  }
+
+  /* Allow text selection on inputs and content that SHOULD be selectable */
+  input, textarea, [contenteditable="true"], .selectable-text {
+    -webkit-user-select: text;
+    user-select: text;
   }
 }
 

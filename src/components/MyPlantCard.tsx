@@ -118,7 +118,7 @@ const MyPlantCard = ({
   });
 
   // Filter out dismissed insights
-  const { filterDismissed } = useDismissedInsights(id);
+  const { filterDismissed, reload: reloadDismissedInsights, dismissInsight } = useDismissedInsights(id);
   const visiblePendingInsights = useMemo(
     () => filterDismissed(pendingInsights),
     [filterDismissed, pendingInsights]
@@ -406,6 +406,23 @@ const MyPlantCard = ({
       }
     }
   };
+
+  const handleDismissInsight = async () => {
+    // Reload dismissed insights to update the badge count
+    await reloadDismissedInsights();
+  };
+
+  const handleDismissAll = async () => {
+    // Dismiss all visible pending insights
+    for (const insight of visiblePendingInsights) {
+      await dismissInsight(insight);
+    }
+    // Reload to update the filtered list
+    await reloadDismissedInsights();
+    // Close the modal
+    setShowPendingTips(false);
+  };
+
   const getStatusColor = () => {
     if (hasUnknownWateringDate)
       return "bg-neutral-500 text-white border-neutral-500";
@@ -802,7 +819,8 @@ const MyPlantCard = ({
         plantName={name}
         plantId={id}
         onAcceptSuggestion={handlePatternScheduleAdjustment}
-        onDismissAll={() => setShowPendingTips(false)}
+        onDismissInsight={handleDismissInsight}
+        onDismissAll={handleDismissAll}
         showPatternSummary={false}
       />
 

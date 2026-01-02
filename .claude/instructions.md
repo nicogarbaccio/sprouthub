@@ -10,9 +10,6 @@
 
 When using Supabase MCP tools in this project, always use project ID: `ufhjudswppdqupjbqbwm`
 
-## Git commits and pushes
-Keep commit messages SIMPLE. Do NOT add "authored by Claude" or anything like that. The less text, the better.
-
 ## Project Details
 
 This is a plant care tracking application built with:
