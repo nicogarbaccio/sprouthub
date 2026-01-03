@@ -9,6 +9,7 @@ import { hookLogger } from "@/utils/hookLogging";
 import { pushNotificationService } from "@/services/pushNotificationService";
 import { oneSignalWebService } from "@/services/oneSignalWebService";
 import { Capacitor } from "@capacitor/core";
+import { setSentryUser, clearSentryUser } from "@/config/sentry";
 
 const CONTEXT_NAME = 'AuthContext';
 
@@ -74,6 +75,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+
+      // Set Sentry user context on sign in/out
+      if (event === "SIGNED_IN" && session?.user) {
+        setSentryUser({ id: session.user.id, email: session.user.email });
+      } else if (event === "SIGNED_OUT") {
+        clearSentryUser();
+      }
 
       // Initialize push notifications on sign in
       if (event === "SIGNED_IN" && session?.user) {

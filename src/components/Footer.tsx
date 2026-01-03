@@ -44,12 +44,19 @@ const Footer: React.FC = () => (
             Contact
           </a>
           <span className="text-white/40">•</span>
-          <a
-            href="#"
+          <Link
+            to="/privacy-policy"
             className="text-white/80 hover:text-white transition-colors"
           >
             Privacy
-          </a>
+          </Link>
+          <span className="text-white/40">•</span>
+          <Link
+            to="/terms-of-service"
+            className="text-white/80 hover:text-white transition-colors"
+          >
+            Terms
+          </Link>
         </div>
 
         <p className="text-xs text-white/70">

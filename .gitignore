@@ -73,3 +73,5 @@ GENERATE_NEW_ONESIGNAL_KEY.md
 
 # Docs folder - keep documentation local only
 docs/
+*.tsbuildinfo
+*.tsbuildinfo

@@ -10,6 +10,7 @@ import { NotificationPreferencesProvider } from "@/contexts/NotificationPreferen
 import { setNotificationNavigate } from "@/utils/notification-generator";
 import { useEffect } from "react";
 import { App as CapacitorApp } from '@capacitor/app';
+import * as Sentry from "@sentry/react";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Onboarding from "./pages/Onboarding";
@@ -25,6 +26,8 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import About from "./pages/About";
 import Analytics from "./pages/Analytics";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import SkeletonDemo from "./pages/SkeletonDemo";
 import ToastDemo from "./components/ToastDemo";
 import NotFound from "./pages/NotFound";
@@ -84,6 +87,8 @@ const AppRoutes = () => {
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/analytics" element={<Analytics />} />
                     <Route path="/about" element={<About />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/terms-of-service" element={<TermsOfService />} />
                     <Route path="/skeleton-demo" element={<SkeletonDemo />} />
                     <Route path="/toast-demo" element={<ToastDemo />} />
                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
@@ -119,9 +124,43 @@ const AppProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 );
 
 const App = () => (
-  <AppProviders>
-    <AppRoutes />
-  </AppProviders>
+  <Sentry.ErrorBoundary
+    fallback={({ error, resetError }) => (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-card rounded-lg shadow-lg p-6 space-y-4">
+          <h1 className="text-2xl font-bold text-destructive">
+            Oops! Something went wrong
+          </h1>
+          <p className="text-muted-foreground">
+            We're sorry, but something unexpected happened. The error has been
+            reported and we'll look into it.
+          </p>
+          <details className="text-sm">
+            <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+              Error details
+            </summary>
+            <pre className="mt-2 p-2 bg-muted rounded text-xs overflow-auto">
+              {error instanceof Error ? error.message : 'An unknown error occurred'}
+            </pre>
+          </details>
+          <button
+            onClick={() => {
+              resetError();
+              window.location.href = "/";
+            }}
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-2 px-4 rounded-lg font-medium transition-colors"
+          >
+            Return to Home
+          </button>
+        </div>
+      </div>
+    )}
+    showDialog={false}
+  >
+    <AppProviders>
+      <AppRoutes />
+    </AppProviders>
+  </Sentry.ErrorBoundary>
 );
 
 export default App;
