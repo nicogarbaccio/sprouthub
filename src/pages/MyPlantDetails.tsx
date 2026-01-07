@@ -47,6 +47,7 @@ import WateringHistoryDialog from "@/components/WateringHistoryDialog";
 import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
+import { PlantJournalSection } from "@/components/journal/PlantJournalSection";
 import { formatDistanceToNow } from "date-fns";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import { plants as catalogPlants } from "@/data/plantData";
@@ -715,7 +716,7 @@ const MyPlantDetails = () => {
 
           {/* Plant Care Information */}
           <CascadingContainer delay={350}>
-            <div className="mb-4">
+            <div className="mb-6">
               <PlantCareGrid
                 wateringFrequency={catalogPlant?.wateringFrequency || "Weekly"}
                 suggestedWateringDays={
@@ -733,24 +734,34 @@ const MyPlantDetails = () => {
           </CascadingContainer>
 
           <CascadingContainer delay={400}>
-            <PlantCareCards
-              careInstructions={
-                catalogPlant?.careInstructions || [
-                  "Water when top inch of soil feels dry",
-                  "Place in appropriate light conditions",
-                  "Maintain proper humidity levels",
-                  "Remove dead or yellowing leaves",
-                  "Fertilize during growing season",
-                ]
-              }
-              commonProblems={
-                catalogPlant?.commonProblems || [
-                  "Overwatering: Yellow leaves and root rot",
-                  "Underwatering: Wilting and dry soil",
-                  "Poor lighting: Leggy growth or leaf drop",
-                  "Low humidity: Brown leaf tips",
-                ]
-              }
+            <div className="mb-6">
+              <PlantCareCards
+                careInstructions={
+                  catalogPlant?.careInstructions || [
+                    "Water when top inch of soil feels dry",
+                    "Place in appropriate light conditions",
+                    "Maintain proper humidity levels",
+                    "Remove dead or yellowing leaves",
+                    "Fertilize during growing season",
+                  ]
+                }
+                commonProblems={
+                  catalogPlant?.commonProblems || [
+                    "Overwatering: Yellow leaves and root rot",
+                    "Underwatering: Wilting and dry soil",
+                    "Poor lighting: Leggy growth or leaf drop",
+                    "Low humidity: Brown leaf tips",
+                  ]
+                }
+              />
+            </div>
+          </CascadingContainer>
+
+          {/* Plant Journal Section */}
+          <CascadingContainer delay={450}>
+            <PlantJournalSection
+              plantId={plant.id}
+              plantNickname={plant.nickname}
             />
           </CascadingContainer>
         </div>

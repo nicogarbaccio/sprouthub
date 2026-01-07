@@ -38,6 +38,13 @@ export type Database = {
             foreignKeyName: "dismissed_pattern_insights_user_plant_id_fkey"
             columns: ["user_plant_id"]
             isOneToOne: false
+            referencedRelation: "plants_with_watering_info"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "dismissed_pattern_insights_user_plant_id_fkey"
+            columns: ["user_plant_id"]
+            isOneToOne: false
             referencedRelation: "user_plants"
             referencedColumns: ["id"]
           },
@@ -45,7 +52,7 @@ export type Database = {
       }
       dismissed_suggestions: {
         Row: {
-          dismissed_at: string
+          dismissed_at: string | null
           expires_at: string
           id: string
           plant_id: string
@@ -53,7 +60,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          dismissed_at?: string
+          dismissed_at?: string | null
           expires_at: string
           id?: string
           plant_id: string
@@ -61,7 +68,7 @@ export type Database = {
           user_id: string
         }
         Update: {
-          dismissed_at?: string
+          dismissed_at?: string | null
           expires_at?: string
           id?: string
           plant_id?: string
@@ -73,14 +80,14 @@ export type Database = {
             foreignKeyName: "dismissed_suggestions_plant_id_fkey"
             columns: ["plant_id"]
             isOneToOne: false
-            referencedRelation: "user_plants"
+            referencedRelation: "plants_with_watering_info"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "dismissed_suggestions_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "dismissed_suggestions_plant_id_fkey"
+            columns: ["plant_id"]
             isOneToOne: false
-            referencedRelation: "users"
+            referencedRelation: "user_plants"
             referencedColumns: ["id"]
           },
         ]
@@ -194,6 +201,118 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_logs: {
+        Row: {
+          error_message: string | null
+          id: string
+          metadata: Json | null
+          notification_type: string
+          plant_id: string | null
+          sent_at: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          error_message?: string | null
+          id?: string
+          metadata?: Json | null
+          notification_type: string
+          plant_id?: string | null
+          sent_at?: string
+          status: string
+          user_id: string
+        }
+        Update: {
+          error_message?: string | null
+          id?: string
+          metadata?: Json | null
+          notification_type?: string
+          plant_id?: string | null
+          sent_at?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_logs_plant_id_fkey"
+            columns: ["plant_id"]
+            isOneToOne: false
+            referencedRelation: "plants_with_watering_info"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_logs_plant_id_fkey"
+            columns: ["plant_id"]
+            isOneToOne: false
+            referencedRelation: "user_plants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      plant_journal_entries: {
+        Row: {
+          content: string | null
+          created_at: string | null
+          entry_date: string | null
+          id: string
+          images: string[] | null
+          mood: string | null
+          plant_id: string
+          related_watering_record_id: string | null
+          title: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string | null
+          entry_date?: string | null
+          id?: string
+          images?: string[] | null
+          mood?: string | null
+          plant_id: string
+          related_watering_record_id?: string | null
+          title?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string | null
+          entry_date?: string | null
+          id?: string
+          images?: string[] | null
+          mood?: string | null
+          plant_id?: string
+          related_watering_record_id?: string | null
+          title?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plant_journal_entries_plant_id_fkey"
+            columns: ["plant_id"]
+            isOneToOne: false
+            referencedRelation: "plants_with_watering_info"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plant_journal_entries_plant_id_fkey"
+            columns: ["plant_id"]
+            isOneToOne: false
+            referencedRelation: "user_plants"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plant_journal_entries_related_watering_record_id_fkey"
+            columns: ["related_watering_record_id"]
+            isOneToOne: false
+            referencedRelation: "watering_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       plant_seasonal_schedules: {
         Row: {
           applied_at: string | null
@@ -256,12 +375,12 @@ export type Database = {
           first_name: string
           id: string
           last_name: string
-          updated_at: string
-          username: string
-          push_notifications_enabled: boolean | null
+          onboarding_completed: boolean | null
           push_notification_time: string | null
           push_notification_timezone: string | null
-          onboarding_completed: boolean | null
+          push_notifications_enabled: boolean | null
+          updated_at: string
+          username: string
         }
         Insert: {
           avatar_url?: string | null
@@ -270,12 +389,12 @@ export type Database = {
           first_name: string
           id: string
           last_name: string
-          updated_at?: string
-          username: string
-          push_notifications_enabled?: boolean | null
+          onboarding_completed?: boolean | null
           push_notification_time?: string | null
           push_notification_timezone?: string | null
-          onboarding_completed?: boolean | null
+          push_notifications_enabled?: boolean | null
+          updated_at?: string
+          username: string
         }
         Update: {
           avatar_url?: string | null
@@ -284,106 +403,50 @@ export type Database = {
           first_name?: string
           id?: string
           last_name?: string
-          updated_at?: string
-          username?: string
-          push_notifications_enabled?: boolean | null
+          onboarding_completed?: boolean | null
           push_notification_time?: string | null
           push_notification_timezone?: string | null
-          onboarding_completed?: boolean | null
+          push_notifications_enabled?: boolean | null
+          updated_at?: string
+          username?: string
         }
         Relationships: []
       }
       push_notification_tokens: {
         Row: {
-          id: string
-          user_id: string
-          token: string
-          device_type: 'ios' | 'android' | 'web'
-          device_name: string | null
           created_at: string
-          updated_at: string
-          last_used_at: string | null
-          is_active: boolean
-        }
-        Insert: {
-          id?: string
-          user_id: string
-          token: string
-          device_type: 'ios' | 'android' | 'web'
-          device_name?: string | null
-          created_at?: string
-          updated_at?: string
-          last_used_at?: string | null
-          is_active?: boolean
-        }
-        Update: {
-          id?: string
-          user_id?: string
-          token?: string
-          device_type?: 'ios' | 'android' | 'web'
-          device_name?: string | null
-          created_at?: string
-          updated_at?: string
-          last_used_at?: string | null
-          is_active?: boolean
-        }
-        Relationships: [
-          {
-            foreignKeyName: "push_notification_tokens_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      notification_logs: {
-        Row: {
+          device_name: string | null
+          device_type: string
           id: string
+          is_active: boolean
+          last_used_at: string | null
+          token: string
+          updated_at: string
           user_id: string
-          notification_type: string
-          plant_id: string | null
-          sent_at: string
-          status: 'sent' | 'failed' | 'skipped'
-          error_message: string | null
-          metadata: Json | null
         }
         Insert: {
+          created_at?: string
+          device_name?: string | null
+          device_type: string
           id?: string
+          is_active?: boolean
+          last_used_at?: string | null
+          token: string
+          updated_at?: string
           user_id: string
-          notification_type: string
-          plant_id?: string | null
-          sent_at?: string
-          status: 'sent' | 'failed' | 'skipped'
-          error_message?: string | null
-          metadata?: Json | null
         }
         Update: {
+          created_at?: string
+          device_name?: string | null
+          device_type?: string
           id?: string
+          is_active?: boolean
+          last_used_at?: string | null
+          token?: string
+          updated_at?: string
           user_id?: string
-          notification_type?: string
-          plant_id?: string | null
-          sent_at?: string
-          status?: 'sent' | 'failed' | 'skipped'
-          error_message?: string | null
-          metadata?: Json | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "notification_logs_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "notification_logs_plant_id_fkey"
-            columns: ["plant_id"]
-            isOneToOne: false
-            referencedRelation: "user_plants"
-            referencedColumns: ["id"]
-          }
-        ]
+        Relationships: []
       }
       seasonal_review_notifications: {
         Row: {
@@ -417,6 +480,7 @@ export type Database = {
       }
       user_plants: {
         Row: {
+          alternative_names: string[] | null
           created_at: string
           household_id: string | null
           id: string
@@ -433,6 +497,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          alternative_names?: string[] | null
           created_at?: string
           household_id?: string | null
           id?: string
@@ -449,6 +514,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          alternative_names?: string[] | null
           created_at?: string
           household_id?: string | null
           id?: string
@@ -571,6 +637,7 @@ export type Database = {
     Views: {
       plants_with_watering_info: {
         Row: {
+          alternative_names: string[] | null
           created_at: string | null
           days_since_watering: number | null
           household_id: string | null
@@ -602,6 +669,7 @@ export type Database = {
         Args: { invitation_id: string }
         Returns: boolean
       }
+      cleanup_expired_dismissals: { Args: never; Returns: undefined }
       create_household: {
         Args: { household_description?: string; household_name: string }
         Returns: string
