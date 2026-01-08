@@ -38,6 +38,7 @@ import {
   AlertTriangle,
   Lightbulb,
   ChevronDown,
+  BookOpen,
 } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
@@ -47,7 +48,7 @@ import WateringHistoryDialog from "@/components/WateringHistoryDialog";
 import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
-import { PlantJournalSection } from "@/components/journal/PlantJournalSection";
+import { JournalModal } from "@/components/journal/JournalModal";
 import { formatDistanceToNow } from "date-fns";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import { plants as catalogPlants } from "@/data/plantData";
@@ -81,6 +82,7 @@ const MyPlantDetails = () => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
   const [showSuggestionsDialog, setShowSuggestionsDialog] = useState(false);
+  const [showJournal, setShowJournal] = useState(false);
 
   // Find the specific plant and memoize it to prevent re-renders
   const plant = useMemo(
@@ -691,6 +693,16 @@ const MyPlantDetails = () => {
                       </DropdownMenuItem>
 
                       <DropdownMenuItem
+                        onClick={() => setShowJournal(true)}
+                        className="cursor-pointer"
+                      >
+                        <BookOpen className="w-4 h-4 mr-2 text-emerald-600" />
+                        Plant Journal
+                      </DropdownMenuItem>
+
+                      <DropdownMenuSeparator />
+
+                      <DropdownMenuItem
                         onClick={handleEditClick}
                         className="cursor-pointer"
                       >
@@ -756,14 +768,6 @@ const MyPlantDetails = () => {
               />
             </div>
           </CascadingContainer>
-
-          {/* Plant Journal Section */}
-          <CascadingContainer delay={450}>
-            <PlantJournalSection
-              plantId={plant.id}
-              plantNickname={plant.nickname}
-            />
-          </CascadingContainer>
         </div>
       </main>
 
@@ -806,6 +810,13 @@ const MyPlantDetails = () => {
         imageSrc={plant.image || catalogPlant?.image || PLANT_FALLBACK_IMAGE}
         imageAlt={plant.nickname}
         plantName={plant.nickname}
+      />
+
+      <JournalModal
+        isOpen={showJournal}
+        onClose={() => setShowJournal(false)}
+        plantId={plant.id}
+        plantNickname={plant.nickname}
       />
 
       <PatternSuggestionsDialog

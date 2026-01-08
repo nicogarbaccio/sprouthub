@@ -9,6 +9,7 @@ import {
   Lightbulb,
   ChevronDown,
   CheckCircle2,
+  BookOpen,
 } from "lucide-react";
 import type { OverwateringRisk } from "@/utils/overwatering";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
@@ -43,6 +44,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { JournalModal } from "@/components/journal/JournalModal";
 
 interface MyPlantCardProps {
   id: string;
@@ -100,6 +102,7 @@ const MyPlantCard = ({
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
   const [showPatternSuggestions, setShowPatternSuggestions] = useState(false);
   const [showPendingTips, setShowPendingTips] = useState(false);
+  const [showJournal, setShowJournal] = useState(false);
   const [patternAnalysis, setPatternAnalysis] = useState(null);
   const [patternInsights, setPatternInsights] = useState([]);
 
@@ -769,6 +772,16 @@ const MyPlantCard = ({
                     </DropdownMenuItem>
                   )}
 
+                  <DropdownMenuItem
+                    onClick={() => setShowJournal(true)}
+                    className="cursor-pointer"
+                  >
+                    <BookOpen className="w-4 h-4 mr-2 text-emerald-600" />
+                    Plant Journal
+                  </DropdownMenuItem>
+
+                  <DropdownMenuSeparator />
+
                   <DropdownMenuItem onClick={onEdit} className="cursor-pointer">
                     <Edit className="w-4 h-4 mr-2" />
                     Edit Plant
@@ -822,6 +835,13 @@ const MyPlantCard = ({
         onDismissInsight={handleDismissInsight}
         onDismissAll={handleDismissAll}
         showPatternSummary={false}
+      />
+
+      <JournalModal
+        isOpen={showJournal}
+        onClose={() => setShowJournal(false)}
+        plantId={id}
+        plantNickname={name}
       />
 
       <PostponeConfirmationDialog
