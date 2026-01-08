@@ -124,11 +124,7 @@ export function JournalEntryCard({
                 entry.images.length >= 3 && 'grid-cols-3'
               )}>
                 {entry.images.map((imageUrl, index) => {
-                  const optimizedUrls = getOptimizedImageUrls(imageUrl, {
-                    width: 300,
-                    height: 300,
-                    crop: 'fill',
-                  });
+                  const optimizedUrls = getOptimizedImageUrls(imageUrl);
 
                   return (
                     <button
@@ -137,7 +133,7 @@ export function JournalEntryCard({
                       className="relative aspect-square overflow-hidden rounded-lg border hover:opacity-90 transition-opacity"
                     >
                       <img
-                        src={optimizedUrls.webp}
+                        src={optimizedUrls.thumbnail}
                         alt={`Journal photo ${index + 1}`}
                         className="w-full h-full object-cover"
                         loading="lazy"

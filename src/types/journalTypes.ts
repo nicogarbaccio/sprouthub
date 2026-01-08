@@ -106,6 +106,6 @@ export const JOURNAL_IMAGE_CONSTANTS = {
   MAX_IMAGES_PER_ENTRY: 5,
   MAX_FILE_SIZE_MB: 10,
   MAX_FILE_SIZE_BYTES: 10 * 1024 * 1024,
-  ACCEPTED_IMAGE_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
+  ACCEPTED_IMAGE_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'] as string[],
   STORAGE_BUCKET: 'plant-images',
 } as const;

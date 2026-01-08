@@ -185,7 +185,7 @@ export function useJournalEntries(onEntryDataChange?: () => void) {
           onEntryDataChange();
         }
 
-        utilityToast.success('Entry added', 'Journal entry created successfully');
+        utilityToast.saved('Journal entry');
         return true;
       } catch (error) {
         hookLogger.error(HOOK_NAME, 'Error adding journal entry:', error);
@@ -257,7 +257,7 @@ export function useJournalEntries(onEntryDataChange?: () => void) {
           onEntryDataChange();
         }
 
-        utilityToast.success('Entry updated', 'Journal entry updated successfully');
+        utilityToast.saved('Journal entry');
         return true;
       } catch (error) {
         hookLogger.error(HOOK_NAME, 'Error updating journal entry:', error);
