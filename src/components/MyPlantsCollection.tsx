@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { MyPlantCardSkeleton, Skeleton } from "@/components/ui/skeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { CascadingGrid } from "@/components/ui/cascading-grid";
+import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { useGracefulLoading } from "@/hooks/useGracefulLoading";
 import MyPlantCard from "./MyPlantCard";
 import RoomSection from "./RoomSection";
@@ -388,11 +389,17 @@ const MyPlantsCollectionContent = () => {
   };
 
   return (
-    <section
-      data-testid="my-plants-collection"
-      className="py-8 bg-background min-h-[calc(100vh-4rem)]"
+    <PullToRefresh
+      onRefresh={async () => {
+        await fetchPlants();
+      }}
+      className="min-h-[calc(100vh-4rem)]"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section
+        data-testid="my-plants-collection"
+        className="py-8 bg-background"
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <CascadingContainer delay={0}>
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
             <div>
@@ -651,8 +658,9 @@ const MyPlantsCollectionContent = () => {
           onBulkDelete={handleBulkDelete}
           allPlantIds={plants.map((p) => p.id)}
         />
-      </div>
-    </section>
+        </div>
+      </section>
+    </PullToRefresh>
   );
 };
 
