@@ -5,6 +5,7 @@ import {
   getAutoCroppedImageUrl,
   getOptimalObjectPosition,
 } from "@/utils/imageUtils";
+import { LazyImage } from "./lazy-image";
 
 interface PlantImageProps {
   /** The primary image source URL */
@@ -109,19 +110,16 @@ const PlantImage = ({
   const showFallback = hasError || !src;
 
   return (
-    <div className={cn("relative overflow-hidden", className)}>
-      <img
-        src={showFallback ? fallbackSrc : imageUrl}
-        alt={alt}
-        className={cn("w-full h-full object-cover", imageClassName)}
-        style={{ objectPosition: finalObjectPosition }}
-        onError={handleError}
-        onLoad={handleLoad}
-      />
-      {isLoading && !showFallback && (
-        <div className="absolute inset-0 bg-plant-neutral animate-pulse" />
-      )}
-    </div>
+    <LazyImage
+      src={showFallback ? fallbackSrc : imageUrl}
+      alt={alt}
+      containerClassName={className}
+      className={cn("w-full h-full object-cover", imageClassName)}
+      style={{ objectPosition: finalObjectPosition }}
+      onError={handleError}
+      onLoad={handleLoad}
+      aspectRatio="auto"
+    />
   );
 };
 

@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { App as CapacitorApp } from '@capacitor/app';
 import * as Sentry from "@sentry/react";
 import { useIOSOptimizations } from "@/hooks/useIOSOptimizations";
+import { useStatusBar } from "@/hooks/useStatusBar";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Onboarding from "./pages/Onboarding";
@@ -42,6 +43,9 @@ const AppRoutes = () => {
 
   // Enable iOS-specific optimizations (swipe-to-go-back, haptics)
   useIOSOptimizations();
+
+  // Manage iOS status bar theming
+  useStatusBar();
 
   // Set up navigation for notification actions
   useEffect(() => {

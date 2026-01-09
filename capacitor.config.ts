@@ -10,19 +10,22 @@ const config: CapacitorConfig = {
   ios: {
     contentInset: 'automatic',
     scrollEnabled: true,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
+    allowsLinkPreview: false,
+    preferredContentMode: 'mobile'
   },
   plugins: {
     SplashScreen: {
-      launchShowDuration: 3000,
+      launchShowDuration: 2000,
       launchAutoHide: true,
-      backgroundColor: "#4a6741",
+      launchFadeOutDuration: 500,
+      backgroundColor: "#2d5a3a",
       androidSplashResourceName: "splash",
       androidScaleType: "CENTER_CROP",
       showSpinner: false,
       androidSpinnerStyle: "large",
       iosSpinnerStyle: "small",
-      spinnerColor: "#ffffff"
+      spinnerColor: "#7ba987"
     },
     Camera: {
       permissions: ['camera', 'photos']
@@ -31,8 +34,9 @@ const config: CapacitorConfig = {
       presentationOptions: ["badge", "sound", "alert"]
     },
     StatusBar: {
-      style: 'default',
-      backgroundColor: '#4a6741'
+      style: 'light',
+      backgroundColor: '#2d5a3a',
+      overlaysWebView: false
     }
   }
 };
