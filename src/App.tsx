@@ -11,6 +11,7 @@ import { setNotificationNavigate } from "@/utils/notification-generator";
 import { useEffect } from "react";
 import { App as CapacitorApp } from '@capacitor/app';
 import * as Sentry from "@sentry/react";
+import { useIOSOptimizations } from "@/hooks/useIOSOptimizations";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Onboarding from "./pages/Onboarding";
@@ -39,12 +40,15 @@ const queryClient = new QueryClient();
 const AppRoutes = () => {
   const navigate = useNavigate();
 
+  // Enable iOS-specific optimizations (swipe-to-go-back, haptics)
+  useIOSOptimizations();
+
   // Set up navigation for notification actions
   useEffect(() => {
     setNotificationNavigate(navigate);
   }, [navigate]);
 
-  // Handle Android Hardware Back Button
+  // Handle Hardware Back Button (Android)
   useEffect(() => {
     CapacitorApp.addListener('backButton', ({ canGoBack }) => {
       if (canGoBack) {
