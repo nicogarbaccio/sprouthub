@@ -25,15 +25,27 @@ export const JournalModal = ({
   plantNickname,
 }: JournalModalProps) => {
   const [showForm, setShowForm] = useState(false);
-  const { entries, loading, getJournalStats } = useJournalEntries({
-    onEntryDataChange: () => {
-      // Refresh happens automatically via the hook
-    },
-  });
+  const {
+    entries,
+    isLoading,
+    getJournalStats,
+    loadJournalEntries,
+    addJournalEntry,
+    deleteJournalEntry,
+    deleteLoadingEntries
+  } = useJournalEntries();
 
   const stats = getJournalStats(plantId);
 
-  const handleFormSuccess = () => {
+  // Load entries when modal opens
+  React.useEffect(() => {
+    if (isOpen && plantId) {
+      loadJournalEntries(plantId);
+    }
+  }, [isOpen, plantId, loadJournalEntries]);
+
+  const handleFormSuccess = async () => {
+    await loadJournalEntries(plantId);
     setShowForm(false);
   };
 
@@ -53,7 +65,6 @@ export const JournalModal = ({
           {stats.totalEntries > 0 && !showForm && (
             <div className="flex gap-4 text-sm text-muted-foreground pt-2">
               <span>{stats.totalEntries} entries</span>
-              {stats.totalImages > 0 && <span>{stats.totalImages} photos</span>}
             </div>
           )}
         </DialogHeader>
@@ -70,16 +81,32 @@ export const JournalModal = ({
               </Button>
 
               <JournalEntryList
-                plantId={plantId}
-                entries={entries}
-                loading={loading}
+                entries={entries.filter(e => e.plant_id === plantId)}
+                isLoading={isLoading}
+                onDeleteEntry={async (entryId) => {
+                  await deleteJournalEntry(entryId);
+                }}
+                deleteLoadingEntries={deleteLoadingEntries}
               />
             </div>
           ) : (
             <div className="space-y-4">
               <JournalEntryForm
-                plantId={plantId}
-                onSuccess={handleFormSuccess}
+                onSubmit={async (formData) => {
+                  const success = await addJournalEntry(
+                    plantId,
+                    formData.title,
+                    formData.content,
+                    formData.mood,
+                    formData.images,
+                    formData.entryDate,
+                    formData.relatedWateringRecordId
+                  );
+                  if (success) {
+                    await handleFormSuccess();
+                  }
+                }}
+                isLoading={isLoading}
               />
               <Button
                 variant="outline"
