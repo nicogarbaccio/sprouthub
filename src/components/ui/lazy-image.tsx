@@ -42,14 +42,15 @@ export function LazyImage({
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          // Once in view, keep it loaded (don't set to false when scrolling out)
+          if (entry.isIntersecting && !isInView) {
             setIsInView(true);
             observer.disconnect();
           }
         });
       },
       {
-        rootMargin: '50px', // Start loading 50px before entering viewport
+        rootMargin: '200px', // Increased from 50px to reduce unloading during scroll
         threshold: 0.01,
       }
     );
@@ -59,7 +60,7 @@ export function LazyImage({
     return () => {
       observer.disconnect();
     };
-  }, [eager]);
+  }, [eager, isInView]);
 
   const handleLoad = () => {
     setIsLoaded(true);

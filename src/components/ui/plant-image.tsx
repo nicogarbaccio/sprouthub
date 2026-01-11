@@ -79,13 +79,17 @@ const PlantImage = ({
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [optimalObjectPosition, setOptimalObjectPosition] = useState("center");
+  const [currentSrc, setCurrentSrc] = useState(src);
 
-  // Reset state when src changes
+  // Only reset state when src actually changes to a different URL
   useEffect(() => {
-    setHasError(false);
-    setIsLoading(!!src);
-    setOptimalObjectPosition("center");
-  }, [src]);
+    if (src !== currentSrc) {
+      setHasError(false);
+      setIsLoading(!!src);
+      setOptimalObjectPosition("center");
+      setCurrentSrc(src);
+    }
+  }, [src, currentSrc]);
 
   // Generate optimized image URL
   const imageUrl = useAutoCrop ? getAutoCroppedImageUrl(src) : src;
@@ -104,6 +108,7 @@ const PlantImage = ({
 
   const handleLoad = () => {
     setIsLoading(false);
+    setCurrentSrc(src); // Mark this src as successfully loaded
   };
 
   const finalObjectPosition = customObjectPosition || optimalObjectPosition;
