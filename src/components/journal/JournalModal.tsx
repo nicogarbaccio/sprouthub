@@ -56,20 +56,25 @@ export const JournalModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-2xl">
-            <BookOpen className="w-6 h-6 text-plant-primary" />
-            {plantNickname}'s Journal
-          </DialogTitle>
-          {stats.totalEntries > 0 && !showForm && (
-            <div className="flex gap-4 text-sm text-muted-foreground pt-2">
-              <span>{stats.totalEntries} entries</span>
-            </div>
-          )}
-        </DialogHeader>
+      <DialogContent
+        className="max-w-3xl max-h-[85vh] overflow-y-auto !p-0 data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-100"
+        onOpenAutoFocus={(e) => e.preventDefault()}
+      >
+        <div className="p-6">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-2xl">
+              <BookOpen className="w-6 h-6 text-plant-primary" />
+              {plantNickname}'s Journal
+            </DialogTitle>
+            {stats.totalEntries > 0 && !showForm && (
+              <div className="flex gap-4 text-sm text-muted-foreground pt-2">
+                <span>{stats.totalEntries} entries</span>
+              </div>
+            )}
+          </DialogHeader>
+        </div>
 
-        <div className="mt-4">
+        <div className="px-6 pb-6">
           {!showForm ? (
             <div className="space-y-4">
               <Button
