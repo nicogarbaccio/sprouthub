@@ -25,6 +25,7 @@ export const JournalModal = ({
   plantNickname,
 }: JournalModalProps) => {
   const [showForm, setShowForm] = useState(false);
+  const [hasLoadedInitially, setHasLoadedInitially] = useState(false);
   const {
     entries,
     isLoading,
@@ -40,9 +41,20 @@ export const JournalModal = ({
   // Load entries when modal opens
   React.useEffect(() => {
     if (isOpen && plantId) {
-      loadJournalEntries(plantId);
+      setHasLoadedInitially(false);
+      loadJournalEntries(plantId).then(() => {
+        setHasLoadedInitially(true);
+      });
     }
   }, [isOpen, plantId, loadJournalEntries]);
+
+  // Reset state when modal closes
+  React.useEffect(() => {
+    if (!isOpen) {
+      setHasLoadedInitially(false);
+      setShowForm(false);
+    }
+  }, [isOpen]);
 
   const handleFormSuccess = async () => {
     await loadJournalEntries(plantId);
@@ -87,7 +99,7 @@ export const JournalModal = ({
 
               <JournalEntryList
                 entries={entries.filter(e => e.plant_id === plantId)}
-                isLoading={isLoading}
+                isLoading={isLoading || !hasLoadedInitially}
                 onDeleteEntry={async (entryId) => {
                   await deleteJournalEntry(entryId);
                 }}
