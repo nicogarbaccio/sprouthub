@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Plus } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { JournalEntryForm } from "./JournalEntryForm";
 import { JournalEntryList } from "./JournalEntryList";
 import { useJournalEntries } from "@/hooks/useJournalEntries";
@@ -16,6 +17,7 @@ interface JournalModalProps {
   onClose: () => void;
   plantId: string;
   plantNickname: string;
+  prefetch?: boolean;
 }
 
 export const JournalModal = ({
@@ -23,6 +25,7 @@ export const JournalModal = ({
   onClose,
   plantId,
   plantNickname,
+  prefetch = false,
 }: JournalModalProps) => {
   const [showForm, setShowForm] = useState(false);
   const [hasLoadedInitially, setHasLoadedInitially] = useState(false);
@@ -38,20 +41,18 @@ export const JournalModal = ({
 
   const stats = getJournalStats(plantId);
 
-  // Load entries when modal opens
+  // Load entries when modal opens or prefetch is requested
   React.useEffect(() => {
-    if (isOpen && plantId) {
-      setHasLoadedInitially(false);
+    if ((isOpen || prefetch) && plantId && !hasLoadedInitially) {
       loadJournalEntries(plantId).then(() => {
         setHasLoadedInitially(true);
       });
     }
-  }, [isOpen, plantId, loadJournalEntries]);
+  }, [isOpen, prefetch, plantId, loadJournalEntries, hasLoadedInitially]);
 
   // Reset state when modal closes
   React.useEffect(() => {
     if (!isOpen) {
-      setHasLoadedInitially(false);
       setShowForm(false);
     }
   }, [isOpen]);
@@ -69,24 +70,30 @@ export const JournalModal = ({
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent
-        className="max-w-3xl max-h-[85vh] overflow-y-auto !p-0 data-[state=open]:zoom-in-100 data-[state=closed]:zoom-out-100"
+        className="max-w-3xl h-[80vh] overflow-y-auto !p-0 flex flex-col"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
-        <div className="p-6">
+        <div className="p-6 flex-shrink-0">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-2xl">
               <BookOpen className="w-6 h-6 text-plant-primary" />
               {plantNickname}'s Journal
             </DialogTitle>
-            {stats.totalEntries > 0 && !showForm && (
-              <div className="flex gap-4 text-sm text-muted-foreground pt-2">
-                <span>{stats.totalEntries} entries</span>
+            {!showForm && (
+              <div className="flex gap-4 text-sm text-muted-foreground pt-2 h-7 transition-all duration-200">
+                {(stats.totalEntries > 0 || (isLoading && !hasLoadedInitially)) ? (
+                  isLoading && !hasLoadedInitially ? (
+                    <Skeleton className="w-24 h-5" />
+                  ) : (
+                    <span>{stats.totalEntries} entries</span>
+                  )
+                ) : null}
               </div>
             )}
           </DialogHeader>
         </div>
 
-        <div className="px-6 pb-6">
+        <div className="px-6 pb-6 flex-grow">
           {!showForm ? (
             <div className="space-y-4">
               <Button
@@ -99,7 +106,7 @@ export const JournalModal = ({
 
               <JournalEntryList
                 entries={entries.filter(e => e.plant_id === plantId)}
-                isLoading={isLoading || !hasLoadedInitially}
+                isLoading={!hasLoadedInitially}
                 onDeleteEntry={async (entryId) => {
                   await deleteJournalEntry(entryId);
                 }}

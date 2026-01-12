@@ -19,7 +19,7 @@ export function JournalEntryList({
   if (isLoading) {
     return (
       <div className="space-y-4">
-        {[1, 2, 3].map((i) => (
+        {[1].map((i) => (
           <div key={i} className="p-4 border rounded-lg space-y-3">
             <div className="flex items-center justify-between">
               <Skeleton className="h-4 w-32" />

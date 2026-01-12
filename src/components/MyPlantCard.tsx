@@ -103,6 +103,7 @@ const MyPlantCard = ({
   const [showPatternSuggestions, setShowPatternSuggestions] = useState(false);
   const [showPendingTips, setShowPendingTips] = useState(false);
   const [showJournal, setShowJournal] = useState(false);
+  const [prefetchJournal, setPrefetchJournal] = useState(false);
   const [patternAnalysis, setPatternAnalysis] = useState(null);
   const [patternInsights, setPatternInsights] = useState([]);
 
@@ -774,6 +775,8 @@ const MyPlantCard = ({
 
                   <DropdownMenuItem
                     onClick={() => setShowJournal(true)}
+                    onMouseEnter={() => setPrefetchJournal(true)}
+                    onFocus={() => setPrefetchJournal(true)}
                     className="cursor-pointer"
                   >
                     <BookOpen className="w-4 h-4 mr-2 text-emerald-600" />
@@ -842,6 +845,7 @@ const MyPlantCard = ({
         onClose={() => setShowJournal(false)}
         plantId={id}
         plantNickname={name}
+        prefetch={prefetchJournal}
       />
 
       <PostponeConfirmationDialog
