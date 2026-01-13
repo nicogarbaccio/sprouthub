@@ -4,7 +4,6 @@ import { useNotifications } from "@/contexts/NotificationContext";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
@@ -70,47 +69,34 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
     notifications,
     unreadCount,
     markAsRead,
+    markAllAsRead,
     dismissNotification,
     dismissAll,
   } = useNotifications();
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-md">
-        <SheetHeader className="pr-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Bell className="h-5 w-5" />
-              <SheetTitle>Notifications</SheetTitle>
-              {unreadCount > 0 && (
-                <Badge
-                  variant="destructive"
-                  className="h-5 min-w-5 px-1.5 text-xs"
-                >
-                  {unreadCount}
-                </Badge>
-              )}
+      <SheetContent className="w-full sm:max-w-md !p-0 !gap-0 flex flex-col overflow-hidden">
+        <div className="px-6 pt-6 pb-3 pr-14 shrink-0">
+          <SheetHeader className="p-0">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Bell className="h-5 w-5" />
+                <SheetTitle>Notifications</SheetTitle>
+                {unreadCount > 0 && (
+                  <Badge
+                    variant="destructive"
+                    className="h-5 min-w-5 px-1.5 text-xs"
+                  >
+                    {unreadCount}
+                  </Badge>
+                )}
+              </div>
             </div>
-          </div>
-          <SheetDescription>
-            Stay updated on your plants' needs and important alerts
-          </SheetDescription>
-          {notifications.length > 0 && (
-            <div className="flex gap-2 mt-3 flex-wrap">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={dismissAll}
-                className="h-8 border-border hover:bg-destructive hover:text-destructive-foreground"
-              >
-                <Trash2 className="h-4 w-4 mr-1.5" />
-                Clear all
-              </Button>
-            </div>
-          )}
-        </SheetHeader>
+          </SheetHeader>
+        </div>
 
-        <ScrollArea className="h-[calc(100vh-180px)] mt-4">
+        <div className="flex-1 overflow-y-auto px-6">
           {notifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <Bell className="h-12 w-12 text-muted-foreground mb-3 opacity-50" />
@@ -120,7 +106,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
               </p>
             </div>
           ) : (
-            <div className="space-y-2 pr-4">
+            <div className="space-y-2 pr-4 pb-4">
               {notifications.map((notification) => {
                 const Icon =
                   notification.icon || notificationIcons[notification.type];
@@ -139,19 +125,19 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                     {/* Content and action button */}
                     <div className="flex items-start justify-between gap-4">
                       {/* Left: Text content */}
-                      <div className="flex-1 min-w-0 space-y-2">
+                      <div className="flex-1 min-w-0 space-y-3">
                         <div>
                           <h4 className="font-semibold text-sm">
                             {notification.title}
                           </h4>
-                          <p className="text-sm text-muted-foreground mt-1">
+                          <p className="text-sm text-muted-foreground mt-1 pr-2">
                             {notification.message}
                           </p>
                         </div>
 
                         {/* Timestamp, mark read, and dismiss */}
-                        <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                          <span>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <span className="whitespace-nowrap">
                             {formatDistanceToNow(notification.timestamp, {
                               addSuffix: true,
                             })}
@@ -160,7 +146,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                             <>
                               <span>•</span>
                               <button
-                                className="hover:text-foreground transition-colors"
+                                className="hover:text-foreground transition-colors whitespace-nowrap"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   markAsRead(notification.id);
@@ -172,7 +158,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                           )}
                           <span>•</span>
                           <button
-                            className="hover:text-foreground transition-colors"
+                            className="hover:text-foreground transition-colors whitespace-nowrap"
                             onClick={(e) => {
                               e.stopPropagation();
                               dismissNotification(notification.id);
@@ -214,7 +200,34 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
               })}
             </div>
           )}
-        </ScrollArea>
+        </div>
+
+        {/* Sticky footer with actions */}
+        {notifications.length > 0 && (
+          <div className="shrink-0 border-t pt-4 pb-6 px-6 bg-background">
+            <div className="flex gap-2">
+              {unreadCount > 0 && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={markAllAsRead}
+                  className="flex-1 h-10 hover:bg-muted"
+                >
+                  Mark all read
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={dismissAll}
+                className="flex-1 h-10 hover:bg-muted"
+              >
+                <Trash2 className="h-4 w-4 mr-1.5" />
+                Clear all
+              </Button>
+            </div>
+          </div>
+        )}
       </SheetContent>
     </Sheet>
   );
