@@ -19,8 +19,10 @@ export type NotificationPriority = 'low' | 'medium' | 'high' | 'urgent';
 
 export interface NotificationAction {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
   variant?: 'default' | 'outline' | 'secondary' | 'destructive';
+  // Optional plantId for navigation - will be used to reconstruct onClick if needed
+  plantId?: string;
 }
 
 export interface Notification {

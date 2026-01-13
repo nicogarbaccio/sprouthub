@@ -77,8 +77,8 @@ import { useBulkPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { useDismissedSuggestions } from "@/hooks/useDismissedSuggestions";
 import { format, formatDistanceToNow } from "date-fns";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
-import { FloatingActionButton } from "@/components/ui/floating-action-button";
 import { useKeyboardShortcuts, createPlantShortcuts } from "@/hooks/useKeyboardShortcuts";
+import { usePlantNotifications } from "@/hooks/usePlantNotifications";
 
 const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -267,6 +267,9 @@ const Dashboard = () => {
       },
     }),
   });
+
+  // Automatically generate notifications from plant data
+  usePlantNotifications(plants, !loading);
 
   const careStats = plants.reduce(
     (stats, plant) => {
@@ -1516,9 +1519,6 @@ const Dashboard = () => {
           dismissedPlantIds={dismissedSuggestions}
           isLoading={isSuggestionsAnalyzing || !isDismissedSuggestionsLoaded}
         />
-
-        {/* Floating Action Button */}
-        <FloatingActionButton onClick={() => addDialog.open()} />
       </div>
     </div>
   );

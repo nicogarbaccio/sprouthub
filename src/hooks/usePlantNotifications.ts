@@ -79,52 +79,39 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
       }
     };
 
-    // Add notifications only if they don't already exist OR if there are new plants to notify about
+    // Add individual plant notifications
     newNotifications.forEach(notification => {
       const type = notification.type;
-      const currentIds: string[] = notification.metadata?.plantIds || [];
+      const plantId = notification.metadata?.plantId;
+
+      if (!plantId) return; // Skip if no plantId
+
       const acknowledgedIds = getAcknowledgedIds(type);
 
-      // Check if there are any new IDs that haven't been acknowledged
-      // If acknowledgedIds is empty (e.g. after storage clear), hasNewIds will be true for all currentIds
-      const hasNewIds = currentIds.some(id => !acknowledgedIds.includes(id));
-      
-      // Update acknowledged list to match current state (handles plants being watered/fixed)
-      // We only update storage if the set has changed to avoid spamming writes
-      const currentIdsSet = new Set(currentIds);
-      const ackIdsSet = new Set(acknowledgedIds);
-      const setsAreEqual = currentIdsSet.size === ackIdsSet.size && 
-                          [...currentIdsSet].every(id => ackIdsSet.has(id));
-      
-      if (!setsAreEqual) {
-        setAcknowledgedIds(type, currentIds);
+      // Check if this specific plant has been acknowledged
+      const isAcknowledged = acknowledgedIds.includes(plantId);
+
+      // Update acknowledged list to include this plant
+      if (!isAcknowledged) {
+        setAcknowledgedIds(type, [...acknowledgedIds, plantId]);
       }
 
       // Should we notify?
       // 1. User preferences must allow it
-      // 2. We must have new plants to notify about (hasNewIds)
-      // 3. We allow multiple notifications of the same type if they are about different plants (implied by hasNewIds)
-      //    OR if the previous one was dismissed (checked at start of effect)
-      
+      // 2. This plant hasn't been acknowledged yet
       let shouldNotify = false;
       if (type === 'overdue_watering' && preferences.overdueWatering) {
-        // Notify if we have new unacknowledged plants, regardless of existing notifications
-        // The existing notification check was preventing regeneration after clearing storage/dismissal
-        shouldNotify = hasNewIds; 
+        shouldNotify = !isAcknowledged;
       } else if (type === 'due_today' && preferences.dueTodayWatering) {
-        shouldNotify = hasNewIds;
+        shouldNotify = !isAcknowledged;
       }
 
       if (shouldNotify) {
-        // If there's already an active notification of this type, we might want to update it instead of adding a new one
-        // But for now, adding a new one ensures visibility. The context handles distinct IDs.
-        
-        // Prevent adding duplicate notification if one already exists with the EXACT same content
-        // This is a safety check against rapid re-renders
-        const isDuplicate = notifications.some(n => 
-          n.type === type && 
-          !n.dismissed && 
-          JSON.stringify(n.metadata?.plantIds) === JSON.stringify(currentIds)
+        // Check for duplicates by plantId to prevent adding the same notification twice
+        const isDuplicate = notifications.some(n =>
+          n.type === type &&
+          !n.dismissed &&
+          n.metadata?.plantId === plantId
         );
 
         if (!isDuplicate) {

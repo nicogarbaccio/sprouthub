@@ -47,8 +47,12 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     if (notifications.length > 0) {
       // Debounce storage writes to avoid excessive writes when notifications are added rapidly
       const timeoutId = setTimeout(() => {
-        // Exclude icon property as React components can't be serialized
-        const serializableNotifications = notifications.map(({ icon, ...rest }) => rest);
+        // Exclude icon and onClick properties as they can't be serialized
+        const serializableNotifications = notifications.map(({ icon, actions, ...rest }) => ({
+          ...rest,
+          // Filter out onClick from actions since functions can't be serialized
+          actions: actions?.map(({ onClick, ...actionRest }) => actionRest),
+        }));
         storage.setItem(STORAGE_KEY, serializableNotifications, {
           version: NOTIFICATIONS.STORAGE_VERSION,
         });
