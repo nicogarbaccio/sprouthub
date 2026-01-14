@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useBulkSelection } from '@/contexts/BulkSelectionContext';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -47,7 +48,6 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
 
   const allSelected = selectedCount === allPlantIds.length && allPlantIds.length > 0;
-  const someSelected = selectedCount > 0 && selectedCount < allPlantIds.length;
 
   const handleToggleSelectAll = () => {
     if (allSelected) {
@@ -84,24 +84,41 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
 
   if (!isSelectionMode) return null;
 
-  return (
+  const content = (
     <>
+      {/*
+        IMPORTANT: Using React Portal to render directly to document.body,
+        ensuring this component is completely outside any transform/positioning contexts
+        that could break position: fixed behavior.
+      */}
       <div
         className={cn(
-          'fixed bottom-0 left-0 right-0 z-50 bg-background border-t shadow-lg transform transition-transform duration-200',
-          isSelectionMode ? 'translate-y-0' : 'translate-y-full',
+          // Sticky positioning - MUST stay at bottom of viewport
+          'fixed left-0 right-0 bottom-0',
+          // Visual styling
+          'bg-background border-t shadow-lg',
+          // Safe area padding for iOS devices (notch/home indicator)
+          'pb-safe',
           className
         )}
+        style={{
+          // Force sticky behavior
+          position: 'fixed' as any,
+          bottom: '0' as any,
+          left: '0' as any,
+          right: '0' as any,
+          zIndex: '50' as any,
+        }}
       >
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="max-w-7xl mx-auto px-4 py-3 md:py-4">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             {/* Left side - Selection info */}
             <div className="flex items-center justify-between w-full md:w-auto md:justify-start md:gap-4">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={exitSelectionMode}
-                className="h-9 px-2 md:px-4"
+                className="h-9 px-2 md:px-4 hover:bg-muted"
               >
                 <X className="h-4 w-4 mr-2" />
                 Cancel
@@ -122,7 +139,8 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
                 ) : (
                   <Square className="h-4 w-4 mr-2" />
                 )}
-                {allSelected ? 'Deselect All' : 'Select All'}
+                <span className="hidden sm:inline">{allSelected ? 'Deselect All' : 'Select All'}</span>
+                <span className="sm:hidden">{allSelected ? 'Deselect' : 'Select'}</span>
               </Button>
             </div>
 
@@ -133,7 +151,7 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
                 size="sm"
                 onClick={handleBulkWater}
                 disabled={selectedCount === 0 || isProcessing}
-                className="h-9 flex-1 md:flex-none"
+                className="h-10 flex-1 md:flex-none bg-sprout-water hover:bg-sprout-water/90 text-white"
               >
                 <Droplets className="h-4 w-4 mr-2" />
                 Water
@@ -144,7 +162,7 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
                 size="sm"
                 onClick={() => setShowDeleteConfirm(true)}
                 disabled={selectedCount === 0 || isProcessing}
-                className="h-9 flex-1 md:flex-none"
+                className="h-10 flex-1 md:flex-none bg-red-600 hover:bg-red-700 text-white"
               >
                 <Trash2 className="h-4 w-4 mr-2" />
                 Delete
@@ -178,4 +196,6 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
       </AlertDialog>
     </>
   );
+
+  return createPortal(content, document.body);
 };

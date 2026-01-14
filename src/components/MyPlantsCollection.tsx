@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Plus,
   Edit,
@@ -36,7 +36,6 @@ import {
 import { updatePlantWateringSchedule } from "@/utils/plant-schedule-updater";
 import { utilityToast } from "@/utils/toast-helpers";
 import { toast } from "sonner";
-import { FloatingActionButton } from "@/components/ui/floating-action-button";
 import {
   useKeyboardShortcuts,
   createPlantShortcuts,
@@ -70,7 +69,7 @@ const MyPlantsCollectionContent = () => {
     overwateringByPlantId,
     deletePlant,
   } = useUserPlants();
-  const { enterSelectionMode } = useBulkSelection();
+  const { enterSelectionMode, isSelectionMode } = useBulkSelection();
   const [editingPlant, setEditingPlant] = useState<UserPlant | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -389,16 +388,17 @@ const MyPlantsCollectionContent = () => {
   };
 
   return (
-    <PullToRefresh
-      onRefresh={async () => {
-        await fetchPlants();
-      }}
-      className="min-h-[calc(100vh-4rem)]"
-    >
-      <section
-        data-testid="my-plants-collection"
-        className="py-8 bg-background"
+    <React.Fragment>
+      <PullToRefresh
+        onRefresh={async () => {
+          await fetchPlants();
+        }}
+        className="min-h-[calc(100vh-4rem)]"
       >
+        <section
+          data-testid="my-plants-collection"
+          className="py-8 bg-background"
+        >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <CascadingContainer delay={0}>
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
@@ -628,6 +628,11 @@ const MyPlantsCollectionContent = () => {
           </>
         )}
 
+        {/* Spacer for bulk actions bar when visible */}
+        {isSelectionMode && (
+          <div className="h-32 md:h-24" aria-hidden="true" />
+        )}
+
         <EditPlantDialog
           plant={editingPlant}
           isOpen={isEditDialogOpen}
@@ -648,19 +653,17 @@ const MyPlantsCollectionContent = () => {
           onScheduleAdjustment={handleScheduleAdjustment}
           onPlantDataChange={fetchPlants}
         />
-
-        {/* Floating Action Button */}
-        <FloatingActionButton onClick={handleAddPlant} />
-
-        {/* Bulk Actions Bar */}
-        <BulkActionsBar
-          onBulkWater={handleBulkWater}
-          onBulkDelete={handleBulkDelete}
-          allPlantIds={plants.map((p) => p.id)}
-        />
         </div>
-      </section>
-    </PullToRefresh>
+        </section>
+      </PullToRefresh>
+
+      {/* Bulk Actions Bar - MUST be outside PullToRefresh to avoid transform stacking context */}
+      <BulkActionsBar
+        onBulkWater={handleBulkWater}
+        onBulkDelete={handleBulkDelete}
+        allPlantIds={plants.map((p) => p.id)}
+      />
+    </React.Fragment>
   );
 };
 
