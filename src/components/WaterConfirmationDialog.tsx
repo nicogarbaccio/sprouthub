@@ -84,7 +84,7 @@ export function WaterConfirmationDialog({
     <AlertDialogContent data-testid="already-watered-dialog">
      <AlertDialogHeader>
       <AlertDialogTitle className="flex items-center">
-       <History className="w-5 h-5 mr-2 text-blue-500" />
+       <History className="w-5 h-5 mr-2 text-sprout-water" />
        Already Watered {plantName}?
       </AlertDialogTitle>
       <AlertDialogDescription asChild>
@@ -117,11 +117,11 @@ export function WaterConfirmationDialog({
        </div>
       </AlertDialogDescription>
      </AlertDialogHeader>
-     <AlertDialogFooter>
+     <AlertDialogFooter className="flex-col sm:flex-row gap-3">
       <Button variant="outline" onClick={() => setShowAlreadyWatered(false)}>
        Back
       </Button>
-      <Button onClick={handleAlreadyWateredSubmit} className="bg-blue-500 hover:bg-blue-600">
+      <Button onClick={handleAlreadyWateredSubmit} className="bg-sprout-water hover:bg-sprout-water/90 text-sprout-white">
        <History className="w-4 h-4 mr-2" />
        Record Watering
       </Button>

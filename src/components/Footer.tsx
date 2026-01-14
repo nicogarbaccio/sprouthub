@@ -6,51 +6,47 @@ import { Link } from "react-router-dom";
  * @returns {JSX.Element}
  */
 const Footer: React.FC = () => (
-  <footer className="bg-sprout-medium text-sprout-white py-6">
+  <footer className="bg-sprout-medium text-sprout-white py-4 sm:py-6">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center">
         {/* Cream-colored logo */}
         <img
           src="/LogoDark.svg"
           alt="sprouthub Logo"
-          className="h-8 w-auto mx-auto mb-2"
+          className="h-6 sm:h-8 w-auto mx-auto mb-1 sm:mb-2"
         />
 
-        <h3 className="text-xl text-sprout-cream font-bold mb-2">sprouthub</h3>
-        <p className="text-white/90 text-sm mb-3">
+        <h3 className="text-lg sm:text-xl text-sprout-cream font-bold mb-1 sm:mb-2">sprouthub</h3>
+        <p className="text-white/90 text-xs sm:text-sm mb-2 sm:mb-3">
           Your personal plant care assistant
         </p>
 
         {/* Navigation Links */}
-        <div className="flex items-center justify-center gap-4 mb-3 text-sm">
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 sm:gap-x-4 mb-2 sm:mb-3 text-xs sm:text-sm">
           <Link
             to="/about"
             className="text-white/80 hover:text-white transition-colors"
           >
             About
           </Link>
-          <span className="text-white/40">•</span>
           <a
             href="#"
             className="text-white/80 hover:text-white transition-colors"
           >
             FAQ
           </a>
-          <span className="text-white/40">•</span>
           <a
             href="#"
             className="text-white/80 hover:text-white transition-colors"
           >
             Contact
           </a>
-          <span className="text-white/40">•</span>
           <Link
             to="/privacy-policy"
             className="text-white/80 hover:text-white transition-colors"
           >
             Privacy
           </Link>
-          <span className="text-white/40">•</span>
           <Link
             to="/terms-of-service"
             className="text-white/80 hover:text-white transition-colors"

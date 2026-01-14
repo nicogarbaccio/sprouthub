@@ -3,6 +3,7 @@ import { PlantCardSkeleton } from "@/components/ui/skeleton";
 import PlantCard from "../PlantCard";
 import { Plant } from "@/data/plantData";
 import { cn } from "@/lib/utils";
+import { CascadingContainer } from "@/components/ui/cascading-container";
 
 interface PlantGridProps {
  plants: Plant[];
@@ -66,31 +67,27 @@ const PlantGrid = ({
  }
 
  return (
- <div
-  className={cn(
-  "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-300"
-  )}
-  data-testid="plant-grid"
- >
-  {plants.map((plant, index) => (
-  <div
-   key={`${plant.name}-${index}`}
-   className="animate-slide-up"
-   style={{
-   animationDelay: `${index * 10}ms`,
-   animationFillMode: "both",
-   }}
-  >
-   <PlantCard
-   {...plant}
-   onAddToCollection={() => onAddToCollection(plant)}
-   onViewDetails={() => onViewDetails(plant.name)}
-   isAuthenticated={isAuthenticated}
-   onSignInToAdd={onSignInToAdd}
-   />
-  </div>
-  ))}
- </div>
+    <div
+      className={cn(
+        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-300"
+      )}
+      data-testid="plant-grid"
+    >
+      {plants.map((plant, index) => (
+        <CascadingContainer
+          key={`${plant.name}-${index}`}
+          delay={index * 10}
+        >
+          <PlantCard
+            {...plant}
+            onAddToCollection={() => onAddToCollection(plant)}
+            onViewDetails={() => onViewDetails(plant.name)}
+            isAuthenticated={isAuthenticated}
+            onSignInToAdd={onSignInToAdd}
+          />
+        </CascadingContainer>
+      ))}
+    </div>
  );
 };
 
