@@ -1,0 +1,141 @@
+import { test, expect } from '@playwright/test';
+
+// Use credentials from environment variables or .env.test
+const TEST_EMAIL = process.env.TEST_USER_EMAIL;
+const TEST_PASSWORD = process.env.TEST_USER_PASSWORD;
+
+test.describe('Plant Collection - Add Plants', () => {
+  test.beforeEach(async ({ page }) => {
+    // Login before each test
+    await page.goto('/auth');
+    await page.getByTestId('sign-in-email').fill(TEST_EMAIL!);
+    await page.getByTestId('sign-in-password').fill(TEST_PASSWORD!);
+    await page.getByTestId('sign-in-button').click();
+
+    // Wait for dashboard
+    await expect(page.getByTestId('dashboard')).toBeVisible({ timeout: 15000 });
+
+    // Navigate to My Plants page
+    await page.getByRole('link', { name: 'My Plants' }).click();
+    await expect(page).toHaveURL(/\/my-plants/);
+    await expect(page.getByTestId('my-plants-collection')).toBeVisible({ timeout: 10000 });
+  });
+
+  test('should open Add Plant dialog from My Plants page', async ({ page }) => {
+    // Click "Add New Plant" button on My Plants page
+    await page.getByTestId('add-plant-button').click();
+
+    // Verify dialog is open
+    await expect(page.getByTestId('add-plant-dialog')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Add New Plant/i })).toBeVisible();
+
+    // Verify form elements are present
+    await expect(page.getByTestId('plant-nickname-input')).toBeVisible();
+    await expect(page.getByTestId('plant-type-trigger')).toBeVisible();
+  });
+
+  test('should add a plant with minimal required information', async ({ page }) => {
+    const plantNickname = `Test Snake ${Date.now()}`;
+
+    // Click Add Plant button
+    await page.getByTestId('add-plant-button').click();
+    await expect(page.getByTestId('add-plant-dialog')).toBeVisible();
+
+    // Fill required fields
+    await page.getByTestId('plant-nickname-input').fill(plantNickname);
+
+    // Select a plant type - click trigger to open dropdown
+    await page.getByTestId('plant-type-trigger').click();
+
+    // Click on "Snake Plant" from the dropdown (not from the existing plant cards)
+    await page.locator('.plant-type-dropdown div.cursor-pointer').filter({ hasText: /^Snake Plant$/ }).click();
+
+    // Submit form
+    await page.getByTestId('add-plant-submit-button').click();
+
+    // Verify dialog closed
+    await expect(page.getByTestId('add-plant-dialog')).not.toBeVisible({ timeout: 10000 });
+
+    // Verify the plant appears in collection (use button selector to avoid toast)
+    await expect(page.locator('button').filter({ hasText: plantNickname })).toBeVisible({ timeout: 10000 });
+  });
+
+  test('should add a plant by searching plant type', async ({ page }) => {
+    const plantNickname = `Pothos ${Date.now()}`;
+
+    await page.getByTestId('add-plant-button').click();
+    await expect(page.getByTestId('add-plant-dialog')).toBeVisible();
+
+    await page.getByTestId('plant-nickname-input').fill(plantNickname);
+
+    // Open plant type dropdown and search
+    await page.getByTestId('plant-type-trigger').click();
+    await page.getByTestId('plant-type-search-input').fill('Pothos');
+
+    // Click on the search result in the dropdown (use the div container)
+    await page.locator('.plant-type-dropdown div.cursor-pointer').filter({ hasText: /^Pothos$/ }).click();
+
+    // Submit
+    await page.getByTestId('add-plant-submit-button').click();
+
+    await expect(page.getByTestId('add-plant-dialog')).not.toBeVisible({ timeout: 10000 });
+
+    // Use button selector to avoid toast message conflict
+    await expect(page.locator('button').filter({ hasText: plantNickname })).toBeVisible({ timeout: 10000 });
+  });
+
+  test('should add a custom plant type not in catalog', async ({ page }) => {
+    const plantNickname = `Custom ${Date.now()}`;
+    const customType = `Rare Plant ${Date.now()}`;
+
+    await page.getByTestId('add-plant-button').click();
+    await expect(page.getByTestId('add-plant-dialog')).toBeVisible();
+
+    await page.getByTestId('plant-nickname-input').fill(plantNickname);
+
+    // Open dropdown and type custom plant name
+    await page.getByTestId('plant-type-trigger').click();
+    await page.getByTestId('plant-type-search-input').fill(customType);
+
+    // Click "Add as custom" option
+    await page.getByText(`Add "${customType}" as custom`).click();
+
+    await page.getByTestId('add-plant-submit-button').click();
+
+    await expect(page.getByTestId('add-plant-dialog')).not.toBeVisible({ timeout: 10000 });
+
+    // Use more specific selector to avoid toast message conflict
+    await expect(page.locator('button').filter({ hasText: plantNickname })).toBeVisible({ timeout: 10000 });
+  });
+
+  test('should cancel adding a plant', async ({ page }) => {
+    await page.getByTestId('add-plant-button').click();
+    await expect(page.getByTestId('add-plant-dialog')).toBeVisible();
+
+    // Fill some data
+    await page.getByTestId('plant-nickname-input').fill('Cancel Test');
+
+    // Click cancel
+    await page.getByTestId('add-plant-cancel-button').click();
+
+    // Verify dialog closed
+    await expect(page.getByTestId('add-plant-dialog')).not.toBeVisible();
+  });
+
+  test('should validate required fields', async ({ page }) => {
+    await page.getByTestId('add-plant-button').click();
+    await expect(page.getByTestId('add-plant-dialog')).toBeVisible();
+
+    // The submit button should be disabled when form is invalid
+    const submitButton = page.getByTestId('add-plant-submit-button');
+
+    // Button is disabled until required fields are filled
+    await expect(submitButton).toBeDisabled();
+
+    // Fill nickname but not plant type
+    await page.getByTestId('plant-nickname-input').fill('Test');
+
+    // Button should still be disabled
+    await expect(submitButton).toBeDisabled();
+  });
+});

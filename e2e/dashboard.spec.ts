@@ -5,19 +5,13 @@ const TEST_EMAIL = process.env.TEST_USER_EMAIL;
 const TEST_PASSWORD = process.env.TEST_USER_PASSWORD;
 
 test.describe('Dashboard and Navigation', () => {
-  // Skip if test credentials are not provided
   test.beforeEach(async ({ page }) => {
-    if (!TEST_EMAIL || !TEST_PASSWORD) {
-      test.skip(true, 'Test credentials are not set');
-      return;
-    }
-
     // Login before each test
     await page.goto('/auth');
-    await page.getByTestId('sign-in-email').fill(TEST_EMAIL);
-    await page.getByTestId('sign-in-password').fill(TEST_PASSWORD);
+    await page.getByTestId('sign-in-email').fill(TEST_EMAIL!);
+    await page.getByTestId('sign-in-password').fill(TEST_PASSWORD!);
     await page.getByTestId('sign-in-button').click();
-    
+
     // Wait for dashboard
     await expect(page.getByTestId('dashboard')).toBeVisible({ timeout: 15000 });
   });
@@ -53,14 +47,18 @@ test.describe('Dashboard and Navigation', () => {
     await expect(page.getByTestId('collection-header')).toBeVisible();
   });
 
-  test('should open Add Plant dialog', async ({ page }) => {
-    // Use the Floating Action Button which has data-testid="floating-action-button"
-    await page.getByTestId('floating-action-button').click();
+  test('should open Add Plant dialog from My Plants', async ({ page }) => {
+    // Navigate to My Plants first
+    await page.click('text=My Plants');
+    await expect(page).toHaveURL(/\/my-plants/);
+    await expect(page.getByTestId('my-plants-collection')).toBeVisible();
+
+    // Click the Add New Plant button
+    await page.getByTestId('add-plant-button').click();
 
     // Check if dialog opened
-    // AddPlantDialog has a title "Add New Plant"
-    await expect(page.getByRole('dialog')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Add New Plant' })).toBeVisible();
+    await expect(page.getByTestId('add-plant-dialog')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Add New Plant/i })).toBeVisible();
   });
 });
 
