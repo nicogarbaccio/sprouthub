@@ -179,15 +179,15 @@ const PatternSuggestionsDialog = ({
                     insight.severity === 'medium' ? 'bg-orange-50 dark:bg-orange-950/20 border-orange-200 dark:border-orange-800' :
                     'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800'
                   )}>
-                    <div className="flex items-start justify-between mb-2">
-                      <h5 className="font-medium text-sm">{insight.title}</h5>
+                    <div className="flex items-start justify-between gap-3 mb-2">
+                      <h5 className="font-medium text-sm flex-1">{insight.title}</h5>
                       <Button
                         variant="ghost"
                         size="sm"
                         onClick={() => handleDismissInsight(insight)}
-                        className="h-6 w-6 p-0 text-muted-foreground hover:text-foreground"
+                        className="h-7 w-7 p-0 flex-shrink-0 text-muted-foreground hover:text-foreground -mt-1 -mr-1"
                       >
-                        <X className="w-3 h-3" />
+                        <X className="w-4 h-4" />
                       </Button>
                     </div>
 
@@ -259,9 +259,9 @@ const PatternSuggestionsDialog = ({
                         </Button>
                         <Button
                           size="sm"
-                          variant="ghost"
+                          variant="outline"
                           onClick={() => handleDismissInsight(insight)}
-                          className="px-3"
+                          className="flex-1"
                         >
                           Dismiss
                         </Button>
