@@ -110,6 +110,16 @@ const PlantDetailsForm = ({
     return suggestedWateringDays.toString();
   };
 
+  const getDisplayValue = () => {
+    if (isInCustomMode) {
+      return `Custom (${suggestedWateringDays} days)`;
+    }
+    const option = wateringOptions.find(
+      (opt) => opt.value === suggestedWateringDays
+    );
+    return option ? option.label : `Every ${suggestedWateringDays} days`;
+  };
+
   return (
     <div data-testid="plant-details-form" className="space-y-4">
       <h3 className="text-lg font-semibold">Plant Information</h3>
@@ -264,7 +274,9 @@ const PlantDetailsForm = ({
           onValueChange={handleWateringScheduleChange}
         >
           <SelectTrigger data-testid="watering-schedule-select">
-            <SelectValue placeholder="Select watering frequency" />
+            <SelectValue>
+              {getDisplayValue()}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             {wateringOptions.map((option) => (
