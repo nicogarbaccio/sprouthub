@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { deletePlantsByPattern } from './helpers';
 
 // Use credentials from environment variables or .env.test
 const TEST_EMAIL = process.env.TEST_USER_EMAIL;
@@ -19,6 +20,14 @@ test.describe('Plant Collection - Add Plants', () => {
     await page.getByRole('link', { name: 'My Plants' }).click();
     await expect(page).toHaveURL(/\/my-plants/);
     await expect(page.getByTestId('my-plants-collection')).toBeVisible({ timeout: 10000 });
+  });
+
+  test.afterAll(async () => {
+    // Clean up all test plants created during tests
+    // These patterns match the plant nicknames created in the tests
+    await deletePlantsByPattern('Test Snake%', TEST_EMAIL!);
+    await deletePlantsByPattern('Pothos%', TEST_EMAIL!);
+    await deletePlantsByPattern('Custom%', TEST_EMAIL!);
   });
 
   test('should open Add Plant dialog from My Plants page', async ({ page }) => {
