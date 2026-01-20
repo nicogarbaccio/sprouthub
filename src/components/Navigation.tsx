@@ -292,13 +292,18 @@ const Navigation = () => {
                 <SheetContent
                   side="right"
                   className="w-80 bg-background dark:bg-sprout-dark p-0"
+                  closeClassName="hidden"
                   data-testid="mobile-menu"
                 >
                   <div className="flex flex-col h-full">
-                    <div className="flex items-center justify-start p-4 border-b">
+                    <div className="flex items-center justify-between p-4 border-b">
                       <span className="text-lg font-semibold text-foreground dark:text-sprout-cream">
                         Menu
                       </span>
+                      <SheetClose className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+                        <X className="h-4 w-4" />
+                        <span className="sr-only">Close</span>
+                      </SheetClose>
                     </div>
                     <div className="flex flex-col gap-2 px-4 py-6">
                       {!user && (
