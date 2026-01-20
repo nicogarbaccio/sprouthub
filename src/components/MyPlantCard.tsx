@@ -719,7 +719,7 @@ const MyPlantCard = ({
 
             {/* Action Dropdown Menu */}
             <div>
-              <DropdownMenu>
+              <DropdownMenu modal={false}>
                 <DropdownMenuTrigger asChild>
                   <Button
                     className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"

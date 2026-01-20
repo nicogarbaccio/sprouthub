@@ -532,27 +532,27 @@ const AddPlantDialog = ({
                 }
               >
                 <SelectTrigger
-                  className="border-plant-secondary/30 focus:border-plant-primary"
+                  className="border-plant-secondary/30 focus:border-plant-primary [&>span]:line-clamp-none"
                   data-testid="household-select-trigger"
                 >
                   <SelectValue placeholder="Personal plant or assign to household" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="personal">
-                    <div className="flex items-center gap-2">
-                      <span>👤</span>
-                      <span>Personal Plant</span>
-                    </div>
+                    <span className="flex items-center gap-2 min-w-0">
+                      <span className="shrink-0">👤</span>
+                      <span className="truncate">Personal Plant</span>
+                    </span>
                   </SelectItem>
                   {households.map((household) => (
                     <SelectItem key={household.id} value={household.id}>
-                      <div className="flex items-center gap-2">
-                        <span>🏠</span>
-                        <span>{household.name}</span>
-                        <span className="text-xs text-muted-foreground">
+                      <span className="flex items-center gap-2 min-w-0">
+                        <span className="shrink-0">🏠</span>
+                        <span className="truncate">{household.name}</span>
+                        <span className="text-xs text-muted-foreground shrink-0">
                           ({household.member_count} members)
                         </span>
-                      </div>
+                      </span>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -587,7 +587,7 @@ const AddPlantDialog = ({
               }}
             >
               <SelectTrigger
-                className="border-plant-secondary/30 focus:border-plant-primary"
+                className="border-plant-secondary/30 focus:border-plant-primary [&>span]:line-clamp-none"
                 data-testid="room-select-trigger"
               >
                 <SelectValue placeholder="Select a room or leave empty" />
@@ -596,9 +596,9 @@ const AddPlantDialog = ({
                 <SelectItem value={NO_ROOM_VALUE}>No room assigned</SelectItem>
                 {ROOM_OPTIONS.map((room) => (
                   <SelectItem key={room.value} value={room.value}>
-                    <span className="flex items-center gap-2">
-                      <span>{room.icon}</span>
-                      <span>{room.label}</span>
+                    <span className="flex items-center gap-2 min-w-0">
+                      <span className="shrink-0">{room.icon}</span>
+                      <span className="truncate">{room.label}</span>
                     </span>
                   </SelectItem>
                 ))}

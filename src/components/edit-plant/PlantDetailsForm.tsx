@@ -183,16 +183,16 @@ const PlantDetailsForm = ({
             }
           }}
         >
-          <SelectTrigger data-testid="room-select">
+          <SelectTrigger data-testid="room-select" className="[&>span]:line-clamp-none">
             <SelectValue placeholder="Select a room or leave empty" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value={NO_ROOM_VALUE}>No room assigned</SelectItem>
             {ROOM_OPTIONS.map((roomOption) => (
               <SelectItem key={roomOption.value} value={roomOption.value}>
-                <span className="flex items-center gap-2">
-                  <span>{roomOption.icon}</span>
-                  <span>{roomOption.label}</span>
+                <span className="flex items-center gap-2 min-w-0">
+                  <span className="shrink-0">{roomOption.icon}</span>
+                  <span className="truncate">{roomOption.label}</span>
                 </span>
               </SelectItem>
             ))}
@@ -229,25 +229,25 @@ const PlantDetailsForm = ({
               setHouseholdId(value === "personal" ? "" : value)
             }
           >
-            <SelectTrigger data-testid="household-select">
+            <SelectTrigger data-testid="household-select" className="[&>span]:line-clamp-none">
               <SelectValue placeholder="Select assignment" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="personal">
-                <div className="flex items-center gap-2">
-                  <span>👤</span>
-                  <span>Personal Plant</span>
-                </div>
+                <span className="flex items-center gap-2 min-w-0">
+                  <span className="shrink-0">👤</span>
+                  <span className="truncate">Personal Plant</span>
+                </span>
               </SelectItem>
               {households.map((household) => (
                 <SelectItem key={household.id} value={household.id}>
-                  <div className="flex items-center gap-2">
-                    <span>🏠</span>
-                    <span>{household.name}</span>
-                    <span className="text-xs text-muted-foreground">
+                  <span className="flex items-center gap-2 min-w-0">
+                    <span className="shrink-0">🏠</span>
+                    <span className="truncate">{household.name}</span>
+                    <span className="text-xs text-muted-foreground shrink-0">
                       ({household.member_count} members)
                     </span>
-                  </div>
+                  </span>
                 </SelectItem>
               ))}
             </SelectContent>
