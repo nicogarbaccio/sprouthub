@@ -1,8 +1,10 @@
+import { useEffect, useState } from "react";
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import PlantCatalog from "@/components/PlantCatalog";
 import Dashboard from "@/components/Dashboard";
+import { DashboardSkeleton } from "@/components/DashboardSkeleton";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { useAuth } from "@/contexts/AuthContext";
 import Footer from "@/components/Footer";
@@ -89,10 +91,30 @@ const MarketingPageSkeleton = () => {
 const Index = () => {
  const { user, loading: authLoading } = useAuth();
  const { showDebugPanel } = usePWADebug();
+ const [hasSession, setHasSession] = useState(false);
+
+ useEffect(() => {
+   // Check for Supabase session in localStorage to show correct skeleton
+   // The key format is usually `sb-${projectId}-auth-token`
+   const checkSession = () => {
+     try {
+       for (let i = 0; i < localStorage.length; i++) {
+         const key = localStorage.key(i);
+         if (key?.startsWith('sb-') && key?.endsWith('-auth-token')) {
+           setHasSession(true);
+           return;
+         }
+       }
+     } catch (e) {
+       // Ignore localStorage errors
+     }
+   };
+   checkSession();
+ }, []);
 
  // Show skeleton only during initial auth loading (reduced timeout)
  if (authLoading) {
- return <MarketingPageSkeleton />;
+   return hasSession ? <DashboardSkeleton /> : <MarketingPageSkeleton />;
  }
 
  return (

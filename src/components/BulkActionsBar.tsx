@@ -168,7 +168,7 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
                 size="sm"
                 onClick={() => setShowDeleteConfirm(true)}
                 disabled={selectedCount === 0 || isProcessing}
-                className="h-10 flex-1 md:flex-none bg-red-600 hover:bg-red-700 text-white"
+                className="h-10 flex-1 md:flex-none bg-red-600 hover:bg-red-700 !text-white"
               >
                 <Trash2 className="h-4 w-4 mr-2" />
                 Delete
@@ -192,7 +192,7 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleBulkDelete}
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-red-600 hover:bg-red-700 text-white"
               disabled={isProcessing}
             >
               {isProcessing ? 'Deleting...' : 'Delete'}
