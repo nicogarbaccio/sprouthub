@@ -45,6 +45,7 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
   } = useBulkSelection();
 
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showWaterConfirm, setShowWaterConfirm] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const allSelected = selectedCount === allPlantIds.length && allPlantIds.length > 0;
@@ -57,10 +58,15 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
     }
   };
 
-  const handleBulkWater = async () => {
+  const handleBulkWater = () => {
+    setShowWaterConfirm(true);
+  };
+
+  const confirmBulkWater = async () => {
     setIsProcessing(true);
     try {
       await onBulkWater(Array.from(selectedPlantIds));
+      setShowWaterConfirm(false);
       exitSelectionMode();
     } catch (error) {
       console.error('Error bulk watering plants:', error);
@@ -190,6 +196,28 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
               disabled={isProcessing}
             >
               {isProcessing ? 'Deleting...' : 'Delete'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Water Confirmation Dialog */}
+      <AlertDialog open={showWaterConfirm} onOpenChange={setShowWaterConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Water {selectedCount} Plant{selectedCount !== 1 ? 's' : ''}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to mark {selectedCount} plant{selectedCount !== 1 ? 's' : ''} as watered?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmBulkWater}
+              className="bg-sprout-water hover:bg-sprout-water/90 text-white"
+              disabled={isProcessing}
+            >
+              {isProcessing ? 'Watering...' : 'Water'}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
