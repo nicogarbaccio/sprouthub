@@ -8,32 +8,34 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { NotificationProvider } from "@/contexts/NotificationContext";
 import { NotificationPreferencesProvider } from "@/contexts/NotificationPreferencesContext";
 import { setNotificationNavigate } from "@/utils/notification-generator";
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import { App as CapacitorApp } from '@capacitor/app';
 import * as Sentry from "@sentry/react";
 import { useIOSOptimizations } from "@/hooks/useIOSOptimizations";
 import { useStatusBar } from "@/hooks/useStatusBar";
-import Index from "./pages/Index";
-import Auth from "./pages/Auth";
-import Onboarding from "./pages/Onboarding";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
-import PlantCatalogPage from "./pages/PlantCatalog";
-import PlantDetails from "./pages/PlantDetails";
-import MyPlants from "./pages/MyPlants";
-import MyPlantDetails from "./pages/MyPlantDetails";
-import Households from "./pages/Households";
-import HouseholdManagement from "./pages/HouseholdManagement";
-import Profile from "./pages/Profile";
-import Settings from "./pages/Settings";
-import About from "./pages/About";
-import Analytics from "./pages/Analytics";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
-import SkeletonDemo from "./pages/SkeletonDemo";
-import ToastDemo from "./components/ToastDemo";
-import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+
+// Lazy load pages for better performance
+const Index = lazy(() => import("./pages/Index"));
+const Auth = lazy(() => import("./pages/Auth"));
+const Onboarding = lazy(() => import("./pages/Onboarding"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword"));
+const PlantCatalogPage = lazy(() => import("./pages/PlantCatalog"));
+const PlantDetails = lazy(() => import("./pages/PlantDetails"));
+const MyPlants = lazy(() => import("./pages/MyPlants"));
+const MyPlantDetails = lazy(() => import("./pages/MyPlantDetails"));
+const Households = lazy(() => import("./pages/Households"));
+const HouseholdManagement = lazy(() => import("./pages/HouseholdManagement"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Settings = lazy(() => import("./pages/Settings"));
+const About = lazy(() => import("./pages/About"));
+const Analytics = lazy(() => import("./pages/Analytics"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const SkeletonDemo = lazy(() => import("./pages/SkeletonDemo"));
+const ToastDemo = lazy(() => import("./components/ToastDemo"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -70,38 +72,40 @@ const AppRoutes = () => {
   return (
     <>
       <ScrollToTop />
-      <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/auth" element={<Auth />} />
-                    <Route path="/onboarding" element={<Onboarding />} />
-                    <Route path="/forgot-password" element={<ForgotPassword />} />
-                    <Route path="/reset-password" element={<ResetPassword />} />
-                    <Route path="/plant-catalog" element={<PlantCatalogPage />} />
-                    <Route
-                      path="/plant-details/:plantName"
-                      element={<PlantDetails />}
-                    />
-                    <Route path="/my-plants" element={<MyPlants />} />
-                    <Route
-                      path="/my-plants/:plantId"
-                      element={<MyPlantDetails />}
-                    />
-                    <Route path="/households" element={<Households />} />
-                    <Route
-                      path="/households/:id"
-                      element={<HouseholdManagement />}
-                    />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/settings" element={<Settings />} />
-                    <Route path="/analytics" element={<Analytics />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                    <Route path="/terms-of-service" element={<TermsOfService />} />
-                    <Route path="/skeleton-demo" element={<SkeletonDemo />} />
-                    <Route path="/toast-demo" element={<ToastDemo />} />
-                    {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
+      <Suspense fallback={<div className="min-h-screen bg-background" />}>
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/plant-catalog" element={<PlantCatalogPage />} />
+          <Route
+            path="/plant-details/:plantName"
+            element={<PlantDetails />}
+          />
+          <Route path="/my-plants" element={<MyPlants />} />
+          <Route
+            path="/my-plants/:plantId"
+            element={<MyPlantDetails />}
+          />
+          <Route path="/households" element={<Households />} />
+          <Route
+            path="/households/:id"
+            element={<HouseholdManagement />}
+          />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/skeleton-demo" element={<SkeletonDemo />} />
+          <Route path="/toast-demo" element={<ToastDemo />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </>
   );
 };
