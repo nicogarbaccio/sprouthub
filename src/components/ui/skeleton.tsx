@@ -333,16 +333,115 @@ function HouseholdCardSkeleton({ className }: { className?: string }) {
  * Skeleton for profile header section
  */
 function ProfileHeaderSkeleton({ className }: { className?: string }) {
- return (
- <div className={cn("bg-card border border-border rounded-lg", className)}>
-  <div className="p-6 text-center">
-  <Skeleton className="h-24 w-24 rounded-full mx-auto mb-4" />
-  <Skeleton className="h-8 w-48 mx-auto mb-2" />
-  <Skeleton className="h-4 w-32 mx-auto" />
-  </div>
- </div>
- );
+  return (
+    <div className={cn("text-center mb-8", className)}>
+      <Skeleton className="h-9 w-64 mx-auto mb-2" />
+      <Skeleton className="h-5 w-96 mx-auto" />
+    </div>
+  );
 }
+
+/**
+ * Skeleton for profile information card
+ */
+function ProfileInformationSkeleton({ className }: { className?: string }) {
+  return (
+    <div className={cn("bg-card border border-border rounded-lg", className)}>
+      <div className="p-6">
+        <div className="flex items-center space-x-2 mb-2">
+          <Skeleton className="w-5 h-5 rounded-full" />
+          <Skeleton className="h-6 w-48" />
+        </div>
+        <Skeleton className="h-4 w-64 mb-6" />
+
+        <div className="space-y-6">
+          {/* Avatar section */}
+          <div className="flex justify-center mb-6">
+            <Skeleton className="w-24 h-24 rounded-full" />
+          </div>
+
+          {/* Name inputs */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-10 w-full rounded-md" />
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-20" />
+              <Skeleton className="h-10 w-full rounded-md" />
+            </div>
+          </div>
+
+          {/* Username */}
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-10 w-full rounded-md" />
+          </div>
+
+          {/* Email */}
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-16" />
+            <Skeleton className="h-10 w-full rounded-md" />
+            <Skeleton className="h-4 w-48" />
+          </div>
+
+          {/* Button */}
+          <Skeleton className="h-10 w-full rounded-md" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Skeleton for security settings card
+ */
+function SecuritySettingsSkeleton({ className }: { className?: string }) {
+  return (
+    <div className={cn("bg-card border border-border rounded-lg", className)}>
+      <div className="p-6">
+        <div className="flex items-center space-x-2 mb-2">
+          <Skeleton className="w-5 h-5 rounded-full" />
+          <Skeleton className="h-6 w-40" />
+        </div>
+        <Skeleton className="h-4 w-64 mb-6" />
+
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-10 w-full rounded-md" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-32" />
+            <Skeleton className="h-10 w-full rounded-md" />
+          </div>
+          <Skeleton className="h-10 w-full rounded-md" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Skeleton for danger zone card
+ */
+function DangerZoneSkeleton({ className }: { className?: string }) {
+  return (
+    <div className={cn("bg-card border border-border rounded-lg", className)}>
+      <div className="p-6">
+        <div className="flex items-center space-x-2 mb-2">
+          <Skeleton className="w-5 h-5 rounded-full" />
+          <Skeleton className="h-6 w-32" />
+        </div>
+        <Skeleton className="h-4 w-64 mb-6" />
+
+        <Skeleton className="h-10 w-full rounded-md mb-2" />
+        <Skeleton className="h-4 w-full" />
+      </div>
+    </div>
+  );
+}
+
 
 /**
  * Skeleton for household management details page
@@ -426,19 +525,83 @@ function HouseholdDetailsSkeleton({ className }: { className?: string }) {
  );
 }
 
+/**
+ * Skeleton for analytics page cards and charts
+ */
+function AnalyticsSkeleton({ className }: { className?: string }) {
+  return (
+    <div className={cn("space-y-6", className)}>
+      {/* Header skeleton */}
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-24" />
+        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-4 w-96" />
+      </div>
+
+      {/* Insights banner skeleton */}
+      <Skeleton className="h-32 w-full rounded-xl" />
+
+      {/* Stats cards skeleton */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <div key={i} className="bg-card border border-border rounded-lg p-6">
+            <Skeleton className="h-4 w-32 mb-2" />
+            <Skeleton className="h-8 w-16 mb-1" />
+            <Skeleton className="h-3 w-24" />
+          </div>
+        ))}
+      </div>
+
+      {/* Plant Health Overview skeleton */}
+      <div className="bg-card border border-border rounded-lg p-6">
+        <Skeleton className="h-6 w-48 mb-6" />
+        <div className="space-y-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="space-y-2">
+              <div className="flex justify-between">
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="h-4 w-8" />
+              </div>
+              <Skeleton className="h-2 w-full rounded-full" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Charts skeleton */}
+      <div className="bg-card border border-border rounded-lg p-6">
+        <Skeleton className="h-6 w-48 mb-6" />
+        <div className="space-y-3">
+          {Array.from({ length: 7 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-4">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-6 flex-1 rounded-r-full" />
+              <Skeleton className="h-4 w-8" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export {
- Skeleton,
- PlantCardSkeleton,
- MyPlantCardSkeleton,
- DashboardMetricSkeleton,
- DashboardTaskSkeleton,
- DashboardActivitySkeleton,
- FormInputSkeleton,
- FormSectionSkeleton,
- WateringRecordSkeleton,
- ImageUploadSkeleton,
- PlantDetailsPageSkeleton,
- HouseholdCardSkeleton,
- ProfileHeaderSkeleton,
- HouseholdDetailsSkeleton,
+  Skeleton,
+  PlantCardSkeleton,
+  MyPlantCardSkeleton,
+  DashboardMetricSkeleton,
+  DashboardTaskSkeleton,
+  DashboardActivitySkeleton,
+  FormInputSkeleton,
+  FormSectionSkeleton,
+  WateringRecordSkeleton,
+  ImageUploadSkeleton,
+  PlantDetailsPageSkeleton,
+  HouseholdCardSkeleton,
+  ProfileHeaderSkeleton,
+  ProfileInformationSkeleton,
+  SecuritySettingsSkeleton,
+  DangerZoneSkeleton,
+  HouseholdDetailsSkeleton,
+  AnalyticsSkeleton,
 };

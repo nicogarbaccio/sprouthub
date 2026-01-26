@@ -28,36 +28,30 @@ import {
   getTimeDistribution,
   getAnalyticsInsights,
 } from '@/utils/analytics';
+import { AnalyticsSkeleton } from '@/components/ui/skeleton';
 import { CascadingContainer } from '@/components/ui/cascading-container';
 import { PageBreadcrumbs } from '@/components/ui/page-breadcrumbs';
 import { format } from 'date-fns';
 import { FeatureErrorBoundary } from '@/components/ui/feature-error-boundary';
 
 const AnalyticsContent = () => {
-  const { user } = useAuth();
-  const { plants, loading } = useUserPlants();
+  const { user, loading: authLoading } = useAuth();
+  const { plants, loading: plantsLoading } = useUserPlants();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!authLoading && !user) {
       navigate('/auth?redirect=' + encodeURIComponent(window.location.pathname));
     }
-  }, [user, loading, navigate]);
+  }, [user, authLoading, navigate]);
 
-  if (loading) {
+  if (authLoading || plantsLoading) {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
         <main className="py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="animate-pulse space-y-4">
-              <div className="h-8 bg-muted rounded w-1/4" />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {[...Array(4)].map((_, i) => (
-                  <div key={i} className="h-32 bg-muted rounded" />
-                ))}
-              </div>
-            </div>
+            <AnalyticsSkeleton />
           </div>
         </main>
         <Footer />
