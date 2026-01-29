@@ -10,7 +10,7 @@ function Skeleton({
   role="status"
   aria-label={ariaLabel}
   aria-live="polite"
-  className={cn("animate-pulse rounded-md bg-muted/60", className)}
+  className={cn("animate-pulse rounded-md bg-foreground/10", className)}
   {...props}
  />
  );
@@ -135,7 +135,7 @@ function DashboardTaskSkeleton({ className }: { className?: string }) {
  return (
  <div
   className={cn(
-  "flex items-center justify-between p-3 bg-muted/30 rounded-lg",
+    "flex items-center justify-between p-3 bg-card border border-border/50 rounded-lg",
   className
   )}
  >
@@ -161,7 +161,7 @@ function DashboardActivitySkeleton({ className }: { className?: string }) {
  return (
  <div
   className={cn(
-  "flex items-center space-x-3 p-3 bg-muted/30 rounded-lg",
+    "flex items-center space-x-3 p-3 bg-card border border-border/50 rounded-lg",
   className
   )}
  >

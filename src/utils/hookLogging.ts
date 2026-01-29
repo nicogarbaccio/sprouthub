@@ -167,10 +167,10 @@ const operationComplete = (
 const operationFailed = (
   hookName: string,
   operation: string,
-  error: any
+  err: any
 ): void => {
-  const errorMessage = error instanceof Error ? error.message : String(error);
-  error(hookName, `Failed: ${operation} - ${errorMessage}`, error);
+  const errorMessage = err instanceof Error ? err.message : String(err);
+  error(hookName, `Failed: ${operation} - ${errorMessage}`, err);
 };
 
 /**
