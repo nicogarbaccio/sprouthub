@@ -22,8 +22,8 @@ export const DashboardSkeleton = () => {
 
         {/* Quick Actions Skeleton */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          <Skeleton className="h-16 rounded-xl" />
-          <Skeleton className="h-16 rounded-xl" />
+          <Skeleton className="h-16 rounded-xl bg-primary/5 border border-border" />
+          <Skeleton className="h-16 rounded-xl bg-primary/5 border border-border" />
         </div>
 
         {/* Care Status Overview Skeleton */}
@@ -36,7 +36,7 @@ export const DashboardSkeleton = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Today's Tasks Skeleton */}
-          <Card className="border-border">
+          <Card className="border-border bg-primary/5">
             <CardHeader>
               <div className="flex items-center">
                 <Skeleton className="w-5 h-5 mr-2 rounded-full" />
@@ -54,7 +54,7 @@ export const DashboardSkeleton = () => {
           </Card>
 
           {/* Recent Activity Skeleton */}
-          <Card className="border-border">
+          <Card className="border-border bg-primary/5">
             <CardHeader>
               <div className="flex items-center">
                 <Skeleton className="w-5 h-5 mr-2 rounded-full" />
@@ -73,7 +73,7 @@ export const DashboardSkeleton = () => {
         </div>
 
         {/* Plant Health Insights Skeleton */}
-        <Card className="border-border mb-8">
+        <Card className="border-border mb-8 bg-primary/5">
           <CardHeader>
             <div className="flex items-center">
               <Skeleton className="w-5 h-5 mr-2 rounded-full" />
@@ -113,7 +113,7 @@ export const DashboardSkeleton = () => {
         </Card>
 
         {/* Favorite Plants Skeleton */}
-        <Card className="border-plant-secondary/20">
+        <Card className="border-border bg-primary/5">
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
@@ -131,7 +131,7 @@ export const DashboardSkeleton = () => {
               {Array.from({ length: 4 }).map((_, index) => (
                 <div
                   key={index}
-                  className="flex items-center space-x-3 p-3 bg-card border border-border/50 rounded-lg"
+                  className="flex items-center space-x-3 p-3 bg-primary/5 border border-border rounded-lg"
                 >
                   <Skeleton className="w-12 h-12 rounded-full" />
                   <div className="flex-1">

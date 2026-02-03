@@ -10,7 +10,7 @@ function Skeleton({
   role="status"
   aria-label={ariaLabel}
   aria-live="polite"
-  className={cn("animate-pulse rounded-md bg-foreground/10", className)}
+  className={cn("animate-pulse rounded-md bg-primary/10", className)}
   {...props}
  />
  );
@@ -24,7 +24,7 @@ function PlantCardSkeleton({ className }: { className?: string }) {
  return (
  <div
   className={cn(
-  "bg-card rounded-2xl shadow-md overflow-hidden border border-border",
+  "bg-primary/5 rounded-2xl shadow-md overflow-hidden border border-border",
   className
   )}
  >
@@ -67,7 +67,7 @@ function MyPlantCardSkeleton({ className }: { className?: string }) {
  return (
  <div
   className={cn(
-  "bg-card rounded-2xl shadow-md overflow-hidden border border-border",
+  "bg-primary/5 rounded-2xl shadow-md overflow-hidden border border-border",
   className
   )}
  >
@@ -115,7 +115,7 @@ function MyPlantCardSkeleton({ className }: { className?: string }) {
 function DashboardMetricSkeleton({ className }: { className?: string }) {
  return (
  <div
-  className={cn("bg-card border border-border rounded-lg p-6", className)}
+  className={cn("bg-primary/5 border border-border rounded-lg p-6", className)}
  >
   <div className="flex items-center justify-between">
   <div className="space-y-2">
@@ -135,7 +135,7 @@ function DashboardTaskSkeleton({ className }: { className?: string }) {
  return (
  <div
   className={cn(
-    "flex items-center justify-between p-3 bg-card border border-border/50 rounded-lg",
+    "flex items-center justify-between p-3 bg-primary/5 border border-border rounded-lg",
   className
   )}
  >
@@ -161,7 +161,7 @@ function DashboardActivitySkeleton({ className }: { className?: string }) {
  return (
  <div
   className={cn(
-    "flex items-center space-x-3 p-3 bg-card border border-border/50 rounded-lg",
+    "flex items-center space-x-3 p-3 bg-primary/5 border border-border rounded-lg",
   className
   )}
  >
@@ -307,7 +307,7 @@ function PlantDetailsPageSkeleton({ className }: { className?: string }) {
  */
 function HouseholdCardSkeleton({ className }: { className?: string }) {
  return (
- <div className={cn("bg-card border border-border rounded-lg shadow-sm", className)}>
+ <div className={cn("bg-primary/5 border border-border rounded-lg shadow-sm", className)}>
   <div className="p-6">
   <div className="flex items-center justify-between mb-2">
    <Skeleton className="h-6 w-3/4" />
@@ -346,7 +346,7 @@ function ProfileHeaderSkeleton({ className }: { className?: string }) {
  */
 function ProfileInformationSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("bg-card border border-border rounded-lg", className)}>
+    <div className={cn("bg-primary/5 border border-border rounded-lg", className)}>
       <div className="p-6">
         <div className="flex items-center space-x-2 mb-2">
           <Skeleton className="w-5 h-5 rounded-full" />
@@ -398,7 +398,7 @@ function ProfileInformationSkeleton({ className }: { className?: string }) {
  */
 function SecuritySettingsSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("bg-card border border-border rounded-lg", className)}>
+    <div className={cn("bg-primary/5 border border-border rounded-lg", className)}>
       <div className="p-6">
         <div className="flex items-center space-x-2 mb-2">
           <Skeleton className="w-5 h-5 rounded-full" />
@@ -427,7 +427,7 @@ function SecuritySettingsSkeleton({ className }: { className?: string }) {
  */
 function DangerZoneSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("bg-card border border-border rounded-lg", className)}>
+    <div className={cn("bg-primary/5 border border-border rounded-lg", className)}>
       <div className="p-6">
         <div className="flex items-center space-x-2 mb-2">
           <Skeleton className="w-5 h-5 rounded-full" />
@@ -463,7 +463,7 @@ function HouseholdDetailsSkeleton({ className }: { className?: string }) {
   {/* Main content skeleton */}
   <div className="lg:col-span-2 space-y-6">
    {/* Members card skeleton */}
-   <div className="bg-card border border-border rounded-lg p-6">
+   <div className="bg-primary/5 border border-border rounded-lg p-6">
    <div className="flex items-center justify-between mb-4">
     <Skeleton className="h-6 w-32" />
     <Skeleton className="h-8 w-32" />
@@ -485,7 +485,7 @@ function HouseholdDetailsSkeleton({ className }: { className?: string }) {
    </div>
 
    {/* Plants card skeleton */}
-   <div className="bg-card border border-border rounded-lg p-6">
+   <div className="bg-primary/5 border border-border rounded-lg p-6">
    <div className="flex items-center justify-between mb-4">
     <div>
     <Skeleton className="h-6 w-40 mb-2" />
@@ -511,7 +511,7 @@ function HouseholdDetailsSkeleton({ className }: { className?: string }) {
 
   {/* Sidebar skeleton */}
   <div className="space-y-6">
-   <div className="bg-card border border-border rounded-lg p-6">
+   <div className="bg-primary/5 border border-border rounded-lg p-6">
    <Skeleton className="h-6 w-24 mb-4" />
    <div className="space-y-2">
     <Skeleton className="h-4 w-full" />
@@ -544,7 +544,7 @@ function AnalyticsSkeleton({ className }: { className?: string }) {
       {/* Stats cards skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="bg-card border border-border rounded-lg p-6">
+          <div key={i} className="bg-primary/5 border border-border rounded-lg p-6">
             <Skeleton className="h-4 w-32 mb-2" />
             <Skeleton className="h-8 w-16 mb-1" />
             <Skeleton className="h-3 w-24" />
@@ -553,7 +553,7 @@ function AnalyticsSkeleton({ className }: { className?: string }) {
       </div>
 
       {/* Plant Health Overview skeleton */}
-      <div className="bg-card border border-border rounded-lg p-6">
+      <div className="bg-primary/5 border border-border rounded-lg p-6">
         <Skeleton className="h-6 w-48 mb-6" />
         <div className="space-y-4">
           {Array.from({ length: 4 }).map((_, i) => (
@@ -569,7 +569,7 @@ function AnalyticsSkeleton({ className }: { className?: string }) {
       </div>
 
       {/* Charts skeleton */}
-      <div className="bg-card border border-border rounded-lg p-6">
+      <div className="bg-primary/5 border border-border rounded-lg p-6">
         <Skeleton className="h-6 w-48 mb-6" />
         <div className="space-y-3">
           {Array.from({ length: 7 }).map((_, i) => (

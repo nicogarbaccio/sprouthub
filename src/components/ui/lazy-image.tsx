@@ -82,7 +82,7 @@ export function LazyImage({
       {!isLoaded && !hasError && (
         <div
           className={cn(
-            'absolute inset-0 bg-gradient-to-br from-muted to-muted/50',
+            'absolute inset-0 bg-primary/10',
             'animate-pulse'
           )}
         />
@@ -204,7 +204,7 @@ export function LazyBackgroundImage({
     >
       {/* Blur placeholder */}
       {!isLoaded && (
-        <div className="absolute inset-0 bg-gradient-to-br from-muted to-muted/50 animate-pulse" />
+        <div className="absolute inset-0 bg-primary/10 animate-pulse" />
       )}
 
       {/* Content overlay */}
