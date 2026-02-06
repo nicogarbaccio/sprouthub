@@ -16,7 +16,6 @@ import {
 } from '@/components/ui/popover';
 import {
   Search,
-  Filter,
   X,
   SlidersHorizontal,
   ArrowUpDown,
@@ -90,14 +89,14 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
     <div className={cn('space-y-3', className)}>
       {/* Main Search Bar */}
       <div className="flex gap-2">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <div className="relative flex-1 min-w-0">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none z-10" />
           <Input
             type="search"
-            placeholder="Search plants..."
+            placeholder="Search plants"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            className="pl-10 pr-10"
+            className="pl-10 pr-10 h-10 min-h-10 max-h-10 py-2.5 text-sm leading-none border border-input"
           />
           {searchQuery && (
             <Button
@@ -115,14 +114,14 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
         <Button
           variant={hasActiveFilters ? 'default' : 'outline'}
           onClick={() => setShowFilters(!showFilters)}
-          className="relative"
+          className="h-10 min-h-10 max-h-10 py-2.5 shrink-0 px-3"
         >
-          <SlidersHorizontal className="h-4 w-4 mr-2" />
-          Filters
+          <SlidersHorizontal className="h-4 w-4 mr-1.5" />
+          <span className="text-sm whitespace-nowrap leading-none">Filters</span>
           {filterCount > 0 && (
             <Badge
               variant="secondary"
-              className="ml-2 h-5 min-w-5 px-1.5 bg-white dark:bg-gray-800"
+              className="ml-1.5 h-5 min-w-5 px-1.5 bg-white dark:bg-gray-800 text-xs"
             >
               {filterCount}
             </Badge>
@@ -132,9 +131,9 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
         {/* Sort Dropdown */}
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline">
-              <ArrowUpDown className="h-4 w-4 mr-2" />
-              Sort
+            <Button variant="outline" className="h-10 min-h-10 max-h-10 py-2.5 shrink-0 px-3">
+              <ArrowUpDown className="h-4 w-4 mr-1.5" />
+              <span className="text-sm whitespace-nowrap leading-none">Sort</span>
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-56" align="end">
@@ -159,9 +158,9 @@ export const SearchFilterBar: React.FC<SearchFilterBarProps> = ({
 
         {/* Clear All */}
         {hasActiveFilters && (
-          <Button variant="ghost" onClick={onClearAll}>
-            <X className="h-4 w-4 mr-2" />
-            Clear
+          <Button variant="ghost" onClick={onClearAll} className="h-10 min-h-10 max-h-10 py-2.5 shrink-0 px-3">
+            <X className="h-4 w-4 mr-1.5" />
+            <span className="text-sm whitespace-nowrap leading-none">Clear</span>
           </Button>
         )}
       </div>

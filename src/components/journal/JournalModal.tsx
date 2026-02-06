@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { JournalEntryForm } from "./JournalEntryForm";
 import { JournalEntryList } from "./JournalEntryList";
 import { useJournalEntries } from "@/hooks/useJournalEntries";
+import { useWateringRecords } from "@/hooks/useWateringRecords";
 
 interface JournalModalProps {
   isOpen: boolean;
@@ -39,16 +40,25 @@ export const JournalModal = ({
     deleteLoadingEntries
   } = useJournalEntries();
 
+  const {
+    records: wateringRecords,
+    loadWateringRecords,
+    isLoading: isLoadingWateringRecords
+  } = useWateringRecords();
+
   const stats = getJournalStats(plantId);
 
   // Load entries when modal opens or prefetch is requested
   React.useEffect(() => {
     if ((isOpen || prefetch) && plantId && !hasLoadedInitially) {
-      loadJournalEntries(plantId).then(() => {
+      Promise.all([
+        loadJournalEntries(plantId),
+        loadWateringRecords(plantId)
+      ]).then(() => {
         setHasLoadedInitially(true);
       });
     }
-  }, [isOpen, prefetch, plantId, loadJournalEntries, hasLoadedInitially]);
+  }, [isOpen, prefetch, plantId, loadJournalEntries, loadWateringRecords, hasLoadedInitially]);
 
   // Reset state when modal closes
   React.useEffect(() => {
@@ -116,6 +126,9 @@ export const JournalModal = ({
           ) : (
             <div className="space-y-4">
               <JournalEntryForm
+                plantId={plantId}
+                wateringRecords={wateringRecords}
+                isLoadingWateringRecords={isLoadingWateringRecords}
                 onSubmit={async (formData) => {
                   const success = await addJournalEntry(
                     plantId,
@@ -136,7 +149,7 @@ export const JournalModal = ({
                 variant="outline"
                 size="sm"
                 onClick={() => setShowForm(false)}
-                className="w-full border-green-700/30 text-green-700 hover:bg-green-700/10 dark:border-green-600/30 dark:text-green-400 dark:hover:bg-green-600/10"
+                className="w-full"
               >
                 Cancel
               </Button>

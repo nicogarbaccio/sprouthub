@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { BookOpen, Plus, ChevronDown, ChevronUp } from 'lucide-react';
 import { useJournalEntries } from '@/hooks/useJournalEntries';
+import { useWateringRecords } from '@/hooks/useWateringRecords';
 import { JournalEntryForm } from './JournalEntryForm';
 import { JournalEntryList } from './JournalEntryList';
 import { JournalEntryFormData } from '@/types/journalTypes';
@@ -18,6 +19,7 @@ export function PlantJournalSection({
 }: PlantJournalSectionProps) {
   const [showForm, setShowForm] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [hasLoadedInitially, setHasLoadedInitially] = useState(false);
 
   const {
     entries,
@@ -29,9 +31,22 @@ export function PlantJournalSection({
     getJournalStats,
   } = useJournalEntries();
 
+  const {
+    records: wateringRecords,
+    loadWateringRecords,
+    isLoading: isLoadingWateringRecords
+  } = useWateringRecords();
+
   useEffect(() => {
-    loadJournalEntries(plantId);
-  }, [plantId, loadJournalEntries]);
+    if (plantId && !hasLoadedInitially) {
+      Promise.all([
+        loadJournalEntries(plantId),
+        loadWateringRecords(plantId)
+      ]).then(() => {
+        setHasLoadedInitially(true);
+      });
+    }
+  }, [plantId, loadJournalEntries, loadWateringRecords, hasLoadedInitially]);
 
   const stats = getJournalStats(plantId);
 
@@ -42,7 +57,8 @@ export function PlantJournalSection({
       formData.content,
       formData.mood,
       formData.images,
-      formData.entryDate
+      formData.entryDate,
+      formData.relatedWateringRecordId
     );
 
     if (success) {
@@ -123,6 +139,9 @@ export function PlantJournalSection({
           {showForm && (
             <div>
               <JournalEntryForm
+                plantId={plantId}
+                wateringRecords={wateringRecords}
+                isLoadingWateringRecords={isLoadingWateringRecords}
                 onSubmit={handleSubmitEntry}
                 isLoading={isLoading}
               />
@@ -130,7 +149,7 @@ export function PlantJournalSection({
                 variant="outline"
                 size="sm"
                 onClick={() => setShowForm(false)}
-                className="mt-2 w-full border-green-700/30 text-green-700 hover:bg-green-700/10 dark:border-green-600/30 dark:text-green-400 dark:hover:bg-green-600/10"
+                className="mt-2 w-full"
               >
                 Cancel
               </Button>
@@ -141,7 +160,7 @@ export function PlantJournalSection({
           {(isExpanded || entries.length === 0) && !showForm && (
             <JournalEntryList
               entries={entries}
-              isLoading={isLoading}
+              isLoading={!hasLoadedInitially}
               onDeleteEntry={handleDeleteEntry}
               deleteLoadingEntries={deleteLoadingEntries}
             />

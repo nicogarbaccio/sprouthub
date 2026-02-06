@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { CalendarIcon, Plus, X, Image as ImageIcon, Camera } from 'lucide-react';
+import { CalendarIcon, Plus, X, Image as ImageIcon, Camera, Droplets } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import {
@@ -25,12 +25,17 @@ import {
   JOURNAL_IMAGE_CONSTANTS,
   JournalEntryFormData,
 } from '@/types/journalTypes';
+import { WateringRecord } from '@/hooks/useWateringRecords';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface JournalEntryFormProps {
   onSubmit: (formData: JournalEntryFormData) => Promise<void>;
   isLoading?: boolean;
   initialData?: Partial<JournalEntryFormData>;
   submitButtonText?: string;
+  plantId?: string;
+  wateringRecords?: WateringRecord[];
+  isLoadingWateringRecords?: boolean;
 }
 
 export function JournalEntryForm({
@@ -38,6 +43,9 @@ export function JournalEntryForm({
   isLoading = false,
   initialData,
   submitButtonText = 'Add Entry',
+  plantId,
+  wateringRecords = [],
+  isLoadingWateringRecords = false,
 }: JournalEntryFormProps) {
   const [title, setTitle] = useState(initialData?.title || '');
   const [content, setContent] = useState(initialData?.content || '');
@@ -45,6 +53,12 @@ export function JournalEntryForm({
   const [entryDate, setEntryDate] = useState<Date>(initialData?.entryDate || new Date());
   const [selectedImages, setSelectedImages] = useState<File[]>(initialData?.images || []);
   const [imagePreviewUrls, setImagePreviewUrls] = useState<string[]>([]);
+  const [selectedWateringRecordId, setSelectedWateringRecordId] = useState<string | undefined>(
+    initialData?.relatedWateringRecordId
+  );
+
+  // Filter for recent records (e.g., last 30 days) to keep list manageable
+  const recentWateringRecords = wateringRecords.slice(0, 10);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -100,6 +114,7 @@ export function JournalEntryForm({
       mood,
       images: selectedImages,
       entryDate,
+      relatedWateringRecordId: selectedWateringRecordId,
     };
 
     await onSubmit(formData);
@@ -110,6 +125,7 @@ export function JournalEntryForm({
     setMood(null);
     setEntryDate(new Date());
     setSelectedImages([]);
+    setSelectedWateringRecordId(undefined);
 
     // Clean up preview URLs
     imagePreviewUrls.forEach(url => URL.revokeObjectURL(url));
@@ -202,6 +218,45 @@ export function JournalEntryForm({
           </PopoverContent>
         </Popover>
       </div>
+
+      {/* Watering Record Selector */}
+      {plantId && (
+        <div className="space-y-2">
+          <Label>Related Watering (optional)</Label>
+          {isLoadingWateringRecords ? (
+            <Skeleton className="h-10 w-full" />
+          ) : recentWateringRecords.length > 0 ? (
+            <Select
+              value={selectedWateringRecordId || "none"}
+              onValueChange={(val) => setSelectedWateringRecordId(val === "none" ? undefined : val)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Link to a recent watering..." />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">None</SelectItem>
+                {recentWateringRecords.map((record) => (
+                  <SelectItem key={record.id} value={record.id}>
+                    <div className="flex items-center gap-2">
+                      <Droplets className="w-4 h-4 text-blue-500" />
+                      <span>{format(new Date(record.watered_at), 'PPP')}</span>
+                      {record.notes && (
+                        <span className="text-muted-foreground truncate max-w-[150px]">
+                          - {record.notes}
+                        </span>
+                      )}
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          ) : (
+            <div className="text-sm text-muted-foreground italic px-1">
+              No recent watering records available.
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Image Upload */}
       <div className="space-y-2">
