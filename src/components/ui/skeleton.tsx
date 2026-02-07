@@ -10,7 +10,7 @@ function Skeleton({
   role="status"
   aria-label={ariaLabel}
   aria-live="polite"
-  className={cn("animate-pulse rounded-md bg-primary/10", className)}
+  className={cn("animate-pulse rounded-md bg-muted-foreground/[0.12]", className)}
   {...props}
  />
  );

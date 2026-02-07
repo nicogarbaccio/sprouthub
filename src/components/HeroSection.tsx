@@ -42,9 +42,8 @@ const HeroSection = () => {
       </div>
      </div>
 
-     <div className="relative hidden lg:block lg:flex lg:justify-center">
+     <div className="relative hidden lg:flex lg:justify-center">
       <div className="bg-card dark:bg-sprout-dark rounded-3xl shadow-xl dark:shadow-none dark:border dark:border-sprout-cream/30 p-4 sm:p-6 relative overflow-hidden mx-auto lg:mx-0 w-full max-w-sm sm:max-w-md lg:min-w-[400px]">
-       <div className="absolute inset-0 bg-gradient-to-br from-plant-secondary/5 to-plant-primary/5 rounded-3xl"></div>
        <div className="relative">
         <img
          src="https://ufhjudswppdqupjbqbwm.supabase.co/storage/v1/object/public/other/sprouthub%20hero.png"
