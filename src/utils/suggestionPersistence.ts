@@ -2,6 +2,9 @@
  * Utilities for persisting dismissed smart watering suggestions
  */
 
+import { z } from 'zod';
+import { safeJsonParse } from '@/utils/safeJsonParse';
+
 const STORAGE_KEY = 'sprouthub:dismissed-suggestions';
 const EXPIRY_DAYS = 30; // Suggestions dismissal expires after 30 days
 
@@ -16,6 +19,21 @@ export interface DismissedSuggestionsData {
   version: number; // For future schema migrations
 }
 
+const dismissedSuggestionSchema = z.object({
+  plantId: z.string(),
+  dismissedAt: z.string(),
+  reason: z.enum(['user_dismissed', 'applied', 'auto_expired']),
+});
+
+const dismissedSuggestionsDataSchema = z.union([
+  z.object({
+    suggestions: z.array(dismissedSuggestionSchema),
+    version: z.number(),
+  }),
+  // Legacy format: direct array
+  z.array(dismissedSuggestionSchema),
+]);
+
 /**
  * Load dismissed suggestions from localStorage
  */
@@ -26,7 +44,8 @@ export function loadDismissedSuggestions(): Set<string> {
       return new Set();
     }
 
-    const data: DismissedSuggestionsData = JSON.parse(stored);
+    const data = safeJsonParse(stored, dismissedSuggestionsDataSchema, null);
+    if (!data) return new Set();
 
     // Handle legacy format (direct array) or missing version
     const suggestions = Array.isArray(data) ? data : (data.suggestions || []);
@@ -106,7 +125,8 @@ function loadDismissedSuggestionsRaw(): DismissedSuggestion[] {
       return [];
     }
 
-    const data: DismissedSuggestionsData = JSON.parse(stored);
+    const data = safeJsonParse(stored, dismissedSuggestionsDataSchema, null);
+    if (!data) return [];
 
     // Handle legacy format (direct array) or missing version
     return Array.isArray(data) ? data : (data.suggestions || []);

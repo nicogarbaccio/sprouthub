@@ -1,3 +1,4 @@
+import { z } from 'zod';
 import {
   WeatherData,
   LocationData,
@@ -8,12 +9,32 @@ import {
   WeatherServiceOptions,
 } from './weatherTypes';
 import { hookLogger } from '@/utils/hookLogging';
+import { safeJsonParse } from '@/utils/safeJsonParse';
 import {
   DEFAULT_WEATHER_CACHE_TIMEOUT_MS,
   GEOLOCATION_TIMEOUT_MS,
   GEOLOCATION_MAX_AGE_MS,
   WEATHER_CACHE_LOCATION_THRESHOLD_KM,
 } from '@/constants/weather';
+
+const cachedWeatherSchema = z.object({
+  data: z.object({
+    current_temp_celsius: z.number(),
+    current_humidity_percent: z.number(),
+    season: z.enum(['winter', 'spring', 'summer', 'fall']),
+    daylight_hours: z.number(),
+    upcoming_rain_probability: z.number(),
+    is_snowing: z.boolean(),
+    weather_condition: z.string(),
+  }),
+  location: z.object({
+    latitude: z.number(),
+    longitude: z.number(),
+    city: z.string().optional(),
+    country: z.string().optional(),
+  }),
+  timestamp: z.number(),
+});
 
 const OPENWEATHER_API_KEY = import.meta.env.VITE_OPENWEATHER_API_KEY;
 const CACHE_KEY = 'sprouthub_weather_cache_v2';
@@ -277,7 +298,9 @@ class WeatherService {
       const cached = localStorage.getItem(CACHE_KEY);
       if (!cached) return null;
 
-      const cachedData: CachedWeatherData = JSON.parse(cached);
+      const cachedData = safeJsonParse(cached, cachedWeatherSchema, null);
+      if (!cachedData) return null;
+
       const now = Date.now();
 
       // Check if cache is still valid

@@ -1,5 +1,22 @@
+import { z } from 'zod';
 import { WeatherData, LocationData } from './weatherTypes';
 import { weatherService } from './weatherService';
+import { safeJsonParse } from '@/utils/safeJsonParse';
+
+const weatherHistoryEntrySchema = z.object({
+  date: z.string(),
+  weather: z.object({
+    current_temp_celsius: z.number(),
+    current_humidity_percent: z.number(),
+    season: z.enum(['winter', 'spring', 'summer', 'fall']),
+    daylight_hours: z.number(),
+    upcoming_rain_probability: z.number(),
+    is_snowing: z.boolean(),
+    weather_condition: z.string(),
+  }),
+});
+
+const weatherHistorySchema = z.array(weatherHistoryEntrySchema);
 
 export type Season = 'winter' | 'spring' | 'summer' | 'fall';
 
@@ -324,14 +341,11 @@ class SeasonalDetectionService {
       const stored = localStorage.getItem(this.STORAGE_KEY);
       if (!stored) return [];
 
-      const history = JSON.parse(stored) as Array<{
-        date: string;
-        weather: WeatherData;
-      }>;
+      const history = safeJsonParse(stored, weatherHistorySchema, []);
 
       return history.map(entry => ({
         date: new Date(entry.date),
-        weather: entry.weather
+        weather: entry.weather as WeatherData
       }));
     } catch (error) {
       console.warn('Failed to load weather history:', error);

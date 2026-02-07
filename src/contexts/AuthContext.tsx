@@ -58,6 +58,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     let isMounted = true;
     let timeoutId: NodeJS.Timeout | null = null;
+    let initialLoadComplete = false;
 
     const {
       data: { subscription },
@@ -74,7 +75,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       setSession(session);
       setUser(session?.user ?? null);
-      setLoading(false);
+
+      // Only set loading to false if initial load is complete
+      // This prevents the auth state change callback from hiding the loading skeleton
+      if (initialLoadComplete) {
+        setLoading(false);
+      }
 
       // Set Sentry user context on sign in/out
       if (event === "SIGNED_IN" && session?.user) {
@@ -115,6 +121,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     timeoutId = setTimeout(() => {
       if (isMounted) {
         hookLogger.warn(CONTEXT_NAME, "Auth loading timeout - proceeding without auth");
+        initialLoadComplete = true;
         setLoading(false);
       }
     }, 3000);
@@ -125,6 +132,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         if (isMounted) {
           setSession(session);
           setUser(session?.user ?? null);
+          initialLoadComplete = true;
           setLoading(false);
           // Clear timeout since we got a response
           if (timeoutId) clearTimeout(timeoutId);
@@ -146,6 +154,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       .catch((error) => {
         if (isMounted) {
           hookLogger.warn(CONTEXT_NAME, "Auth session error", { error });
+          initialLoadComplete = true;
           setLoading(false);
           // Clear timeout since we got a response (even if error)
           if (timeoutId) clearTimeout(timeoutId);

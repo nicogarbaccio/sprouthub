@@ -3,6 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { utilityToast } from '@/utils/toast-helpers';
 import { hookLogger } from '@/utils/hookLogging';
+import { isValidUUID, isAllowedImageType, getSafeFileExtension } from '@/utils/safeJsonParse';
 import {
   JournalEntry,
   JournalEntryInsert,
@@ -75,11 +76,20 @@ export function useJournalEntries(onEntryDataChange?: () => void) {
     async (plantId: string, images: File[]): Promise<string[]> => {
       if (!user) throw new Error('User not authenticated');
 
+      // Validate IDs before constructing storage paths
+      if (!isValidUUID(user.id)) throw new Error('Invalid user ID');
+      if (!isValidUUID(plantId)) throw new Error('Invalid plant ID');
+
       const uploadedUrls: string[] = [];
 
       for (let i = 0; i < images.length; i++) {
         const file = images[i];
-        const fileExt = file.name.split('.').pop();
+
+        // Validate MIME type and derive extension from it (not from filename)
+        if (!isAllowedImageType(file)) {
+          throw new Error(`Invalid image type: ${file.type}`);
+        }
+        const fileExt = getSafeFileExtension(file) ?? 'jpg';
         const fileName = `${user.id}/${plantId}/journal_${Date.now()}_${i}.${fileExt}`;
 
         try {

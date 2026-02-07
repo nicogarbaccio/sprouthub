@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "security:audit": "npm audit --audit-level=high --omit=dev",
     "lint": "eslint .",
     "preview": "vite preview",
     "cleanup:households": "tsx scripts/cleanup-test-households.ts",

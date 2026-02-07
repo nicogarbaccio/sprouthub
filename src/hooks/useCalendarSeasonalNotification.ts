@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { z } from 'zod';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import {
@@ -7,6 +8,12 @@ import {
   UpcomingSeasonChange,
 } from '@/services/calendarSeasonalService';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
+import { safeJsonParse } from '@/utils/safeJsonParse';
+
+const dismissalSchema = z.object({
+  dismissed_at: z.string().optional(),
+  snoozed_until: z.string().nullable().optional(),
+});
 
 const HOOK_NAME = 'useCalendarSeasonalNotification';
 
@@ -65,7 +72,8 @@ export function useCalendarSeasonalNotification(
         const stored = localStorage.getItem(storageKey);
 
         if (stored) {
-          const data = JSON.parse(stored);
+          const data = safeJsonParse(stored, dismissalSchema, null);
+          if (!data) return false;
 
           // Check if snoozed
           if (data.snoozed_until) {

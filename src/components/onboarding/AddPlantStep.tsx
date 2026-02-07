@@ -5,6 +5,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useState } from "react";
+import { z } from "zod";
+import { safeJsonParse } from "@/utils/safeJsonParse";
+
+const onboardingPrefsSchema = z.record(z.string(), z.unknown());
 
 interface AddPlantStepProps {
   onNext: () => void;
@@ -28,8 +32,10 @@ export const AddPlantStep = ({ onNext, onBack }: AddPlantStepProps) => {
       // Save any pending preferences from previous steps
       const prefsData = sessionStorage.getItem("onboarding_preferences");
       if (prefsData) {
-        const preferences = JSON.parse(prefsData);
-        await supabase.from("profiles").update(preferences).eq("id", user.id);
+        const preferences = safeJsonParse(prefsData, onboardingPrefsSchema, null);
+        if (preferences) {
+          await supabase.from("profiles").update(preferences).eq("id", user.id);
+        }
       }
 
       // Mark onboarding as completed

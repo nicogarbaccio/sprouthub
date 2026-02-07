@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "npm audit --audit-level=high --omit=dev || echo '⚠️  npm audit found vulnerabilities — review before next release'; npm run build"
   publish = "dist"
 
 [dev]
@@ -11,4 +11,11 @@
 
 # Using public/_redirects for SPA routing
 
-
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(self), microphone=(), geolocation=(self)"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' https://cdn.onesignal.com https://onesignal.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://res.cloudinary.com https://*.supabase.co; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://api.openweathermap.org https://onesignal.com https://cdn.onesignal.com https://*.sentry.io https://api.cloudinary.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; worker-src 'self' blob:; manifest-src 'self';"

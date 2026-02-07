@@ -44,9 +44,10 @@ import { NotificationCenter } from "@/components/NotificationCenter";
 import { Badge } from "@/components/ui/badge";
 import { QuickActionsMenu } from "@/components/QuickActionsMenu";
 import { useGlobalShortcuts } from "@/hooks/useGlobalShortcuts";
+import { NavigationSkeleton } from "@/components/NavigationSkeleton";
 
 const Navigation = () => {
-  const { user, signOut } = useAuth();
+  const { user, signOut, loading } = useAuth();
   const { profileData } = useProfileData();
   const { actualTheme, setTheme } = useTheme();
   const navigate = useNavigate();
@@ -95,6 +96,11 @@ const Navigation = () => {
       1
     )}`.toUpperCase();
   };
+
+  // Show skeleton while authentication is loading
+  if (loading) {
+    return <NavigationSkeleton />;
+  }
 
   return (
     <React.Fragment>

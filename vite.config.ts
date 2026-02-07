@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     server: {
-      host: '0.0.0.0', // Allow external connections
+      host: 'localhost',
       port: 8080,
       strictPort: true, // Fail if port is already in use
     },
@@ -27,7 +27,7 @@ export default defineConfig(({ mode }) => {
       },
       chunkSizeWarningLimit: 1000,
       minify: 'terser',
-      sourcemap: true, // Enable source maps for Sentry
+      sourcemap: 'hidden', // Source maps uploaded to Sentry but not served to browsers
       terserOptions: {
         compress: {
           // Remove console.* calls in production (except console.error and console.warn)

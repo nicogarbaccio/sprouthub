@@ -1,10 +1,20 @@
 
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+const ALLOWED_ORIGINS = [
+  'https://sprouthub.netlify.app',
+  'https://www.sprouthub.app',
+  'http://localhost:8080',
+];
+
+function getCorsHeaders(req: Request) {
+  const origin = req.headers.get('Origin') || '';
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  };
+}
 
 // Helper function to generate signature for signed uploads
 function generateSignature(params: Record<string, string>, apiSecret: string): Promise<string> {
@@ -27,14 +37,14 @@ function generateSignature(params: Record<string, string>, apiSecret: string): P
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders });
+    return new Response('ok', { headers: getCorsHeaders(req) });
   }
 
   try {
     if (req.method !== 'POST') {
       return new Response('Method not allowed', { 
         status: 405, 
-        headers: corsHeaders 
+        headers: getCorsHeaders(req) 
       });
     }
 
@@ -58,7 +68,7 @@ serve(async (req) => {
         }
       }), { 
         status: 500, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' }
       });
     }
 
@@ -69,7 +79,7 @@ serve(async (req) => {
     if (!file) {
       return new Response(JSON.stringify({ error: 'No file provided' }), { 
         status: 400, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' }
       });
     }
 
@@ -125,7 +135,7 @@ serve(async (req) => {
         details: responseText 
       }), { 
         status: 500, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' }
       });
     }
 
@@ -140,7 +150,7 @@ serve(async (req) => {
         details: responseText
       }), {
         status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' }
       });
     }
 
@@ -153,19 +163,18 @@ serve(async (req) => {
       {
         headers: { 
           'Content-Type': 'application/json',
-          ...corsHeaders 
+          ...getCorsHeaders(req) 
         },
       }
     );
   } catch (error) {
     console.error('Error in upload-image function:', error);
+    console.error('Full error details:', error.message, error.stack);
     return new Response(JSON.stringify({ 
-      error: 'Internal server error', 
-      message: error.message,
-      stack: error.stack
+      error: 'Internal server error',
     }), { 
       status: 500, 
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      headers: { ...getCorsHeaders(req), 'Content-Type': 'application/json' }
     });
   }
 });

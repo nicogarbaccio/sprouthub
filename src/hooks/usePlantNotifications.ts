@@ -1,8 +1,12 @@
 import { useEffect, useRef } from 'react';
+import { z } from 'zod';
 import { useNotifications } from '@/contexts/NotificationContext';
 import { useNotificationPreferences } from '@/contexts/NotificationPreferencesContext';
 import { generatePlantNotifications } from '@/utils/notification-generator';
+import { safeJsonParse } from '@/utils/safeJsonParse';
 import type { UserPlant } from '@/hooks/useUserPlants';
+
+const acknowledgedIdsSchema = z.array(z.string());
 
 /**
  * Hook that automatically generates and adds notifications based on plant data
@@ -62,7 +66,7 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
         }
 
         const stored = localStorage.getItem(`sprouthub:notification:acknowledged:${type}`);
-        return stored ? JSON.parse(stored) : [];
+        return safeJsonParse(stored, acknowledgedIdsSchema, []);
       } catch (e) {
         return [];
       }

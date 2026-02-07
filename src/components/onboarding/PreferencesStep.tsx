@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getFactorLabels } from "@/utils/smartWateringSchedule";
+import { safeJsonParse } from "@/utils/safeJsonParse";
+
+const weatherPrefsSchema = z.record(z.string(), z.unknown());
 
 interface PreferencesStepProps {
   onNext: () => void;
@@ -20,8 +24,10 @@ export const PreferencesStep = ({ onNext, onBack }: PreferencesStepProps) => {
 
   const handleContinue = () => {
     // Store preferences in sessionStorage to be saved later
-    const existingWeatherPrefs = JSON.parse(
-      sessionStorage.getItem("onboarding_weather") || "{}"
+    const existingWeatherPrefs = safeJsonParse(
+      sessionStorage.getItem("onboarding_weather"),
+      weatherPrefsSchema,
+      {}
     );
 
     sessionStorage.setItem(

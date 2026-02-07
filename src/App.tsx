@@ -14,6 +14,7 @@ import * as Sentry from "@sentry/react";
 import { useIOSOptimizations } from "@/hooks/useIOSOptimizations";
 import { useStatusBar } from "@/hooks/useStatusBar";
 import ScrollToTop from "./components/ScrollToTop";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 // Lazy load pages for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -84,19 +85,19 @@ const AppRoutes = () => {
             path="/plant-details/:plantName"
             element={<PlantDetails />}
           />
-          <Route path="/my-plants" element={<MyPlants />} />
+          <Route path="/my-plants" element={<ProtectedRoute><MyPlants /></ProtectedRoute>} />
           <Route
             path="/my-plants/:plantId"
-            element={<MyPlantDetails />}
+            element={<ProtectedRoute><MyPlantDetails /></ProtectedRoute>}
           />
-          <Route path="/households" element={<Households />} />
+          <Route path="/households" element={<ProtectedRoute><Households /></ProtectedRoute>} />
           <Route
             path="/households/:id"
-            element={<HouseholdManagement />}
+            element={<ProtectedRoute><HouseholdManagement /></ProtectedRoute>}
           />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+          <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+          <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
           <Route path="/about" element={<About />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
@@ -147,14 +148,16 @@ const App = () => (
             We're sorry, but something unexpected happened. The error has been
             reported and we'll look into it.
           </p>
-          <details className="text-sm">
-            <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
-              Error details
-            </summary>
-            <pre className="mt-2 p-2 bg-muted rounded text-xs overflow-auto">
-              {error instanceof Error ? error.message : 'An unknown error occurred'}
-            </pre>
-          </details>
+          {import.meta.env.DEV && (
+            <details className="text-sm">
+              <summary className="cursor-pointer text-muted-foreground hover:text-foreground">
+                Error details (dev only)
+              </summary>
+              <pre className="mt-2 p-2 bg-muted rounded text-xs overflow-auto">
+                {error instanceof Error ? error.message : 'An unknown error occurred'}
+              </pre>
+            </details>
+          )}
           <button
             onClick={() => {
               resetError();

@@ -18,6 +18,18 @@ import SignUpForm from "@/components/auth/SignUpForm";
 import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
 import { supabase } from "@/integrations/supabase/client";
 
+/**
+ * Validates a redirect path to prevent open redirect attacks.
+ * Only allows relative paths that start with "/" and don't start with "//".
+ */
+function getSafeRedirect(searchParams: URLSearchParams): string {
+  const redirectTo = searchParams.get("redirect") || "/";
+  if (redirectTo.startsWith("/") && !redirectTo.startsWith("//")) {
+    return redirectTo;
+  }
+  return "/";
+}
+
 const Auth = () => {
  const [isLoading, setIsLoading] = useState(false);
  const navigate = useNavigate();
@@ -45,8 +57,7 @@ const Auth = () => {
      authToast.signInSuccess();
      setHasShownSuccessToast(true);
      setTimeout(() => {
-      const redirectTo = searchParams.get("redirect") || "/";
-      navigate(redirectTo);
+      navigate(getSafeRedirect(searchParams));
      }, 1000);
      return;
     }
@@ -65,8 +76,7 @@ const Auth = () => {
      authToast.signInSuccess();
      setHasShownSuccessToast(true);
      setTimeout(() => {
-      const redirectTo = searchParams.get("redirect") || "/";
-      navigate(redirectTo);
+      navigate(getSafeRedirect(searchParams));
      }, 1000);
     }
    } catch (error) {
@@ -74,8 +84,7 @@ const Auth = () => {
     authToast.signInSuccess();
     setHasShownSuccessToast(true);
     setTimeout(() => {
-     const redirectTo = searchParams.get("redirect") || "/";
-     navigate(redirectTo);
+     navigate(getSafeRedirect(searchParams));
     }, 1000);
    } finally {
     setIsCheckingOnboarding(false);

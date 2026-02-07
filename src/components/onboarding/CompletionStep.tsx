@@ -3,6 +3,10 @@ import { CheckCircle2, ChevronLeft, Loader2, Sparkles } from "lucide-react";
 import { useProfileData } from "@/contexts/ProfileDataContext";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
 import { useEffect } from "react";
+import { z } from "zod";
+import { safeJsonParse } from "@/utils/safeJsonParse";
+
+const onboardingPrefsSchema = z.record(z.string(), z.unknown());
 
 interface CompletionStepProps {
   onComplete: () => void;
@@ -24,7 +28,8 @@ export const CompletionStep = ({
       const prefsData = sessionStorage.getItem("onboarding_preferences");
       if (prefsData) {
         try {
-          const prefs = JSON.parse(prefsData);
+          const prefs = safeJsonParse(prefsData, onboardingPrefsSchema, null);
+          if (!prefs) return;
           await savePreferences(prefs);
         } catch (error) {
           console.error("Error saving onboarding preferences:", error);
