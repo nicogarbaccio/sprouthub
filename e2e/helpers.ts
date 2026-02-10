@@ -1,4 +1,36 @@
 import { createClient } from '@supabase/supabase-js';
+import { expect, type Page } from '@playwright/test';
+
+// ── Sign-up helper used by onboarding tests ────────────────────────────
+
+interface SignUpParams {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
+}
+
+/**
+ * Fill the sign-up form, submit, wait for the Supabase response,
+ * and assert we've landed on /onboarding.
+ */
+export async function signUpAndReachOnboarding(page: Page, params: SignUpParams) {
+  await page.goto('/auth');
+  await page.getByTestId('sign-up-trigger').click();
+
+  await page.getByTestId('first-name-input').fill(params.firstName);
+  await page.getByTestId('last-name-input').fill(params.lastName);
+  await page.getByTestId('username-input').fill(params.username);
+  await page.getByTestId('sign-up-email').fill(params.email);
+  await page.getByTestId('signup-password').fill(params.password);
+  await page.getByTestId('confirmPassword').fill(params.password);
+
+  await page.getByTestId('sign-up-button').click();
+
+  // The URL assertion retries with a generous timeout, covering the Supabase round-trip
+  await expect(page).toHaveURL('/onboarding', { timeout: 15000 });
+}
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || "https://ufhjudswppdqupjbqbwm.supabase.co";
 const supabaseServiceKey = process.env.VITE_SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;

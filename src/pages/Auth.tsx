@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Droplets } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -36,12 +36,12 @@ const Auth = () => {
  const [searchParams] = useSearchParams();
  const { signUp, signIn, user } = useAuth();
  const [hasShownSuccessToast, setHasShownSuccessToast] = useState(false);
- const [isCheckingOnboarding, setIsCheckingOnboarding] = useState(false);
+ const isCheckingOnboardingRef = useRef(false);
 
  useEffect(() => {
  const checkOnboardingStatus = async () => {
-  if (user && !hasShownSuccessToast && !isCheckingOnboarding) {
-   setIsCheckingOnboarding(true);
+  if (user && !hasShownSuccessToast && !isCheckingOnboardingRef.current) {
+   isCheckingOnboardingRef.current = true;
 
    try {
     // Fetch user profile to check onboarding status
@@ -58,7 +58,7 @@ const Auth = () => {
      setHasShownSuccessToast(true);
      setTimeout(() => {
       navigate(getSafeRedirect(searchParams));
-     }, 1000);
+     }, 100);
      return;
     }
 
@@ -70,14 +70,14 @@ const Auth = () => {
      setHasShownSuccessToast(true);
      setTimeout(() => {
       navigate("/onboarding");
-     }, 1000);
+     }, 100);
     } else {
      // Returning user - show regular toast
      authToast.signInSuccess();
      setHasShownSuccessToast(true);
      setTimeout(() => {
       navigate(getSafeRedirect(searchParams));
-     }, 1000);
+     }, 100);
     }
    } catch (error) {
     console.error("Unexpected error:", error);
@@ -85,15 +85,15 @@ const Auth = () => {
     setHasShownSuccessToast(true);
     setTimeout(() => {
      navigate(getSafeRedirect(searchParams));
-    }, 1000);
+    }, 100);
    } finally {
-    setIsCheckingOnboarding(false);
+    isCheckingOnboardingRef.current = false;
    }
   }
  };
 
  checkOnboardingStatus();
- }, [user, navigate, searchParams, hasShownSuccessToast, isCheckingOnboarding]);
+ }, [user, navigate, searchParams, hasShownSuccessToast]);
 
  const handleSignIn = async (emailOrUsername: string, password: string) => {
  setIsLoading(true);

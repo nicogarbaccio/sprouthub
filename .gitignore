@@ -38,6 +38,7 @@ test-baseline.txt
 
 # Playwright authentication state
 tests/.auth/
+e2e/.auth/
 
 # screenshots folder
 screenshots/.auth/

@@ -40,7 +40,9 @@ test.describe('Authentication Flow', () => {
 
     // Expect an error toast or message
     // Common Supabase error: "Invalid login credentials"
-    await expect(page.locator('text=Invalid login credentials')).toBeVisible({ timeout: 10000 });
+    await expect(
+      page.locator('[data-sonner-toast][role="status"]').filter({ hasText: /Invalid login credentials/i })
+    ).toBeVisible({ timeout: 10000 });
   });
 
   test('should successfully log in with valid credentials', async ({ page }) => {
@@ -120,19 +122,29 @@ test.describe('Authentication Flow', () => {
   });
 });
 
-test.describe('Sign Up Flow', () => {
-  const NEW_USER_EMAIL = `test-user-${Date.now()}@example.com`;
-  // Use a strong, random password that won't be flagged as weak by Supabase
-  const NEW_USER_PASSWORD = `Xk9${Date.now()}!mP7&zQ2`;
+test.describe('Sign Up - Client-Side Validation', () => {
+  // These tests only exercise frontend validation logic and never need a real Supabase call.
+  // Mocking the sign-up endpoints acts as a safety net: if client-side validation is ever
+  // accidentally bypassed, the mocked response returns instantly instead of hitting the network.
 
   test.beforeEach(async ({ page }) => {
+    await page.route('**/auth/v1/signup**', (route) =>
+      route.fulfill({
+        status: 422,
+        contentType: 'application/json',
+        body: JSON.stringify({ error: 'mocked: validation should have caught this client-side' }),
+      }),
+    );
+    await page.route('**/rest/v1/rpc/check_username_available**', (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(true),
+      }),
+    );
+
     await page.goto('/auth');
     await page.getByTestId('sign-up-trigger').click();
-  });
-
-  test.afterAll(async () => {
-    // Clean up the created user
-    await deleteUserByEmail(NEW_USER_EMAIL);
   });
 
   test('should validate password mismatch', async ({ page }) => {
@@ -141,42 +153,100 @@ test.describe('Sign Up Flow', () => {
     await page.getByTestId('username-input').fill(`user${Date.now()}`);
     await page.getByTestId('sign-up-email').fill(`mismatch-${Date.now()}@example.com`);
 
-    // Enter mismatched passwords
     await page.getByTestId('signup-password').fill('Password123');
     await page.getByTestId('confirmPassword').fill('Password456');
 
     await page.getByTestId('sign-up-button').click();
 
-    // Check for validation error
     await expect(page.locator('text=Passwords don\'t match')).toBeVisible();
   });
 
+  test('should reject password shorter than 6 characters', async ({ page }) => {
+    await page.getByTestId('first-name-input').fill('Test');
+    await page.getByTestId('last-name-input').fill('User');
+    await page.getByTestId('username-input').fill(`user${Date.now()}`);
+    await page.getByTestId('sign-up-email').fill(`short-${Date.now()}@example.com`);
+
+    await page.getByTestId('signup-password').fill('ab12!');
+    await page.getByTestId('confirmPassword').fill('ab12!');
+    await page.getByTestId('sign-up-button').click();
+
+    await expect(page.locator('text=/at least 6 characters/i')).toBeVisible();
+  });
+
+  test('should reject invalid email format', async ({ page }) => {
+    await page.getByTestId('first-name-input').fill('Test');
+    await page.getByTestId('last-name-input').fill('User');
+    await page.getByTestId('username-input').fill(`user${Date.now()}`);
+    await page.getByTestId('sign-up-email').fill('test@invalid');
+
+    const strongPassword = `Xk9${Date.now()}!mP7&zQ2`;
+    await page.getByTestId('signup-password').fill(strongPassword);
+    await page.getByTestId('confirmPassword').fill(strongPassword);
+    await page.getByTestId('sign-up-button').click();
+
+    // Client-side regex catches this before any Supabase call
+    await expect(page.locator('text=/valid email|invalid email/i').first()).toBeVisible();
+  });
+
+  test('should reject username shorter than 3 characters', async ({ page }) => {
+    await page.getByTestId('first-name-input').fill('Test');
+    await page.getByTestId('last-name-input').fill('User');
+    await page.getByTestId('username-input').fill('ab');
+    await page.getByTestId('sign-up-email').fill(`test-${Date.now()}@example.com`);
+
+    const strongPassword = `Xk9${Date.now()}!mP7&zQ2`;
+    await page.getByTestId('signup-password').fill(strongPassword);
+    await page.getByTestId('confirmPassword').fill(strongPassword);
+    await page.getByTestId('sign-up-button').click();
+
+    await expect(page.locator('text=/at least 3 characters/i')).toBeVisible();
+  });
+
+  test('should validate empty sign-up fields', async ({ page }) => {
+    await page.getByTestId('sign-up-button').click();
+
+    // HTML5 validation should prevent submission
+    await expect(page).toHaveURL('/auth', { timeout: 2000 });
+  });
+});
+
+test.describe('Sign Up Flow', () => {
+  // Run sign-up tests serially since some depend on order (e.g., duplicate username needs first user created)
+  test.describe.configure({ mode: 'serial' });
+
+  const NEW_USER_EMAIL = `test-user-${Date.now()}@example.com`;
+  const NEW_USER_PASSWORD = `Xk9${Date.now()}!mP7&zQ2`;
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/auth');
+    await page.getByTestId('sign-up-trigger').click();
+  });
+
+  test.afterAll(async () => {
+    await deleteUserByEmail(NEW_USER_EMAIL);
+  });
+
   test('should successfully sign up a new user', async ({ page }) => {
-    // Fill in all sign-up form fields
     await page.getByTestId('first-name-input').fill('Test');
     await page.getByTestId('last-name-input').fill('User');
     await page.getByTestId('username-input').fill(`testuser${Date.now()}`);
     await page.getByTestId('sign-up-email').fill(NEW_USER_EMAIL);
 
-    // Enter matching passwords
     await page.getByTestId('signup-password').fill(NEW_USER_PASSWORD);
     await page.getByTestId('confirmPassword').fill(NEW_USER_PASSWORD);
 
-    // Submit the sign-up form
     await page.getByTestId('sign-up-button').click();
 
-    // Verify successful sign-up by checking for success toast
-    await expect(page.locator('text=Account Created!').first()).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('[data-sonner-toast][role="status"]').filter({ hasText: 'Account Created!' })).toBeVisible({ timeout: 15000 });
   });
 
   test('should reject duplicate email', async ({ page }) => {
-    // Skip if test credentials are not provided
     if (!TEST_EMAIL || !TEST_PASSWORD) {
       test.skip(true, 'Test credentials are not set');
       return;
     }
 
-    // Try to sign up with existing email
     await page.getByTestId('first-name-input').fill('Duplicate');
     await page.getByTestId('last-name-input').fill('User');
     await page.getByTestId('username-input').fill(`duplicate${Date.now()}`);
@@ -188,12 +258,12 @@ test.describe('Sign Up Flow', () => {
 
     await page.getByTestId('sign-up-button').click();
 
-    // Verify error message about existing email
-    await expect(page.locator('text=/already exists|already registered/i')).toBeVisible({ timeout: 10000 });
+    await expect(
+      page.locator('[data-sonner-toast]').filter({ hasText: /already exists|already registered/i }).first()
+    ).toBeVisible({ timeout: 10000 });
   });
 
   test('should reject duplicate username', async ({ page }) => {
-    // First create a user with a specific username
     const timestamp = Date.now();
     const duplicateUsername = `dupuser${timestamp}`;
     const firstEmail = `first-${timestamp}@example.com`;
@@ -206,14 +276,27 @@ test.describe('Sign Up Flow', () => {
     await page.getByTestId('sign-up-email').fill(firstEmail);
     await page.getByTestId('signup-password').fill(strongPassword);
     await page.getByTestId('confirmPassword').fill(strongPassword);
-    await page.getByTestId('sign-up-button').click();
 
-    // Wait for success
-    await expect(page.locator('text=Account Created!').first()).toBeVisible({ timeout: 10000 });
+    const signUpResponsePromise = page.waitForResponse(
+      (resp) => resp.url().includes('supabase') && resp.url().includes('signup'),
+      { timeout: 15000 }
+    ).catch(() => null);
+    await page.getByTestId('sign-up-button').click();
+    await signUpResponsePromise;
+
+    await expect(page.locator('text=Account Created!').first()).toBeVisible({ timeout: 15000 });
+
+    // Sign out first user before attempting second sign-up
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+    });
+    await page.context().clearCookies();
 
     // Navigate back to sign up
     await page.goto('/auth');
     await page.getByTestId('sign-up-trigger').click();
+    await expect(page.getByTestId('signup-password')).toBeVisible({ timeout: 5000 });
 
     // Try to sign up with same username but different email
     const secondEmail = `second-${timestamp}@example.com`;
@@ -225,10 +308,8 @@ test.describe('Sign Up Flow', () => {
     await page.getByTestId('confirmPassword').fill(strongPassword);
     await page.getByTestId('sign-up-button').click();
 
-    // Verify error message about duplicate username
     await expect(page.locator('text=/username.*already exists/i')).toBeVisible({ timeout: 10000 });
 
-    // Clean up
     await deleteUserByEmail(firstEmail);
   });
 
@@ -238,79 +319,13 @@ test.describe('Sign Up Flow', () => {
     await page.getByTestId('username-input').fill(`user${Date.now()}`);
     await page.getByTestId('sign-up-email').fill(`weak-${Date.now()}@example.com`);
 
-    // Use a known weak password that Supabase rejects
     const weakPassword = 'Password123';
     await page.getByTestId('signup-password').fill(weakPassword);
     await page.getByTestId('confirmPassword').fill(weakPassword);
     await page.getByTestId('sign-up-button').click();
 
-    // Verify error about weak password or registration failed
     await expect(page.locator('text=/weak|easy to guess|registration failed/i').first()).toBeVisible({ timeout: 10000 });
   });
-
-  test('should reject password shorter than 6 characters', async ({ page }) => {
-    await page.getByTestId('first-name-input').fill('Test');
-    await page.getByTestId('last-name-input').fill('User');
-    await page.getByTestId('username-input').fill(`user${Date.now()}`);
-    await page.getByTestId('sign-up-email').fill(`short-${Date.now()}@example.com`);
-
-    // Use a password shorter than 6 characters
-    await page.getByTestId('signup-password').fill('ab12!');
-    await page.getByTestId('confirmPassword').fill('ab12!');
-    await page.getByTestId('sign-up-button').click();
-
-    // Verify validation error
-    await expect(page.locator('text=/at least 6 characters/i')).toBeVisible();
-  });
-
-  test('should reject invalid email format', async ({ page }) => {
-    await page.getByTestId('first-name-input').fill('Test');
-    await page.getByTestId('last-name-input').fill('User');
-    await page.getByTestId('username-input').fill(`user${Date.now()}`);
-
-    // Use email that passes HTML5 validation but fails backend validation
-    await page.getByTestId('sign-up-email').fill('test@invalid');
-
-    const strongPassword = `Xk9${Date.now()}!mP7&zQ2`;
-    await page.getByTestId('signup-password').fill(strongPassword);
-    await page.getByTestId('confirmPassword').fill(strongPassword);
-    await page.getByTestId('sign-up-button').click();
-
-    // Verify either client-side validation error or Supabase error
-    await expect(
-      page.locator('text=/valid email|invalid email/i').first().or(
-        page.locator('text=/registration failed/i').first()
-      )
-    ).toBeVisible({ timeout: 10000 });
-  });
-
-  test('should reject username shorter than 3 characters', async ({ page }) => {
-    await page.getByTestId('first-name-input').fill('Test');
-    await page.getByTestId('last-name-input').fill('User');
-
-    // Use username that's too short
-    await page.getByTestId('username-input').fill('ab');
-
-    await page.getByTestId('sign-up-email').fill(`test-${Date.now()}@example.com`);
-
-    const strongPassword = `Xk9${Date.now()}!mP7&zQ2`;
-    await page.getByTestId('signup-password').fill(strongPassword);
-    await page.getByTestId('confirmPassword').fill(strongPassword);
-    await page.getByTestId('sign-up-button').click();
-
-    // Verify validation error
-    await expect(page.locator('text=/at least 3 characters/i')).toBeVisible();
-  });
-
-  test('should validate empty sign-up fields', async ({ page }) => {
-    // Try to submit empty form
-    await page.getByTestId('sign-up-button').click();
-
-    // HTML5 validation should prevent submission
-    // Check that we're still on the auth page
-    await expect(page).toHaveURL('/auth', { timeout: 2000 });
-  });
-
 });
 
 test.describe('Password Reset Flow', () => {

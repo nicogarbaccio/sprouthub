@@ -1,18 +1,12 @@
 import { test, expect } from '@playwright/test';
 
-// Use credentials from environment variables or .env.test
-const TEST_EMAIL = process.env.TEST_USER_EMAIL;
-const TEST_PASSWORD = process.env.TEST_USER_PASSWORD;
+// Reuse authenticated state from the setup project — no per-test login needed
+test.use({ storageState: 'e2e/.auth/user.json' });
 
 test.describe('Dashboard and Navigation', () => {
   test.beforeEach(async ({ page }) => {
-    // Login before each test
-    await page.goto('/auth');
-    await page.getByTestId('sign-in-email').fill(TEST_EMAIL!);
-    await page.getByTestId('sign-in-password').fill(TEST_PASSWORD!);
-    await page.getByTestId('sign-in-button').click();
-
-    // Wait for dashboard
+    // Navigate directly to dashboard — already authenticated via storageState
+    await page.goto('/');
     await expect(page.getByTestId('dashboard')).toBeVisible({ timeout: 15000 });
   });
 

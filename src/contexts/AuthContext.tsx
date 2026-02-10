@@ -186,23 +186,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         };
       }
 
-      // First check if username already exists
-      const { data: existingUser, error: checkError } = await supabase
-        .from("profiles")
-        .select("username")
-        .eq("username", username)
-        .maybeSingle();
+      // Check if username is available using RPC function (bypasses RLS for anon users)
+      const { data: isAvailable, error: checkError } = await supabase
+        .rpc("check_username_available", { p_username: username });
 
-      if (checkError && checkError.code !== "PGRST116") {
-        hookLogger.error(CONTEXT_NAME, "Error checking username", checkError);
-        return {
-          error: {
-            message: "Error checking username availability. Please try again.",
-          },
-        };
+      if (checkError) {
+        hookLogger.warn(CONTEXT_NAME, "Username availability check failed", checkError);
+        // Don't block sign-up; the database unique constraint will catch actual duplicates
       }
 
-      if (existingUser) {
+      if (isAvailable === false) {
         return {
           error: {
             message:
@@ -257,11 +250,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { error };
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      return { error };
+    } catch (err) {
+      hookLogger.error(CONTEXT_NAME, "Sign in error", err);
+      return {
+        error: {
+          message: "An unexpected error occurred during sign in. Please try again.",
+        } as AuthError,
+      };
+    }
   };
 
   const signOut = async () => {

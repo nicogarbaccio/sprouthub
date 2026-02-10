@@ -1,33 +1,26 @@
 import { test, expect } from '@playwright/test';
 import { deletePlantsByPattern } from './helpers';
 
-// Use credentials from environment variables or .env.test
+// Use credentials from environment variables or .env.test (needed for cleanup)
 const TEST_EMAIL = process.env.TEST_USER_EMAIL;
-const TEST_PASSWORD = process.env.TEST_USER_PASSWORD;
+
+// Reuse authenticated state from the setup project — no per-test login needed
+test.use({ storageState: 'e2e/.auth/user.json' });
 
 test.describe('Plant Collection - Add Plants', () => {
   test.beforeEach(async ({ page }) => {
-    // Login before each test
-    await page.goto('/auth');
-    await page.getByTestId('sign-in-email').fill(TEST_EMAIL!);
-    await page.getByTestId('sign-in-password').fill(TEST_PASSWORD!);
-    await page.getByTestId('sign-in-button').click();
-
-    // Wait for dashboard
-    await expect(page.getByTestId('dashboard')).toBeVisible({ timeout: 15000 });
-
-    // Navigate to My Plants page
-    await page.getByRole('link', { name: 'My Plants' }).click();
-    await expect(page).toHaveURL(/\/my-plants/);
-    await expect(page.getByTestId('my-plants-collection')).toBeVisible({ timeout: 10000 });
+    // Navigate directly to My Plants — already authenticated via storageState
+    await page.goto('/my-plants');
+    await expect(page.getByTestId('my-plants-collection')).toBeVisible({ timeout: 15000 });
   });
 
   test.afterAll(async () => {
+    if (!TEST_EMAIL) return;
     // Clean up all test plants created during tests
     // These patterns match the plant nicknames created in the tests
-    await deletePlantsByPattern('Test Snake%', TEST_EMAIL!);
-    await deletePlantsByPattern('Pothos%', TEST_EMAIL!);
-    await deletePlantsByPattern('Custom%', TEST_EMAIL!);
+    await deletePlantsByPattern('Test Snake%', TEST_EMAIL);
+    await deletePlantsByPattern('Pothos%', TEST_EMAIL);
+    await deletePlantsByPattern('Custom%', TEST_EMAIL);
   });
 
   test('should open Add Plant dialog from My Plants page', async ({ page }) => {
@@ -65,8 +58,8 @@ test.describe('Plant Collection - Add Plants', () => {
     // Verify dialog closed
     await expect(page.getByTestId('add-plant-dialog')).not.toBeVisible({ timeout: 10000 });
 
-    // Verify the plant appears in collection (use button selector to avoid toast)
-    await expect(page.locator('button').filter({ hasText: plantNickname })).toBeVisible({ timeout: 10000 });
+    // Verify the plant appears in collection
+    await expect(page.locator('[data-testid="plant-card"]').filter({ hasText: plantNickname })).toBeVisible({ timeout: 15000 });
   });
 
   test('should add a plant by searching plant type', async ({ page }) => {
@@ -89,8 +82,8 @@ test.describe('Plant Collection - Add Plants', () => {
 
     await expect(page.getByTestId('add-plant-dialog')).not.toBeVisible({ timeout: 10000 });
 
-    // Use button selector to avoid toast message conflict
-    await expect(page.locator('button').filter({ hasText: plantNickname })).toBeVisible({ timeout: 10000 });
+    // Verify the plant appears in collection
+    await expect(page.locator('[data-testid="plant-card"]').filter({ hasText: plantNickname })).toBeVisible({ timeout: 15000 });
   });
 
   test('should add a custom plant type not in catalog', async ({ page }) => {
@@ -113,8 +106,8 @@ test.describe('Plant Collection - Add Plants', () => {
 
     await expect(page.getByTestId('add-plant-dialog')).not.toBeVisible({ timeout: 10000 });
 
-    // Use more specific selector to avoid toast message conflict
-    await expect(page.locator('button').filter({ hasText: plantNickname })).toBeVisible({ timeout: 10000 });
+    // Wait for the plant card to appear in the collection after refetch
+    await expect(page.locator('[data-testid="plant-card"]').filter({ hasText: plantNickname })).toBeVisible({ timeout: 15000 });
   });
 
   test('should cancel adding a plant', async ({ page }) => {

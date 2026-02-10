@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { deleteUserByEmail } from './helpers';
+import { deleteUserByEmail, signUpAndReachOnboarding } from './helpers';
 
 test.describe('User Onboarding Flow', () => {
   // Generate unique credentials for each test run
@@ -16,21 +16,13 @@ test.describe('User Onboarding Flow', () => {
   });
 
   test('should complete full onboarding flow and reach dashboard', async ({ page }) => {
-    // Sign up a new user
-    await page.goto('/auth');
-    await page.getByTestId('sign-up-trigger').click();
-
-    await page.getByTestId('first-name-input').fill(NEW_USER_FIRSTNAME);
-    await page.getByTestId('last-name-input').fill(NEW_USER_LASTNAME);
-    await page.getByTestId('username-input').fill(NEW_USER_USERNAME);
-    await page.getByTestId('sign-up-email').fill(NEW_USER_EMAIL);
-    await page.getByTestId('signup-password').fill(NEW_USER_PASSWORD);
-    await page.getByTestId('confirmPassword').fill(NEW_USER_PASSWORD);
-    await page.getByTestId('sign-up-button').click();
-
-    // Wait for toast and redirect to onboarding
-    await expect(page.locator('text=Account Created!').first()).toBeVisible({ timeout: 10000 });
-    await expect(page).toHaveURL('/onboarding', { timeout: 5000 });
+    await signUpAndReachOnboarding(page, {
+      firstName: NEW_USER_FIRSTNAME,
+      lastName: NEW_USER_LASTNAME,
+      username: NEW_USER_USERNAME,
+      email: NEW_USER_EMAIL,
+      password: NEW_USER_PASSWORD,
+    });
 
     // Step 1: Welcome screen
     await expect(page.locator('h1').filter({ hasText: /welcome to sprouthub/i })).toBeVisible();
@@ -88,20 +80,13 @@ test.describe('User Onboarding Flow', () => {
     const skipEmail = `skip-onboarding-${Date.now()}@example.com`;
     const skipPassword = `Xk9${Date.now()}!mP7&zQ2`;
 
-    // Sign up a new user
-    await page.goto('/auth');
-    await page.getByTestId('sign-up-trigger').click();
-
-    await page.getByTestId('first-name-input').fill('Skip');
-    await page.getByTestId('last-name-input').fill('User');
-    await page.getByTestId('username-input').fill(`skipuser${Date.now()}`);
-    await page.getByTestId('sign-up-email').fill(skipEmail);
-    await page.getByTestId('signup-password').fill(skipPassword);
-    await page.getByTestId('confirmPassword').fill(skipPassword);
-    await page.getByTestId('sign-up-button').click();
-
-    // Wait for redirect to onboarding
-    await expect(page).toHaveURL('/onboarding', { timeout: 5000 });
+    await signUpAndReachOnboarding(page, {
+      firstName: 'Skip',
+      lastName: 'User',
+      username: `skipuser${Date.now()}`,
+      email: skipEmail,
+      password: skipPassword,
+    });
 
     // Click "Skip onboarding" button
     await page.locator('button:has-text("Skip onboarding")').click();
@@ -118,20 +103,13 @@ test.describe('User Onboarding Flow', () => {
     const backNavEmail = `back-nav-${Date.now()}@example.com`;
     const backNavPassword = `Xk9${Date.now()}!mP7&zQ2`;
 
-    // Sign up a new user
-    await page.goto('/auth');
-    await page.getByTestId('sign-up-trigger').click();
-
-    await page.getByTestId('first-name-input').fill('BackNav');
-    await page.getByTestId('last-name-input').fill('User');
-    await page.getByTestId('username-input').fill(`backnavuser${Date.now()}`);
-    await page.getByTestId('sign-up-email').fill(backNavEmail);
-    await page.getByTestId('signup-password').fill(backNavPassword);
-    await page.getByTestId('confirmPassword').fill(backNavPassword);
-    await page.getByTestId('sign-up-button').click();
-
-    // Wait for onboarding
-    await expect(page).toHaveURL('/onboarding', { timeout: 5000 });
+    await signUpAndReachOnboarding(page, {
+      firstName: 'BackNav',
+      lastName: 'User',
+      username: `backnavuser${Date.now()}`,
+      email: backNavEmail,
+      password: backNavPassword,
+    });
 
     // Step 1 -> Step 2
     await page.locator('button:has-text("Get Started")').click();
@@ -160,19 +138,13 @@ test.describe('User Onboarding Flow', () => {
     const weatherEmail = `weather-pref-${Date.now()}@example.com`;
     const weatherPassword = `Xk9${Date.now()}!mP7&zQ2`;
 
-    // Sign up and go through onboarding with weather enabled
-    await page.goto('/auth');
-    await page.getByTestId('sign-up-trigger').click();
-
-    await page.getByTestId('first-name-input').fill('Weather');
-    await page.getByTestId('last-name-input').fill('User');
-    await page.getByTestId('username-input').fill(`weatheruser${Date.now()}`);
-    await page.getByTestId('sign-up-email').fill(weatherEmail);
-    await page.getByTestId('signup-password').fill(weatherPassword);
-    await page.getByTestId('confirmPassword').fill(weatherPassword);
-    await page.getByTestId('sign-up-button').click();
-
-    await expect(page).toHaveURL('/onboarding', { timeout: 5000 });
+    await signUpAndReachOnboarding(page, {
+      firstName: 'Weather',
+      lastName: 'User',
+      username: `weatheruser${Date.now()}`,
+      email: weatherEmail,
+      password: weatherPassword,
+    });
 
     // Complete step 1
     await page.locator('button:has-text("Get Started")').click();
@@ -219,19 +191,13 @@ test.describe('User Onboarding Flow', () => {
     const careEmail = `care-style-${Date.now()}@example.com`;
     const carePassword = `Xk9${Date.now()}!mP7&zQ2`;
 
-    // Sign up and go through onboarding with specific care style
-    await page.goto('/auth');
-    await page.getByTestId('sign-up-trigger').click();
-
-    await page.getByTestId('first-name-input').fill('CareStyle');
-    await page.getByTestId('last-name-input').fill('User');
-    await page.getByTestId('username-input').fill(`carestyleuser${Date.now()}`);
-    await page.getByTestId('sign-up-email').fill(careEmail);
-    await page.getByTestId('signup-password').fill(carePassword);
-    await page.getByTestId('confirmPassword').fill(carePassword);
-    await page.getByTestId('sign-up-button').click();
-
-    await expect(page).toHaveURL('/onboarding', { timeout: 5000 });
+    await signUpAndReachOnboarding(page, {
+      firstName: 'CareStyle',
+      lastName: 'User',
+      username: `carestyleuser${Date.now()}`,
+      email: careEmail,
+      password: carePassword,
+    });
 
     // Complete step 1 & 2
     await page.locator('button:has-text("Get Started")').click();
@@ -273,19 +239,13 @@ test.describe('User Onboarding Flow', () => {
     const namePassword = `Xk9${Date.now()}!mP7&zQ2`;
     const firstName = 'TestFirstName';
 
-    // Sign up with specific first name
-    await page.goto('/auth');
-    await page.getByTestId('sign-up-trigger').click();
-
-    await page.getByTestId('first-name-input').fill(firstName);
-    await page.getByTestId('last-name-input').fill('LastName');
-    await page.getByTestId('username-input').fill(`nameuser${Date.now()}`);
-    await page.getByTestId('sign-up-email').fill(nameEmail);
-    await page.getByTestId('signup-password').fill(namePassword);
-    await page.getByTestId('confirmPassword').fill(namePassword);
-    await page.getByTestId('sign-up-button').click();
-
-    await expect(page).toHaveURL('/onboarding', { timeout: 5000 });
+    await signUpAndReachOnboarding(page, {
+      firstName,
+      lastName: 'LastName',
+      username: `nameuser${Date.now()}`,
+      email: nameEmail,
+      password: namePassword,
+    });
 
     // Verify welcome message includes first name
     await expect(page.locator(`text=Welcome to SproutHub, ${firstName}!`)).toBeVisible();
@@ -308,19 +268,13 @@ test.describe('User Onboarding Flow', () => {
     const progressEmail = `progress-${Date.now()}@example.com`;
     const progressPassword = `Xk9${Date.now()}!mP7&zQ2`;
 
-    // Sign up
-    await page.goto('/auth');
-    await page.getByTestId('sign-up-trigger').click();
-
-    await page.getByTestId('first-name-input').fill('Progress');
-    await page.getByTestId('last-name-input').fill('Test');
-    await page.getByTestId('username-input').fill(`progressuser${Date.now()}`);
-    await page.getByTestId('sign-up-email').fill(progressEmail);
-    await page.getByTestId('signup-password').fill(progressPassword);
-    await page.getByTestId('confirmPassword').fill(progressPassword);
-    await page.getByTestId('sign-up-button').click();
-
-    await expect(page).toHaveURL('/onboarding', { timeout: 5000 });
+    await signUpAndReachOnboarding(page, {
+      firstName: 'Progress',
+      lastName: 'Test',
+      username: `progressuser${Date.now()}`,
+      email: progressEmail,
+      password: progressPassword,
+    });
 
     // Check progress at each step
     await expect(page.locator('text=Step 1 of 5')).toBeVisible();
@@ -344,21 +298,12 @@ test.describe('User Onboarding Flow', () => {
 });
 
 test.describe('Onboarding for Returning Users', () => {
-  const TEST_EMAIL = process.env.TEST_USER_EMAIL;
-  const TEST_PASSWORD = process.env.TEST_USER_PASSWORD;
+  // Reuse authenticated state — no per-test login needed
+  test.use({ storageState: 'e2e/.auth/user.json' });
 
   test('should not show onboarding for users who already completed it', async ({ page }) => {
-    // Skip if test credentials are not provided
-    if (!TEST_EMAIL || !TEST_PASSWORD) {
-      test.skip(true, 'Test credentials are not set');
-      return;
-    }
-
-    // Sign in with existing user (who should have onboarding_completed = true)
-    await page.goto('/auth');
-    await page.getByTestId('sign-in-email').fill(TEST_EMAIL);
-    await page.getByTestId('sign-in-password').fill(TEST_PASSWORD);
-    await page.getByTestId('sign-in-button').click();
+    // Navigate directly — already authenticated via storageState
+    await page.goto('/');
 
     // Should go directly to dashboard, NOT onboarding
     await expect(page).toHaveURL('/', { timeout: 5000 });
@@ -366,24 +311,10 @@ test.describe('Onboarding for Returning Users', () => {
   });
 
   test('should not allow accessing onboarding URL after completion', async ({ page }) => {
-    // Skip if test credentials are not provided
-    if (!TEST_EMAIL || !TEST_PASSWORD) {
-      test.skip(true, 'Test credentials are not set');
-      return;
-    }
-
-    // Sign in
-    await page.goto('/auth');
-    await page.getByTestId('sign-in-email').fill(TEST_EMAIL);
-    await page.getByTestId('sign-in-password').fill(TEST_PASSWORD);
-    await page.getByTestId('sign-in-button').click();
-    await expect(page.getByTestId('dashboard')).toBeVisible({ timeout: 15000 });
-
-    // Try to navigate to onboarding URL directly
+    // Already authenticated via storageState — go directly to onboarding URL
     await page.goto('/onboarding');
 
     // Should redirect away from onboarding (either to dashboard or stay on dashboard)
-    // Give it a moment to potentially redirect
     await page.waitForTimeout(1000);
 
     // URL should either be root or should not show onboarding content
