@@ -36,8 +36,7 @@ export const QuickActions = ({
         </Button>
 
         <Button
-          variant="outline"
-          className="h-16 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white rounded-xl font-medium text-lg border-0"
+          className="h-16 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white hover:text-white rounded-xl font-medium text-lg border-0"
           size="lg"
           onClick={handleWaterButtonClick}
         >

@@ -230,7 +230,7 @@ export function WeatherMoodBanner({
                     size="sm"
                     onClick={onRefresh}
                     disabled={isRefreshing}
-                    className="text-white hover:bg-white/20 border border-white/20 h-8 px-3"
+                    className="text-white hover:bg-black/30 border border-white/30 h-8 px-3"
                   >
                     <RefreshCw className={cn("h-3 w-3 mr-1", isRefreshing && "animate-spin")} />
                     Refresh
@@ -247,7 +247,7 @@ export function WeatherMoodBanner({
             variant="ghost"
             size="sm"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-white hover:bg-white/20 border border-white/20 backdrop-blur-sm transition-all duration-300"
+            className="text-white hover:bg-black/30 border border-white/30 backdrop-blur-sm transition-all duration-300"
           >
             <div className={cn("transition-transform duration-300", isExpanded && "rotate-180")}>
               <ChevronDown className="h-4 w-4 mr-1" />
