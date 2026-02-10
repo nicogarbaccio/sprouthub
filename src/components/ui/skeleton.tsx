@@ -242,61 +242,108 @@ function ImageUploadSkeleton({ className }: { className?: string }) {
 }
 
 /**
- * Skeleton for plant details page - includes back button, image, info, and care sections
+ * Skeleton for plant details page - matches the actual MyPlantDetails layout
  */
 function PlantDetailsPageSkeleton({ className }: { className?: string }) {
  return (
- <div className={cn("max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8", className)}>
-  {/* Back button skeleton */}
-  <Skeleton className="h-10 w-32 mb-8" />
-
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-  {/* Image skeleton */}
-  <div className="space-y-4">
-   <Skeleton className="h-80 w-full rounded-lg" />
+ <div className={cn("max-w-4xl mx-auto px-3 sm:px-4 lg:px-8", className)}>
+  {/* Breadcrumbs skeleton */}
+  <div className="flex items-center gap-1.5 mb-4">
+   <Skeleton className="h-4 w-16" />
+   <Skeleton className="h-4 w-2" />
+   <Skeleton className="h-4 w-24" />
   </div>
 
-  <div className="space-y-6">
-   {/* Plant info skeleton */}
-   <div className="space-y-4">
-   <Skeleton className="h-8 w-3/4" />
-   <Skeleton className="h-6 w-1/2" />
-   <div className="space-y-2">
-    <Skeleton className="h-4 w-full" />
-    <Skeleton className="h-4 w-full" />
-    <Skeleton className="h-4 w-2/3" />
+  {/* Plant header skeleton */}
+  <div className="text-left mb-4">
+   <Skeleton className="h-7 sm:h-8 w-3/5 mb-1" />
+   <Skeleton className="h-5 w-2/5 mb-2" />
+   <div className="flex flex-wrap gap-2">
+    <Skeleton className="h-5 w-16 rounded-full" />
+    <Skeleton className="h-5 w-24 rounded-full" />
    </div>
-   <div className="flex gap-2">
-    <Skeleton className="h-6 w-16 rounded-full" />
-    <Skeleton className="h-6 w-20 rounded-full" />
-   </div>
-   <Skeleton className="h-12 w-48 rounded-xl" />
-   </div>
+  </div>
 
-   {/* Care grid skeleton */}
-   <div className="grid grid-cols-2 gap-4">
-   {Array.from({ length: 4 }).map((_, i) => (
-    <div key={i} className="p-4 border rounded-lg">
-    <Skeleton className="h-4 w-16 mb-2" />
-    <Skeleton className="h-6 w-20" />
+  {/* Main grid: image + info cards */}
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+   {/* Image skeleton */}
+   <Skeleton className="w-full h-[240px] sm:h-[280px] lg:h-[320px] rounded-lg" />
+
+   {/* Right column: cards + action button */}
+   <div className="flex flex-col h-[240px] sm:h-[280px] lg:h-[320px] space-y-2">
+    {/* Watering Schedule card skeleton */}
+    <div className="flex-1 border rounded-lg px-3 sm:px-4 pt-3 pb-3">
+     <Skeleton className="h-3.5 w-28 mb-3" />
+     <div className="space-y-2">
+      <div className="flex justify-between">
+       <Skeleton className="h-3.5 w-20" />
+       <Skeleton className="h-3.5 w-24" />
+      </div>
+      <div className="flex justify-between">
+       <Skeleton className="h-3.5 w-16" />
+       <Skeleton className="h-3.5 w-20" />
+      </div>
+      <div className="flex justify-between">
+       <Skeleton className="h-3.5 w-16" />
+       <Skeleton className="h-3.5 w-14" />
+      </div>
+     </div>
     </div>
-   ))}
+
+    {/* Plant Info card skeleton */}
+    <div className="flex-1 border rounded-lg px-3 sm:px-4 pt-3 pb-3">
+     <Skeleton className="h-3.5 w-20 mb-3" />
+     <div className="space-y-2">
+      <div className="flex justify-between">
+       <Skeleton className="h-3.5 w-12" />
+       <Skeleton className="h-3.5 w-24" />
+      </div>
+      <div className="flex justify-between">
+       <Skeleton className="h-3.5 w-16" />
+       <Skeleton className="h-3.5 w-20" />
+      </div>
+     </div>
+    </div>
+
+    {/* Actions button skeleton */}
+    <Skeleton className="h-10 w-full rounded-xl" />
    </div>
   </div>
+
+  {/* Care grid skeleton */}
+  <div className="mb-6">
+   <div className="grid grid-cols-2 gap-4 p-4 rounded-lg border-2 border-border">
+    {Array.from({ length: 4 }).map((_, i) => (
+     <div key={i} className="flex items-center space-x-3 p-3 rounded-lg bg-primary/5">
+      <Skeleton className="w-5 h-5 rounded-full flex-shrink-0" />
+      <div className="space-y-1.5">
+       <Skeleton className="h-3 w-14" />
+       <Skeleton className="h-3.5 w-20" />
+      </div>
+     </div>
+    ))}
+   </div>
   </div>
 
   {/* Care cards skeleton */}
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-  {Array.from({ length: 2 }).map((_, i) => (
-   <div key={i} className="p-6 border rounded-lg">
-   <Skeleton className="h-6 w-32 mb-4" />
-   <div className="space-y-2">
-    {Array.from({ length: 4 }).map((_, j) => (
-    <Skeleton key={j} className="h-4 w-full" />
+  <div className="mb-6">
+   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    {Array.from({ length: 2 }).map((_, i) => (
+     <div key={i} className="border rounded-lg">
+      <div className="p-6">
+       <Skeleton className="h-6 w-36 mb-4" />
+       <div className="space-y-3">
+        {Array.from({ length: 4 }).map((_, j) => (
+         <div key={j} className="flex items-start space-x-2">
+          <Skeleton className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0" />
+          <Skeleton className="h-4 w-full" />
+         </div>
+        ))}
+       </div>
+      </div>
+     </div>
     ))}
    </div>
-   </div>
-  ))}
   </div>
  </div>
  );

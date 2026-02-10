@@ -40,29 +40,22 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
         // realtime always proceeds (no skip)
       }
 
-      // Check if we already have active notifications for these conditions
-      // We check this to avoid duplicates, BUT if we found new IDs that need notifying,
-      // we should proceed regardless of whether there's an existing notification.
-      const hasOverdueNotification = notifications.some(n => n.type === 'overdue_watering' && !n.dismissed);
-      const hasDueTodayNotification = notifications.some(n => n.type === 'due_today' && !n.dismissed);
-
       // Generate notifications from current plant state
       const newNotifications = generatePlantNotifications(plants);
 
     // Helper to manage acknowledged notifications in local storage
     const getAcknowledgedIds = (type: string): string[] => {
       try {
-        // For overdue watering, we want to clear acknowledgements daily to ensure daily reminders
-        if (type === 'overdue_watering') {
-          const lastAckDate = localStorage.getItem(`sprouthub:notification:acknowledged:${type}:date`);
-          const today = new Date().toDateString();
-          
-          if (lastAckDate !== today) {
-            // New day, clear acknowledgements for overdue plants
-            localStorage.removeItem(`sprouthub:notification:acknowledged:${type}`);
-            localStorage.setItem(`sprouthub:notification:acknowledged:${type}:date`, today);
-            return [];
-          }
+        // Clear acknowledgements daily for all watering notification types
+        // This ensures plants that still need watering get fresh notifications each day
+        const lastAckDate = localStorage.getItem(`sprouthub:notification:acknowledged:${type}:date`);
+        const today = new Date().toDateString();
+        
+        if (lastAckDate !== today) {
+          // New day, clear acknowledgements so notifications can be re-created
+          localStorage.removeItem(`sprouthub:notification:acknowledged:${type}`);
+          localStorage.setItem(`sprouthub:notification:acknowledged:${type}:date`, today);
+          return [];
         }
 
         const stored = localStorage.getItem(`sprouthub:notification:acknowledged:${type}`);
@@ -75,9 +68,7 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
     const setAcknowledgedIds = (type: string, ids: string[]) => {
       try {
         localStorage.setItem(`sprouthub:notification:acknowledged:${type}`, JSON.stringify(ids));
-        if (type === 'overdue_watering') {
-          localStorage.setItem(`sprouthub:notification:acknowledged:${type}:date`, new Date().toDateString());
-        }
+        localStorage.setItem(`sprouthub:notification:acknowledged:${type}:date`, new Date().toDateString());
       } catch (e) {
         // ignore
       }

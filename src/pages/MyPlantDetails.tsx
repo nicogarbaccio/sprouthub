@@ -358,7 +358,7 @@ const MyPlantDetails = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <main className="py-8">
+        <main className="py-4 sm:py-6">
           <PlantDetailsPageSkeleton />
         </main>
         <Footer />
@@ -413,39 +413,51 @@ const MyPlantDetails = () => {
     return (
       <div className="min-h-screen bg-background">
         <Navigation />
-        <main className="py-8">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0">
-            <div className="h-10 w-32 mb-6" />
+        <main className="py-4 sm:py-6">
+          <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 opacity-0">
+            {/* Breadcrumbs placeholder */}
+            <div className="flex items-center gap-1.5 mb-4">
+              <div className="h-4 w-16" />
+              <div className="h-4 w-2" />
+              <div className="h-4 w-24" />
+            </div>
 
             {/* Header placeholder */}
-            <div className="mb-6">
-              <div className="h-9 mb-2" />
-              <div className="h-6 mb-3" />
-              <div className="h-6" />
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-              <div className="aspect-square max-w-md mx-auto lg:mx-0" />
-              <div className="space-y-4">
-                <div className="h-32" />
-                <div className="h-32" />
-                <div className="h-24" />
+            <div className="text-left mb-4">
+              <div className="h-7 sm:h-8 w-3/5 mb-1" />
+              <div className="h-5 w-2/5 mb-2" />
+              <div className="flex gap-2">
+                <div className="h-5 w-16" />
+                <div className="h-5 w-24" />
               </div>
             </div>
 
-            {/* Care information placeholder */}
-            <div className="mb-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="h-20" />
-                <div className="h-20" />
-                <div className="h-20" />
-                <div className="h-20" />
+            {/* Main grid placeholder */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+              <div className="h-[240px] sm:h-[280px] lg:h-[320px]" />
+              <div className="flex flex-col h-[240px] sm:h-[280px] lg:h-[320px] space-y-2">
+                <div className="flex-1" />
+                <div className="flex-1" />
+                <div className="h-10" />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="h-64" />
-              <div className="h-64" />
+            {/* Care grid placeholder */}
+            <div className="mb-6">
+              <div className="grid grid-cols-2 gap-4 p-4">
+                <div className="h-16" />
+                <div className="h-16" />
+                <div className="h-16" />
+                <div className="h-16" />
+              </div>
+            </div>
+
+            {/* Care cards placeholder */}
+            <div className="mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="h-64" />
+                <div className="h-64" />
+              </div>
             </div>
           </div>
         </main>
@@ -464,7 +476,7 @@ const MyPlantDetails = () => {
             <PageBreadcrumbs
               items={[
                 { label: "My Plants", href: "/my-plants" },
-                ...(plant.room ? [{ label: plant.room }] : []),
+                ...(plant.room ? [{ label: getRoomLabel(plant.room) }] : []),
                 { label: plant.nickname },
               ]}
               className="mb-4"
@@ -714,7 +726,7 @@ const MyPlantDetails = () => {
 
                       <DropdownMenuItem
                         onClick={handleDeletePlant}
-                        className="cursor-pointer text-red-600 focus:text-red-600"
+                        className="cursor-pointer text-red-400 focus:text-red-400"
                       >
                         <Trash2 className="w-4 h-4 mr-2" />
                         Delete
