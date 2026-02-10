@@ -669,6 +669,10 @@ export type Database = {
         Args: { invitation_id: string }
         Returns: boolean
       }
+      check_username_available: {
+        Args: { p_username: string }
+        Returns: boolean
+      }
       cleanup_expired_dismissals: { Args: never; Returns: undefined }
       create_household: {
         Args: { household_description?: string; household_name: string }
