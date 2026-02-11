@@ -247,13 +247,6 @@ function ImageUploadSkeleton({ className }: { className?: string }) {
 function PlantDetailsPageSkeleton({ className }: { className?: string }) {
  return (
  <div className={cn("max-w-4xl mx-auto px-3 sm:px-4 lg:px-8", className)}>
-  {/* Breadcrumbs skeleton */}
-  <div className="flex items-center gap-1.5 mb-4">
-   <Skeleton className="h-4 w-16" />
-   <Skeleton className="h-4 w-2" />
-   <Skeleton className="h-4 w-24" />
-  </div>
-
   {/* Plant header skeleton */}
   <div className="text-left mb-4">
    <Skeleton className="h-7 sm:h-8 w-3/5 mb-1" />

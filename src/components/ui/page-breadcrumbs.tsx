@@ -43,9 +43,9 @@ export const PageBreadcrumbs: React.FC<PageBreadcrumbsProps> = ({
     <Breadcrumb className={className}>
       <BreadcrumbList>
         {/* Always show home as first item */}
-        <BreadcrumbItem>
+        <BreadcrumbItem className="gap-0">
           <BreadcrumbLink asChild>
-            <Link to="/" className="inline-flex items-center">
+            <Link to="/">
               <Home className="h-4 w-4" />
               <span className="sr-only">Home</span>
             </Link>

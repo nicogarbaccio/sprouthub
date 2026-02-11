@@ -57,7 +57,6 @@ import { getRoomIcon, getRoomLabel } from "@/utils/rooms";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { PatternSuggestionsDialog } from "@/components/watering-patterns";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
-import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
 const MyPlantDetails = () => {
   const { plantId } = useParams();
@@ -87,7 +86,7 @@ const MyPlantDetails = () => {
   // Find the specific plant and memoize it to prevent re-renders
   const plant = useMemo(
     () => plants.find((p) => p.id === plantId),
-    [plants, plantId]
+    [plants, plantId],
   );
   const overwatering = plant ? overwateringByPlantId[plant.id] : undefined;
 
@@ -113,7 +112,7 @@ const MyPlantDetails = () => {
         (catalogP) =>
           catalogP.name.toLowerCase() === plant.plant_type.toLowerCase() ||
           catalogP.botanicalName.toLowerCase() ===
-            plant.plant_type.toLowerCase()
+            plant.plant_type.toLowerCase(),
       )
     : undefined;
 
@@ -131,7 +130,7 @@ const MyPlantDetails = () => {
   useEffect(() => {
     if (!loading && !user) {
       navigate(
-        "/auth?redirect=" + encodeURIComponent(window.location.pathname)
+        "/auth?redirect=" + encodeURIComponent(window.location.pathname),
       );
     }
   }, [user, loading, navigate]);
@@ -140,22 +139,28 @@ const MyPlantDetails = () => {
     setShowWaterConfirmation(true);
   }, []);
 
-  const handleConfirmWater = useCallback(async (notes?: string) => {
-    if (plant) {
-      await waterPlant(plant.id, notes);
-      setShowWaterConfirmation(false);
-    }
-  }, [plant, waterPlant]);
+  const handleConfirmWater = useCallback(
+    async (notes?: string) => {
+      if (plant) {
+        await waterPlant(plant.id, notes);
+        setShowWaterConfirmation(false);
+      }
+    },
+    [plant, waterPlant],
+  );
 
-  const handleAlreadyWatered = useCallback(async (date: string, notes?: string) => {
-    if (plant) {
-      // FUTURE FEATURE: Implement backdating watering to a specific date
-      // This would require modifying waterPlant to accept a date parameter
-      // For now, just water the plant with current timestamp
-      await waterPlant(plant.id, notes);
-      setShowWaterConfirmation(false);
-    }
-  }, [plant, waterPlant]);
+  const handleAlreadyWatered = useCallback(
+    async (date: string, notes?: string) => {
+      if (plant) {
+        // FUTURE FEATURE: Implement backdating watering to a specific date
+        // This would require modifying waterPlant to accept a date parameter
+        // For now, just water the plant with current timestamp
+        await waterPlant(plant.id, notes);
+        setShowWaterConfirmation(false);
+      }
+    },
+    [plant, waterPlant],
+  );
 
   const handleEditClick = useCallback(() => {
     setShowEditDialog(true);
@@ -167,7 +172,7 @@ const MyPlantDetails = () => {
     let displayDate = new Date(
       date.getUTCFullYear(),
       date.getUTCMonth(),
-      date.getUTCDate()
+      date.getUTCDate(),
     );
     if (date.getUTCHours() < 4) {
       displayDate.setUTCDate(displayDate.getUTCDate() - 1);
@@ -221,10 +226,10 @@ const MyPlantDetails = () => {
     const actionableInsights = getActionableInsights();
     const count = actionableInsights.length;
     const highPriorityCount = actionableInsights.filter(
-      (insight) => insight.severity === "high"
+      (insight) => insight.severity === "high",
     ).length;
     const mediumPriorityCount = actionableInsights.filter(
-      (insight) => insight.severity === "medium"
+      (insight) => insight.severity === "medium",
     ).length;
 
     return {
@@ -406,7 +411,7 @@ const MyPlantDetails = () => {
   const { showWarning: showOverwateringWarning, daysSinceLastWatered } =
     shouldShowOverwateringWarning(
       plant.latest_watering,
-      plant.suggested_watering_days || 7
+      plant.suggested_watering_days || 7,
     );
 
   if (!isReady) {
@@ -415,13 +420,6 @@ const MyPlantDetails = () => {
         <Navigation />
         <main className="py-4 sm:py-6">
           <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 opacity-0">
-            {/* Breadcrumbs placeholder */}
-            <div className="flex items-center gap-1.5 mb-4">
-              <div className="h-4 w-16" />
-              <div className="h-4 w-2" />
-              <div className="h-4 w-24" />
-            </div>
-
             {/* Header placeholder */}
             <div className="text-left mb-4">
               <div className="h-7 sm:h-8 w-3/5 mb-1" />
@@ -471,18 +469,6 @@ const MyPlantDetails = () => {
       <Navigation />
       <main className="py-4 sm:py-6">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8">
-          {/* Breadcrumbs */}
-          <CascadingContainer delay={0}>
-            <PageBreadcrumbs
-              items={[
-                { label: "My Plants", href: "/my-plants" },
-                ...(plant.room ? [{ label: getRoomLabel(plant.room) }] : []),
-                { label: plant.nickname },
-              ]}
-              className="mb-4"
-            />
-          </CascadingContainer>
-
           {/* Plant Header */}
           <CascadingContainer delay={100}>
             <div className="text-left mb-4">
@@ -512,7 +498,9 @@ const MyPlantDetails = () => {
                   </Badge>
                 )}
                 {plant.is_outdoor_plant && (
-                  <Badge variant="secondary" className="text-xs">Outdoor Plant</Badge>
+                  <Badge variant="secondary" className="text-xs">
+                    Outdoor Plant
+                  </Badge>
                 )}
                 <Badge className={`${statusInfo.color} text-xs`}>
                   {statusInfo.text}
@@ -589,7 +577,7 @@ const MyPlantDetails = () => {
               </div>
             </CascadingContainer>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col mt-6 mb-6 lg:mt-0 lg:mb-0">
               <CascadingContainer delay={250}>
                 <div className="flex flex-col h-[240px] sm:h-[280px] lg:h-[320px] space-y-2">
                   <Card className="flex-1">
@@ -608,7 +596,7 @@ const MyPlantDetails = () => {
                             {plant.latest_watering
                               ? formatDistanceToNow(
                                   new Date(plant.latest_watering),
-                                  { addSuffix: true }
+                                  { addSuffix: true },
                                 )
                               : "Never"}
                           </span>
@@ -848,7 +836,7 @@ const MyPlantDetails = () => {
         currentNextWatering={formatDate(
           plant.postponement_date ||
             plant.latest_watering ||
-            new Date().toISOString()
+            new Date().toISOString(),
         )}
         postponedNextWatering={getTomorrowDate()}
       />
