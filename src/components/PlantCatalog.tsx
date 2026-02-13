@@ -111,8 +111,40 @@ const PlantCatalog = ({
  ]);
 
  // Get plants for current page or homepage display
+ // For homepage (logged-out users): show 2 rows across all screen sizes
+ const getHomepagePlantCount = () => {
+ if (!isHomepage) return 0;
+ const width = window.innerWidth;
+
+ // Grid layout: 1 col (mobile) | 2 cols (md) | 3 cols (lg) | 4 cols (xl)
+ // Show 2 rows on all screen sizes
+ if (width < 768) return 4;  // mobile: 1 col × 4 rows (show more rows on mobile)
+ if (width < 1024) return 4; // md/tablet: 2 cols × 2 rows
+ if (width < 1280) return 6; // lg: 3 cols × 2 rows
+ return 8; // xl/desktop: 4 cols × 2 rows
+ };
+
+ const [homepagePlantCount, setHomepagePlantCount] = useState(
+ getHomepagePlantCount()
+ );
+
+ // Update plant count on window resize for homepage
+ useEffect(() => {
+ if (!isHomepage) return;
+
+ const handleResize = () => {
+  const newCount = getHomepagePlantCount();
+  if (newCount !== homepagePlantCount) {
+  setHomepagePlantCount(newCount);
+  }
+ };
+
+ window.addEventListener("resize", handleResize);
+ return () => window.removeEventListener("resize", handleResize);
+ }, [isHomepage, homepagePlantCount]);
+
  const displayedPlants = isHomepage
- ? filteredPlants.slice(0, 16) // Homepage shows first 16 plants
+ ? filteredPlants.slice(0, homepagePlantCount) // Homepage: 2 rows (4-8 plants based on screen size)
  : filteredPlants.slice(startIndex, endIndex); // Catalog shows 24 per page
 
  // Enhanced pagination handlers with loading states
