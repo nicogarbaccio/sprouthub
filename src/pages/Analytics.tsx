@@ -30,7 +30,6 @@ import {
 } from '@/utils/analytics';
 import { AnalyticsSkeleton } from '@/components/ui/skeleton';
 import { CascadingContainer } from '@/components/ui/cascading-container';
-import { PageBreadcrumbs } from '@/components/ui/page-breadcrumbs';
 import { format } from 'date-fns';
 import { FeatureErrorBoundary } from '@/components/ui/feature-error-boundary';
 
@@ -72,14 +71,6 @@ const AnalyticsContent = () => {
       <Navigation />
       <main className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Breadcrumbs */}
-          <CascadingContainer delay={0}>
-            <PageBreadcrumbs
-              items={[{ label: 'Analytics' }]}
-              className="mb-4"
-            />
-          </CascadingContainer>
-
           {/* Header */}
           <CascadingContainer delay={100}>
             <div className="mb-6">

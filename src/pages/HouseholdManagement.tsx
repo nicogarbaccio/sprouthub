@@ -41,7 +41,6 @@ import { HouseholdMembersCard } from "@/components/households/HouseholdMembersCa
 import AddPlantDialog from "@/components/AddPlantDialog";
 import EditPlantDialog from "@/components/EditPlantDialog";
 import WateringHistoryDialog from "@/components/WateringHistoryDialog";
-import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -249,15 +248,6 @@ const HouseholdManagement = () => {
     <div>
       <Navigation />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Breadcrumbs */}
-        <PageBreadcrumbs
-          items={[
-            { label: "Households", href: "/households" },
-            { label: household.name },
-          ]}
-          className="mb-6"
-        />
-
         {/* Header */}
         <CascadingContainer delay={0}>
           <div className="mb-8">

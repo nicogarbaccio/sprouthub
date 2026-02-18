@@ -13,7 +13,6 @@ import { CascadingContainer } from "@/components/ui/cascading-container";
 import { useGracefulLoading } from "@/hooks/useGracefulLoading";
 import { PlantDetailsPageSkeleton } from "@/components/ui/skeleton";
 import { plants } from "@/data/plantData";
-import { PageBreadcrumbs } from "@/components/ui/page-breadcrumbs";
 
 const PlantDetails = () => {
   const { plantName } = useParams();
@@ -139,15 +138,6 @@ const PlantDetails = () => {
       <Navigation />
       <div className="pt-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Breadcrumbs */}
-          <PageBreadcrumbs
-            items={[
-              { label: "Plant Catalog", href: "/plant-catalog" },
-              { label: plant.name },
-            ]}
-            className="mb-6"
-          />
-
           <CascadingContainer delay={0}>
             <PlantDetailsHeader
               onBackClick={() => navigate("/plant-catalog")}
