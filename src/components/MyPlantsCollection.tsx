@@ -9,7 +9,7 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { MyPlantCardSkeleton, Skeleton } from "@/components/ui/skeleton";
+import { MyPlantCardSkeleton, Skeleton, SearchFilterBarSkeleton, RoomSectionSkeleton } from "@/components/ui/skeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { CascadingGrid } from "@/components/ui/cascading-grid";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
@@ -170,15 +170,20 @@ const MyPlantsCollectionContent = () => {
                 <Skeleton className="h-6 w-28 rounded-full" />
               </div>
             </div>
-            <Skeleton className="h-10 w-36 rounded-xl mt-4 md:mt-0" />
+            <div className="flex gap-2 mt-4 md:mt-0">
+              <Skeleton className="h-10 w-24 rounded-xl" />
+              <Skeleton className="h-10 w-36 rounded-xl" />
+            </div>
           </div>
 
-          {/* Plant Cards Grid Skeleton */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-            {Array.from({ length: 8 }).map((_, index) => (
-              <MyPlantCardSkeleton key={index} />
-            ))}
+          {/* Search/Filter Bar Skeleton */}
+          <div className="mb-6">
+            <SearchFilterBarSkeleton />
           </div>
+
+          {/* Room Section Skeletons */}
+          <RoomSectionSkeleton cardCount={4} />
+          <RoomSectionSkeleton cardCount={3} />
         </div>
       </section>
     );
@@ -198,12 +203,19 @@ const MyPlantsCollectionContent = () => {
                 <div className="h-6 w-28" />
               </div>
             </div>
-            <div className="h-10 w-36 mt-4 md:mt-0" />
+            <div className="flex gap-2 mt-4 md:mt-0">
+              <div className="h-10 w-24" />
+              <div className="h-10 w-36" />
+            </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-            {Array.from({ length: 4 }).map((_, index) => (
-              <div key={index} className="h-80" />
-            ))}
+          <div className="h-10 mb-6" />
+          <div className="mb-12">
+            <div className="h-24 mb-6" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <div key={index} className="h-80" />
+              ))}
+            </div>
           </div>
         </div>
       </section>

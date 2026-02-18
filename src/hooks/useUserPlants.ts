@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/contexts/AuthContext';
@@ -57,6 +57,7 @@ const { toast } = useToast();
 const [plants, setPlants] = useState<UserPlant[]>([]);
 const [loading, setLoading] = useState(true);
 const [isInitialLoad, setIsInitialLoad] = useState(true);
+const fetchIdRef = useRef(0);
 
 // Use custom hooks
 const { fetchPostponementsGrouped } = usePostponementData();
@@ -181,35 +182,69 @@ const {
    return;
   }
 
+  // Increment fetch ID to track stale requests
+  const currentFetchId = ++fetchIdRef.current;
+
   const mainTracker = trackOperation(HOOK_NAME, 'fetchPlants');
 
   try {
    // Step 1: Fetch user plants
    const plantsData = await fetchUserPlants();
 
+   // Bail out if a newer fetch has started
+   if (currentFetchId !== fetchIdRef.current) {
+    hookLogger.debug(HOOK_NAME, 'Discarding stale fetch result', { currentFetchId, latestFetchId: fetchIdRef.current });
+    return;
+   }
+
    // Step 2: Enrich with additional data
    const enrichedPlants = await enrichPlantsWithData(plantsData);
+
+   // Bail out if a newer fetch has started
+   if (currentFetchId !== fetchIdRef.current) {
+    hookLogger.debug(HOOK_NAME, 'Discarding stale fetch result', { currentFetchId, latestFetchId: fetchIdRef.current });
+    return;
+   }
 
    // Step 3: Compute overwatering risks
    await computeRisks(enrichedPlants);
 
+   // Final staleness check before setting state
+   if (currentFetchId !== fetchIdRef.current) {
+    hookLogger.debug(HOOK_NAME, 'Discarding stale fetch result', { currentFetchId, latestFetchId: fetchIdRef.current });
+    return;
+   }
+
    setPlants(enrichedPlants);
    mainTracker.complete({ plantCount: enrichedPlants.length });
   } catch (error) {
+   // If a newer fetch has started, don't clobber state with error handling
+   if (currentFetchId !== fetchIdRef.current) {
+    hookLogger.debug(HOOK_NAME, 'Ignoring error from stale fetch', { currentFetchId, latestFetchId: fetchIdRef.current });
+    return;
+   }
+
    mainTracker.fail(error);
    hookLogger.error(HOOK_NAME, 'Failed to fetch plants', error);
 
-   const errorMsg = getErrorMessage(
-    error,
-    'Failed to load your plants. Please try again.'
-   );
-   utilityToast.error('Loading Failed', errorMsg);
-   setPlants([]);
+   // Only clear plants on initial load failure; preserve existing data on background refresh errors
+   if (isInitialLoad) {
+    const errorMsg = getErrorMessage(
+     error,
+     'Failed to load your plants. Please try again.'
+    );
+    utilityToast.error('Loading Failed', errorMsg);
+    setPlants([]);
+   } else {
+    hookLogger.warn(HOOK_NAME, 'Background refresh failed, keeping existing plant data');
+   }
   } finally {
-   setLoading(false);
-   setIsInitialLoad(false);
+   if (currentFetchId === fetchIdRef.current) {
+    setLoading(false);
+    setIsInitialLoad(false);
+   }
   }
- }, [user, fetchUserPlants, enrichPlantsWithData, computeRisks]);
+ }, [user, fetchUserPlants, enrichPlantsWithData, computeRisks, isInitialLoad]);
 
  const addPlant = async (plantData: {
   nickname: string;

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import MyPlantsCollection from "@/components/MyPlantsCollection";
-import { MyPlantCardSkeleton, Skeleton } from "@/components/ui/skeleton";
+import { Skeleton, SearchFilterBarSkeleton, RoomSectionSkeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/contexts/AuthContext";
 import Footer from "@/components/Footer";
 import { toast } from "@/hooks/use-toast";
@@ -28,7 +28,7 @@ const MyPlantsContent = () => {
   <div className="min-h-screen bg-background ">
   <Navigation />
   <main>
-   <section className="py-8 bg-background">
+   <section className="py-8 bg-background min-h-[calc(100vh-4rem)]">
    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     {/* Header Skeleton */}
     <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
@@ -40,15 +40,20 @@ const MyPlantsContent = () => {
      <Skeleton className="h-6 w-28 rounded-full" />
      </div>
     </div>
-    <Skeleton className="h-10 w-36 rounded-xl mt-4 md:mt-0" />
+    <div className="flex gap-2 mt-4 md:mt-0">
+     <Skeleton className="h-10 w-24 rounded-xl" />
+     <Skeleton className="h-10 w-36 rounded-xl" />
+    </div>
     </div>
 
-    {/* Plant Cards Grid Skeleton */}
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-    {Array.from({ length: 8 }).map((_, index) => (
-     <MyPlantCardSkeleton key={index} />
-    ))}
+    {/* Search/Filter Bar Skeleton */}
+    <div className="mb-6">
+     <SearchFilterBarSkeleton />
     </div>
+
+    {/* Room Section Skeletons */}
+    <RoomSectionSkeleton cardCount={4} />
+    <RoomSectionSkeleton cardCount={3} />
    </div>
    </section>
   </main>

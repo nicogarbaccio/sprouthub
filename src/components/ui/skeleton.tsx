@@ -110,6 +110,55 @@ function MyPlantCardSkeleton({ className }: { className?: string }) {
 }
 
 /**
+ * Skeleton for search/filter bar - matches SearchFilterBar layout
+ */
+function SearchFilterBarSkeleton() {
+ return (
+  <div className="flex gap-2">
+   {/* Search input */}
+   <Skeleton className="flex-1 h-10 rounded-md" />
+   {/* Filter button */}
+   <Skeleton className="h-10 w-[88px] rounded-md shrink-0" />
+   {/* Sort button */}
+   <Skeleton className="h-10 w-[72px] rounded-md shrink-0" />
+  </div>
+ );
+}
+
+/**
+ * Skeleton for a room section - matches RoomSection layout with header card + plant grid
+ */
+function RoomSectionSkeleton({ cardCount = 3 }: { cardCount?: number }) {
+ return (
+  <div className="mb-12">
+   {/* Room header card */}
+   <div className="border-2 rounded-2xl p-4 sm:p-6 mb-6 bg-muted/30 border-border">
+    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+     <div className="flex items-center gap-3 sm:gap-4">
+      <Skeleton className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl" />
+      <div>
+       <Skeleton className="h-6 sm:h-7 w-32 mb-1" />
+       <Skeleton className="h-4 w-16" />
+      </div>
+     </div>
+     <div className="flex flex-wrap gap-2">
+      <Skeleton className="h-5 w-20 rounded-full" />
+      <Skeleton className="h-5 w-24 rounded-full" />
+     </div>
+    </div>
+   </div>
+
+   {/* Plant cards grid */}
+   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    {Array.from({ length: cardCount }).map((_, index) => (
+     <MyPlantCardSkeleton key={index} />
+    ))}
+   </div>
+  </div>
+ );
+}
+
+/**
  * Skeleton for dashboard metric cards
  */
 function DashboardMetricSkeleton({ className }: { className?: string }) {
@@ -629,6 +678,8 @@ export {
   Skeleton,
   PlantCardSkeleton,
   MyPlantCardSkeleton,
+  SearchFilterBarSkeleton,
+  RoomSectionSkeleton,
   DashboardMetricSkeleton,
   DashboardTaskSkeleton,
   DashboardActivitySkeleton,
