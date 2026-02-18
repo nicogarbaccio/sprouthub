@@ -39,6 +39,7 @@ import {
   Lightbulb,
   ChevronDown,
   BookOpen,
+  Sprout,
 } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
@@ -49,6 +50,7 @@ import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import { JournalModal } from "@/components/journal/JournalModal";
+import { RepottingDialog } from "@/components/plant-details/RepottingDialog";
 import { formatDistanceToNow } from "date-fns";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import { plants as catalogPlants } from "@/data/plantData";
@@ -82,6 +84,7 @@ const MyPlantDetails = () => {
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
   const [showSuggestionsDialog, setShowSuggestionsDialog] = useState(false);
   const [showJournal, setShowJournal] = useState(false);
+  const [showRepotting, setShowRepotting] = useState(false);
 
   // Find the specific plant and memoize it to prevent re-renders
   const plant = useMemo(
@@ -745,7 +748,36 @@ const MyPlantDetails = () => {
             </div>
           </CascadingContainer>
 
-          <CascadingContainer delay={400}>
+          {/* Repotting Guide Card */}
+          <CascadingContainer delay={375}>
+            <Card
+              className="mb-6 cursor-pointer hover:border-plant-primary/50 transition-colors"
+              onClick={() => setShowRepotting(true)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setShowRepotting(true);
+                }
+              }}
+            >
+              <CardContent className="flex items-center justify-between py-4 px-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-plant-primary/10 flex items-center justify-center">
+                    <Sprout className="w-5 h-5 text-plant-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">Repotting Guide</p>
+                    <p className="text-xs text-muted-foreground">Tips for repotting {plant.nickname}</p>
+                  </div>
+                </div>
+                <ChevronDown className="w-4 h-4 text-muted-foreground -rotate-90" />
+              </CardContent>
+            </Card>
+          </CascadingContainer>
+
+          <CascadingContainer delay={425}>
             <div className="mb-6">
               <PlantCareCards
                 careInstructions={
@@ -817,6 +849,14 @@ const MyPlantDetails = () => {
         onClose={() => setShowJournal(false)}
         plantId={plant.id}
         plantNickname={plant.nickname}
+      />
+
+      <RepottingDialog
+        isOpen={showRepotting}
+        onClose={() => setShowRepotting(false)}
+        plantId={plant.id}
+        plantNickname={plant.nickname}
+        catalogPlant={catalogPlant}
       />
 
       <PatternSuggestionsDialog
