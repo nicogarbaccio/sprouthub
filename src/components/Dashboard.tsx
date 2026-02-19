@@ -838,9 +838,9 @@ const Dashboard = () => {
                               : "bg-gradient-to-br from-cyan-400/20 to-blue-400/10"
                           }`} />
 
-                          <div className="flex items-center justify-between p-4 relative">
+                          <div className="flex items-center justify-between p-4 relative gap-3">
                             <div
-                              className="flex items-center space-x-4 flex-1 cursor-pointer"
+                              className="flex items-center space-x-4 flex-1 min-w-0 cursor-pointer"
                               onClick={() => navigate(`/my-plants/${plant.id}`)}
                               role="button"
                               tabIndex={0}
@@ -853,7 +853,7 @@ const Dashboard = () => {
                               aria-label={`View details for ${plant.nickname}`}
                             >
                               {/* Plant Image with gradient overlay */}
-                              <div className="relative group/image">
+                              <div className="relative group/image shrink-0">
                                 <div className={`absolute inset-0 rounded-full transition-all duration-300 ${
                                   isOverdue
                                     ? "bg-gradient-to-br from-red-500/20 to-rose-500/20 group-hover/image:from-red-500/30 group-hover/image:to-rose-500/30"
@@ -872,36 +872,34 @@ const Dashboard = () => {
                               </div>
 
                               {/* Plant Info */}
-                              <div className="flex-1">
-                                <p className="font-semibold text-foreground text-base mb-0.5 group-hover:translate-x-1 transition-transform duration-300">
+                              <div className="flex-1 min-w-0">
+                                <p className="font-semibold text-foreground text-base mb-0.5 group-hover:translate-x-1 transition-transform duration-300 truncate">
                                   {plant.nickname}
                                 </p>
-                                <p className="text-sm text-muted-foreground">
+                                <p className="text-sm text-muted-foreground truncate">
                                   {plant.plant_type}
                                 </p>
+                                {isOverdue ? (
+                                  <Badge
+                                    data-testid={`overdue-badge-${plant.id}`}
+                                    className="text-xs px-3 py-1 mt-1 bg-gradient-to-r from-red-600 to-rose-600 text-white border-0 shadow-md"
+                                  >
+                                    <AlertTriangle className="w-3 h-3 mr-1 inline" />
+                                    {Math.abs(wateringCalc.daysUntilWatering)} day{Math.abs(wateringCalc.daysUntilWatering) > 1 ? "s" : ""} overdue
+                                  </Badge>
+                                ) : (
+                                  <Badge
+                                    data-testid={`due-today-badge-${plant.id}`}
+                                    className="text-xs px-3 py-1 mt-1 bg-gradient-to-r from-cyan-600 to-blue-600 text-white border-0 shadow-md"
+                                  >
+                                    Due today
+                                  </Badge>
+                                )}
                               </div>
                             </div>
 
-                            {/* Actions */}
-                            <div className="flex items-center gap-2">
-                              {isOverdue ? (
-                                <Badge
-                                  data-testid={`overdue-badge-${plant.id}`}
-                                  className="text-xs px-3 py-1 bg-gradient-to-r from-red-600 to-rose-600 text-white border-0 shadow-md animate-pulse"
-                                >
-                                  <AlertTriangle className="w-3 h-3 mr-1 inline" />
-                                  {Math.abs(wateringCalc.daysUntilWatering)} day{Math.abs(wateringCalc.daysUntilWatering) > 1 ? "s" : ""} overdue
-                                </Badge>
-                              ) : (
-                                <Badge
-                                  data-testid={`due-today-badge-${plant.id}`}
-                                  className="text-xs px-3 py-1 bg-gradient-to-r from-cyan-600 to-blue-600 text-white border-0 shadow-md"
-                                >
-                                  Due today
-                                </Badge>
-                              )}
-
-                              {/* Water Button */}
+                            {/* Water Button */}
+                            <div className="flex items-center shrink-0">
                               <Button
                                 data-testid={`quick-water-button-${plant.id}`}
                                 size="sm"
@@ -909,11 +907,7 @@ const Dashboard = () => {
                                   e.stopPropagation();
                                   handleQuickWater(plant.id, plant.nickname);
                                 }}
-                                className={`relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 ${
-                                  isOverdue
-                                    ? "bg-gradient-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600"
-                                    : "bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600"
-                                } text-white`}
+                                className="relative overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 bg-sprout-water hover:bg-sprout-water/90 text-white"
                               >
                                 <Droplets className="w-4 h-4 group-hover:animate-bounce" />
                               </Button>
@@ -1227,7 +1221,7 @@ const Dashboard = () => {
                     {/* Need immediate attention */}
                     <div className={`group relative p-4 bg-gradient-to-br rounded-xl border transition-all duration-300 overflow-hidden ${
                       overduePlants > 0
-                        ? 'from-red-50 to-rose-50/50 dark:from-red-900/20 dark:to-rose-900/10 border-red-200/50 dark:border-red-700/30 hover:border-red-300 dark:hover:border-red-600 hover:shadow-lg animate-pulse'
+                        ? 'from-red-50 to-rose-50/50 dark:from-red-900/20 dark:to-rose-900/10 border-red-200/50 dark:border-red-700/30 hover:border-red-300 dark:hover:border-red-600 hover:shadow-lg'
                         : 'from-gray-50 to-slate-50/50 dark:from-gray-900/20 dark:to-slate-900/10 border-gray-200/50 dark:border-gray-700/30'
                     }`}>
                       {overduePlants > 0 && (
@@ -1353,7 +1347,7 @@ const Dashboard = () => {
                     {overduePlants > 0 && (
                       <div
                         data-testid="overdue-plants-warning"
-                        className="group relative p-4 bg-gradient-to-br from-red-50 to-rose-50/50 dark:from-red-900/30 dark:to-rose-900/20 rounded-xl border-2 border-red-300/50 dark:border-red-600/40 hover:border-red-400 dark:hover:border-red-500 hover:shadow-xl transition-all duration-300 overflow-hidden animate-pulse"
+                        className="group relative p-4 bg-gradient-to-br from-red-50 to-rose-50/50 dark:from-red-900/30 dark:to-rose-900/20 rounded-xl border-2 border-red-300/50 dark:border-red-600/40 hover:border-red-400 dark:hover:border-red-500 hover:shadow-xl transition-all duration-300 overflow-hidden"
                       >
                         {/* Decorative gradient blob */}
                         <div className="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-red-400/20 to-rose-400/10 rounded-full blur-2xl" />
@@ -1363,9 +1357,9 @@ const Dashboard = () => {
                             <AlertTriangle className="w-6 h-6 text-white" />
                           </div>
                           <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
+                            <div className="mb-1">
                               <h5 className="font-semibold text-foreground">Urgent: Water Needed</h5>
-                              <Badge className="bg-gradient-to-r from-red-600 to-rose-600 text-white border-0 text-xs">
+                              <Badge className="bg-gradient-to-r from-red-600 to-rose-600 text-white border-0 text-xs mt-1">
                                 {overduePlants} plant{overduePlants > 1 ? "s" : ""}
                               </Badge>
                             </div>
@@ -1398,9 +1392,9 @@ const Dashboard = () => {
                             <Clock className="w-6 h-6 text-white" />
                           </div>
                           <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
+                            <div className="mb-1">
                               <h5 className="font-semibold text-foreground">Setup Required</h5>
-                              <Badge className="bg-gradient-to-r from-amber-600 to-yellow-600 text-white border-0 text-xs">
+                              <Badge className="bg-gradient-to-r from-amber-600 to-yellow-600 text-white border-0 text-xs mt-1">
                                 {plantsWithoutWateringData} plant{plantsWithoutWateringData > 1 ? "s" : ""}
                               </Badge>
                             </div>
@@ -1431,9 +1425,9 @@ const Dashboard = () => {
                             <Droplets className="w-6 h-6 text-white" />
                           </div>
                           <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
+                            <div className="mb-1">
                               <h5 className="font-semibold text-foreground">Watering Scheduled</h5>
-                              <Badge className="bg-gradient-to-r from-sprout-water to-cyan-600 text-white border-0 text-xs">
+                              <Badge className="bg-gradient-to-r from-sprout-water to-cyan-600 text-white border-0 text-xs mt-1">
                                 {plantsNeedingWaterToday} plant{plantsNeedingWaterToday > 1 ? "s" : ""}
                               </Badge>
                             </div>
@@ -1473,11 +1467,11 @@ const Dashboard = () => {
                               <CheckCircle2 className="w-7 h-7 text-white" />
                             </div>
                             <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-2">
+                              <div className="mb-2">
                                 <h5 className="text-lg font-bold bg-gradient-to-r from-emerald-700 to-green-700 dark:from-emerald-400 dark:to-green-400 bg-clip-text text-transparent">
                                   Perfect Care Routine!
                                 </h5>
-                                <Badge className="bg-gradient-to-r from-emerald-600 to-green-600 text-white border-0">
+                                <Badge className="bg-gradient-to-r from-emerald-600 to-green-600 text-white border-0 mt-1">
                                   All Clear
                                 </Badge>
                               </div>
@@ -1515,9 +1509,9 @@ const Dashboard = () => {
                             <Calendar className="w-6 h-6 text-white" />
                           </div>
                           <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-1">
+                            <div className="mb-1">
                               <h5 className="font-semibold text-foreground">Coming Up Soon</h5>
-                              <Badge className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white border-0 text-xs">
+                              <Badge className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white border-0 text-xs mt-1">
                                 {plantsUpcomingSoon} plant{plantsUpcomingSoon > 1 ? "s" : ""}
                               </Badge>
                             </div>

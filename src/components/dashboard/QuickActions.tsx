@@ -75,7 +75,7 @@ export const QuickActions = ({
                 {plantsNeedingWaterCount > 1 ? "s" : ""}
 
                 {/* Animated badge */}
-                <Badge className="ml-1 bg-white/20 hover:bg-white/30 text-white border-white/40 px-2 py-0.5 text-sm font-bold animate-pulse">
+                <Badge className="ml-1 bg-white/20 hover:bg-white/30 text-white border-white/40 px-2 py-0.5 text-sm font-bold">
                   {plantsNeedingWaterCount}
                 </Badge>
               </span>

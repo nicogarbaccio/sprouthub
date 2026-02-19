@@ -126,7 +126,7 @@ export const CareStatusOverview = ({
         {/* Overdue - Red/Rose Theme with Pulse */}
         <Card className={`group relative overflow-hidden border-2 transition-all duration-300 ${
           overduePlants > 0
-            ? 'border-red-300/50 dark:border-red-600/40 hover:border-red-400 dark:hover:border-red-500 bg-gradient-to-br from-red-50 to-rose-50/50 dark:from-red-900/30 dark:to-rose-900/20 animate-pulse'
+            ? 'border-red-300/50 dark:border-red-600/40 hover:border-red-400 dark:hover:border-red-500 bg-gradient-to-br from-red-50 to-rose-50/50 dark:from-red-900/30 dark:to-rose-900/20'
             : 'border-gray-300/50 dark:border-gray-600/40 hover:border-gray-400 dark:hover:border-gray-500 bg-gradient-to-br from-gray-50 to-slate-50/50 dark:from-gray-900/30 dark:to-slate-900/20'
         } hover:shadow-2xl`}>
           {/* Decorative gradient blob */}
