@@ -872,8 +872,8 @@ const Dashboard = () => {
                               </div>
 
                               {/* Plant Info */}
-                              <div className="flex-1 min-w-0">
-                                <p className="font-semibold text-foreground text-base mb-0.5 group-hover:translate-x-1 transition-transform duration-300 truncate">
+                              <div className="flex-1 min-w-0 group-hover:translate-x-1 transition-transform duration-300">
+                                <p className="font-semibold text-foreground text-base mb-0.5 truncate">
                                   {plant.nickname}
                                 </p>
                                 <p className="text-sm text-muted-foreground truncate">
