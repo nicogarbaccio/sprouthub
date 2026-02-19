@@ -435,8 +435,8 @@ const MyPlantDetails = () => {
 
             {/* Main grid placeholder */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-              <div className="h-[240px] sm:h-[280px] lg:h-[320px]" />
-              <div className="flex flex-col h-[240px] sm:h-[280px] lg:h-[320px] space-y-2">
+              <div className="h-[240px] sm:h-[280px] md:h-[360px] lg:h-[320px]" />
+              <div className="flex flex-col h-[240px] sm:h-[280px] md:h-[360px] lg:h-[320px] space-y-2">
                 <div className="flex-1" />
                 <div className="flex-1" />
                 <div className="h-10" />
@@ -533,7 +533,7 @@ const MyPlantDetails = () => {
                       plant.image || catalogPlant?.image || PLANT_FALLBACK_IMAGE
                     }
                     alt={plant.nickname}
-                    className="w-full h-[240px] sm:h-[280px] lg:h-[320px] object-cover rounded-lg shadow-md"
+                    className="w-full h-[240px] sm:h-[280px] md:h-[360px] lg:h-[320px] object-cover rounded-lg shadow-md"
                   />
                 </div>
 
@@ -582,7 +582,7 @@ const MyPlantDetails = () => {
 
             <div className="flex flex-col mt-6 mb-6 lg:mt-0 lg:mb-0">
               <CascadingContainer delay={250}>
-                <div className="flex flex-col h-[240px] sm:h-[280px] lg:h-[320px] space-y-2">
+                <div className="flex flex-col h-[240px] sm:h-[280px] md:h-[360px] lg:h-[320px] space-y-2">
                   <Card className="flex-1">
                     <CardHeader className="pb-2 pt-3 px-3 sm:px-4">
                       <CardTitle className="text-xs sm:text-sm font-semibold text-foreground">

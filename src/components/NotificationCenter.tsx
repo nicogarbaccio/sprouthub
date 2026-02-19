@@ -21,6 +21,9 @@ import {
   Users,
   Info,
   CheckCircle,
+  X,
+  CheckCheck,
+  Eye,
 } from "lucide-react";
 import type { NotificationType, Notification } from "@/types/notificationTypes";
 import { cn } from "@/lib/utils";
@@ -58,6 +61,19 @@ const notificationColors: Record<NotificationType, string> = {
   system: "text-gray-500",
   success: "text-green-500",
   info: "text-blue-500",
+};
+
+const notificationAccentColors: Record<NotificationType, string> = {
+  overdue_watering: "bg-red-500",
+  due_today: "bg-blue-500",
+  overwatering_risk: "bg-amber-500",
+  seasonal_transition: "bg-blue-500",
+  weather_alert: "bg-sky-500",
+  pattern_insight: "bg-purple-500",
+  household_invite: "bg-green-500",
+  system: "bg-gray-400",
+  success: "bg-green-500",
+  info: "bg-blue-500",
 };
 
 export const NotificationCenter: React.FC<NotificationCenterProps> = ({
@@ -116,14 +132,22 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                   <div
                     key={notification.id}
                     className={cn(
-                      "p-4 rounded-lg border transition-colors",
+                      "rounded-lg border transition-all overflow-hidden",
                       !notification.read
-                        ? "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900"
-                        : "bg-background"
+                        ? "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900 shadow-sm"
+                        : "bg-background hover:bg-muted/50"
                     )}
                   >
+                    <div className="flex">
+                      {/* Accent bar */}
+                      <div
+                        className={cn(
+                          "w-1 shrink-0 rounded-l-lg",
+                          notificationAccentColors[notification.type]
+                        )}
+                      />
                     {/* Content and action button */}
-                    <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1 flex items-start justify-between gap-4 p-4">
                       {/* Left: Text content */}
                       <div className="flex-1 min-w-0 space-y-3">
                         <div>
@@ -135,37 +159,37 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                           </p>
                         </div>
 
-                        {/* Timestamp, mark read, and dismiss */}
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <span className="whitespace-nowrap">
+                        {/* Timestamp and action buttons */}
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-muted-foreground whitespace-nowrap">
                             {formatDistanceToNow(notification.timestamp, {
                               addSuffix: true,
                             })}
                           </span>
-                          {!notification.read && (
-                            <>
-                              <span>•</span>
+                          <div className="flex items-center gap-1">
+                            {!notification.read && (
                               <button
-                                className="hover:text-foreground transition-colors whitespace-nowrap"
+                                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/60 transition-colors"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   markAsRead(notification.id);
                                 }}
                               >
-                                Mark read
+                                <Eye className="h-3 w-3" />
+                                Read
                               </button>
-                            </>
-                          )}
-                          <span>•</span>
-                          <button
-                            className="hover:text-foreground transition-colors whitespace-nowrap"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              dismissNotification(notification.id);
-                            }}
-                          >
-                            Clear
-                          </button>
+                            )}
+                            <button
+                              className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium bg-muted text-muted-foreground hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-900/30 dark:hover:text-red-400 transition-colors"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                dismissNotification(notification.id);
+                              }}
+                            >
+                              <X className="h-3 w-3" />
+                              Dismiss
+                            </button>
+                          </div>
                         </div>
                       </div>
 
@@ -195,6 +219,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                           </button>
                         )}
                     </div>
+                    </div>
                   </div>
                 );
               })}
@@ -211,8 +236,9 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                   variant="outline"
                   size="sm"
                   onClick={markAllAsRead}
-                  className="flex-1 h-10 hover:bg-muted"
+                  className="flex-1 h-10 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 dark:hover:bg-blue-950/30 dark:hover:text-blue-300 dark:hover:border-blue-800 transition-colors"
                 >
+                  <CheckCheck className="h-4 w-4 mr-1.5" />
                   Mark all read
                 </Button>
               )}
@@ -220,7 +246,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 variant="outline"
                 size="sm"
                 onClick={dismissAll}
-                className="flex-1 h-10 hover:bg-muted"
+                className="flex-1 h-10 hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-950/30 dark:hover:text-red-400 dark:hover:border-red-800 transition-colors"
               >
                 <Trash2 className="h-4 w-4 mr-1.5" />
                 Clear all
