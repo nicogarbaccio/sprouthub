@@ -808,7 +808,6 @@ const MyPlantDetails = () => {
         open={showWaterConfirmation}
         onOpenChange={setShowWaterConfirmation}
         onConfirm={handleConfirmWater}
-        onPostpone={handlePostpone}
         onAlreadyWatered={handleAlreadyWatered}
         plantName={plant.nickname}
         showOverwateringWarning={showOverwateringWarning}

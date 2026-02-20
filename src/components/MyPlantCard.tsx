@@ -800,7 +800,6 @@ const MyPlantCard = ({
         open={showWaterConfirmation}
         onOpenChange={setShowWaterConfirmation}
         onConfirm={handleConfirmWater}
-        onPostpone={onPostpone}
         onAlreadyWatered={handleAlreadyWatered}
         plantName={name}
         showOverwateringWarning={showOverwateringWarning}

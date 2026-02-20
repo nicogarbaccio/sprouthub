@@ -76,6 +76,7 @@ import { format, formatDistanceToNow } from "date-fns";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import { useKeyboardShortcuts, createPlantShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { usePlantNotifications } from "@/hooks/usePlantNotifications";
+import { useCareStreak } from "@/hooks/useCareStreak";
 
 const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -192,6 +193,15 @@ const Dashboard = () => {
   const [appliedCalendarPlants, setAppliedCalendarPlants] = useState<
     Set<string>
   >(new Set());
+
+  // Care streak check - verifies recent waterings were actually on time
+  const { hasStreak: hasCareStreak, checkStreak } = useCareStreak();
+
+  useEffect(() => {
+    if (!loading && plants.length > 0) {
+      checkStreak(plants);
+    }
+  }, [loading, plants, checkStreak]);
 
   // Smart suggestions analysis - stabilize plantIds to prevent infinite re-renders
   const plantIds = useMemo(() => plants.map((plant) => plant.id), [plants]);
@@ -1531,7 +1541,7 @@ const Dashboard = () => {
                     )}
 
                     {/* Care Achievement - Motivational Card */}
-                    {hasActiveCareRoutine && plantsNeedingWaterToday === 0 && totalPlants > 0 && (
+                    {hasActiveCareRoutine && hasCareStreak && plantsNeedingWaterToday === 0 && totalPlants > 0 && (
                       <div
                         className="group relative p-4 bg-gradient-to-br from-amber-50 to-orange-50/50 dark:from-amber-900/30 dark:to-orange-900/20 rounded-xl border-2 border-sprout-cream/50 dark:border-amber-700/40 hover:border-amber-400 dark:hover:border-amber-500 hover:shadow-xl transition-all duration-300 overflow-hidden"
                       >
@@ -1820,7 +1830,6 @@ const Dashboard = () => {
             setWaterConfirmation({ ...waterConfirmation, show: open })
           }
           onConfirm={handleConfirmQuickWater}
-          onPostpone={handleQuickPostpone}
           onAlreadyWatered={handleAlreadyWatered}
           plantName={waterConfirmation.plantName}
           showOverwateringWarning={

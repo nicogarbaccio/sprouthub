@@ -13,14 +13,13 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { Droplets, AlertTriangle, Calendar, Clock, History } from "lucide-react";
+import { Droplets, AlertTriangle, Clock, History } from "lucide-react";
 import { addDays, format } from "date-fns";
 
 interface WaterConfirmationDialogProps {
  open: boolean;
  onOpenChange: (open: boolean) => void;
  onConfirm: (notes?: string) => void;
- onPostpone?: () => void;
  onAlreadyWatered?: (date: string, notes?: string) => void;
  plantName: string;
  showOverwateringWarning?: boolean;
@@ -33,7 +32,6 @@ export function WaterConfirmationDialog({
  open,
  onOpenChange,
  onConfirm,
- onPostpone,
  onAlreadyWatered,
  plantName,
  showOverwateringWarning = false,
@@ -51,12 +49,6 @@ export function WaterConfirmationDialog({
  // Calculate next watering date
  const nextWateringDate = addDays(new Date(), wateringScheduleDays);
  const nextWateringFormatted = format(nextWateringDate, "MMM d, yyyy");
-
- // Auto-suggest postpone if recently watered (within 30% of schedule)
- const shouldSuggestPostpone =
-  showOverwateringWarning &&
-  daysSinceLastWatered !== undefined &&
-  daysSinceLastWatered < wateringScheduleDays * 0.3;
 
  const handleConfirm = () => {
   onConfirm(notes);
@@ -133,7 +125,7 @@ export function WaterConfirmationDialog({
 
  return (
   <AlertDialog open={open} onOpenChange={onOpenChange}>
-   <AlertDialogContent data-testid="water-confirmation-dialog" className="max-w-md">
+   <AlertDialogContent data-testid="water-confirmation-dialog" className="max-w-lg">
     <AlertDialogHeader>
      <AlertDialogTitle data-testid="water-confirmation-title" className="flex items-center">
       <Droplets className="w-5 h-5 mr-2 text-sprout-water" />
@@ -154,33 +146,8 @@ export function WaterConfirmationDialog({
         </div>
        </div>
 
-       {/* Auto-suggest Postpone Warning */}
-       {shouldSuggestPostpone && onPostpone && (
-        <div data-testid="postpone-suggestion" className="flex items-start space-x-2 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg">
-         <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
-         <div className="text-sm text-amber-800 dark:text-amber-200">
-          <p className="font-medium mb-1">Consider postponing</p>
-          <p className="mb-2">
-           This plant was watered {daysSinceLastWatered === 0 ? "today" : daysSinceLastWatered === 1 ? "yesterday" : `${daysSinceLastWatered} days ago`}. It might not need water yet.
-          </p>
-          <Button
-           size="sm"
-           variant="outline"
-           onClick={() => {
-            onPostpone();
-            onOpenChange(false);
-           }}
-           className="border-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900"
-          >
-           <Calendar className="w-3 h-3 mr-1" />
-           Postpone Instead
-          </Button>
-         </div>
-        </div>
-       )}
-
-       {/* Standard Overwatering Warning */}
-       {showOverwateringWarning && !shouldSuggestPostpone && (
+       {/* Overwatering Warning */}
+       {showOverwateringWarning && (
         <div data-testid="overwatering-warning" className="flex items-start space-x-2 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg">
          <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 flex-shrink-0" />
          <div className="text-sm text-amber-800 dark:text-amber-200">
@@ -222,25 +189,23 @@ export function WaterConfirmationDialog({
      </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter className="flex-col sm:flex-row gap-2">
-     <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-      <AlertDialogCancel data-testid="water-cancel-button" onClick={handleCancel}>
-       Cancel
-      </AlertDialogCancel>
-      {onAlreadyWatered && (
-       <Button
-        variant="outline"
-        onClick={() => setShowAlreadyWatered(true)}
-        size="sm"
-       >
-        <History className="w-4 h-4 mr-2" />
-        Already Watered
-       </Button>
-      )}
-     </div>
+     <AlertDialogCancel data-testid="water-cancel-button" onClick={handleCancel} className="flex-1 bg-red-600 hover:bg-red-700 text-white border-red-600 hover:border-red-700">
+      Cancel
+     </AlertDialogCancel>
+     {onAlreadyWatered && (
+      <Button
+       variant="outline"
+       onClick={() => setShowAlreadyWatered(true)}
+       className="flex-1 bg-green-700 hover:bg-green-800 text-white border-green-700 hover:border-green-800"
+      >
+       <History className="w-4 h-4 mr-2" />
+       Already Watered
+      </Button>
+     )}
      <AlertDialogAction
       data-testid="water-confirm-button"
       onClick={handleConfirm}
-      className="bg-sprout-water hover:bg-sprout-water/90 text-sprout-white"
+      className="flex-1 bg-sprout-water hover:bg-sprout-water/80 transition-colors text-sprout-white"
      >
       <Droplets className="w-4 h-4 mr-2" />
       Water Now

@@ -317,13 +317,13 @@ const WateringHistoryDialog = memo(
 
             <div className="space-y-8">
               {/* Plant Overview */}
-              <div className="bg-sprout-pale dark:bg-sprout-dark/20 rounded-lg p-6">
+              <div className="bg-gradient-to-r from-sprout-pale to-sprout-pale/50 dark:from-sprout-dark/30 dark:to-sprout-dark/10 rounded-xl p-6 border border-sprout-cream/20 shadow-sm">
                 <div className="flex items-center gap-6">
                   {plantImage && (
                     <img
                       src={plantImage}
                       alt={plant.nickname}
-                      className="w-20 h-20 sm:w-16 sm:h-16 rounded-lg object-cover flex-shrink-0"
+                      className="w-20 h-20 sm:w-16 sm:h-16 rounded-xl object-cover flex-shrink-0 shadow-md ring-2 ring-sprout-cream/20"
                     />
                   )}
                   <div className="flex-1 min-w-0">
@@ -333,10 +333,12 @@ const WateringHistoryDialog = memo(
                     <p className="text-muted-foreground text-base sm:text-sm">
                       {plant.plant_type}
                     </p>
-                    <p className="text-sm sm:text-xs text-sprout-medium mt-1">
-                      Suggested watering: Every{" "}
-                      {plant.suggested_watering_days || 7} days
-                    </p>
+                    <div className="flex items-center gap-1.5 mt-2">
+                      <Droplets className="w-3.5 h-3.5 text-sprout-water" />
+                      <p className="text-sm sm:text-xs text-sprout-medium">
+                        Every {plant.suggested_watering_days || 7} days
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -344,9 +346,10 @@ const WateringHistoryDialog = memo(
               {/* Statistics */}
               {stats && stats.totalWaterings > 0 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <div className="bg-card rounded-lg p-6 border">
+                  <div className="bg-gradient-to-br from-sprout-water/10 to-sprout-water/5 rounded-xl p-6 border border-sprout-water/20 shadow-sm">
                     <div className="text-center">
-                      <div className="text-3xl sm:text-2xl font-bold text-sprout-cream dark:text-sprout-cream">
+                      <Droplets className="w-5 h-5 text-sprout-water mx-auto mb-2" />
+                      <div className="text-3xl sm:text-2xl font-bold text-sprout-water">
                         {stats.totalWaterings}
                       </div>
                       <div className="text-sm sm:text-xs text-muted-foreground mt-1">
@@ -356,9 +359,10 @@ const WateringHistoryDialog = memo(
                   </div>
 
                   {stats.avgInterval && (
-                    <div className="bg-card rounded-lg p-6 border">
+                    <div className="bg-gradient-to-br from-violet-500/10 to-violet-500/5 dark:from-violet-400/10 dark:to-violet-400/5 rounded-xl p-6 border border-violet-300/30 dark:border-violet-500/20 shadow-sm">
                       <div className="text-center">
-                        <div className="text-3xl sm:text-2xl font-bold text-sprout-cream dark:text-sprout-cream">
+                        <Calendar className="w-5 h-5 text-violet-500 dark:text-violet-400 mx-auto mb-2" />
+                        <div className="text-3xl sm:text-2xl font-bold text-violet-600 dark:text-violet-400">
                           {stats.avgInterval}
                         </div>
                         <div className="text-sm sm:text-xs text-muted-foreground mt-1">
@@ -403,29 +407,46 @@ const WateringHistoryDialog = memo(
 
                   {/* Only show schedule tracking when we have enough data (2+ waterings) */}
                   {stats.avgInterval && (
-                    <div className="bg-card rounded-lg p-6 border">
-                      <div className="text-center">
+                    <div className={`rounded-xl p-6 border shadow-sm ${
+                      stats.isOnTrack === true
+                        ? "bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-300/30 dark:border-emerald-500/20"
+                        : stats.isOnTrack === false
+                        ? "bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-amber-300/30 dark:border-amber-500/20"
+                        : "bg-gradient-to-br from-gray-500/10 to-gray-500/5 border-gray-300/30 dark:border-gray-500/20"
+                    }`}>
+                      <div className="text-center flex flex-col items-center justify-center h-full">
                         <div
-                          className={`text-3xl sm:text-2xl font-bold ${
-                            stats.isOnTrack
-                              ? "text-sprout-cream dark:text-sprout-cream"
+                          className={`w-10 h-10 sm:w-8 sm:h-8 rounded-full flex items-center justify-center mb-2 ${
+                            stats.isOnTrack === true
+                              ? "bg-emerald-500/20"
                               : stats.isOnTrack === false
-                              ? "text-sprout-warning dark:text-sprout-warning"
-                              : "text-sprout-cream dark:text-sprout-cream"
+                              ? "bg-amber-500/20"
+                              : "bg-gray-500/20"
                           }`}
                         >
-                          {stats.isOnTrack === true
-                            ? "✓"
-                            : stats.isOnTrack === false
-                            ? "!"
-                            : "?"}
+                          <span className={`text-xl sm:text-lg font-bold ${
+                            stats.isOnTrack === true
+                              ? "text-emerald-600 dark:text-emerald-400"
+                              : stats.isOnTrack === false
+                              ? "text-amber-600 dark:text-amber-400"
+                              : "text-muted-foreground"
+                          }`}>
+                            {stats.isOnTrack === true
+                              ? "✓"
+                              : stats.isOnTrack === false
+                              ? "!"
+                              : "?"}
+                          </span>
                         </div>
-                        <div className="text-sm sm:text-xs text-muted-foreground mt-1">
+                        <div className="text-base sm:text-sm font-semibold mt-1">
                           {stats.isOnTrack === true
                             ? "On Schedule"
                             : stats.isOnTrack === false
                             ? "Off Schedule"
                             : "Need More Data"}
+                        </div>
+                        <div className="text-sm sm:text-xs text-muted-foreground mt-1">
+                          {stats.avgInterval}d avg / {stats.suggestedInterval}d suggested
                         </div>
                       </div>
                     </div>
@@ -435,8 +456,10 @@ const WateringHistoryDialog = memo(
 
               {/* Watering Records */}
               <div>
-                <h3 className="text-xl sm:text-lg font-semibold mb-6 flex items-center gap-2">
-                  <Calendar className="w-6 h-6 sm:w-5 sm:h-5" />
+                <h3 className="text-xl sm:text-lg font-semibold mb-6 flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sprout-water/20 to-sprout-water/40 flex items-center justify-center">
+                    <Calendar className="w-4 h-4 text-sprout-water" />
+                  </div>
                   Watering History & Postponements
                 </h3>
 
@@ -448,10 +471,12 @@ const WateringHistoryDialog = memo(
                     </p>
                   </div>
                 ) : wateringRecords.length === 0 ? (
-                  <div className="text-center py-12 bg-card rounded-lg border border-dashed">
-                    <Droplets className="w-16 h-16 sm:w-12 sm:h-12 text-muted-foreground mx-auto mb-4" />
-                    <p className="text-muted-foreground text-lg sm:text-base">
-                      No watering records found
+                  <div className="text-center py-12 bg-gradient-to-b from-sprout-water/5 to-transparent rounded-xl border border-dashed border-sprout-water/20">
+                    <div className="w-16 h-16 sm:w-12 sm:h-12 rounded-full bg-sprout-water/10 flex items-center justify-center mx-auto mb-4">
+                      <Droplets className="w-8 h-8 sm:w-6 sm:h-6 text-sprout-water/50" />
+                    </div>
+                    <p className="text-muted-foreground text-lg sm:text-base font-medium">
+                      No watering records yet
                     </p>
                     <p className="text-sm text-muted-foreground mt-2">
                       Start tracking by watering your plant!
@@ -467,26 +492,26 @@ const WateringHistoryDialog = memo(
                       return (
                         <div key={record.id}>
                           <div
-                            className={`flex items-start gap-6 p-6 rounded-lg border hover:shadow-sm transition-shadow
+                            className={`flex items-start gap-6 p-6 rounded-xl border hover:shadow-md hover:-translate-y-0.5 transition-all duration-200
                           ${
                             isPostponement
                               ? isFutureDate
-                                ? "bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/30"
-                                : "bg-gray-50 dark:bg-gray-800/20 border-gray-200 dark:border-gray-700/30"
-                              : "bg-card"
+                                ? "bg-gradient-to-r from-amber-50 to-amber-100/50 dark:from-amber-950/30 dark:to-amber-900/10 border-amber-300 dark:border-amber-700/40"
+                                : "bg-gradient-to-r from-gray-50 to-gray-100/50 dark:from-gray-800/30 dark:to-gray-700/10 border-gray-300 dark:border-gray-600/30"
+                              : "bg-gradient-to-r from-sky-50/50 to-card dark:from-sky-950/20 dark:to-card border-sprout-water/30"
                           }`}
                           >
                             <div className="flex-shrink-0">
                               <div
-                                className={`w-12 h-12 sm:w-10 sm:h-10 rounded-full flex items-center justify-center
+                                className={`w-12 h-12 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-sm
                             ${
                               isPostponement
-                                ? "bg-amber-100 dark:bg-amber-900/30"
-                                : "bg-sprout-water/20"
+                                ? "bg-gradient-to-br from-amber-200 to-amber-300 dark:from-amber-800/50 dark:to-amber-900/30"
+                                : "bg-gradient-to-br from-sprout-water/30 to-sprout-water/50"
                             }`}
                               >
                                 {isPostponement ? (
-                                  <Clock className="w-6 h-6 sm:w-5 sm:h-5 text-amber-500 dark:text-amber-400" />
+                                  <Clock className="w-6 h-6 sm:w-5 sm:h-5 text-amber-600 dark:text-amber-400" />
                                 ) : (
                                   <Droplets className="w-6 h-6 sm:w-5 sm:h-5 text-sprout-water" />
                                 )}
@@ -510,7 +535,7 @@ const WateringHistoryDialog = memo(
                                     variant="ghost"
                                     size="sm"
                                     onClick={() => setRecordToEdit(record)}
-                                    className="text-foreground hover:text-sprout-cream ml-2 flex-shrink-0"
+                                    className="text-muted-foreground hover:text-sprout-water hover:bg-sprout-water/10 ml-2 flex-shrink-0 rounded-lg transition-colors"
                                     title="Edit record"
                                   >
                                     <Pencil className="w-4 h-4" />
@@ -519,7 +544,7 @@ const WateringHistoryDialog = memo(
                                     variant="ghost"
                                     size="sm"
                                     onClick={() => setRecordToDelete(record)}
-                                    className="text-red-500 hover:text-red-700 flex-shrink-0"
+                                    className="text-muted-foreground hover:text-red-500 hover:bg-red-500/10 flex-shrink-0 rounded-lg transition-colors"
                                     title="Delete record"
                                   >
                                     <Trash2 className="w-4 h-4" />
