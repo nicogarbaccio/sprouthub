@@ -16,27 +16,43 @@ import { useStatusBar } from "@/hooks/useStatusBar";
 import ScrollToTop from "./components/ScrollToTop";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
+// Retry dynamic imports once on failure (handles stale chunks after deploys)
+function lazyWithRetry(importFn: () => Promise<{ default: React.ComponentType<unknown> }>) {
+  return lazy(() =>
+    importFn().catch(() => {
+      const hasReloaded = sessionStorage.getItem('chunk-reload');
+      if (!hasReloaded) {
+        sessionStorage.setItem('chunk-reload', '1');
+        window.location.reload();
+        return new Promise(() => {}); // never resolves — page is reloading
+      }
+      sessionStorage.removeItem('chunk-reload');
+      return importFn(); // rethrow on second failure
+    })
+  );
+}
+
 // Lazy load pages for better performance
-const Index = lazy(() => import("./pages/Index"));
-const Auth = lazy(() => import("./pages/Auth"));
-const Onboarding = lazy(() => import("./pages/Onboarding"));
-const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
-const ResetPassword = lazy(() => import("./pages/ResetPassword"));
-const PlantCatalogPage = lazy(() => import("./pages/PlantCatalog"));
-const PlantDetails = lazy(() => import("./pages/PlantDetails"));
-const MyPlants = lazy(() => import("./pages/MyPlants"));
-const MyPlantDetails = lazy(() => import("./pages/MyPlantDetails"));
-const Households = lazy(() => import("./pages/Households"));
-const HouseholdManagement = lazy(() => import("./pages/HouseholdManagement"));
-const Profile = lazy(() => import("./pages/Profile"));
-const Settings = lazy(() => import("./pages/Settings"));
-const About = lazy(() => import("./pages/About"));
-const Analytics = lazy(() => import("./pages/Analytics"));
-const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const TermsOfService = lazy(() => import("./pages/TermsOfService"));
-const SkeletonDemo = lazy(() => import("./pages/SkeletonDemo"));
-const ToastDemo = lazy(() => import("./components/ToastDemo"));
-const NotFound = lazy(() => import("./pages/NotFound"));
+const Index = lazyWithRetry(() => import("./pages/Index"));
+const Auth = lazyWithRetry(() => import("./pages/Auth"));
+const Onboarding = lazyWithRetry(() => import("./pages/Onboarding"));
+const ForgotPassword = lazyWithRetry(() => import("./pages/ForgotPassword"));
+const ResetPassword = lazyWithRetry(() => import("./pages/ResetPassword"));
+const PlantCatalogPage = lazyWithRetry(() => import("./pages/PlantCatalog"));
+const PlantDetails = lazyWithRetry(() => import("./pages/PlantDetails"));
+const MyPlants = lazyWithRetry(() => import("./pages/MyPlants"));
+const MyPlantDetails = lazyWithRetry(() => import("./pages/MyPlantDetails"));
+const Households = lazyWithRetry(() => import("./pages/Households"));
+const HouseholdManagement = lazyWithRetry(() => import("./pages/HouseholdManagement"));
+const Profile = lazyWithRetry(() => import("./pages/Profile"));
+const Settings = lazyWithRetry(() => import("./pages/Settings"));
+const About = lazyWithRetry(() => import("./pages/About"));
+const Analytics = lazyWithRetry(() => import("./pages/Analytics"));
+const PrivacyPolicy = lazyWithRetry(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazyWithRetry(() => import("./pages/TermsOfService"));
+const SkeletonDemo = lazyWithRetry(() => import("./pages/SkeletonDemo"));
+const ToastDemo = lazyWithRetry(() => import("./components/ToastDemo"));
+const NotFound = lazyWithRetry(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
