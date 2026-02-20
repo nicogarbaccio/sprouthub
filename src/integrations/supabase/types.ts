@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      calendar_seasonal_notifications: {
+        Row: {
+          id: string
+          user_id: string
+          season: string
+          year: number
+          dismissed_at: string | null
+          snoozed_until: string | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          season: string
+          year: number
+          dismissed_at?: string | null
+          snoozed_until?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          season?: string
+          year?: number
+          dismissed_at?: string | null
+          snoozed_until?: string | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
       dismissed_pattern_insights: {
         Row: {
           dismissed_at: string | null
