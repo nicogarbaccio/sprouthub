@@ -64,7 +64,7 @@ interface AddPlantDialogProps {
   isOpen: boolean;
   onClose: () => void;
   plantData?: PlantData | null;
-  onPlantAdded?: () => void; // Optional callback to refresh parent's plant list
+  onPlantAdded?: () => void | Promise<void>; // Optional callback to refresh parent's plant list
   defaultHouseholdId?: string; // Optional default household to assign the plant to
 }
 
@@ -190,7 +190,7 @@ const AddPlantDialog = ({
     });
 
     if (success) {
-      onPlantAdded?.(); // Refresh parent's plant list if callback provided
+      await onPlantAdded?.(); // Refresh parent's plant list before closing
       onClose();
     }
 
