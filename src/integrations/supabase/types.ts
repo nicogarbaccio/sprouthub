@@ -92,6 +92,48 @@ export type Database = {
           },
         ]
       }
+      notification_acknowledgements: {
+        Row: {
+          id: string
+          user_id: string
+          notification_type: string
+          plant_id: string
+          acknowledged_date: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          notification_type: string
+          plant_id: string
+          acknowledged_date?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          notification_type?: string
+          plant_id?: string
+          acknowledged_date?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_acknowledgements_plant_id_fkey"
+            columns: ["plant_id"]
+            isOneToOne: false
+            referencedRelation: "plants_with_watering_info"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_acknowledgements_plant_id_fkey"
+            columns: ["plant_id"]
+            isOneToOne: false
+            referencedRelation: "user_plants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       household_invitations: {
         Row: {
           created_at: string | null

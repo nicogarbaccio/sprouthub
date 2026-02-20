@@ -58,7 +58,8 @@ export function useCalendarSeasonalNotification(
   const [error, setError] = useState<string | null>(null);
 
   /**
-   * Check if user has dismissed this season's notification (using localStorage fallback)
+   * Check if user has dismissed this season's notification
+   * Uses the database table for cross-device sync, with localStorage as fallback
    */
   const checkDismissalStatus = useCallback(
     async (season: Season, year: number): Promise<boolean> => {
@@ -67,31 +68,62 @@ export function useCalendarSeasonalNotification(
       const tracker = trackOperation(HOOK_NAME, 'checkDismissalStatus');
 
       try {
-        // Use localStorage as fallback until database table is created
+        // Try database first for cross-device sync
+        const { data, error } = await supabase
+          .from('calendar_seasonal_notifications')
+          .select('dismissed_at, snoozed_until')
+          .eq('user_id', user.id)
+          .eq('season', season)
+          .eq('year', year)
+          .maybeSingle();
+
+        if (!error && data) {
+          // Check if snoozed
+          if (data.snoozed_until) {
+            const snoozeDate = new Date(data.snoozed_until);
+            const isStillSnoozed = snoozeDate > new Date();
+
+            if (!isStillSnoozed) {
+              // Snooze period ended, remove the record
+              await supabase
+                .from('calendar_seasonal_notifications')
+                .delete()
+                .eq('user_id', user.id)
+                .eq('season', season)
+                .eq('year', year);
+            }
+
+            tracker.complete({ dismissed: true, snoozed: isStillSnoozed, source: 'db' });
+            return isStillSnoozed;
+          }
+
+          if (data.dismissed_at) {
+            tracker.complete({ dismissed: true, snoozed: false, source: 'db' });
+            return true;
+          }
+        }
+
+        // Fall back to localStorage for backwards compatibility
         const storageKey = `calendar_seasonal_dismissal_${user.id}_${season}_${year}`;
         const stored = localStorage.getItem(storageKey);
 
         if (stored) {
-          const data = safeJsonParse(stored, dismissalSchema, null);
-          if (!data) return false;
+          const localData = safeJsonParse(stored, dismissalSchema, null);
+          if (!localData) return false;
 
-          // Check if snoozed
-          if (data.snoozed_until) {
-            const snoozeDate = new Date(data.snoozed_until);
-            const now = new Date();
-            const isStillSnoozed = snoozeDate > now;
+          if (localData.snoozed_until) {
+            const snoozeDate = new Date(localData.snoozed_until);
+            const isStillSnoozed = snoozeDate > new Date();
 
             if (!isStillSnoozed) {
-              // Snooze period ended, remove from storage
               localStorage.removeItem(storageKey);
             }
 
-            tracker.complete({ dismissed: true, snoozed: isStillSnoozed });
+            tracker.complete({ dismissed: true, snoozed: isStillSnoozed, source: 'localStorage' });
             return isStillSnoozed;
           }
 
-          // Otherwise, it's dismissed
-          tracker.complete({ dismissed: true, snoozed: false });
+          tracker.complete({ dismissed: true, snoozed: false, source: 'localStorage' });
           return true;
         }
 
@@ -213,7 +245,8 @@ export function useCalendarSeasonalNotification(
   }, [upcomingChange, plants]);
 
   /**
-   * Dismiss the notification for this season (using localStorage fallback)
+   * Dismiss the notification for this season
+   * Writes to database for cross-device sync, with localStorage as backup
    */
   const dismissNotification = useCallback(async () => {
     if (!user || !upcomingChange) return;
@@ -221,8 +254,29 @@ export function useCalendarSeasonalNotification(
     const tracker = trackOperation(HOOK_NAME, 'dismissNotification');
 
     try {
-      // Use localStorage as fallback until database table is created
-      const storageKey = `calendar_seasonal_dismissal_${user.id}_${upcomingChange.nextSeason}_${upcomingChange.changeDate.getFullYear()}`;
+      const season = upcomingChange.nextSeason;
+      const year = upcomingChange.changeDate.getFullYear();
+
+      // Write to database for cross-device sync
+      const { error } = await supabase
+        .from('calendar_seasonal_notifications')
+        .upsert(
+          {
+            user_id: user.id,
+            season,
+            year,
+            dismissed_at: new Date().toISOString(),
+            snoozed_until: null,
+          },
+          { onConflict: 'user_id,season,year' }
+        );
+
+      if (error) {
+        hookLogger.warn(HOOK_NAME, 'DB write failed, falling back to localStorage', error);
+      }
+
+      // Also write to localStorage as backup
+      const storageKey = `calendar_seasonal_dismissal_${user.id}_${season}_${year}`;
       localStorage.setItem(
         storageKey,
         JSON.stringify({
@@ -232,7 +286,7 @@ export function useCalendarSeasonalNotification(
       );
 
       setShouldShowNotification(false);
-      tracker.complete({ season: upcomingChange.nextSeason });
+      tracker.complete({ season });
     } catch (err) {
       tracker.fail(err);
       hookLogger.error(HOOK_NAME, 'Error dismissing notification', err);
@@ -241,7 +295,8 @@ export function useCalendarSeasonalNotification(
   }, [user, upcomingChange]);
 
   /**
-   * Snooze the notification for a specified number of days (using localStorage fallback)
+   * Snooze the notification for a specified number of days
+   * Writes to database for cross-device sync, with localStorage as backup
    */
   const snoozeNotification = useCallback(
     async (days: number) => {
@@ -253,8 +308,28 @@ export function useCalendarSeasonalNotification(
         const snoozeUntil = new Date();
         snoozeUntil.setDate(snoozeUntil.getDate() + days);
 
-        // Use localStorage as fallback until database table is created
-        const storageKey = `calendar_seasonal_dismissal_${user.id}_${upcomingChange.nextSeason}_${upcomingChange.changeDate.getFullYear()}`;
+        const season = upcomingChange.nextSeason;
+        const year = upcomingChange.changeDate.getFullYear();
+
+        // Write to database for cross-device sync
+        const { error } = await supabase
+          .from('calendar_seasonal_notifications')
+          .upsert(
+            {
+              user_id: user.id,
+              season,
+              year,
+              snoozed_until: snoozeUntil.toISOString(),
+            },
+            { onConflict: 'user_id,season,year' }
+          );
+
+        if (error) {
+          hookLogger.warn(HOOK_NAME, 'DB write failed, falling back to localStorage', error);
+        }
+
+        // Also write to localStorage as backup
+        const storageKey = `calendar_seasonal_dismissal_${user.id}_${season}_${year}`;
         localStorage.setItem(
           storageKey,
           JSON.stringify({

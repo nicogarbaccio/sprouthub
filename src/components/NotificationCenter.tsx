@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useNotifications } from "@/contexts/NotificationContext";
+import { useNotificationAcknowledgements } from "@/hooks/useNotificationAcknowledgements";
 import {
   Sheet,
   SheetContent,
@@ -89,6 +90,33 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
     dismissNotification,
     dismissAll,
   } = useNotifications();
+  const { acknowledge, acknowledgeBatch } = useNotificationAcknowledgements();
+
+  // Dismiss a notification and persist the acknowledgement to the database
+  const handleDismiss = useCallback(
+    (notification: Notification) => {
+      dismissNotification(notification.id);
+      if (notification.metadata?.plantId) {
+        acknowledge(notification.type, notification.metadata.plantId);
+      }
+    },
+    [dismissNotification, acknowledge]
+  );
+
+  // Dismiss all notifications and persist acknowledgements to the database
+  const handleDismissAll = useCallback(() => {
+    const plantNotifications = notifications
+      .filter((n) => n.metadata?.plantId)
+      .map((n) => ({
+        notificationType: n.type,
+        plantId: n.metadata!.plantId!,
+      }));
+
+    dismissAll();
+    if (plantNotifications.length > 0) {
+      acknowledgeBatch(plantNotifications);
+    }
+  }, [dismissAll, notifications, acknowledgeBatch]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -183,7 +211,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                               className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium bg-muted text-muted-foreground hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-900/30 dark:hover:text-red-400 transition-colors"
                               onClick={(e) => {
                                 e.stopPropagation();
-                                dismissNotification(notification.id);
+                                handleDismiss(notification);
                               }}
                             >
                               <X className="h-3 w-3" />
@@ -245,7 +273,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={dismissAll}
+                onClick={handleDismissAll}
                 className="flex-1 h-10 hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-950/30 dark:hover:text-red-400 dark:hover:border-red-800 transition-colors"
               >
                 <Trash2 className="h-4 w-4 mr-1.5" />
