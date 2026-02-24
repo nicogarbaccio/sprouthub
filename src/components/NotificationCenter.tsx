@@ -150,7 +150,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
               </p>
             </div>
           ) : (
-            <div className="space-y-2 pr-4 pb-4">
+            <div className="space-y-2 pb-4">
               {notifications.map((notification) => {
                 const Icon =
                   notification.icon || notificationIcons[notification.type];
@@ -175,7 +175,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                         )}
                       />
                     {/* Content and action button */}
-                    <div className="flex-1 flex items-start justify-between gap-4 p-4">
+                    <div className="flex-1 min-w-0 flex items-start justify-between gap-3 p-3 sm:p-4">
                       {/* Left: Text content */}
                       <div className="flex-1 min-w-0 space-y-3">
                         <div>
@@ -188,8 +188,8 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                         </div>
 
                         {/* Timestamp and action buttons */}
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs text-muted-foreground whitespace-nowrap">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className="text-xs text-muted-foreground whitespace-nowrap mr-auto">
                             {formatDistanceToNow(notification.timestamp, {
                               addSuffix: true,
                             })}
@@ -225,7 +225,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                       {notification.actions &&
                         notification.actions.length > 0 && (
                           <button
-                            className="h-12 w-12 rounded-full shrink-0 bg-sprout-water text-white hover:opacity-90 flex items-center justify-center transition-opacity"
+                            className="h-10 w-10 sm:h-12 sm:w-12 rounded-full shrink-0 bg-sprout-water text-white hover:opacity-90 flex items-center justify-center transition-opacity"
                             onClick={(e) => {
                               e.stopPropagation();
                               const action = notification.actions![0];

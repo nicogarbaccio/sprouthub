@@ -35,31 +35,40 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         ...n,
         timestamp: new Date(n.timestamp),
       }))
-      // Filter out 'overwatering_risk' notifications from legacy storage
-      .filter((n: Notification) => n.type !== 'overwatering_risk');
+      // Filter out legacy dismissed notifications and deprecated types from storage
+      .filter((n: Notification) => n.type !== 'overwatering_risk' && !n.dismissed);
       
       setNotifications(notificationsWithDates);
     }
   }, []);
 
   // Save notifications to storage with debouncing to optimize performance
+  const hasLoadedRef = React.useRef(false);
   useEffect(() => {
-    if (notifications.length > 0) {
-      // Debounce storage writes to avoid excessive writes when notifications are added rapidly
-      const timeoutId = setTimeout(() => {
-        // Exclude icon and onClick properties as they can't be serialized
-        const serializableNotifications = notifications.map(({ icon, actions, ...rest }) => ({
-          ...rest,
-          // Filter out onClick from actions since functions can't be serialized
-          actions: actions?.map(({ onClick, ...actionRest }) => actionRest),
-        }));
-        storage.setItem(STORAGE_KEY, serializableNotifications, {
-          version: NOTIFICATIONS.STORAGE_VERSION,
-        });
-      }, TIMING.STORAGE_WRITE_DEBOUNCE);
-
-      return () => clearTimeout(timeoutId);
+    // Skip the initial render to avoid overwriting stored data before it's loaded
+    if (!hasLoadedRef.current) {
+      hasLoadedRef.current = true;
+      return;
     }
+
+    // Debounce storage writes to avoid excessive writes when notifications are added rapidly
+    const timeoutId = setTimeout(() => {
+      if (notifications.length === 0) {
+        storage.removeItem(STORAGE_KEY);
+        return;
+      }
+      // Exclude icon and onClick properties as they can't be serialized
+      const serializableNotifications = notifications.map(({ icon, actions, ...rest }) => ({
+        ...rest,
+        // Filter out onClick from actions since functions can't be serialized
+        actions: actions?.map(({ onClick, ...actionRest }) => actionRest),
+      }));
+      storage.setItem(STORAGE_KEY, serializableNotifications, {
+        version: NOTIFICATIONS.STORAGE_VERSION,
+      });
+    }, TIMING.STORAGE_WRITE_DEBOUNCE);
+
+    return () => clearTimeout(timeoutId);
   }, [notifications]);
 
   const addNotification = useCallback((notification: Omit<Notification, 'id' | 'timestamp' | 'read' | 'dismissed'>) => {
@@ -91,27 +100,21 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
   }, []);
 
   const dismissNotification = useCallback((id: string) => {
-    setNotifications(prev =>
-      prev.map(n => (n.id === id ? { ...n, dismissed: true } : n))
-    );
+    setNotifications(prev => prev.filter(n => n.id !== id));
   }, []);
 
   const dismissAll = useCallback(() => {
-    setNotifications(prev =>
-      prev.map(n => ({ ...n, dismissed: true }))
-    );
+    setNotifications([]);
   }, []);
 
   const getNotificationsByType = useCallback((type: NotificationType) => {
-    return notifications.filter(n => n.type === type && !n.dismissed);
+    return notifications.filter(n => n.type === type);
   }, [notifications]);
 
   const getGroupedNotifications = useCallback((): NotificationGroup[] => {
     const groups = new Map<NotificationType, NotificationGroup>();
 
-    notifications
-      .filter(n => !n.dismissed)
-      .forEach(notification => {
+    notifications.forEach(notification => {
         const existing = groups.get(notification.type);
 
         if (existing) {
@@ -148,12 +151,12 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     });
   }, [notifications]);
 
-  const unreadCount = notifications.filter(n => !n.read && !n.dismissed).length;
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
     <NotificationContext.Provider
       value={{
-        notifications: notifications.filter(n => !n.dismissed),
+        notifications,
         unreadCount,
         addNotification,
         markAsRead,

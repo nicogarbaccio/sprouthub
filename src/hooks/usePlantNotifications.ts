@@ -68,7 +68,6 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
           // Check for duplicates in current in-memory notifications
           const isDuplicate = notifications.some(n =>
             n.type === type &&
-            !n.dismissed &&
             n.metadata?.plantId === plantId
           );
 

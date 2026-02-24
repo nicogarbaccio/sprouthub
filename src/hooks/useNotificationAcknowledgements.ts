@@ -40,8 +40,7 @@ export function useNotificationAcknowledgements() {
         const { data, error } = await supabase
           .from('notification_acknowledgements')
           .select('notification_type, plant_id')
-          .eq('user_id', user.id)
-          .eq('acknowledged_date', today);
+          .eq('user_id', user.id);
 
         if (error) throw error;
 
