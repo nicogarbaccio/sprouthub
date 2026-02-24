@@ -4,7 +4,6 @@ import {
   NetworkOnly,
   NetworkFirst,
   CacheFirst,
-  StaleWhileRevalidate,
 } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { clientsClaim } from "workbox-core";
@@ -54,13 +53,6 @@ registerRoute(
   })
 );
 
-// JS/CSS - Stale While Revalidate
-registerRoute(
-  ({ request }) =>
-    request.destination === "script" ||
-    request.destination === "style" ||
-    request.url.match(/\.(?:js|css)$/),
-  new StaleWhileRevalidate({
-    cacheName: "static-resources",
-  })
-);
+// JS/CSS assets are handled by precacheAndRoute via Vite's content-hashed
+// filenames — no additional runtime caching needed. A StaleWhileRevalidate
+// route here would serve stale bundles after deploys.
