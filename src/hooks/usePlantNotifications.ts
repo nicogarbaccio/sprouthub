@@ -14,7 +14,7 @@ import type { UserPlant } from '@/hooks/useUserPlants';
 export function usePlantNotifications(plants: UserPlant[], enabled: boolean = true) {
   const { addNotification, notifications } = useNotifications();
   const { preferences } = useNotificationPreferences();
-  const { isLoaded, getAcknowledgedIds, acknowledge } = useNotificationAcknowledgements();
+  const { isLoaded, getAcknowledgedIds } = useNotificationAcknowledgements();
   const lastNotificationCheck = useRef<Date | null>(null);
 
   useEffect(() => {
@@ -47,14 +47,9 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
 
         if (!plantId) return;
 
+        // Check if user already dismissed this notification today (synced across devices)
         const acknowledgedIds = getAcknowledgedIds(type);
         const isAcked = acknowledgedIds.includes(plantId);
-
-        // Acknowledge this plant so it won't re-notify on this device
-        // (DB write happens in the background for cross-device sync)
-        if (!isAcked) {
-          acknowledge(type, plantId);
-        }
 
         // Should we notify?
         let shouldNotify = false;
@@ -81,7 +76,7 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
     } catch (error) {
       console.error('[usePlantNotifications] Error generating notifications:', error);
     }
-  }, [plants, addNotification, notifications, enabled, preferences, isLoaded, getAcknowledgedIds, acknowledge]);
+  }, [plants, addNotification, notifications, enabled, preferences, isLoaded, getAcknowledgedIds]);
 }
 
 /**

@@ -37,10 +37,41 @@ export function useNotificationAcknowledgements() {
         const today = new Date().toISOString().split('T')[0];
         todayRef.current = today;
 
+        // One-time migration: purge all auto-generated acknowledgements from the old
+        // code that acknowledged on generation rather than on user dismissal.
+        // After this runs once, only user-dismissed acknowledgements will exist.
+        const migrationKey = 'sprouthub_ack_migration_v1';
+        if (!localStorage.getItem(migrationKey)) {
+          const { error: purgeErr } = await supabase
+            .from('notification_acknowledgements')
+            .delete()
+            .eq('user_id', user.id)
+            .lte('acknowledged_date', today);
+
+          if (!purgeErr) {
+            localStorage.setItem(migrationKey, today);
+          } else {
+            hookLogger.error(HOOK_NAME, 'Error purging legacy acknowledgements', purgeErr);
+          }
+        } else {
+          // Normal cleanup: remove old acknowledgements (fire-and-forget)
+          supabase
+            .from('notification_acknowledgements')
+            .delete()
+            .eq('user_id', user.id)
+            .lt('acknowledged_date', today)
+            .then(({ error: cleanupErr }) => {
+              if (cleanupErr) {
+                hookLogger.error(HOOK_NAME, 'Error cleaning up old acknowledgements', cleanupErr);
+              }
+            });
+        }
+
         const { data, error } = await supabase
           .from('notification_acknowledgements')
           .select('notification_type, plant_id')
-          .eq('user_id', user.id);
+          .eq('user_id', user.id)
+          .eq('acknowledged_date', today);
 
         if (error) throw error;
 

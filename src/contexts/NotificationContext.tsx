@@ -30,14 +30,21 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     });
 
     if (stored) {
-      // Convert timestamp strings back to Date objects
+      // Convert timestamp strings back to Date objects and filter out:
+      // - legacy dismissed notifications and deprecated types
+      // - plant watering notifications (overdue/due_today) — these are regenerated
+      //   fresh from plant data each session so they stay current across devices
       const notificationsWithDates = stored.map((n: any) => ({
         ...n,
         timestamp: new Date(n.timestamp),
       }))
-      // Filter out legacy dismissed notifications and deprecated types from storage
-      .filter((n: Notification) => n.type !== 'overwatering_risk' && !n.dismissed);
-      
+      .filter((n: Notification) =>
+        n.type !== 'overwatering_risk' &&
+        !n.dismissed &&
+        n.type !== 'overdue_watering' &&
+        n.type !== 'due_today'
+      );
+
       setNotifications(notificationsWithDates);
     }
   }, []);
