@@ -95,6 +95,7 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
     }))
     }
     placeholder="Enter your first name"
+    autoComplete="given-name"
    />
    </div>
 
@@ -111,6 +112,7 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
     }))
     }
     placeholder="Enter your last name"
+    autoComplete="family-name"
    />
    </div>
   </div>
@@ -125,6 +127,7 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
     setProfileData((prev) => ({ ...prev, username: e.target.value }))
    }
    placeholder="Enter your username"
+   autoComplete="username"
    />
   </div>
 
@@ -136,6 +139,7 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
    type="email"
    value={profileData.email}
    disabled
+   autoComplete="email"
    className="bg-muted"
    />
    <p className="text-sm text-muted-foreground/70">

@@ -120,7 +120,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background pb-20 lg:pb-0">
+    <div className="min-h-dvh bg-background pb-20 lg:pb-0">
       {/* Navigation stays mounted at all times to prevent unmount/remount flicker */}
       <Navigation />
 

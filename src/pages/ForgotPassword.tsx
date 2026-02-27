@@ -37,7 +37,7 @@ const ForgotPassword = () => {
  };
 
  return (
- <div className="min-h-screen bg-background pb-20 lg:pb-0 ">
+ <div className="min-h-dvh bg-background pb-20 lg:pb-0 ">
   <Navigation />
   <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background flex items-center justify-center py-8 px-4">
   <div className="w-full max-w-md space-y-6">

@@ -36,7 +36,7 @@ const Profile = () => {
 
   if (showLoading) {
     return (
-      <div className="min-h-screen bg-background pb-20 lg:pb-0">
+      <div className="min-h-dvh bg-background pb-20 lg:pb-0">
         <Navigation />
         <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
           <div className="max-w-4xl mx-auto space-y-6">
@@ -64,7 +64,7 @@ const Profile = () => {
 
   if (!isReady) {
     return (
-      <div className="min-h-screen bg-background pb-20 lg:pb-0">
+      <div className="min-h-dvh bg-background pb-20 lg:pb-0">
         <Navigation />
         <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
           <div className="max-w-4xl mx-auto space-y-6 opacity-0">
@@ -85,7 +85,7 @@ const Profile = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pb-20 lg:pb-0">
+    <div className="min-h-dvh bg-background pb-20 lg:pb-0">
       <Navigation />
       <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
         <div className="max-w-4xl mx-auto space-y-6">

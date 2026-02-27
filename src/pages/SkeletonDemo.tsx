@@ -17,7 +17,7 @@ import Footer from "@/components/Footer";
 
 const SkeletonDemo = () => {
  return (
- <div className="min-h-screen bg-background pb-20 lg:pb-0 ">
+ <div className="min-h-dvh bg-background pb-20 lg:pb-0 ">
   <Navigation />
   <div className="pt-16 py-8">
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

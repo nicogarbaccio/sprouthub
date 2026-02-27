@@ -81,6 +81,8 @@ export const InviteMemberDialog: React.FC<InviteMemberDialogProps> = ({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                inputMode="email"
+                autoComplete="email"
                 disabled={isSubmitting}
               />
             </div>

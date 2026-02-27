@@ -12,6 +12,7 @@ interface PasswordInputProps {
  onChange: (value: string) => void;
  error?: string;
  required?: boolean;
+ autoComplete?: string;
 }
 
 /**
@@ -25,6 +26,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
  onChange,
  error,
  required = false,
+ autoComplete,
 }) => {
  const [showPassword, setShowPassword] = useState(false);
 
@@ -40,6 +42,7 @@ export const PasswordInput: React.FC<PasswordInputProps> = ({
    onChange={(e) => onChange(e.target.value)}
    className={error ? "border-red-500" : ""}
    required={required}
+   autoComplete={autoComplete}
    data-testid={id}
   />
   <Button

@@ -29,6 +29,7 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
    value={formData.firstName}
    onChange={(e) => onInputChange("firstName", e.target.value)}
    required
+   autoComplete="given-name"
    data-testid="first-name-input"
    />
   </div>
@@ -40,6 +41,7 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
    value={formData.lastName}
    onChange={(e) => onInputChange("lastName", e.target.value)}
    required
+   autoComplete="family-name"
    data-testid="last-name-input"
    />
   </div>
@@ -54,6 +56,7 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
    onChange={(e) => onInputChange("username", e.target.value)}
    className={errors.username ? "border-red-500" : ""}
    required
+   autoComplete="username"
    data-testid="username-input"
   />
   {errors.username && (
@@ -71,6 +74,8 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
    onChange={(e) => onInputChange("email", e.target.value)}
    className={errors.email ? "border-red-500" : ""}
    required
+   inputMode="email"
+   autoComplete="email"
    data-testid="sign-up-email"
   />
   {errors.email && <p className="text-sm text-red-500" data-testid="email-error">{errors.email}</p>}
@@ -84,6 +89,7 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
   onChange={(value) => onInputChange("password", value)}
   error={errors.password}
   required
+  autoComplete="new-password"
   />
 
   <PasswordInput
@@ -94,6 +100,7 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
   onChange={(value) => onInputChange("confirmPassword", value)}
   error={errors.confirmPassword}
   required
+  autoComplete="new-password"
   />
  </>
  );

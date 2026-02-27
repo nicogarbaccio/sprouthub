@@ -92,6 +92,8 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
    value={email}
    onChange={(e) => setEmail(e.target.value)}
    required
+   inputMode="email"
+   autoComplete="email"
    data-testid="reset-password-email"
   />
   </div>

@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 
 const PlantCatalogPage = () => {
  return (
- <div className="min-h-screen bg-background pb-20 lg:pb-0 ">
+ <div className="min-h-dvh bg-background pb-20 lg:pb-0 ">
   <Navigation />
   <main>
   <PlantCatalog />

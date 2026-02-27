@@ -56,3 +56,19 @@ registerRoute(
 // JS/CSS assets are handled by precacheAndRoute via Vite's content-hashed
 // filenames — no additional runtime caching needed. A StaleWhileRevalidate
 // route here would serve stale bundles after deploys.
+
+// Offline fallback for navigation requests — serve the cached app shell
+// so the SPA can handle routing even without network
+registerRoute(
+  ({ request }) => request.mode === "navigate",
+  new NetworkFirst({
+    cacheName: "pages-cache",
+    plugins: [
+      new ExpirationPlugin({
+        maxEntries: 30,
+        maxAgeSeconds: 60 * 60 * 24, // 1 day
+      }),
+    ],
+    networkTimeoutSeconds: 3,
+  })
+);

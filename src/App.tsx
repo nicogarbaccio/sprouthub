@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProfileDataProvider } from "@/contexts/ProfileDataContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
@@ -15,6 +15,9 @@ import { useIOSOptimizations } from "@/hooks/useIOSOptimizations";
 import { useStatusBar } from "@/hooks/useStatusBar";
 import ScrollToTop from "./components/ScrollToTop";
 import BottomNav from "./components/BottomNav";
+import { AnimatedRoutes } from "./components/AnimatedRoutes";
+import { OfflineBanner } from "./components/OfflineBanner";
+import { SplashScreen } from "./components/SplashScreen";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 // Retry dynamic imports once on failure (handles stale chunks after deploys)
@@ -87,43 +90,49 @@ const AppRoutes = () => {
     };
   }, [navigate]);
 
+  const location = useLocation();
+
   return (
     <>
+      <SplashScreen />
       <ScrollToTop />
+      <OfflineBanner />
       <BottomNav />
-      <Suspense fallback={<div className="min-h-screen bg-background" />}>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/plant-catalog" element={<PlantCatalogPage />} />
-          <Route
-            path="/plant-details/:plantName"
-            element={<PlantDetails />}
-          />
-          <Route path="/my-plants" element={<ProtectedRoute><MyPlants /></ProtectedRoute>} />
-          <Route
-            path="/my-plants/:plantId"
-            element={<ProtectedRoute><MyPlantDetails /></ProtectedRoute>}
-          />
-          <Route path="/households" element={<ProtectedRoute><Households /></ProtectedRoute>} />
-          <Route
-            path="/households/:id"
-            element={<ProtectedRoute><HouseholdManagement /></ProtectedRoute>}
-          />
-          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-          <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
-          <Route path="/about" element={<About />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-of-service" element={<TermsOfService />} />
-          <Route path="/skeleton-demo" element={<SkeletonDemo />} />
-          <Route path="/toast-demo" element={<ToastDemo />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+      <Suspense fallback={<div className="min-h-dvh bg-background" />}>
+        <AnimatedRoutes>
+          <Routes location={location}>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/plant-catalog" element={<PlantCatalogPage />} />
+            <Route
+              path="/plant-details/:plantName"
+              element={<PlantDetails />}
+            />
+            <Route path="/my-plants" element={<ProtectedRoute><MyPlants /></ProtectedRoute>} />
+            <Route
+              path="/my-plants/:plantId"
+              element={<ProtectedRoute><MyPlantDetails /></ProtectedRoute>}
+            />
+            <Route path="/households" element={<ProtectedRoute><Households /></ProtectedRoute>} />
+            <Route
+              path="/households/:id"
+              element={<ProtectedRoute><HouseholdManagement /></ProtectedRoute>}
+            />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+            <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+            <Route path="/about" element={<About />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/skeleton-demo" element={<SkeletonDemo />} />
+            <Route path="/toast-demo" element={<ToastDemo />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AnimatedRoutes>
       </Suspense>
     </>
   );
@@ -157,7 +166,7 @@ const AppProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 const App = () => (
   <Sentry.ErrorBoundary
     fallback={({ error, resetError }) => (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="min-h-dvh bg-background flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-card rounded-lg shadow-lg p-6 space-y-4">
           <h1 className="text-2xl font-bold text-destructive">
             Oops! Something went wrong

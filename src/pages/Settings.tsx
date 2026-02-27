@@ -28,7 +28,7 @@ const SettingsContent = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background pb-20 lg:pb-0">
+      <div className="min-h-dvh bg-background pb-20 lg:pb-0">
         <Navigation />
         <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
           <div className="max-w-5xl mx-auto">
@@ -46,7 +46,7 @@ const SettingsContent = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background pb-20 lg:pb-0">
+    <div className="min-h-dvh bg-background pb-20 lg:pb-0">
       <Navigation />
       <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
         <div className="max-w-5xl mx-auto">

@@ -89,6 +89,8 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
    value={formData.email}
    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
    required
+   inputMode="email"
+   autoComplete="email"
    data-testid="reset-email"
   />
   </div>
@@ -115,6 +117,7 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
    value={formData.password}
    onChange={(value) => setFormData({ ...formData, password: value })}
    required
+   autoComplete="new-password"
   />
   </div>
 
@@ -128,6 +131,7 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
    setFormData({ ...formData, confirmPassword: value })
    }
    required
+   autoComplete="new-password"
   />
   </div>
 

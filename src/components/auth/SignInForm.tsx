@@ -50,6 +50,8 @@ export const SignInForm: React.FC<SignInFormProps> = ({
    value={formData.email}
    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
    required
+   inputMode="email"
+   autoComplete="email"
    data-testid="sign-in-email"
   />
   </div>
@@ -65,6 +67,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
     setFormData({ ...formData, password: e.target.value })
    }
    required
+   autoComplete="current-password"
    data-testid="sign-in-password"
    />
    <Button
