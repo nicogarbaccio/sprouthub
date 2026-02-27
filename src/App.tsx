@@ -14,6 +14,7 @@ import * as Sentry from "@sentry/react";
 import { useIOSOptimizations } from "@/hooks/useIOSOptimizations";
 import { useStatusBar } from "@/hooks/useStatusBar";
 import ScrollToTop from "./components/ScrollToTop";
+import BottomNav from "./components/BottomNav";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 // Retry dynamic imports once on failure (handles stale chunks after deploys)
@@ -89,6 +90,7 @@ const AppRoutes = () => {
   return (
     <>
       <ScrollToTop />
+      <BottomNav />
       <Suspense fallback={<div className="min-h-screen bg-background" />}>
         <Routes>
           <Route path="/" element={<Index />} />

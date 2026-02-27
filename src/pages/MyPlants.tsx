@@ -25,7 +25,7 @@ const MyPlantsContent = () => {
 
  if (loading) {
  return (
-  <div className="min-h-screen bg-background ">
+  <div className="min-h-screen bg-background pb-20 lg:pb-0 ">
   <Navigation />
   <main>
    <section className="py-8 bg-background min-h-[calc(100vh-4rem)]">
@@ -67,7 +67,7 @@ const MyPlantsContent = () => {
  }
 
  return (
- <div className="min-h-screen bg-background ">
+ <div className="min-h-screen bg-background pb-20 lg:pb-0 ">
   <Navigation />
   <main>
   <MyPlantsCollection />

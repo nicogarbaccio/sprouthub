@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
  * @returns {JSX.Element}
  */
 const Footer: React.FC = () => (
-  <footer className="bg-sprout-medium text-sprout-white py-4 sm:py-6">
+  <footer className="hidden lg:block bg-sprout-medium text-sprout-white py-4 sm:py-6">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center">
         {/* Cream-colored logo */}

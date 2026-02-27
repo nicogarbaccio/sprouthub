@@ -1,16 +1,9 @@
 import {
-  Search,
-  Droplets,
   Home,
   BookOpen,
   User,
   LogOut,
-  Menu,
-  X,
   Flower2,
-  LogIn,
-  Moon,
-  Sun,
   Users,
   Settings as SettingsIcon,
   Bell,
@@ -24,18 +17,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetClose,
-} from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfileData } from "@/contexts/ProfileDataContext";
 import { useNavigate, Link } from "react-router-dom";
 import * as React from "react";
-import { ThemeToggle, SimpleThemeToggle } from "@/components/ui/theme-toggle";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useTheme } from "@/contexts/ThemeContext";
 import { authToast } from "@/utils/toast-helpers";
 import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
@@ -263,7 +250,7 @@ const Navigation = () => {
               )}
             </div>
 
-            {/* Mobile Nav */}
+            {/* Mobile Nav - minimal top bar, main nav is in BottomNav */}
             <div className="lg:hidden flex items-center gap-2">
               {user && (
                 <Button
@@ -284,176 +271,6 @@ const Navigation = () => {
                   )}
                 </Button>
               )}
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    data-testid="mobile-menu-trigger"
-                  >
-                    <Menu className="h-6 w-6" />
-                    <span className="sr-only">Toggle navigation menu</span>
-                  </Button>
-                </SheetTrigger>
-                <SheetContent
-                  side="right"
-                  className="w-80 bg-background dark:bg-sprout-dark p-0"
-                  closeClassName="hidden"
-                  data-testid="mobile-menu"
-                >
-                  <div className="flex flex-col h-full">
-                    <div className="flex items-center justify-between p-4 border-b">
-                      <span className="text-lg font-semibold text-foreground dark:text-sprout-cream">
-                        Menu
-                      </span>
-                      <SheetClose className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-                        <X className="h-4 w-4" />
-                        <span className="sr-only">Close</span>
-                      </SheetClose>
-                    </div>
-                    <div className="flex flex-col gap-2 px-4 py-6">
-                      {!user && (
-                        <Button
-                          onClick={handleSignIn}
-                          variant="ghost"
-                          className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                          data-testid="mobile-nav-sign-in-button"
-                        >
-                          <LogIn className="w-4 h-4 mr-2" />
-                          Sign In
-                        </Button>
-                      )}
-                      {user && (
-                        <SheetClose asChild>
-                          <Link to="/">
-                            <Button
-                              variant="ghost"
-                              className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                            >
-                              <Home className="w-4 h-4 mr-2" />
-                              <span>Dashboard</span>
-                            </Button>
-                          </Link>
-                        </SheetClose>
-                      )}
-                      <SheetClose asChild>
-                        <Link to="/plant-catalog">
-                          <Button
-                            variant="ghost"
-                            className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                            data-testid="mobile-nav-plant-catalog-button"
-                          >
-                            <BookOpen className="w-4 h-4 mr-2" />
-                            <span>Plant Catalog</span>
-                          </Button>
-                        </Link>
-                      </SheetClose>
-                      {user && (
-                        <SheetClose asChild>
-                          <Link to="/my-plants">
-                            <Button
-                              variant="ghost"
-                              className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                            >
-                              <Flower2 className="w-4 h-4 mr-2" />
-                              <span>My Plants</span>
-                            </Button>
-                          </Link>
-                        </SheetClose>
-                      )}
-                      {user && (
-                        <div className="mt-6 pt-4 border-t">
-                          <SheetClose asChild>
-                            <Link to="/profile">
-                              <Button
-                                variant="ghost"
-                                className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                              >
-                                <User className="w-4 h-4 mr-2" />
-                                <span>Profile</span>
-                              </Button>
-                            </Link>
-                          </SheetClose>
-                          <SheetClose asChild>
-                            <Link to="/households">
-                              <Button
-                                variant="ghost"
-                                className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                              >
-                                <Users className="w-4 h-4 mr-2" />
-                                <span>Households</span>
-                              </Button>
-                            </Link>
-                          </SheetClose>
-                          <SheetClose asChild>
-                            <Link to="/settings">
-                              <Button
-                                variant="ghost"
-                                className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                              >
-                                <SettingsIcon className="w-4 h-4 mr-2" />
-                                <span>Settings</span>
-                              </Button>
-                            </Link>
-                          </SheetClose>
-                          <Button
-                            variant="ghost"
-                            onClick={() =>
-                              setTheme(
-                                actualTheme === "dark" ? "light" : "dark"
-                              )
-                            }
-                            className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                          >
-                            {actualTheme === "dark" ? (
-                              <Sun className="w-4 h-4 mr-2" />
-                            ) : (
-                              <Moon className="w-4 h-4 mr-2" />
-                            )}
-                            <span>
-                              {actualTheme === "dark"
-                                ? "Switch to Light Mode"
-                                : "Switch to Dark Mode"}
-                            </span>
-                          </Button>
-                          <Button
-                            onClick={(event) => handleSignOut(event)}
-                            variant="ghost"
-                            className="w-full justify-start text-sprout-warning dark:text-sprout-warning hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                          >
-                            <LogOut className="w-4 h-4 mr-2" />
-                            <span>Sign Out</span>
-                          </Button>
-                        </div>
-                      )}
-                      {!user && (
-                        <div className="mt-6 pt-4 border-t">
-                          <Button
-                            variant="ghost"
-                            onClick={() =>
-                              setTheme(
-                                actualTheme === "dark" ? "light" : "dark"
-                              )
-                            }
-                            className="w-full justify-start text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                          >
-                            {actualTheme === "dark" ? (
-                              <Sun className="w-4 h-4 mr-2" />
-                            ) : (
-                              <Moon className="w-4 h-4 mr-2" />
-                            )}
-                            <span>
-                              {actualTheme === "dark"
-                                ? "Switch to Light Mode"
-                                : "Switch to Dark Mode"}
-                            </span>
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </SheetContent>
-              </Sheet>
             </div>
           </div>
         </div>

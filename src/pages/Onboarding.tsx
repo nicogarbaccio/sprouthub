@@ -128,7 +128,7 @@ export default function Onboarding() {
   // Show loading state while checking access
   if (isCheckingAccess) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-background pb-20 lg:pb-0 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-plant-primary mx-auto mb-4"></div>
           <p className="text-muted-foreground">Loading...</p>
@@ -139,7 +139,7 @@ export default function Onboarding() {
 
   return (
     <>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background pb-20 lg:pb-0">
         <div className="container max-w-4xl mx-auto px-4 py-8">
           {/* Progress Indicator */}
           <div className="mb-8">

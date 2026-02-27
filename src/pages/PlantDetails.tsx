@@ -60,7 +60,7 @@ const PlantDetails = () => {
   // Show loading skeleton
   if (showLoading) {
     return (
-      <div className="min-h-screen bg-background ">
+      <div className="min-h-screen bg-background pb-20 lg:pb-0 ">
         <Navigation />
         <div className="pt-16 min-h-[calc(100vh-4rem)]">
           <PlantDetailsPageSkeleton />
@@ -72,7 +72,7 @@ const PlantDetails = () => {
 
   if (!plant) {
     return (
-      <div className="min-h-screen bg-background ">
+      <div className="min-h-screen bg-background pb-20 lg:pb-0 ">
         <Navigation />
         <div className="pt-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto py-12 text-center">
@@ -93,7 +93,7 @@ const PlantDetails = () => {
 
   if (!isReady) {
     return (
-      <div className="min-h-screen bg-background ">
+      <div className="min-h-screen bg-background pb-20 lg:pb-0 ">
         <Navigation />
         <div className="pt-16 min-h-[calc(100vh-4rem)]">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 opacity-0">
@@ -134,7 +134,7 @@ const PlantDetails = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background ">
+    <div className="min-h-screen bg-background pb-20 lg:pb-0 ">
       <Navigation />
       <div className="pt-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

@@ -116,7 +116,7 @@ const Auth = () => {
  };
 
  return (
- <div className="min-h-screen bg-background ">
+ <div className="min-h-screen bg-background pb-20 lg:pb-0 ">
   <Navigation />
   <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-plant-primary/10 to-plant-secondary/10 dark:bg-background flex items-center justify-center p-4">
   <Card className="w-full max-w-md">
