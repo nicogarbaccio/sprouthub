@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
-import { plantToast, wateringToast, utilityToast } from "@/utils/toast-helpers";
+import { plantToast, wateringToast, utilityToast } from "@/utils/notifications/toast";
 import { NO_ROOM_VALUE } from "@/utils/rooms";
 import PlantDetailsForm from "./edit-plant/PlantDetailsForm";
 import WateringRecordForm from "./edit-plant/WateringRecordForm";

@@ -52,7 +52,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { calculateWateringSchedule } from "@/utils/watering-schedule";
+import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { getRoomIcon, getRoomLabel } from "@/utils/rooms";
 import type { UserPlant } from "@/hooks/useUserPlants";
 

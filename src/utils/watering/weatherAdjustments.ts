@@ -2,7 +2,7 @@ import { WeatherData } from '@/services/weatherTypes';
 import {
   getExtremeWeatherAdjustment,
   getDaylightAdjustment
-} from './weatherMapping';
+} from '../weather/mapping';
 
 export interface WeatherAdjustmentResult {
   adjustmentDays: number;

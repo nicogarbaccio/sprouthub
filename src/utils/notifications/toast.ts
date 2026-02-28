@@ -218,7 +218,7 @@ export const imageToast = {
  * emoji and styling conventions.
  *
  * @example
- * import { appToast } from '@/utils/toast-helpers';
+ * import { appToast } from '@/utils/notifications/toast';
  *
  * // Plant operations
  * appToast.plant.added('Monstera');
@@ -246,11 +246,11 @@ export const appToast = {
  *
  * @example
  * // ❌ Old way (deprecated)
- * import { plantToast } from '@/utils/toast-helpers';
+ * import { plantToast } from '@/utils/notifications/toast';
  * plantToast.added('Monstera');
  *
  * // ✅ New way (recommended)
- * import { appToast } from '@/utils/toast-helpers';
+ * import { appToast } from '@/utils/notifications/toast';
  * appToast.plant.added('Monstera');
  */
 export type { }; 

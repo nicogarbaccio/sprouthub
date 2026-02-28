@@ -21,7 +21,7 @@ import {
 import { format } from 'date-fns';
 import { JournalEntry, getMoodConfig } from '@/types/journalTypes';
 import { cn } from '@/lib/utils';
-import { getOptimizedImageUrls } from '@/utils/imageUtils';
+import { getOptimizedImageUrls } from '@/utils/plants/imageOptimization';
 
 interface JournalEntryCardProps {
   entry: JournalEntry;

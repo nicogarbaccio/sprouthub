@@ -7,7 +7,7 @@ import { ProfileDataProvider } from "@/contexts/ProfileDataContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { NotificationProvider } from "@/contexts/NotificationContext";
 import { NotificationPreferencesProvider } from "@/contexts/NotificationPreferencesContext";
-import { setNotificationNavigate } from "@/utils/notification-generator";
+import { setNotificationNavigate } from "@/utils/notifications/generator";
 import { useEffect, Suspense, lazy } from "react";
 import { App as CapacitorApp } from '@capacitor/app';
 import * as Sentry from "@sentry/react";

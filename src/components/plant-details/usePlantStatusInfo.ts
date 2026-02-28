@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { calculateWateringSchedule } from "@/utils/watering-schedule";
+import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import type { UserPlant } from "@/hooks/useUserPlants";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 

@@ -5,7 +5,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { wateringPatternAnalyzer } from '@/utils/watering-pattern-analyzer';
+import { wateringPatternAnalyzer } from '@/utils/watering/patternAnalyzer';
 import {
   WateringPatternAnalysis,
   WateringPatternData,

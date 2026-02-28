@@ -23,9 +23,9 @@ import {
   useStatusInfo,
   useBadgeInfo,
 } from "@/components/plant-details/usePlantStatusInfo";
-import { shouldShowOverwateringWarning } from "@/utils/overwatering";
+import { shouldShowOverwateringWarning } from "@/utils/plants/overwatering";
 import { plants as catalogPlants } from "@/data/plantData";
-import { calculateWateringSchedule } from "@/utils/watering-schedule";
+import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 

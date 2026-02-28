@@ -7,8 +7,8 @@ import { useState, useMemo } from 'react';
 import { useBulkSelection } from '@/contexts/BulkSelectionContext';
 import { useQuickPatternAnalysis, useWateringPatternAnalysis } from '@/hooks/useWateringPatternAnalysis';
 import { useDismissedInsights } from '@/hooks/useDismissedInsights';
-import { shouldShowOverwateringWarning } from '@/utils/overwatering';
-import type { OverwateringRisk } from '@/utils/overwatering';
+import { shouldShowOverwateringWarning } from '@/utils/plants/overwatering';
+import type { OverwateringRisk } from '@/utils/plants/overwatering';
 
 interface UsePlantCardStateProps {
   id: string;

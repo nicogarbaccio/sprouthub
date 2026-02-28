@@ -2,7 +2,7 @@ import { Home, BookOpen, Flower2, MoreHorizontal, LogIn, User, Users, BarChart3,
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
-import { authToast } from "@/utils/toast-helpers";
+import { authToast } from "@/utils/notifications/toast";
 import { Sheet, SheetContent, SheetClose } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import * as React from "react";

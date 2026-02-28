@@ -11,7 +11,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { OptionCard } from "./OptionCard";
-import { formatTemperature } from "@/utils/temperature";
+import { formatTemperature } from "@/utils/weather/temperature";
 import { WeatherIndicator } from "@/components/WeatherIndicator";
 import type { WizardStepProps } from "./types";
 import type { WeatherData } from "@/services/weatherTypes";

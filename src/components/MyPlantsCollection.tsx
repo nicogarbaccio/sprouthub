@@ -29,9 +29,9 @@ import {
   calculateWateringSchedule,
   getNextWateringDate as getNextWateringDateUtil,
   isPlantOverdue,
-} from "@/utils/watering-schedule";
-import { updatePlantWateringSchedule } from "@/utils/plant-schedule-updater";
-import { utilityToast } from "@/utils/toast-helpers";
+} from "@/utils/watering/schedule";
+import { updatePlantWateringSchedule } from "@/utils/watering/scheduleUpdater";
+import { utilityToast } from "@/utils/notifications/toast";
 import { toast } from "sonner";
 import {
   useKeyboardShortcuts,
@@ -47,12 +47,12 @@ import {
   type PlantStatus,
   type SortOption,
 } from "@/components/SearchFilterBar";
-import { applyFiltersAndSort, getUniqueRooms } from "@/utils/plant-filtering";
+import { applyFiltersAndSort, getUniqueRooms } from "@/utils/plants/filtering";
 import {
   usePlantNotifications,
   useManualNotifications,
 } from "@/hooks/usePlantNotifications";
-import { generatePlantNotifications } from "@/utils/notification-generator";
+import { generatePlantNotifications } from "@/utils/notifications/generator";
 import { useNotifications } from "@/contexts/NotificationContext";
 
 const MyPlantsCollectionContent = () => {

@@ -1,6 +1,6 @@
 import type { UserPlant } from '@/hooks/useUserPlants';
 import type { Notification } from '@/types/notificationTypes';
-import { calculateWateringSchedule } from './watering-schedule';
+import { calculateWateringSchedule } from '../watering/schedule';
 
 // Navigation helper - will be set by the app
 let navigateFunction: ((path: string) => void) | null = null;

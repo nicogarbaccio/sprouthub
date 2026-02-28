@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { authToast } from "@/utils/toast-helpers";
+import { authToast } from "@/utils/notifications/toast";
 import { PasswordInput } from "./PasswordInput";
 
 interface ResetPasswordFormProps {

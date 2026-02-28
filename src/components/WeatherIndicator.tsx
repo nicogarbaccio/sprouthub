@@ -18,13 +18,13 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { WeatherData } from "@/services/weatherTypes";
-import { getWeatherSummary } from "@/utils/weatherMapping";
+import { getWeatherSummary } from "@/utils/weather/mapping";
 import { cn } from "@/lib/utils";
 import {
   formatTemperature,
   celsiusToFahrenheit,
   getTemperatureIconThresholds,
-} from "@/utils/temperature";
+} from "@/utils/weather/temperature";
 
 interface WeatherIndicatorProps {
   weatherData: WeatherData | null;

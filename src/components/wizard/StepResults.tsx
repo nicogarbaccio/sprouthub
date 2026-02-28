@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle, AlertCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { SmartScheduleResult } from "@/utils/smartWateringSchedule";
+import type { SmartScheduleResult } from "@/utils/watering/smartSchedule";
 
 interface StepResultsProps {
   result: SmartScheduleResult;

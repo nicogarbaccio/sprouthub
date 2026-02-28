@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SignUpFormFields } from "./SignUpFormFields";
-import { authToast } from "@/utils/toast-helpers";
+import { authToast } from "@/utils/notifications/toast";
 import {
  validateSignUpForm,
  hasValidationErrors,
  type FormData,
  type ValidationErrors,
-} from "@/utils/auth-validation";
+} from "@/utils/auth/validation";
 
 /**
  * Props for SignUpForm component.

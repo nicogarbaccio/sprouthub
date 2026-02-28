@@ -2,7 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckCircle } from "lucide-react";
 import type { WeatherData } from "@/services/weatherTypes";
-import { formatTemperature } from "@/utils/temperature";
+import { formatTemperature } from "@/utils/weather/temperature";
 
 interface WeatherStatusDisplayProps {
   weatherData: WeatherData;

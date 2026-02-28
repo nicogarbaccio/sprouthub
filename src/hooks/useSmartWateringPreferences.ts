@@ -3,7 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { UserWateringPreferences } from '@/types/smartWateringTypes';
-import { WateringFactors } from '@/utils/smartWateringSchedule';
+import { WateringFactors } from '@/utils/watering/smartSchedule';
 import { hookLogger } from '@/utils/hookLogging';
 
 const HOOK_NAME = 'useSmartWateringPreferences';

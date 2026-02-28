@@ -4,7 +4,7 @@ import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 import {
   getAutoCroppedImageUrl,
   getOptimalObjectPosition,
-} from "@/utils/imageUtils";
+} from "@/utils/plants/imageOptimization";
 import { LazyImage } from "./lazy-image";
 
 interface PlantImageProps {

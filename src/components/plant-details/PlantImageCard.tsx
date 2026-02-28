@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { AlertTriangle, Lightbulb } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
-import type { OverwateringRisk } from "@/utils/overwatering";
+import type { OverwateringRisk } from "@/utils/plants/overwatering";
 
 interface BadgeInfo {
   text: string;

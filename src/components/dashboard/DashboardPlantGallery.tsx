@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import PlantImage from "@/components/ui/plant-image";
 import { CascadingContainer } from "@/components/ui/cascading-container";
-import { getPlantImageUrl } from "@/utils/plantImageUtils";
+import { getPlantImageUrl } from "@/utils/plants/images";
 
 interface DashboardPlantGalleryProps {
   favoritePlants: any[]; // UserPlant array

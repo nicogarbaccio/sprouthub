@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
-import { computeOverwateringRisk, OverwateringRisk } from '@/utils/overwatering';
+import { computeOverwateringRisk, OverwateringRisk } from '@/utils/plants/overwatering';
 
 /**
  * Type definition for plant with watering schedule

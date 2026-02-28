@@ -6,11 +6,11 @@ import MyPlantCard from "./MyPlantCard";
 import EmptyRoomState from "./EmptyRoomState";
 import { UserPlant } from "@/hooks/useUserPlants";
 import { getRoomIcon, getRoomLabel, getRoomTheme } from "@/utils/rooms";
-import type { OverwateringRisk } from "@/utils/overwatering";
+import type { OverwateringRisk } from "@/utils/plants/overwatering";
 import {
   calculateWateringSchedule,
   getNextWateringDate as getNextWateringDateUtil,
-} from "@/utils/watering-schedule";
+} from "@/utils/watering/schedule";
 import { plants as catalogPlants } from "@/data/plantData";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 

@@ -1,4 +1,4 @@
-import { WateringFactors } from '@/utils/smartWateringSchedule';
+import { WateringFactors } from '@/utils/watering/smartSchedule';
 
 export interface UserWateringPreferences {
  id?: string;
@@ -23,4 +23,4 @@ export interface SmartWateringState {
  hasPreferences: boolean;
 }
 
-export type { WateringFactors } from '@/utils/smartWateringSchedule'; 
+export type { WateringFactors } from '@/utils/watering/smartSchedule'; 

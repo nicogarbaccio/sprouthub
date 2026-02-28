@@ -4,7 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { utilityToast, wateringToast, plantToast } from '@/utils/toast-helpers';
+import { utilityToast, wateringToast, plantToast } from '@/utils/notifications/toast';
 import { usePostponementData } from '@/hooks/usePostponementData';
 import { useOverwateringAnalysis } from '@/hooks/useOverwateringAnalysis';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';

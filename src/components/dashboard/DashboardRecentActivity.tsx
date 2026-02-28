@@ -7,7 +7,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import PlantImage from "@/components/ui/plant-image";
 import { formatDistanceToNow } from "date-fns";
-import { getPlantImageUrl } from "@/utils/plantImageUtils";
+import { getPlantImageUrl } from "@/utils/plants/images";
 
 interface DashboardRecentActivityProps {
   recentlyWateredPlants: any[]; // UserPlant array

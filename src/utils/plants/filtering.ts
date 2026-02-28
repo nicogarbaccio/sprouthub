@@ -1,6 +1,6 @@
 import type { UserPlant } from '@/hooks/useUserPlants';
 import type { PlantStatus, SortOption } from '@/components/SearchFilterBar';
-import { calculateWateringSchedule } from './watering-schedule';
+import { calculateWateringSchedule } from '../watering/schedule';
 
 /**
  * Filter plants by search query (name or type)

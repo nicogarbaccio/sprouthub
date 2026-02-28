@@ -8,8 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import PlantImage from "@/components/ui/plant-image";
-import { calculateWateringSchedule } from "@/utils/watering-schedule";
-import { getPlantImageUrl } from "@/utils/plantImageUtils";
+import { calculateWateringSchedule } from "@/utils/watering/schedule";
+import { getPlantImageUrl } from "@/utils/plants/images";
 
 interface DashboardTodaysTasksProps {
   plantsNeedingWater: any[]; // UserPlant array

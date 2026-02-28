@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getFactorLabels } from "@/utils/smartWateringSchedule";
+import { getFactorLabels } from "@/utils/watering/smartSchedule";
 import { safeJsonParse } from "@/utils/safeJsonParse";
 
 const weatherPrefsSchema = z.record(z.string(), z.unknown());

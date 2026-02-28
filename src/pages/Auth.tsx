@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { authToast } from "@/utils/toast-helpers";
+import { authToast } from "@/utils/notifications/toast";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import {

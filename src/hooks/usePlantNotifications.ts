@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useNotifications } from '@/contexts/NotificationContext';
 import { useNotificationPreferences } from '@/contexts/NotificationPreferencesContext';
 import { useNotificationAcknowledgements } from '@/hooks/useNotificationAcknowledgements';
-import { generatePlantNotifications } from '@/utils/notification-generator';
+import { generatePlantNotifications } from '@/utils/notifications/generator';
 import type { UserPlant } from '@/hooks/useUserPlants';
 
 /**

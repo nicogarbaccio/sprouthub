@@ -23,13 +23,13 @@ import {
   calculateSmartWateringSchedule,
   getCurrentSeason,
   getFactorLabels,
-} from "@/utils/smartWateringSchedule";
+} from "@/utils/watering/smartSchedule";
 import { cn } from "@/lib/utils";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
 import { useLocation } from "@/hooks/useLocation";
 import { useWeatherData } from "@/hooks/useWeatherData";
-import { mapWeatherToFactors } from "@/utils/weatherMapping";
-import { calculateWeatherScheduleAdjustments, applyWeatherAdjustments } from "@/utils/weatherScheduleAdjustments";
+import { mapWeatherToFactors } from "@/utils/weather/mapping";
+import { calculateWeatherScheduleAdjustments, applyWeatherAdjustments } from "@/utils/watering/weatherAdjustments";
 import { LocationPermissionDialog } from "@/components/LocationPermissionDialog";
 import type { LocationData } from "@/services/weatherTypes";
 import { StepPlantSize } from "@/components/wizard/StepPlantSize";

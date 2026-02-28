@@ -5,8 +5,8 @@ import {
   Lightbulb,
   CheckCircle2,
 } from "lucide-react";
-import type { OverwateringRisk } from "@/utils/overwatering";
-import { shouldShowOverwateringWarning } from "@/utils/overwatering";
+import type { OverwateringRisk } from "@/utils/plants/overwatering";
+import { shouldShowOverwateringWarning } from "@/utils/plants/overwatering";
 import { cn } from "@/lib/utils";
 import { TIMING } from "@/lib/constants";
 import PlantImage from "@/components/ui/plant-image";
@@ -14,7 +14,7 @@ import {
   useQuickPatternAnalysis,
   useWateringPatternAnalysis,
 } from "@/hooks/useWateringPatternAnalysis";
-import { wateringPatternAnalyzer } from "@/utils/watering-pattern-analyzer";
+import { wateringPatternAnalyzer } from "@/utils/watering/patternAnalyzer";
 import { useNavigate } from "react-router-dom";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import { useDismissedInsights } from "@/hooks/useDismissedInsights";

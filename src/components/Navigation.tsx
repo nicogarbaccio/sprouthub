@@ -24,7 +24,7 @@ import { useNavigate, Link } from "react-router-dom";
 import * as React from "react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useTheme } from "@/contexts/ThemeContext";
-import { authToast } from "@/utils/toast-helpers";
+import { authToast } from "@/utils/notifications/toast";
 import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
 import { useNotifications } from "@/contexts/NotificationContext";
 import { NotificationCenter } from "@/components/NotificationCenter";

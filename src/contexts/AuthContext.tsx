@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   validatePassword,
   PasswordValidationResult,
-} from "@/utils/passwordValidation";
+} from "@/utils/auth/password";
 import { hookLogger } from "@/utils/hookLogging";
 import { pushNotificationService } from "@/services/pushNotificationService";
 import { oneSignalWebService } from "@/services/oneSignalWebService";

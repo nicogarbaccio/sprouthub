@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import PlantImage from "@/components/ui/plant-image";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
-import { shouldShowOverwateringWarning } from "@/utils/overwatering";
+import { shouldShowOverwateringWarning } from "@/utils/plants/overwatering";
 
 interface MobilePlantCardProps {
   plant: {

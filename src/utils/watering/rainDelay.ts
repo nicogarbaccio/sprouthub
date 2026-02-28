@@ -1,5 +1,5 @@
 import { WeatherData } from '@/services/weatherTypes';
-import { shouldDelayWateringForRain } from '@/utils/weatherMapping';
+import { shouldDelayWateringForRain } from '@/utils/weather/mapping';
 
 export interface RainDelayResult {
   shouldDelay: boolean;

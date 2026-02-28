@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { WeatherData, LocationData, WeatherError, WeatherServiceOptions } from '@/services/weatherTypes';
 import weatherService from '@/services/weatherService';
-import { createFallbackWeatherData } from '@/utils/weatherMapping';
-import { WateringFactors } from '@/utils/smartWateringSchedule';
+import { createFallbackWeatherData } from '@/utils/weather/mapping';
+import { WateringFactors } from '@/utils/watering/smartSchedule';
 import { hookLogger } from '@/utils/hookLogging';
 import { ONE_HOUR_MS } from '@/constants/weather';
 

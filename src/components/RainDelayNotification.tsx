@@ -3,7 +3,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { RainDelayResult } from "@/utils/rainDelayLogic";
+import { RainDelayResult } from "@/utils/watering/rainDelay";
 import { WeatherData } from "@/services/weatherTypes";
 import { cn } from "@/lib/utils";
 

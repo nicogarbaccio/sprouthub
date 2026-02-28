@@ -2,7 +2,7 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "./PasswordInput";
-import type { FormData, ValidationErrors } from "@/utils/auth-validation";
+import type { FormData, ValidationErrors } from "@/utils/auth/validation";
 
 interface SignUpFormFieldsProps {
  formData: FormData;

@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
 import { UserWateringPreferences } from "@/types/smartWateringTypes";
-import { getFactorLabels } from "@/utils/smartWateringSchedule";
+import { getFactorLabels } from "@/utils/watering/smartSchedule";
 import { cn } from "@/lib/utils";
 import {
   Lightbulb,

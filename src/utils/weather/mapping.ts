@@ -1,5 +1,5 @@
 import { WeatherData } from '@/services/weatherTypes';
-import { WateringFactors } from './smartWateringSchedule';
+import { WateringFactors } from '../watering/smartSchedule';
 import { formatTemperature } from './temperature';
 
 export interface WeatherMappingResult {
@@ -102,7 +102,7 @@ export function getWeatherSummary(weatherData: WeatherData): string {
   const rain = weatherData.upcoming_rain_probability;
 
   let summary = `${formatTemperature(temp)}, ${humidity}% humidity`;
-  
+
   if (rain > 70) {
     summary += `, high chance of ${weatherData.is_snowing ? 'snow' : 'rain'} (${rain}%)`;
   } else if (rain > 30) {
@@ -234,7 +234,7 @@ export function createFallbackWeatherData(
 ): WeatherData {
   const now = new Date();
   const month = now.getMonth() + 1;
-  
+
   // Determine season if not provided
   const fallbackSeason = season || (() => {
     if (month >= 3 && month <= 5) return 'spring';

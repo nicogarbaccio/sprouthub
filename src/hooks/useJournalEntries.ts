@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
-import { utilityToast } from '@/utils/toast-helpers';
+import { utilityToast } from '@/utils/notifications/toast';
 import { hookLogger } from '@/utils/hookLogging';
 import { isValidUUID, isAllowedImageType, getSafeFileExtension } from '@/utils/safeJsonParse';
 import {

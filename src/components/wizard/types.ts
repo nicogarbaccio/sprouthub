@@ -1,4 +1,4 @@
-import type { WateringFactors } from "@/utils/smartWateringSchedule";
+import type { WateringFactors } from "@/utils/watering/smartSchedule";
 
 export interface WizardStepProps {
   factors: Partial<WateringFactors>;
@@ -6,6 +6,6 @@ export interface WizardStepProps {
     key: K,
     value: WateringFactors[K]
   ) => void;
-  labels: ReturnType<typeof import("@/utils/smartWateringSchedule").getFactorLabels>;
+  labels: ReturnType<typeof import("@/utils/watering/smartSchedule").getFactorLabels>;
   plantName?: string;
 }

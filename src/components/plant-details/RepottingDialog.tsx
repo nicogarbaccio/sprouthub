@@ -12,7 +12,7 @@ import { useJournalEntries } from '@/hooks/useJournalEntries';
 import {
   getRepottingAdvice,
   type PlantSize,
-} from '@/utils/repottingAdvice';
+} from '@/utils/plants/repottingAdvice';
 import type { CatalogPlant } from '@/data/types';
 import type { JournalEntryFormData } from '@/types/journalTypes';
 

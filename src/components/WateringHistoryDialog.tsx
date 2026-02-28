@@ -26,8 +26,8 @@ import {
   Clock,
   Pencil,
 } from "lucide-react";
-import { computeOverwateringRisk } from "@/utils/overwatering";
-import { wateringToast } from "@/utils/toast-helpers";
+import { computeOverwateringRisk } from "@/utils/plants/overwatering";
+import { wateringToast } from "@/utils/notifications/toast";
 import { format, isFuture } from "date-fns";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { PatternAnalysisSection } from "@/components/watering-patterns";

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Sparkles, Sun, Cloud, CloudRain, Snowflake, Thermometer, ChevronDown, Droplets, CloudDrizzle, Sunrise, RefreshCw } from "lucide-react";
 import { WeatherData } from "@/services/weatherTypes";
 import { weatherMoodService, WeatherMood } from "@/services/weatherMoodService";
-import { formatTemperature } from "@/utils/temperature";
+import { formatTemperature } from "@/utils/weather/temperature";
 import { formatDistanceToNow } from "date-fns";
 import { cn } from "@/lib/utils";
 
