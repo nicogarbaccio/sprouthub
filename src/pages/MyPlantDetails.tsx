@@ -8,55 +8,25 @@ import { CascadingContainer } from "@/components/ui/cascading-container";
 import { useGracefulLoading } from "@/hooks/useGracefulLoading";
 import { PlantDetailsPageSkeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  ArrowLeft,
-  Droplets,
-  Edit,
-  Trash2,
-  History,
-  Clock,
-  AlertTriangle,
-  Lightbulb,
-  ChevronDown,
-  BookOpen,
-  Sprout,
-} from "lucide-react";
-import PlantImage from "@/components/ui/plant-image";
-import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
-import PostponeConfirmationDialog from "@/components/PostponeConfirmationDialog";
-import EditPlantDialog from "@/components/EditPlantDialog";
-import WateringHistoryDialog from "@/components/WateringHistoryDialog";
+import { ArrowLeft } from "lucide-react";
+import PlantDetailHeader from "@/components/plant-details/PlantDetailHeader";
+import PlantImageCard from "@/components/plant-details/PlantImageCard";
+import WateringScheduleCard from "@/components/plant-details/WateringScheduleCard";
+import PlantInfoCard from "@/components/plant-details/PlantInfoCard";
+import PlantActionsMenu from "@/components/plant-details/PlantActionsMenu";
+import RepottingGuideCard from "@/components/plant-details/RepottingGuideCard";
+import PlantDetailDialogs from "@/components/plant-details/PlantDetailDialogs";
+import PlantDetailPlaceholder from "@/components/plant-details/PlantDetailPlaceholder";
 import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
-import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
-import { JournalModal } from "@/components/journal/JournalModal";
-import { RepottingDialog } from "@/components/plant-details/RepottingDialog";
-import { formatDistanceToNow } from "date-fns";
+import {
+  useStatusInfo,
+  useBadgeInfo,
+} from "@/components/plant-details/usePlantStatusInfo";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import { plants as catalogPlants } from "@/data/plantData";
 import { calculateWateringSchedule } from "@/utils/watering-schedule";
-import { getRoomIcon, getRoomLabel } from "@/utils/rooms";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
-import { PatternSuggestionsDialog } from "@/components/watering-patterns";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 
 const MyPlantDetails = () => {
@@ -85,29 +55,22 @@ const MyPlantDetails = () => {
   const [showJournal, setShowJournal] = useState(false);
   const [showRepotting, setShowRepotting] = useState(false);
 
-  // Find the specific plant and memoize it to prevent re-renders
   const plant = useMemo(
     () => plants.find((p) => p.id === plantId),
     [plants, plantId],
   );
   const overwatering = plant ? overwateringByPlantId[plant.id] : undefined;
 
-  // Add watering pattern analysis hook
-  const {
-    insights: pendingInsights,
-    analysis,
-  } = useWateringPatternAnalysis({
+  const { insights: pendingInsights, analysis } = useWateringPatternAnalysis({
     plantId: plant?.id,
-    autoRefresh: false, // Disable auto-refresh to prevent flickering
+    autoRefresh: false,
   });
 
-  // MUST call useGracefulLoading before any useEffect hooks
   const { showLoading, isReady } = useGracefulLoading(isLoading, {
     minLoadingTime: 0,
     staggerDelay: 0,
   });
 
-  // Find matching plant data from catalog for care information
   const catalogPlant = plant
     ? catalogPlants.find(
         (catalogP) =>
@@ -117,8 +80,10 @@ const MyPlantDetails = () => {
       )
     : undefined;
 
+  const getStatusInfo = useStatusInfo(plant);
+  const { getActionableInsights, getBadgeInfo } = useBadgeInfo(pendingInsights);
+
   useEffect(() => {
-    // Simulate loading state while data is being fetched
     if (!loading && plants.length > 0) {
       const timer = setTimeout(() => setIsLoading(false), 300);
       return () => clearTimeout(timer);
@@ -127,7 +92,6 @@ const MyPlantDetails = () => {
     }
   }, [loading, plants]);
 
-  // Redirect to login if not authenticated
   useEffect(() => {
     if (!loading && !user) {
       navigate(
@@ -136,9 +100,29 @@ const MyPlantDetails = () => {
     }
   }, [user, loading, navigate]);
 
-  const handleWaterClick = useCallback(() => {
-    setShowWaterConfirmation(true);
-  }, []);
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    let displayDate = new Date(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+    );
+    if (date.getUTCHours() < 4) {
+      displayDate.setUTCDate(displayDate.getUTCDate() - 1);
+    }
+    return displayDate.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+  };
+
+  const getTomorrowDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return formatDate(tomorrow.toISOString());
+  };
 
   const handleConfirmWater = useCallback(
     async (notes?: string) => {
@@ -153,9 +137,6 @@ const MyPlantDetails = () => {
   const handleAlreadyWatered = useCallback(
     async (_date: string, notes?: string) => {
       if (plant) {
-        // FUTURE FEATURE: Implement backdating watering to a specific date
-        // This would require modifying waterPlant to accept a date parameter
-        // For now, just water the plant with current timestamp
         await waterPlant(plant.id, notes);
         setShowWaterConfirmation(false);
       }
@@ -163,129 +144,11 @@ const MyPlantDetails = () => {
     [plant, waterPlant],
   );
 
-  const handleEditClick = useCallback(() => {
-    setShowEditDialog(true);
-  }, []);
-
-  // Format date function to match the existing format used in the app
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    let displayDate = new Date(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate(),
-    );
-    if (date.getUTCHours() < 4) {
-      displayDate.setUTCDate(displayDate.getUTCDate() - 1);
-    }
-
-    return displayDate.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-      timeZone: "UTC",
-    });
-  };
-
-  // Calculate tomorrow's date in the same format
-  const getTomorrowDate = () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return formatDate(tomorrow.toISOString());
-  };
-
-  const handlePostponeClick = useCallback(() => {
-    setShowPostponeConfirmation(true);
-  }, []);
-
   const handleConfirmPostpone = useCallback(async () => {
     if (plant) {
       await postponeWatering(plant.id);
     }
   }, [plant, postponeWatering]);
-
-  const handleViewHistory = useCallback(() => {
-    setShowHistoryDialog(true);
-  }, []);
-
-  const handleSmartTipsClick = useCallback(() => {
-    setShowSuggestionsDialog(true);
-  }, []);
-
-  // Helper functions for suggestion metadata and badge info
-  const getActionableInsights = useCallback(() => {
-    return pendingInsights?.filter((insight) => insight.actionable) || [];
-  }, [pendingInsights]);
-
-  const getSuggestionMetadata = useCallback(() => {
-    const actionableInsights = getActionableInsights();
-    const count = actionableInsights.length;
-    const highPriorityCount = actionableInsights.filter(
-      (insight) => insight.severity === "high",
-    ).length;
-    const mediumPriorityCount = actionableInsights.filter(
-      (insight) => insight.severity === "medium",
-    ).length;
-
-    return {
-      count,
-      highPriorityCount,
-      mediumPriorityCount,
-      hasHighPriority: highPriorityCount > 0,
-      hasMediumPriority: mediumPriorityCount > 0,
-      actionableInsights,
-    };
-  }, [getActionableInsights]);
-
-  const getBadgeInfo = useCallback(() => {
-    const metadata = getSuggestionMetadata();
-    const { count, highPriorityCount, hasHighPriority, hasMediumPriority } =
-      metadata;
-
-    if (count === 0) return null;
-
-    // Determine badge text based on suggestion count and types
-    let text = "";
-    let colorClass = "";
-    let description = "";
-
-    if (hasHighPriority) {
-      if (highPriorityCount === 1) {
-        text = "Important tip";
-        description = "1 important watering insight available";
-      } else {
-        text = `${highPriorityCount} important tips`;
-        description = `${highPriorityCount} important watering insights available`;
-      }
-      colorClass =
-        "bg-amber-500 hover:bg-amber-600 text-white border-amber-500";
-    } else if (hasMediumPriority) {
-      if (count === 1) {
-        text = "Smart tip";
-        description = "1 watering insight available";
-      } else {
-        text = `${count} smart tips`;
-        description = `${count} watering insights available`;
-      }
-      colorClass = "bg-blue-500 hover:bg-blue-600 text-white border-blue-500";
-    } else {
-      if (count === 1) {
-        text = "Good tip";
-        description = "1 positive watering insight available";
-      } else {
-        text = `${count} good tips`;
-        description = `${count} positive watering insights available`;
-      }
-      colorClass =
-        "bg-green-500 hover:bg-green-600 text-white border-green-500";
-    }
-
-    return { text, colorClass, description };
-  }, [getSuggestionMetadata]);
-
-  const handleDeletePlant = useCallback(() => {
-    setShowDeleteConfirmation(true);
-  }, []);
 
   const handleConfirmDelete = useCallback(async () => {
     if (plant) {
@@ -297,63 +160,7 @@ const MyPlantDetails = () => {
     setShowDeleteConfirmation(false);
   }, [plant, deletePlant, navigate]);
 
-  const getStatusInfo = useCallback(() => {
-    if (!plant) return { color: "bg-gray-500", text: "Unknown" };
-
-    const wateringCalc = calculateWateringSchedule(plant);
-    const {
-      daysUntilWatering,
-      isOverdue,
-      isPostponed,
-      hasUnknownWateringDate,
-    } = wateringCalc;
-
-    if (hasUnknownWateringDate) {
-      return { color: "bg-neutral-500 text-white", text: "Unknown schedule" };
-    }
-
-    if (isPostponed) {
-      if (daysUntilWatering === 0) {
-        return {
-          color: "bg-sprout-water text-white",
-          text: "Postponed until later today",
-        };
-      }
-      if (daysUntilWatering === 1) {
-        return {
-          color: "bg-sprout-water text-white",
-          text: "Postponed until tomorrow",
-        };
-      }
-      return {
-        color: "bg-sprout-water text-white",
-        text: `Postponed for ${daysUntilWatering} days`,
-      };
-    }
-
-    if (isOverdue) {
-      return {
-        color: "bg-red-500 text-white",
-        text: `Overdue by ${Math.abs(daysUntilWatering)} days`,
-      };
-    }
-
-    if (daysUntilWatering === 0) {
-      return { color: "bg-orange-500 text-white", text: "Due today" };
-    }
-    if (daysUntilWatering <= 2) {
-      return {
-        color: "bg-orange-500 text-white",
-        text: `Due in ${daysUntilWatering} days`,
-      };
-    }
-    return {
-      color: "bg-sprout-success text-white",
-      text: `Due in ${daysUntilWatering} days`,
-    };
-  }, [plant]);
-
-  // Show loading skeleton
+  // Loading skeleton
   if (showLoading || loading) {
     return (
       <div className="min-h-dvh bg-background pb-20 lg:pb-0">
@@ -395,68 +202,21 @@ const MyPlantDetails = () => {
 
   const statusInfo = getStatusInfo();
   const wateringCalc = calculateWateringSchedule(plant);
-  const { daysUntilWatering, isOverdue, isPostponed } =
-    wateringCalc;
-
+  const { daysUntilWatering, isOverdue, isPostponed } = wateringCalc;
   const isDueToday = daysUntilWatering === 0 && !isPostponed;
   const canPostpone =
     (isOverdue || isDueToday) && !isPostponed && plant.latest_watering;
 
-  // Check if we should show overwatering warning
   const { showWarning: showOverwateringWarning, daysSinceLastWatered } =
     shouldShowOverwateringWarning(
       plant.latest_watering,
       plant.suggested_watering_days || 7,
     );
 
+  const imageSrc = plant.image || catalogPlant?.image || PLANT_FALLBACK_IMAGE;
+
   if (!isReady) {
-    return (
-      <div className="min-h-dvh bg-background pb-20 lg:pb-0">
-        <Navigation />
-        <main className="py-4 sm:py-6">
-          <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 opacity-0">
-            {/* Header placeholder */}
-            <div className="text-left mb-4">
-              <div className="h-7 sm:h-8 w-3/5 mb-1" />
-              <div className="h-5 w-2/5 mb-2" />
-              <div className="flex gap-2">
-                <div className="h-5 w-16" />
-                <div className="h-5 w-24" />
-              </div>
-            </div>
-
-            {/* Main grid placeholder */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-              <div className="h-[240px] sm:h-[280px] md:h-[360px] lg:h-[320px]" />
-              <div className="flex flex-col h-[240px] sm:h-[280px] md:h-[360px] lg:h-[320px] space-y-2">
-                <div className="flex-1" />
-                <div className="flex-1" />
-                <div className="h-10" />
-              </div>
-            </div>
-
-            {/* Care grid placeholder */}
-            <div className="mb-6">
-              <div className="grid grid-cols-2 gap-4 p-4">
-                <div className="h-16" />
-                <div className="h-16" />
-                <div className="h-16" />
-                <div className="h-16" />
-              </div>
-            </div>
-
-            {/* Care cards placeholder */}
-            <div className="mb-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="h-64" />
-                <div className="h-64" />
-              </div>
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
+    return <PlantDetailPlaceholder />;
   }
 
   return (
@@ -464,264 +224,46 @@ const MyPlantDetails = () => {
       <Navigation />
       <main className="py-4 sm:py-6">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8">
-          {/* Plant Header */}
           <CascadingContainer delay={100}>
-            <div className="text-left mb-4">
-              <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">
-                {plant.nickname}
-              </h1>
-              <p className="text-base text-muted-foreground mb-2">
-                {plant.plant_type}
-              </p>
-
-              {(plant.alternative_names?.length > 0 ||
-                catalogPlant?.otherNames?.length > 0) && (
-                <p className="text-xs sm:text-sm text-muted-foreground mb-2">
-                  <span className="font-semibold">Also known as:</span>{" "}
-                  {(plant.alternative_names?.length > 0
-                    ? plant.alternative_names
-                    : catalogPlant?.otherNames
-                  )?.join(", ")}
-                </p>
-              )}
-
-              <div className="flex flex-wrap gap-2">
-                {plant.room && (
-                  <Badge variant="secondary" className="text-xs">
-                    <span className="mr-1">{getRoomIcon(plant.room)}</span>
-                    {getRoomLabel(plant.room)}
-                  </Badge>
-                )}
-                {plant.is_outdoor_plant && (
-                  <Badge variant="secondary" className="text-xs">
-                    Outdoor Plant
-                  </Badge>
-                )}
-                <Badge className={`${statusInfo.color} text-xs`}>
-                  {statusInfo.text}
-                </Badge>
-              </div>
-            </div>
+            <PlantDetailHeader
+              plant={plant}
+              catalogPlant={catalogPlant}
+              statusInfo={statusInfo}
+            />
           </CascadingContainer>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
             <CascadingContainer delay={200}>
-              <div className="relative w-full">
-                <div
-                  className="cursor-pointer group"
-                  onClick={() => setShowFullscreenImage(true)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      setShowFullscreenImage(true);
-                    }
-                  }}
-                  aria-label={`View ${plant.nickname} image in fullscreen`}
-                >
-                  <PlantImage
-                    src={
-                      plant.image || catalogPlant?.image || PLANT_FALLBACK_IMAGE
-                    }
-                    alt={plant.nickname}
-                    className="w-full h-[240px] sm:h-[280px] md:h-[360px] lg:h-[320px] object-cover rounded-lg shadow-md"
-                  />
-                </div>
-
-                {/* Overwatering Warning */}
-                {overwatering && overwatering.level !== "none" && (
-                  <Badge
-                    className={`absolute top-3 left-3 text-xs ${
-                      overwatering.level === "high"
-                        ? "bg-red-600 text-white border-red-600"
-                        : "bg-orange-500 text-white border-orange-500"
-                    }`}
-                  >
-                    <AlertTriangle className="w-3 h-3 mr-1" />
-                    {overwatering.level === "high"
-                      ? "Overwatering Risk"
-                      : "Watch Watering"}
-                  </Badge>
-                )}
-
-                {/* Smart Suggestions Badge */}
-                {(() => {
-                  const badgeInfo = getBadgeInfo();
-                  if (!badgeInfo) return null;
-
-                  return (
-                    <Badge
-                      className={`absolute bottom-3 left-3 cursor-pointer transition-all duration-200 text-xs ${badgeInfo.colorClass}`}
-                      onClick={handleSmartTipsClick}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          handleSmartTipsClick();
-                        }
-                      }}
-                      aria-label={badgeInfo.description}
-                    >
-                      <Lightbulb className="w-3 h-3 mr-1" />
-                      {badgeInfo.text}
-                    </Badge>
-                  );
-                })()}
-              </div>
+              <PlantImageCard
+                imageSrc={imageSrc}
+                plantNickname={plant.nickname}
+                overwatering={overwatering}
+                badgeInfo={getBadgeInfo()}
+                onImageClick={() => setShowFullscreenImage(true)}
+                onSmartTipsClick={() => setShowSuggestionsDialog(true)}
+              />
             </CascadingContainer>
 
             <div className="flex flex-col mt-6 mb-6 lg:mt-0 lg:mb-0">
               <CascadingContainer delay={250}>
                 <div className="flex flex-col h-[240px] sm:h-[280px] md:h-[360px] lg:h-[320px] space-y-2">
-                  <Card className="flex-1">
-                    <CardHeader className="pb-2 pt-3 px-3 sm:px-4">
-                      <CardTitle className="text-xs sm:text-sm font-semibold text-foreground">
-                        Watering Schedule
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="pt-0 pb-3 px-3 sm:px-4">
-                      <div className="space-y-1">
-                        <div className="flex justify-between">
-                          <span className="text-xs sm:text-sm text-muted-foreground">
-                            Last watered:
-                          </span>
-                          <span className="text-xs sm:text-sm font-medium">
-                            {plant.latest_watering
-                              ? formatDistanceToNow(
-                                  new Date(plant.latest_watering),
-                                  { addSuffix: true },
-                                )
-                              : "Never"}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-xs sm:text-sm text-muted-foreground">
-                            Frequency:
-                          </span>
-                          <span className="text-xs sm:text-sm font-medium">
-                            Every {plant.suggested_watering_days || 7} days
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-xs sm:text-sm text-muted-foreground">
-                            Days since:
-                          </span>
-                          <span className="text-xs sm:text-sm font-medium">
-                            {plant.days_since_watering || 0} days
-                          </span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <Card className="flex-1">
-                    <CardHeader className="pb-2 pt-3 px-3 sm:px-4">
-                      <CardTitle className="text-xs sm:text-sm font-semibold text-foreground">
-                        Plant Info
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="pt-0 pb-3 px-3 sm:px-4">
-                      <div className="space-y-1">
-                        <div className="flex justify-between">
-                          <span className="text-xs sm:text-sm text-muted-foreground">
-                            Added:
-                          </span>
-                          <span className="text-xs sm:text-sm font-medium">
-                            {formatDistanceToNow(new Date(plant.created_at), {
-                              addSuffix: true,
-                            })}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-xs sm:text-sm text-muted-foreground">
-                            Updated:
-                          </span>
-                          <span className="text-xs sm:text-sm font-medium">
-                            {formatDistanceToNow(new Date(plant.updated_at), {
-                              addSuffix: true,
-                            })}
-                          </span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
-                        aria-label="Plant actions menu"
-                      >
-                        Actions
-                        <ChevronDown className="w-4 h-4 ml-2" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56">
-                      <DropdownMenuItem
-                        onClick={handleWaterClick}
-                        className="cursor-pointer"
-                      >
-                        <Droplets className="w-4 h-4 mr-2 text-sprout-water" />
-                        Water Now
-                      </DropdownMenuItem>
-
-                      {canPostpone && (
-                        <DropdownMenuItem
-                          onClick={handlePostponeClick}
-                          className="cursor-pointer"
-                        >
-                          <Clock className="w-4 h-4 mr-2" />
-                          Push to Tomorrow
-                        </DropdownMenuItem>
-                      )}
-
-                      <DropdownMenuSeparator />
-
-                      <DropdownMenuItem
-                        onClick={handleViewHistory}
-                        className="cursor-pointer"
-                      >
-                        <History className="w-4 h-4 mr-2" />
-                        {getBadgeInfo() ? "History & Tips" : "History"}
-                      </DropdownMenuItem>
-
-                      <DropdownMenuItem
-                        onClick={() => setShowJournal(true)}
-                        className="cursor-pointer"
-                      >
-                        <BookOpen className="w-4 h-4 mr-2 text-emerald-600" />
-                        Plant Journal
-                      </DropdownMenuItem>
-
-                      <DropdownMenuSeparator />
-
-                      <DropdownMenuItem
-                        onClick={handleEditClick}
-                        className="cursor-pointer"
-                      >
-                        <Edit className="w-4 h-4 mr-2" />
-                        Edit
-                      </DropdownMenuItem>
-
-                      <DropdownMenuSeparator />
-
-                      <DropdownMenuItem
-                        onClick={handleDeletePlant}
-                        className="cursor-pointer text-red-400 focus:text-red-400"
-                      >
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Delete
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <WateringScheduleCard plant={plant} />
+                  <PlantInfoCard plant={plant} />
+                  <PlantActionsMenu
+                    canPostpone={!!canPostpone}
+                    hasSmartTips={!!getBadgeInfo()}
+                    onWaterClick={() => setShowWaterConfirmation(true)}
+                    onPostponeClick={() => setShowPostponeConfirmation(true)}
+                    onViewHistory={() => setShowHistoryDialog(true)}
+                    onJournalClick={() => setShowJournal(true)}
+                    onEditClick={() => setShowEditDialog(true)}
+                    onDeleteClick={() => setShowDeleteConfirmation(true)}
+                  />
                 </div>
               </CascadingContainer>
             </div>
           </div>
 
-          {/* Plant Care Information */}
           <CascadingContainer delay={350}>
             <div className="mb-6">
               <PlantCareGrid
@@ -740,33 +282,11 @@ const MyPlantDetails = () => {
             </div>
           </CascadingContainer>
 
-          {/* Repotting Guide Card */}
           <CascadingContainer delay={375}>
-            <Card
-              className="mb-6 cursor-pointer hover:border-plant-primary/50 transition-colors"
+            <RepottingGuideCard
+              plantNickname={plant.nickname}
               onClick={() => setShowRepotting(true)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setShowRepotting(true);
-                }
-              }}
-            >
-              <CardContent className="flex items-center justify-between py-4 px-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-plant-primary/10 flex items-center justify-center">
-                    <Sprout className="w-5 h-5 text-plant-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">Repotting Guide</p>
-                    <p className="text-xs text-muted-foreground">Tips for repotting {plant.nickname}</p>
-                  </div>
-                </div>
-                <ChevronDown className="w-4 h-4 text-muted-foreground -rotate-90" />
-              </CardContent>
-            </Card>
+            />
           </CascadingContainer>
 
           <CascadingContainer delay={425}>
@@ -795,107 +315,45 @@ const MyPlantDetails = () => {
         </div>
       </main>
 
-      {/* Dialogs */}
-      <WaterConfirmationDialog
-        open={showWaterConfirmation}
-        onOpenChange={setShowWaterConfirmation}
-        onConfirm={handleConfirmWater}
+      <PlantDetailDialogs
+        plant={plant}
+        catalogPlant={catalogPlant}
+        imageSrc={imageSrc}
+        showWaterConfirmation={showWaterConfirmation}
+        onWaterConfirmationChange={setShowWaterConfirmation}
+        onConfirmWater={handleConfirmWater}
         onAlreadyWatered={handleAlreadyWatered}
-        plantName={plant.nickname}
         showOverwateringWarning={showOverwateringWarning}
         daysSinceLastWatered={daysSinceLastWatered}
-        wateringScheduleDays={plant.suggested_watering_days || 7}
-        lastWateredDate={plant.latest_watering || undefined}
-      />
-
-      <EditPlantDialog
-        isOpen={showEditDialog}
-        onClose={() => setShowEditDialog(false)}
-        plant={plant}
-        onUpdate={() => {
-          fetchPlants();
-        }}
-      />
-
-      <WateringHistoryDialog
-        isOpen={showHistoryDialog}
-        onClose={() => setShowHistoryDialog(false)}
-        plant={plant}
-        onPlantDataChange={() => {
-          // Refresh plant data when watering records are deleted
-          fetchPlants();
-        }}
-      />
-
-      <FullscreenImageModal
-        isOpen={showFullscreenImage}
-        onClose={() => setShowFullscreenImage(false)}
-        imageSrc={plant.image || catalogPlant?.image || PLANT_FALLBACK_IMAGE}
-        imageAlt={plant.nickname}
-        plantName={plant.nickname}
-      />
-
-      <JournalModal
-        isOpen={showJournal}
-        onClose={() => setShowJournal(false)}
-        plantId={plant.id}
-        plantNickname={plant.nickname}
-      />
-
-      <RepottingDialog
-        isOpen={showRepotting}
-        onClose={() => setShowRepotting(false)}
-        plantId={plant.id}
-        plantNickname={plant.nickname}
-        catalogPlant={catalogPlant}
-      />
-
-      <PatternSuggestionsDialog
-        isOpen={showSuggestionsDialog}
-        onClose={() => setShowSuggestionsDialog(false)}
-        plantName={plant.nickname}
-        plantId={plant.id}
+        showEditDialog={showEditDialog}
+        onEditClose={() => setShowEditDialog(false)}
+        onPlantUpdate={() => fetchPlants()}
+        showHistoryDialog={showHistoryDialog}
+        onHistoryClose={() => setShowHistoryDialog(false)}
+        onPlantDataChange={() => fetchPlants()}
+        showFullscreenImage={showFullscreenImage}
+        onFullscreenImageClose={() => setShowFullscreenImage(false)}
+        showJournal={showJournal}
+        onJournalClose={() => setShowJournal(false)}
+        showRepotting={showRepotting}
+        onRepottingClose={() => setShowRepotting(false)}
+        showSuggestionsDialog={showSuggestionsDialog}
+        onSuggestionsClose={() => setShowSuggestionsDialog(false)}
         analysis={analysis}
-        insights={getActionableInsights()}
-      />
-
-      <PostponeConfirmationDialog
-        open={showPostponeConfirmation}
-        onOpenChange={setShowPostponeConfirmation}
-        onConfirm={handleConfirmPostpone}
-        plantName={plant.nickname}
+        actionableInsights={getActionableInsights()}
+        showPostponeConfirmation={showPostponeConfirmation}
+        onPostponeConfirmationChange={setShowPostponeConfirmation}
+        onConfirmPostpone={handleConfirmPostpone}
         currentNextWatering={formatDate(
           plant.postponement_date ||
             plant.latest_watering ||
             new Date().toISOString(),
         )}
         postponedNextWatering={getTomorrowDate()}
+        showDeleteConfirmation={showDeleteConfirmation}
+        onDeleteConfirmationChange={setShowDeleteConfirmation}
+        onConfirmDelete={handleConfirmDelete}
       />
-
-      <AlertDialog
-        open={showDeleteConfirmation}
-        onOpenChange={setShowDeleteConfirmation}
-      >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Plant</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete "{plant.nickname}"? This action
-              cannot be undone and will remove all watering history for this
-              plant.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleConfirmDelete}
-              className="bg-red-600 hover:bg-red-700 text-white"
-            >
-              Delete Plant
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
 
       <Footer />
     </div>

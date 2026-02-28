@@ -7,26 +7,15 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { Card, CardContent } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch";
 import {
   Brain,
   ChevronLeft,
   ChevronRight,
   CheckCircle,
-  AlertCircle,
   Lightbulb,
   Thermometer,
-  Droplets,
-  Calendar,
   Heart,
-  Shovel,
-  Cloud,
-  MapPin,
-  RefreshCw,
 } from "lucide-react";
 import {
   WateringFactors,
@@ -36,15 +25,17 @@ import {
   getFactorLabels,
 } from "@/utils/smartWateringSchedule";
 import { cn } from "@/lib/utils";
-import { formatTemperature } from "@/utils/temperature";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
 import { useLocation } from "@/hooks/useLocation";
 import { useWeatherData } from "@/hooks/useWeatherData";
 import { mapWeatherToFactors } from "@/utils/weatherMapping";
 import { calculateWeatherScheduleAdjustments, applyWeatherAdjustments } from "@/utils/weatherScheduleAdjustments";
-import { WeatherIndicator } from "@/components/WeatherIndicator";
 import { LocationPermissionDialog } from "@/components/LocationPermissionDialog";
 import type { LocationData } from "@/services/weatherTypes";
+import { StepPlantSize } from "@/components/wizard/StepPlantSize";
+import { StepEnvironment } from "@/components/wizard/StepEnvironment";
+import { StepPreferences } from "@/components/wizard/StepPreferences";
+import { StepResults } from "@/components/wizard/StepResults";
 
 interface SmartWateringWizardProps {
   isOpen: boolean;
@@ -101,16 +92,14 @@ export const SmartWateringWizard = ({
     lightLevel: undefined,
     temperature: undefined,
     humidity: undefined,
-    season: getCurrentSeason(), // Keep season as it's contextual to current time
+    season: getCurrentSeason(),
     careStyle: undefined,
     soilType: undefined,
   }));
   const [result, setResult] = useState<SmartScheduleResult | null>(null);
   const [enableWeatherData, setEnableWeatherData] = useState(false);
   const [showLocationDialog, setShowLocationDialog] = useState(false);
-  const [weatherMappingReasons, setWeatherMappingReasons] = useState<string[]>(
-    []
-  );
+  const [weatherMappingReasons, setWeatherMappingReasons] = useState<string[]>([]);
 
   const { preferences, getDefaultFactors } = useSmartWateringPreferences();
   const location = useLocation();
@@ -126,7 +115,6 @@ export const SmartWateringWizard = ({
     const defaultFactors = getDefaultFactors();
     setFactors((prev) => ({
       ...prev,
-      // Only set from preferences if they exist, don't provide fallback defaults
       lightLevel: defaultFactors.lightLevel || undefined,
       temperature: defaultFactors.temperature || undefined,
       humidity: defaultFactors.humidity || undefined,
@@ -136,7 +124,7 @@ export const SmartWateringWizard = ({
   }, [getDefaultFactors]);
 
   // Apply weather data to factors when available
-  const applyWeatherData = useCallback(() => {
+  const applyWeatherDataToFactors = useCallback(() => {
     if (!weather.weatherData || !enableWeatherData) return;
 
     const mappingResult = mapWeatherToFactors(weather.weatherData);
@@ -149,21 +137,18 @@ export const SmartWateringWizard = ({
     setWeatherMappingReasons(mappingResult.mappingReasons);
   }, [weather.weatherData, enableWeatherData]);
 
-  // Initialize on first render if preferences are available
   useEffect(() => {
     if (preferences) {
       initializeFromPreferences();
     }
   }, [preferences, initializeFromPreferences]);
 
-  // Apply weather data when it becomes available
   useEffect(() => {
     if (enableWeatherData && weather.weatherData) {
-      applyWeatherData();
+      applyWeatherDataToFactors();
     }
-  }, [enableWeatherData, weather.weatherData, applyWeatherData]);
+  }, [enableWeatherData, weather.weatherData, applyWeatherDataToFactors]);
 
-  // Check if we need to show location dialog when weather is enabled
   useEffect(() => {
     if (enableWeatherData && !location.location && !location.isLoading) {
       setShowLocationDialog(true);
@@ -182,11 +167,7 @@ export const SmartWateringWizard = ({
       case 1:
         return !!factors.plantSize;
       case 2:
-        return !!(
-          factors.lightLevel &&
-          factors.temperature &&
-          factors.humidity
-        );
+        return !!(factors.lightLevel && factors.temperature && factors.humidity);
       case 3:
         return !!(factors.careStyle && factors.soilType);
       default:
@@ -196,7 +177,6 @@ export const SmartWateringWizard = ({
 
   const goToNextStep = () => {
     if (currentStep === 3) {
-      // Calculate result when moving to results step
       if (
         factors.plantSize &&
         factors.lightLevel &&
@@ -211,7 +191,6 @@ export const SmartWateringWizard = ({
           factors as WateringFactors
         );
 
-        // Apply additional weather-based adjustments if weather data is available
         let finalResult = baseResult;
         if (enableWeatherData && weather.weatherData) {
           const weatherAdjustments = calculateWeatherScheduleAdjustments(
@@ -261,7 +240,7 @@ export const SmartWateringWizard = ({
       lightLevel: undefined,
       temperature: undefined,
       humidity: undefined,
-      season: getCurrentSeason(), // Keep season as it's contextual to current time
+      season: getCurrentSeason(),
       careStyle: undefined,
       soilType: undefined,
     });
@@ -269,9 +248,7 @@ export const SmartWateringWizard = ({
     setWeatherMappingReasons([]);
   };
 
-  // Location dialog handlers
   const handleLocationSelected = (_selectedLocation: LocationData) => {
-    // Location will be handled by the useLocation hook automatically
     setShowLocationDialog(false);
   };
 
@@ -289,451 +266,57 @@ export const SmartWateringWizard = ({
     if (enabled && !location.location) {
       setShowLocationDialog(true);
     } else if (!enabled) {
-      // Reset to manual values or preferences
       initializeFromPreferences();
       setWeatherMappingReasons([]);
     }
   };
 
-  const renderOptionCard = <T extends string>(
-    value: T,
-    currentValue: T | undefined,
-    onClick: (value: T) => void,
-    label: string,
-    description?: string,
-    testId?: string
-  ) => (
-    <Card
-      className={cn(
-        "cursor-pointer transition-all hover:shadow-md border-2 bg-sprout-primary text-sprout-white border-sprout-medium",
-        currentValue === value
-          ? "border-sprout-success bg-sprout-success/20"
-          : "border-sprout-medium hover:border-sprout-success/50"
-      )}
-      onClick={() => onClick(value)}
-      data-testid={testId}
-    >
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between">
-          <div className="flex-1">
-            <h4 className="font-medium text-sprout-white">{label}</h4>
-            {description && (
-              <p className="text-sm text-sprout-light mt-1">{description}</p>
-            )}
-          </div>
-          {currentValue === value && (
-            <CheckCircle className="w-5 h-5 text-sprout-success flex-shrink-0 ml-2" />
-          )}
-        </div>
-      </CardContent>
-    </Card>
-  );
-
-  const renderStep1 = () => (
-    <div className="space-y-4">
-      <div className="text-center mb-6">
-        <Lightbulb className="w-12 h-12 text-sprout-light mx-auto mb-2" />
-        <h3 className="text-lg font-semibold text-sprout-white">
-          How big is your {plantName}?
-        </h3>
-        <p className="text-sprout-light">
-          Plant size affects how much water the soil can hold
-        </p>
-      </div>
-
-      <div className="space-y-3">
-        {(
-          Object.keys(labels.plantSize) as Array<keyof typeof labels.plantSize>
-        ).map((size) => (
-          <div key={size}>
-            {renderOptionCard(
-              size,
-              factors.plantSize,
-              (value) => updateFactor("plantSize", value),
-              labels.plantSize[size],
-              undefined,
-              `plant-size-${size}`
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-
-  const renderStep2 = () => (
-    <div className="space-y-6">
-      <div className="text-center mb-6">
-        <Thermometer className="w-12 h-12 text-sprout-light mx-auto mb-2" />
-        <h3 className="text-lg font-semibold text-sprout-white">
-          Environmental Conditions
-        </h3>
-        <p className="text-sprout-light">
-          These factors affect how quickly your plant uses water
-        </p>
-      </div>
-
-      {/* Weather Data Toggle */}
-      <Card className="border-sprout-medium bg-sprout-primary/30">
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <Cloud className="w-4 h-4 text-sprout-light" />
-              <span className="font-medium text-sprout-white">
-                Use Current Weather
-              </span>
-            </div>
-            <Switch
-              checked={enableWeatherData}
-              onCheckedChange={handleToggleWeatherData}
-              data-testid="weather-data-toggle"
-            />
-          </div>
-
-          {enableWeatherData && (
-            <div className="space-y-3">
-              {location.location && weather.weatherData ? (
-                <WeatherIndicator
-                  weatherData={weather.weatherData}
-                  isLoading={weather.isLoading}
-                  isFallback={weather.isFallback}
-                  error={weather.error?.message}
-                  temperatureUnit={preferences?.temperature_unit || 'F'}
-                  onRefresh={weather.refreshWeather}
-                  compact
-                />
-              ) : location.isLoading || weather.isLoading ? (
-                <div className="flex items-center gap-2 text-sm text-sprout-light">
-                  <RefreshCw className="w-4 h-4 animate-spin" />
-                  Loading weather data...
-                </div>
-              ) : (
-                <div className="flex items-center gap-2 text-sm text-sprout-warning">
-                  <MapPin className="w-4 h-4" />
-                  Location needed for weather data
-                </div>
-              )}
-
-              {weatherMappingReasons.length > 0 && (
-                <div className="text-xs text-sprout-light bg-sprout-medium/20 p-2 rounded">
-                  <p className="font-medium mb-1">Weather-based adjustments:</p>
-                  <ul className="list-disc list-inside space-y-1">
-                    {weatherMappingReasons.map((reason, index) => (
-                      <li key={index}>{reason}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          )}
-
-          {!enableWeatherData && (
-            <p className="text-sm text-sprout-light">
-              Manual environmental settings will be used instead
-            </p>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Light Level */}
-      <div className="space-y-3">
-        <Label className="text-base font-medium flex items-center gap-2 text-sprout-white">
-          <Lightbulb className="w-4 h-4" />
-          Light Conditions
-        </Label>
-        <div className="space-y-2">
-          {(
-            Object.keys(labels.lightLevel) as Array<
-              keyof typeof labels.lightLevel
-            >
-          ).map((level) => (
-            <div key={level}>
-              {renderOptionCard(
-                level,
-                factors.lightLevel,
-                (value) => updateFactor("lightLevel", value),
-                level.charAt(0).toUpperCase() + level.slice(1),
-                labels.lightLevel[level],
-                `light-level-${level}`
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Temperature */}
-      <div className="space-y-3">
-        <Label className="text-base font-medium flex items-center gap-2 text-sprout-white">
-          <Thermometer className="w-4 h-4" />
-          Room Temperature
-          {enableWeatherData && weather.weatherData && (
-            <Badge variant="secondary" className="text-xs ml-2">
-              Auto-detected
-            </Badge>
-          )}
-        </Label>
-        <div className="space-y-2">
-          {(
-            Object.keys(labels.temperature) as Array<
-              keyof typeof labels.temperature
-            >
-          ).map((temp) => (
-            <div key={temp}>
-              {renderOptionCard(
-                temp,
-                factors.temperature,
-                (value) => updateFactor("temperature", value),
-                temp.charAt(0).toUpperCase() + temp.slice(1),
-                labels.temperature[temp],
-                `temperature-${temp}`
-              )}
-            </div>
-          ))}
-        </div>
-        {enableWeatherData && weather.weatherData && (
-          <p className="text-xs text-sprout-light">
-            Current temperature:{" "}
-            {formatTemperature(weather.weatherData.current_temp_celsius)}
-          </p>
-        )}
-      </div>
-
-      {/* Humidity */}
-      <div className="space-y-3">
-        <Label className="text-base font-medium flex items-center gap-2 text-sprout-white">
-          <Droplets className="w-4 h-4" />
-          Air Humidity
-          {enableWeatherData && weather.weatherData && (
-            <Badge variant="secondary" className="text-xs ml-2">
-              Auto-detected
-            </Badge>
-          )}
-        </Label>
-        <div className="space-y-2">
-          {(
-            Object.keys(labels.humidity) as Array<keyof typeof labels.humidity>
-          ).map((humidity) => (
-            <div key={humidity}>
-              {renderOptionCard(
-                humidity,
-                factors.humidity,
-                (value) => updateFactor("humidity", value),
-                humidity.charAt(0).toUpperCase() + humidity.slice(1),
-                labels.humidity[humidity],
-                `humidity-${humidity}`
-              )}
-            </div>
-          ))}
-        </div>
-        {enableWeatherData && weather.weatherData && (
-          <p className="text-xs text-sprout-light">
-            Current humidity: {weather.weatherData.current_humidity_percent}%
-          </p>
-        )}
-      </div>
-    </div>
-  );
-
-  const renderStep3 = () => (
-    <div className="space-y-6">
-      <div className="text-center mb-6">
-        <Heart className="w-12 h-12 text-sprout-light mx-auto mb-2" />
-        <h3 className="text-lg font-semibold text-sprout-white">
-          Personal Preferences
-        </h3>
-        <p className="text-sprout-light">
-          Let's personalize the schedule to your care style
-        </p>
-      </div>
-
-      {/* Care Style */}
-      <div className="space-y-3">
-        <Label className="text-base font-medium flex items-center gap-2 text-sprout-white">
-          <Heart className="w-4 h-4" />
-          Care Style
-        </Label>
-        <div className="space-y-2">
-          {(
-            Object.keys(labels.careStyle) as Array<
-              keyof typeof labels.careStyle
-            >
-          ).map((style) => (
-            <div key={style}>
-              {renderOptionCard(
-                style,
-                factors.careStyle,
-                (value) => updateFactor("careStyle", value),
-                labels.careStyle[style],
-                undefined,
-                `care-style-${style}`
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Soil Type */}
-      <div className="space-y-3">
-        <Label className="text-base font-medium flex items-center gap-2 text-sprout-white">
-          <Shovel className="w-4 h-4" />
-          Soil Type
-        </Label>
-        <div className="space-y-2">
-          {(
-            Object.keys(labels.soilType) as Array<keyof typeof labels.soilType>
-          ).map((soil) => (
-            <div key={soil}>
-              {renderOptionCard(
-                soil,
-                factors.soilType,
-                (value) => updateFactor("soilType", value),
-                labels.soilType[soil],
-                undefined,
-                `soil-type-${soil}`
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Season Info */}
-      <div className="p-4 bg-sprout-medium/20 rounded-lg border border-sprout-medium">
-        <div className="flex items-center gap-2 mb-2">
-          <Calendar className="w-4 h-4 text-sprout-light" />
-          <span className="font-medium text-sprout-white">Current Season</span>
-        </div>
-        <p className="text-sm text-sprout-light">
-          We've automatically set this to{" "}
-          <span className="font-medium">
-            {labels.season[factors.season as keyof typeof labels.season]}
-          </span>{" "}
-          based on the current date.
-        </p>
-      </div>
-    </div>
-  );
-
-  const renderStep4 = () => {
-    if (!result) return null;
-
-    const isIncrease = result.totalAdjustment > 0;
-    const isDecrease = result.totalAdjustment < 0;
-    const noChange = result.totalAdjustment === 0;
-
-    return (
-      <div className="space-y-6">
-        <div className="text-center mb-6">
-          <CheckCircle className="w-12 h-12 text-sprout-light mx-auto mb-2" />
-          <h3 className="text-lg font-semibold text-sprout-white">
-            Your Personalized Schedule
-          </h3>
-          <p className="text-sprout-light">
-            Based on your inputs, here's the optimal watering schedule
-          </p>
-        </div>
-
-        {/* Main Result */}
-        <Card className="border-sprout-success bg-sprout-primary/50">
-          <CardContent className="p-6 text-center">
-            <div className="space-y-4">
-              <div>
-                <p className="text-sm text-sprout-light mb-1">
-                  Recommended Schedule
-                </p>
-                <p
-                  className="text-3xl font-bold text-sprout-success"
-                  data-testid="recommended-days"
-                >
-                  Every {result.recommendedDays} days
-                </p>
-              </div>
-
-              <div className="flex justify-center items-center gap-4 text-sm">
-                <div className="text-sprout-light">
-                  Base: {result.baseDays} days
-                </div>
-                <div
-                  className={cn(
-                    "font-medium",
-                    isIncrease && "text-sprout-warning",
-                    isDecrease && "text-sprout-water",
-                    noChange && "text-sprout-success"
-                  )}
-                >
-                  {noChange
-                    ? "No adjustment needed"
-                    : `${isIncrease ? "+" : ""}${result.totalAdjustment} days`}
-                </div>
-              </div>
-
-              <Badge
-                variant={
-                  result.confidence === "high"
-                    ? "default"
-                    : result.confidence === "medium"
-                    ? "secondary"
-                    : "destructive"
-                }
-                className="mx-auto"
-                data-testid="confidence-level"
-              >
-                {result.confidence} confidence
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Explanation */}
-        {result.adjustmentReasons.length > 0 && (
-          <Card className="bg-sprout-primary/30 border-sprout-medium">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <AlertCircle className="w-4 h-4 text-sprout-water" />
-                <h4 className="font-medium text-sprout-white">
-                  Why this schedule?
-                </h4>
-              </div>
-              <ul className="space-y-2" data-testid="adjustment-reasons">
-                {result.adjustmentReasons.map((reason, index) => (
-                  <li key={index} className="text-sm text-sprout-light">
-                    • {reason}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Action Buttons */}
-        <div className="flex gap-3 pt-4">
-          <Button
-            variant="outline"
-            onClick={handleStartOver}
-            className="flex-1 border-sprout-light text-sprout-light hover:bg-sprout-light hover:text-sprout-dark"
-          >
-            Adjust Settings
-          </Button>
-          <Button
-            onClick={handleApplySchedule}
-            className="flex-1 bg-sprout-success hover:bg-sprout-success/90 text-sprout-white"
-            data-testid="apply-button"
-          >
-            Use This Schedule
-          </Button>
-        </div>
-      </div>
-    );
-  };
-
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return renderStep1();
+        return (
+          <StepPlantSize
+            factors={factors}
+            updateFactor={updateFactor}
+            labels={labels}
+            plantName={plantName}
+          />
+        );
       case 2:
-        return renderStep2();
+        return (
+          <StepEnvironment
+            factors={factors}
+            updateFactor={updateFactor}
+            labels={labels}
+            enableWeatherData={enableWeatherData}
+            onToggleWeatherData={handleToggleWeatherData}
+            weatherData={weather.weatherData}
+            weatherIsLoading={weather.isLoading}
+            weatherIsFallback={weather.isFallback}
+            weatherError={weather.error?.message}
+            onRefreshWeather={weather.refreshWeather}
+            locationExists={!!location.location}
+            locationIsLoading={location.isLoading}
+            weatherMappingReasons={weatherMappingReasons}
+            temperatureUnit={preferences?.temperature_unit || 'F'}
+          />
+        );
       case 3:
-        return renderStep3();
+        return (
+          <StepPreferences
+            factors={factors}
+            updateFactor={updateFactor}
+            labels={labels}
+          />
+        );
       case 4:
-        return renderStep4();
+        return result ? (
+          <StepResults
+            result={result}
+            onStartOver={handleStartOver}
+            onApplySchedule={handleApplySchedule}
+          />
+        ) : null;
       default:
         return null;
     }
@@ -849,7 +432,6 @@ export const SmartWateringWizard = ({
         onClose={() => {
           setShowLocationDialog(false);
           setEnableWeatherData(false);
-          // Reset to manual values or preferences when skipping location
           initializeFromPreferences();
           setWeatherMappingReasons([]);
         }}
