@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -12,12 +12,10 @@ import {
 } from "@/components/ui/card";
 import ResetPasswordForm from "@/components/auth/ResetPasswordForm";
 import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
-import { Button } from "@/components/ui/button";
 
 const ResetPassword = () => {
  const [isLoading, setIsLoading] = useState(false);
  const navigate = useNavigate();
- const [searchParams] = useSearchParams();
  const { user, verifyResetToken } = useAuth();
 
  // Redirect if already logged in

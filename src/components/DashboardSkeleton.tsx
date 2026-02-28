@@ -1,5 +1,4 @@
 import {
-  DashboardMetricSkeleton,
   DashboardTaskSkeleton,
   DashboardActivitySkeleton,
   Skeleton,

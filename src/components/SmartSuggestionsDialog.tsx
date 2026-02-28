@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,7 +19,6 @@ import {
   Eye,
   CheckCircle2,
   X,
-  Lightbulb,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PatternInsight } from "@/types/wateringPatternTypes";
@@ -53,7 +52,7 @@ export function SmartSuggestionsDialog({
   onDismissAllSuggestions,
   onDismissPlantSuggestions,
   onViewPlantHistory,
-  dismissedPlantIds,
+  dismissedPlantIds: _dismissedPlantIds,
   isLoading = false,
 }: SmartSuggestionsDialogProps) {
   const [isApplyingAll, setIsApplyingAll] = useState(false);

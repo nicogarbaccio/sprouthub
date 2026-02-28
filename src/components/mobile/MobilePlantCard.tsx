@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -6,11 +6,8 @@ import {
   Droplets,
   Sun,
   Heart,
-  MoreVertical,
   Camera,
-  Calendar,
   ArrowRight,
-  Share2,
   Edit3,
 } from "lucide-react";
 import { useSwipe, useHaptic } from "@/hooks/use-touch";
@@ -47,7 +44,7 @@ export function MobilePlantCard({
   onWater,
   onFavorite,
   onEdit,
-  onShare,
+  onShare: _onShare,
   onPhotoAdd,
   onView,
   className,
@@ -98,12 +95,12 @@ export function MobilePlantCard({
     setShowActions(false);
   };
 
-  const handleConfirmWater = (notes?: string) => {
+  const handleConfirmWater = (_notes?: string) => {
     onWater?.(plant.id);
     success();
   };
 
-  const handleAlreadyWatered = (date: string, notes?: string) => {
+  const handleAlreadyWatered = (_date: string, _notes?: string) => {
     // FUTURE FEATURE: Implement backdating watering to a specific date
     // This would require modifying onWater to accept a date parameter
     // For now, just water the plant with current timestamp
@@ -375,8 +372,8 @@ export function PlantQuickActions({
   plant,
   onWater,
   onFavorite,
-  onEdit,
-  onShare,
+  onEdit: _onEdit,
+  onShare: _onShare,
   onPhotoAdd,
   className,
 }: {

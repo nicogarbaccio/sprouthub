@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Droplets, Sun, Clock, Plus, Eye, LogIn } from "lucide-react";
+import { Droplets, Sun, Plus, Eye, LogIn } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 

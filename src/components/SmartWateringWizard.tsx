@@ -24,8 +24,6 @@ import {
   Calendar,
   Heart,
   Shovel,
-  Settings,
-  Leaf,
   Cloud,
   MapPin,
   RefreshCw,
@@ -272,7 +270,7 @@ export const SmartWateringWizard = ({
   };
 
   // Location dialog handlers
-  const handleLocationSelected = (selectedLocation: LocationData) => {
+  const handleLocationSelected = (_selectedLocation: LocationData) => {
     // Location will be handled by the useLocation hook automatically
     setShowLocationDialog(false);
   };

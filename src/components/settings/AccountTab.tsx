@@ -1,4 +1,3 @@
-import React from "react";
 import ProfileInformation from "@/components/profile/ProfileInformation";
 import SecuritySettings from "@/components/profile/SecuritySettings";
 import DangerZone from "@/components/profile/DangerZone";

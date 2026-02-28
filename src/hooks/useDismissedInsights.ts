@@ -7,13 +7,6 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { PatternInsight } from '@/types/wateringPatternTypes';
 
-interface DismissedInsight {
-  id: string;
-  user_plant_id: string;
-  insight_type: string;
-  dismissed_at: string;
-}
-
 export const useDismissedInsights = (plantId: string | undefined) => {
   const [dismissedTypes, setDismissedTypes] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);

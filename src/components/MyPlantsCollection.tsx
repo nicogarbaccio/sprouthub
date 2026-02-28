@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   Plus,
-  Edit,
   Droplets,
   Home,
   ListChecks,
@@ -9,12 +8,10 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { MyPlantCardSkeleton, Skeleton, SearchFilterBarSkeleton, RoomSectionSkeleton } from "@/components/ui/skeleton";
+import { Skeleton, SearchFilterBarSkeleton, RoomSectionSkeleton } from "@/components/ui/skeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
-import { CascadingGrid } from "@/components/ui/cascading-grid";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { useGracefulLoading } from "@/hooks/useGracefulLoading";
-import MyPlantCard from "./MyPlantCard";
 import RoomSection from "./RoomSection";
 import EditPlantDialog from "./EditPlantDialog";
 import AddPlantDialog from "./AddPlantDialog";

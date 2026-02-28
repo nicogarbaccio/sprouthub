@@ -11,13 +11,7 @@ import { supabase } from '@/integrations/supabase/client';
 
 export type DeviceType = 'ios' | 'android' | 'web';
 
-interface PushNotificationToken {
-  token: string;
-  device_type: DeviceType;
-}
-
 class PushNotificationService {
-  private token: string | null = null;
   private isInitialized = false;
 
   /**
@@ -64,7 +58,6 @@ class PushNotificationService {
     // On successful registration
     PushNotifications.addListener('registration', async (token: Token) => {
       console.log('Push registration success, token:', token.value);
-      this.token = token.value;
       await this.saveTokenToDatabase(token.value);
     });
 
@@ -203,7 +196,6 @@ class PushNotificationService {
       // Remove listeners
       await PushNotifications.removeAllListeners();
 
-      this.token = null;
       this.isInitialized = false;
 
       console.log('Push notifications disabled');

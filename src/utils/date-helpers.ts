@@ -22,7 +22,6 @@ import {
   subDays,
   isAfter,
   isBefore,
-  isFuture,
   isPast,
   parseISO,
   startOfDay,

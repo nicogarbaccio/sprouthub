@@ -105,8 +105,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
         // Get record before deletion for refresh and to check if it's a postponement
         const recordToDelete = records.find(r => r.id === recordId);
         if (!recordToDelete) throw new Error('Record not found');
-        
-        const plantId = recordToDelete.plant_id;
+
         const isPostponement = recordToDelete.notes?.includes('POSTPONEMENT:') || recordToDelete.is_postponement || false;
         
         

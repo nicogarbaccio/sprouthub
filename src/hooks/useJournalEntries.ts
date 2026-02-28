@@ -291,8 +291,6 @@ export function useJournalEntries(onEntryDataChange?: () => void) {
         const entryToDelete = entries.find(e => e.id === entryId);
         if (!entryToDelete) throw new Error('Entry not found');
 
-        const plantId = entryToDelete.plant_id;
-
         // Optimistic UI update
         setEntries(currentEntries => currentEntries.filter(entry => entry.id !== entryId));
 

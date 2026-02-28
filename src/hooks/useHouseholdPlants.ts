@@ -3,7 +3,6 @@ import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { OverwateringRisk } from '@/utils/overwatering';
 import { utilityToast } from '@/utils/toast-helpers';
 import { useUserHouseholdMemberships } from '@/hooks/useUserHouseholdMemberships';
 import { usePostponementData } from '@/hooks/usePostponementData';

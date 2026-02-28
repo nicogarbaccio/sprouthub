@@ -51,8 +51,6 @@ const RoomSection = ({
   onViewHistory,
   onScheduleAdjustment,
   formatDate,
-  getNextWateringDate,
-  isOverdue,
   delay,
   overwateringByPlantId,
 }: RoomSectionProps) => {

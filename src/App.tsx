@@ -54,8 +54,6 @@ const About = lazyWithRetry(() => import("./pages/About"));
 const Analytics = lazyWithRetry(() => import("./pages/Analytics"));
 const PrivacyPolicy = lazyWithRetry(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazyWithRetry(() => import("./pages/TermsOfService"));
-const SkeletonDemo = lazyWithRetry(() => import("./pages/SkeletonDemo"));
-const ToastDemo = lazyWithRetry(() => import("./components/ToastDemo"));
 const NotFound = lazyWithRetry(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -127,8 +125,6 @@ const AppRoutes = () => {
             <Route path="/about" element={<About />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/skeleton-demo" element={<SkeletonDemo />} />
-            <Route path="/toast-demo" element={<ToastDemo />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

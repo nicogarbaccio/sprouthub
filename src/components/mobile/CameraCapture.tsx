@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Camera, RotateCcw, Check, X, Download } from "lucide-react";
+import { Camera, RotateCcw, Check, X } from "lucide-react";
 import { useHaptic } from "@/hooks/use-touch";
 import { cn } from "@/lib/utils";
 

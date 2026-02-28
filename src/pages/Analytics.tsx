@@ -6,7 +6,6 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import {
   BarChart3,
@@ -18,19 +17,16 @@ import {
   Calendar,
   Target,
   Award,
-  ArrowLeft,
 } from 'lucide-react';
 import {
   calculateWateringStats,
   calculatePlantHealthStats,
-  getWateringFrequency,
   calculatePlantPerformance,
   getTimeDistribution,
   getAnalyticsInsights,
 } from '@/utils/analytics';
 import { AnalyticsSkeleton } from '@/components/ui/skeleton';
 import { CascadingContainer } from '@/components/ui/cascading-container';
-import { format } from 'date-fns';
 import { FeatureErrorBoundary } from '@/components/ui/feature-error-boundary';
 
 const AnalyticsContent = () => {

@@ -34,7 +34,6 @@ import {
   Trash2,
   History,
   Clock,
-  Calendar,
   AlertTriangle,
   Lightbulb,
   ChevronDown,
@@ -97,7 +96,6 @@ const MyPlantDetails = () => {
   const {
     insights: pendingInsights,
     analysis,
-    isLoading: isAnalyzing,
   } = useWateringPatternAnalysis({
     plantId: plant?.id,
     autoRefresh: false, // Disable auto-refresh to prevent flickering
@@ -153,7 +151,7 @@ const MyPlantDetails = () => {
   );
 
   const handleAlreadyWatered = useCallback(
-    async (date: string, notes?: string) => {
+    async (_date: string, notes?: string) => {
       if (plant) {
         // FUTURE FEATURE: Implement backdating watering to a specific date
         // This would require modifying waterPlant to accept a date parameter
@@ -201,12 +199,6 @@ const MyPlantDetails = () => {
   }, []);
 
   const handleConfirmPostpone = useCallback(async () => {
-    if (plant) {
-      await postponeWatering(plant.id);
-    }
-  }, [plant, postponeWatering]);
-
-  const handlePostpone = useCallback(async () => {
     if (plant) {
       await postponeWatering(plant.id);
     }
@@ -403,7 +395,7 @@ const MyPlantDetails = () => {
 
   const statusInfo = getStatusInfo();
   const wateringCalc = calculateWateringSchedule(plant);
-  const { daysUntilWatering, isOverdue, isPostponed, hasUnknownWateringDate } =
+  const { daysUntilWatering, isOverdue, isPostponed } =
     wateringCalc;
 
   const isDueToday = daysUntilWatering === 0 && !isPostponed;

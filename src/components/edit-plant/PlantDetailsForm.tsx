@@ -91,10 +91,6 @@ const PlantDetailsForm = ({
     { value: 30, label: "Monthly (30 days)" },
   ];
 
-  const isCustomValue = !wateringOptions.some(
-    (option) => option.value === suggestedWateringDays
-  );
-
   const handleWateringScheduleChange = (value: string) => {
     if (value === "custom") {
       setIsInCustomMode(true);

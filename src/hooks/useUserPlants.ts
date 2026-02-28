@@ -4,7 +4,6 @@ import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
-import { OverwateringRisk, computeOverwateringRisk } from '@/utils/overwatering';
 import { utilityToast, wateringToast, plantToast } from '@/utils/toast-helpers';
 import { usePostponementData } from '@/hooks/usePostponementData';
 import { useOverwateringAnalysis } from '@/hooks/useOverwateringAnalysis';
@@ -302,8 +301,6 @@ const {
   }
   }
 
-  // Get the plant data we just created to show the name in toast
-  const addedPlant = plantResult;
   plantToast.added(plantData.nickname);
 
   await fetchPlants();
@@ -458,7 +455,7 @@ try {
 }
 };
 
- const checkOverwatering = async (plantId: string) => {
+ const checkOverwatering = async (_plantId: string) => {
   // Overwatering check disabled
   return;
  };

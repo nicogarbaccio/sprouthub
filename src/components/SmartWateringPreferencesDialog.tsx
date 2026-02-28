@@ -11,7 +11,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { useToast } from "@/hooks/use-toast";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
 import { UserWateringPreferences } from "@/types/smartWateringTypes";
 import { getFactorLabels } from "@/utils/smartWateringSchedule";
@@ -36,7 +35,6 @@ export const SmartWateringPreferencesDialog: React.FC<
 > = ({ isOpen, onClose }) => {
  const { preferences, savePreferences, isLoading, clearPreferences } =
  useSmartWateringPreferences();
- const { toast } = useToast();
  const labels = getFactorLabels();
 
  const [formData, setFormData] = useState<Partial<UserWateringPreferences>>({

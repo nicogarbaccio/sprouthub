@@ -105,7 +105,7 @@ export async function updateMultiplePlantSchedules(
  * Create a schedule adjustment record for tracking pattern-based changes
  */
 export async function recordScheduleAdjustment(
-  plantId: string,
+  _plantId: string,
   previousSchedule: number,
   newSchedule: number,
   reason: string,

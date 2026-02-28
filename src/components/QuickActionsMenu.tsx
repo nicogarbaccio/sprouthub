@@ -19,12 +19,9 @@ import {
   Search,
   Settings,
   BarChart3,
-  Users,
-  User,
   BookOpen,
   Bell,
   Moon,
-  Sun,
   Keyboard,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -157,7 +154,6 @@ const categoryIcons = {
 export const QuickActionsMenu: React.FC<QuickActionsMenuProps> = ({
   open,
   onOpenChange,
-  currentPage,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredActions, setFilteredActions] = useState(allActions);

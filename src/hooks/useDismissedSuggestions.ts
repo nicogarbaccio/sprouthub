@@ -13,15 +13,6 @@ import {
 
 const EXPIRY_DAYS = 30; // Suggestions dismissal expires after 30 days
 
-interface DatabaseDismissedSuggestion {
-  id: string;
-  user_id: string;
-  plant_id: string;
-  dismissed_at: string;
-  reason: 'user_dismissed' | 'applied' | 'auto_expired';
-  expires_at: string;
-}
-
 export const useDismissedSuggestions = () => {
   const [dismissedPlantIds, setDismissedPlantIds] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);

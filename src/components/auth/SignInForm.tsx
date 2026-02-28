@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Eye, EyeOff } from "lucide-react";
 import { authToast } from "@/utils/toast-helpers";
 import { Link } from "react-router-dom";
-import type { ToastProps } from "@/components/ui/toast";
 
 /**
  * Props for SignInForm component.

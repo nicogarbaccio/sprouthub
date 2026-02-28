@@ -61,7 +61,7 @@ function getHandlingAdvice(size: PlantSize): string {
  * @param size  Current plant size (defaults to 'medium' for generic advice)
  */
 export function getRepottingAdvice(
-  plantName: string,
+  _plantName: string,
   catalogPlant: CatalogPlant | undefined,
   size: PlantSize = 'medium'
 ): RepottingAdvice {

@@ -499,7 +499,7 @@ export class WateringPatternAnalyzer {
     currentSchedule: number,
     suggestedSchedule: number,
     analysis: PatternAnalysisResult,
-    intervals: number[]
+    _intervals: number[]
   ): string[] {
     const reasoning: string[] = [];
     const difference = suggestedSchedule - currentSchedule;

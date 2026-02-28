@@ -262,7 +262,7 @@ const WateringHistoryDialog = memo(
     );
 
     // Memoize calculations to prevent unnecessary recalculations
-    const { actualWaterings, stats, risk } = useMemo(() => {
+    const { stats, risk } = useMemo(() => {
       // Filter out postponements for risk calculation
       const filteredWaterings = wateringRecords.filter(
         (record) => !record.is_postponement

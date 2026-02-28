@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card } from "@/components/ui/card";
 import { User, Sliders, CloudSun, Bell, Palette } from "lucide-react";
 import { AccountTab } from "@/components/settings/AccountTab";
 import { PreferencesTab } from "@/components/settings/PreferencesTab";

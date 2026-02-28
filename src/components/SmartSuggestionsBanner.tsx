@@ -1,10 +1,8 @@
-import React from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Brain,
-  Lightbulb,
   Eye,
   X,
   Clock,

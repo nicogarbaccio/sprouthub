@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Bell,
   Trash2,
@@ -49,19 +48,6 @@ const notificationIcons: Record<
   system: Info,
   success: CheckCircle,
   info: Info,
-};
-
-const notificationColors: Record<NotificationType, string> = {
-  overdue_watering: "text-red-500",
-  due_today: "text-blue-500",
-  overwatering_risk: "text-amber-500",
-  seasonal_transition: "text-blue-500",
-  weather_alert: "text-sky-500",
-  pattern_insight: "text-purple-500",
-  household_invite: "text-green-500",
-  system: "text-gray-500",
-  success: "text-green-500",
-  info: "text-blue-500",
 };
 
 const notificationAccentColors: Record<NotificationType, string> = {
@@ -154,7 +140,6 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
               {notifications.map((notification) => {
                 const Icon =
                   notification.icon || notificationIcons[notification.type];
-                const iconColor = notificationColors[notification.type];
 
                 return (
                   <div

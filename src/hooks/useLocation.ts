@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { LocationData, WeatherError } from '@/services/weatherTypes';
 import weatherService from '@/services/weatherService';
-import { TEN_SECONDS_MS, FIVE_MINUTES_MS } from '@/constants/weather';
+
 
 export interface LocationState {
   location: LocationData | null;
@@ -20,9 +20,6 @@ export interface UseLocationOptions {
 export function useLocation(options: UseLocationOptions = {}) {
   const {
     autoRequest = false,
-    enableHighAccuracy = false,
-    timeout = TEN_SECONDS_MS,
-    maximumAge = FIVE_MINUTES_MS,
   } = options;
 
   const [state, setState] = useState<LocationState>({

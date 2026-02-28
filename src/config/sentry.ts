@@ -29,7 +29,7 @@ export const initSentry = () => {
       replaysOnErrorSampleRate: 1.0,
 
       // Filter out sensitive information before sending to Sentry
-      beforeSend(event, hint) {
+      beforeSend(event, _hint) {
         // Don't send events if user is in development mode
         if (import.meta.env.DEV) {
           return null;

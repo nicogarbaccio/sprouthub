@@ -7,7 +7,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
@@ -71,10 +70,6 @@ export const HouseholdMembersCard: React.FC<HouseholdMembersCardProps> = ({
 
   const currentUserMember = household.household_members.find(
     (member) => member.user_id === currentUserId
-  );
-
-  const otherMembers = household.household_members.filter(
-    (member) => member.user_id !== currentUserId
   );
 
   const displayMembers = household.household_members.slice(0, 3);

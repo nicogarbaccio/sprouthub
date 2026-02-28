@@ -179,7 +179,7 @@ const EditPlantDialog = ({
         updated_at: new Date().toISOString(),
       };
 
-      const { data: updatedData, error } = await supabase
+      const { error } = await supabase
         .from("user_plants")
         .update(updateData)
         .eq("id", plant.id)

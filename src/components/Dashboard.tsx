@@ -56,7 +56,6 @@ import { useLocation } from "@/hooks/useLocation";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
 import { useCalendarSeasonalNotification } from "@/hooks/useCalendarSeasonalNotification";
 import { WeatherMoodBanner } from "@/components/WeatherMoodBanner";
-import { RainDelayNotification } from "@/components/RainDelayNotification";
 import { calculateRainDelay } from "@/utils/rainDelayLogic";
 import AddPlantDialog from "./AddPlantDialog";
 import PlantImage from "@/components/ui/plant-image";
@@ -72,7 +71,7 @@ import { EnableWeatherPrompt } from "./EnableWeatherPrompt";
 import { shouldShowOverwateringWarning } from "@/utils/overwatering";
 import { useBulkPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { useDismissedSuggestions } from "@/hooks/useDismissedSuggestions";
-import { format, formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import { useKeyboardShortcuts, createPlantShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { usePlantNotifications } from "@/hooks/usePlantNotifications";
@@ -80,7 +79,7 @@ import { useCareStreak } from "@/hooks/useCareStreak";
 
 const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule, postponeWatering } =
+  const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule } =
     useUserPlants();
   const { profileData, isLoadingProfile } = useProfile();
   const { preferences, loadPreferences } = useSmartWateringPreferences();
@@ -207,8 +206,6 @@ const Dashboard = () => {
   const plantIds = useMemo(() => plants.map((plant) => plant.id), [plants]);
   const {
     plantsWithSuggestions,
-    totalSuggestions,
-    highPrioritySuggestions,
     isLoading: isSuggestionsAnalyzing,
     refreshAnalysis: refreshSuggestionsAnalysis,
   } = useBulkPatternAnalysis(plantIds);
@@ -455,13 +452,7 @@ const Dashboard = () => {
     await waterPlant(plantId, notes || `Quick watered from dashboard`);
   };
 
-  const handleQuickPostpone = async () => {
-    const plantId = waterConfirmation.plantId;
-    setWaterConfirmation({ show: false, plantId: "", plantName: "" });
-    await postponeWatering(plantId);
-  };
-
-  const handleAlreadyWatered = async (date: string, notes?: string) => {
+  const handleAlreadyWatered = async (_date: string, notes?: string) => {
     const plantId = waterConfirmation.plantId;
     setWaterConfirmation({ show: false, plantId: "", plantName: "" });
     // FUTURE FEATURE: Implement backdating watering to a specific date
@@ -518,7 +509,7 @@ const Dashboard = () => {
     dismissMultipleSuggestions(allPlantIds, "user_dismissed");
   };
 
-  const handleSnoozeSuggestions = (weeks: number) => {
+  const handleSnoozeSuggestions = (_weeks: number) => {
     // For now, just dismiss suggestions with snooze tracking
     // In a real implementation, you could implement time-based snoozing
     const allPlantIds = activePlantsWithSuggestions.map(
@@ -1872,7 +1863,7 @@ const Dashboard = () => {
             appliedSuggestions={
               new Set(
                 suggestions
-                  .filter((s) => !hasUnappliedSuggestions)
+                  .filter((_s) => !hasUnappliedSuggestions)
                   .map((s) => s.plant_id)
               )
             }

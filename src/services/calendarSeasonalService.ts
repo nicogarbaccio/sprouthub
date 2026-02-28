@@ -83,23 +83,11 @@ class CalendarSeasonalService {
   }
 
   /**
-   * Get the next season in the cycle
-   */
-  private getNextSeason(currentSeason: Season): Season {
-    const cycle: Season[] = ['winter', 'spring', 'summer', 'fall'];
-    const currentIndex = cycle.indexOf(currentSeason);
-    return cycle[(currentIndex + 1) % 4];
-  }
-
-  /**
    * Calculate the date of the next season change
    */
   private getNextSeasonChangeDate(latitude: number, fromDate: Date = new Date()): { date: Date; season: Season } {
     const isNorthern = latitude >= 0;
     const year = fromDate.getFullYear();
-    const currentMonth = fromDate.getMonth();
-    const currentDay = fromDate.getDate();
-
     // Get season dates (use Northern or flip for Southern)
     const seasonDates = isNorthern
       ? this.NORTHERN_SEASONS
@@ -168,27 +156,21 @@ class CalendarSeasonalService {
     // Get base adjustment for season
     let baseAdjustment = 0;
     let reasoning = '';
-    let direction: 'increase' | 'decrease' | 'maintain' = 'maintain';
-
     switch (targetSeason) {
       case 'spring':
         baseAdjustment = -1;
-        direction = 'decrease';
         reasoning = 'Spring brings active growth and warmer temperatures, requiring more frequent watering';
         break;
       case 'summer':
         baseAdjustment = -2;
-        direction = 'decrease';
         reasoning = 'Summer heat and longer days increase water needs significantly';
         break;
       case 'fall':
         baseAdjustment = 1;
-        direction = 'increase';
         reasoning = 'Fall brings cooler temperatures and less evaporation, so soil stays moist longer';
         break;
       case 'winter':
         baseAdjustment = 2;
-        direction = 'increase';
         reasoning = 'Winter dormancy and reduced light mean plants need much less water';
         break;
     }

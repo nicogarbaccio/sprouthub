@@ -76,9 +76,6 @@ const HouseholdManagement = () => {
   const {
     plants,
     loading: plantsLoading,
-    addPlant,
-    updatePlant,
-    deletePlant,
     addWateringRecord,
     postponeWatering,
     refetch: refetchPlants,
@@ -113,32 +110,6 @@ const HouseholdManagement = () => {
     setIsWateringHistoryOpen(true);
   };
 
-  const handleUpdatePlant = async (
-    plantId: string,
-    updates: Partial<UserPlant>
-  ) => {
-    try {
-      await updatePlant(plantId, updates);
-      setIsEditPlantDialogOpen(false);
-      setEditingPlant(null);
-      toast.success("Plant updated successfully!");
-    } catch (error) {
-      console.error("Error updating plant:", error);
-      toast.error("Failed to update plant");
-    }
-  };
-
-  const handleDeletePlant = async (plantId: string) => {
-    try {
-      await deletePlant(plantId);
-      setIsEditPlantDialogOpen(false);
-      setEditingPlant(null);
-      toast.success("Plant removed from household successfully!");
-    } catch (error) {
-      console.error("Error deleting plant:", error);
-      toast.error("Failed to remove plant from household");
-    }
-  };
 
   const handleWaterPlant = async (plantId: string) => {
     try {

@@ -7,7 +7,7 @@ import { StatusBar, Style } from "@capacitor/status-bar";
 
 export function useCapacitor() {
  const [isNative, setIsNative] = useState(false);
- const [deviceInfo, setDeviceInfo] = useState<Record<string, unknown> | null>(
+ const [deviceInfo] = useState<Record<string, unknown> | null>(
  null
  );
 

@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Droplets } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { authToast } from "@/utils/toast-helpers";
 import Navigation from "@/components/Navigation";
@@ -10,7 +9,6 @@ import {
  CardContent,
  CardDescription,
  CardHeader,
- CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SignInForm from "@/components/auth/SignInForm";

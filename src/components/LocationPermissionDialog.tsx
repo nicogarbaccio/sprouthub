@@ -21,7 +21,6 @@ import {
   Loader2,
 } from "lucide-react";
 import { LocationData, WeatherError } from "@/services/weatherTypes";
-import { cn } from "@/lib/utils";
 
 interface LocationPermissionDialogProps {
   isOpen: boolean;

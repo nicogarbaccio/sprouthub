@@ -77,7 +77,7 @@ const PlantImage = ({
   objectPosition: customObjectPosition,
 }: PlantImageProps) => {
   const [hasError, setHasError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [, setIsLoading] = useState(true);
   const [optimalObjectPosition, setOptimalObjectPosition] = useState("center");
   const [currentSrc, setCurrentSrc] = useState(src);
 

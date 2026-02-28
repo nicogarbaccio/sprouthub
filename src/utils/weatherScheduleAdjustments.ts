@@ -20,7 +20,7 @@ export interface WeatherAdjustmentResult {
  */
 export function calculateWeatherScheduleAdjustments(
   weatherData: WeatherData | null,
-  baseScheduleDays: number
+  _baseScheduleDays: number
 ): WeatherAdjustmentResult {
   if (!weatherData) {
     return {
@@ -102,8 +102,6 @@ export function getWeatherAdjustmentSummary(
   }
 
   const diff = adjustedSchedule - originalSchedule;
-  const adjustment = calculateWeatherScheduleAdjustments(weatherData, originalSchedule);
-
   if (diff > 0) {
     return `Schedule extended by ${diff} day${diff !== 1 ? 's' : ''} due to current weather conditions`;
   } else if (diff < 0) {

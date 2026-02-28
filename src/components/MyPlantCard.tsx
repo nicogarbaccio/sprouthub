@@ -30,7 +30,6 @@ import { useNavigate } from "react-router-dom";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import { useDismissedInsights } from "@/hooks/useDismissedInsights";
 import { useBulkSelection } from "@/contexts/BulkSelectionContext";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Tooltip,
   TooltipContent,
@@ -113,7 +112,7 @@ const MyPlantCard = ({
   const isSelected = isPlantSelected(id);
 
   // Quick pattern analysis hook for post-watering suggestions
-  const { analyzeQuick, isAnalyzing } = useQuickPatternAnalysis();
+  const { analyzeQuick } = useQuickPatternAnalysis();
 
   // Pattern analysis hook for detecting pending suggestions
   const { insights: pendingInsights } = useWateringPatternAnalysis({
@@ -334,7 +333,7 @@ const MyPlantCard = ({
     }
   };
 
-  const handleConfirmWater = async (notes?: string) => {
+  const handleConfirmWater = async (_notes?: string) => {
     // First, complete the watering action
     onWater();
 
@@ -378,7 +377,7 @@ const MyPlantCard = ({
     }, TIMING.WATERING_PATTERN_DELAY);
   };
 
-  const handleAlreadyWatered = async (date: string, notes?: string) => {
+  const handleAlreadyWatered = async (_date: string, _notes?: string) => {
     // FUTURE FEATURE: Implement backdating watering to a specific date
     // This would require modifying the onWater callback to accept a date parameter
     // and updating the watering_records table insert to use the provided date

@@ -1,5 +1,5 @@
-import { useEffect, useCallback, useRef, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   setupSwipeToGoBack,
   setupLongPress,
@@ -14,7 +14,6 @@ import {
  */
 export function useIOSOptimizations() {
   const navigate = useNavigate();
-  const location = useLocation();
 
   // Setup swipe-to-go-back gesture
   useEffect(() => {

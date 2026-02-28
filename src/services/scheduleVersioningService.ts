@@ -242,7 +242,7 @@ class ScheduleVersioningService {
    */
   private addWeatherReasoningAndAdjustments(
     weather: WeatherData,
-    season: Season,
+    _season: Season,
     reasoning: string[],
     isOutdoor: boolean | null
   ): void {

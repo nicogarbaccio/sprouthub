@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
  AlertDialog,
  AlertDialogAction,
@@ -37,7 +37,6 @@ export function WaterConfirmationDialog({
  showOverwateringWarning = false,
  daysSinceLastWatered,
  wateringScheduleDays = 7,
- lastWateredDate,
 }: WaterConfirmationDialogProps) {
  const [notes, setNotes] = useState("");
  const [showAlreadyWatered, setShowAlreadyWatered] = useState(false);

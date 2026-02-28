@@ -84,8 +84,6 @@ export function calculateWateringStats(plants: UserPlant[]): WateringStats {
  * Calculate plant health statistics
  */
 export function calculatePlantHealthStats(plants: UserPlant[]): PlantHealthStats {
-  const now = new Date();
-
   let healthyPlants = 0;
   let needsAttention = 0;
   let overduePlants = 0;

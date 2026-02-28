@@ -15,7 +15,6 @@ interface PlantJournalSectionProps {
 
 export function PlantJournalSection({
   plantId,
-  plantNickname,
 }: PlantJournalSectionProps) {
   const [showForm, setShowForm] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);

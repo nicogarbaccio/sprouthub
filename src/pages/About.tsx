@@ -4,13 +4,10 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { CascadingContainer } from "@/components/ui/cascading-container";
-import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import {
@@ -24,7 +21,6 @@ import {
   Home,
   Sun,
   Zap,
-  Heart,
   Users,
   LogIn,
 } from "lucide-react";

@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CloudSun, ChevronLeft, Loader2, MapPin } from "lucide-react";
+import { CloudSun, ChevronLeft, MapPin } from "lucide-react";
 import { useLocation } from "@/hooks/useLocation";
 import { LocationSection } from "@/components/weather/LocationSection";
 import { weatherService } from "@/services/weatherService";

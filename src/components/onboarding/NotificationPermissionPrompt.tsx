@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Bell, X } from "lucide-react";
+import { Bell } from "lucide-react";
 import { pushNotificationService } from "@/services/pushNotificationService";
 import { toast } from "sonner";
 import {

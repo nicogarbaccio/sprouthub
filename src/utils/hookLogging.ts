@@ -5,8 +5,6 @@
  * Automatically disabled in production builds for performance and security.
  */
 
-type LogLevel = 'debug' | 'info' | 'warn' | 'error';
-
 interface LogContext {
   [key: string]: any;
 }
