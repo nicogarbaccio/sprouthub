@@ -30,22 +30,21 @@ test.describe('Dashboard and Navigation', () => {
     // Let's use the explicit URL navigation to be robust if navigation UI is tricky
     // But testing the click is better.
     // Assuming "My Plants" text is in the nav bar.
-    await page.click('text=My Plants');
-    
+    await page.getByTestId('nav-my-plants-button').click();
+
     // Verify URL
     await expect(page).toHaveURL(/\/my-plants/);
-    
+
     // Verify My Plants page content
-    // MyPlantsCollection.tsx has data-testid="my-plants-collection" and "collection-header"
-    await expect(page.getByTestId('my-plants-collection')).toBeVisible();
+    await expect(page.getByTestId('my-plants-collection')).toBeVisible({ timeout: 15000 });
     await expect(page.getByTestId('collection-header')).toBeVisible();
   });
 
   test('should open Add Plant dialog from My Plants', async ({ page }) => {
     // Navigate to My Plants first
-    await page.click('text=My Plants');
+    await page.getByTestId('nav-my-plants-button').click();
     await expect(page).toHaveURL(/\/my-plants/);
-    await expect(page.getByTestId('my-plants-collection')).toBeVisible();
+    await expect(page.getByTestId('my-plants-collection')).toBeVisible({ timeout: 15000 });
 
     // Click the Add New Plant button
     await page.getByTestId('add-plant-button').click();

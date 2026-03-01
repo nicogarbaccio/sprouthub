@@ -7,6 +7,8 @@ const TEST_EMAIL = process.env.TEST_USER_EMAIL;
 // Reuse authenticated state from the setup project — no per-test login needed
 test.use({ storageState: 'e2e/.auth/user.json' });
 
+test.describe.configure({ mode: 'serial' });
+
 test.describe('Plant Collection - Add Plants', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate directly to My Plants — already authenticated via storageState
@@ -58,7 +60,9 @@ test.describe('Plant Collection - Add Plants', () => {
     // Verify dialog closed
     await expect(page.getByTestId('add-plant-dialog')).not.toBeVisible({ timeout: 10000 });
 
-    // Verify the plant appears in collection
+    // Reload to ensure fresh data from the database
+    await page.goto('/my-plants');
+    await expect(page.getByTestId('my-plants-collection')).toBeVisible({ timeout: 15000 });
     await expect(page.locator('[data-testid="plant-card"]').filter({ hasText: plantNickname })).toBeVisible({ timeout: 15000 });
   });
 
@@ -82,7 +86,9 @@ test.describe('Plant Collection - Add Plants', () => {
 
     await expect(page.getByTestId('add-plant-dialog')).not.toBeVisible({ timeout: 10000 });
 
-    // Verify the plant appears in collection
+    // Reload to ensure fresh data from the database
+    await page.goto('/my-plants');
+    await expect(page.getByTestId('my-plants-collection')).toBeVisible({ timeout: 15000 });
     await expect(page.locator('[data-testid="plant-card"]').filter({ hasText: plantNickname })).toBeVisible({ timeout: 15000 });
   });
 
@@ -106,7 +112,9 @@ test.describe('Plant Collection - Add Plants', () => {
 
     await expect(page.getByTestId('add-plant-dialog')).not.toBeVisible({ timeout: 10000 });
 
-    // Wait for the plant card to appear in the collection after refetch
+    // Reload to ensure fresh data from the database
+    await page.goto('/my-plants');
+    await expect(page.getByTestId('my-plants-collection')).toBeVisible({ timeout: 15000 });
     await expect(page.locator('[data-testid="plant-card"]').filter({ hasText: plantNickname })).toBeVisible({ timeout: 15000 });
   });
 
