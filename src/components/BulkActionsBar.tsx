@@ -109,11 +109,11 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
         )}
         style={{
           // Force sticky behavior
-          position: 'fixed' as any,
-          bottom: '0' as any,
-          left: '0' as any,
-          right: '0' as any,
-          zIndex: '50' as any,
+          position: 'fixed' as const,
+          bottom: '0' as const,
+          left: '0' as const,
+          right: '0' as const,
+          zIndex: 50,
         }}
       >
         <div className="max-w-7xl mx-auto px-4 py-3 md:py-4">

@@ -8,9 +8,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import PlantImage from "@/components/ui/plant-image";
 import { formatDistanceToNow } from "date-fns";
 import { getPlantImageUrl } from "@/utils/plants/images";
+import type { UserPlant } from "@/hooks/useUserPlants";
 
 interface DashboardRecentActivityProps {
-  recentlyWateredPlants: any[]; // UserPlant array
+  recentlyWateredPlants: UserPlant[];
 }
 
 export function DashboardRecentActivity({

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { computeOverwateringRisk, shouldShowOverwateringWarning, type WateringRecordLike } from '../overwatering';
+import { computeOverwateringRisk, shouldShowOverwateringWarning, type WateringRecordLike } from '../plants/overwatering';
 
 describe('overwatering', () => {
   describe('computeOverwateringRisk', () => {

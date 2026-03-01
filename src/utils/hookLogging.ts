@@ -5,9 +5,7 @@
  * Automatically disabled in production builds for performance and security.
  */
 
-interface LogContext {
-  [key: string]: any;
-}
+type LogContext = Record<string, unknown> | object;
 
 /**
  * Determines if logging should be enabled based on environment
@@ -107,7 +105,7 @@ const warn = (hookName: string, message: string, context?: LogContext): void => 
  * @example
  * hookLogger.error('useHouseholds', 'Failed to fetch households', error);
  */
-const error = (hookName: string, message: string, error: any): void => {
+const error = (hookName: string, message: string, error: unknown): void => {
   const [formattedMessage] = formatMessage(hookName, message);
 
   console.error(formattedMessage, error);
@@ -165,7 +163,7 @@ const operationComplete = (
 const operationFailed = (
   hookName: string,
   operation: string,
-  err: any
+  err: unknown
 ): void => {
   const errorMessage = err instanceof Error ? err.message : String(err);
   error(hookName, `Failed: ${operation} - ${errorMessage}`, err);
@@ -205,7 +203,7 @@ export const trackOperation = (hookName: string, operation: string) => {
       const duration = Date.now() - startTime;
       hookLogger.operationComplete(hookName, operation, duration, context);
     },
-    fail: (error: any) => {
+    fail: (error: unknown) => {
       hookLogger.operationFailed(hookName, operation, error);
     },
   };

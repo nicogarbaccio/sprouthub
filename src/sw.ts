@@ -8,7 +8,10 @@ import {
 import { ExpirationPlugin } from "workbox-expiration";
 import { clientsClaim } from "workbox-core";
 
-declare const self: any;
+declare const self: ServiceWorkerGlobalScope & typeof globalThis & {
+  __WB_MANIFEST: Array<{ url: string; revision: string | null }>;
+  skipWaiting(): Promise<void>;
+};
 
 self.skipWaiting();
 clientsClaim();

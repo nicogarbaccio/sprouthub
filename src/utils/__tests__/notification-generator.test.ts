@@ -10,11 +10,11 @@ import {
   createBulkWateringNotification,
   createPatternInsightNotification,
   setNotificationNavigate
-} from '../notification-generator';
+} from '../notifications/generator';
 import type { UserPlant } from '@/hooks/useUserPlants';
 
 // Mock the dependencies
-vi.mock('../watering-schedule', () => ({
+vi.mock('../watering/schedule', () => ({
   calculateWateringSchedule: vi.fn((plant) => {
     // Mock implementation based on plant data
     const lastWateredDate = plant.last_watered_date ? new Date(plant.last_watered_date) : new Date();
@@ -31,7 +31,7 @@ vi.mock('../watering-schedule', () => ({
   })
 }));
 
-vi.mock('../overwatering', () => ({
+vi.mock('../plants/overwatering', () => ({
   shouldShowOverwateringWarning: vi.fn(() => false)
 }));
 

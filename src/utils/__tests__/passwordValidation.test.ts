@@ -8,7 +8,7 @@ import {
   getPasswordStrengthMessage,
   generateSecurePassword,
   type PasswordValidationResult
-} from '../passwordValidation';
+} from '../auth/password';
 
 describe('validatePassword', () => {
   describe('minimum length requirement', () => {

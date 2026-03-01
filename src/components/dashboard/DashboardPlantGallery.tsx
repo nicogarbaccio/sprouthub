@@ -9,9 +9,10 @@ import {
 import PlantImage from "@/components/ui/plant-image";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { getPlantImageUrl } from "@/utils/plants/images";
+import type { UserPlant } from "@/hooks/useUserPlants";
 
 interface DashboardPlantGalleryProps {
-  favoritePlants: any[]; // UserPlant array
+  favoritePlants: UserPlant[];
   onImageClick: (imageSrc: string, plantName: string, imageSource?: string) => void;
   onNavigate: (path: string) => void;
 }

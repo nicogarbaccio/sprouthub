@@ -20,11 +20,12 @@ import { SmartSuggestionsDialog } from "@/components/SmartSuggestionsDialog";
 import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { getPlantImageUrl } from "@/utils/plants/images";
 import type { SeasonalScheduleSuggestion } from "@/services/scheduleVersioningService";
-import type { Season as WeatherSeason } from "@/services/seasonalDetectionService";
-import type { Season as CalendarSeason } from "@/services/calendarSeasonalService";
+import type { SeasonalTransition } from "@/services/seasonalDetectionService";
+import type { UpcomingSeasonChange } from "@/services/calendarSeasonalService";
 import type { PlantSeasonalSuggestion } from "@/hooks/useCalendarSeasonalNotification";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import type { PlantSuggestion } from "@/components/SmartSuggestionsDialog";
+import type { UserPlant } from "@/hooks/useUserPlants";
 
 interface DashboardDialogsProps {
   // AddPlantDialog
@@ -36,7 +37,7 @@ interface DashboardDialogsProps {
   bulkWaterDialogOpen: boolean;
   onBulkWaterDialogClose: () => void;
   onBulkWater: () => void;
-  plantsNeedingWater: any[]; // UserPlant array
+  plantsNeedingWater: UserPlant[];
 
   // WaterConfirmationDialog
   waterConfirmation: {
@@ -64,10 +65,7 @@ interface DashboardDialogsProps {
   onFullscreenImageClose: () => void;
 
   // SeasonalReviewDialog
-  pendingTransition: {
-    to_season: WeatherSeason;
-    [key: string]: any;
-  } | null;
+  pendingTransition: SeasonalTransition | null;
   seasonalReviewDialogOpen: boolean;
   onSeasonalReviewDialogClose: () => void;
   seasonalSuggestions: SeasonalScheduleSuggestion[];
@@ -78,11 +76,7 @@ interface DashboardDialogsProps {
   hasUnappliedSuggestions: boolean;
 
   // CalendarSeasonalDialog
-  calendarSeasonChange: {
-    nextSeason: CalendarSeason;
-    changeDate: Date;
-    [key: string]: any;
-  } | null;
+  calendarSeasonChange: UpcomingSeasonChange | null;
   calendarSeasonalDialogOpen: boolean;
   onCalendarSeasonalDialogClose: () => void;
   calendarPlantSuggestions: PlantSeasonalSuggestion[];

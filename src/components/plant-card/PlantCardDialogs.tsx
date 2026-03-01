@@ -4,7 +4,7 @@ import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import { PatternSuggestionsDialog } from "@/components/watering-patterns";
 import PatternTipsModal from "@/components/watering-patterns/PatternTipsModal";
 import { JournalModal } from "@/components/journal/JournalModal";
-import type { PatternInsight } from "@/types/wateringPatternTypes";
+import type { PatternInsight, WateringPatternAnalysis } from "@/types/wateringPatternTypes";
 
 interface PlantCardDialogsProps {
   id: string;
@@ -27,7 +27,7 @@ interface PlantCardDialogsProps {
 
   showPatternSuggestions: boolean;
   onPatternSuggestionsClose: () => void;
-  patternAnalysis: any;
+  patternAnalysis: WateringPatternAnalysis | null;
   patternInsights: PatternInsight[];
   onAcceptSuggestion: (insight: PatternInsight) => Promise<void>;
 

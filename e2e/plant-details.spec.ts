@@ -16,6 +16,9 @@ test.describe('Plant Details Page', () => {
     const firstPlantButton = page.getByTestId('plant-card').first().getByRole('heading', { level: 3 }).getByRole('button');
     await firstPlantButton.click();
     await expect(page).toHaveURL(/\/my-plants\/[\w-]+/, { timeout: 10000 });
+
+    // Wait for the detail page content to fully load (not just the URL change)
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible({ timeout: 15000 });
   });
 
   // ── Display ────────────────────────────────────────────────────────

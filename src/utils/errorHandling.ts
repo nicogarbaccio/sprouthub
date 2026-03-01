@@ -7,7 +7,7 @@
 
 import { toast } from 'sonner';
 
-type LoggerFunction = (message: string, error: any) => void;
+type LoggerFunction = (message: string, error: unknown) => void;
 
 /**
  * Handles API errors with consistent logging and user notification
@@ -26,9 +26,9 @@ type LoggerFunction = (message: string, error: any) => void;
  * }
  */
 export const handleApiError = (
-  error: any,
+  error: unknown,
   message: string,
-  _toast?: any, // Kept for backward compatibility, ignored
+  _toast?: unknown, // Kept for backward compatibility, ignored
   logger: LoggerFunction = console.error
 ): void => {
   const errorMsg = error instanceof Error ? error.message : message;
@@ -52,7 +52,7 @@ export const handleApiError = (
  */
 export const handleApiSuccess = (
   message: string,
-  _toast?: any, // Kept for backward compatibility, ignored
+  _toast?: unknown, // Kept for backward compatibility, ignored
   description?: string
 ): void => {
   toast.success('Success', {
@@ -72,7 +72,7 @@ export const handleApiSuccess = (
  */
 export const handleApiWarning = (
   message: string,
-  _toast?: any, // Kept for backward compatibility, ignored
+  _toast?: unknown, // Kept for backward compatibility, ignored
   description?: string
 ): void => {
   toast.warning('Warning', {
@@ -136,7 +136,7 @@ export const validateEmail = (email: string): string | null => {
  * @param error - Error object to check
  * @returns True if error is a PostgrestError
  */
-export const isPostgrestError = (error: any): error is {
+export const isPostgrestError = (error: unknown): error is {
   code: string;
   message: string;
   details: string;
@@ -156,6 +156,6 @@ export const isPostgrestError = (error: any): error is {
  * @param error - Error object to check
  * @returns True if error indicates no rows found
  */
-export const isNoRowsError = (error: any): boolean => {
+export const isNoRowsError = (error: unknown): boolean => {
   return isPostgrestError(error) && error.code === 'PGRST116';
 };

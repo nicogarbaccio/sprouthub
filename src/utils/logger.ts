@@ -38,12 +38,12 @@ class Logger {
     return requestedLevelIndex >= currentLevelIndex;
   }
 
-  private formatMessage(level: LogLevel, message: string, data?: any): any[] {
+  private formatMessage(level: LogLevel, message: string, data?: unknown): unknown[] {
     const prefix = this.config.includeTimestamp
       ? `[${new Date().toISOString()}] [${level.toUpperCase()}]`
       : `[${level.toUpperCase()}]`;
 
-    const parts = [prefix, message];
+    const parts: unknown[] = [prefix, message];
     if (data !== undefined) {
       parts.push(data);
     }
@@ -54,7 +54,7 @@ class Logger {
   /**
    * Debug level logging - for detailed debugging information
    */
-  debug(message: string, data?: any): void {
+  debug(message: string, data?: unknown): void {
     if (this.shouldLog('debug')) {
       console.log(...this.formatMessage('debug', message, data));
     }
@@ -63,7 +63,7 @@ class Logger {
   /**
    * Info level logging - for general informational messages
    */
-  info(message: string, data?: any): void {
+  info(message: string, data?: unknown): void {
     if (this.shouldLog('info')) {
       console.info(...this.formatMessage('info', message, data));
     }
@@ -72,7 +72,7 @@ class Logger {
   /**
    * Warning level logging - for warning messages
    */
-  warn(message: string, data?: any): void {
+  warn(message: string, data?: unknown): void {
     if (this.shouldLog('warn')) {
       console.warn(...this.formatMessage('warn', message, data));
     }
@@ -82,7 +82,7 @@ class Logger {
    * Error level logging - for error messages
    * Note: Errors are always logged regardless of config
    */
-  error(message: string, error?: any): void {
+  error(message: string, error?: unknown): void {
     // Always log errors, even in production
     console.error(...this.formatMessage('error', message, error));
   }
@@ -101,7 +101,7 @@ class Logger {
   /**
    * Table logging - for displaying tabular data
    */
-  table(data: any): void {
+  table(data: unknown): void {
     if (this.config.enabled) {
       console.table(data);
     }

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { WateringPatternAnalyzer } from '../watering-pattern-analyzer';
+import { WateringPatternAnalyzer } from '../watering/patternAnalyzer';
 import type { WateringPatternData, WateringRecordForAnalysis } from '@/types/wateringPatternTypes';
 
 describe('WateringPatternAnalyzer', () => {

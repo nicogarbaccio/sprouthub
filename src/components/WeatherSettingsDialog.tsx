@@ -87,8 +87,8 @@ export function WeatherSettingsDialog({
       toast.success("Location found", {
         description: `${locationData.city}${locationData.country ? `, ${locationData.country}` : ''}`,
       });
-    } catch (error: any) {
-      setGeocodingError(error.message || "Failed to find location. Please try a different search.");
+    } catch (error: unknown) {
+      setGeocodingError(error instanceof Error ? error.message : "Failed to find location. Please try a different search.");
       setManualLocationData(null);
     } finally {
       setIsGeocodingLocation(false);

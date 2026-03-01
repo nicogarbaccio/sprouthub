@@ -298,8 +298,8 @@ export function ScheduleHistoryCard({
                                   schedule.weather_conditions && (
                                   <span>
                                     {
-                                      (schedule.weather_conditions as any)
-                                        .temperature
+                                      String((schedule.weather_conditions as Record<string, unknown>)
+                                        .temperature)
                                     }
                                     °C
                                   </span>

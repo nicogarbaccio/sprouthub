@@ -40,7 +40,7 @@ export function AuthUpsell({
  const heading = title ?? defaultCopy.title;
  const body = description ?? defaultCopy.description;
 
- const Wrapper: any = variant === "inline" ? "div" : Card;
+ const Wrapper: React.ElementType = variant === "inline" ? "div" : Card;
 
  return (
  <Wrapper className={className} data-testid="auth-upsell">

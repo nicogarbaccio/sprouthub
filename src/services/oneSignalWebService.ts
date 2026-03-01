@@ -7,11 +7,19 @@
 
 import { supabase } from '@/integrations/supabase/client';
 
-// OneSignal Web SDK types
+// OneSignal Web SDK types — SDK is loaded externally via script tag
+interface OneSignalSDK {
+  push: (callback: () => void) => void;
+  init: (config: Record<string, unknown>) => Promise<void>;
+  context?: { appConfig?: { appId?: string } };
+  Notifications: { permission: boolean | string; requestPermission: () => Promise<boolean> };
+  User: { PushSubscription: { id: string | null; optOut: () => Promise<void> } };
+}
+
 declare global {
   interface Window {
-    OneSignalDeferred?: Promise<any>;
-    OneSignal?: any;
+    OneSignalDeferred?: Promise<unknown>;
+    OneSignal?: OneSignalSDK;
   }
 }
 
@@ -67,10 +75,13 @@ class OneSignalWebService {
       await this.waitForOneSignalSDK();
 
       // Initialize OneSignal with App ID
-      window.OneSignal = window.OneSignal || [];
+      if (!window.OneSignal) {
+        console.error('[OneSignal] SDK not available after waiting');
+        return;
+      }
 
       await new Promise<void>((resolve) => {
-        window.OneSignal.push(async () => {
+        window.OneSignal!.push(async () => {
           try {
             // Check if already initialized (has appId set)
             const currentAppId = window.OneSignal.context?.appConfig?.appId;
@@ -93,9 +104,9 @@ class OneSignalWebService {
                 });
 
                 console.log('[OneSignal] ✅ Initialized successfully!');
-              } catch (initError: any) {
+              } catch (initError: unknown) {
                 // Check if it's a domain restriction error
-                if (initError?.message?.includes('Can only be used on')) {
+                if (initError instanceof Error && initError.message?.includes('Can only be used on')) {
                   console.warn('[OneSignal] ⚠️ Domain restriction - OneSignal is configured for production only');
                   console.warn('[OneSignal] This is expected in local development. Push notifications will not work.');
                   // Don't throw - just log and continue
@@ -140,9 +151,9 @@ class OneSignalWebService {
             this.isInitialized = true;
             resolve();
 
-          } catch (error: any) {
+          } catch (error: unknown) {
             // If it's a domain restriction error, log it but don't crash
-            if (error?.message?.includes('Can only be used on')) {
+            if (error instanceof Error && error.message?.includes('Can only be used on')) {
               console.warn('[OneSignal] ⚠️ Skipping OneSignal due to domain restriction');
             } else {
               console.error('[OneSignal] Error in init callback:', error);

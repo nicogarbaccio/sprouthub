@@ -10,9 +10,10 @@ import { Button } from "@/components/ui/button";
 import PlantImage from "@/components/ui/plant-image";
 import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { getPlantImageUrl } from "@/utils/plants/images";
+import type { UserPlant } from "@/hooks/useUserPlants";
 
 interface DashboardTodaysTasksProps {
-  plantsNeedingWater: any[]; // UserPlant array
+  plantsNeedingWater: UserPlant[];
   onQuickWater: (plantId: string, plantName: string) => void;
   onNavigate: (path: string) => void;
 }

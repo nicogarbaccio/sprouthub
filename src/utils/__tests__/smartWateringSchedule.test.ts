@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { calculateSmartWateringSchedule, type WateringFactors } from '../smartWateringSchedule';
+import { calculateSmartWateringSchedule, type WateringFactors } from '../watering/smartSchedule';
 
 describe('smartWateringSchedule', () => {
   describe('calculateSmartWateringSchedule', () => {

@@ -13,7 +13,7 @@ import { logger } from './logger';
 
 interface StorageOptions {
   version?: number;
-  validate?: (data: any) => boolean;
+  validate?: (data: unknown) => boolean;
 }
 
 interface StorageData<T> {
@@ -224,7 +224,7 @@ class StorageManager {
             const raw = localStorage.getItem(key);
             if (!raw) continue;
 
-            const parsed: StorageData<any> = JSON.parse(raw);
+            const parsed: StorageData<unknown> = JSON.parse(raw);
             if (parsed.timestamp && now - parsed.timestamp > maxAge) {
               keysToRemove.push(key);
             }
@@ -236,7 +236,7 @@ class StorageManager {
       } else {
         this.inMemoryStore.forEach((value, key) => {
           try {
-            const parsed: StorageData<any> = JSON.parse(value);
+            const parsed: StorageData<unknown> = JSON.parse(value);
             if (parsed.timestamp && now - parsed.timestamp > maxAge) {
               keysToRemove.push(key);
             }

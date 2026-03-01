@@ -11,11 +11,11 @@ import {
   getAdjustedWateringSchedule,
   type RainDelayResult,
   type RainDelayOptions
-} from '../rainDelayLogic';
+} from '../watering/rainDelay';
 import type { WeatherData } from '@/services/weatherTypes';
 
 // Mock the weatherMapping module
-vi.mock('../weatherMapping', () => ({
+vi.mock('../weather/mapping', () => ({
   shouldDelayWateringForRain: vi.fn((weatherData, isOutdoorPlant, rainThreshold) => {
     if (!isOutdoorPlant) {
       return { shouldDelay: false };

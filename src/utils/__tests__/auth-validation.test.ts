@@ -8,7 +8,7 @@ import {
   hasValidationErrors,
   type FormData,
   type ValidationErrors
-} from '../auth-validation';
+} from '../auth/validation';
 
 describe('validateSignUpForm', () => {
   const validFormData: FormData = {

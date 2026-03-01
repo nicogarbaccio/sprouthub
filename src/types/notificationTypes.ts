@@ -42,7 +42,7 @@ export interface Notification {
     plantName?: string;
     householdId?: string;
     count?: number;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 

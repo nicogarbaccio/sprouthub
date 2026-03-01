@@ -42,7 +42,7 @@ export const useSmartWateringPreferences = () => {
   if (data) {
   // Convert database format to our UserWateringPreferences format
   // Cast to any because Supabase types may not include all columns yet
-  const dbData = data as any;
+  const dbData = data as unknown as UserWateringPreferences;
   const convertedPreferences: UserWateringPreferences = {
    id: dbData.id,
    user_id: dbData.user_id,
@@ -113,7 +113,7 @@ export const useSmartWateringPreferences = () => {
 
   // Convert database format to our UserWateringPreferences format
   // Cast to any because Supabase types may not include all columns yet
-  const dbData = data as any;
+  const dbData = data as unknown as UserWateringPreferences;
   const convertedPreferences: UserWateringPreferences = {
    id: dbData.id,
    user_id: dbData.user_id,
@@ -146,7 +146,7 @@ export const useSmartWateringPreferences = () => {
 
   // Convert database format to our UserWateringPreferences format
   // Cast to any because Supabase types may not include all columns yet
-  const dbData = data as any;
+  const dbData = data as unknown as UserWateringPreferences;
   const convertedPreferences: UserWateringPreferences = {
    id: dbData.id,
    user_id: dbData.user_id,

@@ -34,7 +34,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
       // - legacy dismissed notifications and deprecated types
       // - plant watering notifications (overdue/due_today) — these are regenerated
       //   fresh from plant data each session so they stay current across devices
-      const notificationsWithDates = stored.map((n: any) => ({
+      const notificationsWithDates = stored.map((n: Omit<Notification, 'timestamp'> & { timestamp: string | Date }) => ({
         ...n,
         timestamp: new Date(n.timestamp),
       }))

@@ -62,7 +62,7 @@ class PushNotificationService {
     });
 
     // On registration error
-    PushNotifications.addListener('registrationError', (error: any) => {
+    PushNotifications.addListener('registrationError', (error: unknown) => {
       console.error('Push registration error:', error);
     });
 

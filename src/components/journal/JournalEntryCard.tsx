@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { format } from 'date-fns';
-import { JournalEntry, getMoodConfig } from '@/types/journalTypes';
+import { JournalEntry, getMoodConfig, type PlantMood } from '@/types/journalTypes';
 import { cn } from '@/lib/utils';
 import { getOptimizedImageUrls } from '@/utils/plants/imageOptimization';
 
@@ -37,7 +37,7 @@ export function JournalEntryCard({
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
-  const moodConfig = getMoodConfig(entry.mood as any);
+  const moodConfig = getMoodConfig(entry.mood as PlantMood | null);
   const entryDate = entry.entry_date ? new Date(entry.entry_date) : new Date();
 
   const handleDelete = async () => {

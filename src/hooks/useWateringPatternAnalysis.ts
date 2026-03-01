@@ -367,7 +367,7 @@ export function useBulkPatternAnalysis(plantIds: string[]) {
       );
 
       const validResults = results
-        .filter((result): result is PromiseFulfilledResult<any> =>
+        .filter((result): result is PromiseFulfilledResult<{ plantId: string; insights: PatternInsight[]; analysis: WateringPatternAnalysis }> =>
           result.status === 'fulfilled' && result.value !== null
         )
         .map(result => result.value);
