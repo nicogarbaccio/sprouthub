@@ -1,6 +1,6 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import AddPlantDialog from "@/components/AddPlantDialog";
 import PlantDetailsHeader from "@/components/plant-details/PlantDetailsHeader";
@@ -10,8 +10,6 @@ import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
 import Footer from "@/components/Footer";
 import { CascadingContainer } from "@/components/ui/cascading-container";
-import { useGracefulLoading } from "@/hooks/useGracefulLoading";
-import { PlantDetailsPageSkeleton } from "@/components/ui/skeleton";
 import { plants } from "@/data/plantData";
 
 const PlantDetails = () => {
@@ -20,21 +18,6 @@ const PlantDetails = () => {
   const location = useLocation();
   const { user } = useAuth();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-
-  // Simulate loading state (in a real app, this would be actual data fetching)
-  const [isLoading, setIsLoading] = useState(true);
-
-  // MUST call useGracefulLoading before any useEffect hooks
-  const { showLoading, isReady } = useGracefulLoading(isLoading, {
-    minLoadingTime: 0,
-    staggerDelay: 0,
-  });
-
-  useEffect(() => {
-    // Simulate API call delay
-    const timer = setTimeout(() => setIsLoading(false), 600);
-    return () => clearTimeout(timer);
-  }, [plantName]);
 
   // Find the plant in the plant data by matching the name
   const plant = plants.find(
@@ -57,19 +40,6 @@ const PlantDetails = () => {
     navigate(`/auth?redirect=${currentPath}`);
   };
 
-  // Show loading skeleton
-  if (showLoading) {
-    return (
-      <div className="min-h-dvh bg-background pb-20 lg:pb-0 ">
-        <Navigation />
-        <div className="pt-16 min-h-[calc(100vh-4rem)]">
-          <PlantDetailsPageSkeleton />
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
   if (!plant) {
     return (
       <div className="min-h-dvh bg-background pb-20 lg:pb-0 ">
@@ -84,32 +54,6 @@ const PlantDetails = () => {
                 onBackClick={() => navigate("/plant-catalog")}
               />
             </CascadingContainer>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (!isReady) {
-    return (
-      <div className="min-h-dvh bg-background pb-20 lg:pb-0 ">
-        <Navigation />
-        <div className="pt-16 min-h-[calc(100vh-4rem)]">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 opacity-0">
-            {/* Invisible content to maintain height */}
-            <div className="h-10 w-32 mb-8" />
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-              <div className="h-80" />
-              <div className="space-y-6">
-                <div className="h-32" />
-                <div className="h-24" />
-              </div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="h-64" />
-              <div className="h-64" />
-            </div>
           </div>
         </div>
         <Footer />

@@ -12,6 +12,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
+import { LoadingTransition } from "@/components/ui/loading-transition";
 import { FeatureErrorBoundary } from "@/components/ui/feature-error-boundary";
 
 const SettingsContent = () => {
@@ -25,29 +26,22 @@ const SettingsContent = () => {
     }
   }, [user, loading, navigate]);
 
-  if (loading) {
-    return (
-      <div className="min-h-dvh bg-background pb-20 lg:pb-0">
-        <Navigation />
-        <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
-          <div className="max-w-5xl mx-auto">
-            <Skeleton className="h-12 w-48 mb-8" />
-            <Skeleton className="h-96 w-full" />
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
-  if (!user) {
+  if (!loading && !user) {
     return null;
   }
+
+  const settingsSkeleton = (
+    <div className="max-w-5xl mx-auto">
+      <Skeleton className="h-12 w-48 mb-8" />
+      <Skeleton className="h-96 w-full" />
+    </div>
+  );
 
   return (
     <div className="min-h-dvh bg-background pb-20 lg:pb-0">
       <Navigation />
       <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
+        <LoadingTransition loading={loading} skeleton={settingsSkeleton}>
         <div className="max-w-5xl mx-auto">
           <CascadingContainer delay={0}>
             <div className="mb-8">
@@ -105,6 +99,7 @@ const SettingsContent = () => {
             </Tabs>
           </CascadingContainer>
         </div>
+        </LoadingTransition>
       </main>
       <Footer />
     </div>

@@ -1,42 +1,23 @@
-import { useState, useEffect } from 'react';
-
-interface UseGracefulLoadingOptions {
- minLoadingTime?: number;
- enableStaggeredLoad?: boolean;
- staggerDelay?: number;
-}
-
+/**
+ * Thin wrapper that exposes a loading boolean for use with LoadingTransition.
+ *
+ * Previously this had a three-state machine (showLoading / showContent / isReady)
+ * with minimum-time delays and invisible placeholders.  That complexity is now
+ * handled by LoadingTransition's crossfade — this hook just passes through.
+ *
+ * Kept as a hook (rather than deleted) so call-sites don't need a big refactor
+ * and so we have a single place to add future loading-UX logic if needed.
+ */
 export const useGracefulLoading = (
- isActuallyLoading: boolean,
- options: UseGracefulLoadingOptions = {}
+  isActuallyLoading: boolean,
+  _options: Record<string, unknown> = {}
 ) => {
- const {
- minLoadingTime = 100, // Reduced from 500ms to 100ms
- enableStaggeredLoad = false, // Disabled by default for faster loading
- staggerDelay = 50 // Reduced from 200ms to 50ms
- } = options;
-
- const [showLoading, setShowLoading] = useState(true);
- const [showContent, setShowContent] = useState(false);
-
- useEffect(() => {
- if (!isActuallyLoading) {
-  const timer = setTimeout(() => {
-  setShowLoading(false);
-  if (enableStaggeredLoad) {
-   setTimeout(() => setShowContent(true), staggerDelay);
-  } else {
-   setShowContent(true);
-  }
-  }, minLoadingTime);
-
-  return () => clearTimeout(timer);
- }
- }, [isActuallyLoading, minLoadingTime, enableStaggeredLoad, staggerDelay]);
-
- return {
- showLoading: isActuallyLoading || showLoading,
- showContent,
- isReady: !isActuallyLoading && !showLoading && showContent
- };
-}; 
+  return {
+    /** true while data is still loading */
+    loading: isActuallyLoading,
+    // Legacy aliases kept for backward compatibility during migration
+    showLoading: isActuallyLoading,
+    showContent: !isActuallyLoading,
+    isReady: !isActuallyLoading,
+  };
+};

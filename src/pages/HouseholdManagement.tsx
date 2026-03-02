@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CascadingContainer } from "@/components/ui/cascading-container";
+import { LoadingTransition } from "@/components/ui/loading-transition";
 import { HouseholdDetailsSkeleton, Skeleton } from "@/components/ui/skeleton";
 import {
   Settings,
@@ -160,18 +161,7 @@ const HouseholdManagement = () => {
     );
   }
 
-  if (loading) {
-    return (
-      <div>
-        <Navigation />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <HouseholdDetailsSkeleton />
-        </div>
-      </div>
-    );
-  }
-
-  if (!household) {
+  if (!loading && !household) {
     return (
       <div>
         <Navigation />
@@ -197,7 +187,7 @@ const HouseholdManagement = () => {
     );
   }
 
-  const currentUserMember = household.household_members.find(
+  const currentUserMember = household?.household_members.find(
     (member) => member.user_id === user.id
   );
 
@@ -206,7 +196,7 @@ const HouseholdManagement = () => {
   const isOwner = currentUserMember?.role === "owner";
 
   const handleDeleteHousehold = async () => {
-    if (!isOwner) return;
+    if (!isOwner || !household) return;
 
     const success = await deleteHousehold(household.id);
     if (success) {
@@ -219,6 +209,7 @@ const HouseholdManagement = () => {
     <div>
       <Navigation />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <LoadingTransition loading={loading} skeleton={<HouseholdDetailsSkeleton />}>
         {/* Header */}
         <CascadingContainer delay={0}>
           <div className="mb-8">
@@ -631,6 +622,7 @@ const HouseholdManagement = () => {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+        </LoadingTransition>
       </div>
     </div>
   );

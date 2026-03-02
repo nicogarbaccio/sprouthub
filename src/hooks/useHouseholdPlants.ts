@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/contexts/AuthContext';
@@ -62,12 +63,11 @@ export interface HouseholdPlant {
 }
 
 const HOOK_NAME = 'useHouseholdPlants';
+const HOUSEHOLD_PLANTS_QUERY_KEY = 'household-plants';
 
 export const useHouseholdPlants = () => {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [plants, setPlants] = useState<HouseholdPlant[]>([]);
-  const [loading, setLoading] = useState(true);
 
   // Use custom hooks
   const { fetchMemberships } = useUserHouseholdMemberships();
@@ -81,7 +81,7 @@ export const useHouseholdPlants = () => {
   /**
    * Fetches all plants (personal + household)
    */
-  const fetchAllPlants = useCallback(async (): Promise<any[]> => {
+  const fetchAllPlants = useCallback(async (): Promise<Database['public']['Views']['plants_with_watering_info']['Row'][]> => {
     if (!user) {
       hookLogger.debug(HOOK_NAME, 'No user, returning empty plants');
       return [];
@@ -232,44 +232,43 @@ export const useHouseholdPlants = () => {
     [user, fetchPostponementsGrouped]
   );
 
-  /**
-   * Main function to fetch all plant data
-   */
+  // React Query for household plants — cached across navigations
+  const {
+    data: plants = [],
+    isLoading: queryLoading,
+    refetch,
+  } = useQuery({
+    queryKey: [HOUSEHOLD_PLANTS_QUERY_KEY, user?.id],
+    queryFn: async (): Promise<HouseholdPlant[]> => {
+      if (!user) return [];
+
+      const mainTracker = trackOperation(HOOK_NAME, 'fetchPlants');
+
+      try {
+        const plantsData = await fetchAllPlants();
+        const enrichedPlants = await enrichPlantsWithData(plantsData);
+        await computeRisks(enrichedPlants);
+        mainTracker.complete({ plantCount: enrichedPlants.length });
+        return enrichedPlants;
+      } catch (error) {
+        mainTracker.fail(error);
+        hookLogger.error(HOOK_NAME, 'Failed to fetch plants', error);
+        const errorMsg = getErrorMessage(
+          error,
+          'Failed to load plants. Please try again.'
+        );
+        utilityToast.error('Loading Failed', errorMsg);
+        return [];
+      }
+    },
+    enabled: !!user,
+  });
+
+  const loading = queryLoading || isComputingRisks;
+
   const fetchPlants = useCallback(async () => {
-    if (!user) {
-      setPlants([]);
-      setLoading(false);
-      return;
-    }
-
-    const mainTracker = trackOperation(HOOK_NAME, 'fetchPlants');
-
-    try {
-      // Step 1: Fetch all plants
-      const plantsData = await fetchAllPlants();
-
-      // Step 2: Enrich with additional data
-      const enrichedPlants = await enrichPlantsWithData(plantsData);
-
-      // Step 3: Compute overwatering risks
-      await computeRisks(enrichedPlants);
-
-      setPlants(enrichedPlants);
-      mainTracker.complete({ plantCount: enrichedPlants.length });
-    } catch (error) {
-      mainTracker.fail(error);
-      hookLogger.error(HOOK_NAME, 'Failed to fetch plants', error);
-
-      const errorMsg = getErrorMessage(
-        error,
-        'Failed to load plants. Please try again.'
-      );
-      utilityToast.error('Loading Failed', errorMsg);
-      setPlants([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [user, fetchAllPlants, enrichPlantsWithData, computeRisks]);
+    await refetch();
+  }, [refetch]);
 
   /**
    * Validates plant ownership before mutation
@@ -445,10 +444,6 @@ export const useHouseholdPlants = () => {
       throw error;
     }
   };
-
-  useEffect(() => {
-    fetchPlants();
-  }, [fetchPlants]);
 
   return {
     plants,

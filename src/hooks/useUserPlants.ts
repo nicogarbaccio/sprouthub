@@ -1,5 +1,6 @@
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useCallback } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 import { useAuth } from '@/contexts/AuthContext';
@@ -7,7 +8,6 @@ import { utilityToast } from '@/utils/notifications/toast';
 import { usePostponementData } from '@/hooks/usePostponementData';
 import { useOverwateringAnalysis } from '@/hooks/useOverwateringAnalysis';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
-import { getErrorMessage } from '@/utils/errorHandling';
 import { getUniqueValues } from '@/utils/arrayUtils';
 import { usePlantActions } from '@/hooks/usePlantActions';
 
@@ -49,13 +49,11 @@ export interface UserPlant {
 }
 
 const HOOK_NAME = 'useUserPlants';
+export const USER_PLANTS_QUERY_KEY = 'user-plants';
 
 export const useUserPlants = () => {
 const { user } = useAuth();
-const [plants, setPlants] = useState<UserPlant[]>([]);
-const [loading, setLoading] = useState(true);
-const [isInitialLoad, setIsInitialLoad] = useState(true);
-const fetchIdRef = useRef(0);
+const queryClient = useQueryClient();
 
 // Use custom hooks
 const { fetchPostponementsGrouped } = usePostponementData();
@@ -68,7 +66,7 @@ const {
  /**
   * Fetches user's personal plants from database
   */
- const fetchUserPlants = useCallback(async (): Promise<any[]> => {
+ const fetchUserPlants = useCallback(async (): Promise<Database['public']['Views']['plants_with_watering_info']['Row'][]> => {
   if (!user) {
    hookLogger.debug(HOOK_NAME, 'No user, returning empty plants');
    return [];
@@ -169,80 +167,54 @@ const {
   [fetchPostponementsGrouped]
  );
 
- /**
-  * Main function to fetch all plant data
-  */
+ // React Query for plant data — cached across navigations
+ const {
+  data: plants = [],
+  isLoading: queryLoading,
+  refetch,
+ } = useQuery({
+  queryKey: [USER_PLANTS_QUERY_KEY, user?.id],
+  queryFn: async () => {
+   if (!user) return [];
+
+   const mainTracker = trackOperation(HOOK_NAME, 'fetchPlants');
+
+   try {
+    const plantsData = await fetchUserPlants();
+    const enrichedPlants = await enrichPlantsWithData(plantsData);
+    await computeRisks(enrichedPlants);
+    mainTracker.complete({ plantCount: enrichedPlants.length });
+    return enrichedPlants;
+   } catch (error) {
+    mainTracker.fail(error);
+    hookLogger.error(HOOK_NAME, 'Failed to fetch plants', error);
+    utilityToast.error('Loading Failed', 'Failed to load your plants. Please try again.');
+    return [];
+   }
+  },
+  enabled: !!user,
+ });
+
+ const loading = queryLoading || isComputingRisks;
+
+ // Wrapper to match the old fetchPlants() interface used by usePlantActions
  const fetchPlants = useCallback(async () => {
-  if (!user) {
-   setPlants([]);
-   setLoading(false);
-   setIsInitialLoad(false);
-   return;
-  }
+  await refetch();
+ }, [refetch]);
 
-  // Increment fetch ID to track stale requests
-  const currentFetchId = ++fetchIdRef.current;
-
-  const mainTracker = trackOperation(HOOK_NAME, 'fetchPlants');
-
-  try {
-   // Step 1: Fetch user plants
-   const plantsData = await fetchUserPlants();
-
-   // Bail out if a newer fetch has started
-   if (currentFetchId !== fetchIdRef.current) {
-    hookLogger.debug(HOOK_NAME, 'Discarding stale fetch result', { currentFetchId, latestFetchId: fetchIdRef.current });
-    return;
-   }
-
-   // Step 2: Enrich with additional data
-   const enrichedPlants = await enrichPlantsWithData(plantsData);
-
-   // Bail out if a newer fetch has started
-   if (currentFetchId !== fetchIdRef.current) {
-    hookLogger.debug(HOOK_NAME, 'Discarding stale fetch result', { currentFetchId, latestFetchId: fetchIdRef.current });
-    return;
-   }
-
-   // Step 3: Compute overwatering risks
-   await computeRisks(enrichedPlants);
-
-   // Final staleness check before setting state
-   if (currentFetchId !== fetchIdRef.current) {
-    hookLogger.debug(HOOK_NAME, 'Discarding stale fetch result', { currentFetchId, latestFetchId: fetchIdRef.current });
-    return;
-   }
-
-   setPlants(enrichedPlants);
-   mainTracker.complete({ plantCount: enrichedPlants.length });
-  } catch (error) {
-   // If a newer fetch has started, don't clobber state with error handling
-   if (currentFetchId !== fetchIdRef.current) {
-    hookLogger.debug(HOOK_NAME, 'Ignoring error from stale fetch', { currentFetchId, latestFetchId: fetchIdRef.current });
-    return;
-   }
-
-   mainTracker.fail(error);
-   hookLogger.error(HOOK_NAME, 'Failed to fetch plants', error);
-
-   // Only clear plants on initial load failure; preserve existing data on background refresh errors
-   if (isInitialLoad) {
-    const errorMsg = getErrorMessage(
-     error,
-     'Failed to load your plants. Please try again.'
-    );
-    utilityToast.error('Loading Failed', errorMsg);
-    setPlants([]);
-   } else {
-    hookLogger.warn(HOOK_NAME, 'Background refresh failed, keeping existing plant data');
-   }
-  } finally {
-   if (currentFetchId === fetchIdRef.current) {
-    setLoading(false);
-    setIsInitialLoad(false);
-   }
-  }
- }, [user, fetchUserPlants, enrichPlantsWithData, computeRisks, isInitialLoad]);
+ // setPlants replacement: optimistically update the React Query cache
+ const setPlants = useCallback(
+  (updater: React.SetStateAction<UserPlant[]>) => {
+   queryClient.setQueryData<UserPlant[]>(
+    [USER_PLANTS_QUERY_KEY, user?.id],
+    (old) => {
+     const prev = old ?? [];
+     return typeof updater === 'function' ? updater(prev) : updater;
+    }
+   );
+  },
+  [queryClient, user?.id]
+ );
 
  // Extract action functions into a separate hook
  const {
@@ -254,15 +226,9 @@ const {
   checkOverwatering,
  } = usePlantActions({ plants, setPlants, fetchPlants, user });
 
-useEffect(() => {
- fetchPlants();
-}, [fetchPlants]);
-
 return {
  plants,
- // Only include isComputingRisks in loading during initial load
- // This prevents the loading state from triggering on background updates
- loading: loading || (isInitialLoad && isComputingRisks),
+ loading,
  overwateringByPlantId,
  fetchPlants,
  addPlant,

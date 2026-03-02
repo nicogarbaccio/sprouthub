@@ -18,7 +18,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { DashboardSkeleton } from "@/components/DashboardSkeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
-import { useGracefulLoading } from "@/hooks/useGracefulLoading";
+import { LoadingTransition } from "@/components/ui/loading-transition";
 import { useUserPlants } from "@/hooks/useUserPlants";
 import { useProfile } from "@/hooks/useProfile";
 import { useSeasonalDetection } from "@/hooks/useSeasonalDetection";
@@ -206,10 +206,6 @@ const Dashboard = () => {
 
   // All hooks must be called before any conditional logic or early returns
   const isLoading = loading || isLoadingProfile;
-  const { showLoading, isReady } = useGracefulLoading(isLoading, {
-    minLoadingTime: 0,
-    staggerDelay: 0,
-  });
 
   // Get the user's first name, with fallback to "plant parent"
   const firstName = profileData.first_name?.trim();
@@ -358,41 +354,6 @@ const Dashboard = () => {
       isDismissedSuggestionsLoaded && activePlantsWithSuggestions.length > 0
     );
   }, [isDismissedSuggestionsLoaded, activePlantsWithSuggestions]);
-
-  // Now handle loading states and early returns AFTER all hooks are called
-  if (showLoading) {
-    return <DashboardSkeleton />;
-  }
-
-  if (!isReady) {
-    return (
-      <div className="py-8 bg-background min-h-[calc(100vh-4rem)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0">
-          {/* Invisible content to maintain height */}
-          <div className="mb-8">
-            <div className="h-10 w-80 mb-2" />
-            <div className="h-6 w-96" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div className="h-16" />
-            <div className="h-16" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div className="h-24" />
-            <div className="h-24" />
-            <div className="h-24" />
-            <div className="h-24" />
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <div className="h-80" />
-            <div className="h-80" />
-          </div>
-          <div className="h-96 mb-8" />
-          <div className="h-64" />
-        </div>
-      </div>
-    );
-  }
 
   const handleQuickWater = (plantId: string, plantName: string) => {
     const plant = plants.find((p) => p.id === plantId);
@@ -564,6 +525,7 @@ const Dashboard = () => {
   };
 
   return (
+    <LoadingTransition loading={isLoading} skeleton={<DashboardSkeleton />}>
     <div
       data-testid="dashboard"
       className="py-8 bg-background min-h-[calc(100vh-4rem)]"
@@ -854,6 +816,7 @@ const Dashboard = () => {
         />
       </div>
     </div>
+    </LoadingTransition>
   );
 };
 

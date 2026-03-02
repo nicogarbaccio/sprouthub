@@ -12,6 +12,7 @@ import { InviteMemberDialog } from '@/components/households/InviteMemberDialog';
 import { HouseholdInvitations } from '@/components/households/HouseholdInvitations';
 import { HouseholdMembersCard } from '@/components/households/HouseholdMembersCard';
 import { CascadingContainer } from "@/components/ui/cascading-container";
+import { LoadingTransition } from "@/components/ui/loading-transition";
 import { HouseholdCardSkeleton } from '@/components/ui/skeleton';
 
 const Households = () => {
@@ -91,13 +92,17 @@ const Households = () => {
         )}
 
         {/* Households Grid */}
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(1)].map((_, i) => (
-              <HouseholdCardSkeleton key={i} />
-            ))}
-          </div>
-        ) : households.length === 0 ? (
+        <LoadingTransition
+          loading={loading}
+          skeleton={
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(1)].map((_, i) => (
+                <HouseholdCardSkeleton key={i} />
+              ))}
+            </div>
+          }
+        >
+        {households.length === 0 ? (
           <CascadingContainer delay={200}>
             <Card className="text-center py-12">
               <CardContent>
@@ -169,6 +174,7 @@ const Households = () => {
             ))}
           </div>
         )}
+        </LoadingTransition>
 
         {/* Dialogs */}
         <CreateHouseholdDialog

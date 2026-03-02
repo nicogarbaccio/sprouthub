@@ -56,7 +56,15 @@ const PrivacyPolicy = lazyWithRetry(() => import("./pages/PrivacyPolicy"));
 const TermsOfService = lazyWithRetry(() => import("./pages/TermsOfService"));
 const NotFound = lazyWithRetry(() => import("./pages/NotFound"));
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 30_000, // 30s — reuse cached data across navigations
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 // Inner component to access useNavigate
 const AppRoutes = () => {

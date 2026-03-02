@@ -1,11 +1,11 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { useUserPlants } from "@/hooks/useUserPlants";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { CascadingContainer } from "@/components/ui/cascading-container";
-import { useGracefulLoading } from "@/hooks/useGracefulLoading";
+import { LoadingTransition } from "@/components/ui/loading-transition";
 import { PlantDetailsPageSkeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -16,7 +16,6 @@ import PlantInfoCard from "@/components/plant-details/PlantInfoCard";
 import PlantActionsMenu from "@/components/plant-details/PlantActionsMenu";
 import RepottingGuideCard from "@/components/plant-details/RepottingGuideCard";
 import PlantDetailDialogs from "@/components/plant-details/PlantDetailDialogs";
-import PlantDetailPlaceholder from "@/components/plant-details/PlantDetailPlaceholder";
 import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
 import {
@@ -43,7 +42,6 @@ const MyPlantDetails = () => {
     fetchPlants,
   } = useUserPlants();
 
-  const [isLoading, setIsLoading] = useState(true);
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
   const [showPostponeConfirmation, setShowPostponeConfirmation] =
     useState(false);
@@ -66,10 +64,6 @@ const MyPlantDetails = () => {
     autoRefresh: false,
   });
 
-  const { showLoading, isReady } = useGracefulLoading(isLoading, {
-    minLoadingTime: 0,
-    staggerDelay: 0,
-  });
 
   const catalogPlant = plant
     ? catalogPlants.find(
@@ -82,15 +76,6 @@ const MyPlantDetails = () => {
 
   const getStatusInfo = useStatusInfo(plant);
   const { getActionableInsights, getBadgeInfo } = useBadgeInfo(pendingInsights);
-
-  useEffect(() => {
-    if (!loading && plants.length > 0) {
-      const timer = setTimeout(() => setIsLoading(false), 300);
-      return () => clearTimeout(timer);
-    } else if (!loading) {
-      setIsLoading(false);
-    }
-  }, [loading, plants]);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -160,21 +145,18 @@ const MyPlantDetails = () => {
     setShowDeleteConfirmation(false);
   }, [plant, deletePlant, navigate]);
 
-  // Loading skeleton
-  if (showLoading || loading) {
-    return (
-      <div className="min-h-dvh bg-background pb-20 lg:pb-0">
-        <Navigation />
-        <main className="py-4 sm:py-6">
-          <PlantDetailsPageSkeleton />
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+  const plantDetailsSkeleton = (
+    <div className="min-h-dvh bg-background pb-20 lg:pb-0">
+      <Navigation />
+      <main className="py-4 sm:py-6">
+        <PlantDetailsPageSkeleton />
+      </main>
+      <Footer />
+    </div>
+  );
 
-  // Plant not found
-  if (!plant) {
+  // Plant not found (after loading completes)
+  if (!loading && !plant) {
     return (
       <div className="min-h-dvh bg-background pb-20 lg:pb-0">
         <Navigation />
@@ -215,11 +197,8 @@ const MyPlantDetails = () => {
 
   const imageSrc = plant.image || catalogPlant?.image || PLANT_FALLBACK_IMAGE;
 
-  if (!isReady) {
-    return <PlantDetailPlaceholder />;
-  }
-
   return (
+    <LoadingTransition loading={loading} skeleton={plantDetailsSkeleton}>
     <div className="min-h-dvh bg-background pb-20 lg:pb-0">
       <Navigation />
       <main className="py-4 sm:py-6">
@@ -357,6 +336,7 @@ const MyPlantDetails = () => {
 
       <Footer />
     </div>
+    </LoadingTransition>
   );
 };
 

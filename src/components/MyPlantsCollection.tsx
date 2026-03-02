@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton, SearchFilterBarSkeleton, RoomSectionSkeleton } from "@/components/ui/skeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
-import { useGracefulLoading } from "@/hooks/useGracefulLoading";
+import { LoadingTransition } from "@/components/ui/loading-transition";
 import RoomSection from "./RoomSection";
 import EditPlantDialog from "./EditPlantDialog";
 import AddPlantDialog from "./AddPlantDialog";
@@ -95,10 +95,31 @@ const MyPlantsCollectionContent = () => {
     setRoomFilter("all");
   };
 
-  const { showLoading, isReady } = useGracefulLoading(loading, {
-    minLoadingTime: 0,
-    staggerDelay: 0,
-  });
+  const myPlantsSkeletonContent = (
+    <section className="py-8 bg-background min-h-[calc(100vh-4rem)]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
+          <div>
+            <Skeleton className="h-10 w-80 mb-4" />
+            <div className="flex flex-wrap gap-4">
+              <Skeleton className="h-6 w-20 rounded-full" />
+              <Skeleton className="h-6 w-24 rounded-full" />
+              <Skeleton className="h-6 w-28 rounded-full" />
+            </div>
+          </div>
+          <div className="flex gap-2 mt-4 md:mt-0">
+            <Skeleton className="h-10 w-24 rounded-xl" />
+            <Skeleton className="h-10 w-36 rounded-xl" />
+          </div>
+        </div>
+        <div className="mb-6">
+          <SearchFilterBarSkeleton />
+        </div>
+        <RoomSectionSkeleton cardCount={4} />
+        <RoomSectionSkeleton cardCount={3} />
+      </div>
+    </section>
+  );
 
   // Automatically generate notifications from plant data
   usePlantNotifications(plants, !loading);
@@ -151,72 +172,6 @@ const MyPlantsCollectionContent = () => {
 
   if (!user) {
     return null;
-  }
-
-  if (showLoading) {
-    return (
-      <section className="py-8 bg-background min-h-[calc(100vh-4rem)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header Skeleton */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
-            <div>
-              <Skeleton className="h-10 w-80 mb-4" />
-              <div className="flex flex-wrap gap-4">
-                <Skeleton className="h-6 w-20 rounded-full" />
-                <Skeleton className="h-6 w-24 rounded-full" />
-                <Skeleton className="h-6 w-28 rounded-full" />
-              </div>
-            </div>
-            <div className="flex gap-2 mt-4 md:mt-0">
-              <Skeleton className="h-10 w-24 rounded-xl" />
-              <Skeleton className="h-10 w-36 rounded-xl" />
-            </div>
-          </div>
-
-          {/* Search/Filter Bar Skeleton */}
-          <div className="mb-6">
-            <SearchFilterBarSkeleton />
-          </div>
-
-          {/* Room Section Skeletons */}
-          <RoomSectionSkeleton cardCount={4} />
-          <RoomSectionSkeleton cardCount={3} />
-        </div>
-      </section>
-    );
-  }
-
-  if (!isReady) {
-    return (
-      <section className="py-8 bg-background min-h-[calc(100vh-4rem)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 opacity-0">
-          {/* Invisible content to maintain height */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
-            <div>
-              <div className="h-10 w-80 mb-4" />
-              <div className="flex flex-wrap gap-4">
-                <div className="h-6 w-20" />
-                <div className="h-6 w-24" />
-                <div className="h-6 w-28" />
-              </div>
-            </div>
-            <div className="flex gap-2 mt-4 md:mt-0">
-              <div className="h-10 w-24" />
-              <div className="h-10 w-36" />
-            </div>
-          </div>
-          <div className="h-10 mb-6" />
-          <div className="mb-12">
-            <div className="h-24 mb-6" />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {Array.from({ length: 4 }).map((_, index) => (
-                <div key={index} className="h-80" />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-    );
   }
 
   // Calculate plant statistics using the new watering calculation utility
@@ -397,6 +352,7 @@ const MyPlantsCollectionContent = () => {
   };
 
   return (
+    <LoadingTransition loading={loading} skeleton={myPlantsSkeletonContent}>
     <React.Fragment>
       <PullToRefresh
         onRefresh={async () => {
@@ -673,6 +629,7 @@ const MyPlantsCollectionContent = () => {
         allPlantIds={plants.map((p) => p.id)}
       />
     </React.Fragment>
+    </LoadingTransition>
   );
 };
 

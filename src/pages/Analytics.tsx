@@ -27,6 +27,7 @@ import {
 } from '@/utils/analytics';
 import { AnalyticsSkeleton } from '@/components/ui/skeleton';
 import { CascadingContainer } from '@/components/ui/cascading-container';
+import { LoadingTransition } from '@/components/ui/loading-transition';
 import { FeatureErrorBoundary } from '@/components/ui/feature-error-boundary';
 
 const AnalyticsContent = () => {
@@ -40,32 +41,21 @@ const AnalyticsContent = () => {
     }
   }, [user, authLoading, navigate]);
 
-  if (authLoading || plantsLoading) {
-    return (
-      <div className="min-h-dvh bg-background pb-20 lg:pb-0">
-        <Navigation />
-        <main className="py-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <AnalyticsSkeleton />
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+  const isLoading = authLoading || plantsLoading;
 
-  if (!user) return null;
+  if (!isLoading && !user) return null;
 
-  const wateringStats = calculateWateringStats(plants);
-  const healthStats = calculatePlantHealthStats(plants);
-  const plantPerformance = calculatePlantPerformance(plants);
-  const weeklyDistribution = getTimeDistribution(plants, 'week');
-  const insights = getAnalyticsInsights(plants);
+  const wateringStats = !isLoading ? calculateWateringStats(plants) : { totalWaterings: 0, thisWeek: 0, averagePerWeek: 0, streak: 0, longestStreak: 0, thisMonth: 0 };
+  const healthStats = !isLoading ? calculatePlantHealthStats(plants) : { totalPlants: 0, onSchedule: 0, needsAttention: 0, overduePlants: 0, overwateringRisk: 0 };
+  const plantPerformance = !isLoading ? calculatePlantPerformance(plants) : [];
+  const weeklyDistribution = !isLoading ? getTimeDistribution(plants, 'week') : [];
+  const insights = !isLoading ? getAnalyticsInsights(plants) : [];
 
   return (
     <div className="min-h-dvh bg-background pb-20 lg:pb-0">
       <Navigation />
       <main className="py-8">
+        <LoadingTransition loading={isLoading} skeleton={<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><AnalyticsSkeleton /></div>}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <CascadingContainer delay={100}>
@@ -335,6 +325,7 @@ const AnalyticsContent = () => {
             </Card>
           </CascadingContainer>
         </div>
+        </LoadingTransition>
       </main>
       <Footer />
     </div>
