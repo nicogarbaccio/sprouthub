@@ -60,7 +60,6 @@ const { fetchPostponementsGrouped } = usePostponementData();
 const {
   overwateringByPlantId,
   computeRisks,
-  isComputing: isComputingRisks,
 } = useOverwateringAnalysis();
 
  /**
