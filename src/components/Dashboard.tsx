@@ -20,7 +20,7 @@ import { DashboardSkeleton } from "@/components/DashboardSkeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { LoadingTransition } from "@/components/ui/loading-transition";
 import { useUserPlants } from "@/hooks/useUserPlants";
-import { useProfile } from "@/hooks/useProfile";
+import { useProfileData } from "@/contexts/ProfileDataContext";
 import { useSeasonalDetection } from "@/hooks/useSeasonalDetection";
 import { useSeasonalSuggestions } from "@/hooks/useSeasonalSuggestions";
 import { useWeatherData } from "@/hooks/useWeatherData";
@@ -45,8 +45,8 @@ const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule } =
     useUserPlants();
-  const { profileData, isLoadingProfile } = useProfile();
-  const { preferences, loadPreferences } = useSmartWateringPreferences();
+  const { profileData } = useProfileData();
+  const { preferences, hasPreferences: hasLoadedPreferences, loadPreferences } = useSmartWateringPreferences();
   const location = useLocation({
     autoRequest: false, // Don't auto-request, only fetch if user has weather enabled
   });
@@ -204,8 +204,10 @@ const Dashboard = () => {
     }
   }, [preferences?.use_weather_data, location]);
 
-  // All hooks must be called before any conditional logic or early returns
-  const isLoading = loading || isLoadingProfile;
+  // Only gate the skeleton on plant data — profile is only used for the
+  // greeting which already has a fallback ("Welcome back, plant parent!").
+  // This avoids keeping the skeleton visible while the profile fetch resolves.
+  const isLoading = loading;
 
   // Get the user's first name, with fallback to "plant parent"
   const firstName = profileData.first_name?.trim();
@@ -534,23 +536,40 @@ const Dashboard = () => {
         {/* Welcome Header */}
         <WelcomeHeader greeting={greeting} />
 
-        {/* Weather Mood Banner - Fun animated weather status (top priority) */}
-        {preferences?.use_weather_data &&
-          weather.weatherData &&
-          !weather.isLoading && (
-            <CascadingContainer delay={50}>
-              <div data-testid="weather-mood-banner" className="mb-6">
-                <WeatherMoodBanner
-                  weatherData={weather.weatherData}
-                  temperatureUnit={preferences?.temperature_unit || "F"}
-                  lastUpdated={weather.lastUpdated}
-                  onRefresh={() => weather.refreshWeather()}
-                  isRefreshing={weather.isLoading}
-                  isFallback={weather.isFallback}
-                />
+        {/* Weather Mood Banner - cascades in gracefully when data loads */}
+        {preferences?.use_weather_data && (
+          <div
+            className="grid transition-[grid-template-rows] duration-700 ease-out"
+            style={{
+              gridTemplateRows: weather.weatherData && !weather.isLoading ? '1fr' : '0fr',
+            }}
+          >
+            <div className="overflow-hidden">
+              <div
+                className="transition-all duration-700 ease-out mb-6"
+                style={{
+                  opacity: weather.weatherData && !weather.isLoading ? 1 : 0,
+                  transform: weather.weatherData && !weather.isLoading
+                    ? 'translateY(0)'
+                    : 'translateY(-8px)',
+                }}
+              >
+                {weather.weatherData && (
+                  <div data-testid="weather-mood-banner">
+                    <WeatherMoodBanner
+                      weatherData={weather.weatherData}
+                      temperatureUnit={preferences?.temperature_unit || "F"}
+                      lastUpdated={weather.lastUpdated}
+                      onRefresh={() => weather.refreshWeather()}
+                      isRefreshing={weather.isLoading}
+                      isFallback={weather.isFallback}
+                    />
+                  </div>
+                )}
               </div>
-            </CascadingContainer>
-          )}
+            </div>
+          </div>
+        )}
 
         {/* Weather-based Seasonal Review Banner (requires weather enabled) */}
         {shouldShowReview && pendingTransition && suggestions.length > 0 && (
@@ -636,8 +655,8 @@ const Dashboard = () => {
           recentlyAddedCount={recentlyAddedCount}
         />
 
-        {/* Enable Weather Prompt - Show when weather is disabled */}
-        {!preferences?.use_weather_data && (
+        {/* Enable Weather Prompt - only show once preferences have loaded and weather is off */}
+        {hasLoadedPreferences && !preferences?.use_weather_data && (
           <CascadingContainer delay={200}>
             <div data-testid="enable-weather-prompt">
               <EnableWeatherPrompt />

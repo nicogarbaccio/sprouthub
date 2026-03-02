@@ -4,14 +4,7 @@ import ProfileHeader from "@/components/profile/ProfileHeader";
 import ProfileInformation from "@/components/profile/ProfileInformation";
 import SecuritySettings from "@/components/profile/SecuritySettings";
 import DangerZone from "@/components/profile/DangerZone";
-import {
-  ProfileHeaderSkeleton,
-  ProfileInformationSkeleton,
-  SecuritySettingsSkeleton,
-  DangerZoneSkeleton,
-} from "@/components/ui/skeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
-import { LoadingTransition } from "@/components/ui/loading-transition";
 import { useProfile } from "@/hooks/useProfile";
 
 const Profile = () => {
@@ -21,7 +14,6 @@ const Profile = () => {
     passwordData,
     setPasswordData,
     isLoading,
-    isLoadingProfile,
     handleUpdateProfile,
     handleChangePassword,
     handleDeleteAccount,
@@ -29,61 +21,46 @@ const Profile = () => {
     hasValidPasswordChanges,
   } = useProfile();
 
-  const profileSkeleton = (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <ProfileHeaderSkeleton />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <ProfileInformationSkeleton />
-        <div className="space-y-6">
-          <SecuritySettingsSkeleton />
-          <DangerZoneSkeleton />
-        </div>
-      </div>
-    </div>
-  );
-
   return (
     <div className="min-h-dvh bg-background pb-20 lg:pb-0">
       <Navigation />
       <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
-        <LoadingTransition loading={isLoadingProfile} skeleton={profileSkeleton}>
-          <div className="max-w-4xl mx-auto space-y-6">
-            <CascadingContainer delay={0}>
-              <ProfileHeader />
+        <div className="max-w-4xl mx-auto space-y-6">
+          <CascadingContainer delay={0}>
+            <ProfileHeader />
+          </CascadingContainer>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <CascadingContainer delay={100}>
+              <ProfileInformation
+                profileData={profileData}
+                setProfileData={setProfileData}
+                handleUpdateProfile={handleUpdateProfile}
+                isLoading={isLoading}
+                hasProfileChanges={hasProfileChanges}
+              />
             </CascadingContainer>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <CascadingContainer delay={100}>
-                <ProfileInformation
-                  profileData={profileData}
-                  setProfileData={setProfileData}
-                  handleUpdateProfile={handleUpdateProfile}
+            <div className="space-y-6">
+              <CascadingContainer delay={200}>
+                <SecuritySettings
+                  passwordData={passwordData}
+                  setPasswordData={setPasswordData}
+                  handleChangePassword={handleChangePassword}
                   isLoading={isLoading}
-                  hasProfileChanges={hasProfileChanges}
+                  hasValidPasswordChanges={hasValidPasswordChanges}
                 />
               </CascadingContainer>
 
-              <div className="space-y-6">
-                <CascadingContainer delay={200}>
-                  <SecuritySettings
-                    passwordData={passwordData}
-                    setPasswordData={setPasswordData}
-                    handleChangePassword={handleChangePassword}
-                    isLoading={isLoading}
-                    hasValidPasswordChanges={hasValidPasswordChanges}
-                  />
-                </CascadingContainer>
-
-                <CascadingContainer delay={300}>
-                  <DangerZone
-                    handleDeleteAccount={handleDeleteAccount}
-                    isLoading={isLoading}
-                  />
-                </CascadingContainer>
-              </div>
+              <CascadingContainer delay={300}>
+                <DangerZone
+                  handleDeleteAccount={handleDeleteAccount}
+                  isLoading={isLoading}
+                />
+              </CascadingContainer>
             </div>
           </div>
-        </LoadingTransition>
+        </div>
       </main>
       <Footer />
     </div>
