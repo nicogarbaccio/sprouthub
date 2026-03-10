@@ -14,33 +14,77 @@ export type Database = {
   }
   public: {
     Tables: {
-      calendar_seasonal_notifications: {
+      blog_post_plants: {
         Row: {
-          id: string
-          user_id: string
-          season: string
-          year: number
-          dismissed_at: string | null
-          snoozed_until: string | null
-          created_at: string | null
+          blog_post_id: string
+          plant_name: string
+          relevance_score: number | null
         }
         Insert: {
-          id?: string
-          user_id: string
-          season: string
-          year: number
-          dismissed_at?: string | null
-          snoozed_until?: string | null
-          created_at?: string | null
+          blog_post_id: string
+          plant_name: string
+          relevance_score?: number | null
         }
         Update: {
+          blog_post_id?: string
+          plant_name?: string
+          relevance_score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_post_plants_blog_post_id_fkey"
+            columns: ["blog_post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blog_posts: {
+        Row: {
+          categories: string[] | null
+          fetched_at: string | null
+          id: string
+          image_url: string | null
+          is_general: boolean | null
+          is_seasonal: boolean | null
+          published_at: string | null
+          season: string | null
+          source_name: string
+          source_url: string
+          summary: string | null
+          title: string
+          url: string
+        }
+        Insert: {
+          categories?: string[] | null
+          fetched_at?: string | null
           id?: string
-          user_id?: string
-          season?: string
-          year?: number
-          dismissed_at?: string | null
-          snoozed_until?: string | null
-          created_at?: string | null
+          image_url?: string | null
+          is_general?: boolean | null
+          is_seasonal?: boolean | null
+          published_at?: string | null
+          season?: string | null
+          source_name: string
+          source_url: string
+          summary?: string | null
+          title: string
+          url: string
+        }
+        Update: {
+          categories?: string[] | null
+          fetched_at?: string | null
+          id?: string
+          image_url?: string | null
+          is_general?: boolean | null
+          is_seasonal?: boolean | null
+          published_at?: string | null
+          season?: string | null
+          source_name?: string
+          source_url?: string
+          summary?: string | null
+          title?: string
+          url?: string
         }
         Relationships: []
       }
@@ -115,48 +159,6 @@ export type Database = {
           },
           {
             foreignKeyName: "dismissed_suggestions_plant_id_fkey"
-            columns: ["plant_id"]
-            isOneToOne: false
-            referencedRelation: "user_plants"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      notification_acknowledgements: {
-        Row: {
-          id: string
-          user_id: string
-          notification_type: string
-          plant_id: string
-          acknowledged_date: string
-          created_at: string
-        }
-        Insert: {
-          id?: string
-          user_id: string
-          notification_type: string
-          plant_id: string
-          acknowledged_date?: string
-          created_at?: string
-        }
-        Update: {
-          id?: string
-          user_id?: string
-          notification_type?: string
-          plant_id?: string
-          acknowledged_date?: string
-          created_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "notification_acknowledgements_plant_id_fkey"
-            columns: ["plant_id"]
-            isOneToOne: false
-            referencedRelation: "plants_with_watering_info"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "notification_acknowledgements_plant_id_fkey"
             columns: ["plant_id"]
             isOneToOne: false
             referencedRelation: "user_plants"
@@ -272,6 +274,48 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      notification_acknowledgements: {
+        Row: {
+          acknowledged_date: string
+          created_at: string
+          id: string
+          notification_type: string
+          plant_id: string | null
+          user_id: string
+        }
+        Insert: {
+          acknowledged_date?: string
+          created_at?: string
+          id?: string
+          notification_type: string
+          plant_id?: string | null
+          user_id: string
+        }
+        Update: {
+          acknowledged_date?: string
+          created_at?: string
+          id?: string
+          notification_type?: string
+          plant_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_acknowledgements_plant_id_fkey"
+            columns: ["plant_id"]
+            isOneToOne: false
+            referencedRelation: "plants_with_watering_info"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notification_acknowledgements_plant_id_fkey"
+            columns: ["plant_id"]
+            isOneToOne: false
+            referencedRelation: "user_plants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       notification_logs: {
         Row: {
@@ -757,6 +801,7 @@ export type Database = {
       delete_test_user:
         | { Args: never; Returns: undefined }
         | { Args: { user_id: string }; Returns: Json }
+      get_my_household_ids: { Args: never; Returns: string[] }
       get_user_emails: {
         Args: { user_ids: string[] }
         Returns: {

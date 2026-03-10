@@ -69,13 +69,16 @@ export function useCalendarSeasonalNotification(
 
       try {
         // Try database first for cross-device sync
-        const { data, error } = await supabase
-          .from('calendar_seasonal_notifications')
+        // Note: calendar_seasonal_notifications table may not exist in all environments
+        const { data: rawData, error } = await supabase
+          .from('calendar_seasonal_notifications' as any)
           .select('dismissed_at, snoozed_until')
           .eq('user_id', user.id)
           .eq('season', season)
           .eq('year', year)
           .maybeSingle();
+
+        const data = rawData as { dismissed_at?: string | null; snoozed_until?: string | null } | null;
 
         if (!error && data) {
           // Check if snoozed
@@ -86,7 +89,7 @@ export function useCalendarSeasonalNotification(
             if (!isStillSnoozed) {
               // Snooze period ended, remove the record
               await supabase
-                .from('calendar_seasonal_notifications')
+                .from('calendar_seasonal_notifications' as any)
                 .delete()
                 .eq('user_id', user.id)
                 .eq('season', season)
@@ -259,7 +262,7 @@ export function useCalendarSeasonalNotification(
 
       // Write to database for cross-device sync
       const { error } = await supabase
-        .from('calendar_seasonal_notifications')
+        .from('calendar_seasonal_notifications' as any)
         .upsert(
           {
             user_id: user.id,
@@ -313,7 +316,7 @@ export function useCalendarSeasonalNotification(
 
         // Write to database for cross-device sync
         const { error } = await supabase
-          .from('calendar_seasonal_notifications')
+          .from('calendar_seasonal_notifications' as any)
           .upsert(
             {
               user_id: user.id,
