@@ -4,13 +4,12 @@ import { Badge } from '@/components/ui/badge';
 import type { BlogPost } from '@/types/blogTypes';
 import * as React from 'react';
 
-const CLOUDINARY_CLOUD = 'dojdglovh';
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
-/** Proxy an external image through Cloudinary fetch to bypass hotlink protection */
+/** Proxy an external image through Supabase Edge Function to bypass hotlink protection */
 function proxyImageUrl(url: string): string {
-  // Don't double-proxy Cloudinary or Supabase URLs
   if (url.includes('cloudinary.com') || url.includes('supabase.co')) return url;
-  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/fetch/f_auto,q_auto,w_600/${encodeURIComponent(url)}`;
+  return `${SUPABASE_URL}/functions/v1/image-proxy?url=${encodeURIComponent(url)}`;
 }
 
 interface BlogPostCardProps {
