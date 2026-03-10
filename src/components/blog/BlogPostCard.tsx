@@ -4,6 +4,15 @@ import { Badge } from '@/components/ui/badge';
 import type { BlogPost } from '@/types/blogTypes';
 import * as React from 'react';
 
+const CLOUDINARY_CLOUD = 'dojdglovh';
+
+/** Proxy an external image through Cloudinary fetch to bypass hotlink protection */
+function proxyImageUrl(url: string): string {
+  // Don't double-proxy Cloudinary or Supabase URLs
+  if (url.includes('cloudinary.com') || url.includes('supabase.co')) return url;
+  return `https://res.cloudinary.com/${CLOUDINARY_CLOUD}/image/fetch/f_auto,q_auto,w_600/${encodeURIComponent(url)}`;
+}
+
 interface BlogPostCardProps {
   post: BlogPost;
   matchedPlants?: string[];
@@ -19,7 +28,8 @@ const BlogPostCard = ({ post, matchedPlants }: BlogPostCardProps) => {
       })
     : null;
 
-  const showPlaceholder = !post.image_url || imgFailed;
+  const imageUrl = post.image_url ? proxyImageUrl(post.image_url) : null;
+  const showPlaceholder = !imageUrl || imgFailed;
   const visiblePlants = matchedPlants?.slice(0, 2);
 
   return (
@@ -32,11 +42,10 @@ const BlogPostCard = ({ post, matchedPlants }: BlogPostCardProps) => {
         ) : (
           <div className="aspect-[16/9] overflow-hidden">
             <img
-              src={post.image_url!}
+              src={imageUrl!}
               alt={post.title}
               className="w-full h-full object-cover transition-transform group-hover:scale-105"
               loading="lazy"
-              referrerPolicy="no-referrer"
               onError={() => setImgFailed(true)}
             />
           </div>

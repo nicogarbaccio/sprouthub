@@ -56,7 +56,7 @@ describe('BlogPostCard', () => {
 
     const img = screen.getByAltText('How to Care for Monstera');
     expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute('src', 'https://example.com/img.jpg');
+    expect(img.getAttribute('src')).toContain('example.com%2Fimg.jpg');
   });
 
   it('should show placeholder when image_url is null', () => {
