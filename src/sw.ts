@@ -1,3 +1,4 @@
+/// <reference lib="webworker" />
 import { precacheAndRoute, cleanupOutdatedCaches } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import {
@@ -19,7 +20,7 @@ cleanupOutdatedCaches();
 
 // Clear navigation cache on activation so stale security headers (e.g. CSP)
 // don't persist after deploys
-self.addEventListener("activate", (event) => {
+self.addEventListener("activate", (event: ExtendableEvent) => {
   event.waitUntil(caches.delete("pages-cache"));
 });
 
