@@ -4,7 +4,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { authToast } from "@/utils/notifications/toast";
 import { Sheet, SheetContent, SheetClose } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 import * as React from "react";
 
 interface NavTab {
@@ -104,7 +103,7 @@ const BottomNav = () => {
             <span className="text-lg font-semibold text-foreground dark:text-sprout-cream">
               More
             </span>
-            <SheetClose className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2">
+            <SheetClose className="rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none">
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
             </SheetClose>
@@ -119,27 +118,25 @@ const BottomNav = () => {
                 <MoreLink icon={Settings} label="Settings" to="/settings" onNavigate={() => setMoreOpen(false)} />
               </>
             )}
-            <Button
-              variant="ghost"
+            <button
               onClick={() => {
                 setTheme(actualTheme === "dark" ? "light" : "dark");
               }}
-              className="w-full justify-start text-foreground hover:bg-muted flex items-center gap-3 h-12 rounded-lg font-medium"
+              className="w-full text-left text-foreground hover:bg-muted flex items-center gap-3 h-12 px-4 rounded-lg font-medium transition-colors"
             >
               {actualTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               <span>{actualTheme === "dark" ? "Light Mode" : "Dark Mode"}</span>
-            </Button>
+            </button>
             {user && (
               <>
                 <div className="border-t my-1" />
-                <Button
-                  variant="ghost"
+                <button
                   onClick={handleSignOut}
-                  className="w-full justify-start text-sprout-warning hover:bg-muted flex items-center gap-3 h-12 rounded-lg font-medium"
+                  className="w-full text-left text-sprout-warning hover:bg-muted flex items-center gap-3 h-12 px-4 rounded-lg font-medium transition-colors"
                 >
                   <LogOut className="w-5 h-5" />
                   <span>Sign Out</span>
-                </Button>
+                </button>
               </>
             )}
           </div>
@@ -163,18 +160,17 @@ const MoreLink = ({
   const location = useLocation();
   const active = location.pathname.startsWith(to);
   return (
-    <Link to={to} onClick={onNavigate}>
-      <Button
-        variant="ghost"
-        className={`w-full justify-start flex items-center gap-3 h-12 rounded-lg font-medium ${
-          active
-            ? "text-sprout-primary dark:text-sprout-cream bg-muted"
-            : "text-foreground hover:bg-muted"
-        }`}
-      >
-        <Icon className="w-5 h-5" />
-        <span>{label}</span>
-      </Button>
+    <Link
+      to={to}
+      onClick={onNavigate}
+      className={`flex items-center gap-3 h-12 px-4 rounded-lg font-medium transition-colors ${
+        active
+          ? "text-sprout-primary dark:text-sprout-cream bg-muted"
+          : "text-foreground hover:bg-muted"
+      }`}
+    >
+      <Icon className="w-5 h-5" />
+      <span>{label}</span>
     </Link>
   );
 };
