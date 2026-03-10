@@ -17,6 +17,12 @@ self.skipWaiting();
 clientsClaim();
 cleanupOutdatedCaches();
 
+// Clear navigation cache on activation so stale security headers (e.g. CSP)
+// don't persist after deploys
+self.addEventListener("activate", (event) => {
+  event.waitUntil(caches.delete("pages-cache"));
+});
+
 precacheAndRoute(self.__WB_MANIFEST);
 
 // Supabase Auth - Network Only

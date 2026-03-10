@@ -19,6 +19,7 @@ import { AnimatedRoutes } from "./components/AnimatedRoutes";
 import { OfflineBanner } from "./components/OfflineBanner";
 import { SplashScreen } from "./components/SplashScreen";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import { GlobalNotifications } from "./components/GlobalNotifications";
 
 // Retry dynamic imports once on failure (handles stale chunks after deploys)
 function lazyWithRetry(importFn: () => Promise<{ default: React.ComponentType<unknown> }>) {
@@ -104,6 +105,7 @@ const AppRoutes = () => {
       <SplashScreen />
       <ScrollToTop />
       <OfflineBanner />
+      <GlobalNotifications />
       <BottomNav />
       <Suspense fallback={<div className="min-h-dvh bg-background" />}>
         <AnimatedRoutes>

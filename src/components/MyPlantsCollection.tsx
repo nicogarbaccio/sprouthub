@@ -49,7 +49,6 @@ import {
 } from "@/components/SearchFilterBar";
 import { applyFiltersAndSort, getUniqueRooms } from "@/utils/plants/filtering";
 import {
-  usePlantNotifications,
   useManualNotifications,
 } from "@/hooks/usePlantNotifications";
 import { generatePlantNotifications } from "@/utils/notifications/generator";
@@ -120,9 +119,6 @@ const MyPlantsCollectionContent = () => {
       </div>
     </section>
   );
-
-  // Automatically generate notifications from plant data
-  usePlantNotifications(plants, !loading);
 
   // Manual notification helpers
   const { notifyWateringSuccess, notifyBulkWatering } =

@@ -39,7 +39,6 @@ import { useBulkPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { useDismissedSuggestions } from "@/hooks/useDismissedSuggestions";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import { useKeyboardShortcuts, createPlantShortcuts } from "@/hooks/useKeyboardShortcuts";
-import { usePlantNotifications } from "@/hooks/usePlantNotifications";
 import { useCareStreak } from "@/hooks/useCareStreak";
 
 const Dashboard = () => {
@@ -234,9 +233,6 @@ const Dashboard = () => {
       },
     }),
   });
-
-  // Automatically generate notifications from plant data
-  usePlantNotifications(plants, !loading);
 
   const careStats = plants.reduce(
     (stats, plant) => {
