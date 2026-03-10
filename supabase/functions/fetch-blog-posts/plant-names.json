@@ -1,0 +1,775 @@
+[
+  {
+    "name": "Peace Lily",
+    "botanicalName": "Spathiphyllum wallisii",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Spath",
+      "White Sails",
+      "Mauna Loa"
+    ]
+  },
+  {
+    "name": "Flamingo Flower",
+    "botanicalName": "Anthurium andraeanum",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Anthurium",
+      "Laceleaf",
+      "Tailflower"
+    ]
+  },
+  {
+    "name": "African Violet",
+    "botanicalName": "Streptocarpus ionanthus",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Saintpaulia",
+      "Usambara Violet"
+    ]
+  },
+  {
+    "name": "Christmas Cactus",
+    "botanicalName": "Schlumbergera x buckleyi",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Holiday Cactus",
+      "Thanksgiving Cactus",
+      "Crab Cactus"
+    ]
+  },
+  {
+    "name": "Begonia Rex",
+    "botanicalName": "Begonia rex-cultorum",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Painted-Leaf Begonia",
+      "King Begonia",
+      "Rex Begonia"
+    ]
+  },
+  {
+    "name": "Sowbread",
+    "botanicalName": "Cyclamen persicum",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Persian Cyclamen",
+      "Florist's Cyclamen"
+    ]
+  },
+  {
+    "name": "Geranium",
+    "botanicalName": "Pelargonium x hortorum",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Zonal Geranium",
+      "Garden Geranium"
+    ]
+  },
+  {
+    "name": "Flaming Katy",
+    "botanicalName": "Kalanchoe blossfeldiana",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Christmas Kalanchoe",
+      "Florist Kalanchoe",
+      "Madagascar Widow's-thrill"
+    ]
+  },
+  {
+    "name": "Touch-Me-Not",
+    "botanicalName": "Impatiens walleriana",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Busy Lizzie",
+      "Patience Plant",
+      "Sultana"
+    ]
+  },
+  {
+    "name": "Orchid",
+    "botanicalName": "Phalaenopsis species",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Moth Orchid",
+      "Phal"
+    ]
+  },
+  {
+    "name": "Flowering Maple",
+    "botanicalName": "Abutilon x hybridum",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Chinese Lantern",
+      "Parlor Maple",
+      "Indian Mallow"
+    ]
+  },
+  {
+    "name": "Hibiscus",
+    "botanicalName": "Hibiscus rosa-sinensis",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Chinese Hibiscus",
+      "China Rose",
+      "Hawaiian Hibiscus",
+      "Rose Mallow"
+    ]
+  },
+  {
+    "name": "Paper Flower",
+    "botanicalName": "Bougainvillea spectabilis",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Bougainvillea",
+      "Great Bougainvillea"
+    ]
+  },
+  {
+    "name": "Crown of Thorns",
+    "botanicalName": "Euphorbia milii",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Christ Plant",
+      "Christ Thorn"
+    ]
+  },
+  {
+    "name": "Pentas",
+    "botanicalName": "Pentas lanceolata",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Egyptian Starcluster",
+      "Star Flower",
+      "Star Cluster"
+    ]
+  },
+  {
+    "name": "Monstera Deliciosa",
+    "botanicalName": "Monstera deliciosa",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Swiss Cheese Plant",
+      "Split-Leaf Philodendron",
+      "Fruit Salad Plant",
+      "Ceriman"
+    ]
+  },
+  {
+    "name": "Bird of Paradise",
+    "botanicalName": "Strelitzia nicolai",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "White Bird of Paradise",
+      "Giant Bird of Paradise",
+      "Wild Banana"
+    ]
+  },
+  {
+    "name": "African Mask",
+    "botanicalName": "Alocasia x amazonica",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Alocasia Polly",
+      "Amazonian Elephant's Ear",
+      "Elephant Ear"
+    ]
+  },
+  {
+    "name": "Monstera Adansonii",
+    "botanicalName": "Monstera adansonii",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Swiss Cheese Vine",
+      "Adanson's Monstera",
+      "Five Holes Plant",
+      "Monkey Mask"
+    ]
+  },
+  {
+    "name": "Dumb Cane",
+    "botanicalName": "Dieffenbachia seguine",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Leopard Lily",
+      "Mother-in-Law Plant",
+      "Tuftroot"
+    ]
+  },
+  {
+    "name": "Philodendron Brasil",
+    "botanicalName": "Philodendron hederaceum 'Brasil'",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Brasil Philodendron",
+      "Variegated Heartleaf Philodendron"
+    ]
+  },
+  {
+    "name": "Kentia Palm",
+    "botanicalName": "Howea forsteriana",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Thatch Palm",
+      "Paradise Palm",
+      "Sentry Palm"
+    ]
+  },
+  {
+    "name": "Banana Plant",
+    "botanicalName": "Musa acuminata",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Dwarf Banana",
+      "Dwarf Cavendish",
+      "Edible Banana"
+    ]
+  },
+  {
+    "name": "Croton",
+    "botanicalName": "Codiaeum variegatum",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Garden Croton",
+      "Variegated Croton",
+      "Joseph's Coat",
+      "Fire Croton"
+    ]
+  },
+  {
+    "name": "Philodendron Pink Princess",
+    "botanicalName": "Philodendron erubescens 'Pink Princess'",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Pink Princess Philodendron",
+      "PPP"
+    ]
+  },
+  {
+    "name": "Elephant Ear",
+    "botanicalName": "Alocasia macrorrhiza",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Giant Taro",
+      "Giant Alocasia",
+      "Giant Elephant's Ear"
+    ]
+  },
+  {
+    "name": "Snake Plant",
+    "botanicalName": "Dracaena trifasciata",
+    "category": "Succulents",
+    "otherNames": [
+      "Mother-in-Law's Tongue",
+      "Viper's Bowstring Hemp",
+      "Saint George's Sword",
+      "Sansevieria"
+    ]
+  },
+  {
+    "name": "Aloe Vera",
+    "botanicalName": "Aloe barbadensis miller",
+    "category": "Succulents",
+    "otherNames": [
+      "True Aloe",
+      "Medicinal Aloe",
+      "Burn Plant",
+      "First Aid Plant"
+    ]
+  },
+  {
+    "name": "Jade Plant",
+    "botanicalName": "Crassula ovata",
+    "category": "Succulents",
+    "otherNames": [
+      "Lucky Plant",
+      "Money Plant",
+      "Money Tree",
+      "Friendship Tree"
+    ]
+  },
+  {
+    "name": "Echeveria",
+    "botanicalName": "Echeveria elegans",
+    "category": "Succulents",
+    "otherNames": [
+      "Mexican Snowball",
+      "Mexican Gem",
+      "White Mexican Rose",
+      "Mexican Hen and Chicks"
+    ]
+  },
+  {
+    "name": "String of Pearls",
+    "botanicalName": "Curio rowleyanus",
+    "category": "Succulents",
+    "otherNames": [
+      "String of Beads",
+      "Rosary Vine"
+    ]
+  },
+  {
+    "name": "Crystal Succulent",
+    "botanicalName": "Haworthia cooperi",
+    "category": "Succulents",
+    "otherNames": [
+      "Cooper's Haworthia",
+      "Window Haworthia",
+      "Pussy Foot"
+    ]
+  },
+  {
+    "name": "Barrel Cactus",
+    "botanicalName": "Ferocactus wislizeni",
+    "category": "Succulents",
+    "otherNames": [
+      "Fishhook Barrel Cactus",
+      "Arizona Barrel Cactus",
+      "Compass Barrel Cactus"
+    ]
+  },
+  {
+    "name": "Lithops",
+    "botanicalName": "Lithops species",
+    "category": "Succulents",
+    "otherNames": [
+      "Living Stones",
+      "Flowering Stones",
+      "Pebble Plants",
+      "Mimicry Plants"
+    ]
+  },
+  {
+    "name": "Prickly Pear Cactus",
+    "botanicalName": "Opuntia microdasys",
+    "category": "Succulents",
+    "otherNames": [
+      "Bunny Ears Cactus",
+      "Polka-Dot Cactus",
+      "Angel's Wings"
+    ]
+  },
+  {
+    "name": "Zebra Plant",
+    "botanicalName": "Haworthiopsis attenuata",
+    "category": "Succulents",
+    "otherNames": [
+      "Zebra Haworthia",
+      "Zebra Cactus"
+    ]
+  },
+  {
+    "name": "Paddle Plant",
+    "botanicalName": "Kalanchoe luciae",
+    "category": "Succulents",
+    "otherNames": [
+      "Flapjack Plant",
+      "Desert Cabbage",
+      "Red Pancakes"
+    ]
+  },
+  {
+    "name": "String of Buttons",
+    "botanicalName": "Crassula perforata",
+    "category": "Succulents",
+    "otherNames": [
+      "Necklace Vine",
+      "Pagoda Plant",
+      "String of Buttons"
+    ]
+  },
+  {
+    "name": "Aloe Aristata",
+    "botanicalName": "Aristaloe aristata",
+    "category": "Succulents",
+    "otherNames": [
+      "Lace Aloe",
+      "Torch Plant",
+      "Guinea-fowl Aloe"
+    ]
+  },
+  {
+    "name": "Ghost Plant",
+    "botanicalName": "Graptopetalum paraguayense",
+    "category": "Succulents",
+    "otherNames": [
+      "Mother-of-Pearl Plant",
+      "Sedum weinbergii"
+    ]
+  },
+  {
+    "name": "Pothos",
+    "botanicalName": "Epipremnum aureum",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Devil's Ivy",
+      "Golden Pothos",
+      "Hunter's Robe",
+      "Money Plant"
+    ]
+  },
+  {
+    "name": "Spider Plant",
+    "botanicalName": "Chlorophytum comosum",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Airplane Plant",
+      "Ribbon Plant",
+      "Spider Ivy",
+      "St. Bernard's Lily"
+    ]
+  },
+  {
+    "name": "English Ivy",
+    "botanicalName": "Hedera helix",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Common Ivy",
+      "European Ivy",
+      "Sweetheart Ivy"
+    ]
+  },
+  {
+    "name": "String of Hearts",
+    "botanicalName": "Ceropegia woodii",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Rosary Vine",
+      "Chain of Hearts",
+      "Hearts-on-a-String",
+      "Sweetheart Vine"
+    ]
+  },
+  {
+    "name": "Heartleaf Philodendron",
+    "botanicalName": "Philodendron hederaceum",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Sweetheart Plant",
+      "Philodendron Scandens",
+      "Heart-Leaf Philodendron"
+    ]
+  },
+  {
+    "name": "String of Bananas",
+    "botanicalName": "Senecio radicans",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Fishhooks Senecio",
+      "Necklace Plant",
+      "Banana Vine"
+    ]
+  },
+  {
+    "name": "Burro's Tail",
+    "botanicalName": "Sedum morganianum",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Donkey's Tail",
+      "Lamb's Tail",
+      "Burrito",
+      "Horse's Tail"
+    ]
+  },
+  {
+    "name": "Fiddle Leaf Fig",
+    "botanicalName": "Ficus lyrata",
+    "category": "Trees & Large Plants",
+    "otherNames": [
+      "Banjo Fig",
+      "Lyre Leaf Fig"
+    ]
+  },
+  {
+    "name": "Rubber Plant",
+    "botanicalName": "Ficus elastica",
+    "category": "Trees & Large Plants",
+    "otherNames": [
+      "Rubber Fig",
+      "Rubber Tree",
+      "India Rubber Plant"
+    ]
+  },
+  {
+    "name": "Dracaena",
+    "botanicalName": "Dracaena marginata",
+    "category": "Trees & Large Plants",
+    "otherNames": [
+      "Dragon Tree",
+      "Madagascar Dragon Tree",
+      "Red-Edge Dracaena"
+    ]
+  },
+  {
+    "name": "Schefflera",
+    "botanicalName": "Schefflera actinophylla",
+    "category": "Trees & Large Plants",
+    "otherNames": [
+      "Umbrella Tree",
+      "Octopus Tree",
+      "Queensland Umbrella Tree"
+    ]
+  },
+  {
+    "name": "Yucca",
+    "botanicalName": "Yucca elephantipes",
+    "category": "Trees & Large Plants",
+    "otherNames": [
+      "Spineless Yucca",
+      "Stick Yucca",
+      "Giant Yucca"
+    ]
+  },
+  {
+    "name": "Norfolk Pine",
+    "botanicalName": "Araucaria heterophylla",
+    "category": "Trees & Large Plants",
+    "otherNames": [
+      "Norfolk Island Pine",
+      "Star Pine",
+      "Living Christmas Tree"
+    ]
+  },
+  {
+    "name": "ZZ Plant",
+    "botanicalName": "Zamioculcas zamiifolia",
+    "category": "Low Maintenance",
+    "otherNames": [
+      "Zanzibar Gem",
+      "Zuzu Plant",
+      "Eternity Plant"
+    ]
+  },
+  {
+    "name": "Boston Fern",
+    "botanicalName": "Nephrolepis exaltata",
+    "category": "Ferns",
+    "otherNames": [
+      "Sword Fern",
+      "Boston Sword Fern"
+    ]
+  },
+  {
+    "name": "Chinese Money Plant",
+    "botanicalName": "Pilea peperomioides",
+    "category": "Small Plants",
+    "otherNames": [
+      "Pancake Plant",
+      "UFO Plant",
+      "Missionary Plant"
+    ]
+  },
+  {
+    "name": "Calathea",
+    "botanicalName": "Calathea orbifolia",
+    "category": "Prayer Plants",
+    "otherNames": [
+      "Round-leaved Calathea",
+      "Prayer Plant"
+    ]
+  },
+  {
+    "name": "Majesty Palm",
+    "botanicalName": "Ravenea rivularis",
+    "category": "Palms",
+    "otherNames": [
+      "Ravenea Palm",
+      "Majestic Palm"
+    ]
+  },
+  {
+    "name": "Peperomia",
+    "botanicalName": "Peperomia obtusifolia",
+    "category": "Small Plants",
+    "otherNames": [
+      "Baby Rubber Plant",
+      "American Rubber Plant",
+      "Pepper Face"
+    ]
+  },
+  {
+    "name": "Ponytail Palm",
+    "botanicalName": "Beaucarnea recurvata",
+    "category": "Palms",
+    "otherNames": [
+      "Elephant's Foot",
+      "Bottle Palm",
+      "Nolina"
+    ]
+  },
+  {
+    "name": "Prayer Plant",
+    "botanicalName": "Maranta leuconeura",
+    "category": "Prayer Plants",
+    "otherNames": [
+      "Rabbit Tracks",
+      "Herringbone Plant",
+      "Red Prayer Plant"
+    ]
+  },
+  {
+    "name": "Parlor Palm",
+    "botanicalName": "Chamaedorea elegans",
+    "category": "Palms",
+    "otherNames": [
+      "Neanthe Bella Palm",
+      "Good Luck Palm",
+      "Dwarf Mountain Palm"
+    ]
+  },
+  {
+    "name": "Maidenhair Fern",
+    "botanicalName": "Adiantum raddianum",
+    "category": "Ferns",
+    "otherNames": [
+      "Venus Hair Fern",
+      "Delta Maidenhair"
+    ]
+  },
+  {
+    "name": "Staghorn Fern",
+    "botanicalName": "Platycerium bifurcatum",
+    "category": "Ferns",
+    "otherNames": [
+      "Elkhorn Fern",
+      "Common Staghorn Fern"
+    ]
+  },
+  {
+    "name": "Bird's Nest Fern",
+    "botanicalName": "Asplenium nidus",
+    "category": "Ferns",
+    "otherNames": [
+      "Crow's Nest Fern",
+      "Nest Fern"
+    ]
+  },
+  {
+    "name": "Coleus",
+    "botanicalName": "Plectranthus scutellarioides",
+    "category": "Colorful Foliage",
+    "otherNames": [
+      "Painted Nettle",
+      "Flame Nettle"
+    ]
+  },
+  {
+    "name": "Caladium",
+    "botanicalName": "Caladium bicolor",
+    "category": "Colorful Foliage",
+    "otherNames": [
+      "Angel Wings",
+      "Elephant Ear",
+      "Heart of Jesus"
+    ]
+  },
+  {
+    "name": "Nerve Plant",
+    "botanicalName": "Fittonia albivenis",
+    "category": "Small Plants",
+    "otherNames": [
+      "Mosaic Plant",
+      "Painted Net Leaf"
+    ]
+  },
+  {
+    "name": "Cast Iron Plant",
+    "botanicalName": "Aspidistra elatior",
+    "category": "Low Maintenance",
+    "otherNames": [
+      "Bar Room Plant",
+      "Iron Plant"
+    ]
+  },
+  {
+    "name": "Polka Dot Plant",
+    "botanicalName": "Hypoestes phyllostachya",
+    "category": "Colorful Foliage",
+    "otherNames": [
+      "Freckle Face",
+      "Flamingo Plant",
+      "Measles Plant"
+    ]
+  },
+  {
+    "name": "Aluminum Plant",
+    "botanicalName": "Pilea cadierei",
+    "category": "Small Plants",
+    "otherNames": [
+      "Watermelon Pilea",
+      "Silver Leaf Plant"
+    ]
+  },
+  {
+    "name": "Swedish Ivy",
+    "botanicalName": "Plectranthus verticillatus",
+    "category": "Low Maintenance",
+    "otherNames": [
+      "Whorled Plectranthus",
+      "Swedish Begonia"
+    ]
+  },
+  {
+    "name": "Arrowhead Plant",
+    "botanicalName": "Syngonium podophyllum",
+    "category": "Low Maintenance",
+    "otherNames": [
+      "Goosefoot Plant",
+      "Nephthytis",
+      "African Evergreen"
+    ]
+  },
+  {
+    "name": "Wandering Jew",
+    "botanicalName": "Tradescantia zebrina",
+    "category": "Low Maintenance",
+    "otherNames": [
+      "Inch Plant",
+      "Spiderwort",
+      "Silver Inch Plant"
+    ]
+  },
+  {
+    "name": "Blushing Bride",
+    "botanicalName": "Tillandsia ionantha",
+    "category": "Air Plants",
+    "otherNames": [
+      "Sky Plant",
+      "Air Plant"
+    ]
+  },
+  {
+    "name": "Spanish Moss",
+    "botanicalName": "Tillandsia usneoides",
+    "category": "Air Plants",
+    "otherNames": [
+      "Old Man's Beard",
+      "Grandpa's Beard"
+    ]
+  },
+  {
+    "name": "Queen of Air Plants",
+    "botanicalName": "Tillandsia xerographica",
+    "category": "Air Plants",
+    "otherNames": [
+      "Xeros"
+    ]
+  },
+  {
+    "name": "Pink Quill",
+    "botanicalName": "Tillandsia cyanea",
+    "category": "Air Plants",
+    "otherNames": [
+      "Blue-flowered Torch",
+      "Fan Flower"
+    ]
+  },
+  {
+    "name": "Potbelly Air Plant",
+    "botanicalName": "Tillandsia bulbosa",
+    "category": "Air Plants",
+    "otherNames": [
+      "Bulbous Air Plant"
+    ]
+  }
+]

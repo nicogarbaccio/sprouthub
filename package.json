@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "engines": {
-    "node": "20.18.3"
+    "node": ">=20.18.0"
   },
   "scripts": {
     "dev": "vite",
@@ -14,7 +14,8 @@
     "preview": "vite preview",
     "cleanup:households": "tsx scripts/cleanup-test-households.ts",
     "cleanup:households:dry-run": "tsx scripts/cleanup-test-households.ts --dry-run",
-    "test": "vitest"
+    "test": "vitest",
+    "enrich-plants": "tsx --tsconfig tsconfig.app.json scripts/enrich-plant-data.ts"
   },
   "dependencies": {
     "@capacitor/app": "^7.1.1",
@@ -90,26 +91,30 @@
     "@typescript-eslint/parser": "^8.44.1",
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
-    "aws-sdk": "^2.1692.0",
     "dotenv": "^17.2.2",
+    "tsx": "^4.21.0",
     "eslint": "^9.15.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^16.4.0",
     "http-server": "^14.1.1",
     "jsdom": "^24.0.0",
+    "playwright-smart-reporter": "^1.5.0",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.14",
     "terser": "^5.44.1",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.44.1",
-    "vite": "^5.4.10",
-    "vite-plugin-pwa": "^0.20.5",
+    "vite": "^6.2.0",
+    "vite-plugin-pwa": "^0.21.1",
     "vitest": "^4.0.16",
     "workbox-core": "^7.4.0",
     "workbox-expiration": "^7.4.0",
     "workbox-precaching": "^7.4.0",
     "workbox-routing": "^7.4.0",
     "workbox-strategies": "^7.4.0"
+  },
+  "overrides": {
+    "serialize-javascript": "^7.0.3"
   }
 }

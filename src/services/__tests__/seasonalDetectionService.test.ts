@@ -192,6 +192,7 @@ describe('SeasonalDetectionService', () => {
     it('should return true for transitions exactly 14 days old', () => {
       const transitionDate = new Date();
       transitionDate.setDate(transitionDate.getDate() - 14);
+      transitionDate.setHours(0, 0, 0, 0); // Ensure a full 14 days have elapsed
 
       expect(seasonalDetectionService.isTransitionStable(transitionDate)).toBe(true);
     });

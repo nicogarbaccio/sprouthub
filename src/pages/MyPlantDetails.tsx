@@ -18,12 +18,14 @@ import RepottingGuideCard from "@/components/plant-details/RepottingGuideCard";
 import PlantDetailDialogs from "@/components/plant-details/PlantDetailDialogs";
 import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
+import BlogPostsSection from "@/components/blog/BlogPostsSection";
 import {
   useStatusInfo,
   useBadgeInfo,
 } from "@/components/plant-details/usePlantStatusInfo";
 import { shouldShowOverwateringWarning } from "@/utils/plants/overwatering";
 import { plants as catalogPlants } from "@/data/plantData";
+import { useEnrichedPlant } from "@/hooks/useEnrichedPlant";
 import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
@@ -65,7 +67,7 @@ const MyPlantDetails = () => {
   });
 
 
-  const catalogPlant = plant
+  const staticCatalogPlant = plant
     ? catalogPlants.find(
         (catalogP) =>
           catalogP.name.toLowerCase() === plant.plant_type.toLowerCase() ||
@@ -73,6 +75,10 @@ const MyPlantDetails = () => {
             plant.plant_type.toLowerCase(),
       )
     : undefined;
+
+  // Prefer enriched data when available (falls back to static catalog)
+  const enrichedCatalogPlant = useEnrichedPlant(plant?.plant_type);
+  const catalogPlant = enrichedCatalogPlant ?? staticCatalogPlant;
 
   const getStatusInfo = useStatusInfo(plant);
   const { getActionableInsights, getBadgeInfo } = useBadgeInfo(pendingInsights);
@@ -290,6 +296,10 @@ const MyPlantDetails = () => {
                 }
               />
             </div>
+          </CascadingContainer>
+
+          <CascadingContainer delay={450}>
+            <BlogPostsSection plantName={catalogPlant?.name || plant.plant_type} />
           </CascadingContainer>
         </div>
       </main>

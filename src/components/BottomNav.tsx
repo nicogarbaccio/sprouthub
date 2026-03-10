@@ -1,4 +1,4 @@
-import { Home, BookOpen, Flower2, MoreHorizontal, LogIn, User, Users, BarChart3, Settings, Moon, Sun, LogOut, X } from "lucide-react";
+import { Home, BookOpen, Flower2, MoreHorizontal, LogIn, User, Users, BarChart3, Settings, Moon, Sun, LogOut, X, Newspaper } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -49,7 +49,7 @@ const BottomNav = () => {
     return location.pathname.startsWith(to);
   };
 
-  const moreRoutes = ["/profile", "/households", "/analytics", "/settings"];
+  const moreRoutes = ["/discover", "/profile", "/households", "/analytics", "/settings"];
   const isMoreActive = moreOpen || moreRoutes.some((r) => location.pathname.startsWith(r));
 
   return (
@@ -110,6 +110,7 @@ const BottomNav = () => {
             </SheetClose>
           </div>
           <div className="flex flex-col gap-1 p-4">
+            <MoreLink icon={Newspaper} label="Discover" to="/discover" onNavigate={() => setMoreOpen(false)} />
             {user && (
               <>
                 <MoreLink icon={User} label="Profile" to="/profile" onNavigate={() => setMoreOpen(false)} />

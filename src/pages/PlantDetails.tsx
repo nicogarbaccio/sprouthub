@@ -8,9 +8,11 @@ import PlantImageSection from "@/components/plant-details/PlantImageSection";
 import PlantInfoSection from "@/components/plant-details/PlantInfoSection";
 import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
+import BlogPostsSection from "@/components/blog/BlogPostsSection";
 import Footer from "@/components/Footer";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { plants } from "@/data/plantData";
+import { useEnrichedPlant } from "@/hooks/useEnrichedPlant";
 
 const PlantDetails = () => {
   const { plantName } = useParams();
@@ -19,11 +21,15 @@ const PlantDetails = () => {
   const { user } = useAuth();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
-  // Find the plant in the plant data by matching the name
-  const plant = plants.find(
+  // Find the plant in the static catalog by matching the URL slug
+  const staticPlant = plants.find(
     (p) =>
       p.name.toLowerCase().replace(/\s+/g, "-") === plantName?.toLowerCase()
   );
+
+  // Load enriched data (falls back to static catalog)
+  const enrichedPlant = useEnrichedPlant(staticPlant?.name);
+  const plant = enrichedPlant ?? staticPlant;
 
   const handleAddToCollection = () => {
     if (plant) {
@@ -130,6 +136,10 @@ const PlantDetails = () => {
               careInstructions={careInstructions}
               commonProblems={commonProblems}
             />
+          </CascadingContainer>
+
+          <CascadingContainer delay={500}>
+            <BlogPostsSection plantName={plant.name} />
           </CascadingContainer>
         </div>
       </div>

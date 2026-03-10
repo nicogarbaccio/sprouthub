@@ -11,6 +11,7 @@ import { DashboardTodaysTasks } from "@/components/dashboard/DashboardTodaysTask
 import { DashboardRecentActivity } from "@/components/dashboard/DashboardRecentActivity";
 import { DashboardHealthInsights } from "@/components/dashboard/DashboardHealthInsights";
 import { DashboardPlantGallery } from "@/components/dashboard/DashboardPlantGallery";
+import MyPlantsBlogSection from "@/components/blog/MyPlantsBlogSection";
 import { DashboardDialogs } from "@/components/dashboard/DashboardDialogs";
 
 const COMPONENT_NAME = "Dashboard";
@@ -349,6 +350,12 @@ const Dashboard = () => {
         new Date(a.latest_watering!).getTime()
     )
     .slice(0, 4);
+
+  // Get unique plant type names for blog post matching
+  const myPlantNames = useMemo(
+    () => [...new Set(plants.map((p) => p.plant_type).filter(Boolean))],
+    [plants]
+  );
 
   // Check if we should show the smart suggestions banner - only after dismissed suggestions are loaded
   const shouldShowSmartSuggestionsBanner = useMemo(() => {
@@ -744,6 +751,15 @@ const Dashboard = () => {
           onAddPlant={() => addDialog.open()}
           onNavigate={navigate}
         />
+
+        {/* Articles For Your Plants */}
+        {myPlantNames.length > 0 && (
+          <CascadingContainer delay={400}>
+            <div className="mb-8">
+              <MyPlantsBlogSection plantNames={myPlantNames} />
+            </div>
+          </CascadingContainer>
+        )}
 
         {/* Quick Plant Gallery */}
         <DashboardPlantGallery

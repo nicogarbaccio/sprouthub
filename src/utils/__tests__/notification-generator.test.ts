@@ -18,7 +18,7 @@ vi.mock('../watering/schedule', () => ({
   calculateWateringSchedule: vi.fn((plant) => {
     // Mock implementation based on plant data
     const lastWateredDate = plant.last_watered_date ? new Date(plant.last_watered_date) : new Date();
-    const daysSinceWatering = Math.floor((Date.now() - lastWateredDate.getTime()) / (1000 * 60 * 60 * 24));
+    const daysSinceWatering = Math.round((Date.now() - lastWateredDate.getTime()) / (1000 * 60 * 60 * 24));
     const wateringDays = plant.suggested_watering_days || 7;
     const daysUntilWatering = wateringDays - daysSinceWatering;
 
