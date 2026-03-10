@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
  */
 const PlantDetailPlaceholder = () => {
   return (
-    <div className="min-h-dvh bg-background pb-20 lg:pb-0">
+    <div className="min-h-dvh bg-background pb-28 lg:pb-0">
       <Navigation />
       <main className="py-4 sm:py-6">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8 opacity-0">

@@ -48,7 +48,7 @@ const PlantDetails = () => {
 
   if (!plant) {
     return (
-      <div className="min-h-dvh bg-background pb-20 lg:pb-0 ">
+      <div className="min-h-dvh bg-background pb-28 lg:pb-0 ">
         <Navigation />
         <div className="pt-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto py-12 text-center">
@@ -84,7 +84,7 @@ const PlantDetails = () => {
   ];
 
   return (
-    <div className="min-h-dvh bg-background pb-20 lg:pb-0 ">
+    <div className="min-h-dvh bg-background pb-28 lg:pb-0 ">
       <Navigation />
       <div className="pt-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

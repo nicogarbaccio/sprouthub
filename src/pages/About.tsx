@@ -89,7 +89,7 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-dvh bg-background pb-20 lg:pb-0">
+    <div className="min-h-dvh bg-background pb-28 lg:pb-0">
       <Navigation />
 
       <main>

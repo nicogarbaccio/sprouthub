@@ -52,7 +52,7 @@ const AnalyticsContent = () => {
   const insights = !isLoading ? getAnalyticsInsights(plants) : [];
 
   return (
-    <div className="min-h-dvh bg-background pb-20 lg:pb-0">
+    <div className="min-h-dvh bg-background pb-28 lg:pb-0">
       <Navigation />
       <main className="py-8">
         <LoadingTransition loading={isLoading} skeleton={<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><AnalyticsSkeleton /></div>}>
