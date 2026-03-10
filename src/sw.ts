@@ -18,10 +18,15 @@ self.skipWaiting();
 clientsClaim();
 cleanupOutdatedCaches();
 
-// Clear navigation cache on activation so stale security headers (e.g. CSP)
-// don't persist after deploys
+// Clear runtime caches on activation so stale responses (e.g. old CSP headers,
+// broken image URLs) don't persist after deploys
 self.addEventListener("activate", (event: ExtendableEvent) => {
-  event.waitUntil(caches.delete("pages-cache"));
+  event.waitUntil(
+    Promise.all([
+      caches.delete("pages-cache"),
+      caches.delete("images-cache"),
+    ])
+  );
 });
 
 precacheAndRoute(self.__WB_MANIFEST);
