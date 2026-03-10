@@ -36,6 +36,7 @@ const BlogPostCard = ({ post, matchedPlants }: BlogPostCardProps) => {
               alt={post.title}
               className="w-full h-full object-cover transition-transform group-hover:scale-105"
               loading="lazy"
+              referrerPolicy="no-referrer"
               onError={() => setImgFailed(true)}
             />
           </div>
