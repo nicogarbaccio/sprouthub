@@ -124,16 +124,6 @@ const Navigation = () => {
                   </Button>
                 </Link>
               )}
-              <Link to="/plant-catalog">
-                <Button
-                  variant="ghost"
-                  className="text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                  data-testid="nav-plant-catalog-button"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>Plant Catalog</span>
-                </Button>
-              </Link>
               <Link to="/discover">
                 <Button
                   variant="ghost"
@@ -142,6 +132,16 @@ const Navigation = () => {
                 >
                   <Newspaper className="w-4 h-4" />
                   <span>Discover</span>
+                </Button>
+              </Link>
+              <Link to="/plant-catalog">
+                <Button
+                  variant="ghost"
+                  className="text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
+                  data-testid="nav-plant-catalog-button"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  <span>Plant Catalog</span>
                 </Button>
               </Link>
               {user && (

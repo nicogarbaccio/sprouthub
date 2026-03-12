@@ -35,11 +35,11 @@ const BottomNav = () => {
     ? [
         { label: "Home", icon: Home, to: "/" },
         { label: "My Plants", icon: Flower2, to: "/my-plants" },
-        { label: "Catalog", icon: BookOpen, to: "/plant-catalog" },
+        { label: "Discover", icon: Newspaper, to: "/discover" },
       ]
     : [
         { label: "Home", icon: Home, to: "/" },
-        { label: "Catalog", icon: BookOpen, to: "/plant-catalog" },
+        { label: "Discover", icon: Newspaper, to: "/discover" },
         { label: "Sign In", icon: LogIn, to: "/auth" },
       ];
 
@@ -48,7 +48,7 @@ const BottomNav = () => {
     return location.pathname.startsWith(to);
   };
 
-  const moreRoutes = ["/discover", "/profile", "/households", "/analytics", "/settings"];
+  const moreRoutes = ["/plant-catalog", "/profile", "/households", "/analytics", "/settings"];
   const isMoreActive = moreOpen || moreRoutes.some((r) => location.pathname.startsWith(r));
 
   return (
@@ -109,7 +109,7 @@ const BottomNav = () => {
             </SheetClose>
           </div>
           <div className="flex flex-col gap-1 p-4">
-            <MoreLink icon={Newspaper} label="Discover" to="/discover" onNavigate={() => setMoreOpen(false)} />
+            <MoreLink icon={BookOpen} label="Plant Catalog" to="/plant-catalog" onNavigate={() => setMoreOpen(false)} />
             {user && (
               <>
                 <MoreLink icon={User} label="Profile" to="/profile" onNavigate={() => setMoreOpen(false)} />

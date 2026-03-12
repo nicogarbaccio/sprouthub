@@ -32,7 +32,7 @@ const BlogPostCard = ({ post, matchedPlants }: BlogPostCardProps) => {
   const visiblePlants = matchedPlants?.slice(0, 2);
 
   return (
-    <Card className="h-full overflow-hidden transition-shadow hover:shadow-md flex flex-col relative group" data-testid="blog-post-card">
+    <Card className="h-full overflow-hidden transition-shadow [@media(hover:hover)]:hover:shadow-md flex flex-col relative group" data-testid="blog-post-card">
       <div className="relative">
         {showPlaceholder ? (
           <div className="aspect-[16/9] overflow-hidden bg-sprout-pale/50 dark:bg-sprout-medium/20 flex items-center justify-center">
@@ -43,7 +43,7 @@ const BlogPostCard = ({ post, matchedPlants }: BlogPostCardProps) => {
             <img
               src={imageUrl!}
               alt={post.title}
-              className="w-full h-full object-cover transition-transform group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform [@media(hover:hover)]:group-hover:scale-105"
               loading="lazy"
               onError={() => setImgFailed(true)}
             />
@@ -72,7 +72,7 @@ const BlogPostCard = ({ post, matchedPlants }: BlogPostCardProps) => {
         )}
       </div>
       <CardContent className="p-4 flex flex-col flex-1">
-        <h3 className="font-semibold text-sm leading-snug line-clamp-2 mb-1.5 group-hover:text-primary transition-colors">
+        <h3 className="font-semibold text-sm leading-snug line-clamp-2 mb-1.5 [@media(hover:hover)]:group-hover:text-primary transition-colors">
           <a
             href={post.url}
             target="_blank"
@@ -87,12 +87,12 @@ const BlogPostCard = ({ post, matchedPlants }: BlogPostCardProps) => {
             {post.summary}
           </p>
         )}
-        <div className="flex items-center justify-between text-xs text-muted-foreground mt-auto">
-          <span className="flex items-center gap-1">
-            {post.source_name}
-            <ExternalLink className="h-3 w-3" />
+        <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground mt-auto">
+          <span className="flex items-center gap-1 min-w-0">
+            <span className="truncate">{post.source_name}</span>
+            <ExternalLink className="h-3 w-3 shrink-0" />
           </span>
-          {formattedDate && <span>{formattedDate}</span>}
+          {formattedDate && <span className="shrink-0">{formattedDate}</span>}
         </div>
       </CardContent>
     </Card>
