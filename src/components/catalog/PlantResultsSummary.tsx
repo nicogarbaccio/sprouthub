@@ -28,7 +28,7 @@ const PlantResultsSummary = ({
   {displayText}
   {hasActiveFilters && (
    <span className="ml-2">
-   <Badge variant="outline" className="border-plant-secondary/30">
+   <Badge className="bg-sprout-medium text-white border-none shadow-sm">
     Filtered
    </Badge>
    </span>

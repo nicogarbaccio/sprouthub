@@ -694,5 +694,39 @@ export const otherPlants: Plant[] = [
       'Pale leaves: Needs more light or fertilizer',
       'Yellow leaves: Usually overwatering or natural aging'
     ]
+  },
+  {
+    name: 'Chinese Evergreen',
+    botanicalName: 'Aglaonema commutatum',
+    otherNames: ['Aglaonema', 'Philippine Evergreen', 'Poison Dart Plant'],
+    image: PLANT_IMAGES_BASE_URL + '/Chinese%20Evergreen.jpg',
+    wateringFrequency: 'Every 1-2 weeks',
+    suggestedWateringDays: 10,
+    lightRequirement: 'Low to Medium Indirect Light',
+    careLevel: 'Easy' as const,
+    category: 'Tropical Plants',
+    description: 'Native to the tropical and subtropical forests of Southeast Asia, the Chinese Evergreen is one of the most durable and beginner-friendly houseplants available. Prized for its beautifully patterned foliage, modern cultivars come in a stunning range of colors including silver, pink, red, and cream variegation on broad, lance-shaped leaves. Growing 1-3 feet tall and wide, it thrives in low to medium light conditions that would challenge most other houseplants, making it perfect for offices, bedrooms, and dimly lit corners. Aglaonema has been cultivated as a houseplant for centuries in Asia and is considered a symbol of good luck. Its slow to moderate growth rate and tolerance of inconsistent watering make it an ideal choice for beginners or anyone looking for a low-maintenance plant with high visual impact.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals that cause mouth and throat irritation',
+    temperature: '65-80°F (18-27°C) - sensitive to cold drafts and temperatures below 60°F',
+    humidity: '40-60% - tolerates average household humidity but prefers moderate levels',
+    careInstructions: [
+      'Water when the top 1-2 inches of soil feel dry - every 1-2 weeks depending on light and temperature',
+      'Thrives in low to medium indirect light; avoid direct sunlight which can scorch leaves',
+      'Use well-draining potting mix to prevent waterlogging and root rot',
+      'Feed monthly during spring and summer with a balanced liquid fertilizer diluted to half strength',
+      'Wipe leaves with a damp cloth periodically to remove dust and maintain their glossy appearance',
+      'Keep away from cold drafts, air conditioning vents, and temperatures below 60°F (15°C)',
+      'Repot every 2-3 years or when roots begin circling the pot, moving up one pot size',
+      'Darker green varieties tolerate lower light; colorful pink or red cultivars need brighter indirect light'
+    ],
+    commonProblems: [
+      'Yellow leaves: Overwatering is the most common cause - reduce watering frequency and ensure drainage',
+      'Brown leaf tips or edges: Low humidity or buildup of salts from tap water - use filtered water and increase humidity',
+      'Curling leaves: Underwatering, cold drafts, or temperature stress - check soil moisture and environment',
+      'Loss of variegation or faded colors: Insufficient light - move to a brighter spot with indirect light',
+      'Drooping or wilting: Either overwatering (check for mushy stems) or underwatering (check dry soil)',
+      'Mealybugs or spider mites: Treat with neem oil or insecticidal soap; inspect regularly',
+      'Leggy growth: Not enough light - relocate to brighter indirect light'
+    ]
   }
 ];

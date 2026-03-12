@@ -8,7 +8,6 @@ import {
  SelectTrigger,
  SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
 import {
  Collapsible,
  CollapsibleContent,
@@ -50,6 +49,10 @@ const PlantSearchFilters = ({
  hasActiveFilters,
  clearAllFilters,
 }: PlantSearchFiltersProps) => {
+ const activeFilterCount = [selectedCategory, selectedCareLevel, selectedLightRequirement].filter(
+  (v) => v && v !== "all"
+ ).length;
+
  return (
  <div className="max-w-4xl mx-auto space-y-6 mb-8">
   <Collapsible open={isFilterOpen} onOpenChange={setIsFilterOpen}>
@@ -69,19 +72,20 @@ const PlantSearchFilters = ({
 
    <CollapsibleTrigger asChild>
    <Button
-    variant="outline"
-    className="border-plant-secondary/30 hover:bg-plant-secondary/10 rounded-xl h-11 px-6 flex-shrink-0"
+    variant={activeFilterCount > 0 ? "default" : "outline"}
+    className={
+     activeFilterCount > 0
+      ? "bg-sprout-medium hover:bg-sprout-primary text-white rounded-xl h-11 px-6 flex-shrink-0 ring-2 ring-sprout-light/50 ring-offset-2 ring-offset-background shadow-lg transition-all"
+      : "border-plant-secondary/30 hover:bg-plant-secondary/10 rounded-xl h-11 px-6 flex-shrink-0"
+    }
     data-testid="filters-button"
    >
     <Filter className="w-4 h-4 mr-2" />
     Filters
-    {hasActiveFilters && (
-    <Badge
-     variant="secondary"
-     className="ml-2 bg-plant-primary text-white text-xs"
-    >
-     Active
-    </Badge>
+    {activeFilterCount > 0 && (
+    <span className="ml-2 inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-sprout-primary text-xs font-bold">
+     {activeFilterCount}
+    </span>
     )}
    </Button>
    </CollapsibleTrigger>
