@@ -3,7 +3,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { scheduleVersioningService, SeasonalScheduleSuggestion } from '@/services/scheduleVersioningService';
 import { Season } from '@/services/seasonalDetectionService';
 import { WeatherData } from '@/services/weatherTypes';
-import { useToast } from './use-toast';
+import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { hookLogger } from '@/utils/hookLogging';
 
@@ -32,8 +32,6 @@ export function useSeasonalSuggestions({
   enabled = true
 }: UseSeasonalSuggestionsProps): UseSeasonalSuggestionsReturn {
   const { user } = useAuth();
-  const { toast } = useToast();
-  
   const [suggestions, setSuggestions] = useState<SeasonalScheduleSuggestion[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -62,15 +60,11 @@ export function useSeasonalSuggestions({
       setError(errorMessage);
       hookLogger.error(HOOK_NAME, 'Error generating seasonal suggestions', err);
       
-      toast({
-        title: 'Error',
-        description: errorMessage,
-        variant: 'destructive'
-      });
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
-  }, [enabled, user, newSeason, weatherConditions, toast]);
+  }, [enabled, user, newSeason, weatherConditions]);
 
   /**
    * Apply a single suggestion
@@ -94,10 +88,7 @@ export function useSeasonalSuggestions({
       const suggestion = suggestions.find(s => s.plant_id === plantId);
       const plantName = suggestion?.plant_nickname || 'Plant';
 
-      toast({
-        title: 'Schedule Updated',
-        description: `${plantName}'s watering schedule updated to every ${days} days for ${newSeason}.`
-      });
+      toast.success(`${plantName}'s watering schedule updated to every ${days} days for ${newSeason}.`);
 
       // Record notification response
       await recordNotificationResponse('applied');
@@ -106,13 +97,9 @@ export function useSeasonalSuggestions({
       const errorMessage = err instanceof Error ? err.message : 'Failed to apply suggestion';
       hookLogger.error(HOOK_NAME, 'Error applying suggestion', err);
       
-      toast({
-        title: 'Error',
-        description: errorMessage,
-        variant: 'destructive'
-      });
+      toast.error(errorMessage);
     }
-  }, [newSeason, weatherConditions, suggestions, toast]);
+  }, [newSeason, weatherConditions, suggestions]);
 
   /**
    * Apply all suggestions at once
@@ -137,10 +124,7 @@ export function useSeasonalSuggestions({
         setAppliedSuggestions(prev => new Set([...prev, suggestion.plant_id]));
       }
 
-      toast({
-        title: 'All Schedules Updated',
-        description: `Updated watering schedules for ${unappliedSuggestions.length} plants for ${newSeason}.`
-      });
+      toast.success(`Updated watering schedules for ${unappliedSuggestions.length} plants for ${newSeason}.`);
 
       await recordNotificationResponse('applied');
 
@@ -148,15 +132,11 @@ export function useSeasonalSuggestions({
       const errorMessage = err instanceof Error ? err.message : 'Failed to apply all suggestions';
       hookLogger.error(HOOK_NAME, 'Error applying all suggestions', err);
       
-      toast({
-        title: 'Error',
-        description: errorMessage,
-        variant: 'destructive'
-      });
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
-  }, [suggestions, appliedSuggestions, newSeason, weatherConditions, toast]);
+  }, [suggestions, appliedSuggestions, newSeason, weatherConditions]);
 
   /**
    * Customize a plant's schedule (user override)
@@ -186,10 +166,7 @@ export function useSeasonalSuggestions({
       const suggestion = suggestions.find(s => s.plant_id === plantId);
       const plantName = suggestion?.plant_nickname || 'Plant';
 
-      toast({
-        title: 'Custom Schedule Set',
-        description: `${plantName}'s watering schedule customized to every ${days} days for ${newSeason}.`
-      });
+      toast.success(`${plantName}'s watering schedule customized to every ${days} days for ${newSeason}.`);
 
       await recordNotificationResponse('customized');
 
@@ -197,13 +174,9 @@ export function useSeasonalSuggestions({
       const errorMessage = err instanceof Error ? err.message : 'Failed to customize schedule';
       hookLogger.error(HOOK_NAME, 'Error customizing schedule', err);
       
-      toast({
-        title: 'Error',
-        description: errorMessage,
-        variant: 'destructive'
-      });
+      toast.error(errorMessage);
     }
-  }, [newSeason, weatherConditions, suggestions, toast]);
+  }, [newSeason, weatherConditions, suggestions]);
 
   /**
    * Refresh suggestions manually

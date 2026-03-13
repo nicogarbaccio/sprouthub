@@ -142,9 +142,9 @@ export function useCalendarSeasonalNotification(
   );
 
   /**
-   * Load user's plants
+   * Load user's plants, excluding those already reviewed for the given season/year
    */
-  const loadPlants = useCallback(async () => {
+  const loadPlants = useCallback(async (season?: Season, year?: number) => {
     if (!user) return;
 
     const tracker = trackOperation(HOOK_NAME, 'loadPlants');
@@ -157,8 +157,26 @@ export function useCalendarSeasonalNotification(
 
       if (error) throw error;
 
-      setPlants(data || []);
-      tracker.complete({ plantCount: data?.length || 0 });
+      let filteredPlants = data || [];
+
+      // Filter out plants that already have a seasonal schedule for this season/year
+      if (season && year && filteredPlants.length > 0) {
+        const plantIds = filteredPlants.map(p => p.id);
+        const { data: existingSchedules } = await supabase
+          .from('plant_seasonal_schedules')
+          .select('plant_id')
+          .in('plant_id', plantIds)
+          .eq('season', season)
+          .eq('year', year);
+
+        if (existingSchedules && existingSchedules.length > 0) {
+          const reviewedPlantIds = new Set(existingSchedules.map(s => s.plant_id));
+          filteredPlants = filteredPlants.filter(p => !reviewedPlantIds.has(p.id));
+        }
+      }
+
+      setPlants(filteredPlants);
+      tracker.complete({ plantCount: filteredPlants.length, totalPlants: data?.length || 0 });
     } catch (err) {
       tracker.fail(err);
       hookLogger.error(HOOK_NAME, 'Error loading plants', err);
@@ -190,10 +208,14 @@ export function useCalendarSeasonalNotification(
 
         if (!isDismissed) {
           setUpcomingChange(change);
-          setShouldShowNotification(true);
 
-          // Load plants for suggestions
-          await loadPlants();
+          // Load plants for suggestions, excluding already-reviewed plants
+          await loadPlants(change.nextSeason, change.changeDate.getFullYear());
+
+          // Only show notification if there are plants that need review
+          // (loadPlants filters out already-reviewed plants, so plantSuggestions
+          // will be empty if all plants are done — checked via the plants state)
+          setShouldShowNotification(true);
 
           tracker.complete({ change, shouldShow: true });
           return;
@@ -369,8 +391,28 @@ export function useCalendarSeasonalNotification(
 
         if (error) throw error;
 
-        // Reload plants to update suggestions
-        await loadPlants();
+        // Also write to plant_seasonal_schedules so the weather-based system
+        // knows this plant has been reviewed for this season/year
+        if (upcomingChange) {
+          const currentYear = upcomingChange.changeDate.getFullYear();
+          await supabase
+            .from('plant_seasonal_schedules')
+            .upsert({
+              plant_id: plantId,
+              season: upcomingChange.nextSeason,
+              year: currentYear,
+              watering_days: days,
+              user_modified: true,
+              applied_at: new Date().toISOString(),
+              weather_conditions: null,
+            }, {
+              onConflict: 'plant_id,season,year'
+            });
+        }
+
+        // Remove the applied plant from the list instead of reloading
+        // (reloading would recalculate adjustments on the new values, creating an infinite loop)
+        setPlants(prev => prev.filter(p => p.id !== plantId));
 
         tracker.complete({ plantId, days });
       } catch (err) {
@@ -379,7 +421,7 @@ export function useCalendarSeasonalNotification(
         throw err;
       }
     },
-    [loadPlants]
+    [upcomingChange]
   );
 
   /**
@@ -392,8 +434,36 @@ export function useCalendarSeasonalNotification(
       setIsLoading(true);
 
       for (const suggestion of plantSuggestions) {
-        await applySuggestion(suggestion.plantId, suggestion.suggestedWateringDays);
+        const { error } = await supabase
+          .from('user_plants')
+          .update({
+            suggested_watering_days: suggestion.suggestedWateringDays,
+            last_schedule_review: new Date().toISOString(),
+          })
+          .eq('id', suggestion.plantId);
+
+        if (error) throw error;
+
+        // Write to plant_seasonal_schedules
+        if (upcomingChange) {
+          await supabase
+            .from('plant_seasonal_schedules')
+            .upsert({
+              plant_id: suggestion.plantId,
+              season: upcomingChange.nextSeason,
+              year: upcomingChange.changeDate.getFullYear(),
+              watering_days: suggestion.suggestedWateringDays,
+              user_modified: false,
+              applied_at: new Date().toISOString(),
+              weather_conditions: null,
+            }, {
+              onConflict: 'plant_id,season,year'
+            });
+        }
       }
+
+      // Clear all plants so suggestions list becomes empty
+      setPlants([]);
 
       // Dismiss the notification after applying all
       await dismissNotification();
@@ -406,7 +476,7 @@ export function useCalendarSeasonalNotification(
     } finally {
       setIsLoading(false);
     }
-  }, [plantSuggestions, applySuggestion, dismissNotification]);
+  }, [plantSuggestions, upcomingChange, dismissNotification]);
 
   /**
    * Check for season changes on mount and daily

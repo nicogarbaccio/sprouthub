@@ -36,7 +36,7 @@ interface CalendarSeasonalDialogProps {
   isLoading: boolean;
   onApplySuggestion: (plantId: string, days: number) => Promise<void>;
   onApplyAll: () => Promise<void>;
-  appliedPlants: Set<string>;
+  appliedPlants: Map<string, number>;
 }
 
 export function CalendarSeasonalDialog({
@@ -57,6 +57,9 @@ export function CalendarSeasonalDialog({
   const unappliedSuggestions = suggestions.filter(
     (s) => !appliedPlants.has(s.plantId)
   );
+  const appliedCount = suggestions.filter(
+    (s) => appliedPlants.has(s.plantId)
+  ).length;
 
   const getChangeIcon = (adjustmentDays: number) => {
     if (adjustmentDays < 0)
@@ -144,7 +147,7 @@ export function CalendarSeasonalDialog({
               </div>
               <div className="rounded-xl bg-card border border-border p-4 text-center shadow-sm">
                 <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-0.5">
-                  {appliedPlants.size}
+                  {appliedCount}
                 </div>
                 <div className="text-xs font-medium text-muted-foreground">
                   Updated
@@ -180,6 +183,7 @@ export function CalendarSeasonalDialog({
             <div className="space-y-4">
               {suggestions.map((suggestion) => {
                 const isApplied = appliedPlants.has(suggestion.plantId);
+                const appliedDays = appliedPlants.get(suggestion.plantId);
                 const isEditing = editingPlant === suggestion.plantId;
                 const customValue =
                   customValues[suggestion.plantId] ||
@@ -228,66 +232,97 @@ export function CalendarSeasonalDialog({
                       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
                         {/* Schedule Change */}
                         <div className="lg:col-span-7 space-y-4">
-                          <div className="flex items-center justify-between gap-4">
-                            {/* Current */}
-                            <div className="flex-1 p-4 rounded-xl bg-muted border border-border text-center">
-                              <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
-                                Current
+                          {isApplied && appliedDays ? (
+                            <div className="flex items-center justify-between gap-4">
+                              {/* Previous */}
+                              <div className="flex-1 p-4 rounded-xl bg-muted border border-border text-center">
+                                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
+                                  Previous
+                                </div>
+                                <div className="text-lg font-medium text-muted-foreground line-through">
+                                  Every {suggestion.currentWateringDays} days
+                                </div>
                               </div>
-                              <div className="text-lg font-medium text-foreground">
-                                Every {suggestion.currentWateringDays} days
+
+                              {/* Arrow */}
+                              <div className="flex flex-col items-center justify-center text-green-600 dark:text-green-400">
+                                <ArrowRight className="h-5 w-5" />
+                              </div>
+
+                              {/* Applied */}
+                              <div className="flex-1 p-4 rounded-xl border text-center bg-green-600/10 border-green-600/20 text-green-700 dark:text-green-400">
+                                <div className="text-xs font-semibold opacity-80 uppercase tracking-wide mb-1">
+                                  Updated
+                                </div>
+                                <div className="text-lg font-bold">
+                                  Every {appliedDays} days
+                                </div>
                               </div>
                             </div>
+                          ) : (
+                            <>
+                              <div className="flex items-center justify-between gap-4">
+                                {/* Current */}
+                                <div className="flex-1 p-4 rounded-xl bg-muted border border-border text-center">
+                                  <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
+                                    Current
+                                  </div>
+                                  <div className="text-lg font-medium text-foreground">
+                                    Every {suggestion.currentWateringDays} days
+                                  </div>
+                                </div>
 
-                            {/* Arrow */}
-                            <div className="flex flex-col items-center justify-center text-muted-foreground">
-                              <ArrowRight className="h-5 w-5" />
-                            </div>
+                                {/* Arrow */}
+                                <div className="flex flex-col items-center justify-center text-muted-foreground">
+                                  <ArrowRight className="h-5 w-5" />
+                                </div>
 
-                            {/* Suggested */}
-                            <div
-                              className={`flex-1 p-4 rounded-xl border text-center ${getChangeColor(
-                                suggestion.adjustmentDays
-                              )}`}
-                            >
-                              <div className="text-xs font-semibold opacity-80 uppercase tracking-wide mb-1">
-                                Suggested
+                                {/* Suggested */}
+                                <div
+                                  className={`flex-1 p-4 rounded-xl border text-center ${getChangeColor(
+                                    suggestion.adjustmentDays
+                                  )}`}
+                                >
+                                  <div className="text-xs font-semibold opacity-80 uppercase tracking-wide mb-1">
+                                    Suggested
+                                  </div>
+                                  {isEditing ? (
+                                    <div className="flex items-center justify-center gap-2">
+                                      <Input
+                                        type="number"
+                                        min="1"
+                                        max="45"
+                                        value={customValue}
+                                        onChange={(e) =>
+                                          handleCustomValueChange(
+                                            suggestion.plantId,
+                                            e.target.value
+                                          )
+                                        }
+                                        className="w-20 h-8 text-center rounded-xl bg-background border-border/50 focus:border-sprout-medium text-foreground"
+                                      />
+                                      <span className="text-sm font-medium">
+                                        days
+                                      </span>
+                                    </div>
+                                  ) : (
+                                    <div className="text-lg font-bold">
+                                      Every {suggestion.suggestedWateringDays} days
+                                    </div>
+                                  )}
+                                </div>
                               </div>
-                              {isEditing ? (
-                                <div className="flex items-center justify-center gap-2">
-                                  <Input
-                                    type="number"
-                                    min="1"
-                                    max="45"
-                                    value={customValue}
-                                    onChange={(e) =>
-                                      handleCustomValueChange(
-                                        suggestion.plantId,
-                                        e.target.value
-                                      )
-                                    }
-                                    className="w-20 h-8 text-center rounded-xl bg-background border-border/50 focus:border-sprout-medium text-foreground"
-                                  />
-                                  <span className="text-sm font-medium">
-                                    days
+
+                              {suggestion.adjustmentDays !== 0 && !isEditing && (
+                                <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                                  {getChangeIcon(suggestion.adjustmentDays)}
+                                  <span>
+                                    Adjusting by{" "}
+                                    {Math.abs(suggestion.adjustmentDays)} days
                                   </span>
                                 </div>
-                              ) : (
-                                <div className="text-lg font-bold">
-                                  Every {suggestion.suggestedWateringDays} days
-                                </div>
                               )}
-                            </div>
-                          </div>
-
-                          {suggestion.adjustmentDays !== 0 && !isEditing && (
-                            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                              {getChangeIcon(suggestion.adjustmentDays)}
-                              <span>
-                                Adjusting by{" "}
-                                {Math.abs(suggestion.adjustmentDays)} days
-                              </span>
-                            </div>
+                            </>
                           )}
                         </div>
 
@@ -402,7 +437,7 @@ export function CalendarSeasonalDialog({
                   onClick={onClose}
                   className="flex-1 sm:flex-none rounded-xl"
                 >
-                  Cancel
+                  Done
                 </Button>
 
                 {unappliedSuggestions.length > 0 && (

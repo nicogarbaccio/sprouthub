@@ -152,10 +152,10 @@ const Dashboard = () => {
     applySuggestion: applyCalendarSuggestion,
   } = useCalendarSeasonalNotification(location.location?.latitude || 0);
 
-  // Track which plants have been applied in calendar suggestions
+  // Track which plants have been applied in calendar suggestions and their applied values
   const [appliedCalendarPlants, setAppliedCalendarPlants] = useState<
-    Set<string>
-  >(new Set());
+    Map<string, number>
+  >(new Map());
 
   // Care streak check - verifies recent waterings were actually on time
   const { hasStreak: hasCareStreak, checkStreak } = useCareStreak();
@@ -354,11 +354,18 @@ const Dashboard = () => {
   );
 
   // Check if we should show the smart suggestions banner - only after dismissed suggestions are loaded
+  // Hide smart suggestions when seasonal banners are active — seasonal takes priority
+  const hasActiveSeasonalBanner =
+    (shouldShowReview && pendingTransition && suggestions.length > 0) ||
+    (shouldShowCalendarNotification && calendarSeasonChange && calendarPlantSuggestions.length > 0);
+
   const shouldShowSmartSuggestionsBanner = useMemo(() => {
     return (
-      isDismissedSuggestionsLoaded && activePlantsWithSuggestions.length > 0
+      isDismissedSuggestionsLoaded &&
+      activePlantsWithSuggestions.length > 0 &&
+      !hasActiveSeasonalBanner
     );
-  }, [isDismissedSuggestionsLoaded, activePlantsWithSuggestions]);
+  }, [isDismissedSuggestionsLoaded, activePlantsWithSuggestions, hasActiveSeasonalBanner]);
 
   const handleQuickWater = (plantId: string, plantName: string) => {
     const plant = plants.find((p) => p.id === plantId);
@@ -592,6 +599,7 @@ const Dashboard = () => {
         {/* Calendar-based Seasonal Notification (works without weather) */}
         {shouldShowCalendarNotification &&
           calendarSeasonChange &&
+          calendarPlantSuggestions.length > 0 &&
           !shouldShowReview && (
             <CascadingContainer delay={50}>
               <div data-testid="calendar-seasonal-banner">
@@ -818,7 +826,7 @@ const Dashboard = () => {
           isCalendarSuggestionsLoading={isCalendarSuggestionsLoading}
           onApplyCalendarSuggestion={async (plantId, days) => {
             await applyCalendarSuggestion(plantId, days);
-            setAppliedCalendarPlants((prev) => new Set([...prev, plantId]));
+            setAppliedCalendarPlants((prev) => new Map([...prev, [plantId, days]]));
           }}
           onApplyAllCalendarSuggestions={async () => {
             await applyAllCalendarSuggestions();

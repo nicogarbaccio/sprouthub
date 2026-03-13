@@ -340,11 +340,19 @@ export function useBulkPatternAnalysis(plantIds: string[]) {
 
           const { data: plant } = await supabase
             .from('user_plants')
-            .select('suggested_watering_days')
+            .select('suggested_watering_days, last_schedule_review')
             .eq('id', plantId)
             .single();
 
           if (!records || !plant) return null;
+
+          // Skip plants that had a seasonal schedule review recently (within 14 days)
+          // This prevents smart suggestions from immediately contradicting seasonal adjustments
+          if (plant.last_schedule_review) {
+            const reviewDate = new Date(plant.last_schedule_review);
+            const daysSinceReview = (Date.now() - reviewDate.getTime()) / (1000 * 60 * 60 * 24);
+            if (daysSinceReview < 14) return null;
+          }
 
           const analysisData: WateringPatternData = {
             plantId,

@@ -372,7 +372,7 @@ export function SeasonalReviewDialog({
 
               <div className="flex space-x-2">
                 <Button data-testid="close-seasonal-review-button" variant="outline" onClick={onClose}>
-                  Close
+                  Done
                 </Button>
 
                 {unappliedSuggestions.length > 0 && (

@@ -83,7 +83,7 @@ interface DashboardDialogsProps {
   isCalendarSuggestionsLoading: boolean;
   onApplyCalendarSuggestion: (plantId: string, days: number) => Promise<void>;
   onApplyAllCalendarSuggestions: () => Promise<void>;
-  appliedCalendarPlants: Set<string>;
+  appliedCalendarPlants: Map<string, number>;
 
   // SmartSuggestionsDialog
   smartSuggestionsDialogOpen: boolean;
