@@ -161,6 +161,11 @@ const MyPlantDetails = () => {
     </div>
   );
 
+  // Show skeleton while plant data is loading
+  if (loading && !plant) {
+    return plantDetailsSkeleton;
+  }
+
   // Plant not found (after loading completes)
   if (!loading && !plant) {
     return (
