@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTheme } from "@/contexts/ThemeContext";
 import { authToast } from "@/utils/notifications/toast";
-import { Sheet, SheetContent, SheetClose } from "@/components/ui/sheet";
 import * as React from "react";
 
 interface NavTab {
@@ -91,57 +90,70 @@ const BottomNav = () => {
         </div>
       </nav>
 
-      {/* More menu sheet */}
-      <Sheet open={moreOpen} onOpenChange={setMoreOpen}>
-        <SheetContent
-          side="bottom"
-          className="rounded-t-2xl bg-background dark:bg-sprout-dark p-0 max-h-[70vh]"
-          closeClassName="hidden"
-          style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
-        >
-          <div className="flex items-center justify-between p-4 border-b">
-            <span className="text-lg font-semibold text-foreground dark:text-sprout-cream">
-              More
-            </span>
-            <SheetClose className="rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none">
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-            </SheetClose>
-          </div>
-          <div className="flex flex-col gap-1 p-4">
-            <MoreLink icon={BookOpen} label="Plant Catalog" to="/plant-catalog" onNavigate={() => setMoreOpen(false)} />
-            {user && (
-              <>
-                <MoreLink icon={User} label="Profile" to="/profile" onNavigate={() => setMoreOpen(false)} />
-                <MoreLink icon={Users} label="Households" to="/households" onNavigate={() => setMoreOpen(false)} />
-                <MoreLink icon={BarChart3} label="Analytics" to="/analytics" onNavigate={() => setMoreOpen(false)} />
-                <MoreLink icon={Settings} label="Settings" to="/settings" onNavigate={() => setMoreOpen(false)} />
-              </>
-            )}
-            <button
-              onClick={() => {
-                setTheme(actualTheme === "dark" ? "light" : "dark");
-              }}
-              className="w-full text-left text-foreground hover:bg-muted flex items-center gap-3 h-12 px-4 rounded-lg font-medium transition-colors"
-            >
-              {actualTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-              <span>{actualTheme === "dark" ? "Light Mode" : "Dark Mode"}</span>
-            </button>
-            {user && (
-              <>
-                <div className="border-t my-1" />
-                <button
-                  onClick={handleSignOut}
-                  className="w-full text-left text-sprout-warning hover:bg-muted flex items-center gap-3 h-12 px-4 rounded-lg font-medium transition-colors"
-                >
-                  <LogOut className="w-5 h-5" />
-                  <span>Sign Out</span>
-                </button>
-              </>
-            )}
-          </div>
-        </SheetContent>
-      </Sheet>
+      {/* Overlay - always mounted, visibility toggled via CSS */}
+      <div
+        className={`fixed inset-0 z-50 bg-black/80 transition-opacity duration-300 lg:hidden ${
+          moreOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => setMoreOpen(false)}
+        aria-hidden="true"
+      />
+
+      {/* More menu bottom sheet - always mounted, animated via transform */}
+      <div
+        role="dialog"
+        aria-modal={moreOpen}
+        aria-label="More menu"
+        className={`fixed inset-x-0 bottom-0 z-50 rounded-t-2xl bg-background dark:bg-sprout-dark p-0 max-h-[70vh] border-t shadow-lg transition-transform duration-300 ease-out will-change-transform lg:hidden ${
+          moreOpen ? "translate-y-0" : "translate-y-full"
+        }`}
+        style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+      >
+        <div className="flex items-center justify-between p-4 border-b">
+          <span className="text-lg font-semibold text-foreground dark:text-sprout-cream">
+            More
+          </span>
+          <button
+            onClick={() => setMoreOpen(false)}
+            className="rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none"
+          >
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </button>
+        </div>
+        <div className="flex flex-col gap-1 p-4">
+          <MoreLink icon={BookOpen} label="Plant Catalog" to="/plant-catalog" onNavigate={() => setMoreOpen(false)} />
+          {user && (
+            <>
+              <MoreLink icon={User} label="Profile" to="/profile" onNavigate={() => setMoreOpen(false)} />
+              <MoreLink icon={Users} label="Households" to="/households" onNavigate={() => setMoreOpen(false)} />
+              <MoreLink icon={BarChart3} label="Analytics" to="/analytics" onNavigate={() => setMoreOpen(false)} />
+              <MoreLink icon={Settings} label="Settings" to="/settings" onNavigate={() => setMoreOpen(false)} />
+            </>
+          )}
+          <button
+            onClick={() => {
+              setTheme(actualTheme === "dark" ? "light" : "dark");
+            }}
+            className="w-full text-left text-foreground hover:bg-muted flex items-center gap-3 h-12 px-4 rounded-lg font-medium transition-colors"
+          >
+            {actualTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            <span>{actualTheme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+          </button>
+          {user && (
+            <>
+              <div className="border-t my-1" />
+              <button
+                onClick={handleSignOut}
+                className="w-full text-left text-sprout-warning hover:bg-muted flex items-center gap-3 h-12 px-4 rounded-lg font-medium transition-colors"
+              >
+                <LogOut className="w-5 h-5" />
+                <span>Sign Out</span>
+              </button>
+            </>
+          )}
+        </div>
+      </div>
     </>
   );
 };

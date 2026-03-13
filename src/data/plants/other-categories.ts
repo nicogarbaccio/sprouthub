@@ -171,7 +171,7 @@ export const otherPlants: Plant[] = [
     name: 'Peperomia',
     botanicalName: 'Peperomia obtusifolia',
     otherNames: ['Baby Rubber Plant', 'American Rubber Plant', 'Pepper Face'],
-    image: PLANT_IMAGES_BASE_URL + '/Peperomia.jpg',
+    image: PLANT_IMAGES_BASE_URL + '/Peperomia.png',
     wateringFrequency: 'Every 10 days',
     suggestedWateringDays: 10,
     lightRequirement: 'Medium to Bright Indirect Light',
