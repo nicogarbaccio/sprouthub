@@ -15,7 +15,6 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from '@/components/ui/select';
 import { Mail, UserPlus, Shield } from 'lucide-react';
 
