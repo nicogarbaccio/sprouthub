@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { handleApiError, validateEmail } from '@/utils/errorHandling';
@@ -9,7 +10,6 @@ const HOOK_NAME = 'useHouseholdActions';
 
 interface UseHouseholdActionsDeps {
   user: User | null;
-  toast: (props: { title: string; description: string; variant?: 'destructive' | 'default' }) => void;
   households: HouseholdWithMembers[];
   fetchHouseholds: () => Promise<void>;
   fetchInvitations: () => Promise<void>;
@@ -17,7 +17,6 @@ interface UseHouseholdActionsDeps {
 
 export const useHouseholdActions = ({
   user,
-  toast,
   households,
   fetchHouseholds,
   fetchInvitations,
@@ -37,20 +36,17 @@ export const useHouseholdActions = ({
 
       if (error) throw error;
 
-      toast({
-        title: 'Success',
-        description: 'Household created successfully',
-      });
+      toast.success('Household created successfully');
 
       await fetchHouseholds();
       tracker.complete({ name });
       return true;
     } catch (error) {
       tracker.fail(error);
-      handleApiError(error, 'Failed to create household', toast);
+      handleApiError(error, 'Failed to create household');
       return false;
     }
-  }, [user, toast, fetchHouseholds]);
+  }, [user, fetchHouseholds]);
 
   const inviteToHousehold = useCallback(async (
     householdId: string,
@@ -63,22 +59,14 @@ export const useHouseholdActions = ({
       // Validate and normalize email
       const normalizedEmail = validateEmail(email);
       if (!normalizedEmail) {
-        toast({
-          title: 'Error',
-          description: 'Please enter a valid email address',
-          variant: 'destructive',
-        });
+        toast.error('Please enter a valid email address');
         tracker.fail(new Error('Invalid email address'));
         return false;
       }
 
       // Prevent self-invitation
       if (user && normalizedEmail === user.email?.toLowerCase()) {
-        toast({
-          title: 'Error',
-          description: 'You cannot invite yourself to a household',
-          variant: 'destructive',
-        });
+        toast.error('You cannot invite yourself to a household');
         tracker.fail(new Error('Self-invitation attempted'));
         return false;
       }
@@ -91,19 +79,29 @@ export const useHouseholdActions = ({
 
       if (error) throw error;
 
-      toast({
-        title: 'Success',
-        description: 'Invitation sent successfully',
+      // Send invitation email (non-blocking — don't fail the invite if email fails)
+      supabase.functions.invoke('send-invitation-email', {
+        body: {
+          invitedEmail: normalizedEmail,
+          householdId,
+          role,
+        },
+      }).then(({ error: emailError }) => {
+        if (emailError) {
+          console.warn('Failed to send invitation email:', emailError);
+        }
       });
+
+      toast.success('Invitation sent successfully');
 
       tracker.complete({ householdId, email: normalizedEmail, role });
       return true;
     } catch (error) {
       tracker.fail(error);
-      handleApiError(error, 'Failed to send invitation', toast);
+      handleApiError(error, 'Failed to send invitation');
       return false;
     }
-  }, [user, toast]);
+  }, [user]);
 
   const acceptInvitation = useCallback(async (invitationId: string) => {
     const tracker = trackOperation(HOOK_NAME, 'acceptInvitation');
@@ -115,10 +113,7 @@ export const useHouseholdActions = ({
 
       if (error) throw error;
 
-      toast({
-        title: 'Success',
-        description: 'Invitation accepted successfully',
-      });
+      toast.success('Invitation accepted successfully');
 
       // Use Promise.all to prevent race conditions
       await Promise.all([fetchHouseholds(), fetchInvitations()]);
@@ -126,10 +121,10 @@ export const useHouseholdActions = ({
       return true;
     } catch (error) {
       tracker.fail(error);
-      handleApiError(error, 'Failed to accept invitation', toast);
+      handleApiError(error, 'Failed to accept invitation');
       return false;
     }
-  }, [toast, fetchHouseholds, fetchInvitations]);
+  }, [fetchHouseholds, fetchInvitations]);
 
   const declineInvitation = useCallback(async (invitationId: string) => {
     const tracker = trackOperation(HOOK_NAME, 'declineInvitation');
@@ -141,10 +136,7 @@ export const useHouseholdActions = ({
 
       if (error) throw error;
 
-      toast({
-        title: 'Success',
-        description: 'Invitation declined',
-      });
+      toast.success('Invitation declined');
 
       // Use Promise.all to prevent race conditions
       await Promise.all([fetchHouseholds(), fetchInvitations()]);
@@ -152,10 +144,10 @@ export const useHouseholdActions = ({
       return true;
     } catch (error) {
       tracker.fail(error);
-      handleApiError(error, 'Failed to decline invitation', toast);
+      handleApiError(error, 'Failed to decline invitation');
       return false;
     }
-  }, [toast, fetchHouseholds, fetchInvitations]);
+  }, [fetchHouseholds, fetchInvitations]);
 
   const leaveHousehold = useCallback(async (householdId: string) => {
     const tracker = trackOperation(HOOK_NAME, 'leaveHousehold');
@@ -167,10 +159,7 @@ export const useHouseholdActions = ({
 
       if (error) throw error;
 
-      toast({
-        title: 'Success',
-        description: 'Left household successfully',
-      });
+      toast.success('Left household successfully');
 
       // Use Promise.all to prevent race conditions
       await Promise.all([fetchHouseholds(), fetchInvitations()]);
@@ -178,10 +167,10 @@ export const useHouseholdActions = ({
       return true;
     } catch (error) {
       tracker.fail(error);
-      handleApiError(error, 'Failed to leave household', toast);
+      handleApiError(error, 'Failed to leave household');
       return false;
     }
-  }, [toast, fetchHouseholds, fetchInvitations]);
+  }, [fetchHouseholds, fetchInvitations]);
 
   const removeMember = useCallback(async (householdId: string, memberId: string) => {
     const tracker = trackOperation(HOOK_NAME, 'removeMember');
@@ -190,11 +179,7 @@ export const useHouseholdActions = ({
       // Client-side permission validation
       if (!user) {
         const error = new Error('You must be logged in to remove members');
-        toast({
-          title: 'Error',
-          description: error.message,
-          variant: 'destructive',
-        });
+        toast.error(error.message);
         tracker.fail(error);
         return false;
       }
@@ -203,11 +188,7 @@ export const useHouseholdActions = ({
       const household = households.find(h => h.id === householdId);
       if (!household) {
         const error = new Error('Household not found');
-        toast({
-          title: 'Error',
-          description: error.message,
-          variant: 'destructive',
-        });
+        toast.error(error.message);
         tracker.fail(error);
         return false;
       }
@@ -215,11 +196,7 @@ export const useHouseholdActions = ({
       // Confirm current user has 'owner' or 'admin' role
       if (household.user_role !== 'owner' && household.user_role !== 'admin') {
         const error = new Error('You do not have permission to remove members. Only household owners and admins can remove members.');
-        toast({
-          title: 'Error',
-          description: error.message,
-          variant: 'destructive',
-        });
+        toast.error(error.message);
         tracker.fail(error);
         return false;
       }
@@ -228,11 +205,7 @@ export const useHouseholdActions = ({
       const memberToRemove = household.household_members.find(m => m.id === memberId);
       if (!memberToRemove) {
         const error = new Error('Member not found in this household');
-        toast({
-          title: 'Error',
-          description: error.message,
-          variant: 'destructive',
-        });
+        toast.error(error.message);
         tracker.fail(error);
         return false;
       }
@@ -240,11 +213,7 @@ export const useHouseholdActions = ({
       // Prevent removing a member with 'owner' role
       if (memberToRemove.role === 'owner') {
         const error = new Error('Cannot remove the household owner. Transfer ownership first.');
-        toast({
-          title: 'Error',
-          description: error.message,
-          variant: 'destructive',
-        });
+        toast.error(error.message);
         tracker.fail(error);
         return false;
       }
@@ -258,20 +227,17 @@ export const useHouseholdActions = ({
 
       if (error) throw error;
 
-      toast({
-        title: 'Success',
-        description: 'Member removed successfully',
-      });
+      toast.success('Member removed successfully');
 
       await fetchHouseholds();
       tracker.complete({ householdId, memberId });
       return true;
     } catch (error) {
       tracker.fail(error);
-      handleApiError(error, 'Failed to remove member', toast);
+      handleApiError(error, 'Failed to remove member');
       return false;
     }
-  }, [user, toast, households, fetchHouseholds]);
+  }, [user, households, fetchHouseholds]);
 
   const deleteHousehold = useCallback(async (householdId: string) => {
     const tracker = trackOperation(HOOK_NAME, 'deleteHousehold');
@@ -280,11 +246,7 @@ export const useHouseholdActions = ({
       // Client-side permission validation
       if (!user) {
         const error = new Error('You must be logged in to delete households');
-        toast({
-          title: 'Error',
-          description: error.message,
-          variant: 'destructive',
-        });
+        toast.error(error.message);
         tracker.fail(error);
         return false;
       }
@@ -293,11 +255,7 @@ export const useHouseholdActions = ({
       const household = households.find(h => h.id === householdId);
       if (!household) {
         const error = new Error('Household not found');
-        toast({
-          title: 'Error',
-          description: error.message,
-          variant: 'destructive',
-        });
+        toast.error(error.message);
         tracker.fail(error);
         return false;
       }
@@ -305,11 +263,7 @@ export const useHouseholdActions = ({
       // Confirm current user has 'owner' role
       if (household.user_role !== 'owner') {
         const error = new Error('You do not have permission to delete this household. Only the household owner can delete it.');
-        toast({
-          title: 'Error',
-          description: error.message,
-          variant: 'destructive',
-        });
+        toast.error(error.message);
         tracker.fail(error);
         return false;
       }
@@ -322,20 +276,17 @@ export const useHouseholdActions = ({
 
       if (error) throw error;
 
-      toast({
-        title: 'Success',
-        description: 'Household deleted successfully',
-      });
+      toast.success('Household deleted successfully');
 
       await fetchHouseholds();
       tracker.complete({ householdId });
       return true;
     } catch (error) {
       tracker.fail(error);
-      handleApiError(error, 'Failed to delete household', toast);
+      handleApiError(error, 'Failed to delete household');
       return false;
     }
-  }, [user, toast, households, fetchHouseholds]);
+  }, [user, households, fetchHouseholds]);
 
   return {
     createHousehold,

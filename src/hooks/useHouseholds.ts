@@ -2,7 +2,6 @@ import { useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
 import type { Tables } from '@/integrations/supabase/types';
 import { useUserHouseholdMemberships } from '@/hooks/useUserHouseholdMemberships';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
@@ -30,8 +29,6 @@ const INVITATIONS_QUERY_KEY = 'household-invitations';
 
 export const useHouseholds = () => {
   const { user } = useAuth();
-  const { toast } = useToast();
-
   // Use custom hooks
   const { fetchMemberships } = useUserHouseholdMemberships();
 
@@ -70,7 +67,7 @@ export const useHouseholds = () => {
         if (householdError) {
           const errorMsg = 'Could not load household details';
           hookLogger.warn(HOOK_NAME, errorMsg, { error: householdError });
-          handleApiError(householdError, errorMsg, toast);
+          handleApiError(householdError, errorMsg);
           tracker.fail(householdError);
           return [];
         }
@@ -106,7 +103,7 @@ export const useHouseholds = () => {
         tracker.fail(error);
         hookLogger.error(HOOK_NAME, 'Failed to fetch households', error);
         const errorMsg = getErrorMessage(error, 'An unexpected error occurred');
-        handleApiError(error, 'Failed to load households', toast);
+        handleApiError(error, 'Failed to load households');
         throw new Error(errorMsg);
       }
     },
@@ -164,7 +161,6 @@ export const useHouseholds = () => {
   // Compose with actions hook
   const actions = useHouseholdActions({
     user,
-    toast,
     households,
     fetchHouseholds,
     fetchInvitations,
