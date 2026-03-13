@@ -55,7 +55,7 @@ const FeaturesSection = () => {
             Everything you need to grow
           </h2>
           <p className="text-lg text-white max-w-2xl mx-auto ">
-            From beginners to expert gardeners, SproutHub provides all the tools
+            From beginners to expert gardeners, sprouthub provides all the tools
             and knowledge you need to keep your plants thriving.
           </p>
         </div>

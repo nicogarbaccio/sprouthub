@@ -66,7 +66,7 @@ test.describe('User Onboarding Flow', () => {
     // Step 5: Completion
     await expect(page.locator('h2').filter({ hasText: /you\'re all set/i })).toBeVisible();
     await expect(page.locator('text=Step 5 of 5')).toBeVisible();
-    await expect(page.locator('text=Your SproutHub account is ready')).toBeVisible();
+    await expect(page.locator('text=Your sprouthub account is ready')).toBeVisible();
 
     // Complete onboarding
     await page.locator('button:has-text("Go to Dashboard")').click();
@@ -248,7 +248,7 @@ test.describe('User Onboarding Flow', () => {
     });
 
     // Verify welcome message includes first name
-    await expect(page.locator(`text=Welcome to SproutHub, ${firstName}!`)).toBeVisible();
+    await expect(page.locator(`text=Welcome to sprouthub, ${firstName}!`)).toBeVisible();
 
     // Go to completion step
     await page.locator('button:has-text("Get Started")').click();

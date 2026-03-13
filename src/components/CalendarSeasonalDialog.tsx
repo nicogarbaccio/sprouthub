@@ -60,22 +60,18 @@ export function CalendarSeasonalDialog({
 
   const getChangeIcon = (adjustmentDays: number) => {
     if (adjustmentDays < 0)
-      return (
-        <TrendingDown className="h-4 w-4 text-orange-500 dark:text-orange-400" />
-      );
+      return <TrendingDown className="h-4 w-4 text-destructive" />;
     if (adjustmentDays > 0)
-      return (
-        <TrendingUp className="h-4 w-4 text-blue-500 dark:text-blue-400" />
-      );
-    return <Minus className="h-4 w-4 text-gray-400 dark:text-gray-500" />;
+      return <TrendingUp className="h-4 w-4 text-primary" />;
+    return <Minus className="h-4 w-4 text-muted-foreground" />;
   };
 
   const getChangeColor = (adjustmentDays: number) => {
     if (adjustmentDays < 0)
-      return "text-orange-700 bg-orange-50 border-orange-100 dark:bg-orange-950/30 dark:border-orange-900/50 dark:text-orange-300";
+      return "text-destructive bg-destructive/10 border-destructive/20";
     if (adjustmentDays > 0)
-      return "text-blue-700 bg-blue-50 border-blue-100 dark:bg-blue-950/30 dark:border-blue-900/50 dark:text-blue-300";
-    return "text-gray-700 bg-gray-50 border-gray-100 dark:bg-gray-800/50 dark:border-gray-700 dark:text-gray-300";
+      return "text-primary bg-primary/10 border-primary/20";
+    return "text-muted-foreground bg-muted border-border";
   };
 
   const handleCustomValueChange = (plantId: string, value: string) => {
@@ -116,91 +112,68 @@ export function CalendarSeasonalDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[85vh] flex flex-col p-0 gap-0 overflow-hidden bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-800">
-        <div className="p-6 pb-4 bg-white dark:bg-slate-900 shrink-0 z-10 border-b dark:border-slate-800">
-          <DialogHeader>
-            <DialogTitle className="flex items-center space-x-2 text-xl dark:text-slate-100">
-              <Calendar className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-              <span>{seasonDisplayName} Schedule Review</span>
-            </DialogTitle>
-            <DialogDescription className="text-base mt-2 dark:text-slate-400">
-              Review and update your plant watering schedules for{" "}
-              {seasonDisplayName.toLowerCase()}. These suggestions are based on
-              typical seasonal patterns and your plant characteristics.
-            </DialogDescription>
-          </DialogHeader>
+      <DialogContent className="max-w-4xl max-h-[85vh] flex flex-col p-0 gap-0 overflow-hidden rounded-2xl bg-background border-border [&>button]:text-white [&>button]:hover:text-white/80 [&>button]:z-20">
+        {/* Gradient Header */}
+        <div className="bg-gradient-to-br from-sprout-primary to-sprout-medium px-6 py-4 shrink-0 z-10">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+              <Calendar className="w-4 h-4 text-white" />
+            </div>
+            <DialogHeader className="space-y-0 text-left flex-1 min-w-0">
+              <DialogTitle className="text-white text-base font-semibold">
+                {seasonDisplayName} Schedule Review
+              </DialogTitle>
+              <DialogDescription className="text-white/75 text-xs leading-snug">
+                Update your watering schedules for {seasonDisplayName.toLowerCase()} &middot; {formatDate(changeDate)}
+              </DialogDescription>
+            </DialogHeader>
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto min-h-0">
-          <div className="p-6 space-y-6">
-            {/* Season Info Card */}
-            <Card className="bg-blue-50/50 border-blue-100 shadow-sm dark:bg-blue-950/20 dark:border-blue-900/50">
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1">
-                    <div className="flex items-center space-x-2">
-                      <Calendar className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                      <span className="font-semibold text-blue-900 dark:text-blue-100">
-                        {seasonDisplayName} begins on {formatDate(changeDate)}
-                      </span>
-                    </div>
-                    <p className="text-sm text-blue-700 pl-6 dark:text-blue-300">
-                      Calendar-based seasonal detection • No weather data
-                      required
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
+          <div className="px-8 py-6 space-y-6">
             {/* Summary Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Card className="shadow-sm dark:bg-slate-900 dark:border-slate-800">
-                <CardContent className="p-4 text-center">
-                  <div className="text-3xl font-bold text-blue-600 mb-1 dark:text-blue-400">
-                    {suggestions.length}
-                  </div>
-                  <div className="text-sm font-medium text-gray-500 dark:text-slate-400">
-                    Plants with Suggestions
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="shadow-sm dark:bg-slate-900 dark:border-slate-800">
-                <CardContent className="p-4 text-center">
-                  <div className="text-3xl font-bold text-green-600 mb-1 dark:text-green-400">
-                    {appliedPlants.size}
-                  </div>
-                  <div className="text-sm font-medium text-gray-500 dark:text-slate-400">
-                    Updated
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="shadow-sm dark:bg-slate-900 dark:border-slate-800">
-                <CardContent className="p-4 text-center">
-                  <div className="text-3xl font-bold text-orange-600 mb-1 dark:text-orange-400">
-                    {unappliedSuggestions.length}
-                  </div>
-                  <div className="text-sm font-medium text-gray-500 dark:text-slate-400">
-                    Pending
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="rounded-xl bg-card border border-border p-4 text-center shadow-sm">
+                <div className="text-3xl font-bold text-primary mb-0.5">
+                  {suggestions.length}
+                </div>
+                <div className="text-xs font-medium text-muted-foreground">
+                  Suggestions
+                </div>
+              </div>
+              <div className="rounded-xl bg-card border border-border p-4 text-center shadow-sm">
+                <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-0.5">
+                  {appliedPlants.size}
+                </div>
+                <div className="text-xs font-medium text-muted-foreground">
+                  Updated
+                </div>
+              </div>
+              <div className="rounded-xl bg-card border border-border p-4 text-center shadow-sm">
+                <div className="text-3xl font-bold text-destructive mb-0.5">
+                  {unappliedSuggestions.length}
+                </div>
+                <div className="text-xs font-medium text-muted-foreground">
+                  Pending
+                </div>
+              </div>
             </div>
 
             {/* No suggestions message */}
             {suggestions.length === 0 && (
-              <Card className="shadow-sm border-dashed dark:bg-slate-900 dark:border-slate-800">
-                <CardContent className="p-8 text-center text-gray-600 dark:text-gray-400">
-                  <Info className="h-12 w-12 mx-auto mb-3 text-gray-400 dark:text-gray-500" />
-                  <p className="font-medium mb-1 text-lg dark:text-slate-200">
-                    No adjustments needed
-                  </p>
-                  <p className="text-gray-500 dark:text-gray-400">
-                    Your current watering schedules are appropriate for the
-                    upcoming season.
-                  </p>
-                </CardContent>
-              </Card>
+              <div className="rounded-xl border border-dashed border-border bg-card p-8 text-center">
+                <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mx-auto mb-3">
+                  <Calendar className="h-6 w-6 text-muted-foreground" />
+                </div>
+                <p className="font-medium mb-1 text-lg text-card-foreground">
+                  No adjustments needed
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Your current watering schedules are appropriate for the
+                  upcoming season.
+                </p>
+              </div>
             )}
 
             {/* Plant Suggestions */}
@@ -215,32 +188,32 @@ export function CalendarSeasonalDialog({
                 return (
                   <Card
                     key={suggestion.plantId}
-                    className={`transition-all duration-200 border shadow-sm overflow-hidden dark:border-slate-800 ${
+                    className={`transition-all duration-200 rounded-xl border border-border shadow-sm overflow-hidden ${
                       isApplied
-                        ? "opacity-60 bg-gray-50 dark:bg-slate-900/50"
-                        : "bg-white dark:bg-slate-900 hover:shadow-md hover:border-blue-200 dark:hover:border-blue-900"
+                        ? "opacity-60 bg-muted"
+                        : "bg-card hover:shadow-md hover:border-sprout-medium/40"
                     }`}
                   >
-                    <CardHeader className="pb-4 border-b bg-gray-50/50 dark:bg-slate-950/50 dark:border-slate-800">
+                    <CardHeader className="pb-4 border-b border-border bg-muted/50">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <CardTitle className="text-lg font-semibold flex items-center gap-2 dark:text-slate-100">
+                          <CardTitle className="text-lg font-semibold flex items-center gap-2 text-card-foreground">
                             {suggestion.plantNickname}
                             {isApplied && (
-                              <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-500" />
+                              <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
                             )}
                           </CardTitle>
                           <div className="flex items-center gap-2">
                             <Badge
                               variant="secondary"
-                              className="text-xs font-normal dark:bg-slate-800 dark:text-slate-300"
+                              className="text-xs font-normal rounded-lg"
                             >
                               {suggestion.plantType}
                             </Badge>
                             {suggestion.isOutdoor && (
                               <Badge
                                 variant="outline"
-                                className="text-xs bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/30 dark:text-sky-300 dark:border-sky-900"
+                                className="text-xs rounded-lg"
                               >
                                 <MapPin className="h-3 w-3 mr-1" />
                                 Outdoor
@@ -257,17 +230,17 @@ export function CalendarSeasonalDialog({
                         <div className="lg:col-span-7 space-y-4">
                           <div className="flex items-center justify-between gap-4">
                             {/* Current */}
-                            <div className="flex-1 p-4 rounded-xl bg-gray-50 border border-gray-100 text-center dark:bg-slate-800/50 dark:border-slate-800">
-                              <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1 dark:text-slate-400">
+                            <div className="flex-1 p-4 rounded-xl bg-muted border border-border text-center">
+                              <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">
                                 Current
                               </div>
-                              <div className="text-lg font-medium text-gray-900 dark:text-slate-100">
+                              <div className="text-lg font-medium text-foreground">
                                 Every {suggestion.currentWateringDays} days
                               </div>
                             </div>
 
                             {/* Arrow */}
-                            <div className="flex flex-col items-center justify-center text-gray-400 dark:text-slate-600">
+                            <div className="flex flex-col items-center justify-center text-muted-foreground">
                               <ArrowRight className="h-5 w-5" />
                             </div>
 
@@ -293,7 +266,7 @@ export function CalendarSeasonalDialog({
                                         e.target.value
                                       )
                                     }
-                                    className="w-20 h-8 text-center bg-white border-blue-300 dark:bg-slate-800 dark:border-blue-700 dark:text-slate-100"
+                                    className="w-20 h-8 text-center rounded-xl bg-background border-border/50 focus:border-sprout-medium text-foreground"
                                   />
                                   <span className="text-sm font-medium">
                                     days
@@ -308,7 +281,7 @@ export function CalendarSeasonalDialog({
                           </div>
 
                           {suggestion.adjustmentDays !== 0 && !isEditing && (
-                            <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-slate-400">
+                            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                               {getChangeIcon(suggestion.adjustmentDays)}
                               <span>
                                 Adjusting by{" "}
@@ -320,14 +293,16 @@ export function CalendarSeasonalDialog({
 
                         {/* Reasoning */}
                         <div className="lg:col-span-5 relative">
-                          <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-100 h-full dark:bg-blue-950/20 dark:border-blue-900/50">
+                          <div className="p-4 rounded-xl bg-primary/5 border border-primary/10 h-full">
                             <div className="flex items-start gap-3">
-                              <Info className="h-5 w-5 text-blue-500 shrink-0 mt-0.5 dark:text-blue-400" />
+                              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                <Info className="h-4 w-4 text-primary" />
+                              </div>
                               <div className="space-y-1">
-                                <span className="text-sm font-semibold text-blue-900 block dark:text-blue-200">
+                                <span className="text-sm font-semibold text-foreground block">
                                   Why this change?
                                 </span>
-                                <p className="text-sm text-blue-800 leading-relaxed dark:text-blue-300">
+                                <p className="text-sm text-muted-foreground leading-relaxed">
                                   {suggestion.reasoning}
                                 </p>
                               </div>
@@ -337,7 +312,7 @@ export function CalendarSeasonalDialog({
                       </div>
 
                       {/* Actions */}
-                      <div className="flex items-center justify-end mt-6 pt-4 border-t border-gray-100 gap-3 dark:border-slate-800">
+                      <div className="flex items-center justify-end mt-6 pt-4 border-t border-border gap-3">
                         {!isApplied ? (
                           <>
                             {isEditing ? (
@@ -346,7 +321,7 @@ export function CalendarSeasonalDialog({
                                   variant="ghost"
                                   size="sm"
                                   onClick={() => setEditingPlant(null)}
-                                  className="dark:text-slate-300 dark:hover:text-white dark:hover:bg-slate-800"
+                                  className="rounded-xl"
                                 >
                                   Cancel
                                 </Button>
@@ -356,6 +331,7 @@ export function CalendarSeasonalDialog({
                                     handleApplyCustom(suggestion.plantId)
                                   }
                                   disabled={isLoading}
+                                  className="rounded-xl bg-sprout-medium hover:bg-sprout-primary text-white shadow-md"
                                 >
                                   Apply Custom Schedule
                                 </Button>
@@ -368,7 +344,7 @@ export function CalendarSeasonalDialog({
                                   onClick={() =>
                                     setEditingPlant(suggestion.plantId)
                                   }
-                                  className="text-gray-600 dark:text-slate-300 dark:border-slate-700 dark:hover:bg-slate-800"
+                                  className="rounded-xl"
                                 >
                                   <Edit3 className="h-4 w-4 mr-2" />
                                   Customize
@@ -382,7 +358,7 @@ export function CalendarSeasonalDialog({
                                     )
                                   }
                                   disabled={isLoading}
-                                  className="bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-600 dark:hover:bg-blue-500"
+                                  className="rounded-xl bg-sprout-medium hover:bg-sprout-primary text-white shadow-md"
                                 >
                                   Apply Suggestion
                                 </Button>
@@ -390,7 +366,7 @@ export function CalendarSeasonalDialog({
                             )}
                           </>
                         ) : (
-                          <div className="flex items-center gap-2 px-3 py-1.5 bg-green-50 text-green-700 rounded-full text-sm font-medium dark:bg-green-950/30 dark:text-green-400">
+                          <div className="flex items-center gap-2 px-3 py-1.5 bg-green-600/10 text-green-700 dark:text-green-400 rounded-full text-sm font-medium">
                             <CheckCircle className="h-4 w-4" />
                             <span>Schedule Updated</span>
                           </div>
@@ -404,16 +380,16 @@ export function CalendarSeasonalDialog({
           </div>
         </div>
 
-        <div className="p-4 border-t bg-white dark:bg-slate-900 shrink-0 z-10 dark:border-slate-800">
+        <div className="px-8 py-5 border-t border-border bg-card shrink-0 z-10">
           <DialogFooter>
             <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-4">
-              <div className="text-sm text-gray-500 font-medium dark:text-slate-400">
+              <div className="text-sm text-muted-foreground font-medium">
                 {unappliedSuggestions.length > 0 ? (
                   <span>
                     {unappliedSuggestions.length} plants pending review
                   </span>
                 ) : (
-                  <span className="text-green-600 flex items-center gap-2 dark:text-green-400">
+                  <span className="text-green-600 dark:text-green-400 flex items-center gap-2">
                     <CheckCircle className="h-4 w-4" />
                     All reviews complete
                   </span>
@@ -424,16 +400,16 @@ export function CalendarSeasonalDialog({
                 <Button
                   variant="outline"
                   onClick={onClose}
-                  className="flex-1 sm:flex-none dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+                  className="flex-1 sm:flex-none rounded-xl"
                 >
-                  Close
+                  Cancel
                 </Button>
 
                 {unappliedSuggestions.length > 0 && (
                   <Button
                     onClick={handleApplyAll}
                     disabled={isLoading}
-                    className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white dark:bg-blue-600 dark:hover:bg-blue-500"
+                    className="flex-1 sm:flex-none rounded-xl bg-sprout-medium hover:bg-sprout-primary text-white shadow-md"
                   >
                     {isLoading ? (
                       <>

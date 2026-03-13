@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 /**
- * Site-wide footer for SproutHub.
+ * Site-wide footer for sprouthub.
  * @returns {JSX.Element}
  */
 const Footer: React.FC = () => (

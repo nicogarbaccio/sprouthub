@@ -4,7 +4,7 @@
 
 @layer base {
   :root {
-    /* Light mode - using new SproutHub palette colors */
+    /* Light mode - using new sprouthub palette colors */
     --background: 0 0% 100%; /* sprout-white #ffffff */
     --foreground: 120 8% 24%; /* neutral-dark #3a423a converted to HSL */
     
@@ -50,7 +50,7 @@
   }
 
   .dark {
-    /* Dark mode - using new SproutHub palette colors */
+    /* Dark mode - using new sprouthub palette colors */
     --background: 142 33% 18%; /* sprout-dark #1d3c28 converted to HSL */
     --foreground: 120 8% 91%; /* neutral-light #e8ebe8 */
 
