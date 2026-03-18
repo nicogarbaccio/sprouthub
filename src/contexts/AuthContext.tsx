@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { User, Session, AuthError } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -73,8 +73,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         return;
       }
 
-      setSession(session);
-      setUser(session?.user ?? null);
+      // Only update user/session if we have a valid session, or on explicit sign-out.
+      // This prevents transient auth events (e.g., token refresh) from briefly
+      // setting user to null and causing UI flicker.
+      // Use functional updates to preserve object references when the underlying
+      // data hasn't changed — prevents unnecessary re-renders of useAuth() consumers.
+      if (session) {
+        setSession(prev => prev?.access_token === session.access_token ? prev : session);
+        setUser(prev => prev?.id === session.user?.id ? prev : session.user);
+      } else if (event === "SIGNED_OUT") {
+        setSession(null);
+        setUser(null);
+      }
 
       // Only set loading to false if initial load is complete
       // This prevents the auth state change callback from hiding the loading skeleton
@@ -168,7 +178,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     };
   }, []);
 
-  const signUp = async (
+  const signUp = useCallback(async (
     email: string,
     password: string,
     firstName: string,
@@ -247,9 +257,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         },
       };
     }
-  };
+  }, []);
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = useCallback(async (email: string, password: string) => {
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -264,9 +274,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         } as AuthError,
       };
     }
-  };
+  }, []);
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     try {
       hookLogger.debug(CONTEXT_NAME, "Starting sign out");
 
@@ -282,15 +292,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       hookLogger.warn(CONTEXT_NAME, "Sign out error (but local state cleared)", { error });
       // Local state is already cleared, so this is still a successful sign out from user perspective
     }
-  };
+  }, []);
 
-  const resetPassword = async (email: string) => {
+  const resetPassword = useCallback(async (email: string) => {
     // Send OTP to email for password reset
     const { error } = await supabase.auth.resetPasswordForEmail(email);
     return { error };
-  };
+  }, []);
 
-  const verifyResetToken = async (
+  const verifyResetToken = useCallback(async (
     email: string,
     token: string,
     newPassword: string
@@ -338,9 +348,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         } as AuthError,
       };
     }
-  };
+  }, []);
 
-  const value: AuthContextType = {
+  const value: AuthContextType = useMemo(() => ({
     user,
     session,
     loading,
@@ -350,7 +360,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     resetPassword,
     verifyResetToken,
     validatePasswordStrength: validatePassword,
-  };
+  }), [user, session, loading, signUp, signIn, signOut, resetPassword, verifyResetToken]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

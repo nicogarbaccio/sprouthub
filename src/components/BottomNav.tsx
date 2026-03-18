@@ -11,14 +11,18 @@ interface NavTab {
   to: string;
 }
 
+const CLOSE_ANIMATION_MS = 300;
+
 const BottomNav = () => {
   const { user, signOut } = useAuth();
   const { actualTheme, setTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
   const [moreOpen, setMoreOpen] = React.useState(false);
+  // Tracks whether the overlay should block touches — stays true during close animation
+  const [overlayBlocking, setOverlayBlocking] = React.useState(false);
 
-  const handleSignOut = async () => {
+  const handleSignOut = React.useCallback(async () => {
     try {
       await signOut();
       authToast.signOutSuccess();
@@ -28,7 +32,19 @@ const BottomNav = () => {
       console.error("Sign out error:", error);
       authToast.signOutError();
     }
-  };
+  }, [signOut, navigate]);
+
+  const handleOpen = React.useCallback(() => {
+    setMoreOpen(true);
+    setOverlayBlocking(true);
+  }, []);
+
+  const handleClose = React.useCallback(() => {
+    setMoreOpen(false);
+    // Keep overlay blocking touches until the sheet close animation finishes,
+    // preventing iOS from dispatching touches to content behind the sheet
+    setTimeout(() => setOverlayBlocking(false), CLOSE_ANIMATION_MS);
+  }, []);
 
   const tabs: NavTab[] = user
     ? [
@@ -49,6 +65,18 @@ const BottomNav = () => {
 
   const moreRoutes = ["/plant-catalog", "/profile", "/households", "/analytics", "/settings"];
   const isMoreActive = moreOpen || moreRoutes.some((r) => location.pathname.startsWith(r));
+
+  // Lock body scroll when sheet is open
+  React.useEffect(() => {
+    if (moreOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [moreOpen]);
 
   return (
     <>
@@ -77,7 +105,7 @@ const BottomNav = () => {
 
           {/* More tab */}
           <button
-            onClick={() => setMoreOpen(true)}
+            onClick={handleOpen}
             className={`flex flex-col items-center justify-center flex-1 h-full gap-0.5 transition-colors ${
               isMoreActive
                 ? "text-sprout-primary dark:text-sprout-cream"
@@ -90,73 +118,105 @@ const BottomNav = () => {
         </div>
       </nav>
 
-      {/* Overlay - always mounted, visibility toggled via CSS */}
+      {/* Overlay — stays pointer-events:auto during close animation to block iOS touch passthrough */}
       <div
-        className={`fixed inset-0 z-50 bg-black/80 transition-opacity duration-300 lg:hidden ${
-          moreOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => setMoreOpen(false)}
+        className={`fixed inset-0 z-50 bg-black/80 lg:hidden transition-opacity duration-200 ${
+          moreOpen ? "opacity-100" : "opacity-0"
+        } ${overlayBlocking ? "pointer-events-auto" : "pointer-events-none"}`}
+        style={{ touchAction: "none" }}
+        onClick={handleClose}
         aria-hidden="true"
       />
 
-      {/* More menu bottom sheet - always mounted, animated via transform */}
+      {/* More menu bottom sheet — fully declarative */}
       <div
         role="dialog"
         aria-modal={moreOpen}
         aria-label="More menu"
-        className={`fixed inset-x-0 bottom-0 z-50 rounded-t-2xl bg-background dark:bg-sprout-dark p-0 max-h-[70vh] border-t shadow-lg transition-transform duration-300 ease-out will-change-transform lg:hidden ${
+        className={`fixed inset-x-0 bottom-0 z-50 rounded-t-2xl bg-background dark:bg-sprout-dark p-0 max-h-[70vh] border-t shadow-lg lg:hidden transition-transform duration-250 ease-out ${
           moreOpen ? "translate-y-0" : "translate-y-full"
         }`}
         style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
       >
-        <div className="flex items-center justify-between p-4 border-b">
-          <span className="text-lg font-semibold text-foreground dark:text-sprout-cream">
-            More
-          </span>
-          <button
-            onClick={() => setMoreOpen(false)}
-            className="rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none"
-          >
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
-          </button>
-        </div>
-        <div className="flex flex-col gap-1 p-4">
-          <MoreLink icon={BookOpen} label="Plant Catalog" to="/plant-catalog" onNavigate={() => setMoreOpen(false)} />
-          {user && (
-            <>
-              <MoreLink icon={User} label="Profile" to="/profile" onNavigate={() => setMoreOpen(false)} />
-              <MoreLink icon={Users} label="Households" to="/households" onNavigate={() => setMoreOpen(false)} />
-              <MoreLink icon={BarChart3} label="Analytics" to="/analytics" onNavigate={() => setMoreOpen(false)} />
-              <MoreLink icon={Settings} label="Settings" to="/settings" onNavigate={() => setMoreOpen(false)} />
-            </>
-          )}
-          <button
-            onClick={() => {
-              setTheme(actualTheme === "dark" ? "light" : "dark");
-            }}
-            className="w-full text-left text-foreground hover:bg-muted flex items-center gap-3 h-12 px-4 rounded-lg font-medium transition-colors"
-          >
-            {actualTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            <span>{actualTheme === "dark" ? "Light Mode" : "Dark Mode"}</span>
-          </button>
-          {user && (
-            <>
-              <div className="border-t my-1" />
-              <button
-                onClick={handleSignOut}
-                className="w-full text-left text-sprout-warning hover:bg-muted flex items-center gap-3 h-12 px-4 rounded-lg font-medium transition-colors"
-              >
-                <LogOut className="w-5 h-5" />
-                <span>Sign Out</span>
-              </button>
-            </>
-          )}
-        </div>
+        <SheetContent
+          user={!!user}
+          actualTheme={actualTheme}
+          setTheme={setTheme}
+          onClose={handleClose}
+          onSignOut={handleSignOut}
+        />
       </div>
     </>
   );
 };
+
+// Memoized sheet content — only re-renders when user/theme truly change
+const SheetContent = React.memo(({
+  user,
+  actualTheme,
+  setTheme,
+  onClose,
+  onSignOut,
+}: {
+  user: boolean;
+  actualTheme: "light" | "dark";
+  setTheme: (theme: "light" | "dark" | "system") => void;
+  onClose: () => void;
+  onSignOut: () => void;
+}) => {
+  return (
+    <>
+      <div className="flex items-center justify-between p-4 border-b">
+        <span className="text-lg font-semibold text-foreground dark:text-sprout-cream">
+          More
+        </span>
+        <button
+          onClick={onClose}
+          className="rounded-sm opacity-70 focus:outline-none"
+        >
+          <X className="h-4 w-4" />
+          <span className="sr-only">Close</span>
+        </button>
+      </div>
+      <div className="flex flex-col gap-1 p-4">
+        <MoreLink icon={BookOpen} label="Plant Catalog" to="/plant-catalog" onNavigate={onClose} />
+        {user && (
+          <>
+            <MoreLink icon={User} label="Profile" to="/profile" onNavigate={onClose} />
+            <MoreLink icon={Users} label="Households" to="/households" onNavigate={onClose} />
+            <MoreLink icon={BarChart3} label="Analytics" to="/analytics" onNavigate={onClose} />
+            <MoreLink icon={Settings} label="Settings" to="/settings" onNavigate={onClose} />
+          </>
+        )}
+        <button
+          onClick={() => {
+            setTheme(actualTheme === "dark" ? "light" : "dark");
+          }}
+          className="w-full text-left text-foreground flex items-center gap-3 h-12 px-4 rounded-lg font-medium"
+          style={{ transition: "none" }}
+        >
+          {actualTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          <span>{actualTheme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+        </button>
+        {user && (
+          <>
+            <div className="border-t my-1" />
+            <button
+              onClick={onSignOut}
+              className="w-full text-left text-sprout-warning flex items-center gap-3 h-12 px-4 rounded-lg font-medium"
+              style={{ transition: "none" }}
+            >
+              <LogOut className="w-5 h-5" style={{ transition: "none" }} />
+              <span style={{ transition: "none" }}>Sign Out</span>
+            </button>
+          </>
+        )}
+      </div>
+    </>
+  );
+});
+
+SheetContent.displayName = "SheetContent";
 
 const MoreLink = ({
   icon: Icon,
@@ -175,14 +235,15 @@ const MoreLink = ({
     <Link
       to={to}
       onClick={onNavigate}
-      className={`flex items-center gap-3 h-12 px-4 rounded-lg font-medium transition-colors ${
+      className={`flex items-center gap-3 h-12 px-4 rounded-lg font-medium ${
         active
           ? "text-sprout-primary dark:text-sprout-cream bg-muted"
-          : "text-foreground hover:bg-muted"
+          : "text-foreground"
       }`}
+      style={{ transition: "none" }}
     >
-      <Icon className="w-5 h-5" />
-      <span>{label}</span>
+      <Icon className="w-5 h-5" style={{ transition: "none" }} />
+      <span style={{ transition: "none" }}>{label}</span>
     </Link>
   );
 };

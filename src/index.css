@@ -102,6 +102,13 @@
     touch-action: manipulation;
   }
 
+  /* Prevent the global 150ms color transition from causing visible flicker
+     when the bottom sheet slides into view and the browser recalculates styles.
+     The sheet container itself keeps its transform transition via Tailwind classes. */
+  [role="dialog"] *{
+    transition: none !important;
+  }
+
   body {
     @apply bg-background text-foreground font-light;
     transition: background-color 0.3s ease, color 0.3s ease;

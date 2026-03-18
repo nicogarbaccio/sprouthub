@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useMemo, useCallback } from "react";
 import { storage } from "@/utils/storage";
 
 type Theme = "light" | "dark" | "system";
@@ -69,14 +69,16 @@ export function ThemeProvider({
  return () => mediaQuery.removeEventListener("change", handleChange);
  }, [theme]);
 
- const value = {
+ const stableSetTheme = useCallback((newTheme: Theme) => {
+  storage.setItem(storageKey, newTheme);
+  setTheme(newTheme);
+ }, [storageKey]);
+
+ const value = useMemo(() => ({
  theme,
- setTheme: (theme: Theme) => {
-  storage.setItem(storageKey, theme);
-  setTheme(theme);
- },
+ setTheme: stableSetTheme,
  actualTheme,
- };
+ }), [theme, stableSetTheme, actualTheme]);
 
  return (
  <ThemeProviderContext.Provider {...props} value={value}>
