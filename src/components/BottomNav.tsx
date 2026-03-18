@@ -193,7 +193,6 @@ const SheetContent = React.memo(({
             setTheme(actualTheme === "dark" ? "light" : "dark");
           }}
           className="w-full text-left text-foreground flex items-center gap-3 h-12 px-4 rounded-lg font-medium"
-          style={{ transition: "none" }}
         >
           {actualTheme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           <span>{actualTheme === "dark" ? "Light Mode" : "Dark Mode"}</span>
@@ -204,10 +203,9 @@ const SheetContent = React.memo(({
             <button
               onClick={onSignOut}
               className="w-full text-left text-sprout-warning flex items-center gap-3 h-12 px-4 rounded-lg font-medium"
-              style={{ transition: "none" }}
             >
-              <LogOut className="w-5 h-5" style={{ transition: "none" }} />
-              <span style={{ transition: "none" }}>Sign Out</span>
+              <LogOut className="w-5 h-5" />
+              <span>Sign Out</span>
             </button>
           </>
         )}
@@ -240,10 +238,9 @@ const MoreLink = ({
           ? "text-sprout-primary dark:text-sprout-cream bg-muted"
           : "text-foreground"
       }`}
-      style={{ transition: "none" }}
     >
-      <Icon className="w-5 h-5" style={{ transition: "none" }} />
-      <span style={{ transition: "none" }}>{label}</span>
+      <Icon className="w-5 h-5" />
+      <span>{label}</span>
     </Link>
   );
 };

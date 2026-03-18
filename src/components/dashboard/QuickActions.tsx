@@ -51,7 +51,7 @@ export const QuickActions = ({
               <span className="flex items-center gap-2">
                 Water {plantsNeedingWaterCount} Plant
                 {plantsNeedingWaterCount > 1 ? "s" : ""}
-                <Badge className="ml-1 bg-white/20 hover:bg-white/30 text-white border-white/40 px-2 py-0.5 text-sm font-bold">
+                <Badge className="ml-1 bg-white/20 text-white border-white/40 px-2 py-0.5 text-sm font-bold">
                   {plantsNeedingWaterCount}
                 </Badge>
               </span>
