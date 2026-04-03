@@ -112,13 +112,35 @@ export function useMyPlantsBlogPosts(plantNames: string[]) {
         }
       }
 
-      if (posts.length < 3) {
+      // Find user plants with no junction table matches
+      const junctionMatchedSet = new Set<string>();
+      for (const names of plantMap.values()) {
+        for (const name of names) junctionMatchedSet.add(name.toLowerCase());
+      }
+      const unmatchedPlants = plantNames.filter((n) => {
+        const nLower = n.toLowerCase();
+        return ![...junctionMatchedSet].some(
+          (jn) => jn.includes(nLower) || nLower.includes(jn)
+        );
+      });
+
+      if (unmatchedPlants.length > 0 || posts.length < 3) {
         // Fallback: search post titles/summaries for plant names directly,
-        // plus broad indoor/houseplant terms since most user plants are houseplants
-        const nameFilters = plantNames.flatMap((name) => [
-          `title.ilike.%${name}%`,
-          `summary.ilike.%${name}%`,
-        ]);
+        // plus broad indoor/houseplant terms since most user plants are houseplants.
+        // For unmatched plants, also search by genus (first word if >= 6 chars)
+        // so e.g. "Monstera Deliciosa" finds posts about any Monstera species.
+        const searchPlants = unmatchedPlants.length > 0 ? unmatchedPlants : plantNames;
+        const nameFilters = searchPlants.flatMap((name) => {
+          const filters = [
+            `title.ilike.%${name}%`,
+            `summary.ilike.%${name}%`,
+          ];
+          const firstWord = name.split(/[\s''']/)[0];
+          if (firstWord.length >= 6 && firstWord !== name) {
+            filters.push(`title.ilike.%${firstWord}%`, `summary.ilike.%${firstWord}%`);
+          }
+          return filters;
+        });
         const broadFilters = [
           'title.ilike.%houseplant%',
           'title.ilike.%house plant%',

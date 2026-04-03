@@ -313,6 +313,22 @@ function matchPlantsToPost(
     }
   }
 
+  // Genus-level matching: if the botanical genus appears in the post,
+  // link it to matching plants at a lower score than a full-name match.
+  // e.g. "Monstera Pinnatipartita" matches "Monstera Deliciosa" via genus "Monstera".
+  for (const plant of plants) {
+    const nameLower = plant.name.toLowerCase();
+    if (seen.has(nameLower)) continue;
+
+    const genus = plant.botanicalName.split(' ')[0].toLowerCase();
+    // Only use genus if it's distinctive enough to avoid false positives
+    if (genus.length >= 6 && text.includes(genus)) {
+      const inTitle = titleLower.includes(genus);
+      matches.push({ name: plant.name, score: inTitle ? 0.4 : 0.25 });
+      seen.add(nameLower);
+    }
+  }
+
   // Category-level matching (e.g. "succulent care" matches all succulents)
   const categoryKeywords: Record<string, string> = {
     succulent: 'Succulents & Cacti',
