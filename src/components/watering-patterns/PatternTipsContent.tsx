@@ -140,6 +140,11 @@ const PatternTipsContent = ({
                   Avg: {analysis.actualAverageInterval.toFixed(1)} days
                 </span>
               </div>
+              {analysis.analysisWindowNote && (
+                <p className="text-xs text-muted-foreground mt-1 italic">
+                  {analysis.analysisWindowNote}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -261,12 +266,47 @@ const PatternTipsContent = ({
             We need at least 3 watering records to provide meaningful insights.
           </p>
         </div>
-      ) : (
+      ) : analysis?.pattern === 'consistent' ? (
         <div className="text-center py-6">
           <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
           <h3 className="font-medium mb-2">You're doing great!</h3>
           <p className="text-sm text-muted-foreground px-4">
             Your watering pattern looks good. Keep up the consistent care!
+          </p>
+        </div>
+      ) : analysis?.pattern === 'late' ? (
+        <div className="text-center py-6">
+          <Clock className="w-12 h-12 text-orange-400 mx-auto mb-3" />
+          <h3 className="font-medium mb-2">Watering a bit late</h3>
+          <p className="text-sm text-muted-foreground px-4">
+            {(analysis.healthObservationContext?.stressedCount ?? 0) > 0
+              ? `${plantName} showed signs of stress during some late waterings — keeping the current schedule for now. Try setting a reminder to water on time.`
+              : (analysis.healthObservationContext?.healthyCount ?? 0) > 0
+              ? `${plantName} has looked okay when watered late. A couple more healthy observations and we can give a firmer recommendation.`
+              : `You've been watering ${plantName} later than scheduled. Next time you water late, let us know how the plant looked — that helps us decide whether to adjust the schedule.`}
+          </p>
+          {(analysis.postponementContext?.count ?? 0) >= 2 && (
+            <p className="text-sm text-muted-foreground px-4 mt-2">
+              {analysis.postponementContext?.isSignificant
+                ? `You've also postponed watering ${analysis.postponementContext.count} times recently — strong evidence the current schedule may be more frequent than ${plantName} needs. We just need a bit more data to confirm.`
+                : `You've also postponed watering ${analysis.postponementContext!.count} times recently. If you're checking the soil each time and finding it still moist, that's a good signal the schedule might need adjusting.`}
+            </p>
+          )}
+        </div>
+      ) : analysis?.pattern === 'early' ? (
+        <div className="text-center py-6">
+          <TrendingUp className="w-12 h-12 text-blue-400 mx-auto mb-3" />
+          <h3 className="font-medium mb-2">Watering a bit early</h3>
+          <p className="text-sm text-muted-foreground px-4">
+            You've been watering {plantName} earlier than scheduled. That's often fine, but watch for signs of overwatering like yellowing leaves or soggy soil.
+          </p>
+        </div>
+      ) : (
+        <div className="text-center py-6">
+          <Target className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+          <h3 className="font-medium mb-2">Pattern still forming</h3>
+          <p className="text-sm text-muted-foreground px-4">
+            Your watering timing has been variable. Keep tracking — once a clearer pattern emerges, we'll be able to give better guidance.
           </p>
         </div>
       )}

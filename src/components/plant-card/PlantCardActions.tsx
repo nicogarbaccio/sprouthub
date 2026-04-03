@@ -6,6 +6,7 @@ import {
   History,
   ChevronDown,
   BookOpen,
+  FlaskConical,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -28,6 +29,8 @@ interface PlantCardActionsProps {
   onPostpone?: () => void;
   onJournalClick: () => void;
   onJournalHover: () => void;
+  isFertilizationDue?: boolean;
+  onFertilizeClick?: () => void;
 }
 
 export function PlantCardActions({
@@ -43,6 +46,8 @@ export function PlantCardActions({
   onPostpone,
   onJournalClick,
   onJournalHover,
+  isFertilizationDue,
+  onFertilizeClick,
 }: PlantCardActionsProps) {
   return (
     <div>
@@ -64,6 +69,16 @@ export function PlantCardActions({
             <Droplets className="w-4 h-4 mr-2 text-sprout-water" />
             Water Now
           </DropdownMenuItem>
+
+          {isFertilizationDue && onFertilizeClick && (
+            <DropdownMenuItem
+              onClick={onFertilizeClick}
+              className="cursor-pointer"
+            >
+              <FlaskConical className="w-4 h-4 mr-2 text-amber-500" />
+              Log Fertilization
+            </DropdownMenuItem>
+          )}
 
           {daysUntilWatering <= 0 &&
             !isPostponed &&

@@ -97,13 +97,37 @@ export function useWateringPatternAnalysis(
   }, []);
 
   /**
+   * Fetch the most recent seasonal transition date for a plant.
+   * This is when the schedule was last seasonally adjusted — used to clip
+   * the analysis window so we don't mix pre/post-seasonal data.
+   */
+  const fetchLastSeasonalTransition = useCallback(async (targetPlantId: string): Promise<Date | undefined> => {
+    const { data, error } = await supabase
+      .from('plant_seasonal_schedules')
+      .select('applied_at')
+      .eq('plant_id', targetPlantId)
+      .not('applied_at', 'is', null)
+      .order('applied_at', { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      hookLogger.warn(HOOK_NAME, 'Could not fetch seasonal transition date', { error });
+      return undefined;
+    }
+
+    return data?.applied_at ? new Date(data.applied_at) : undefined;
+  }, []);
+
+  /**
    * Perform pattern analysis for a single plant
    */
   const analyzePatternForPlant = useCallback(async (targetPlantId: string): Promise<WateringPatternAnalysis> => {
     try {
-      const [records, suggestedDays] = await Promise.all([
+      const [records, suggestedDays, lastSeasonalTransitionDate] = await Promise.all([
         fetchWateringRecords(targetPlantId),
         fetchPlantDetails(targetPlantId),
+        fetchLastSeasonalTransition(targetPlantId),
       ]);
 
       const analysisData: WateringPatternData = {
@@ -111,6 +135,7 @@ export function useWateringPatternAnalysis(
         records,
         suggestedDays,
         analysisDate: new Date(),
+        lastSeasonalTransitionDate,
       };
 
       return wateringPatternAnalyzer.analyzePattern(analysisData);
@@ -118,7 +143,7 @@ export function useWateringPatternAnalysis(
       hookLogger.error(HOOK_NAME, 'Error analyzing pattern for plant:', err);
       throw err;
     }
-  }, [fetchWateringRecords, fetchPlantDetails]);
+  }, [fetchWateringRecords, fetchPlantDetails, fetchLastSeasonalTransition]);
 
   /**
    * Refresh analysis for current plant
@@ -130,8 +155,11 @@ export function useWateringPatternAnalysis(
     setError(null);
 
     try {
-      const records = await fetchWateringRecords(plantId);
-      const suggestedDays = await fetchPlantDetails(plantId);
+      const [records, suggestedDays, lastSeasonalTransitionDate] = await Promise.all([
+        fetchWateringRecords(plantId),
+        fetchPlantDetails(plantId),
+        fetchLastSeasonalTransition(plantId),
+      ]);
 
       // Generate analysis
       const analysisData: WateringPatternData = {
@@ -139,6 +167,7 @@ export function useWateringPatternAnalysis(
         records,
         suggestedDays,
         analysisDate: new Date(),
+        lastSeasonalTransitionDate,
       };
 
       const newAnalysis = wateringPatternAnalyzer.analyzePattern(analysisData);
@@ -157,7 +186,7 @@ export function useWateringPatternAnalysis(
     } finally {
       setIsLoading(false);
     }
-  }, [plantId, fetchWateringRecords, fetchPlantDetails, toast]);
+  }, [plantId, fetchWateringRecords, fetchPlantDetails, fetchLastSeasonalTransition, toast]);
 
   // Update ref when refreshAnalysis changes
   useEffect(() => {
@@ -331,18 +360,31 @@ export function useBulkPatternAnalysis(plantIds: string[]) {
     try {
       const results = await Promise.allSettled(
         plantIds.map(async (plantId) => {
-          const { data: records } = await supabase
-            .from('watering_records')
-            .select('id, watered_at, notes')
-            .eq('plant_id', plantId)
-            .order('watered_at', { ascending: false })
-            .limit(10);
-
-          const { data: plant } = await supabase
-            .from('user_plants')
-            .select('suggested_watering_days, last_schedule_review')
-            .eq('id', plantId)
-            .single();
+          const [
+            { data: records },
+            { data: plant },
+            { data: seasonalRow },
+          ] = await Promise.all([
+            supabase
+              .from('watering_records')
+              .select('id, watered_at, notes')
+              .eq('plant_id', plantId)
+              .order('watered_at', { ascending: false })
+              .limit(15),
+            supabase
+              .from('user_plants')
+              .select('suggested_watering_days, last_schedule_review')
+              .eq('id', plantId)
+              .single(),
+            supabase
+              .from('plant_seasonal_schedules')
+              .select('applied_at')
+              .eq('plant_id', plantId)
+              .not('applied_at', 'is', null)
+              .order('applied_at', { ascending: false })
+              .limit(1)
+              .maybeSingle(),
+          ]);
 
           if (!records || !plant) return null;
 
@@ -354,11 +396,16 @@ export function useBulkPatternAnalysis(plantIds: string[]) {
             if (daysSinceReview < 14) return null;
           }
 
+          const lastSeasonalTransitionDate = seasonalRow?.applied_at
+            ? new Date(seasonalRow.applied_at)
+            : undefined;
+
           const analysisData: WateringPatternData = {
             plantId,
             records,
             suggestedDays: plant.suggested_watering_days || 7,
             analysisDate: new Date(),
+            lastSeasonalTransitionDate,
           };
 
           const analysis = wateringPatternAnalyzer.analyzePattern(analysisData);

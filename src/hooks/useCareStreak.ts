@@ -14,11 +14,34 @@ interface CareStreakResult {
 }
 
 /**
+ * Returns a species-appropriate compliance threshold based on schedule length.
+ *
+ * Plants with longer schedules are drought-tolerant and can tolerate more
+ * variation; short-schedule plants are moisture-sensitive and need tighter
+ * compliance. Using the schedule length as a proxy is botanically sound when
+ * explicit category data isn't available.
+ */
+function complianceThreshold(scheduleDays: number): number {
+  if (scheduleDays >= 14) return 0.60; // drought-tolerant (cactus, succulent, ZZ, etc.)
+  if (scheduleDays <= 5) return 0.85;  // moisture-sensitive (fern, calathea, etc.)
+  return 0.75;                         // typical houseplant
+}
+
+/**
+ * Proportional grace period: 10% of the schedule, minimum 1 day.
+ * A 7-day schedule gets 1 day of grace; a 30-day schedule gets 3 days.
+ */
+function gracePeriod(scheduleDays: number): number {
+  return Math.max(1, Math.round(scheduleDays * 0.1));
+}
+
+/**
  * Hook that checks whether all plants have been watered on time recently
  * by examining actual watering records (not just current snapshot).
  *
  * A plant is considered "on time" if the interval between its last two
- * waterings did not exceed its schedule by more than 1 day (grace period).
+ * waterings did not exceed its schedule by more than a proportional grace
+ * period (10% of schedule, minimum 1 day).
  */
 export const useCareStreak = () => {
   const [streakResult, setStreakResult] = useState<CareStreakResult>({
@@ -67,26 +90,33 @@ export const useCareStreak = () => {
         const schedule = plant.suggested_watering_days ?? 7;
         const plantRecords = recordsByPlant.get(plant.id) || [];
 
-        // Need at least 2 records to check an interval
+        // Need at least 2 records to compute any interval.
+        // Plants with 0 records are brand-new and shouldn't count against the streak.
+        // Plants with exactly 1 record don't yet have a measurable interval — skip them.
         if (plantRecords.length < 2) {
-          // If a plant has fewer than 2 records, we can't verify a streak
-          // Don't count it as late, but don't count it as on-streak either
-          // unless it's a brand new plant (only 1 watering)
-          if (plantRecords.length === 0) {
-            lateCount++;
-          }
           continue;
         }
 
-        // Check the most recent interval (records are desc by watered_at)
-        const mostRecent = new Date(plantRecords[0]);
-        const secondMostRecent = new Date(plantRecords[1]);
-        const intervalDays = Math.round(
-          (mostRecent.getTime() - secondMostRecent.getTime()) / (1000 * 60 * 60 * 24)
-        );
+        // Check all intervals in the lookback window, not just the most recent.
+        // A single on-time watering after a string of missed ones shouldn't reset
+        // the score — we need a majority of intervals to be on time.
+        const intervals: number[] = [];
+        for (let i = 0; i < plantRecords.length - 1; i++) {
+          const newer = new Date(plantRecords[i]);
+          const older = new Date(plantRecords[i + 1]);
+          const days = Math.round(
+            (newer.getTime() - older.getTime()) / (1000 * 60 * 60 * 24)
+          );
+          intervals.push(days);
+        }
 
-        // Allow 1 day grace period beyond the schedule
-        if (intervalDays > schedule + 1) {
+        // Proportional grace period (10% of schedule, min 1 day) and
+        // species-appropriate compliance threshold based on schedule length.
+        const grace = gracePeriod(schedule);
+        const lateIntervals = intervals.filter(d => d > schedule + grace);
+        const complianceRate = (intervals.length - lateIntervals.length) / intervals.length;
+
+        if (complianceRate < complianceThreshold(schedule)) {
           lateCount++;
         }
       }

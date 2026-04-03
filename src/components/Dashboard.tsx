@@ -32,6 +32,8 @@ import { WeatherMoodBanner } from "@/components/WeatherMoodBanner";
 import { calculateRainDelay } from "@/utils/watering/rainDelay";
 import { SeasonalReviewBanner } from "./SeasonalReviewBanner";
 import { CalendarSeasonalBanner } from "./CalendarSeasonalBanner";
+import { FertilizationBanner } from "./FertilizationBanner";
+import { useFertilizationBanner } from "@/hooks/useFertilizationBanner";
 import { SmartSuggestionsBanner } from "./SmartSuggestionsBanner";
 import { EnableWeatherPrompt } from "./EnableWeatherPrompt";
 import { shouldShowOverwateringWarning } from "@/utils/plants/overwatering";
@@ -165,6 +167,14 @@ const Dashboard = () => {
       checkStreak(plants);
     }
   }, [loading, plants, checkStreak]);
+
+  // Spring fertilization reminder banner
+  const {
+    shouldShow: shouldShowFertilizationBanner,
+    unfertilizedCount,
+    dismiss: dismissFertilizationBanner,
+    snooze: snoozeFertilizationBanner,
+  } = useFertilizationBanner(plants);
 
   // Smart suggestions analysis - stabilize plantIds to prevent infinite re-renders
   const plantIds = useMemo(() => plants.map((plant) => plant.id), [plants]);
@@ -613,6 +623,17 @@ const Dashboard = () => {
               </div>
             </CascadingContainer>
           )}
+
+        {/* Spring Fertilization Reminder Banner */}
+        {shouldShowFertilizationBanner && (
+          <CascadingContainer delay={75}>
+            <FertilizationBanner
+              plantCount={unfertilizedCount}
+              onDismiss={dismissFertilizationBanner}
+              onSnooze={snoozeFertilizationBanner}
+            />
+          </CascadingContainer>
+        )}
 
         {/* Smart Suggestions Banner */}
         {shouldShowSmartSuggestionsBanner && (

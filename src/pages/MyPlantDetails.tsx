@@ -15,6 +15,7 @@ import WateringScheduleCard from "@/components/plant-details/WateringScheduleCar
 import PlantInfoCard from "@/components/plant-details/PlantInfoCard";
 import PlantActionsMenu from "@/components/plant-details/PlantActionsMenu";
 import RepottingGuideCard from "@/components/plant-details/RepottingGuideCard";
+import FertilizationCard from "@/components/plant-details/FertilizationCard";
 import PlantDetailDialogs from "@/components/plant-details/PlantDetailDialogs";
 import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
@@ -28,6 +29,7 @@ import { plants as catalogPlants } from "@/data/plantData";
 import { useEnrichedPlant } from "@/hooks/useEnrichedPlant";
 import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
+import { useJournalEntries } from "@/hooks/useJournalEntries";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 
 const MyPlantDetails = () => {
@@ -42,6 +44,7 @@ const MyPlantDetails = () => {
     postponeWatering,
     deletePlant,
     fetchPlants,
+    logFertilization,
   } = useUserPlants();
 
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
@@ -65,6 +68,8 @@ const MyPlantDetails = () => {
     plantId: plant?.id,
     autoRefresh: false,
   });
+
+  const { addJournalEntry } = useJournalEntries();
 
 
   const staticCatalogPlant = plant
@@ -214,7 +219,7 @@ const MyPlantDetails = () => {
       <Navigation />
       <main className="py-4 sm:py-6">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8">
-          <CascadingContainer delay={100}>
+          <CascadingContainer delay={0} duration={200}>
             <PlantDetailHeader
               plant={plant}
               catalogPlant={catalogPlant}
@@ -223,7 +228,7 @@ const MyPlantDetails = () => {
           </CascadingContainer>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-            <CascadingContainer delay={200}>
+            <CascadingContainer delay={50} duration={200}>
               <PlantImageCard
                 imageSrc={imageSrc}
                 plantNickname={plant.nickname}
@@ -235,7 +240,7 @@ const MyPlantDetails = () => {
             </CascadingContainer>
 
             <div className="flex flex-col mt-6 mb-6 lg:mt-0 lg:mb-0">
-              <CascadingContainer delay={250}>
+              <CascadingContainer delay={50} duration={200}>
                 <div className="flex flex-col h-[240px] sm:h-[280px] md:h-[360px] lg:h-[320px] space-y-2">
                   <WateringScheduleCard plant={plant} />
                   <PlantInfoCard plant={plant} />
@@ -254,7 +259,7 @@ const MyPlantDetails = () => {
             </div>
           </div>
 
-          <CascadingContainer delay={350}>
+          <CascadingContainer delay={100} duration={200}>
             <div className="mb-6">
               <PlantCareGrid
                 wateringFrequency={catalogPlant?.wateringFrequency || "Weekly"}
@@ -272,14 +277,25 @@ const MyPlantDetails = () => {
             </div>
           </CascadingContainer>
 
-          <CascadingContainer delay={375}>
+          <CascadingContainer delay={125} duration={200}>
             <RepottingGuideCard
               plantNickname={plant.nickname}
               onClick={() => setShowRepotting(true)}
             />
           </CascadingContainer>
 
-          <CascadingContainer delay={425}>
+          <CascadingContainer delay={150} duration={200}>
+            <FertilizationCard
+              plant={plant}
+              catalogPlant={catalogPlant}
+              onLogFertilization={() => logFertilization(plant.id)}
+              onAddJournalEntry={(title, content) =>
+                addJournalEntry(plant.id, title, content, null, [])
+              }
+            />
+          </CascadingContainer>
+
+          <CascadingContainer delay={175} duration={200}>
             <div className="mb-6">
               <PlantCareCards
                 careInstructions={
@@ -303,7 +319,7 @@ const MyPlantDetails = () => {
             </div>
           </CascadingContainer>
 
-          <CascadingContainer delay={450}>
+          <CascadingContainer delay={200} duration={200}>
             <BlogPostsSection plantName={catalogPlant?.name || plant.plant_type} />
           </CascadingContainer>
         </div>

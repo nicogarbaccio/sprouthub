@@ -13,8 +13,9 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { Droplets, AlertTriangle, Clock, History } from "lucide-react";
+import { Droplets, AlertTriangle, Clock, History, Leaf } from "lucide-react";
 import { addDays, format } from "date-fns";
+import { buildWateringNotes } from "@/utils/watering/notesPrefixes";
 
 interface WaterConfirmationDialogProps {
  open: boolean;
@@ -44,27 +45,44 @@ export function WaterConfirmationDialog({
   format(new Date(), "yyyy-MM-dd")
  );
  const [alreadyWateredNotes, setAlreadyWateredNotes] = useState("");
+ const [healthObservation, setHealthObservation] = useState<'healthy' | 'stressed' | null>(null);
+
+ // Show health prompt when the plant is being watered more than 1 day past its schedule
+ const isLateWatering =
+  daysSinceLastWatered !== undefined &&
+  daysSinceLastWatered > wateringScheduleDays + 1;
 
  // Calculate next watering date
  const nextWateringDate = addDays(new Date(), wateringScheduleDays);
  const nextWateringFormatted = format(nextWateringDate, "MMM d, yyyy");
 
  const handleConfirm = () => {
-  onConfirm(notes);
-  setNotes(""); // Reset notes after confirming
+  const finalNotes = buildWateringNotes(
+   isLateWatering ? healthObservation : null,
+   notes
+  );
+  onConfirm(finalNotes ?? undefined);
+  setNotes("");
+  setHealthObservation(null);
  };
 
  const handleAlreadyWateredSubmit = () => {
   if (onAlreadyWatered) {
-   onAlreadyWatered(alreadyWateredDate, alreadyWateredNotes);
+   const finalNotes = buildWateringNotes(
+    isLateWatering ? healthObservation : null,
+    alreadyWateredNotes
+   );
+   onAlreadyWatered(alreadyWateredDate, finalNotes ?? undefined);
    setShowAlreadyWatered(false);
    setAlreadyWateredNotes("");
+   setHealthObservation(null);
    onOpenChange(false);
   }
  };
 
  const handleCancel = () => {
   setNotes("");
+  setHealthObservation(null);
   setShowAlreadyWatered(false);
   onOpenChange(false);
  };
@@ -170,6 +188,36 @@ export function WaterConfirmationDialog({
         </div>
        )}
 
+       {/* Late watering health observation prompt */}
+       {isLateWatering && (
+        <div className="space-y-2 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+         <div className="flex items-center gap-2">
+          <Leaf className="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" />
+          <p className="text-sm font-medium text-amber-800 dark:text-amber-200">
+           How did {plantName} look when you watered it?
+          </p>
+         </div>
+         <div className="flex flex-col gap-1.5 pl-1">
+          {([
+           { value: 'stressed', label: 'Thirsty or stressed' },
+           { value: 'healthy', label: 'Looked healthy, soil was still okay' },
+           { value: null, label: "I didn't check closely" },
+          ] as const).map(({ value, label }) => (
+           <label key={String(value)} className="flex items-center gap-2 text-sm text-amber-800 dark:text-amber-200 cursor-pointer">
+            <input
+             type="radio"
+             name="health-observation"
+             checked={healthObservation === value}
+             onChange={() => setHealthObservation(value)}
+             className="accent-amber-600"
+            />
+            {label}
+           </label>
+          ))}
+         </div>
+        </div>
+       )}
+
        {/* Optional Notes */}
        <div className="space-y-2 pt-2">
         <Label htmlFor="watering-notes" className="text-sm font-medium">
@@ -177,7 +225,7 @@ export function WaterConfirmationDialog({
         </Label>
         <Textarea
          id="watering-notes"
-         placeholder="e.g., Leaves looking dry, soil was very dry..."
+         placeholder={isLateWatering ? "Any other observations?" : "e.g., Leaves looking dry, soil was very dry..."}
          value={notes}
          onChange={(e) => setNotes(e.target.value)}
          rows={2}

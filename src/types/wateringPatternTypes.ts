@@ -10,6 +10,20 @@ export interface WateringPatternAnalysis {
   confidence: 'low' | 'medium' | 'high';
   suggestedAdjustment?: number;
   reasoning: string[];
+  /** Health observations logged during late waterings, used to contextualise suggestions */
+  healthObservationContext?: {
+    healthyCount: number;
+    stressedCount: number;
+    totalObservations: number;
+  };
+  /** Postponement behaviour within the analysis window */
+  postponementContext?: {
+    count: number;             // postponements in analysis window
+    averageDelayDays: number;  // avg days past scheduled due date at time of postponement
+    isSignificant: boolean;    // count >= 3 AND averageDelayDays >= 2
+  };
+  /** Set when the analysis window was clipped to a seasonal boundary */
+  analysisWindowNote?: string;
 }
 
 export interface WateringPatternData {
@@ -17,6 +31,8 @@ export interface WateringPatternData {
   records: WateringRecordForAnalysis[];
   suggestedDays: number;
   analysisDate: Date;
+  /** When set, the analysis window is clipped to start from this date (prevents mixing pre/post-seasonal-transition data) */
+  lastSeasonalTransitionDate?: Date;
 }
 
 export interface WateringRecordForAnalysis {
@@ -45,7 +61,7 @@ export interface ScheduleAdjustmentSuggestion {
 }
 
 export interface PatternInsight {
-  type: 'schedule_adjustment' | 'consistency_improvement' | 'overwatering_risk' | 'underwatering_risk';
+  type: 'schedule_adjustment' | 'consistency_improvement' | 'overwatering_risk' | 'underwatering_risk' | 'postponement_pattern';
   severity: 'low' | 'medium' | 'high';
   title: string;
   description: string;

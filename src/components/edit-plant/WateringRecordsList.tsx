@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Trash2, Loader2, Droplets, Clock, Pencil } from "lucide-react";
+import { Trash2, Loader2, Droplets, Clock, Pencil, Leaf, AlertTriangle } from "lucide-react";
 import { format, isFuture } from "date-fns";
 import type { WateringRecord } from "@/hooks/useWateringRecords";
+import { parseHealthObservation, stripNotesPrefixes } from "@/utils/watering/notesPrefixes";
 
 interface WateringRecordsListProps {
   records: WateringRecord[];
@@ -23,6 +24,8 @@ const WateringRecordsList = ({
           const isDeleting = deleteLoadingRecords.has(record.id);
           const isPostponement = record.is_postponement || record.notes?.includes('POSTPONEMENT:');
           const isFutureDate = isFuture(new Date(record.watered_at));
+          const healthObservation = isPostponement ? null : parseHealthObservation(record.notes);
+          const displayNotes = stripNotesPrefixes(record.notes);
 
           return (
             <div key={record.id}>
@@ -53,11 +56,15 @@ const WateringRecordsList = ({
                     )}
                     {format(new Date(record.watered_at), "PPP")}
                   </div>
-                  {record.notes && (
-                    <div className="text-sm sm:text-xs text-muted-foreground mt-1 pl-6">
-                      {isPostponement 
-                        ? record.notes.replace('POSTPONEMENT: ', '') 
-                        : record.notes}
+                  {(displayNotes || healthObservation) && (
+                    <div className="text-sm sm:text-xs text-muted-foreground mt-1 pl-6 flex items-center gap-1.5">
+                      {healthObservation === 'healthy' && (
+                        <Leaf className="w-3.5 h-3.5 text-green-500 flex-shrink-0" title="Plant looked healthy" />
+                      )}
+                      {healthObservation === 'stressed' && (
+                        <AlertTriangle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" title="Plant showed stress" />
+                      )}
+                      {displayNotes || (healthObservation === 'healthy' ? 'Plant looked healthy' : 'Plant showed stress')}
                     </div>
                   )}
                 </div>

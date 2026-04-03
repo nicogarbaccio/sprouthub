@@ -1,6 +1,6 @@
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { utilityToast, wateringToast, plantToast } from '@/utils/notifications/toast';
+import { utilityToast, wateringToast, plantToast, fertilizationToast } from '@/utils/notifications/toast';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { handleApiError } from '@/utils/errorHandling';
 import type { UserPlant } from '@/hooks/useUserPlants';
@@ -136,6 +136,20 @@ export const usePlantActions = ({
         // Don't fail the watering if postponement cleanup fails
       }
 
+      // Reset postponement_count — the user has now watered, so the streak of
+      // "plant didn't need water" decisions is resolved.
+      const { error: resetCountError } = await supabase
+        .from('user_plants')
+        .update({ postponement_count: 0, last_postponement_date: null })
+        .eq('id', plantId);
+
+      if (resetCountError) {
+        hookLogger.warn(HOOK_NAME, 'Could not reset postponement_count', {
+          error: resetCountError,
+        });
+        // Non-fatal — watering_records is the source of truth for analysis
+      }
+
       // Create the actual watering record
       const { error } = await supabase
         .from('watering_records')
@@ -226,6 +240,24 @@ export const usePlantActions = ({
 
       if (error) throw error;
 
+      // Increment postponement_count — each postponement is a "soil was still moist"
+      // signal used by pattern analysis to detect over-scheduled plants.
+      const currentCount = plant?.postponement_count ?? 0;
+      const { error: countError } = await supabase
+        .from('user_plants')
+        .update({
+          postponement_count: currentCount + 1,
+          last_postponement_date: postponementDate,
+        })
+        .eq('id', plantId);
+
+      if (countError) {
+        hookLogger.warn(HOOK_NAME, 'Could not increment postponement_count', {
+          error: countError,
+        });
+        // Non-fatal — watering_records is the source of truth for analysis
+      }
+
       utilityToast.info(
         'Watering Postponed',
         `${plantName} watering pushed to tomorrow`
@@ -275,6 +307,42 @@ export const usePlantActions = ({
     }
   };
 
+  const logFertilization = async (plantId: string): Promise<boolean> => {
+    if (!user) return false;
+
+    const tracker = trackOperation(HOOK_NAME, 'logFertilization');
+
+    try {
+      const plant = plants.find(p => p.id === plantId);
+      const plantName = plant?.nickname || 'Plant';
+      const fertilizedDate = new Date().toISOString();
+
+      // Optimistic update
+      setPlants(prev =>
+        prev.map(p =>
+          p.id === plantId ? { ...p, last_fertilized_date: fertilizedDate } : p
+        )
+      );
+
+      const { error } = await supabase
+        .from('user_plants')
+        .update({ last_fertilized_date: fertilizedDate })
+        .eq('id', plantId);
+
+      if (error) throw error;
+
+      fertilizationToast.recorded(plantName);
+      await fetchPlants();
+      tracker.complete({ plantId });
+      return true;
+    } catch (error) {
+      tracker.fail(error);
+      handleApiError(error, 'Failed to log fertilization', toast);
+      await fetchPlants();
+      return false;
+    }
+  };
+
   const deletePlant = async (plantId: string) => {
     const tracker = trackOperation(HOOK_NAME, 'deletePlant');
 
@@ -309,5 +377,6 @@ export const usePlantActions = ({
     updatePlantSchedule,
     deletePlant,
     checkOverwatering,
+    logFertilization,
   };
 };

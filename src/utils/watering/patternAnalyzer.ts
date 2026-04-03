@@ -13,6 +13,7 @@ import {
   PatternAnalysisOptions,
   PatternAnalysisStats,
 } from '@/types/wateringPatternTypes';
+import { LATE_HEALTHY_PREFIX, LATE_STRESSED_PREFIX, POSTPONEMENT_PREFIX } from '@/utils/watering/notesPrefixes';
 
 const DEFAULT_OPTIONS: Required<PatternAnalysisOptions> = {
   minRecords: 3,
@@ -20,6 +21,20 @@ const DEFAULT_OPTIONS: Required<PatternAnalysisOptions> = {
   consistencyThreshold: 0.8,
   earlyLateThresholdDays: 1.5, // More sensitive to detect early/late patterns
 };
+
+/** Internal structure returned by analyzePostponementSignal */
+interface PostponementSignal {
+  count: number;
+  averageDelayDays: number;
+  delaysAboveThreshold: number; // count of postponements where delay >= 2 days past due
+  isSignificant: boolean;       // count >= 3 AND averageDelayDays >= 2
+}
+
+/** Internal structure returned by evaluateUnifiedEvidence */
+interface UnifiedEvidenceResult {
+  verdict: 'allow' | 'veto' | 'insufficient';
+  points: number;
+}
 
 export class WateringPatternAnalyzer {
   private options: Required<PatternAnalysisOptions>;
@@ -32,36 +47,86 @@ export class WateringPatternAnalyzer {
    * Main analysis method - analyzes watering patterns for a plant
    */
   public analyzePattern(data: WateringPatternData): WateringPatternAnalysis {
-    // Filter and prepare records
-    const relevantRecords = this.filterRelevantRecords(data.records, data.analysisDate);
-    
-    
+    // Filter actual watering records (excludes postponements).
+    // If lastSeasonalTransitionDate is set, the window is clipped to post-transition data
+    // so we don't mix plant behaviour from different seasons.
+    const relevantRecords = this.filterRelevantRecords(
+      data.records,
+      data.analysisDate,
+      data.lastSeasonalTransitionDate
+    );
+    const windowWasClipped = !!data.lastSeasonalTransitionDate && (
+      data.lastSeasonalTransitionDate > new Date(data.analysisDate.getTime() - this.options.analysisWindowDays * 24 * 60 * 60 * 1000)
+    );
+
+    // Analyze postponement signal from the full record set (before filtering).
+    // Postponements represent intentional "I checked the soil and it was still moist"
+    // decisions — they are the most reliable signal that a schedule is too aggressive.
+    const postponementSignal = this.analyzePostponementSignal(
+      data.records,
+      relevantRecords,
+      data.analysisDate,
+      data.suggestedDays
+    );
+
     // Check if we have enough data
     if (relevantRecords.length < this.options.minRecords) {
-      return this.createInsufficientDataAnalysis(data.plantId, data.suggestedDays);
+      return this.createInsufficientDataAnalysis(
+        data.plantId,
+        data.suggestedDays,
+        postponementSignal,
+        windowWasClipped
+      );
     }
-    
+
     // Calculate intervals between waterings
     const intervals = this.calculateWateringIntervals(relevantRecords);
-    
-    
+
     // Additional check: we need at least minRecords-1 intervals for meaningful analysis
     if (intervals.length < this.options.minRecords - 1) {
-      return this.createInsufficientDataAnalysis(data.plantId, data.suggestedDays);
+      return this.createInsufficientDataAnalysis(
+        data.plantId,
+        data.suggestedDays,
+        postponementSignal,
+        windowWasClipped
+      );
     }
-    
+
     // Perform pattern analysis
     const analysisResult = this.performPatternAnalysis(intervals, data.suggestedDays);
-    
-    // Generate suggestions
+
+    // Generate suggestions (uses unified evidence gate)
     const suggestion = this.generateScheduleAdjustment(
       data.suggestedDays,
       analysisResult,
-      intervals
+      intervals,
+      relevantRecords,
+      postponementSignal
     );
 
-    // Generate reasoning
-    const reasoning = this.generateReasoning(analysisResult, data.suggestedDays, intervals);
+    // Generate reasoning (enriched with postponement context where relevant)
+    const reasoning = this.generateReasoning(
+      analysisResult,
+      data.suggestedDays,
+      intervals,
+      postponementSignal
+    );
+
+    // Summarise health observations for UI messaging
+    const observedRecords = relevantRecords.filter(
+      r => r.notes?.startsWith(LATE_HEALTHY_PREFIX) || r.notes?.startsWith(LATE_STRESSED_PREFIX)
+    );
+    const healthObservationContext = {
+      healthyCount: observedRecords.filter(r => r.notes?.startsWith(LATE_HEALTHY_PREFIX)).length,
+      stressedCount: observedRecords.filter(r => r.notes?.startsWith(LATE_STRESSED_PREFIX)).length,
+      totalObservations: observedRecords.length,
+    };
+
+    const postponementContext = {
+      count: postponementSignal.count,
+      averageDelayDays: Math.round(postponementSignal.averageDelayDays * 10) / 10,
+      isSignificant: postponementSignal.isSignificant,
+    };
 
     return {
       plantId: data.plantId,
@@ -71,6 +136,11 @@ export class WateringPatternAnalyzer {
       confidence: analysisResult.confidence,
       suggestedAdjustment: suggestion?.suggestedSchedule,
       reasoning,
+      healthObservationContext,
+      postponementContext,
+      analysisWindowNote: windowWasClipped
+        ? "Using only post-season-change data to give you accurate seasonal analysis"
+        : undefined,
     };
   }
 
@@ -84,7 +154,7 @@ export class WateringPatternAnalyzer {
     if (analysis.suggestedAdjustment && analysis.suggestedAdjustment !== analysis.currentSchedule) {
       const adjustmentType = analysis.suggestedAdjustment > analysis.currentSchedule ? 'increase' : 'decrease';
       const severity = this.getSeverityFromConfidence(analysis.confidence);
-      
+
       insights.push({
         type: 'schedule_adjustment',
         severity,
@@ -141,6 +211,25 @@ export class WateringPatternAnalyzer {
       }
     }
 
+    // Postponement pattern insight (only when no schedule_adjustment is already showing,
+    // to avoid stacking two "water less often" signals simultaneously)
+    const hasScheduleAdjustment = insights.some(i => i.type === 'schedule_adjustment');
+    const postponeCount = analysis.postponementContext?.count ?? 0;
+    if (!hasScheduleAdjustment && postponeCount >= 2) {
+      const isSignificant = analysis.postponementContext?.isSignificant ?? false;
+      const avgDelay = analysis.postponementContext?.averageDelayDays ?? 0;
+      insights.push({
+        type: 'postponement_pattern',
+        severity: isSignificant ? 'medium' : 'low',
+        title: 'Frequent Postponements Detected',
+        description:
+          `You've postponed watering ${postponeCount} time${postponeCount !== 1 ? 's' : ''} recently` +
+          (avgDelay > 0 ? ` (average ${avgDelay.toFixed(1)} days past due date)` : '') +
+          '. If you\'re checking the soil each time and finding it still moist, consider adjusting your schedule.',
+        actionable: isSignificant,
+      });
+    }
+
     return insights;
   }
 
@@ -188,22 +277,113 @@ export class WateringPatternAnalyzer {
   }
 
   /**
-   * Filter records to relevant time window and exclude postponements
+   * Filter records to relevant time window and exclude postponements.
+   *
+   * If lastSeasonalTransitionDate is provided and falls within the default window,
+   * it is used as the window start instead. This prevents mixing plant behaviour
+   * from different seasons in the same analysis.
    */
-  private filterRelevantRecords(records: WateringRecordForAnalysis[], analysisDate: Date): WateringRecordForAnalysis[] {
-    const windowStart = new Date(analysisDate.getTime() - this.options.analysisWindowDays * 24 * 60 * 60 * 1000);
-    
+  private filterRelevantRecords(
+    records: WateringRecordForAnalysis[],
+    analysisDate: Date,
+    lastSeasonalTransitionDate?: Date
+  ): WateringRecordForAnalysis[] {
+    const defaultWindowStart = new Date(
+      analysisDate.getTime() - this.options.analysisWindowDays * 24 * 60 * 60 * 1000
+    );
+
+    // Clip to seasonal transition if it occurred within the default window
+    const windowStart =
+      lastSeasonalTransitionDate && lastSeasonalTransitionDate > defaultWindowStart
+        ? lastSeasonalTransitionDate
+        : defaultWindowStart;
+
     return records
       .filter(record => {
-        // Exclude postponement records
-        if (record.notes?.includes('POSTPONEMENT:')) {
+        // Exclude postponement records — they are analyzed separately
+        if (record.notes?.includes(POSTPONEMENT_PREFIX)) {
           return false;
         }
-        
+
         const recordDate = new Date(record.watered_at);
         return recordDate >= windowStart && recordDate <= analysisDate;
       })
       .sort((a, b) => new Date(b.watered_at).getTime() - new Date(a.watered_at).getTime()); // Most recent first
+  }
+
+  /**
+   * Analyze postponement behaviour within the analysis window.
+   *
+   * Each postponement represents an intentional "I checked the soil and it
+   * was still moist" decision. Multiple consecutive postponements with meaningful
+   * delays past the scheduled due date are the strongest available signal that
+   * a watering schedule is more aggressive than the plant needs.
+   */
+  private analyzePostponementSignal(
+    allRecords: WateringRecordForAnalysis[],
+    actualWateringRecords: WateringRecordForAnalysis[],
+    analysisDate: Date,
+    suggestedDays: number
+  ): PostponementSignal {
+    const windowStart = new Date(
+      analysisDate.getTime() - this.options.analysisWindowDays * 24 * 60 * 60 * 1000
+    );
+    // Add a 2-day buffer to the upper bound to capture still-pending postponements
+    // whose watered_at is set to "tomorrow 9 AM"
+    const windowEnd = new Date(analysisDate.getTime() + 2 * 24 * 60 * 60 * 1000);
+
+    const postponementRecords = allRecords.filter(r => {
+      if (!r.notes?.includes(POSTPONEMENT_PREFIX)) return false;
+      const date = new Date(r.watered_at);
+      return date >= windowStart && date <= windowEnd;
+    });
+
+    if (postponementRecords.length === 0) {
+      return { count: 0, averageDelayDays: 0, delaysAboveThreshold: 0, isSignificant: false };
+    }
+
+    // Sort actual waterings oldest-first for look-up efficiency
+    const sortedWaterings = [...actualWateringRecords].sort(
+      (a, b) => new Date(a.watered_at).getTime() - new Date(b.watered_at).getTime()
+    );
+
+    const delays: number[] = [];
+    for (const postponement of postponementRecords) {
+      const postponeDate = new Date(postponement.watered_at);
+
+      // Find the most recent actual watering before this postponement
+      const previousWatering = sortedWaterings
+        .filter(w => new Date(w.watered_at) < postponeDate)
+        .pop();
+
+      if (!previousWatering) continue; // Can't compute a delay without a preceding watering
+
+      const dueDate = new Date(
+        new Date(previousWatering.watered_at).getTime() + suggestedDays * 24 * 60 * 60 * 1000
+      );
+      const delayDays = (postponeDate.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24);
+
+      // Only count positive delays — a negative delay would mean the postponement
+      // happened before the plant was even due, which doesn't make botanical sense
+      if (delayDays >= 0) {
+        delays.push(delayDays);
+      }
+    }
+
+    const averageDelayDays =
+      delays.length > 0
+        ? delays.reduce((sum, d) => sum + d, 0) / delays.length
+        : 0;
+
+    const delaysAboveThreshold = delays.filter(d => d >= 2).length;
+    const isSignificant = postponementRecords.length >= 3 && averageDelayDays >= 2;
+
+    return {
+      count: postponementRecords.length,
+      averageDelayDays,
+      delaysAboveThreshold,
+      isSignificant,
+    };
   }
 
   /**
@@ -213,18 +393,19 @@ export class WateringPatternAnalyzer {
     if (records.length < 2) return [];
 
     const intervals: number[] = [];
-    
+
     for (let i = 0; i < records.length - 1; i++) {
       const current = new Date(records[i].watered_at);
       const previous = new Date(records[i + 1].watered_at);
       const intervalDays = (current.getTime() - previous.getTime()) / (1000 * 60 * 60 * 24);
-      
-      // Only include reasonable intervals (1-45 days)
-      if (intervalDays >= 1 && intervalDays <= 45) {
+
+      // Only include reasonable intervals (1-90 days).
+      // The 45-day cap silently dropped valid intervals for slow-watering plants
+      // like cacti and ZZ plants — raised to 90 days to cover them.
+      if (intervalDays >= 1 && intervalDays <= 90) {
         intervals.push(intervalDays);
       }
     }
-
 
     return intervals;
   }
@@ -247,20 +428,19 @@ export class WateringPatternAnalyzer {
 
     const averageInterval = intervals.reduce((sum, interval) => sum + interval, 0) / intervals.length;
     const deviationFromSchedule = averageInterval - suggestedDays;
-    
+
     // Calculate consistency score (1 = perfectly consistent, 0 = completely inconsistent)
     const variance = intervals.reduce((sum, interval) => sum + Math.pow(interval - averageInterval, 2), 0) / intervals.length;
     const standardDeviation = Math.sqrt(variance);
     const coefficientOfVariation = standardDeviation / averageInterval;
     const consistencyScore = Math.max(0, 1 - coefficientOfVariation);
 
-
     // Determine pattern type
     const pattern = this.classifyPattern(deviationFromSchedule, consistencyScore);
-    
+
     // Determine confidence based on data quality and consistency
     const confidence = this.calculateConfidence(intervals.length, consistencyScore, Math.abs(deviationFromSchedule));
-    
+
     // Assess data quality
     const dataQuality = this.assessDataQuality(intervals.length, consistencyScore);
 
@@ -280,13 +460,13 @@ export class WateringPatternAnalyzer {
    */
   private classifyPattern(deviationFromSchedule: number, consistencyScore: number): PatternAnalysisResult['pattern'] {
     const absDeviation = Math.abs(deviationFromSchedule);
-    
+
     // First, check for irregular patterns (high inconsistency should override everything)
     // More strict threshold for irregular patterns to catch highly variable intervals
     if (consistencyScore < 0.7) {
       return 'irregular';
     }
-    
+
     // Check for early or late patterns with sufficient consistency
     // Early pattern: watering significantly before schedule
     if (deviationFromSchedule <= -this.options.earlyLateThresholdDays) {
@@ -299,14 +479,14 @@ export class WateringPatternAnalyzer {
         return 'early';
       }
     }
-    
+
     // Additional check for moderately early patterns with high consistency (respect custom threshold)
     const moderateEarlyThreshold = Math.min(-1.0, -this.options.earlyLateThresholdDays + 0.5);
     if (deviationFromSchedule <= moderateEarlyThreshold && consistencyScore >= 0.7) {
       return 'early';
-    } 
-    
-    // Late pattern: watering significantly after schedule  
+    }
+
+    // Late pattern: watering significantly after schedule
     if (deviationFromSchedule >= this.options.earlyLateThresholdDays) {
       // If reasonably consistent, it's clearly late
       if (consistencyScore >= 0.3) {
@@ -317,20 +497,20 @@ export class WateringPatternAnalyzer {
         return 'late';
       }
     }
-    
+
     // Additional check for moderately late patterns with high consistency (respect custom threshold)
     const moderateLateThreshold = Math.max(1.0, this.options.earlyLateThresholdDays - 0.5);
     if (deviationFromSchedule >= moderateLateThreshold && consistencyScore >= 0.7) {
       return 'late';
     }
-    
+
     // If very close to schedule and highly consistent, mark as consistent
     // Use dynamic threshold based on custom early/late thresholds
     const consistentDevThreshold = Math.max(1.0, this.options.earlyLateThresholdDays - 1.0);
     if (absDeviation <= consistentDevThreshold && consistencyScore >= this.options.consistencyThreshold) {
       return 'consistent';
     }
-    
+
     // Default to irregular for ambiguous cases
     return 'irregular';
   }
@@ -345,6 +525,13 @@ export class WateringPatternAnalyzer {
   ): PatternAnalysisResult['confidence'] {
     // For highly inconsistent patterns, always return low confidence
     if (consistencyScore < 0.5) {
+      return 'low';
+    }
+
+    // Require at least 5 data points to reach medium confidence.
+    // With only 3-4 waterings the pattern is still forming and a single
+    // outlier can swing the analysis significantly.
+    if (dataPoints < 5) {
       return 'low';
     }
 
@@ -387,19 +574,26 @@ export class WateringPatternAnalyzer {
   }
 
   /**
-   * Generate schedule adjustment suggestion
+   * Generate schedule adjustment suggestion.
+   *
+   * "Increase" suggestions (water less often) are gated behind a unified
+   * evidence model that considers both plant health observations and
+   * postponement patterns. Either gate passing is sufficient; any stressed
+   * observation vetoes regardless of other evidence.
    */
   private generateScheduleAdjustment(
     currentSchedule: number,
     analysis: PatternAnalysisResult,
-    intervals: number[]
+    intervals: number[],
+    records: WateringRecordForAnalysis[],
+    postponementSignal: PostponementSignal
   ): ScheduleAdjustmentSuggestion | null {
     if (analysis.confidence === 'low' || analysis.pattern === 'irregular') {
       return null;
     }
 
     const { averageInterval, deviationFromSchedule } = analysis;
-    
+
     // Only suggest adjustments for significant deviations
     if (Math.abs(deviationFromSchedule) < 1.5) {
       return null;
@@ -410,12 +604,27 @@ export class WateringPatternAnalyzer {
     suggestedSchedule = Math.max(2, Math.min(30, suggestedSchedule)); // Reasonable bounds
 
     const adjustmentType = suggestedSchedule > currentSchedule ? 'increase' : 'decrease';
-    
+
+    if (adjustmentType === 'increase') {
+      // Hard veto: any stressed observation overrides all positive evidence
+      const stressedCount = records.filter(r => r.notes?.startsWith(LATE_STRESSED_PREFIX)).length;
+      if (stressedCount > 0) return null;
+
+      // Allow if EITHER the legacy gate (2 healthy observations) OR the unified
+      // evidence gate (3+ combined points from healthy obs + postponements) passes.
+      // This preserves existing behaviour while extending it with postponement signals.
+      const legacyOk = this.evaluateHealthObservationGate(records) === 'allow';
+      const unifiedOk = this.evaluateUnifiedEvidence(records, postponementSignal).verdict === 'allow';
+      if (!legacyOk && !unifiedOk) return null;
+    }
+
     const reasoning = this.generateAdjustmentReasoning(
       currentSchedule,
       suggestedSchedule,
       analysis,
-      intervals
+      intervals,
+      records,
+      postponementSignal
     );
 
     return {
@@ -429,12 +638,65 @@ export class WateringPatternAnalyzer {
   }
 
   /**
-   * Generate human-readable reasoning for analysis
+   * Legacy gate: allows "water less" only when ≥2 healthy observations with zero stressed.
+   * Preserved for backward compatibility and used as the lower bar in the unified gate.
+   */
+  private evaluateHealthObservationGate(
+    records: WateringRecordForAnalysis[]
+  ): 'allow' | 'suppress' {
+    const observedRecords = records.filter(
+      r => r.notes?.startsWith(LATE_HEALTHY_PREFIX) || r.notes?.startsWith(LATE_STRESSED_PREFIX)
+    );
+
+    if (observedRecords.length === 0) return 'suppress';
+
+    const stressedCount = observedRecords.filter(r => r.notes?.startsWith(LATE_STRESSED_PREFIX)).length;
+    if (stressedCount > 0) return 'suppress';
+
+    const healthyCount = observedRecords.filter(r => r.notes?.startsWith(LATE_HEALTHY_PREFIX)).length;
+    return healthyCount >= 2 ? 'allow' : 'suppress';
+  }
+
+  /**
+   * Unified evidence model: combines healthy observations and meaningful postponements.
+   *
+   * Evidence points:
+   *   + min(LATE_HEALTHY count, 3)           — user confirmed plant looked fine when watered late
+   *   + min(postponements with delay ≥2, 3)  — user actively chose not to water past due date
+   *
+   * Threshold: ≥3 points = 'allow'. Any stressed observation = 'veto'.
+   */
+  private evaluateUnifiedEvidence(
+    records: WateringRecordForAnalysis[],
+    postponementSignal: PostponementSignal
+  ): UnifiedEvidenceResult {
+    const stressedCount = records.filter(r => r.notes?.startsWith(LATE_STRESSED_PREFIX)).length;
+    if (stressedCount > 0) {
+      return { verdict: 'veto', points: 0 };
+    }
+
+    const healthyCount = Math.min(
+      records.filter(r => r.notes?.startsWith(LATE_HEALTHY_PREFIX)).length,
+      3
+    );
+    const postponementPoints = Math.min(postponementSignal.delaysAboveThreshold, 3);
+
+    const points = healthyCount + postponementPoints;
+
+    return {
+      verdict: points >= 3 ? 'allow' : 'insufficient',
+      points,
+    };
+  }
+
+  /**
+   * Generate human-readable reasoning for analysis (enriched with postponement context)
    */
   private generateReasoning(
     analysis: PatternAnalysisResult,
     suggestedDays: number,
-    intervals: number[]
+    intervals: number[],
+    postponementSignal?: PostponementSignal
   ): string[] {
     const reasoning: string[] = [];
     const { pattern, averageInterval, consistencyScore, dataQuality } = analysis;
@@ -454,23 +716,34 @@ export class WateringPatternAnalyzer {
         reasoning.push(`You water consistently every ${averageInterval.toFixed(1)} days on average`);
         reasoning.push(`This aligns well with your ${suggestedDays}-day schedule`);
         break;
-      
-      case 'early':
+
+      case 'early': {
         const earlyBy = suggestedDays - averageInterval;
         reasoning.push(`You tend to water ${earlyBy.toFixed(1)} days earlier than your ${suggestedDays}-day schedule`);
         if (earlyBy >= 2) {
           reasoning.push('This could indicate the plant needs water sooner than expected');
         }
         break;
-      
-      case 'late':
+      }
+
+      case 'late': {
         const lateBy = averageInterval - suggestedDays;
         reasoning.push(`You tend to water ${lateBy.toFixed(1)} days later than your ${suggestedDays}-day schedule`);
         if (lateBy >= 2) {
           reasoning.push('Consider if the current schedule fits your routine');
         }
+        // Surface postponement context here so the user sees the full picture
+        if (postponementSignal && postponementSignal.count > 0) {
+          reasoning.push(
+            `You've also postponed watering ${postponementSignal.count} time${postponementSignal.count !== 1 ? 's' : ''} recently` +
+            (postponementSignal.averageDelayDays > 0
+              ? ` (average ${postponementSignal.averageDelayDays.toFixed(1)} days past due date)`
+              : '')
+          );
+        }
         break;
-      
+      }
+
       case 'irregular':
         reasoning.push('Your watering pattern varies significantly');
         if (intervals.length > 0) {
@@ -493,21 +766,51 @@ export class WateringPatternAnalyzer {
   }
 
   /**
-   * Generate reasoning for schedule adjustments
+   * Generate reasoning for schedule adjustments (enriched copy when evidence is strong)
    */
   private generateAdjustmentReasoning(
     currentSchedule: number,
     suggestedSchedule: number,
     analysis: PatternAnalysisResult,
-    _intervals: number[]
+    _intervals: number[],
+    records?: WateringRecordForAnalysis[],
+    postponementSignal?: PostponementSignal
   ): string[] {
     const reasoning: string[] = [];
     const difference = suggestedSchedule - currentSchedule;
     const { averageInterval, pattern } = analysis;
 
     if (difference > 0) {
-      reasoning.push(`Your actual watering average of ${averageInterval.toFixed(1)} days suggests the plant can go longer between waterings`);
-      reasoning.push(`Extending to ${suggestedSchedule} days could reduce maintenance while maintaining plant health`);
+      const healthyCount = records
+        ? records.filter(r => r.notes?.startsWith(LATE_HEALTHY_PREFIX)).length
+        : 0;
+      const postponeCount = postponementSignal?.count ?? 0;
+
+      if (healthyCount >= 2 && postponeCount >= 3) {
+        // Both signals present — strongest evidence, most compelling copy
+        reasoning.push(
+          `Your plant looked healthy on ${healthyCount} occasion${healthyCount !== 1 ? 's' : ''} when watered late, ` +
+          `and you also postponed watering ${postponeCount} times — strong evidence the current schedule is too aggressive`
+        );
+        reasoning.push(`Extending to ${suggestedSchedule} days aligns with the interval your plant consistently handled well`);
+      } else if (postponementSignal?.isSignificant) {
+        // Postponements drove the suggestion
+        reasoning.push(
+          `You postponed watering ${postponeCount} times (average ${postponementSignal.averageDelayDays.toFixed(1)} days after due date), ` +
+          `suggesting the current schedule is more frequent than your plant needs`
+        );
+        reasoning.push(`Extending to ${suggestedSchedule} days better matches how your plant is actually being cared for`);
+      } else if (healthyCount >= 2) {
+        // Health observations drove the suggestion (original copy)
+        reasoning.push(
+          `Your plant looked healthy on ${healthyCount} occasion${healthyCount !== 1 ? 's' : ''} when watered late, suggesting it can comfortably go longer between waterings`
+        );
+        reasoning.push(`Extending to ${suggestedSchedule} days aligns with the interval your plant handled well`);
+      } else {
+        // Fallback (shouldn't normally be reached given the gate)
+        reasoning.push(`Your actual watering average of ${averageInterval.toFixed(1)} days suggests the plant can go longer between waterings`);
+        reasoning.push(`Extending to ${suggestedSchedule} days could reduce maintenance while maintaining plant health`);
+      }
     } else {
       reasoning.push(`Your actual watering average of ${averageInterval.toFixed(1)} days suggests the plant needs more frequent attention`);
       reasoning.push(`Shortening to ${suggestedSchedule} days aligns better with your natural watering instincts`);
@@ -544,15 +847,21 @@ export class WateringPatternAnalyzer {
   }
 
   /**
-   * Create analysis result for insufficient data
+   * Create analysis result for insufficient data.
+   * Still includes postponement context so the UI can surface early nudges
+   * even before there are enough watering records for timing analysis.
    */
-  private createInsufficientDataAnalysis(plantId: string, suggestedDays: number): WateringPatternAnalysis {
+  private createInsufficientDataAnalysis(
+    plantId: string,
+    suggestedDays: number,
+    postponementSignal?: PostponementSignal,
+    windowWasClipped?: boolean
+  ): WateringPatternAnalysis {
     const reasoning = [
       `Need at least ${this.options.minRecords} watering records for pattern analysis`,
       'Keep tracking your watering to unlock personalized insights',
     ];
-    
-    
+
     return {
       plantId,
       currentSchedule: suggestedDays,
@@ -560,6 +869,16 @@ export class WateringPatternAnalyzer {
       pattern: 'irregular',
       confidence: 'low',
       reasoning,
+      postponementContext: postponementSignal
+        ? {
+            count: postponementSignal.count,
+            averageDelayDays: Math.round(postponementSignal.averageDelayDays * 10) / 10,
+            isSignificant: postponementSignal.isSignificant,
+          }
+        : undefined,
+      analysisWindowNote: windowWasClipped
+        ? "Using only post-season-change data to give you accurate seasonal analysis"
+        : undefined,
     };
   }
 

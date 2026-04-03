@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 interface CascadingContainerProps {
   children: React.ReactNode;
   delay?: number;
+  duration?: number;
   className?: string;
   isVisible?: boolean;
 }
@@ -11,6 +12,7 @@ interface CascadingContainerProps {
 export const CascadingContainer = ({
   children,
   delay = 0,
+  duration = 500,
   className = "",
   isVisible = true,
 }: CascadingContainerProps) => {
@@ -18,7 +20,7 @@ export const CascadingContainer = ({
 
   useEffect(() => {
     if (!isVisible) return;
-    
+
     const timer = setTimeout(() => {
       setHasAnimated(true);
     }, delay);
@@ -31,10 +33,11 @@ export const CascadingContainer = ({
   return (
     <div
       className={cn(
-        "transition-all duration-500 ease-out",
-        hasAnimated ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
+        "ease-out",
+        hasAnimated ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2",
         className
       )}
+      style={{ transition: `opacity ${duration}ms ease-out, transform ${duration}ms ease-out` }}
     >
       {children}
     </div>

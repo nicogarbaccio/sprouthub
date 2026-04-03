@@ -210,6 +210,21 @@ export const imageToast = {
 };
 
 /**
+ * Fertilization toasts
+ */
+export const fertilizationToast = {
+ recorded: (plantName: string) =>
+ toast.success(`Fertilization Logged`, {
+  description: `Recorded fertilization for ${plantName}`,
+ }),
+
+ snoozed: (weeks: number) =>
+ toast.info(`Reminder Snoozed`, {
+  description: `We'll remind you about fertilizing again in ${weeks} week${weeks !== 1 ? "s" : ""}`,
+ }),
+};
+
+/**
  * Unified toast interface combining all toast types
  *
  * Use this as the single entry point for all toast notifications in the app.
@@ -237,6 +252,7 @@ export const appToast = {
   profile: profileToast,
   utility: utilityToast,
   image: imageToast,
+  fertilization: fertilizationToast,
 } as const;
 
 /**

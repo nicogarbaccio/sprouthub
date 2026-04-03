@@ -42,6 +42,8 @@ export interface UserPlant {
  postponement_notes?: string;
  last_postponement_date?: string;
  postponement_count?: number;
+ // Fertilization tracking
+ last_fertilized_date?: string | null;
  // Household info (populated via join)
  household?: {
    name: string;
@@ -226,6 +228,7 @@ const {
   updatePlantSchedule,
   deletePlant,
   checkOverwatering,
+  logFertilization,
  } = usePlantActions({ plants, setPlants, fetchPlants, user });
 
 return {
@@ -239,5 +242,6 @@ return {
  updatePlantSchedule,
  deletePlant,
  checkOverwatering,
+ logFertilization,
 };
 };

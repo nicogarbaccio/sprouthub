@@ -138,6 +138,7 @@ export function CalendarSeasonalBanner({
               </Button>
 
               <div className="flex items-center space-x-1">
+                <span className="text-xs font-medium opacity-70 mr-1">Remind me in:</span>
                 <Button
                   variant="ghost"
                   size="sm"

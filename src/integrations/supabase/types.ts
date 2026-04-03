@@ -602,6 +602,7 @@ export type Database = {
           id: string
           image: string | null
           is_outdoor_plant: boolean | null
+          last_fertilized_date: string | null
           last_postponement_date: string | null
           last_schedule_review: string | null
           nickname: string
@@ -619,6 +620,7 @@ export type Database = {
           id?: string
           image?: string | null
           is_outdoor_plant?: boolean | null
+          last_fertilized_date?: string | null
           last_postponement_date?: string | null
           last_schedule_review?: string | null
           nickname: string
@@ -636,6 +638,7 @@ export type Database = {
           id?: string
           image?: string | null
           is_outdoor_plant?: boolean | null
+          last_fertilized_date?: string | null
           last_postponement_date?: string | null
           last_schedule_review?: string | null
           nickname?: string
@@ -760,6 +763,7 @@ export type Database = {
           id: string | null
           image: string | null
           is_outdoor_plant: boolean | null
+          last_fertilized_date: string | null
           last_watered_at: string | null
           last_watering_notes: string | null
           nickname: string | null

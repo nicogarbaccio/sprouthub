@@ -64,6 +64,7 @@ const MyPlantsCollectionContent = () => {
     postponeWatering,
     overwateringByPlantId,
     deletePlant,
+    logFertilization,
   } = useUserPlants();
   const { enterSelectionMode, isSelectionMode } = useBulkSelection();
   const [editingPlant, setEditingPlant] = useState<UserPlant | null>(null);
@@ -578,6 +579,7 @@ const MyPlantsCollectionContent = () => {
                   onPostponeWatering={postponeWatering}
                   onViewHistory={handleViewHistory}
                   onScheduleAdjustment={handleScheduleAdjustment}
+                  onFertilizePlant={logFertilization}
                   formatDate={formatDate}
                   getNextWateringDate={getNextWateringDate}
                   isOverdue={isOverdue}

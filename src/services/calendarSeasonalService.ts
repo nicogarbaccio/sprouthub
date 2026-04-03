@@ -142,7 +142,23 @@ class CalendarSeasonalService {
   }
 
   /**
-   * Get seasonal adjustment suggestion based on plant characteristics
+   * Get seasonal adjustment suggestion based on plant characteristics.
+   *
+   * Adjustments are percentage-based rather than flat-day offsets, so a
+   * cactus on a 30-day schedule gets a proportionally meaningful change while
+   * a fern on a 7-day schedule isn't nudged to something nonsensically small.
+   *
+   * Base percentages (as a fraction of currentScheduleDays, applied as
+   * negative = shorten interval = water more often):
+   *   spring  −15%  (active growth beginning)
+   *   summer  −25%  (peak evapotranspiration)
+   *   fall    +15%  (growth slowing)
+   *   winter  +25%  (dormancy, low light)
+   *
+   * Outdoor plants receive a 1.4× multiplier (exposed to ambient temps).
+   * Drought-tolerant plants (succulent / cactus) receive a 0.6× multiplier.
+   * Tropical / fern plants receive a 1.2× multiplier.
+   * Minimum absolute change is 1 day to avoid zero-rounding on short schedules.
    */
   getSeasonalAdjustment(
     currentScheduleDays: number,
@@ -150,54 +166,50 @@ class CalendarSeasonalService {
     plantType: string,
     isOutdoor: boolean
   ): SeasonalAdjustmentSuggestion {
-    // Base adjustment multiplier for indoor vs outdoor
-    const multiplier = isOutdoor ? 1.5 : 1.0;
+    // Percentage-based base rates (fraction of current schedule)
+    const BASE_RATES: Record<Season, number> = {
+      spring: -0.15,
+      summer: -0.25,
+      fall:    0.15,
+      winter:  0.25,
+    };
 
-    // Get base adjustment for season
-    let baseAdjustment = 0;
-    let reasoning = '';
-    switch (targetSeason) {
-      case 'spring':
-        baseAdjustment = -1;
-        reasoning = 'Spring brings active growth and warmer temperatures, requiring more frequent watering';
-        break;
-      case 'summer':
-        baseAdjustment = -2;
-        reasoning = 'Summer heat and longer days increase water needs significantly';
-        break;
-      case 'fall':
-        baseAdjustment = 1;
-        reasoning = 'Fall brings cooler temperatures and less evaporation, so soil stays moist longer';
-        break;
-      case 'winter':
-        baseAdjustment = 2;
-        reasoning = 'Winter dormancy and reduced light mean plants need much less water';
-        break;
-    }
+    const REASONING: Record<Season, string> = {
+      spring: 'Spring brings active growth and warmer temperatures, requiring more frequent watering',
+      summer: 'Summer heat and longer days increase water needs significantly',
+      fall:   'Fall brings cooler temperatures and less evaporation, so soil stays moist longer',
+      winter: 'Winter dormancy and reduced light mean plants need much less water',
+    };
 
-    // Adjust for plant type
+    let rate = BASE_RATES[targetSeason];
+    let reasoning = REASONING[targetSeason];
+
+    // Plant-type modifiers
     const lowerPlantType = plantType.toLowerCase();
-
     if (lowerPlantType.includes('succulent') || lowerPlantType.includes('cactus')) {
-      baseAdjustment *= 0.5; // Less dramatic changes for drought-tolerant plants
-      reasoning += '. Succulents need minimal adjustment';
+      rate *= 0.6;
+      reasoning += '. Drought-tolerant plants need smaller seasonal adjustments';
     } else if (lowerPlantType.includes('tropical') || lowerPlantType.includes('fern')) {
-      baseAdjustment *= 1.3; // More sensitive to seasonal changes
+      rate *= 1.2;
       reasoning += '. Tropical plants are more sensitive to seasonal changes';
     }
 
-    // Apply indoor/outdoor multiplier
-    const adjustmentDays = Math.round(baseAdjustment * multiplier);
-
-    // Add outdoor context to reasoning
+    // Outdoor multiplier
     if (isOutdoor) {
+      rate *= 1.4;
       reasoning += '. Outdoor plants experience more dramatic seasonal changes';
     } else {
       reasoning += '. Indoor plants need gentler adjustments';
     }
 
-    // Ensure we don't suggest going below 1 day or above 45 days
-    const suggestedDays = Math.max(1, Math.min(45, currentScheduleDays + adjustmentDays));
+    // Convert to days, enforce minimum ±1 day change when rate is non-zero
+    let adjustmentDays = Math.round(currentScheduleDays * rate);
+    if (rate !== 0 && adjustmentDays === 0) {
+      adjustmentDays = rate < 0 ? -1 : 1;
+    }
+
+    // Clamp result to a sane range (1–90 days)
+    const suggestedDays = Math.max(1, Math.min(90, currentScheduleDays + adjustmentDays));
     const actualAdjustment = suggestedDays - currentScheduleDays;
 
     return {

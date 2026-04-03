@@ -13,6 +13,7 @@ import {
 } from "@/utils/watering/schedule";
 import { plants as catalogPlants } from "@/data/plantData";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
+import { calendarSeasonalService } from "@/services/calendarSeasonalService";
 
 interface RoomSectionProps {
   roomKey: string;
@@ -26,6 +27,7 @@ interface RoomSectionProps {
     plantId: string,
     newSchedule: number
   ) => Promise<void>;
+  onFertilizePlant?: (plantId: string) => void;
   formatDate: (dateString: string) => string;
   getNextWateringDate: (
     lastWatered: string | undefined,
@@ -50,10 +52,15 @@ const RoomSection = ({
   onPostponeWatering,
   onViewHistory,
   onScheduleAdjustment,
+  onFertilizePlant,
   formatDate,
   delay,
   overwateringByPlantId,
 }: RoomSectionProps) => {
+  const isGrowingSeason = (() => {
+    const season = calendarSeasonalService.getCurrentSeason(40);
+    return season === 'spring' || season === 'summer';
+  })();
   const roomLabel = getRoomLabel(roomKey);
   const roomIcon = getRoomIcon(roomKey);
   const roomTheme = getRoomTheme(roomKey);
@@ -238,6 +245,16 @@ const RoomSection = ({
             // Use the new watering schedule calculation utility
             const wateringCalc = calculateWateringSchedule(plant);
 
+            // Fertilization is due when in growing season and never fertilized,
+            // or last fertilized more than 60 days ago
+            const isFertilizationDue = isGrowingSeason && (() => {
+              if (!plant.last_fertilized_date) return true;
+              const daysSince = Math.floor(
+                (Date.now() - new Date(plant.last_fertilized_date).getTime()) / (1000 * 60 * 60 * 24)
+              );
+              return daysSince > 60;
+            })();
+
             // Find matching plant data from catalog for image fallback
             const catalogPlant = catalogPlants.find(
               (p) =>
@@ -295,6 +312,10 @@ const RoomSection = ({
                 onScheduleAdjustment={onScheduleAdjustment}
                 onViewHistory={
                   onViewHistory ? () => onViewHistory(plant) : undefined
+                }
+                isFertilizationDue={isFertilizationDue}
+                onFertilize={
+                  onFertilizePlant ? () => onFertilizePlant(plant.id) : undefined
                 }
               />
             );

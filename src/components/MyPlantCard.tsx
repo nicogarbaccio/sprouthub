@@ -53,6 +53,8 @@ interface MyPlantCardProps {
     newSchedule: number
   ) => Promise<void>;
   overwatering?: OverwateringRisk;
+  isFertilizationDue?: boolean;
+  onFertilize?: () => void;
 }
 
 const MyPlantCard = ({
@@ -76,6 +78,8 @@ const MyPlantCard = ({
   onViewHistory,
   onScheduleAdjustment,
   overwatering,
+  isFertilizationDue,
+  onFertilize,
 }: MyPlantCardProps) => {
   const navigate = useNavigate();
   const { isSelectionMode, isPlantSelected, togglePlantSelection } = useBulkSelection();
@@ -454,6 +458,8 @@ const MyPlantCard = ({
               onPostpone={onPostpone}
               onJournalClick={() => setShowJournal(true)}
               onJournalHover={() => setPrefetchJournal(true)}
+              isFertilizationDue={isFertilizationDue}
+              onFertilizeClick={onFertilize}
             />
           </div>
         </TooltipProvider>

@@ -1,0 +1,186 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { FlaskConical, X, Clock, Leaf } from "lucide-react";
+import { fertilizationToast } from "@/utils/notifications/toast";
+
+interface FertilizationBannerProps {
+  plantCount: number;
+  onDismiss: () => void;
+  onSnooze: (days: number) => void;
+}
+
+export function FertilizationBanner({
+  plantCount,
+  onDismiss,
+  onSnooze,
+}: FertilizationBannerProps) {
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [snoozeWeeks, setSnoozeWeeks] = useState<number | null>(null);
+
+  const handleSnoozeConfirm = () => {
+    if (snoozeWeeks === null) return;
+    onSnooze(snoozeWeeks * 7);
+    fertilizationToast.snoozed(snoozeWeeks);
+    setSnoozeWeeks(null);
+  };
+
+  return (
+    <>
+    <AlertDialog open={snoozeWeeks !== null} onOpenChange={(open) => { if (!open) setSnoozeWeeks(null); }}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle className="flex items-center gap-2">
+            <Clock className="w-5 h-5 text-sprout-warning" />
+            Snooze for {snoozeWeeks} week{snoozeWeeks !== 1 ? "s" : ""}?
+          </AlertDialogTitle>
+          <AlertDialogDescription className="space-y-2">
+            <p>
+              This reminder will be hidden for {snoozeWeeks} week{snoozeWeeks !== 1 ? "s" : ""} and then reappear on the dashboard.
+            </p>
+            <p>
+              Your individual plants will still show a <strong className="text-sprout-cream font-bold">Due now</strong> badge on their detail pages — you can log fertilization from there at any time.
+            </p>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => setSnoozeWeeks(null)}>Go back</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={handleSnoozeConfirm}
+            className="bg-sprout-primary hover:bg-sprout-medium text-white border-0"
+          >
+            Snooze for {snoozeWeeks} week{snoozeWeeks !== 1 ? "s" : ""}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle className="flex items-center gap-2">
+            <FlaskConical className="w-5 h-5 text-sprout-warning" />
+            Dismiss for the season?
+          </AlertDialogTitle>
+          <AlertDialogDescription className="space-y-2">
+            <p>
+              This hides the dashboard reminder for the rest of the growing season.
+            </p>
+            <p>
+              Your individual plants will still show a <strong className="text-sprout-cream font-bold">Due now</strong> badge on their detail pages — you can log fertilization or skip the reminder from there.
+            </p>
+            <p>
+              If you'd rather be reminded later, use <strong className="text-sprout-cream font-bold">Remind me in</strong> instead.
+            </p>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Go back</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={onDismiss}
+            className="bg-sprout-primary hover:bg-sprout-medium text-white border-0"
+          >
+            Yes, dismiss for the season
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+    <Card className="group relative overflow-hidden mb-6 border-2 border-sprout-cream/50 dark:border-sprout-cream/40 hover:border-sprout-cream hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-sprout-cream/25 via-sprout-pale to-sprout-pale dark:from-sprout-cream/[0.08] dark:via-card dark:to-card">
+      {/* Decorative gradient blobs */}
+      <div className="absolute -top-10 -right-10 w-40 h-40 bg-sprout-cream/20 rounded-full blur-2xl" />
+      <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-sprout-cream/10 rounded-full blur-2xl" />
+
+      <CardContent className="p-6 relative">
+        <div className="flex items-start justify-between">
+          <div className="flex items-start space-x-4 flex-1">
+            {/* Icon container */}
+            <div className="w-14 h-14 bg-sprout-cream rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 flex-shrink-0">
+              <FlaskConical className="w-7 h-7 text-sprout-dark" />
+            </div>
+
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1">
+                <h3 className="font-bold text-lg text-sprout-dark dark:text-foreground">
+                  Spring is here — time to feed your plants
+                </h3>
+                <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white border-0 text-xs px-2 py-0 flex-shrink-0">
+                  <Leaf className="w-2.5 h-2.5 mr-1" />
+                  Growing season
+                </Badge>
+              </div>
+
+              <p className="text-sm text-muted-foreground font-medium mb-4">
+                {plantCount > 0 ? (
+                  <>
+                    <strong className="font-bold text-foreground">{plantCount}</strong>{" "}
+                    of your plant{plantCount !== 1 ? "s haven't" : " hasn't"} been fertilized recently.
+                  </>
+                ) : (
+                  "Your plants haven't been fertilized recently."
+                )}{" "}
+                Fertilizing during the growing season makes the biggest difference for healthy growth.
+              </p>
+
+              {/* Progress bar */}
+              <div className="w-full bg-sprout-cream/30 dark:bg-sprout-cream/20 rounded-full h-1.5 overflow-hidden mb-4">
+                <div className="bg-sprout-cream h-1.5 rounded-full w-full" />
+              </div>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <Button
+                  onClick={() => setConfirmOpen(true)}
+                  size="sm"
+                  className="bg-sprout-cream hover:bg-sprout-cream/80 text-sprout-dark border-0 font-semibold shadow-sm"
+                >
+                  Got it
+                </Button>
+
+                <div className="flex items-center gap-1.5 ml-1">
+                  <span className="text-xs text-muted-foreground font-medium">
+                    Remind me in:
+                  </span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSnoozeWeeks(1)}
+                    className="text-xs font-medium hover:bg-sprout-cream/20 text-sprout-primary dark:text-sprout-cream"
+                  >
+                    <Clock className="h-3 w-3 mr-1" />1 week
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setSnoozeWeeks(2)}
+                    className="text-xs font-medium hover:bg-sprout-cream/20 text-sprout-primary dark:text-sprout-cream"
+                  >
+                    2 weeks
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setConfirmOpen(true)}
+            className="opacity-40 hover:opacity-100 flex-shrink-0 ml-2"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+    </>
+  );
+}
