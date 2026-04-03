@@ -59,10 +59,10 @@ const WateringRecordsList = ({
                   {(displayNotes || healthObservation) && (
                     <div className="text-sm sm:text-xs text-muted-foreground mt-1 pl-6 flex items-center gap-1.5">
                       {healthObservation === 'healthy' && (
-                        <Leaf className="w-3.5 h-3.5 text-green-500 flex-shrink-0" title="Plant looked healthy" />
+                        <Leaf className="w-3.5 h-3.5 text-green-500 flex-shrink-0" aria-label="Plant looked healthy" />
                       )}
                       {healthObservation === 'stressed' && (
-                        <AlertTriangle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" title="Plant showed stress" />
+                        <AlertTriangle className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" aria-label="Plant showed stress" />
                       )}
                       {displayNotes || (healthObservation === 'healthy' ? 'Plant looked healthy' : 'Plant showed stress')}
                     </div>

@@ -288,10 +288,8 @@ const MyPlantDetails = () => {
             <FertilizationCard
               plant={plant}
               catalogPlant={catalogPlant}
-              onLogFertilization={() => logFertilization(plant.id)}
-              onAddJournalEntry={(title, content) =>
-                addJournalEntry(plant.id, title, content, null, [])
-              }
+              onLogFertilization={async () => { await logFertilization(plant.id); }}
+              onAddJournalEntry={async (title, content) => { await addJournalEntry(plant.id, title, content, null, []); }}
             />
           </CascadingContainer>
 
