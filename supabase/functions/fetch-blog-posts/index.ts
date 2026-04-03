@@ -39,6 +39,11 @@ const RSS_FEEDS: RssFeed[] = [
   { name: 'Ohio Tropics', url: 'https://www.ohiotropics.com/feed/', sourceUrl: 'https://www.ohiotropics.com' },
   { name: 'Get Busy Gardening', url: 'https://getbusygardening.com/feed/', sourceUrl: 'https://getbusygardening.com' },
   { name: 'The Garden Geeks', url: 'https://www.thegardengeeks.com/feed/', sourceUrl: 'https://www.thegardengeeks.com' },
+  { name: 'House Plant Journal', url: 'https://www.houseplantjournal.com/feed', sourceUrl: 'https://www.houseplantjournal.com' },
+  { name: 'Mod and Mint', url: 'https://www.modandmint.com/feed', sourceUrl: 'https://www.modandmint.com' },
+  { name: 'Beginner Houseplant', url: 'https://beginnerhouseplant.com/feed', sourceUrl: 'https://beginnerhouseplant.com' },
+  { name: 'Bloomscape', url: 'https://bloomscape.com/feed', sourceUrl: 'https://bloomscape.com' },
+  { name: 'Urban Jungle Bloggers', url: 'https://www.urbanjunglebloggers.com/feed', sourceUrl: 'https://www.urbanjunglebloggers.com' },
 ];
 
 const SEASONAL_KEYWORDS: Record<string, string[]> = {
