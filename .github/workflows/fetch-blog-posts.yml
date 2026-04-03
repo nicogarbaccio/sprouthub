@@ -1,0 +1,31 @@
+name: Fetch Blog Posts
+
+on:
+  schedule:
+    # Runs Monday and Thursday at 6:00 AM UTC
+    - cron: '0 6 * * 1,4'
+  workflow_dispatch:
+    # Allow manual runs from the GitHub Actions UI
+
+jobs:
+  fetch:
+    name: Trigger fetch-blog-posts edge function
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call fetch-blog-posts edge function
+        run: |
+          response=$(curl -s -w "\n%{http_code}" -X POST \
+            "https://ufhjudswppdqupjbqbwm.supabase.co/functions/v1/fetch-blog-posts" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+            -H "Content-Type: application/json")
+
+          body=$(echo "$response" | head -n -1)
+          status=$(echo "$response" | tail -n 1)
+
+          echo "HTTP status: $status"
+          echo "Response: $body"
+
+          if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
+            echo "Edge function returned non-2xx status: $status"
+            exit 1
+          fi

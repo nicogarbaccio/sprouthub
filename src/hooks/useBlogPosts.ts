@@ -81,11 +81,13 @@ export function useMyPlantsBlogPosts(plantNames: string[]) {
     queryFn: async (): Promise<BlogPostWithPlants[]> => {
       if (plantNames.length === 0) return [];
 
-      // First try the pre-computed junction table
+      // First try the pre-computed junction table.
+      // Use ilike per plant name so "Monstera" matches "Monstera Deliciosa", etc.
+      const ilikeFilters = plantNames.map((n) => `plant_name.ilike.%${n}%`).join(',');
       const { data: junctionData, error: junctionError } = await supabase
         .from('blog_post_plants')
         .select('relevance_score, plant_name, blog_posts(*)')
-        .in('plant_name', plantNames)
+        .or(ilikeFilters)
         .order('relevance_score', { ascending: false })
         .limit(12);
 
