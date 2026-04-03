@@ -141,15 +141,8 @@ export function useMyPlantsBlogPosts(plantNames: string[]) {
           }
           return filters;
         });
-        const broadFilters = [
-          'title.ilike.%houseplant%',
-          'title.ilike.%house plant%',
-          'title.ilike.%indoor plant%',
-          'summary.ilike.%houseplant%',
-          'summary.ilike.%house plant%',
-          'summary.ilike.%indoor plant%',
-        ];
-        const orFilters = [...nameFilters, ...broadFilters].join(',');
+        const orFilters = nameFilters.join(',');
+        if (!orFilters) return posts.slice(0, 12).map((post) => ({ ...post, matchedPlants: plantMap.get(post.id) ?? [] }));
 
         const { data: searchData, error: searchError } = await supabase
           .from('blog_posts')
