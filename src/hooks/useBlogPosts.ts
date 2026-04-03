@@ -164,9 +164,14 @@ export function useMyPlantsBlogPosts(plantNames: string[]) {
           if (!seen.has(post.id)) {
             posts.push(post);
             seen.add(post.id);
-            // Text-match fallback: check which plant names appear in content
+            // Text-match fallback: check which plant names appear in content,
+            // also matching by genus (first word) for multi-word plant names
             const text = `${post.title} ${post.summary ?? ''}`.toLowerCase();
-            const matched = plantNames.filter((n) => text.includes(n.toLowerCase()));
+            const matched = plantNames.filter((n) => {
+              if (text.includes(n.toLowerCase())) return true;
+              const firstWord = n.split(/[\s''']/)[0];
+              return firstWord.length >= 6 && firstWord !== n && text.includes(firstWord.toLowerCase());
+            });
             if (matched.length > 0) plantMap.set(post.id, matched);
           }
         }
