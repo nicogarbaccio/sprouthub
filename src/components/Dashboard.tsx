@@ -10,7 +10,6 @@ import { CareStatusOverview } from "@/components/dashboard/CareStatusOverview";
 import { DashboardTodaysTasks } from "@/components/dashboard/DashboardTodaysTasks";
 import { DashboardRecentActivity } from "@/components/dashboard/DashboardRecentActivity";
 import { DashboardHealthInsights } from "@/components/dashboard/DashboardHealthInsights";
-import { DashboardPlantGallery } from "@/components/dashboard/DashboardPlantGallery";
 import MyPlantsBlogSection from "@/components/blog/MyPlantsBlogSection";
 import { DashboardDialogs } from "@/components/dashboard/DashboardDialogs";
 
@@ -110,18 +109,6 @@ const Dashboard = () => {
   }>({
     show: false,
     plantId: "",
-    plantName: "",
-  });
-  const [fullscreenImage, setFullscreenImage] = useState<{
-    show: boolean;
-    src: string;
-    alt: string;
-    plantName: string;
-    imageSource?: string;
-  }>({
-    show: false,
-    src: "",
-    alt: "",
     plantName: "",
   });
 
@@ -347,15 +334,6 @@ const Dashboard = () => {
     )
     .slice(0, 5);
 
-  // Get favorite plants (most recently cared for)
-  const favoritePlants = plants
-    .filter((plant) => plant.latest_watering)
-    .sort(
-      (a, b) =>
-        new Date(b.latest_watering!).getTime() -
-        new Date(a.latest_watering!).getTime()
-    )
-    .slice(0, 4);
 
   // Get unique plant type names for blog post matching
   const myPlantNames = useMemo(
@@ -408,19 +386,6 @@ const Dashboard = () => {
     await waterPlant(plantId, notes || `Backdated watering from dashboard`);
   };
 
-  const handleImageClick = (
-    imageSrc: string,
-    plantName: string,
-    imageSource?: string
-  ) => {
-    setFullscreenImage({
-      show: true,
-      src: imageSrc,
-      alt: plantName,
-      plantName,
-      imageSource,
-    });
-  };
 
   const handleBulkWater = async () => {
     // Close dialog first to prevent UI issues
@@ -786,13 +751,6 @@ const Dashboard = () => {
           </CascadingContainer>
         )}
 
-        {/* Quick Plant Gallery */}
-        <DashboardPlantGallery
-          favoritePlants={favoritePlants}
-          onImageClick={handleImageClick}
-          onNavigate={navigate}
-        />
-
         {/* All Dialogs */}
         <DashboardDialogs
           // AddPlantDialog
@@ -824,11 +782,6 @@ const Dashboard = () => {
             ).daysSinceLastWatered
           }
           wateringScheduleDays={waterConfirmation.suggestedWateringDays || 7}
-          // FullscreenImageModal
-          fullscreenImage={fullscreenImage}
-          onFullscreenImageClose={() =>
-            setFullscreenImage({ show: false, src: "", alt: "", plantName: "" })
-          }
           // SeasonalReviewDialog
           pendingTransition={pendingTransition}
           seasonalReviewDialogOpen={seasonalReviewDialog.isOpen}

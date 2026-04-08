@@ -13,7 +13,6 @@ import {
 import AddPlantDialog from "@/components/AddPlantDialog";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
-import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import { SeasonalReviewDialog } from "@/components/SeasonalReviewDialog";
 import { CalendarSeasonalDialog } from "@/components/CalendarSeasonalDialog";
 import { SmartSuggestionsDialog } from "@/components/SmartSuggestionsDialog";
@@ -53,16 +52,6 @@ interface DashboardDialogsProps {
   showOverwateringWarning: boolean;
   daysSinceLastWatered?: number;
   wateringScheduleDays: number;
-
-  // FullscreenImageModal
-  fullscreenImage: {
-    show: boolean;
-    src: string;
-    alt: string;
-    plantName: string;
-    imageSource?: string;
-  };
-  onFullscreenImageClose: () => void;
 
   // SeasonalReviewDialog
   pendingTransition: SeasonalTransition | null;
@@ -118,10 +107,6 @@ export function DashboardDialogs({
   showOverwateringWarning,
   daysSinceLastWatered,
   wateringScheduleDays,
-
-  // FullscreenImageModal
-  fullscreenImage,
-  onFullscreenImageClose,
 
   // SeasonalReviewDialog
   pendingTransition,
@@ -260,14 +245,6 @@ export function DashboardDialogs({
         daysSinceLastWatered={daysSinceLastWatered}
         wateringScheduleDays={wateringScheduleDays}
         lastWateredDate={waterConfirmation.lastWatered}
-      />
-
-      <FullscreenImageModal
-        isOpen={fullscreenImage.show}
-        onClose={onFullscreenImageClose}
-        imageSrc={fullscreenImage.src}
-        imageAlt={fullscreenImage.alt}
-        plantName={fullscreenImage.plantName}
       />
 
       {/* Weather-based Seasonal Review Dialog */}
