@@ -44,6 +44,14 @@ const RSS_FEEDS: RssFeed[] = [
   { name: 'Beginner Houseplant', url: 'https://beginnerhouseplant.com/feed', sourceUrl: 'https://beginnerhouseplant.com' },
   { name: 'Bloomscape', url: 'https://bloomscape.com/feed', sourceUrl: 'https://bloomscape.com' },
   { name: 'Urban Jungle Bloggers', url: 'https://www.urbanjunglebloggers.com/feed', sourceUrl: 'https://www.urbanjunglebloggers.com' },
+  // Houseplant-species-focused feeds
+  { name: 'Simplify Plants', url: 'https://simplifyplants.com/feed/', sourceUrl: 'https://simplifyplants.com' },
+  { name: 'Plant Care for Beginners', url: 'https://plantcareforbeginners.com/feed/', sourceUrl: 'https://plantcareforbeginners.com' },
+  { name: 'Terrarium Tribe', url: 'https://terrariumtribe.com/feed/', sourceUrl: 'https://terrariumtribe.com' },
+  { name: 'The Houseplant Guru', url: 'https://thehouseplantguru.com/feed/', sourceUrl: 'https://thehouseplantguru.com' },
+  { name: 'Houseplant 411', url: 'https://www.houseplant411.com/feed/', sourceUrl: 'https://www.houseplant411.com' },
+  { name: 'Leaf and Clay', url: 'https://www.leafandclay.co/blogs/news.atom', sourceUrl: 'https://www.leafandclay.co' },
+  { name: 'Greg App Blog', url: 'https://gregapp.com/blog/feed/', sourceUrl: 'https://gregapp.com/blog' },
 ];
 
 const SEASONAL_KEYWORDS: Record<string, string[]> = {
@@ -91,6 +99,20 @@ const RELEVANCE_KEYWORDS = [
   // Environment
   'sunlight', 'shade', 'humidity', 'drainage', 'pot', 'planter',
   'greenhouse', 'raised bed', 'container',
+  // Common houseplant genera & species names — so posts titled
+  // "Monstera Care Guide" or "ZZ Plant Watering" aren't filtered out
+  'monstera', 'philodendron', 'pothos', 'dracaena', 'calathea',
+  'ficus', 'peperomia', 'tradescantia', 'syngonium', 'alocasia',
+  'dieffenbachia', 'aglaonema', 'zamioculcas', 'zz plant',
+  'begonia', 'anthurium', 'spathiphyllum', 'tillandsia', 'echeveria',
+  'sansevieria', 'pilea', 'oxalis', 'hoya', 'maranta', 'stromanthe',
+  'ctenanthe', 'schefflera', 'yucca', 'dracena', 'peace lily',
+  'snake plant', 'pothos', 'spider plant', 'rubber plant',
+  'fiddle leaf', 'bird of paradise', 'string of pearls',
+  'string of hearts', 'aloe vera', 'jade plant', 'money tree',
+  'nerve plant', 'prayer plant', 'cast iron plant', 'boston fern',
+  'staghorn fern', 'maidenhair', 'arrowhead', 'wandering jew',
+  'inch plant', 'croton', 'coleus', 'caladium', 'anthurium',
 ];
 
 function shouldSkipPost(post: ParsedPost): boolean {
@@ -101,9 +123,11 @@ function shouldSkipPost(post: ParsedPost): boolean {
     return true;
   }
 
-  // Must be plant-related — require a relevance keyword in the title
-  // (summaries on gardening blogs almost always mention "garden" so title is a better signal)
-  const isRelevant = RELEVANCE_KEYWORDS.some((kw) => titleLower.includes(kw));
+  // Must be plant-related — check the title first, then fall back to summary.
+  // We check title primarily to avoid noise, but for species-specific articles
+  // (e.g. "Monstera Care Guide") the plant name itself is sufficient signal.
+  const combinedText = `${titleLower} ${post.summary.toLowerCase()}`;
+  const isRelevant = RELEVANCE_KEYWORDS.some((kw) => combinedText.includes(kw));
   return !isRelevant;
 }
 
