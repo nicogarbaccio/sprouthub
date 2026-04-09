@@ -54,7 +54,7 @@ const HOOK_NAME = 'useUserPlants';
 export const USER_PLANTS_QUERY_KEY = 'user-plants';
 
 export const useUserPlants = () => {
-const { user } = useAuth();
+const { user, loading: authLoading } = useAuth();
 const queryClient = useQueryClient();
 
 // Use custom hooks
@@ -199,7 +199,7 @@ const {
  // Only use queryLoading (no cached data yet) for the main loading flag.
  // Risk computation happens after plants are already visible, so it
  // shouldn't keep the skeleton up.
- const loading = queryLoading;
+ const loading = authLoading || queryLoading;
 
  // Wrapper to match the old fetchPlants() interface used by usePlantActions
  const fetchPlants = useCallback(async () => {
