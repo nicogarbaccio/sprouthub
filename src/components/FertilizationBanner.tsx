@@ -142,53 +142,52 @@ export function FertilizationBanner({
             </Button>
           </div>
 
-          {/* Description */}
-          <p className="text-xs sm:text-sm text-muted-foreground font-medium mb-3 sm:mb-4">
-            {plantCount > 0 ? (
-              <>
-                <strong className="font-bold text-foreground">
-                  {plantCount}
-                </strong>{" "}
-                plant{plantCount !== 1 ? "s haven't" : " hasn't"} been
-                fertilized recently.
-              </>
-            ) : (
-              "Your plants haven't been fertilized recently."
-            )}{" "}
-            Feeding during the growing season makes the biggest difference.
-          </p>
-
-          {/* Actions */}
-          <div className="flex flex-wrap items-center gap-2">
+          {/* Description + Got it button */}
+          <div className="flex items-center gap-4 mb-3">
+            <p className="text-xs sm:text-sm text-muted-foreground font-medium">
+              {plantCount > 0 ? (
+                <>
+                  <strong className="font-bold text-foreground">
+                    {plantCount}
+                  </strong>{" "}
+                  plant{plantCount !== 1 ? "s haven't" : " hasn't"} been
+                  fertilized recently.
+                </>
+              ) : (
+                "Your plants haven't been fertilized recently."
+              )}{" "}
+              Feeding during the growing season makes the biggest difference.
+            </p>
             <Button
               onClick={() => setConfirmOpen(true)}
               size="sm"
-              className="bg-sprout-cream hover:bg-sprout-cream/80 text-sprout-dark border-0 font-semibold shadow-sm h-5 px-5 text-sm"
+              className="bg-sprout-cream hover:bg-sprout-cream/80 text-sprout-dark border-0 font-semibold shadow-sm h-8 px-5 text-sm sm:h-9 sm:px-6 flex-shrink-0"
             >
               Got it
             </Button>
+          </div>
 
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs text-muted-foreground font-medium whitespace-nowrap">
-                Remind me in:
-              </span>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setSnoozeWeeks(1)}
-                className="text-xs font-medium hover:bg-sprout-cream/20 text-sprout-primary dark:text-sprout-cream"
-              >
-                <Clock className="h-3 w-3 mr-1" />1 week
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setSnoozeWeeks(2)}
-                className="text-xs font-medium hover:bg-sprout-cream/20 text-sprout-primary dark:text-sprout-cream"
-              >
-                2 weeks
-              </Button>
-            </div>
+          {/* Snooze options */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs text-muted-foreground font-medium whitespace-nowrap">
+              Remind me in:
+            </span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSnoozeWeeks(1)}
+              className="text-xs font-medium hover:bg-sprout-cream/20 text-sprout-primary dark:text-sprout-cream"
+            >
+              <Clock className="h-3 w-3 mr-1" />1 week
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSnoozeWeeks(2)}
+              className="text-xs font-medium hover:bg-sprout-cream/20 text-sprout-primary dark:text-sprout-cream"
+            >
+              2 weeks
+            </Button>
           </div>
         </CardContent>
       </Card>

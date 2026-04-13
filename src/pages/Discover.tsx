@@ -106,8 +106,14 @@ const Discover = () => {
 
   // Build suggested chips: user's plants first, then popular (no duplicates)
   const suggestedPlants = useMemo(() => {
-    const userSet = new Set(myPlantNames.map((n) => n.toLowerCase()));
-    const popular = POPULAR_PLANTS.filter((p) => !userSet.has(p.toLowerCase()));
+    const userLower = myPlantNames.map((n) => n.toLowerCase());
+    const userSet = new Set(userLower);
+    // Also collect genus (first word) so "Monstera Deliciosa" suppresses "Monstera"
+    const userGenusSet = new Set(userLower.map((n) => n.split(/[\s''']/)[0]));
+    const popular = POPULAR_PLANTS.filter((p) => {
+      const lower = p.toLowerCase();
+      return !userSet.has(lower) && !userGenusSet.has(lower);
+    });
     return [...myPlantNames, ...popular].slice(0, 10);
   }, [myPlantNames]);
 

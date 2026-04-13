@@ -29,11 +29,21 @@ export function usePlantBlogPosts(plantName: string | undefined) {
 
       if (posts.length >= 3) return posts;
 
-      // Fallback: search post titles/summaries directly
+      // Fallback: search post titles/summaries directly,
+      // including genus (first word) so "Monstera Deliciosa" also finds "Monstera" posts
+      const nameFilters = [
+        `title.ilike.%${plantName}%`,
+        `summary.ilike.%${plantName}%`,
+      ];
+      const firstWord = plantName.split(/[\s''']/)[0];
+      if (firstWord.length >= 6 && firstWord !== plantName) {
+        nameFilters.push(`title.ilike.%${firstWord}%`, `summary.ilike.%${firstWord}%`);
+      }
+
       const { data: searchData, error: searchError } = await supabase
         .from('blog_posts')
         .select('*')
-        .or(`title.ilike.%${plantName}%,summary.ilike.%${plantName}%`)
+        .or(nameFilters.join(','))
         .order('published_at', { ascending: false })
         .limit(6);
 
