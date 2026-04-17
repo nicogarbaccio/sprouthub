@@ -60,6 +60,7 @@ export function useFertilizationBanner(plants: UserPlant[], latitude: number = 4
   const [isSnoozed, setIsSnoozed] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
+  // Stable references that only change when the calendar date actually changes
   const now = new Date();
   const growing = isGrowingSeason(now, latitude);
   const unfertilizedCount = countUnfertilizedPlants(plants, now);
@@ -70,6 +71,8 @@ export function useFertilizationBanner(plants: UserPlant[], latitude: number = 4
    * Check dismissal/snooze state from DB (or localStorage fallback).
    */
   const checkDismissalState = useCallback(async () => {
+    const checkTime = new Date();
+
     // Quick localStorage check first
     const lsValue = localStorage.getItem(lsKey);
     if (lsValue) {
@@ -80,11 +83,13 @@ export function useFertilizationBanner(plants: UserPlant[], latitude: number = 4
           setIsChecked(true);
           return;
         }
-        if (parsed.snoozedUntil && new Date(parsed.snoozedUntil) > now) {
+        if (parsed.snoozedUntil && new Date(parsed.snoozedUntil) > checkTime) {
           setIsSnoozed(true);
           setIsChecked(true);
           return;
         }
+        // Expired snooze in localStorage — clear it and fall through to DB
+        localStorage.removeItem(lsKey);
       } catch {
         // ignore malformed localStorage value
       }
@@ -110,10 +115,12 @@ export function useFertilizationBanner(plants: UserPlant[], latitude: number = 4
         hookLogger.warn(HOOK_NAME, 'Could not check fertilization dismissal', { error });
       } else if (data) {
         const acknowledged = new Date(data.acknowledged_date);
-        if (acknowledged > now) {
+        if (acknowledged > checkTime) {
           // Future date = either active snooze or season-long dismissal.
           // Both mean the banner stays hidden.
           setIsDismissed(true);
+          // Sync to localStorage so subsequent renders don't re-query DB
+          localStorage.setItem(lsKey, JSON.stringify({ dismissed: true }));
         }
         // Past date = expired snooze. Banner should reappear.
         // (True dismissals always store an end-of-year date that stays in the future.)
@@ -167,21 +174,20 @@ export function useFertilizationBanner(plants: UserPlant[], latitude: number = 4
 
   const dismiss = useCallback(async () => {
     setIsDismissed(true);
-    // Store in localStorage immediately
     localStorage.setItem(lsKey, JSON.stringify({ dismissed: true }));
     // Use end-of-year date so the DB record stays "in the future" all season,
     // distinguishing a true dismissal from an expired snooze (which also has
     // a past acknowledged_date once it lapses).
-    const endOfYear = new Date(now.getFullYear(), 11, 31);
+    const endOfYear = new Date(new Date().getFullYear(), 11, 31);
     await writeAcknowledgement(endOfYear);
-  }, [lsKey, writeAcknowledgement, now]);
+  }, [lsKey, writeAcknowledgement]);
 
   const snooze = useCallback(async (days: number) => {
-    const snoozedUntil = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
+    const snoozedUntil = new Date(Date.now() + days * 24 * 60 * 60 * 1000);
     setIsSnoozed(true);
     localStorage.setItem(lsKey, JSON.stringify({ snoozedUntil: snoozedUntil.toISOString() }));
     await writeAcknowledgement(snoozedUntil);
-  }, [lsKey, writeAcknowledgement, now]);
+  }, [lsKey, writeAcknowledgement]);
 
   const shouldShow =
     isChecked &&
