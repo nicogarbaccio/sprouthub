@@ -771,5 +771,395 @@
     "otherNames": [
       "Bulbous Air Plant"
     ]
+  },
+  {
+    "name": "Hoya Carnosa",
+    "botanicalName": "Hoya carnosa",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Wax Plant",
+      "Porcelain Flower",
+      "Hindu Rope"
+    ]
+  },
+  {
+    "name": "Hoya Kerrii",
+    "botanicalName": "Hoya kerrii",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Sweetheart Hoya",
+      "Lucky Heart Plant",
+      "Valentine Hoya"
+    ]
+  },
+  {
+    "name": "Hoya Pubicalyx",
+    "botanicalName": "Hoya pubicalyx",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Pink Silver Hoya",
+      "Porcelain Flower"
+    ]
+  },
+  {
+    "name": "Satin Pothos",
+    "botanicalName": "Scindapsus pictus",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Silver Pothos",
+      "Silk Pothos",
+      "Silver Philodendron"
+    ]
+  },
+  {
+    "name": "Mini Monstera",
+    "botanicalName": "Rhaphidophora tetrasperma",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Rhaphidophora",
+      "Monstera Minima",
+      "Philodendron Ginny"
+    ]
+  },
+  {
+    "name": "Chinese Evergreen",
+    "botanicalName": "Aglaonema commutatum",
+    "category": "Low Maintenance",
+    "otherNames": [
+      "Aglaonema",
+      "Philippine Evergreen",
+      "Poison Dart Plant"
+    ]
+  },
+  {
+    "name": "Money Tree",
+    "botanicalName": "Pachira aquatica",
+    "category": "Trees & Large Plants",
+    "otherNames": [
+      "Guiana Chestnut",
+      "Malabar Chestnut",
+      "Saba Nut"
+    ]
+  },
+  {
+    "name": "Bromeliad",
+    "botanicalName": "Guzmania lingulata",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Scarlet Star",
+      "Guzmania",
+      "Urn Plant"
+    ]
+  },
+  {
+    "name": "Shamrock Plant",
+    "botanicalName": "Oxalis triangularis",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Purple Shamrock",
+      "False Shamrock",
+      "Love Plant",
+      "Oxalis"
+    ]
+  },
+  {
+    "name": "Calathea Medallion",
+    "botanicalName": "Calathea roseopicta",
+    "category": "Prayer Plants",
+    "otherNames": [
+      "Rose-Painted Calathea",
+      "Medallion Prayer Plant"
+    ]
+  },
+  {
+    "name": "Rattlesnake Plant",
+    "botanicalName": "Goeppertia insignis",
+    "category": "Prayer Plants",
+    "otherNames": [
+      "Calathea Lancifolia",
+      "Rattlesnake Calathea"
+    ]
+  },
+  {
+    "name": "Stromanthe Triostar",
+    "botanicalName": "Stromanthe sanguinea",
+    "category": "Prayer Plants",
+    "otherNames": [
+      "Tricolor Stromanthe",
+      "Magenta Triostar"
+    ]
+  },
+  {
+    "name": "Ctenanthe",
+    "botanicalName": "Ctenanthe burle-marxii",
+    "category": "Prayer Plants",
+    "otherNames": [
+      "Fishbone Prayer Plant",
+      "Never-Never Plant"
+    ]
+  },
+  {
+    "name": "Philodendron Birkin",
+    "botanicalName": "Philodendron 'Birkin'",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "White Wave Philodendron"
+    ]
+  },
+  {
+    "name": "Philodendron Micans",
+    "botanicalName": "Philodendron hederaceum var. hederaceum",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Velvet Leaf Philodendron",
+      "Velvet Philodendron"
+    ]
+  },
+  {
+    "name": "Philodendron Gloriosum",
+    "botanicalName": "Philodendron gloriosum",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Velvet Philodendron"
+    ]
+  },
+  {
+    "name": "Alocasia Zebrina",
+    "botanicalName": "Alocasia zebrina",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Zebra Alocasia",
+      "Tiger Taro"
+    ]
+  },
+  {
+    "name": "Alocasia Silver Dragon",
+    "botanicalName": "Alocasia baginda 'Silver Dragon'",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Silver Dragon Alocasia"
+    ]
+  },
+  {
+    "name": "Anthurium Clarinervium",
+    "botanicalName": "Anthurium clarinervium",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Velvet Cardboard Anthurium"
+    ]
+  },
+  {
+    "name": "String of Turtles",
+    "botanicalName": "Peperomia prostrata",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Turtle Vine"
+    ]
+  },
+  {
+    "name": "String of Dolphins",
+    "botanicalName": "Curio x peregrinus",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Dolphin Necklace",
+      "Senecio Peregrinus",
+      "Flying Dolphins"
+    ]
+  },
+  {
+    "name": "Tradescantia Nanouk",
+    "botanicalName": "Tradescantia albiflora 'Nanouk'",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Fantasy Venice",
+      "Pink Tradescantia"
+    ]
+  },
+  {
+    "name": "Sempervivum",
+    "botanicalName": "Sempervivum tectorum",
+    "category": "Succulents",
+    "otherNames": [
+      "Hen and Chicks",
+      "Hens and Chicks",
+      "Houseleek",
+      "Common Houseleek"
+    ]
+  },
+  {
+    "name": "Crown of Thorns Euphorbia",
+    "botanicalName": "Euphorbia trigona",
+    "category": "Succulents",
+    "otherNames": [
+      "African Milk Tree",
+      "Cathedral Cactus",
+      "Friendship Cactus"
+    ]
+  },
+  {
+    "name": "String of Nickels",
+    "botanicalName": "Dischidia nummularia",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Button Orchid",
+      "Pebble Beach"
+    ]
+  },
+  {
+    "name": "Venus Fly Trap",
+    "botanicalName": "Dionaea muscipula",
+    "category": "Carnivorous Plants",
+    "otherNames": [
+      "Venus Flytrap"
+    ]
+  },
+  {
+    "name": "Pitcher Plant",
+    "botanicalName": "Nepenthes species",
+    "category": "Carnivorous Plants",
+    "otherNames": [
+      "Tropical Pitcher Plant",
+      "Monkey Cups",
+      "Nepenthes"
+    ]
+  },
+  {
+    "name": "Sundew",
+    "botanicalName": "Drosera capensis",
+    "category": "Carnivorous Plants",
+    "otherNames": [
+      "Cape Sundew"
+    ]
+  },
+  {
+    "name": "Corn Plant",
+    "botanicalName": "Dracaena fragrans",
+    "category": "Trees & Large Plants",
+    "otherNames": [
+      "Cornstalk Dracaena",
+      "Striped Dracaena",
+      "Mass Cane"
+    ]
+  },
+  {
+    "name": "Weeping Fig",
+    "botanicalName": "Ficus benjamina",
+    "category": "Trees & Large Plants",
+    "otherNames": [
+      "Benjamin Fig",
+      "Ficus Tree"
+    ]
+  },
+  {
+    "name": "Ficus Audrey",
+    "botanicalName": "Ficus benghalensis",
+    "category": "Trees & Large Plants",
+    "otherNames": [
+      "Banyan Tree",
+      "Bengal Fig",
+      "Strangler Fig"
+    ]
+  },
+  {
+    "name": "Asparagus Fern",
+    "botanicalName": "Asparagus setaceus",
+    "category": "Ferns",
+    "otherNames": [
+      "Lace Fern",
+      "Climbing Asparagus",
+      "Asparagus Plumosa"
+    ]
+  },
+  {
+    "name": "Blue Star Fern",
+    "botanicalName": "Phlebodium aureum",
+    "category": "Ferns",
+    "otherNames": [
+      "Golden Polypody",
+      "Cabbage Palm Fern"
+    ]
+  },
+  {
+    "name": "Watermelon Peperomia",
+    "botanicalName": "Peperomia argyreia",
+    "category": "Small Plants",
+    "otherNames": [
+      "Watermelon Begonia"
+    ]
+  },
+  {
+    "name": "Lemon Button Fern",
+    "botanicalName": "Nephrolepis cordifolia 'Duffii'",
+    "category": "Ferns",
+    "otherNames": [
+      "Duffii Fern",
+      "Fishbone Fern"
+    ]
+  },
+  {
+    "name": "Inch Plant",
+    "botanicalName": "Tradescantia fluminensis",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Small-Leaf Spiderwort",
+      "Wandering Dude",
+      "River Spiderwort"
+    ]
+  },
+  {
+    "name": "Goldfish Plant",
+    "botanicalName": "Nematanthus gregarius",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Guppy Plant"
+    ]
+  },
+  {
+    "name": "Lipstick Plant",
+    "botanicalName": "Aeschynanthus radicans",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Lipstick Vine",
+      "Basket Vine"
+    ]
+  },
+  {
+    "name": "Jasmine",
+    "botanicalName": "Jasminum polyanthum",
+    "category": "Flowering Plants",
+    "otherNames": [
+      "Pink Jasmine",
+      "White Jasmine",
+      "Chinese Jasmine"
+    ]
+  },
+  {
+    "name": "Umbrella Plant",
+    "botanicalName": "Cyperus alternifolius",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Umbrella Papyrus",
+      "Umbrella Sedge",
+      "Umbrella Palm"
+    ]
+  },
+  {
+    "name": "Ti Plant",
+    "botanicalName": "Cordyline fruticosa",
+    "category": "Colorful Foliage",
+    "otherNames": [
+      "Hawaiian Ti Plant",
+      "Good Luck Plant",
+      "Cordyline"
+    ]
+  },
+  {
+    "name": "Rex Begonia Vine",
+    "botanicalName": "Cissus discolor",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Tapestry Vine",
+      "Climbing Begonia"
+    ]
   }
 ]

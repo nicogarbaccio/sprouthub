@@ -52,6 +52,21 @@ const RSS_FEEDS: RssFeed[] = [
   { name: 'Houseplant 411', url: 'https://www.houseplant411.com/feed/', sourceUrl: 'https://www.houseplant411.com' },
   { name: 'Leaf and Clay', url: 'https://www.leafandclay.co/blogs/news.atom', sourceUrl: 'https://www.leafandclay.co' },
   { name: 'Greg App Blog', url: 'https://gregapp.com/blog/feed/', sourceUrl: 'https://gregapp.com/blog' },
+  // Species-specific & care-focused feeds
+  { name: 'The Sill', url: 'https://www.thesill.com/blogs/care-miscellaneous.atom', sourceUrl: 'https://www.thesill.com' },
+  { name: 'Pistils Nursery', url: 'https://pistilsnursery.com/blogs/journal.atom', sourceUrl: 'https://pistilsnursery.com' },
+  { name: 'Our House Plants', url: 'https://www.ourhouseplants.com/feed', sourceUrl: 'https://www.ourhouseplants.com' },
+  { name: 'The Healthy Houseplant', url: 'https://thehealthyhouseplant.com/feed/', sourceUrl: 'https://thehealthyhouseplant.com' },
+  { name: 'Just Houseplants', url: 'https://justhouseplants.com/feed/', sourceUrl: 'https://justhouseplants.com' },
+  { name: 'The Spruce', url: 'https://www.thespruce.com/feed', sourceUrl: 'https://www.thespruce.com' },
+  { name: 'Garden Betty', url: 'https://www.gardenbetty.com/feed/', sourceUrl: 'https://www.gardenbetty.com' },
+  { name: 'Houseplant Resource Center', url: 'https://houseplantresourcecenter.com/feed/', sourceUrl: 'https://houseplantresourcecenter.com' },
+  { name: 'Lively Root', url: 'https://www.livelyroot.com/blogs/plant-care.atom', sourceUrl: 'https://www.livelyroot.com' },
+  { name: 'Planterina', url: 'https://planterina.com/blogs/news.atom', sourceUrl: 'https://planterina.com' },
+  { name: 'Indoor Plants for Beginners', url: 'https://indoorplantsforbeginners.com/feed/', sourceUrl: 'https://indoorplantsforbeginners.com' },
+  { name: 'Succulents and Sunshine', url: 'https://www.succulentsandsunshine.com/feed/', sourceUrl: 'https://www.succulentsandsunshine.com' },
+  { name: 'Sublime Succulents', url: 'https://sublimesucculents.com/feed/', sourceUrl: 'https://sublimesucculents.com' },
+  { name: 'Carnivorous Plant Resource', url: 'https://www.carnivorousplantresource.com/feed/', sourceUrl: 'https://www.carnivorousplantresource.com' },
 ];
 
 const SEASONAL_KEYWORDS: Record<string, string[]> = {
@@ -350,21 +365,48 @@ function matchPlantsToPost(
     if (seen.has(nameLower)) continue;
 
     const genus = plant.botanicalName.split(' ')[0].toLowerCase();
-    // Only use genus if it's distinctive enough to avoid false positives
-    if (genus.length >= 6 && text.includes(genus)) {
-      const inTitle = titleLower.includes(genus);
+    // Only use genus if it's distinctive enough to avoid false positives.
+    // For shorter genera (4-5 chars like Aloe, Ficus, Hoya, Pilea, Musa),
+    // require a word boundary to prevent substring false positives.
+    if (genus.length < 4) continue;
+    const genusFound = genus.length >= 6
+      ? text.includes(genus)
+      : new RegExp(`\\b${genus}\\b`, 'i').test(text);
+    if (genusFound) {
+      const inTitle = genus.length >= 6
+        ? titleLower.includes(genus)
+        : new RegExp(`\\b${genus}\\b`, 'i').test(titleLower);
       matches.push({ name: plant.name, score: inTitle ? 0.4 : 0.25 });
       seen.add(nameLower);
     }
   }
 
   // Category-level matching (e.g. "succulent care" matches all succulents)
+  // Values must match the category strings in plant-names.json exactly.
   const categoryKeywords: Record<string, string> = {
-    succulent: 'Succulents & Cacti',
-    cactus: 'Succulents & Cacti',
+    succulent: 'Succulents',
+    cactus: 'Succulents',
     orchid: 'Flowering Plants',
-    fern: 'Tropical & Foliage',
-    palm: 'Trees & Large Plants',
+    fern: 'Ferns',
+    palm: 'Palms',
+    tropical: 'Tropical Plants',
+    trailing: 'Hanging & Trailing Plants',
+    hanging: 'Hanging & Trailing Plants',
+    'air plant': 'Air Plants',
+    tillandsia: 'Air Plants',
+    'prayer plant': 'Prayer Plants',
+    calathea: 'Prayer Plants',
+    maranta: 'Prayer Plants',
+    peperomia: 'Small Plants',
+    pilea: 'Small Plants',
+    coleus: 'Colorful Foliage',
+    caladium: 'Colorful Foliage',
+    'low maintenance': 'Low Maintenance',
+    'easy care': 'Low Maintenance',
+    tree: 'Trees & Large Plants',
+    carnivorous: 'Carnivorous Plants',
+    'venus fly': 'Carnivorous Plants',
+    'pitcher plant': 'Carnivorous Plants',
   };
 
   for (const [keyword, category] of Object.entries(categoryKeywords)) {
