@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { Leaf, Search, Sun, Snowflake, CloudRain, Flower, X, Loader2 } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -138,6 +139,14 @@ const Discover = () => {
               <div className="flex items-center gap-2" data-testid="seasonal-section">
                 <SeasonIcon className={`h-5 w-5 ${seasonConfig.color}`} />
                 <h2 className="text-lg font-semibold">{seasonConfig.label} Plant Care</h2>
+                {seasonalPosts && seasonalPosts.length >= 4 && (
+                  <Link
+                    to={`/discover/articles?mode=seasonal&season=${season}`}
+                    className="ml-auto text-sm text-primary hover:underline"
+                  >
+                    View all
+                  </Link>
+                )}
               </div>
 
               {seasonalLoading ? (
@@ -182,6 +191,14 @@ const Discover = () => {
               <div className="flex items-center gap-2" data-testid="general-section">
                 <Leaf className="h-5 w-5 text-primary" />
                 <h2 className="text-lg font-semibold">Plant Care Tips</h2>
+                {generalPosts && generalPosts.length >= 4 && (
+                  <Link
+                    to="/discover/articles?mode=general"
+                    className="ml-auto text-sm text-primary hover:underline"
+                  >
+                    View all
+                  </Link>
+                )}
               </div>
 
               {generalLoading ? (
@@ -219,6 +236,14 @@ const Discover = () => {
               <div className="flex items-center gap-2">
                 <Search className="h-5 w-5 text-primary" />
                 <h2 className="text-lg font-semibold">Browse by Plant</h2>
+                {debouncedSearch && plantPosts && plantPosts.length >= 4 && (
+                  <Link
+                    to={`/discover/articles?mode=plant&plant=${encodeURIComponent(debouncedSearch)}`}
+                    className="ml-auto text-sm text-primary hover:underline"
+                  >
+                    View all
+                  </Link>
+                )}
               </div>
               <div className="max-w-md">
                 <Input

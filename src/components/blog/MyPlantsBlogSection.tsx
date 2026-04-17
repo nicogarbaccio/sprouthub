@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Flower2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -41,6 +42,14 @@ const MyPlantsBlogSection = ({ plantNames }: MyPlantsBlogSectionProps) => {
       <div className="flex items-center gap-2">
         <Flower2 className="h-5 w-5 text-primary" />
         <h2 className="text-lg font-semibold">For Your Plants</h2>
+        {posts && posts.length >= 4 && (
+          <Link
+            to="/discover/articles?mode=my-plants"
+            className="ml-auto text-sm text-primary hover:underline"
+          >
+            View all
+          </Link>
+        )}
       </div>
 
       {isLoading ? (

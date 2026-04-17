@@ -190,6 +190,173 @@ export function useMyPlantsBlogPosts(plantNames: string[]) {
   });
 }
 
+export type GridMode = 'seasonal' | 'general' | 'my-plants' | 'plant';
+
+interface GridParams {
+  season?: string;
+  plantName?: string;
+  plantNames?: string[];
+}
+
+interface GridResult {
+  posts: BlogPost[];
+  totalCount: number;
+}
+
+export function useBlogPostsGrid(mode: GridMode, params: GridParams, page: number, pageSize = 24) {
+  return useQuery({
+    queryKey: ['blog-posts', 'grid', mode, params, page, pageSize],
+    queryFn: async (): Promise<GridResult> => {
+      const from = (page - 1) * pageSize;
+      const to = from + pageSize - 1;
+
+      if (mode === 'seasonal') {
+        const { data, error, count } = await supabase
+          .from('blog_posts')
+          .select('*', { count: 'exact' })
+          .eq('is_seasonal', true)
+          .eq('season', params.season ?? '')
+          .order('published_at', { ascending: false })
+          .range(from, to);
+
+        if (error) throw error;
+        return { posts: (data ?? []) as unknown as BlogPost[], totalCount: count ?? 0 };
+      }
+
+      if (mode === 'general') {
+        const { data, error, count } = await supabase
+          .from('blog_posts')
+          .select('*', { count: 'exact' })
+          .eq('is_general', true)
+          .order('published_at', { ascending: false })
+          .range(from, to);
+
+        if (error) throw error;
+        return { posts: (data ?? []) as unknown as BlogPost[], totalCount: count ?? 0 };
+      }
+
+      if (mode === 'plant') {
+        const plantName = params.plantName ?? '';
+
+        // Junction table query
+        const { data: junctionData, error: junctionError } = await supabase
+          .from('blog_post_plants')
+          .select('blog_posts(*)')
+          .ilike('plant_name', `%${plantName}%`)
+          .order('relevance_score', { ascending: false });
+
+        if (junctionError) throw junctionError;
+
+        const seen = new Set<string>();
+        const allPosts: BlogPost[] = [];
+
+        for (const row of junctionData ?? []) {
+          const post = row.blog_posts as unknown as BlogPost;
+          if (post && !seen.has(post.id)) {
+            seen.add(post.id);
+            allPosts.push(post);
+          }
+        }
+
+        // Fallback: text search for more results
+        const nameFilters = [`title.ilike.%${plantName}%`, `summary.ilike.%${plantName}%`];
+        const firstWord = plantName.split(/[\s''']/)[0];
+        if (firstWord.length >= 6 && firstWord !== plantName) {
+          nameFilters.push(`title.ilike.%${firstWord}%`, `summary.ilike.%${firstWord}%`);
+        }
+
+        const { data: searchData, error: searchError } = await supabase
+          .from('blog_posts')
+          .select('*')
+          .or(nameFilters.join(','))
+          .order('published_at', { ascending: false });
+
+        if (searchError) throw searchError;
+
+        for (const post of (searchData ?? []) as unknown as BlogPost[]) {
+          if (!seen.has(post.id)) {
+            seen.add(post.id);
+            allPosts.push(post);
+          }
+        }
+
+        return {
+          posts: allPosts.slice(from, to + 1),
+          totalCount: allPosts.length,
+        };
+      }
+
+      // mode === 'my-plants'
+      const plantNames = params.plantNames ?? [];
+      if (plantNames.length === 0) return { posts: [], totalCount: 0 };
+
+      const ilikeFilters = plantNames.map((n) => `plant_name.ilike.%${n}%`).join(',');
+      const { data: junctionData, error: junctionError } = await supabase
+        .from('blog_post_plants')
+        .select('blog_posts(*)')
+        .or(ilikeFilters)
+        .order('relevance_score', { ascending: false });
+
+      if (junctionError) throw junctionError;
+
+      const seen = new Set<string>();
+      const allPosts: BlogPost[] = [];
+
+      for (const row of junctionData ?? []) {
+        const post = row.blog_posts as unknown as BlogPost;
+        if (post && !seen.has(post.id)) {
+          seen.add(post.id);
+          allPosts.push(post);
+        }
+      }
+
+      // Fallback text search for unmatched plants
+      const junctionNames = new Set(
+        (junctionData ?? []).map((r) => (r as { plant_name?: string }).plant_name?.toLowerCase()).filter(Boolean)
+      );
+      const unmatchedPlants = plantNames.filter((n) => {
+        const nLower = n.toLowerCase();
+        return ![...junctionNames].some((jn) => jn!.includes(nLower) || nLower.includes(jn!));
+      });
+
+      if (unmatchedPlants.length > 0 || allPosts.length < pageSize) {
+        const searchPlants = unmatchedPlants.length > 0 ? unmatchedPlants : plantNames;
+        const nameFilters = searchPlants.flatMap((name) => {
+          const filters = [`title.ilike.%${name}%`, `summary.ilike.%${name}%`];
+          const firstWord = name.split(/[\s''']/)[0];
+          if (firstWord.length >= 6 && firstWord !== name) {
+            filters.push(`title.ilike.%${firstWord}%`, `summary.ilike.%${firstWord}%`);
+          }
+          return filters;
+        });
+
+        if (nameFilters.length > 0) {
+          const { data: searchData, error: searchError } = await supabase
+            .from('blog_posts')
+            .select('*')
+            .or(nameFilters.join(','))
+            .order('published_at', { ascending: false });
+
+          if (searchError) throw searchError;
+
+          for (const post of (searchData ?? []) as unknown as BlogPost[]) {
+            if (!seen.has(post.id)) {
+              seen.add(post.id);
+              allPosts.push(post);
+            }
+          }
+        }
+      }
+
+      return {
+        posts: allPosts.slice(from, to + 1),
+        totalCount: allPosts.length,
+      };
+    },
+    staleTime: 1000 * 60 * 60,
+  });
+}
+
 export function useSeasonalBlogPosts(season: string | null) {
   return useQuery({
     queryKey: ['blog-posts', 'seasonal', season],
