@@ -11,21 +11,42 @@ jobs:
   fetch:
     name: Trigger fetch-blog-posts edge function
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Call fetch-blog-posts edge function
         run: |
-          response=$(curl -s -w "\n%{http_code}" -X POST \
-            "https://ufhjudswppdqupjbqbwm.supabase.co/functions/v1/fetch-blog-posts" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
-            -H "Content-Type: application/json")
+          max_attempts=3
+          attempt=1
 
-          body=$(echo "$response" | head -n -1)
-          status=$(echo "$response" | tail -n 1)
+          while [ $attempt -le $max_attempts ]; do
+            echo "Attempt $attempt of $max_attempts..."
 
-          echo "HTTP status: $status"
-          echo "Response: $body"
+            response=$(curl -s -w "\n%{http_code}" -X POST \
+              --max-time 180 \
+              --connect-timeout 10 \
+              "https://ufhjudswppdqupjbqbwm.supabase.co/functions/v1/fetch-blog-posts" \
+              -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
+              -H "Content-Type: application/json")
 
-          if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
+            body=$(echo "$response" | head -n -1)
+            status=$(echo "$response" | tail -n 1)
+
+            echo "HTTP status: $status"
+            echo "Response: $body"
+
+            if [ "$status" -ge 200 ] && [ "$status" -lt 300 ]; then
+              echo "Success!"
+              exit 0
+            fi
+
             echo "Edge function returned non-2xx status: $status"
-            exit 1
-          fi
+            attempt=$((attempt + 1))
+
+            if [ $attempt -le $max_attempts ]; then
+              echo "Retrying in 10 seconds..."
+              sleep 10
+            fi
+          done
+
+          echo "All $max_attempts attempts failed"
+          exit 1

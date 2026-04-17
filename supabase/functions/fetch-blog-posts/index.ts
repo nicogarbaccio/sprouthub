@@ -441,6 +441,31 @@ function isGeneralPost(post: ParsedPost): boolean {
   return GENERAL_KEYWORDS.some((kw) => text.includes(kw));
 }
 
+// ─── Helpers ────────────────────────────────────────────────────────────────
+
+/** Run promises in parallel batches to stay within connection/memory limits. */
+async function batchAll<T>(
+  tasks: (() => Promise<T>)[],
+  concurrency: number
+): Promise<PromiseSettledResult<T>[]> {
+  const results: PromiseSettledResult<T>[] = [];
+  for (let i = 0; i < tasks.length; i += concurrency) {
+    const batch = tasks.slice(i, i + concurrency);
+    const settled = await Promise.allSettled(batch.map((fn) => fn()));
+    results.push(...settled);
+  }
+  return results;
+}
+
+interface ProcessedPost {
+  post: ParsedPost;
+  feedName: string;
+  feedSourceUrl: string;
+  season: string | null;
+  general: boolean;
+  plantMatches: { name: string; score: number }[];
+}
+
 // ─── Main Handler ────────────────────────────────────────────────────────────
 
 Deno.serve(async (req: Request) => {
@@ -466,120 +491,149 @@ Deno.serve(async (req: Request) => {
     const feedErrorDetails: string[] = [];
     const feedStats: Record<string, { parsed: number; inserted: number; skipped: number; filtered: number }> = {};
 
-    for (const feed of RSS_FEEDS) {
-      feedStats[feed.name] = { parsed: 0, inserted: 0, skipped: 0, filtered: 0 };
-      try {
-        console.log(`Fetching feed: ${feed.name} (${feed.url})`);
+    // ── Phase 1: Fetch all RSS feeds in parallel (batches of 6) ──
+    const feedResults = await batchAll(
+      RSS_FEEDS.map((feed) => async () => {
         const response = await fetch(feed.url, {
           headers: {
             'User-Agent': 'Mozilla/5.0 (compatible; sprouthub/1.0)',
             'Accept': 'application/rss+xml, application/xml, text/xml, */*',
           },
+          signal: AbortSignal.timeout(15000),
         });
-
         if (!response.ok) {
           const body = await response.text().catch(() => '');
-          console.error(`Feed ${feed.name} returned ${response.status}: ${body.slice(0, 200)}`);
-          feedErrors++;
-          feedErrorDetails.push(`${feed.name}: HTTP ${response.status}`);
+          throw new Error(`HTTP ${response.status}: ${body.slice(0, 200)}`);
+        }
+        const xml = await response.text();
+        return { feed, xml };
+      }),
+      6
+    );
+
+    // ── Phase 2: Parse feeds & filter posts ──
+    const threeYearsAgo = new Date();
+    threeYearsAgo.setFullYear(threeYearsAgo.getFullYear() - 3);
+
+    const postsNeedingOg: ProcessedPost[] = [];
+    const readyPosts: ProcessedPost[] = [];
+
+    for (let i = 0; i < feedResults.length; i++) {
+      const feed = RSS_FEEDS[i];
+      feedStats[feed.name] = { parsed: 0, inserted: 0, skipped: 0, filtered: 0 };
+      const result = feedResults[i];
+
+      if (result.status === 'rejected') {
+        console.error(`Feed ${feed.name}: ${result.reason}`);
+        feedErrors++;
+        feedErrorDetails.push(`${feed.name}: ${result.reason}`);
+        continue;
+      }
+
+      const posts = parseFeed(result.value.xml);
+      feedStats[feed.name].parsed = posts.length;
+      console.log(`Parsed ${posts.length} posts from ${feed.name}`);
+
+      for (const post of posts) {
+        if (shouldSkipPost(post)) {
+          feedStats[feed.name].filtered++;
           continue;
         }
+        if (post.publishedAt && new Date(post.publishedAt) < threeYearsAgo) continue;
 
-        const xml = await response.text();
-        const posts = parseFeed(xml);
-        feedStats[feed.name].parsed = posts.length;
-        console.log(`Parsed ${posts.length} posts from ${feed.name}`);
+        const processed: ProcessedPost = {
+          post,
+          feedName: feed.name,
+          feedSourceUrl: feed.sourceUrl,
+          season: detectSeason(post),
+          general: isGeneralPost(post),
+          plantMatches: matchPlantsToPost(post, plants),
+        };
 
-        for (const post of posts) {
-          // Skip promotional / non-plant-care content
-          if (shouldSkipPost(post)) {
-            feedStats[feed.name].filtered++;
-            continue;
-          }
-
-          // Skip posts older than 3 years (keep evergreen care guides)
-          if (post.publishedAt) {
-            const threeYearsAgo = new Date();
-            threeYearsAgo.setFullYear(threeYearsAgo.getFullYear() - 3);
-            if (new Date(post.publishedAt) < threeYearsAgo) continue;
-          }
-
-          // Fetch og:image from article page if no image found in RSS
-          if (!post.imageUrl) {
-            post.imageUrl = await fetchOgImage(post.url);
-          }
-
-          const season = detectSeason(post);
-          const general = isGeneralPost(post);
-          const plantMatches = matchPlantsToPost(post, plants);
-
-          // Upsert blog post
-          const { data: blogPost, error: upsertError } = await supabase
-            .from('blog_posts')
-            .upsert(
-              {
-                title: post.title,
-                url: post.url,
-                summary: post.summary || null,
-                image_url: post.imageUrl,
-                source_name: feed.name,
-                source_url: feed.sourceUrl,
-                published_at: post.publishedAt,
-                fetched_at: new Date().toISOString(),
-                categories: post.categories,
-                is_seasonal: !!season,
-                season,
-                is_general: general,
-              },
-              { onConflict: 'url' }
-            )
-            .select('id')
-            .single();
-
-          if (upsertError) {
-            console.error(`Error upserting post "${post.title}":`, upsertError.message);
-            totalSkipped++;
-            feedStats[feed.name].skipped++;
-            continue;
-          }
-
-          // Insert plant matches
-          if (blogPost && plantMatches.length > 0) {
-            // Limit to top 20 matches to avoid excessive rows
-            const topMatches = plantMatches
-              .sort((a, b) => b.score - a.score)
-              .slice(0, 20);
-
-            const { error: matchError } = await supabase
-              .from('blog_post_plants')
-              .upsert(
-                topMatches.map((m) => ({
-                  blog_post_id: blogPost.id,
-                  plant_name: m.name,
-                  relevance_score: m.score,
-                })),
-                { onConflict: 'blog_post_id,plant_name' }
-              );
-
-            if (matchError) {
-              console.error(`Error inserting plant matches for "${post.title}":`, matchError.message);
-            }
-          }
-
-          totalInserted++;
-          feedStats[feed.name].inserted++;
+        if (!post.imageUrl) {
+          postsNeedingOg.push(processed);
+        } else {
+          readyPosts.push(processed);
         }
-      } catch (feedError) {
-        const errMsg = feedError instanceof Error ? feedError.message : String(feedError);
-        console.error(`Error processing feed ${feed.name}: ${errMsg}`);
-        feedErrors++;
-        feedErrorDetails.push(`${feed.name}: ${errMsg}`);
       }
     }
 
-    // Clean up old posts (older than 3 years)
-    const threeYearsAgo = new Date();
-    threeYearsAgo.setFullYear(threeYearsAgo.getFullYear() - 3);
+    // ── Phase 3: Fetch OG images in parallel (batches of 10) ──
+    if (postsNeedingOg.length > 0) {
+      console.log(`Fetching OG images for ${postsNeedingOg.length} posts...`);
+      const ogResults = await batchAll(
+        postsNeedingOg.map((p) => () => fetchOgImage(p.post.url)),
+        10
+      );
+      for (let i = 0; i < ogResults.length; i++) {
+        const result = ogResults[i];
+        if (result.status === 'fulfilled' && result.value) {
+          postsNeedingOg[i].post.imageUrl = result.value;
+        }
+      }
+    }
+
+    const allPosts = [...readyPosts, ...postsNeedingOg];
+
+    // ── Phase 4: Batch upsert posts (batches of 50) ──
+    for (let i = 0; i < allPosts.length; i += 50) {
+      const batch = allPosts.slice(i, i + 50);
+      const rows = batch.map((p) => ({
+        title: p.post.title,
+        url: p.post.url,
+        summary: p.post.summary || null,
+        image_url: p.post.imageUrl,
+        source_name: p.feedName,
+        source_url: p.feedSourceUrl,
+        published_at: p.post.publishedAt,
+        fetched_at: new Date().toISOString(),
+        categories: p.post.categories,
+        is_seasonal: !!p.season,
+        season: p.season,
+        is_general: p.general,
+      }));
+
+      const { data: upserted, error: upsertError } = await supabase
+        .from('blog_posts')
+        .upsert(rows, { onConflict: 'url' })
+        .select('id, url');
+
+      if (upsertError) {
+        console.error(`Batch upsert error: ${upsertError.message}`);
+        totalSkipped += batch.length;
+        for (const p of batch) feedStats[p.feedName].skipped++;
+        continue;
+      }
+
+      // Build url→id map for plant match inserts
+      const urlToId = new Map<string, string>();
+      for (const row of upserted ?? []) urlToId.set(row.url, row.id);
+
+      // Collect all plant match rows for this batch
+      const plantRows: { blog_post_id: string; plant_name: string; relevance_score: number }[] = [];
+      for (const p of batch) {
+        const blogPostId = urlToId.get(p.post.url);
+        if (!blogPostId || p.plantMatches.length === 0) continue;
+        const topMatches = p.plantMatches.sort((a, b) => b.score - a.score).slice(0, 20);
+        for (const m of topMatches) {
+          plantRows.push({ blog_post_id: blogPostId, plant_name: m.name, relevance_score: m.score });
+        }
+      }
+
+      if (plantRows.length > 0) {
+        const { error: matchError } = await supabase
+          .from('blog_post_plants')
+          .upsert(plantRows, { onConflict: 'blog_post_id,plant_name' });
+        if (matchError) {
+          console.error(`Batch plant match error: ${matchError.message}`);
+        }
+      }
+
+      totalInserted += batch.length;
+      for (const p of batch) feedStats[p.feedName].inserted++;
+    }
+
+    // ── Phase 5: Clean up old posts ──
     const { error: cleanupError } = await supabase
       .from('blog_posts')
       .delete()
