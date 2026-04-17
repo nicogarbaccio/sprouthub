@@ -67,12 +67,22 @@ const FertilizationCard = ({
     setIsDismissed(true);
     localStorage.setItem(lsKey, '1');
     if (!user) return;
+    // Delete + insert instead of upsert — the unique constraint includes
+    // acknowledged_date so the 3-column onConflict target doesn't match.
     await supabase
       .from('notification_acknowledgements')
-      .upsert(
-        { user_id: user.id, notification_type: key, plant_id: plant.id, acknowledged_date: new Date().toISOString() },
-        { onConflict: 'user_id,notification_type,plant_id' }
-      );
+      .delete()
+      .eq('user_id', user.id)
+      .eq('notification_type', key)
+      .eq('plant_id', plant.id);
+    await supabase
+      .from('notification_acknowledgements')
+      .insert({
+        user_id: user.id,
+        notification_type: key,
+        plant_id: plant.id,
+        acknowledged_date: new Date().toISOString(),
+      });
   }, [user, key, lsKey, plant.id]);
 
   const advice = parseFertilizationFromCareInstructions(

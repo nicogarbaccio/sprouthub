@@ -137,14 +137,29 @@ export function useFertilizationBanner(plants: UserPlant[], latitude: number = 4
     if (!user) return;
 
     try {
+      // Delete any existing banner-level record for this notification key,
+      // then insert the new one. We can't use upsert because the unique
+      // constraint includes acknowledged_date and plant_id=NULL rows
+      // never conflict in PostgreSQL.
       await supabase
         .from('notification_acknowledgements')
-        .upsert({
+        .delete()
+        .eq('user_id', user.id)
+        .eq('notification_type', key)
+        .is('plant_id', null);
+
+      const { error } = await supabase
+        .from('notification_acknowledgements')
+        .insert({
           user_id: user.id,
           notification_type: key,
           plant_id: null,
           acknowledged_date: acknowledgedDate.toISOString(),
-        }, { onConflict: 'user_id,notification_type,plant_id' });
+        });
+
+      if (error) {
+        hookLogger.warn(HOOK_NAME, 'Could not persist fertilization dismissal', { error });
+      }
     } catch (err) {
       hookLogger.warn(HOOK_NAME, 'Could not persist fertilization dismissal', { err });
     }
