@@ -122,22 +122,9 @@ export const usePlantActions = ({
         )
       );
 
-      // First, delete any existing postponement records for this plant
-      const { error: deleteError } = await supabase
-        .from('watering_records')
-        .delete()
-        .eq('plant_id', plantId)
-        .like('notes', '%POSTPONEMENT:%');
-
-      if (deleteError) {
-        hookLogger.warn(HOOK_NAME, 'Could not delete postponement records', {
-          error: deleteError,
-        });
-        // Don't fail the watering if postponement cleanup fails
-      }
-
       // Reset postponement_count — the user has now watered, so the streak of
       // "plant didn't need water" decisions is resolved.
+      // Note: postponement watering_records are preserved for analytics history.
       const { error: resetCountError } = await supabase
         .from('user_plants')
         .update({ postponement_count: 0, last_postponement_date: null })
