@@ -30,20 +30,22 @@ export const LoadingTransition = ({
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
-    if (loading) {
-      // Data started loading (again) — show skeleton immediately
-      clearTimeout(timerRef.current);
-      setShowSkeleton(true);
-    } else {
+    if (!loading) {
       // Data is ready — mount content and let the skeleton fade out
       setHasLoaded(true);
       timerRef.current = setTimeout(() => {
         setShowSkeleton(false);
       }, duration);
+    } else if (!hasLoaded) {
+      // Only re-show skeleton if content has never been mounted.
+      // Once the user sees real content, background refetches should NOT
+      // flash the skeleton again — the stale content stays visible instead.
+      clearTimeout(timerRef.current);
+      setShowSkeleton(true);
     }
 
     return () => clearTimeout(timerRef.current);
-  }, [loading, duration]);
+  }, [loading, duration, hasLoaded]);
 
   // While content has never loaded, just show the skeleton directly
   if (!hasLoaded) {
@@ -57,23 +59,23 @@ export const LoadingTransition = ({
       {/* Content layer — only mounted after first load completes */}
       <div
         style={{
-          opacity: loading ? 0 : 1,
+          opacity: !hasLoaded && loading ? 0 : 1,
           transition,
         }}
       >
         {children}
       </div>
 
-      {/* Skeleton layer — overlays content during crossfade, then unmounts */}
+      {/* Skeleton layer — overlays content during initial crossfade, then unmounts */}
       {showSkeleton && (
         <div
           aria-hidden={!loading}
           style={{
-            opacity: loading ? 1 : 0,
+            opacity: loading && !hasLoaded ? 1 : 0,
             transition,
             position: "absolute",
             inset: 0,
-            pointerEvents: loading ? "auto" : "none",
+            pointerEvents: loading && !hasLoaded ? "auto" : "none",
           }}
         >
           {skeleton}

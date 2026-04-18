@@ -4,7 +4,7 @@ import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import PlantCatalog from "@/components/PlantCatalog";
 import Dashboard from "@/components/Dashboard";
-import { DashboardSkeleton } from "@/components/DashboardSkeleton";
+
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { useAuth } from "@/contexts/AuthContext";
 import Footer from "@/components/Footer";
@@ -129,20 +129,17 @@ const Index = () => {
         <PWADebugPanel className="fixed top-20 right-4 w-80 z-40" />
       )}
 
-      {authLoading ? (
-        // Show appropriate skeleton during auth loading
-        hasSession ? (
-          <DashboardSkeleton />
-        ) : (
-          <MarketingContentSkeleton />
-        )
-      ) : user ? (
-        // Dashboard view for signed-in users
+      {user || (authLoading && hasSession) ? (
+        // Dashboard view — rendered as soon as we know a session exists so that
+        // Dashboard's own LoadingTransition manages a single, continuous
+        // skeleton→content crossfade (no unmount/remount flicker between
+        // Index's skeleton and Dashboard's skeleton).
         <ErrorBoundary>
-          <div className="animate-fade-in">
-            <Dashboard />
-          </div>
+          <Dashboard />
         </ErrorBoundary>
+      ) : authLoading ? (
+        // No session detected — show marketing skeleton while auth resolves
+        <MarketingContentSkeleton />
       ) : (
         // Marketing view for non-signed-in users with smooth fade-in
         <div className="animate-fade-in">
