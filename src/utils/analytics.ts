@@ -2,6 +2,12 @@ import type { UserPlant } from '@/hooks/useUserPlants';
 import type { WateringPatternAnalysis } from '@/types/wateringPatternTypes';
 import type { PostponementRecord } from '@/hooks/usePostponementData';
 import { differenceInDays, format, startOfWeek, startOfMonth, subDays } from 'date-fns';
+import { getEnrichedCatalogSync } from '@/data/enrichedPlants';
+import {
+  parseFertilizationFromCareInstructions,
+  getFertilizationStatus,
+} from '@/utils/plants/fertilizationAdvice';
+import { calendarSeasonalService } from '@/services/calendarSeasonalService';
 
 export interface Insight {
   names: string; // plant name(s) to highlight
@@ -46,6 +52,9 @@ export interface PlantPerformance {
   avgInterval: number;
   scheduleDays: number;
   tip: string | null; // actionable guidance for the user
+  healthObservation: { healthyCount: number; stressedCount: number } | null;
+  moodSummary: { dominantMood: string; totalEntries: number; trend: 'improving' | 'declining' | 'stable' } | null;
+  scheduleFit: { verdict: 'good' | 'tight' | 'loose' | 'unknown'; suggestion: string | null };
 }
 
 export interface TimeDistribution {
@@ -213,6 +222,9 @@ export function calculatePlantPerformance(plants: UserPlant[]): PlantPerformance
       avgInterval: 0,
       scheduleDays,
       tip: null,
+      healthObservation: null,
+      moodSummary: null,
+      scheduleFit: { verdict: 'unknown' as const, suggestion: null },
     };
   }).sort((a, b) => a.plantName.localeCompare(b.plantName));
 }
@@ -263,6 +275,17 @@ function generateTip(
   const avg = Math.round(analysis.actualAverageInterval);
   const hasAvg = avg > 0;
 
+  // Health observations are the highest-priority signal
+  const obs = analysis.healthObservationContext;
+  if (obs && obs.totalObservations > 0) {
+    if (obs.stressedCount > 0 && obs.stressedCount >= obs.healthyCount) {
+      return 'Reported stressed after late waterings — try to stay on schedule';
+    }
+    if (obs.healthyCount > obs.stressedCount) {
+      return 'Still looks healthy between waterings — schedule may be more frequent than needed';
+    }
+  }
+
   // Frequent postponements are the strongest signal
   if (postponementCount >= 3) {
     if (analysis.suggestedAdjustment && analysis.suggestedAdjustment > scheduleDays) {
@@ -300,6 +323,18 @@ function generateTip(
   }
 
   if (analysis.pattern === 'consistent') {
+    // Try a gentle seasonal note instead of generic praise
+    const season = calendarSeasonalService.getCurrentSeason(40);
+    const adjustment = calendarSeasonalService.getSeasonalAdjustment(
+      scheduleDays, season, '', false
+    );
+    if (Math.abs(adjustment.adjustmentDays) >= 2) {
+      const suggested = scheduleDays + adjustment.adjustmentDays;
+      const seasonLabel = season.charAt(0).toUpperCase() + season.slice(1);
+      return adjustment.adjustmentDays < 0
+        ? `${seasonLabel} tip: may want water every ~${suggested} days instead of ${scheduleDays}`
+        : `${seasonLabel} tip: can probably go ~${suggested} days between waterings instead of ${scheduleDays}`;
+    }
     return 'On track — keep it up!';
   }
 
@@ -339,6 +374,46 @@ export function computeAvgInterval(
 }
 
 /**
+ * Determine how well the current schedule matches the user's actual watering rhythm.
+ * - good: avgInterval within 20% of scheduleDays
+ * - tight: user waters more often than scheduled (schedule may be too infrequent)
+ * - loose: user waters less often than scheduled (schedule may be too frequent)
+ */
+function computeScheduleFit(
+  avgInterval: number,
+  scheduleDays: number,
+  suggestedAdjustment?: number,
+): PlantPerformance['scheduleFit'] {
+  if (avgInterval <= 0) return { verdict: 'unknown', suggestion: null };
+
+  const deviation = avgInterval - scheduleDays;
+  const threshold = scheduleDays * 0.2;
+
+  let verdict: 'good' | 'tight' | 'loose';
+  if (Math.abs(deviation) <= threshold) {
+    verdict = 'good';
+  } else if (deviation < 0) {
+    verdict = 'tight';
+  } else {
+    verdict = 'loose';
+  }
+
+  let suggestion: string | null = null;
+  if (verdict !== 'good') {
+    const roundedAvg = Math.round(avgInterval);
+    if (suggestedAdjustment && suggestedAdjustment !== scheduleDays) {
+      suggestion = `You water every ~${roundedAvg} days — consider adjusting from ${scheduleDays} to ${suggestedAdjustment} days`;
+    } else {
+      suggestion = verdict === 'tight'
+        ? `You water every ~${roundedAvg} days, more often than the ${scheduleDays}-day schedule`
+        : `You water every ~${roundedAvg} days, less often than the ${scheduleDays}-day schedule`;
+    }
+  }
+
+  return { verdict, suggestion };
+}
+
+/**
  * Merge base PlantPerformance entries with pattern-analysis, postponement,
  * and raw watering-record data to produce fully enriched rows.
  *
@@ -351,6 +426,7 @@ export function mergePerformanceWithAnalysis(
   analysisMap: Map<string, WateringPatternAnalysis>,
   postponementMap: Map<string, PostponementRecord[]>,
   wateringRecordsMap: Map<string, { watered_at: string }[]>,
+  moodSummaries?: Map<string, { dominantMood: string; totalEntries: number; trend: 'improving' | 'declining' | 'stable' }>,
 ): PlantPerformance[] {
   return basePlants.map(plant => {
     const analysis = analysisMap.get(plant.plantId);
@@ -375,6 +451,14 @@ export function mergePerformanceWithAnalysis(
         )
       : -1;
 
+    const healthObs = analysis?.healthObservationContext;
+    const healthObservation = healthObs && healthObs.totalObservations > 0
+      ? { healthyCount: healthObs.healthyCount, stressedCount: healthObs.stressedCount }
+      : null;
+
+    // Schedule fit: how well the current schedule matches actual behavior
+    const scheduleFit = computeScheduleFit(avgInterval, plant.scheduleDays, analysis?.suggestedAdjustment);
+
     return {
       ...plant,
       careScore,
@@ -382,6 +466,9 @@ export function mergePerformanceWithAnalysis(
       avgInterval,
       postponementCount,
       totalWaterings: Math.max(plant.totalWaterings, totalWaterings),
+      healthObservation,
+      moodSummary: moodSummaries?.get(plant.plantId) ?? null,
+      scheduleFit,
       tip: analysis && analysis.actualAverageInterval > 0
         ? generateTip(analysis, plant.scheduleDays, postponementCount)
         : hasScoreData
@@ -502,6 +589,19 @@ export function getAnalyticsInsights(
       });
     }
 
+    // Stressed health observations
+    const stressedPlants = enrichedPerformance.filter(
+      p => p.healthObservation && p.healthObservation.stressedCount > 0 &&
+           p.healthObservation.stressedCount >= p.healthObservation.healthyCount
+    );
+    if (stressedPlants.length > 0) {
+      const names = stressedPlants.slice(0, 3).map(p => p.plantName);
+      insights.push({
+        names: names.join(', '),
+        message: 'showed stress after late waterings — prioritize keeping on schedule',
+      });
+    }
+
     // Low care score — name the worst offenders
     const lowScorePlants = enrichedPerformance
       .filter(p => p.careScore >= 0 && p.careScore < 50)
@@ -529,9 +629,77 @@ export function getAnalyticsInsights(
     }
   }
 
+  // Seasonal context — one gentle line based on current season
+  if (plants.length > 0) {
+    const season = calendarSeasonalService.getCurrentSeason(40);
+    const seasonalTips: Record<string, string> = {
+      spring: 'Spring is here — most plants are waking up and may want water a bit more often',
+      summer: 'Peak growing season — keep an eye on soil drying out faster than usual',
+      fall: 'Growth is slowing — your plants may need less water as days shorten',
+      winter: 'Dormant season — overwatering is the #1 risk right now, let soil dry out between waterings',
+    };
+    if (seasonalTips[season]) {
+      insights.push({ names: '', message: seasonalTips[season] });
+    }
+  }
+
   if (insights.length === 0) {
     insights.push({ names: '', message: 'Your plants are doing well! Keep up the good work.' });
   }
 
   return insights;
+}
+
+// ---------------------------------------------------------------------------
+// Fertilization summaries
+// ---------------------------------------------------------------------------
+
+export interface FertilizationSummary {
+  plantId: string;
+  plantName: string;
+  plantType: string;
+  plantImage?: string;
+  isDue: boolean;
+  isGrowingSeason: boolean;
+  daysSinceLastFertilized: number | null;
+  daysUntilDue: number | null;
+  frequencyLabel: string;
+  fertilizerType: string | null;
+}
+
+/**
+ * Build fertilization status summaries for all plants by matching each
+ * against the plant catalog (for careInstructions / category fallback).
+ */
+export function calculateFertilizationSummaries(plants: UserPlant[]): FertilizationSummary[] {
+  const catalog = getEnrichedCatalogSync();
+  const catalogByName = new Map(catalog.map(c => [c.name.toLowerCase(), c]));
+
+  return plants.map(plant => {
+    const catalogEntry = catalogByName.get(plant.plant_type.toLowerCase());
+    const advice = parseFertilizationFromCareInstructions(
+      catalogEntry?.careInstructions ?? [],
+      catalogEntry?.category,
+    );
+    const status = getFertilizationStatus(plant, advice);
+
+    return {
+      plantId: plant.id,
+      plantName: plant.nickname,
+      plantType: plant.plant_type,
+      plantImage: plant.image,
+      isDue: status.isDue,
+      isGrowingSeason: status.isGrowingSeason,
+      daysSinceLastFertilized: status.daysSinceLastFertilized,
+      daysUntilDue: status.daysUntilDue,
+      frequencyLabel: advice.frequencyLabel,
+      fertilizerType: advice.fertilizerType,
+    };
+  }).sort((a, b) => {
+    // Due plants first, then by days until due
+    if (a.isDue && !b.isDue) return -1;
+    if (!a.isDue && b.isDue) return 1;
+    if (a.daysUntilDue !== null && b.daysUntilDue !== null) return a.daysUntilDue - b.daysUntilDue;
+    return a.plantName.localeCompare(b.plantName);
+  });
 }
