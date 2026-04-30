@@ -9,8 +9,6 @@ interface PlantCatalogHeaderProps {
 
 const PlantCatalogHeader = ({
   isHomepage = false,
-  totalPlants,
-  categoryCount,
 }: PlantCatalogHeaderProps) => {
   if (isHomepage) {
     return (

@@ -26,7 +26,7 @@ import { getOptimizedImageUrls } from '@/utils/plants/imageOptimization';
 interface JournalEntryCardProps {
   entry: JournalEntry;
   onDelete: (entryId: string) => Promise<void>;
-  onEdit: (entry: JournalEntry) => void;
+  onEdit?: (entry: JournalEntry) => void;
   isDeleting?: boolean;
 }
 
@@ -74,7 +74,7 @@ export function JournalEntryCard({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem
-                  onClick={() => onEdit(entry)}
+                  onClick={() => onEdit?.(entry)}
                 >
                   <Pencil className="w-4 h-4 mr-2" />
                   Edit Entry

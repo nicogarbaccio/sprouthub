@@ -7,7 +7,7 @@ interface JournalEntryListProps {
   entries: JournalEntry[];
   isLoading?: boolean;
   onDeleteEntry: (entryId: string) => Promise<void>;
-  onEditEntry: (entry: JournalEntry) => void;
+  onEditEntry?: (entry: JournalEntry) => void;
   deleteLoadingEntries: Set<string>;
 }
 
