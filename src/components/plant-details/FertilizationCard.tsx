@@ -3,8 +3,15 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { FlaskConical, ChevronDown, AlertTriangle, Info, CheckCircle2, BookOpen, BellOff } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { FlaskConical, ChevronDown, AlertTriangle, Info, CheckCircle2, BookOpen, BellOff, CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 import type { UserPlant } from "@/hooks/useUserPlants";
 import type { CatalogPlant } from "@/data/types";
 import {
@@ -17,7 +24,7 @@ import { supabase } from "@/integrations/supabase/client";
 interface FertilizationCardProps {
   plant: UserPlant;
   catalogPlant: CatalogPlant | undefined;
-  onLogFertilization: () => Promise<void>;
+  onLogFertilization: (date?: Date) => Promise<void>;
   onAddJournalEntry: (title: string, content: string) => Promise<void>;
 }
 
@@ -40,6 +47,7 @@ const FertilizationCard = ({
   const [isSavingNote, setIsSavingNote] = useState(false);
   const [noteSaved, setNoteSaved] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
+  const [fertilizationDate, setFertilizationDate] = useState<Date>(new Date());
 
   const key = seasonKey();
   const lsKey = `fertilization_dismissed_${key}_${plant.id}`;
@@ -95,7 +103,7 @@ const FertilizationCard = ({
   const handleLogFertilization = async () => {
     setIsLogging(true);
     try {
-      await onLogFertilization();
+      await onLogFertilization(fertilizationDate);
       setJustLogged(true);
       setNoteText("");
       setNoteSaved(false);
@@ -298,6 +306,29 @@ const FertilizationCard = ({
             </div>
           ) : (
             <div className="space-y-2">
+              <div className="space-y-1.5">
+                <p className="text-xs font-medium text-muted-foreground">Date</p>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start text-left font-normal text-sm"
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {format(fertilizationDate, 'PPP')}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={fertilizationDate}
+                      onSelect={(date) => date && setFertilizationDate(date)}
+                      disabled={(date) => date > new Date()}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
               <Button
                 onClick={handleLogFertilization}
                 disabled={!status.isGrowingSeason || isLogging}

@@ -7,6 +7,7 @@ interface JournalEntryListProps {
   entries: JournalEntry[];
   isLoading?: boolean;
   onDeleteEntry: (entryId: string) => Promise<void>;
+  onEditEntry: (entry: JournalEntry) => void;
   deleteLoadingEntries: Set<string>;
 }
 
@@ -14,6 +15,7 @@ export function JournalEntryList({
   entries,
   isLoading = false,
   onDeleteEntry,
+  onEditEntry,
   deleteLoadingEntries,
 }: JournalEntryListProps) {
   if (isLoading) {
@@ -59,6 +61,7 @@ export function JournalEntryList({
           key={entry.id}
           entry={entry}
           onDelete={onDeleteEntry}
+          onEdit={onEditEntry}
           isDeleting={deleteLoadingEntries.has(entry.id)}
         />
       ))}

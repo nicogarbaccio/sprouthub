@@ -75,6 +75,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({
    size="sm"
    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
    onClick={() => setShowPassword((v) => !v)}
+   aria-label={showPassword ? "Hide password" : "Show password"}
    >
    {showPassword ? (
     <EyeOff className="h-4 w-4" />

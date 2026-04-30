@@ -3,11 +3,15 @@ import {
   Plus,
   Droplets,
   Home,
+  Leaf,
   ListChecks,
   Search,
   X,
+  AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PageHero } from "@/components/ui/page-hero";
+import type { PageHeroStat } from "@/components/ui/page-hero";
 import { Skeleton, SearchFilterBarSkeleton, RoomSectionSkeleton } from "@/components/ui/skeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { PullToRefresh } from "@/components/ui/pull-to-refresh";
@@ -19,12 +23,6 @@ import WateringHistoryDialog from "./WateringHistoryDialog";
 import { useUserPlants, UserPlant } from "@/hooks/useUserPlants";
 import { useAuth } from "@/contexts/AuthContext";
 import { groupPlantsByRoom } from "@/utils/rooms";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import {
   calculateWateringSchedule,
   getNextWateringDate as getNextWateringDateUtil,
@@ -192,12 +190,7 @@ const MyPlantsCollectionContent = () => {
     { overdueCount: 0, dueToday: 0, unknownWateringCount: 0 }
   );
 
-  const { overdueCount, dueToday, unknownWateringCount } = plantStats;
-
-  const overwateringCount = plants.filter((p) => {
-    const risk = overwateringByPlantId[p.id];
-    return risk && risk.level !== "none";
-  }).length;
+  const { overdueCount, dueToday } = plantStats;
 
   // Room statistics
   const roomGroups = groupPlantsByRoom(filteredPlants);
@@ -363,100 +356,41 @@ const MyPlantsCollectionContent = () => {
         >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <CascadingContainer delay={0}>
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-12">
-            <div>
-              <h2
-                data-testid="collection-header"
-                className="text-3xl md:text-4xl font-semibold text-foreground mb-4"
-              >
+          <PageHero
+            icon={Leaf}
+            title={
+              <h2 data-testid="collection-header" className="text-2xl sm:text-3xl font-bold text-white">
                 My Plant Collection
               </h2>
-              <div
-                data-testid="collection-stats"
-                className="flex flex-wrap gap-4 text-sm"
-              >
-                <span
-                  data-testid="plants-total-badge"
-                  className="bg-sprout-medium text-white px-3 py-1 rounded-full"
+            }
+            subtitle="Your personal plant care dashboard"
+            stats={[
+              { icon: Leaf, label: "plants", value: plants.length },
+              ...(roomCount > 0 ? [{ icon: Home, label: `room${roomCount !== 1 ? "s" : ""}`, value: roomCount } as PageHeroStat] : []),
+              ...(overdueCount > 0 ? [{ icon: AlertTriangle, label: "overdue", value: overdueCount, variant: "warning" as const }] : []),
+              ...(dueToday > 0 ? [{ icon: Droplets, label: "due today", value: dueToday, variant: "info" as const }] : []),
+            ]}
+            actions={
+              <>
+                <Button
+                  variant="outline"
+                  onClick={enterSelectionMode}
+                  className="rounded-xl font-medium bg-white/10 border-white/20 text-white hover:bg-white/20 hover:text-white"
                 >
-                  {plants.length} plants total
-                </span>
-                {roomCount > 0 && (
-                  <span
-                    data-testid="room-count-badge"
-                    className="bg-sprout-water text-white px-3 py-1 rounded-full"
-                  >
-                    {roomCount} room{roomCount !== 1 ? "s" : ""}
-                  </span>
-                )}
-                {overdueCount > 0 && (
-                  <span
-                    data-testid="overdue-count-badge"
-                    className="bg-sprout-error text-white px-3 py-1 rounded-full"
-                  >
-                    {overdueCount} overdue
-                  </span>
-                )}
-                {dueToday > 0 && (
-                  <span
-                    data-testid="due-today-badge"
-                    className="bg-sprout-warning text-white px-3 py-1 rounded-full"
-                  >
-                    {dueToday} due today
-                  </span>
-                )}
-                {unknownWateringCount > 0 && (
-                  <span
-                    data-testid="unknown-schedule-badge"
-                    className="bg-neutral-light text-neutral-dark px-3 py-1 rounded-full"
-                  >
-                    {unknownWateringCount} unknown schedule
-                  </span>
-                )}
-                {overwateringCount > 0 && (
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <span
-                          data-testid="overwatering-risk-badge"
-                          className="bg-red-100 text-red-700 px-3 py-1 rounded-full cursor-help"
-                        >
-                          {overwateringCount} overwatering risk
-                        </span>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="max-w-xs">
-                          We flag possible overwatering when a plant is watered
-                          2+ times within its suggested window (e.g., 7 days),
-                          or when the average interval is less than half the
-                          suggested days.
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                )}
-              </div>
-            </div>
-
-            <div className="flex gap-2 mt-4 md:mt-0">
-              <Button
-                variant="outline"
-                onClick={enterSelectionMode}
-                className="rounded-xl font-medium"
-              >
-                <ListChecks className="w-4 h-4 mr-2" />
-                Select
-              </Button>
-              <Button
-                data-testid="add-plant-button"
-                onClick={handleAddPlant}
-                className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-xl font-medium"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add New Plant
-              </Button>
-            </div>
-          </div>
+                  <ListChecks className="w-4 h-4 mr-2" />
+                  Select
+                </Button>
+                <Button
+                  data-testid="add-plant-button"
+                  onClick={handleAddPlant}
+                  className="bg-white text-sprout-dark hover:bg-sprout-pale font-semibold shadow-lg shadow-black/10 rounded-xl"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add New Plant
+                </Button>
+              </>
+            }
+          />
         </CascadingContainer>
 
         {/* Search and Filter Bar */}

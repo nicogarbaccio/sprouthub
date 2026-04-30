@@ -14,6 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { LoadingTransition } from "@/components/ui/loading-transition";
 import { FeatureErrorBoundary } from "@/components/ui/feature-error-boundary";
+import { PageHero } from "@/components/ui/page-hero";
 
 const SettingsContent = () => {
   const { user, loading } = useAuth();
@@ -44,12 +45,11 @@ const SettingsContent = () => {
         <LoadingTransition loading={loading} skeleton={settingsSkeleton}>
         <div className="max-w-5xl mx-auto">
           <CascadingContainer delay={0}>
-            <div className="mb-8">
-              <h1 className="text-4xl font-bold text-foreground mb-2">Settings</h1>
-              <p className="text-muted-foreground">
-                Manage your account, preferences, and application settings
-              </p>
-            </div>
+            <PageHero
+              icon={Sliders}
+              title="Settings"
+              subtitle="Manage your account, preferences, and application settings"
+            />
           </CascadingContainer>
 
           <CascadingContainer delay={100}>

@@ -14,6 +14,7 @@ import { useSwipe, useHaptic } from "@/hooks/use-touch";
 import { cn } from "@/lib/utils";
 import PlantImage from "@/components/ui/plant-image";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
+import { ImageExpandButton } from "@/components/ui/image-expand-button";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
 import { shouldShowOverwateringWarning } from "@/utils/plants/overwatering";
 
@@ -217,21 +218,17 @@ export function MobilePlantCard({
             {/* Plant Image */}
             <div className="flex-shrink-0">
               <div
-                className="w-16 h-16 rounded-lg bg-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow duration-200"
-                onClick={() => plant.image_url && setShowFullscreenImage(true)}
+                className="relative w-16 h-16 rounded-lg bg-gray-100 overflow-hidden cursor-pointer hover:shadow-md transition-shadow duration-200 group"
+                onClick={() => onView?.(plant.id)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
-                  if ((e.key === "Enter" || e.key === " ") && plant.image_url) {
+                  if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
-                    setShowFullscreenImage(true);
+                    onView?.(plant.id);
                   }
                 }}
-                aria-label={
-                  plant.image_url
-                    ? `View ${plant.name} image in fullscreen`
-                    : undefined
-                }
+                aria-label={`View ${plant.name} details`}
               >
                 {plant.image_url ? (
                   <PlantImage
@@ -243,6 +240,12 @@ export function MobilePlantCard({
                   <div className="w-full h-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
                     <Sun className="w-8 h-8 text-green-500" />
                   </div>
+                )}
+                {plant.image_url && (
+                  <ImageExpandButton
+                    onExpand={() => setShowFullscreenImage(true)}
+                    className="p-0.5 bottom-1 right-1 [&_svg]:w-2.5 [&_svg]:h-2.5"
+                  />
                 )}
               </div>
             </div>

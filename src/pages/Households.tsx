@@ -163,7 +163,7 @@ const Households = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {households.map((household, index) => (
               <CascadingContainer key={household.id} delay={200 + index * 100}>
-                <Card className="group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden border-0 shadow-md">
+                <Card data-testid="household-card" className="group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden border-0 shadow-md">
                   {/* Card accent bar */}
                   <div className="h-1.5 bg-gradient-to-r from-sprout-primary via-sprout-medium to-sprout-light" />
 

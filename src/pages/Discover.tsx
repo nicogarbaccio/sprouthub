@@ -4,7 +4,9 @@ import { Leaf, Search, Sun, Snowflake, CloudRain, Flower, X, Loader2 } from 'luc
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { CascadingContainer } from '@/components/ui/cascading-container';
+import { LoadingTransition } from '@/components/ui/loading-transition';
 import { Skeleton } from '@/components/ui/skeleton';
+import { PageHero } from '@/components/ui/page-hero';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -54,11 +56,50 @@ const BlogPostCardSkeleton = () => (
   </div>
 );
 
-const CarouselSkeleton = () => (
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-    {Array.from({ length: 3 }).map((_, i) => (
-      <BlogPostCardSkeleton key={i} />
-    ))}
+const DiscoverSkeleton = () => (
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+    {/* Header */}
+    <div className="space-y-2">
+      <Skeleton className="h-8 w-40" />
+      <Skeleton className="h-6 w-96 max-w-full" />
+    </div>
+    {/* Seasonal section */}
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <Skeleton className="h-5 w-5 rounded" />
+        <Skeleton className="h-5 w-40" />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <BlogPostCardSkeleton key={i} />
+        ))}
+      </div>
+    </div>
+    {/* General section */}
+    <div className="space-y-4">
+      <div className="flex items-center gap-2">
+        <Skeleton className="h-5 w-5 rounded" />
+        <Skeleton className="h-5 w-36" />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <BlogPostCardSkeleton key={`g-${i}`} />
+        ))}
+      </div>
+    </div>
+    {/* Browse by Plant section */}
+    <div className="rounded-xl border bg-card p-6 space-y-4">
+      <div className="flex items-center gap-2">
+        <Skeleton className="h-5 w-5 rounded" />
+        <Skeleton className="h-5 w-36" />
+      </div>
+      <Skeleton className="h-10 w-full max-w-md rounded-md" />
+      <div className="flex flex-wrap gap-2">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <Skeleton key={i} className="h-6 w-20 rounded-full" />
+        ))}
+      </div>
+    </div>
   </div>
 );
 
@@ -87,6 +128,10 @@ const Discover = () => {
   const { data: plantPosts, isLoading: plantSearchLoading } = usePlantBlogPosts(
     debouncedSearch || undefined
   );
+
+  // Gate the page on the two always-visible sections so we crossfade once
+  // instead of showing skeletons that independently pop to content.
+  const pageLoading = seasonalLoading || generalLoading;
 
   // Debounce plant search
   const handleSearchChange = (value: string) => {
@@ -121,23 +166,23 @@ const Discover = () => {
   return (
     <div className="min-h-dvh bg-background pb-28 lg:pb-0" data-testid="discover-page">
       <Navigation />
+      <LoadingTransition loading={pageLoading} skeleton={<DiscoverSkeleton />}>
       <main>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
           {/* Page Header */}
           <CascadingContainer delay={0}>
-            <div className="space-y-2">
-              <h1 className="text-2xl md:text-3xl font-semibold text-foreground">Discover</h1>
-              <p className="text-muted-foreground text-lg max-w-2xl">
-                Curated plant care articles from trusted gardening sources, updated weekly.
-              </p>
-            </div>
+            <PageHero
+              icon={SeasonIcon}
+              title="Discover"
+              subtitle="Curated plant care articles from trusted gardening sources, updated weekly."
+            />
           </CascadingContainer>
 
           {/* Seasonal Spotlight */}
           <CascadingContainer delay={100}>
             <div className="space-y-4">
               <div className="flex items-center gap-2" data-testid="seasonal-section">
-                <SeasonIcon className={`h-5 w-5 ${seasonConfig.color}`} />
+                <div className="p-2 rounded-xl bg-sprout-success/10"><SeasonIcon className={`h-5 w-5 ${seasonConfig.color}`} /></div>
                 <h2 className="text-lg font-semibold">{seasonConfig.label} Plant Care</h2>
                 {seasonalPosts && seasonalPosts.length >= 4 && (
                   <Link
@@ -149,9 +194,7 @@ const Discover = () => {
                 )}
               </div>
 
-              {seasonalLoading ? (
-                <CarouselSkeleton />
-              ) : seasonalPosts && seasonalPosts.length > 0 ? (
+              {seasonalPosts && seasonalPosts.length > 0 ? (
                 <Carousel opts={{ align: 'start', loop: false }} className="w-full">
                   <CarouselContent className="-ml-3">
                     {seasonalPosts.map((post) => (
@@ -189,7 +232,7 @@ const Discover = () => {
           <CascadingContainer delay={user && myPlantNames.length > 0 ? 300 : 200}>
             <div className="space-y-4">
               <div className="flex items-center gap-2" data-testid="general-section">
-                <Leaf className="h-5 w-5 text-primary" />
+                <div className="p-2 rounded-xl bg-sprout-primary/10"><Leaf className="h-5 w-5 text-primary" /></div>
                 <h2 className="text-lg font-semibold">Plant Care Tips</h2>
                 {generalPosts && generalPosts.length >= 4 && (
                   <Link
@@ -201,9 +244,7 @@ const Discover = () => {
                 )}
               </div>
 
-              {generalLoading ? (
-                <CarouselSkeleton />
-              ) : generalPosts && generalPosts.length > 0 ? (
+              {generalPosts && generalPosts.length > 0 ? (
                 <Carousel opts={{ align: 'start', loop: false }} className="w-full">
                   <CarouselContent className="-ml-3">
                     {generalPosts.map((post) => (
@@ -232,9 +273,11 @@ const Discover = () => {
 
           {/* Browse by Plant */}
           <CascadingContainer delay={user && myPlantNames.length > 0 ? 400 : 300}>
-            <div className="rounded-xl border bg-card p-6 space-y-4" data-testid="browse-by-plant-section">
+            <div className="rounded-xl border-0 bg-card shadow-md overflow-hidden" data-testid="browse-by-plant-section">
+              <div className="h-1 bg-gradient-to-r from-sprout-water via-sprout-success to-sprout-medium" />
+              <div className="p-6 space-y-4">
               <div className="flex items-center gap-2">
-                <Search className="h-5 w-5 text-primary" />
+                <div className="p-2 rounded-xl bg-sprout-primary/10"><Search className="h-5 w-5 text-sprout-primary" /></div>
                 <h2 className="text-lg font-semibold">Browse by Plant</h2>
                 {debouncedSearch && plantPosts && plantPosts.length >= 4 && (
                   <Link
@@ -308,10 +351,12 @@ const Discover = () => {
                   </p>
                 )
               ) : null}
+              </div>
             </div>
           </CascadingContainer>
         </div>
       </main>
+      </LoadingTransition>
       <Footer />
     </div>
   );

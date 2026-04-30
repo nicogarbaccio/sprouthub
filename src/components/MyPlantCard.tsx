@@ -28,6 +28,7 @@ import {
 import { getBadgeInfo, getStatusColor, getStatusText } from "@/components/plant-card/PlantCardBadgeUtils";
 import { PlantCardActions } from "@/components/plant-card/PlantCardActions";
 import { PlantCardDialogs } from "@/components/plant-card/PlantCardDialogs";
+import { ImageExpandButton } from "@/components/ui/image-expand-button";
 
 interface MyPlantCardProps {
   id: string;
@@ -243,7 +244,7 @@ const MyPlantCard = ({
     if (isSelectionMode) {
       togglePlantSelection(id);
     } else {
-      setShowFullscreenImage(true);
+      navigate(`/my-plants/${id}`);
     }
   };
 
@@ -251,7 +252,7 @@ const MyPlantCard = ({
     <>
       <div
         className={cn(
-          "relative bg-card border rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden",
+          "relative bg-card border-0 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 overflow-hidden",
           isSelectionMode && "cursor-pointer",
           isSelected && "ring-2 ring-sprout-primary border-sprout-primary"
         )}
@@ -276,7 +277,7 @@ const MyPlantCard = ({
 
         {/* Image Section with Badges */}
         <div
-          className="cursor-pointer relative"
+          className="cursor-pointer relative group"
           onClick={!isSelectionMode ? handleCardClick : undefined}
         >
           <PlantImage
@@ -358,6 +359,10 @@ const MyPlantCard = ({
               </div>
             );
           })()}
+
+          {!isSelectionMode && (
+            <ImageExpandButton onExpand={() => setShowFullscreenImage(true)} />
+          )}
         </div>
 
         {/* Card Content */}

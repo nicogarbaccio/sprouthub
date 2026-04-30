@@ -48,21 +48,30 @@ export function RepottingDialog({
   const handleClose = () => {
     // Reset to advice view so it's fresh next time
     setView('advice');
+    setIsSubmitting(false);
     onClose();
   };
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleLogSubmit = async (formData: JournalEntryFormData) => {
-    const success = await addJournalEntry(
-      plantId,
-      formData.title,
-      formData.content,
-      formData.mood,
-      formData.images,
-      formData.entryDate,
-      formData.relatedWateringRecordId
-    );
-    if (success) {
-      setView('success');
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      const success = await addJournalEntry(
+        plantId,
+        formData.title,
+        formData.content,
+        formData.mood,
+        formData.images,
+        formData.entryDate,
+        formData.relatedWateringRecordId
+      );
+      if (success) {
+        setView('success');
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -102,7 +111,7 @@ export function RepottingDialog({
           {view === 'log' && (
             <LogView
               plantId={plantId}
-              isLoading={isLoading}
+              isLoading={isLoading || isSubmitting}
               onSubmit={handleLogSubmit}
               onBack={() => setView('advice')}
             />

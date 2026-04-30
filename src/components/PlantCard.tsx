@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Droplets, Sun, Plus, Eye, LogIn } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
+import { ImageExpandButton } from "@/components/ui/image-expand-button";
 
 interface PlantCardProps {
   name: string;
@@ -49,22 +50,22 @@ const PlantCard = ({
 
   return (
     <div
-      className="bg-card rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group border border-border"
+      className="bg-card rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 overflow-hidden group border-0"
       data-testid="plant-card"
     >
       <div className="relative">
         <div
           className="cursor-pointer group"
-          onClick={() => setShowFullscreenImage(true)}
+          onClick={() => onViewDetails?.()}
           role="button"
           tabIndex={0}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
-              setShowFullscreenImage(true);
+              onViewDetails?.();
             }
           }}
-          aria-label={`View ${name} image in fullscreen`}
+          aria-label={`View ${name} details`}
         >
           <PlantImage
             src={image}
@@ -72,6 +73,7 @@ const PlantCard = ({
             className="w-full h-56"
             imageClassName="object-cover"
           />
+          <ImageExpandButton onExpand={() => setShowFullscreenImage(true)} />
         </div>
         <div className="absolute top-3 right-3">
           <span

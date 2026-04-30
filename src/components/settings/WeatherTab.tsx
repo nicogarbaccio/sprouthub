@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Card,
   CardContent,
@@ -34,6 +34,7 @@ export const WeatherTab = () => {
   const [isGeocodingLocation, setIsGeocodingLocation] = useState(false);
   const [geocodingError, setGeocodingError] = useState<string | null>(null);
   const [hasChanges, setHasChanges] = useState(false);
+  const userEditedRef = useRef(false);
 
   const location = useLocation({
     autoRequest: false,
@@ -47,9 +48,9 @@ export const WeatherTab = () => {
     autoFetch: useWeather && !!effectiveLocation,
   });
 
-  // Initialize from preferences
+  // Initialize from preferences — skip if user has unsaved changes
   useEffect(() => {
-    if (preferences) {
+    if (preferences && !userEditedRef.current) {
       setUseWeather(preferences.use_weather_data ?? false);
       setTemperatureUnit(preferences.temperature_unit ?? "F");
       setManualLocation(preferences.manual_location || "");
@@ -64,6 +65,7 @@ export const WeatherTab = () => {
         temperatureUnit !== preferences.temperature_unit ||
         manualLocation !== (preferences.manual_location || "");
       setHasChanges(changed);
+      if (changed) userEditedRef.current = true;
     }
   }, [useWeather, temperatureUnit, manualLocation, preferences]);
 
@@ -142,6 +144,7 @@ export const WeatherTab = () => {
         });
       }
       setHasChanges(false);
+      userEditedRef.current = false;
     }
   };
 

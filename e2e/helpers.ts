@@ -1,5 +1,14 @@
 import { createClient } from '@supabase/supabase-js';
-import { expect, type Page } from '@playwright/test';
+import { expect, type Page, type Locator } from '@playwright/test';
+
+// ── Toast helper ──────────────────────────────────────────────────────
+/**
+ * Returns a locator for a toast notification matching the given text.
+ * Works with Sonner toasts which render with role="status".
+ */
+export function getToast(page: Page, text: string | RegExp): Locator {
+  return page.getByRole('status').filter({ hasText: text });
+}
 
 // ── Sign-up helper used by onboarding tests ────────────────────────────
 
@@ -162,3 +171,53 @@ export const deleteAllPlantsForUser = async (userEmail: string) => {
   }
 };
 
+/**
+ * Delete journal entries by title pattern (useful for test cleanup)
+ * @param titlePattern - Pattern to match entry titles (supports SQL LIKE syntax)
+ * @param userEmail - Email of the user whose entries to delete
+ */
+export const deleteJournalEntriesByPattern = async (titlePattern: string, userEmail: string) => {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    console.warn('Skipping journal entry cleanup - no admin client available.');
+    return;
+  }
+
+  try {
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('email', userEmail)
+      .single();
+
+    if (profileError || !profile) {
+      console.warn(`User profile not found for email: ${userEmail}`, profileError);
+      return;
+    }
+
+    // Get user's plants to find their journal entries
+    const { data: plants } = await supabase
+      .from('user_plants')
+      .select('id')
+      .eq('user_id', profile.id);
+
+    if (!plants || plants.length === 0) return;
+
+    const plantIds = plants.map((p) => p.id);
+
+    const { data: deleted, error: deleteError } = await supabase
+      .from('plant_journal_entries')
+      .delete()
+      .in('plant_id', plantIds)
+      .like('title', titlePattern)
+      .select();
+
+    if (deleteError) {
+      console.error('Error deleting journal entries:', deleteError);
+    } else if (deleted && deleted.length > 0) {
+      console.log(`Deleted ${deleted.length} journal entry/entries matching pattern: ${titlePattern}`);
+    }
+  } catch (error) {
+    console.error('Unexpected error during journal entry cleanup:', error);
+  }
+};

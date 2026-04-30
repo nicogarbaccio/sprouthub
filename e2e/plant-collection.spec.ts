@@ -52,7 +52,7 @@ test.describe('Plant Collection - Add Plants', () => {
     await page.getByTestId('plant-type-trigger').click();
 
     // Click on "Snake Plant" from the dropdown (not from the existing plant cards)
-    await page.locator('.plant-type-dropdown div.cursor-pointer').filter({ hasText: /^Snake Plant$/ }).click();
+    await page.getByRole('option', { name: 'Snake Plant' }).click();
 
     // Submit form
     await page.getByTestId('add-plant-submit-button').click();
@@ -79,7 +79,7 @@ test.describe('Plant Collection - Add Plants', () => {
     await page.getByTestId('plant-type-search-input').fill('Pothos');
 
     // Click on the search result in the dropdown (use the div container)
-    await page.locator('.plant-type-dropdown div.cursor-pointer').filter({ hasText: /^Pothos$/ }).click();
+    await page.getByRole('option', { name: 'Pothos' }).click();
 
     // Submit
     await page.getByTestId('add-plant-submit-button').click();

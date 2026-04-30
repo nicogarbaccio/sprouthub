@@ -274,7 +274,11 @@ const PlantCatalog = ({
    </p>
    </div>
   ) : (
-   <PlantCatalogHeader />
+   <PlantCatalogHeader
+    isHomepage={isHomepage}
+    totalPlants={plantsToUse.length}
+    categoryCount={categories.length}
+   />
   )}
 
   {!isHomepage && (

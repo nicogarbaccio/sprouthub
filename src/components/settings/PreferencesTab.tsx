@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Card,
   CardContent,
@@ -40,9 +40,10 @@ export const PreferencesTab = () => {
   });
 
   const [hasChanges, setHasChanges] = useState(false);
+  const userEditedRef = useRef(false);
 
   useEffect(() => {
-    if (preferences) {
+    if (preferences && !userEditedRef.current) {
       setFormData({
         default_light_level: preferences.default_light_level,
         default_temperature: preferences.default_temperature,
@@ -65,12 +66,14 @@ export const PreferencesTab = () => {
         formData.default_soil_type !== preferences.default_soil_type ||
         formData.location !== (preferences.location || "");
       setHasChanges(changed);
+      if (changed) userEditedRef.current = true;
     }
   }, [formData, preferences]);
 
   const handleSave = async () => {
     await savePreferences(formData);
     setHasChanges(false);
+    userEditedRef.current = false;
   };
 
   const handleClear = async () => {
@@ -85,6 +88,7 @@ export const PreferencesTab = () => {
         location: "",
       });
       setHasChanges(false);
+      userEditedRef.current = false;
     }
   };
 

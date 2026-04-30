@@ -34,6 +34,8 @@ import { AnalyticsSkeleton } from '@/components/ui/skeleton';
 import { CascadingContainer } from '@/components/ui/cascading-container';
 import { LoadingTransition } from '@/components/ui/loading-transition';
 import { FeatureErrorBoundary } from '@/components/ui/feature-error-boundary';
+import { PageHero } from '@/components/ui/page-hero';
+import { Leaf } from 'lucide-react';
 
 const AnalyticsContent = () => {
   const { user, loading: authLoading } = useAuth();
@@ -87,21 +89,22 @@ const AnalyticsContent = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <CascadingContainer delay={100}>
-            <div className="mb-6">
-              <div className="flex items-center gap-3 mb-2">
-                <BarChart3 className="h-8 w-8 text-sprout-primary" />
-                <h1 className="text-3xl font-bold text-foreground">Plant Care Analytics</h1>
-              </div>
-              <p className="text-muted-foreground">
-                Track your plant care performance and identify trends
-              </p>
-            </div>
+            <PageHero
+              icon={BarChart3}
+              title="Plant Care Analytics"
+              subtitle="Track your plant care performance and identify trends"
+              stats={[
+                { icon: Leaf, label: "plants", value: plants.length },
+                { icon: Droplets, label: "waterings", value: wateringStats.totalWaterings },
+                ...(wateringStats.streak > 0 ? [{ icon: Award, label: "day streak", value: wateringStats.streak }] : []),
+              ]}
+            />
           </CascadingContainer>
 
           {/* Insights Banner */}
           {insights.length > 0 && (
             <CascadingContainer delay={150}>
-              <Card className="mb-6 border-blue-200 bg-blue-50 dark:bg-blue-950/20 dark:border-blue-900">
+              <Card className="mb-6 border-0 shadow-md overflow-hidden bg-blue-50 dark:bg-blue-950/20">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium flex items-center gap-2">
                     <TrendingUp className="h-4 w-4" />
@@ -127,7 +130,8 @@ const AnalyticsContent = () => {
           {/* Watering Stats Cards */}
           <CascadingContainer delay={200}>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-              <Card>
+              <Card className="border-0 shadow-md overflow-hidden">
+                <div className="h-1 bg-gradient-to-r from-sprout-water via-sprout-success to-sprout-medium" />
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                     <Droplets className="h-4 w-4" />
@@ -142,7 +146,8 @@ const AnalyticsContent = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-0 shadow-md overflow-hidden">
+                <div className="h-1 bg-gradient-to-r from-sprout-water via-sprout-success to-sprout-medium" />
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
@@ -157,7 +162,8 @@ const AnalyticsContent = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-0 shadow-md overflow-hidden">
+                <div className="h-1 bg-gradient-to-r from-sprout-water via-sprout-success to-sprout-medium" />
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                     <Award className="h-4 w-4" />
@@ -172,7 +178,8 @@ const AnalyticsContent = () => {
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="border-0 shadow-md overflow-hidden">
+                <div className="h-1 bg-gradient-to-r from-sprout-water via-sprout-success to-sprout-medium" />
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                     <Target className="h-4 w-4" />
@@ -191,10 +198,11 @@ const AnalyticsContent = () => {
 
           {/* Plant Health Overview */}
           <CascadingContainer delay={250}>
-            <Card className="mb-6">
+            <Card className="mb-6 border-0 shadow-md overflow-hidden">
+              <div className="h-1 bg-gradient-to-r from-sprout-water via-sprout-success to-sprout-medium" />
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Heart className="h-5 w-5" />
+                  <div className="p-2 rounded-xl bg-red-500/10"><Heart className="h-5 w-5 text-red-500" /></div>
                   Plant Health Overview
                 </CardTitle>
                 <CardDescription>
@@ -297,10 +305,11 @@ const AnalyticsContent = () => {
 
           {/* Fertilization Status */}
           <CascadingContainer delay={275}>
-            <Card className="mb-6">
+            <Card className="mb-6 border-0 shadow-md overflow-hidden">
+              <div className="h-1 bg-gradient-to-r from-sprout-primary via-sprout-medium to-sprout-light" />
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <FlaskConical className="h-5 w-5" />
+                  <div className="p-2 rounded-xl bg-sprout-primary/10"><FlaskConical className="h-5 w-5 text-sprout-primary" /></div>
                   Fertilization Status
                 </CardTitle>
                 <CardDescription>
@@ -372,9 +381,13 @@ const AnalyticsContent = () => {
 
           {/* Watering by Day of Week */}
           <CascadingContainer delay={300}>
-            <Card className="mb-6">
+            <Card className="mb-6 border-0 shadow-md overflow-hidden">
+              <div className="h-1 bg-gradient-to-r from-sprout-water via-sprout-success to-sprout-medium" />
               <CardHeader>
-                <CardTitle>Watering Activity by Day</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <div className="p-2 rounded-xl bg-sprout-water/10"><Calendar className="h-5 w-5 text-sprout-water" /></div>
+                  Watering Activity by Day
+                </CardTitle>
                 <CardDescription>
                   Which days you water most — last 90 days
                 </CardDescription>
@@ -409,10 +422,11 @@ const AnalyticsContent = () => {
 
           {/* Seasonal Schedule History */}
           <CascadingContainer delay={325}>
-            <Card className="mb-6">
+            <Card className="mb-6 border-0 shadow-md overflow-hidden">
+              <div className="h-1 bg-gradient-to-r from-sprout-primary via-sprout-medium to-sprout-light" />
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <CalendarRange className="h-5 w-5" />
+                  <div className="p-2 rounded-xl bg-sprout-medium/10"><CalendarRange className="h-5 w-5 text-sprout-medium" /></div>
                   Seasonal Schedule History
                 </CardTitle>
                 <CardDescription>
@@ -499,10 +513,12 @@ const AnalyticsContent = () => {
 
           {/* Plant Performance Table */}
           <CascadingContainer delay={350}>
-            <Card>
+            <Card className="border-0 shadow-md overflow-hidden">
+              <div className="h-1 bg-gradient-to-r from-sprout-water via-sprout-success to-sprout-medium" />
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span aria-hidden>🌱</span> Plant Performance
+                  <div className="p-2 rounded-xl bg-sprout-success/10"><Leaf className="h-5 w-5 text-sprout-success" /></div>
+                  Plant Performance
                 </CardTitle>
                 <CardDescription>
                   Care scores based on watering consistency over the last 90 days

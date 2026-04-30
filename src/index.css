@@ -25,7 +25,7 @@
     --secondary-foreground: 120 8% 24%; /* neutral-dark */
 
     --muted: 120 20% 95%; /* sprout-pale */
-    --muted-foreground: 120 4% 62%; /* neutral-medium #9ca39c converted to HSL */
+    --muted-foreground: 120 4% 46%; /* neutral-medium, darkened for readability */
 
     --accent: 120 20% 95%; /* sprout-pale */
     --accent-foreground: 120 8% 24%; /* neutral-dark */

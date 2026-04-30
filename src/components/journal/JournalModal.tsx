@@ -12,6 +12,7 @@ import { JournalEntryForm } from "./JournalEntryForm";
 import { JournalEntryList } from "./JournalEntryList";
 import { useJournalEntries } from "@/hooks/useJournalEntries";
 import { useWateringRecords } from "@/hooks/useWateringRecords";
+import { JournalEntry, type PlantMood } from "@/types/journalTypes";
 
 interface JournalModalProps {
   isOpen: boolean;
@@ -29,6 +30,7 @@ export const JournalModal = ({
   prefetch = false,
 }: JournalModalProps) => {
   const [showForm, setShowForm] = useState(false);
+  const [editingEntry, setEditingEntry] = useState<JournalEntry | null>(null);
   const [hasLoadedInitially, setHasLoadedInitially] = useState(false);
   const {
     entries,
@@ -36,6 +38,7 @@ export const JournalModal = ({
     getJournalStats,
     loadJournalEntries,
     addJournalEntry,
+    updateJournalEntry,
     deleteJournalEntry,
     deleteLoadingEntries
   } = useJournalEntries();
@@ -64,16 +67,24 @@ export const JournalModal = ({
   React.useEffect(() => {
     if (!isOpen) {
       setShowForm(false);
+      setEditingEntry(null);
     }
   }, [isOpen]);
 
   const handleFormSuccess = async () => {
     await loadJournalEntries(plantId);
     setShowForm(false);
+    setEditingEntry(null);
+  };
+
+  const handleEditEntry = (entry: JournalEntry) => {
+    setEditingEntry(entry);
+    setShowForm(true);
   };
 
   const handleClose = () => {
     setShowForm(false);
+    setEditingEntry(null);
     onClose();
   };
 
@@ -120,6 +131,7 @@ export const JournalModal = ({
                 onDeleteEntry={async (entryId) => {
                   await deleteJournalEntry(entryId);
                 }}
+                onEditEntry={handleEditEntry}
                 deleteLoadingEntries={deleteLoadingEntries}
               />
             </div>
@@ -129,18 +141,40 @@ export const JournalModal = ({
                 plantId={plantId}
                 wateringRecords={wateringRecords}
                 isLoadingWateringRecords={isLoadingWateringRecords}
+                submitButtonText={editingEntry ? 'Save Changes' : 'Add Entry'}
+                initialData={editingEntry ? {
+                  title: editingEntry.title ?? '',
+                  content: editingEntry.content ?? '',
+                  mood: (editingEntry.mood as PlantMood) ?? null,
+                  entryDate: editingEntry.entry_date ? new Date(editingEntry.entry_date) : new Date(),
+                } : undefined}
                 onSubmit={async (formData) => {
-                  const success = await addJournalEntry(
-                    plantId,
-                    formData.title,
-                    formData.content,
-                    formData.mood,
-                    formData.images,
-                    formData.entryDate,
-                    formData.relatedWateringRecordId
-                  );
-                  if (success) {
-                    await handleFormSuccess();
+                  if (editingEntry) {
+                    const success = await updateJournalEntry(
+                      editingEntry.id,
+                      formData.title,
+                      formData.content,
+                      formData.mood,
+                      formData.images,
+                      editingEntry.images ?? [],
+                      formData.entryDate,
+                    );
+                    if (success) {
+                      await handleFormSuccess();
+                    }
+                  } else {
+                    const success = await addJournalEntry(
+                      plantId,
+                      formData.title,
+                      formData.content,
+                      formData.mood,
+                      formData.images,
+                      formData.entryDate,
+                      formData.relatedWateringRecordId
+                    );
+                    if (success) {
+                      await handleFormSuccess();
+                    }
                   }
                 }}
                 isLoading={isLoading}
@@ -148,7 +182,7 @@ export const JournalModal = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setShowForm(false)}
+                onClick={() => { setShowForm(false); setEditingEntry(null); }}
                 className="w-full"
               >
                 Cancel

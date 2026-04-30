@@ -25,51 +25,51 @@ test.describe('User Onboarding Flow', () => {
     });
 
     // Step 1: Welcome screen
-    await expect(page.locator('h1').filter({ hasText: /welcome to sprouthub/i })).toBeVisible();
-    await expect(page.locator('text=Your personal plant care companion')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /welcome to sprouthub/i, level: 1 })).toBeVisible();
+    await expect(page.getByText('Your personal plant care companion')).toBeVisible();
 
     // Verify progress indicator shows step 1 of 5
-    await expect(page.locator('text=Step 1 of 5')).toBeVisible();
+    await expect(page.getByText('Step 1 of 5')).toBeVisible();
 
     // Click Get Started
-    await page.locator('button:has-text("Get Started")').click();
+    await page.getByRole('button', { name: 'Get Started' }).click();
 
     // Step 2: Weather setup
-    await expect(page.locator('h2').filter({ hasText: /enable weather features/i })).toBeVisible();
-    await expect(page.locator('text=Step 2 of 5')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /enable weather features/i, level: 2 })).toBeVisible();
+    await expect(page.getByText('Step 2 of 5')).toBeVisible();
 
     // Toggle weather on
-    await page.locator('button[role="switch"][id="weather-toggle"]').click();
+    await page.getByRole('switch', { name: /weather/i }).click();
 
     // Select temperature unit (Fahrenheit)
-    await page.locator('label:has-text("Fahrenheit")').click();
+    await page.getByLabel('Fahrenheit').click();
 
     // Click Continue
-    await page.locator('button:has-text("Continue")').click();
+    await page.getByRole('button', { name: 'Continue' }).click();
 
     // Step 3: Preferences
-    await expect(page.locator('h2').filter({ hasText: /set your care preferences/i })).toBeVisible();
-    await expect(page.locator('text=Step 3 of 5')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /set your care preferences/i, level: 2 })).toBeVisible();
+    await expect(page.getByText('Step 3 of 5')).toBeVisible();
 
     // Select care style (Balanced should be selected by default, click Frequent)
-    await page.locator('text=I like to check plants frequently').click();
+    await page.getByText('I like to check plants frequently').click();
 
-    await page.locator('button:has-text("Continue")').click();
+    await page.getByRole('button', { name: 'Continue' }).click();
 
     // Step 4: Add plant (optional)
-    await expect(page.locator('h2').filter({ hasText: /add your first plant/i })).toBeVisible();
-    await expect(page.locator('text=Step 4 of 5')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /add your first plant/i, level: 2 })).toBeVisible();
+    await expect(page.getByText('Step 4 of 5')).toBeVisible();
 
     // Skip adding plant for now
-    await page.locator('button:has-text("I\'ll Add Plants Later")').click();
+    await page.getByRole('button', { name: "I'll Add Plants Later" }).click();
 
     // Step 5: Completion
-    await expect(page.locator('h2').filter({ hasText: /you\'re all set/i })).toBeVisible();
-    await expect(page.locator('text=Step 5 of 5')).toBeVisible();
-    await expect(page.locator('text=Your sprouthub account is ready')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /you're all set/i, level: 2 })).toBeVisible();
+    await expect(page.getByText('Step 5 of 5')).toBeVisible();
+    await expect(page.getByText('Your sprouthub account is ready')).toBeVisible();
 
     // Complete onboarding
-    await page.locator('button:has-text("Go to Dashboard")').click();
+    await page.getByRole('button', { name: 'Go to Dashboard' }).click();
 
     // Should redirect to dashboard
     await expect(page).toHaveURL('/', { timeout: 5000 });
@@ -89,7 +89,7 @@ test.describe('User Onboarding Flow', () => {
     });
 
     // Click "Skip onboarding" button
-    await page.locator('button:has-text("Skip onboarding")').click();
+    await page.getByRole('button', { name: 'Skip onboarding' }).click();
 
     // Should redirect to dashboard
     await expect(page).toHaveURL('/', { timeout: 5000 });
@@ -112,25 +112,25 @@ test.describe('User Onboarding Flow', () => {
     });
 
     // Step 1 -> Step 2
-    await page.locator('button:has-text("Get Started")').click();
-    await expect(page.locator('text=Step 2 of 5')).toBeVisible();
+    await page.getByRole('button', { name: 'Get Started' }).click();
+    await expect(page.getByText('Step 2 of 5')).toBeVisible();
 
     // Step 2 -> Step 3
-    await page.locator('button:has-text("Continue")').click();
-    await expect(page.locator('text=Step 3 of 5')).toBeVisible();
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await expect(page.getByText('Step 3 of 5')).toBeVisible();
 
     // Go back to Step 2
-    await page.locator('button:has-text("Back")').first().click();
-    await expect(page.locator('text=Step 2 of 5')).toBeVisible();
-    await expect(page.locator('h2').filter({ hasText: /enable weather features/i })).toBeVisible();
+    await page.getByRole('button', { name: 'Back' }).first().click();
+    await expect(page.getByText('Step 2 of 5')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /enable weather features/i, level: 2 })).toBeVisible();
 
     // Go back to Step 1
-    await page.locator('button:has-text("Back")').first().click();
-    await expect(page.locator('text=Step 1 of 5')).toBeVisible();
-    await expect(page.locator('h1').filter({ hasText: /welcome to sprouthub/i })).toBeVisible();
+    await page.getByRole('button', { name: 'Back' }).first().click();
+    await expect(page.getByText('Step 1 of 5')).toBeVisible();
+    await expect(page.getByRole('heading', { name: /welcome to sprouthub/i, level: 1 })).toBeVisible();
 
     // Clean up - skip rest of onboarding
-    await page.locator('button:has-text("Skip onboarding")').click();
+    await page.getByRole('button', { name: 'Skip onboarding' }).click();
     await deleteUserByEmail(backNavEmail);
   });
 
@@ -147,17 +147,17 @@ test.describe('User Onboarding Flow', () => {
     });
 
     // Complete step 1
-    await page.locator('button:has-text("Get Started")').click();
+    await page.getByRole('button', { name: 'Get Started' }).click();
 
     // Step 2: Enable weather and set Celsius
-    await page.locator('button[role="switch"][id="weather-toggle"]').click();
-    await page.locator('label:has-text("Celsius")').click();
-    await page.locator('button:has-text("Continue")').click();
+    await page.getByRole('switch', { name: /weather/i }).click();
+    await page.getByLabel('Celsius').click();
+    await page.getByRole('button', { name: 'Continue' }).click();
 
     // Complete remaining steps quickly
-    await page.locator('button:has-text("Continue")').click(); // Step 3
-    await page.locator('button:has-text("I\'ll Add Plants Later")').click(); // Step 4
-    await page.locator('button:has-text("Go to Dashboard")').click(); // Step 5
+    await page.getByRole('button', { name: 'Continue' }).click(); // Step 3
+    await page.getByRole('button', { name: "I'll Add Plants Later" }).click(); // Step 4
+    await page.getByRole('button', { name: 'Go to Dashboard' }).click(); // Step 5
 
     // Verify we're on dashboard
     await expect(page).toHaveURL('/', { timeout: 5000 });
@@ -173,15 +173,15 @@ test.describe('User Onboarding Flow', () => {
     await expect(page).toHaveURL('/settings', { timeout: 5000 });
 
     // Click Weather tab
-    await page.locator('button[role="tab"]:has-text("Weather")').click();
+    await page.getByRole('tab', { name: 'Weather' }).click();
 
     // Verify weather toggle is ON
-    const weatherToggle = page.locator('button[role="switch"][id="weather-toggle"]');
+    const weatherToggle = page.getByRole('switch', { name: /weather/i });
     await expect(weatherToggle).toHaveAttribute('data-state', 'checked');
 
     // Verify Celsius is selected
-    const celsiusRadio = page.locator('button[role="radio"][value="C"]');
-    await expect(celsiusRadio).toHaveAttribute('data-state', 'checked');
+    const celsiusRadio = page.getByRole('radio', { name: /celsius/i });
+    await expect(celsiusRadio).toBeChecked();
 
     // Clean up
     await deleteUserByEmail(weatherEmail);
@@ -200,16 +200,16 @@ test.describe('User Onboarding Flow', () => {
     });
 
     // Complete step 1 & 2
-    await page.locator('button:has-text("Get Started")').click();
-    await page.locator('button:has-text("Continue")').click();
+    await page.getByRole('button', { name: 'Get Started' }).click();
+    await page.getByRole('button', { name: 'Continue' }).click();
 
     // Step 3: Select "Minimal Care"
-    await page.locator('text=I want low-maintenance schedules').click();
-    await page.locator('button:has-text("Continue")').click();
+    await page.getByText('I want low-maintenance schedules').click();
+    await page.getByRole('button', { name: 'Continue' }).click();
 
     // Complete remaining steps
-    await page.locator('button:has-text("I\'ll Add Plants Later")').click();
-    await page.locator('button:has-text("Go to Dashboard")').click();
+    await page.getByRole('button', { name: "I'll Add Plants Later" }).click();
+    await page.getByRole('button', { name: 'Go to Dashboard' }).click();
 
     // Verify dashboard loads
     await expect(page).toHaveURL('/', { timeout: 5000 });
@@ -224,11 +224,10 @@ test.describe('User Onboarding Flow', () => {
     await settingsLink.click();
     await expect(page).toHaveURL('/settings', { timeout: 5000 });
 
-    await page.locator('button[role="tab"]:has-text("Preferences")').click();
+    await page.getByRole('tab', { name: 'Preferences' }).click();
 
-    // Verify Minimal Care is saved (it should have the selected border/background)
-    const minimalCard = page.locator('.border-plant-primary').filter({ hasText: /I want low-maintenance schedules/i });
-    await expect(minimalCard).toBeVisible();
+    // Verify Minimal Care is saved — the selected card should contain the expected text
+    await expect(page.getByText('I want low-maintenance schedules')).toBeVisible();
 
     // Clean up
     await deleteUserByEmail(careEmail);
@@ -248,19 +247,19 @@ test.describe('User Onboarding Flow', () => {
     });
 
     // Verify welcome message includes first name
-    await expect(page.locator(`text=Welcome to sprouthub, ${firstName}!`)).toBeVisible();
+    await expect(page.getByText(`Welcome to sprouthub, ${firstName}!`)).toBeVisible();
 
     // Go to completion step
-    await page.locator('button:has-text("Get Started")').click();
-    await page.locator('button:has-text("Continue")').click();
-    await page.locator('button:has-text("Continue")').click();
-    await page.locator('button:has-text("I\'ll Add Plants Later")').click();
+    await page.getByRole('button', { name: 'Get Started' }).click();
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await page.getByRole('button', { name: "I'll Add Plants Later" }).click();
 
     // Verify completion message includes first name
-    await expect(page.locator(`text=You're All Set, ${firstName}!`)).toBeVisible();
+    await expect(page.getByText(`You're All Set, ${firstName}!`)).toBeVisible();
 
     // Clean up
-    await page.locator('button:has-text("Skip onboarding")').click();
+    await page.getByRole('button', { name: 'Skip onboarding' }).click();
     await deleteUserByEmail(nameEmail);
   });
 
@@ -277,22 +276,22 @@ test.describe('User Onboarding Flow', () => {
     });
 
     // Check progress at each step
-    await expect(page.locator('text=Step 1 of 5')).toBeVisible();
+    await expect(page.getByText('Step 1 of 5')).toBeVisible();
 
-    await page.locator('button:has-text("Get Started")').click();
-    await expect(page.locator('text=Step 2 of 5')).toBeVisible();
+    await page.getByRole('button', { name: 'Get Started' }).click();
+    await expect(page.getByText('Step 2 of 5')).toBeVisible();
 
-    await page.locator('button:has-text("Continue")').click();
-    await expect(page.locator('text=Step 3 of 5')).toBeVisible();
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await expect(page.getByText('Step 3 of 5')).toBeVisible();
 
-    await page.locator('button:has-text("Continue")').click();
-    await expect(page.locator('text=Step 4 of 5')).toBeVisible();
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await expect(page.getByText('Step 4 of 5')).toBeVisible();
 
-    await page.locator('button:has-text("I\'ll Add Plants Later")').click();
-    await expect(page.locator('text=Step 5 of 5')).toBeVisible();
+    await page.getByRole('button', { name: "I'll Add Plants Later" }).click();
+    await expect(page.getByText('Step 5 of 5')).toBeVisible();
 
     // Clean up
-    await page.locator('button:has-text("Skip onboarding")').click();
+    await page.getByRole('button', { name: 'Skip onboarding' }).click();
     await deleteUserByEmail(progressEmail);
   });
 });
@@ -314,14 +313,9 @@ test.describe('Onboarding for Returning Users', () => {
     // Already authenticated via storageState — go directly to onboarding URL
     await page.goto('/onboarding');
 
-    // Should redirect away from onboarding (either to dashboard or stay on dashboard)
-    await page.waitForTimeout(1000);
-
-    // URL should either be root or should not show onboarding content
-    const isOnRoot = await page.url().includes('localhost:8080/') || await page.url().endsWith('/');
-    const hasOnboardingContent = await page.locator('text=Step 1 of 5').isVisible().catch(() => false);
-
-    // Either should be redirected to root, or onboarding content should not be visible
-    expect(isOnRoot || !hasOnboardingContent).toBeTruthy();
+    // Should redirect away from onboarding to dashboard
+    await expect(page).not.toHaveURL('/onboarding', { timeout: 10000 });
+    await expect(page.getByText('Step 1 of 5')).not.toBeVisible();
+    await expect(page.getByTestId('dashboard')).toBeVisible({ timeout: 10000 });
   });
 });

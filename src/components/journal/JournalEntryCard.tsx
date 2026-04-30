@@ -11,7 +11,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { MoreVertical, Trash2, Calendar, Image as ImageIcon } from 'lucide-react';
+import { MoreVertical, Trash2, Calendar, Image as ImageIcon, Pencil } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,12 +26,14 @@ import { getOptimizedImageUrls } from '@/utils/plants/imageOptimization';
 interface JournalEntryCardProps {
   entry: JournalEntry;
   onDelete: (entryId: string) => Promise<void>;
+  onEdit: (entry: JournalEntry) => void;
   isDeleting?: boolean;
 }
 
 export function JournalEntryCard({
   entry,
   onDelete,
+  onEdit,
   isDeleting = false,
 }: JournalEntryCardProps) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -72,6 +74,12 @@ export function JournalEntryCard({
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem
+                  onClick={() => onEdit(entry)}
+                >
+                  <Pencil className="w-4 h-4 mr-2" />
+                  Edit Entry
+                </DropdownMenuItem>
+                <DropdownMenuItem
                   className="text-destructive focus:text-destructive"
                   onClick={() => setShowDeleteDialog(true)}
                   disabled={isDeleting}
@@ -105,7 +113,7 @@ export function JournalEntryCard({
 
           {/* Content */}
           {entry.content && (
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">
+            <p className="text-sm text-foreground/80 whitespace-pre-wrap">
               {entry.content}
             </p>
           )}

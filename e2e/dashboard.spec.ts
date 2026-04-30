@@ -11,11 +11,11 @@ test.describe('Dashboard and Navigation', () => {
   });
 
   test('should display dashboard components', async ({ page }) => {
-    // Verify key dashboard elements
+    // Verify key dashboard elements — use soft assertions so all cards are checked
     await expect(page.getByTestId('dashboard')).toBeVisible();
-    await expect(page.getByTestId('todays-tasks-card')).toBeVisible();
-    await expect(page.getByTestId('recent-activity-card')).toBeVisible();
-    await expect(page.getByTestId('plant-health-insights-card')).toBeVisible();
+    await expect.soft(page.getByTestId('todays-tasks-card')).toBeVisible();
+    await expect.soft(page.getByTestId('recent-activity-card')).toBeVisible();
+    await expect.soft(page.getByTestId('plant-health-insights-card')).toBeVisible();
   });
 
   test('should navigate to My Plants page', async ({ page }) => {

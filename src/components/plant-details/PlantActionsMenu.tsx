@@ -13,7 +13,6 @@ import {
   History,
   Clock,
   ChevronDown,
-  BookOpen,
 } from "lucide-react";
 
 interface PlantActionsMenuProps {
@@ -22,7 +21,6 @@ interface PlantActionsMenuProps {
   onWaterClick: () => void;
   onPostponeClick: () => void;
   onViewHistory: () => void;
-  onJournalClick: () => void;
   onEditClick: () => void;
   onDeleteClick: () => void;
 }
@@ -33,7 +31,6 @@ const PlantActionsMenu = ({
   onWaterClick,
   onPostponeClick,
   onViewHistory,
-  onJournalClick,
   onEditClick,
   onDeleteClick,
 }: PlantActionsMenuProps) => {
@@ -41,7 +38,7 @@ const PlantActionsMenu = ({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
+          className="flex-1 bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
           aria-label="Plant actions menu"
         >
           Actions
@@ -69,11 +66,6 @@ const PlantActionsMenu = ({
         <DropdownMenuItem onClick={onViewHistory} className="cursor-pointer">
           <History className="w-4 h-4 mr-2" />
           {hasSmartTips ? "History & Tips" : "History"}
-        </DropdownMenuItem>
-
-        <DropdownMenuItem onClick={onJournalClick} className="cursor-pointer">
-          <BookOpen className="w-4 h-4 mr-2 text-emerald-600" />
-          Plant Journal
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />

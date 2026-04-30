@@ -271,7 +271,7 @@ const FullscreenImageModal: React.FC<FullscreenImageModalProps> = ({
 
       {/* Image container */}
       <div
-        className="flex-1 flex items-center justify-center px-4 pt-20 pb-16 sm:px-16 sm:pt-24 sm:pb-20 overflow-hidden"
+        className="flex-1 flex items-center justify-center px-4 pt-20 pb-16 sm:px-16 sm:pt-24 sm:pb-20 overflow-auto sm:overflow-hidden"
         data-backdrop-close
       >
         <div
@@ -293,7 +293,7 @@ const FullscreenImageModal: React.FC<FullscreenImageModalProps> = ({
           <img
             src={imageSrc}
             alt={imageAlt}
-            className="max-w-[85vw] max-h-[60vh] sm:max-w-[70vw] sm:max-h-[65vh] object-contain rounded-lg shadow-2xl"
+            className="max-w-[85vw] max-h-[75vh] sm:max-w-[70vw] sm:max-h-[65vh] object-contain rounded-lg shadow-2xl"
             onError={(e) => {
               const target = e.target as HTMLImageElement;
               target.src =

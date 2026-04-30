@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { deleteUserByEmail } from './helpers';
+import { deleteUserByEmail, getToast } from './helpers';
 
 // Use credentials from environment variables or .env.test
 const TEST_EMAIL = process.env.TEST_USER_EMAIL;
@@ -41,7 +41,7 @@ test.describe('Authentication Flow', () => {
     // Expect an error toast or message
     // Common Supabase error: "Invalid login credentials"
     await expect(
-      page.locator('[data-sonner-toast][role="status"]').filter({ hasText: /Invalid login credentials/i })
+      getToast(page, /Invalid login credentials/i)
     ).toBeVisible({ timeout: 10000 });
   });
 
@@ -80,7 +80,7 @@ test.describe('Authentication Flow', () => {
     await page.getByTestId('sign-out-button').click();
 
     // Verify sign out success toast and redirect to home
-    await expect(page.locator('[data-title]').filter({ hasText: 'Signed Out' }).first()).toBeVisible({ timeout: 10000 });
+    await expect(getToast(page, 'Signed Out')).toBeVisible({ timeout: 10000 });
     await expect(page).toHaveURL('/', { timeout: 5000 });
   });
 
@@ -106,7 +106,7 @@ test.describe('Authentication Flow', () => {
 
   test('should navigate to forgot password page', async ({ page }) => {
     // Click forgot password link
-    await page.locator('text=Forgot password?').click();
+    await page.getByRole('link', { name: /forgot password/i }).click();
 
     // Verify navigation to forgot password page
     await expect(page).toHaveURL('/forgot-password', { timeout: 5000 });
@@ -158,7 +158,7 @@ test.describe('Sign Up - Client-Side Validation', () => {
 
     await page.getByTestId('sign-up-button').click();
 
-    await expect(page.locator('text=Passwords don\'t match')).toBeVisible();
+    await expect(page.getByText("Passwords don't match")).toBeVisible();
   });
 
   test('should reject password shorter than 6 characters', async ({ page }) => {
@@ -171,7 +171,7 @@ test.describe('Sign Up - Client-Side Validation', () => {
     await page.getByTestId('confirmPassword').fill('ab12!');
     await page.getByTestId('sign-up-button').click();
 
-    await expect(page.locator('text=/at least 6 characters/i')).toBeVisible();
+    await expect(page.getByText(/at least 6 characters/i)).toBeVisible();
   });
 
   test('should reject invalid email format', async ({ page }) => {
@@ -186,7 +186,7 @@ test.describe('Sign Up - Client-Side Validation', () => {
     await page.getByTestId('sign-up-button').click();
 
     // Client-side regex catches this before any Supabase call
-    await expect(page.locator('text=/valid email|invalid email/i').first()).toBeVisible();
+    await expect(page.getByText(/valid email|invalid email/i).first()).toBeVisible();
   });
 
   test('should reject username shorter than 3 characters', async ({ page }) => {
@@ -200,7 +200,7 @@ test.describe('Sign Up - Client-Side Validation', () => {
     await page.getByTestId('confirmPassword').fill(strongPassword);
     await page.getByTestId('sign-up-button').click();
 
-    await expect(page.locator('text=/at least 3 characters/i')).toBeVisible();
+    await expect(page.getByText(/at least 3 characters/i)).toBeVisible();
   });
 
   test('should validate empty sign-up fields', async ({ page }) => {
@@ -238,7 +238,7 @@ test.describe('Sign Up Flow', () => {
 
     await page.getByTestId('sign-up-button').click();
 
-    await expect(page.locator('[data-sonner-toast][role="status"]').filter({ hasText: 'Account Created!' })).toBeVisible({ timeout: 15000 });
+    await expect(getToast(page, 'Account Created!')).toBeVisible({ timeout: 15000 });
   });
 
   test('should reject duplicate email', async ({ page }) => {
@@ -259,7 +259,7 @@ test.describe('Sign Up Flow', () => {
     await page.getByTestId('sign-up-button').click();
 
     await expect(
-      page.locator('[data-sonner-toast]').filter({ hasText: /already exists|already registered/i }).first()
+      getToast(page, /already exists|already registered/i)
     ).toBeVisible({ timeout: 10000 });
   });
 
@@ -284,7 +284,7 @@ test.describe('Sign Up Flow', () => {
     await page.getByTestId('sign-up-button').click();
     await signUpResponsePromise;
 
-    await expect(page.locator('text=Account Created!').first()).toBeVisible({ timeout: 15000 });
+    await expect(getToast(page, 'Account Created!')).toBeVisible({ timeout: 15000 });
 
     // Sign out first user before attempting second sign-up
     await page.evaluate(() => {
@@ -308,8 +308,9 @@ test.describe('Sign Up Flow', () => {
     await page.getByTestId('confirmPassword').fill(strongPassword);
     await page.getByTestId('sign-up-button').click();
 
-    await expect(page.locator('text=/username.*already exists/i')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText(/username.*already exists/i)).toBeVisible({ timeout: 10000 });
 
+    // Clean up — also in afterAll as safety net if test fails mid-way
     await deleteUserByEmail(firstEmail);
   });
 
@@ -324,7 +325,7 @@ test.describe('Sign Up Flow', () => {
     await page.getByTestId('confirmPassword').fill(weakPassword);
     await page.getByTestId('sign-up-button').click();
 
-    await expect(page.locator('text=/weak|easy to guess|registration failed/i').first()).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText(/weak|easy to guess|registration failed/i).first()).toBeVisible({ timeout: 10000 });
   });
 });
 
@@ -334,7 +335,7 @@ test.describe('Password Reset Flow', () => {
   });
 
   test('should display forgot password form', async ({ page }) => {
-    await expect(page.locator('h1, h2, h3').filter({ hasText: /forgot.*password/i }).first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: /forgot.*password/i })).toBeVisible();
   });
 
   test('should validate empty email on password reset', async ({ page }) => {
@@ -386,7 +387,6 @@ test.describe('UI/UX Features', () => {
 
   test('should toggle password visibility on sign-in', async ({ page }) => {
     const passwordInput = page.getByTestId('sign-in-password');
-    const toggleButton = passwordInput.locator('..').locator('button').first();
 
     // Fill password
     await passwordInput.fill('testpassword');
@@ -395,11 +395,11 @@ test.describe('UI/UX Features', () => {
     await expect(passwordInput).toHaveAttribute('type', 'password');
 
     // Click toggle to show
-    await toggleButton.click();
+    await page.getByRole('button', { name: 'Show password' }).click();
     await expect(passwordInput).toHaveAttribute('type', 'text');
 
     // Click toggle to hide
-    await toggleButton.click();
+    await page.getByRole('button', { name: 'Hide password' }).click();
     await expect(passwordInput).toHaveAttribute('type', 'password');
   });
 

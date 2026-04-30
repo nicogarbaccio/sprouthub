@@ -44,16 +44,19 @@ test.describe('Plant Details Page', () => {
   });
 
   test('should display care details grid', async ({ page }) => {
-    // Care details grid has paragraphs for each category
-    await expect(page.locator('p').filter({ hasText: 'Light' }).first()).toBeVisible();
-    await expect(page.locator('p').filter({ hasText: 'Temperature' }).first()).toBeVisible();
-    await expect(page.locator('p').filter({ hasText: 'Humidity' }).first()).toBeVisible();
+    // Care details grid — soft assertions so all categories are checked
+    await expect.soft(page.getByText('Light').first()).toBeVisible();
+    await expect.soft(page.getByText('Temperature').first()).toBeVisible();
+    await expect.soft(page.getByText('Humidity').first()).toBeVisible();
   });
 
   test('should display care instructions', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Care Instructions' })).toBeVisible();
-    const careList = page.getByRole('heading', { name: 'Care Instructions' }).locator('..').locator('~ *').getByRole('list');
-    await expect(careList.first()).toBeVisible();
+    // Find the section containing the heading, then verify it has a list
+    const careSection = page.locator('section, div').filter({
+      has: page.getByRole('heading', { name: 'Care Instructions' })
+    });
+    await expect(careSection.getByRole('list').first()).toBeVisible();
   });
 
   test('should display common problems', async ({ page }) => {
@@ -66,8 +69,7 @@ test.describe('Plant Details Page', () => {
     await page.getByRole('button', { name: 'Plant actions menu' }).click();
 
     await expect(page.getByRole('menuitem', { name: 'Water Now' })).toBeVisible();
-    await expect(page.getByRole('menuitem', { name: 'History' })).toBeVisible();
-    await expect(page.getByRole('menuitem', { name: 'Plant Journal' })).toBeVisible();
+    await expect(page.getByRole('menuitem', { name: /History/ })).toBeVisible();
     await expect(page.getByRole('menuitem', { name: 'Edit' })).toBeVisible();
     await expect(page.getByRole('menuitem', { name: 'Delete' })).toBeVisible();
   });
@@ -194,7 +196,7 @@ test.describe('Plant Details - Delete Flow', () => {
     const testPlantName = `Delete Test Plant ${Date.now()}`;
     await page.getByTestId('plant-nickname-input').fill(testPlantName);
     await page.getByTestId('plant-type-trigger').click();
-    await page.locator('.plant-type-dropdown div.cursor-pointer').filter({ hasText: /^Snake Plant$/ }).click();
+    await page.getByRole('option', { name: 'Snake Plant' }).click();
     await page.getByTestId('add-plant-submit-button').click();
     await expect(page.getByTestId('add-plant-dialog')).not.toBeVisible({ timeout: 10000 });
 

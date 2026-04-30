@@ -1,9 +1,19 @@
 import { test, expect } from '@playwright/test';
+import { deleteJournalEntriesByPattern } from './helpers';
+
+const TEST_EMAIL = process.env.TEST_USER_EMAIL;
 
 // Reuse authenticated state from the setup project
 test.use({ storageState: 'e2e/.auth/user.json' });
 
 test.describe('Repotting Guide', () => {
+  test.afterAll(async () => {
+    // Clean up journal entries created by repotting log tests
+    if (TEST_EMAIL) {
+      await deleteJournalEntriesByPattern('Repotting%', TEST_EMAIL);
+    }
+  });
+
   test.beforeEach(async ({ page }) => {
     // Navigate to My Plants and click the first plant to reach detail page
     await page.goto('/my-plants');

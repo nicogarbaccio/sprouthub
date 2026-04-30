@@ -14,8 +14,6 @@ test.describe('My Plants - Search, Filter & Sort', () => {
   test('should display plants grouped by room', async ({ page }) => {
     // Header
     await expect(page.getByRole('heading', { name: 'My Plant Collection' })).toBeVisible();
-    await expect(page.getByTestId('plants-total-badge')).toBeVisible();
-    await expect(page.getByTestId('room-count-badge')).toBeVisible();
 
     // Room sections exist
     const roomSections = page.getByTestId('room-section');

@@ -294,7 +294,7 @@ export const usePlantActions = ({
     }
   };
 
-  const logFertilization = async (plantId: string): Promise<boolean> => {
+  const logFertilization = async (plantId: string, date?: Date): Promise<boolean> => {
     if (!user) return false;
 
     const tracker = trackOperation(HOOK_NAME, 'logFertilization');
@@ -302,7 +302,7 @@ export const usePlantActions = ({
     try {
       const plant = plants.find(p => p.id === plantId);
       const plantName = plant?.nickname || 'Plant';
-      const fertilizedDate = new Date().toISOString();
+      const fertilizedDate = (date ?? new Date()).toISOString();
 
       // Optimistic update
       setPlants(prev =>

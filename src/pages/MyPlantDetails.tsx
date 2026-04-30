@@ -8,7 +8,7 @@ import { CascadingContainer } from "@/components/ui/cascading-container";
 import { LoadingTransition } from "@/components/ui/loading-transition";
 import { PlantDetailsPageSkeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, BookOpen } from "lucide-react";
 import PlantDetailHeader from "@/components/plant-details/PlantDetailHeader";
 import PlantImageCard from "@/components/plant-details/PlantImageCard";
 import WateringScheduleCard from "@/components/plant-details/WateringScheduleCard";
@@ -244,16 +244,25 @@ const MyPlantDetails = () => {
                 <div className="flex flex-col h-[240px] sm:h-[280px] md:h-[360px] lg:h-[320px] space-y-2">
                   <WateringScheduleCard plant={plant} />
                   <PlantInfoCard plant={plant} />
-                  <PlantActionsMenu
-                    canPostpone={!!canPostpone}
-                    hasSmartTips={!!getBadgeInfo()}
-                    onWaterClick={() => setShowWaterConfirmation(true)}
-                    onPostponeClick={() => setShowPostponeConfirmation(true)}
-                    onViewHistory={() => setShowHistoryDialog(true)}
-                    onJournalClick={() => setShowJournal(true)}
-                    onEditClick={() => setShowEditDialog(true)}
-                    onDeleteClick={() => setShowDeleteConfirmation(true)}
-                  />
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      className="flex-1 rounded-xl font-medium text-foreground"
+                      onClick={() => setShowJournal(true)}
+                    >
+                      <BookOpen className="w-4 h-4 mr-2 text-emerald-600" />
+                      Plant Journal
+                    </Button>
+                    <PlantActionsMenu
+                      canPostpone={!!canPostpone}
+                      hasSmartTips={!!getBadgeInfo()}
+                      onWaterClick={() => setShowWaterConfirmation(true)}
+                      onPostponeClick={() => setShowPostponeConfirmation(true)}
+                      onViewHistory={() => setShowHistoryDialog(true)}
+                      onEditClick={() => setShowEditDialog(true)}
+                      onDeleteClick={() => setShowDeleteConfirmation(true)}
+                    />
+                  </div>
                 </div>
               </CascadingContainer>
             </div>
@@ -288,7 +297,7 @@ const MyPlantDetails = () => {
             <FertilizationCard
               plant={plant}
               catalogPlant={catalogPlant}
-              onLogFertilization={async () => { await logFertilization(plant.id); }}
+              onLogFertilization={async (date?: Date) => { await logFertilization(plant.id, date); }}
               onAddJournalEntry={async (title, content) => { await addJournalEntry(plant.id, title, content, null, []); }}
             />
           </CascadingContainer>

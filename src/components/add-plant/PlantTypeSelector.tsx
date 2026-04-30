@@ -117,6 +117,7 @@ export const PlantTypeSelector = ({
               />
             </div>
             <div
+              role="listbox"
               className="max-h-[200px] overflow-y-scroll p-1 bg-card"
               style={{
                 maxHeight: "200px",
@@ -132,6 +133,8 @@ export const PlantTypeSelector = ({
                 filteredPlantNames.map((type) => (
                   <div
                     key={type}
+                    role="option"
+                    aria-selected={formData.plant_type === type}
                     className="flex items-center px-2 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded-sm"
                     onClick={() => {
                       onPlantSelection(type);
@@ -157,6 +160,8 @@ export const PlantTypeSelector = ({
                     name.toLowerCase() === plantTypeSearch.toLowerCase()
                 ) && (
                   <div
+                    role="option"
+                    aria-selected={false}
                     className="flex items-center px-2 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded-sm"
                     onClick={() => {
                       onCustomPlantSelection(plantTypeSearch);
