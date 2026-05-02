@@ -1,8 +1,10 @@
-import { ExternalLink, Leaf } from 'lucide-react';
+import { ExternalLink, Leaf, Bookmark, BookmarkCheck } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { BlogPost } from '@/types/blogTypes';
 import * as React from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useSavedArticleIds, useToggleSavedArticle } from '@/hooks/useSavedArticles';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
@@ -19,6 +21,12 @@ interface BlogPostCardProps {
 
 const BlogPostCard = ({ post, matchedPlants }: BlogPostCardProps) => {
   const [imgFailed, setImgFailed] = React.useState(false);
+  const { user } = useAuth();
+  const { data: savedIds } = useSavedArticleIds();
+  const { mutate: toggleSave, isPending } = useToggleSavedArticle();
+
+  const isSaved = savedIds?.has(post.id) ?? false;
+
   const formattedDate = post.published_at
     ? new Date(post.published_at).toLocaleDateString('en-US', {
         month: 'short',
@@ -48,6 +56,24 @@ const BlogPostCard = ({ post, matchedPlants }: BlogPostCardProps) => {
               onError={() => setImgFailed(true)}
             />
           </div>
+        )}
+        {user && (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleSave({ blogPostId: post.id, wasSaved: isSaved });
+            }}
+            disabled={isPending}
+            className="absolute top-2 right-2 z-10 p-1.5 rounded-full bg-background shadow-md hover:bg-background/90 transition-colors disabled:opacity-50"
+            aria-label={isSaved ? 'Unsave article' : 'Save article'}
+          >
+            {isSaved ? (
+              <BookmarkCheck className="h-5 w-5 text-sprout-primary" />
+            ) : (
+              <Bookmark className="h-5 w-5 text-muted-foreground" />
+            )}
+          </button>
         )}
         {visiblePlants && visiblePlants.length > 0 && (
           <div className="absolute bottom-2 left-2 flex gap-1 flex-wrap">

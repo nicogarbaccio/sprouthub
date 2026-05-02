@@ -9,6 +9,7 @@ import {
   Settings as SettingsIcon,
   Bell,
   BarChart3,
+  Bookmark,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -231,6 +232,13 @@ const Navigation = () => {
                     >
                       <BarChart3 className="w-4 h-4 mr-2" />
                       Analytics
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => navigate("/my-articles")}
+                      className="cursor-pointer"
+                    >
+                      <Bookmark className="w-4 h-4 mr-2" />
+                      My Articles
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => navigate("/settings")}
