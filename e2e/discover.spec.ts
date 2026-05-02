@@ -82,18 +82,19 @@ test.describe('Discover Page', () => {
 
   test('should toggle chip search on click', async ({ page }) => {
     const chips = page.getByTestId('plant-chips');
-    const monsteraChip = chips.getByText('Monstera');
-    await expect(monsteraChip).toBeVisible({ timeout: 10000 });
+    // Use exact match to avoid substring collisions (e.g. "Monstera" matching "Monstera Deliciosa")
+    const testChip = chips.getByText('Pothos', { exact: true });
+    await expect(testChip).toBeVisible({ timeout: 10000 });
 
     // Click chip to activate search
-    await monsteraChip.click();
+    await testChip.click();
 
     // Search input should be populated with the chip's plant name
     const searchInput = page.getByTestId('plant-search-input');
-    await expect(searchInput).not.toHaveValue('');
+    await expect(searchInput).toHaveValue('Pothos');
 
     // Click same chip again to deactivate
-    await monsteraChip.click();
+    await testChip.click();
     await expect(searchInput).toHaveValue('');
   });
 
