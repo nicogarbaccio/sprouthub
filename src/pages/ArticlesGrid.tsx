@@ -9,6 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUserPlants } from '@/hooks/useUserPlants';
 import { useBlogPostsGrid } from '@/hooks/useBlogPosts';
+import { useFilterHidden } from '@/hooks/useHiddenArticles';
 import type { GridMode } from '@/hooks/useBlogPosts';
 import { usePaginationUrl } from '@/hooks/usePaginationUrl';
 
@@ -78,7 +79,8 @@ const ArticlesGrid = () => {
   }, [mode, season, plant, myPlantNames]);
 
   const { data, isLoading } = useBlogPostsGrid(mode, gridParams, currentPage, PAGE_SIZE);
-  const posts = data?.posts ?? [];
+  const rawPosts = data?.posts ?? [];
+  const posts = useFilterHidden(rawPosts) ?? [];
   const totalCount = data?.totalCount ?? 0;
   const totalPages = Math.ceil(totalCount / PAGE_SIZE);
 

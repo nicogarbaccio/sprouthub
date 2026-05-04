@@ -275,6 +275,35 @@ export type Database = {
         }
         Relationships: []
       }
+      hidden_articles: {
+        Row: {
+          blog_post_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          blog_post_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          blog_post_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hidden_articles_blog_post_id_fkey"
+            columns: ["blog_post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notification_acknowledgements: {
         Row: {
           acknowledged_date: string

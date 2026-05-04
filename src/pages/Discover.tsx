@@ -25,6 +25,7 @@ import {
   useGeneralBlogPosts,
   usePlantBlogPosts,
 } from '@/hooks/useBlogPosts';
+import { useFilterHidden } from '@/hooks/useHiddenArticles';
 
 function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
   const month = new Date().getMonth();
@@ -123,11 +124,15 @@ const Discover = () => {
   const seasonConfig = SEASON_CONFIG[season];
   const SeasonIcon = seasonConfig.icon;
 
-  const { data: seasonalPosts, isLoading: seasonalLoading } = useSeasonalBlogPosts(season);
-  const { data: generalPosts, isLoading: generalLoading } = useGeneralBlogPosts(12);
-  const { data: plantPosts, isLoading: plantSearchLoading } = usePlantBlogPosts(
+  const { data: rawSeasonalPosts, isLoading: seasonalLoading } = useSeasonalBlogPosts(season);
+  const { data: rawGeneralPosts, isLoading: generalLoading } = useGeneralBlogPosts(12);
+  const { data: rawPlantPosts, isLoading: plantSearchLoading } = usePlantBlogPosts(
     debouncedSearch || undefined
   );
+
+  const seasonalPosts = useFilterHidden(rawSeasonalPosts);
+  const generalPosts = useFilterHidden(rawGeneralPosts);
+  const plantPosts = useFilterHidden(rawPlantPosts);
 
   // Gate the page on the two always-visible sections so we crossfade once
   // instead of showing skeletons that independently pop to content.

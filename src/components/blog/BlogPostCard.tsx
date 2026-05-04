@@ -1,10 +1,11 @@
-import { ExternalLink, Leaf, Bookmark, BookmarkCheck } from 'lucide-react';
+import { ExternalLink, Leaf, Bookmark, BookmarkCheck, EyeOff } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { BlogPost } from '@/types/blogTypes';
 import * as React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSavedArticleIds, useToggleSavedArticle } from '@/hooks/useSavedArticles';
+import { useHideArticle } from '@/hooks/useHiddenArticles';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
@@ -17,13 +18,15 @@ function proxyImageUrl(url: string): string {
 interface BlogPostCardProps {
   post: BlogPost;
   matchedPlants?: string[];
+  showHideButton?: boolean;
 }
 
-const BlogPostCard = ({ post, matchedPlants }: BlogPostCardProps) => {
+const BlogPostCard = ({ post, matchedPlants, showHideButton = true }: BlogPostCardProps) => {
   const [imgFailed, setImgFailed] = React.useState(false);
   const { user } = useAuth();
   const { data: savedIds } = useSavedArticleIds();
   const { mutate: toggleSave, isPending } = useToggleSavedArticle();
+  const { mutate: hideArticle, isPending: isHidePending } = useHideArticle();
 
   const isSaved = savedIds?.has(post.id) ?? false;
 
@@ -73,6 +76,20 @@ const BlogPostCard = ({ post, matchedPlants }: BlogPostCardProps) => {
             ) : (
               <Bookmark className="h-5 w-5 text-muted-foreground" />
             )}
+          </button>
+        )}
+        {user && showHideButton && !isSaved && (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              hideArticle({ blogPostId: post.id });
+            }}
+            disabled={isHidePending}
+            className="absolute top-2 left-2 z-10 p-1 rounded-full bg-background/60 shadow-sm hover:bg-background/90 transition-colors disabled:opacity-50"
+            aria-label="Hide article"
+          >
+            <EyeOff className="h-4 w-4 text-muted-foreground" />
           </button>
         )}
         {visiblePlants && visiblePlants.length > 0 && (

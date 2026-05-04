@@ -49,7 +49,7 @@ export function PageHero({
                     title
                   )}
                 </div>
-                <p className="text-white/80 text-sm sm:text-base max-w-lg mt-1">
+                <p className="text-white/80 text-sm sm:text-base max-w-xl mt-1">
                   {subtitle}
                 </p>
               </div>

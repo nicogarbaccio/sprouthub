@@ -24,6 +24,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { CascadingContainer } from "@/components/ui/cascading-container";
+import HiddenArticlesCard from "./HiddenArticlesCard";
 
 export const PreferencesTab = () => {
   const { preferences, savePreferences, isLoading, clearPreferences } =
@@ -296,6 +297,8 @@ export const PreferencesTab = () => {
           </div>
         </CardContent>
       </Card>
+
+      <HiddenArticlesCard />
     </div>
   );
 };

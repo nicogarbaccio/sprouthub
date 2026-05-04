@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/carousel';
 import BlogPostCard from './BlogPostCard';
 import { useMyPlantsBlogPosts } from '@/hooks/useBlogPosts';
+import { useFilterHidden } from '@/hooks/useHiddenArticles';
 
 interface MyPlantsBlogSectionProps {
   plantNames: string[];
@@ -31,7 +32,8 @@ const BlogPostCardSkeleton = () => (
 );
 
 const MyPlantsBlogSection = ({ plantNames }: MyPlantsBlogSectionProps) => {
-  const { data: posts, isLoading } = useMyPlantsBlogPosts(plantNames);
+  const { data: rawPosts, isLoading } = useMyPlantsBlogPosts(plantNames);
+  const posts = useFilterHidden(rawPosts);
 
   if (!isLoading && (!posts || posts.length === 0)) {
     return null;

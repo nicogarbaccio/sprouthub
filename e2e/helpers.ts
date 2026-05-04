@@ -172,6 +172,45 @@ export const deleteAllPlantsForUser = async (userEmail: string) => {
 };
 
 /**
+ * Delete all hidden articles for a user (test cleanup)
+ * @param userEmail - Email of the user whose hidden articles to delete
+ */
+export const deleteAllHiddenForUser = async (userEmail: string) => {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    console.warn('Skipping hidden articles cleanup - no admin client available.');
+    return;
+  }
+
+  try {
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('email', userEmail)
+      .single();
+
+    if (profileError || !profile) {
+      console.warn(`User profile not found for email: ${userEmail}`, profileError);
+      return;
+    }
+
+    const { data: deleted, error: deleteError } = await supabase
+      .from('hidden_articles')
+      .delete()
+      .eq('user_id', profile.id)
+      .select();
+
+    if (deleteError) {
+      console.error('Error deleting hidden articles:', deleteError);
+    } else if (deleted && deleted.length > 0) {
+      console.log(`Deleted ${deleted.length} hidden article(s) for user: ${userEmail}`);
+    }
+  } catch (error) {
+    console.error('Unexpected error during hidden articles cleanup:', error);
+  }
+};
+
+/**
  * Delete journal entries by title pattern (useful for test cleanup)
  * @param titlePattern - Pattern to match entry titles (supports SQL LIKE syntax)
  * @param userEmail - Email of the user whose entries to delete

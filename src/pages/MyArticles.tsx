@@ -129,7 +129,7 @@ const MyArticlesContent = () => {
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {visibleArticles.map((post) => (
-                      <BlogPostCard key={post.id} post={post} matchedPlants={post.matchedPlants} />
+                      <BlogPostCard key={post.id} post={post} matchedPlants={post.matchedPlants} showHideButton={false} />
                     ))}
                   </div>
                   <PaginationControls
