@@ -211,6 +211,87 @@ export const deleteAllHiddenForUser = async (userEmail: string) => {
 };
 
 /**
+ * Reset last_fertilized_date to null for all of a user's plants (test cleanup).
+ * This ensures the fertilization banner will reappear.
+ * @param userEmail - Email of the user
+ */
+export const resetFertilizationDates = async (userEmail: string) => {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    console.warn('Skipping fertilization date reset - no admin client available.');
+    return;
+  }
+
+  try {
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('email', userEmail)
+      .single();
+
+    if (profileError || !profile) {
+      console.warn(`User profile not found for email: ${userEmail}`, profileError);
+      return;
+    }
+
+    const { data: updated, error: updateError } = await supabase
+      .from('user_plants')
+      .update({ last_fertilized_date: null })
+      .eq('user_id', profile.id)
+      .select();
+
+    if (updateError) {
+      console.error('Error resetting fertilization dates:', updateError);
+    } else if (updated && updated.length > 0) {
+      console.log(`Reset fertilization dates for ${updated.length} plant(s) for user: ${userEmail}`);
+    }
+  } catch (error) {
+    console.error('Unexpected error during fertilization date reset:', error);
+  }
+};
+
+/**
+ * Clear fertilization banner dismissals/snoozes for a user (test cleanup)
+ * Removes notification_acknowledgements rows with notification_type starting with 'spring_fertilization'.
+ * @param userEmail - Email of the user
+ */
+export const clearFertilizationDismissals = async (userEmail: string) => {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    console.warn('Skipping fertilization dismissal cleanup - no admin client available.');
+    return;
+  }
+
+  try {
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('email', userEmail)
+      .single();
+
+    if (profileError || !profile) {
+      console.warn(`User profile not found for email: ${userEmail}`, profileError);
+      return;
+    }
+
+    const { data: deleted, error: deleteError } = await supabase
+      .from('notification_acknowledgements')
+      .delete()
+      .eq('user_id', profile.id)
+      .like('notification_type', 'spring_fertilization%')
+      .select();
+
+    if (deleteError) {
+      console.error('Error clearing fertilization dismissals:', deleteError);
+    } else if (deleted && deleted.length > 0) {
+      console.log(`Cleared ${deleted.length} fertilization dismissal(s) for user: ${userEmail}`);
+    }
+  } catch (error) {
+    console.error('Unexpected error during fertilization dismissal cleanup:', error);
+  }
+};
+
+/**
  * Delete journal entries by title pattern (useful for test cleanup)
  * @param titlePattern - Pattern to match entry titles (supports SQL LIKE syntax)
  * @param userEmail - Email of the user whose entries to delete

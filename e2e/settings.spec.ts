@@ -200,6 +200,9 @@ test.describe('Settings Page', () => {
     // Wait for preferences to fully load — button is disabled when there are no unsaved changes
     await expect(saveButton).toBeDisabled({ timeout: 10000 });
 
+    // Wait for CascadingContainer animations (Hidden Articles card) to settle
+    await page.waitForTimeout(500);
+
     // Click a humidity option to trigger a change — try Dry first, then Humid
     const dryOption = page.getByText(/^Dry \(/);
     const humidOption = page.getByText(/^Humid \(/);

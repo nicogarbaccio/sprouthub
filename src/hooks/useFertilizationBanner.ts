@@ -37,19 +37,20 @@ function localStorageKey(date: Date = new Date()): string {
 /** 60-day threshold: plants not fertilized in > 60 days count as unfertilized */
 const STALE_DAYS = 60;
 
-function countUnfertilizedPlants(plants: UserPlant[], now: Date = new Date()): number {
+function getUnfertilizedPlants(plants: UserPlant[], now: Date = new Date()): UserPlant[] {
   return plants.filter(p => {
     if (!p.last_fertilized_date) return true;
     const daysSince = Math.floor(
       (now.getTime() - new Date(p.last_fertilized_date).getTime()) / (1000 * 60 * 60 * 24)
     );
     return daysSince > STALE_DAYS;
-  }).length;
+  });
 }
 
 export interface UseFertilizationBannerReturn {
   shouldShow: boolean;
   unfertilizedCount: number;
+  unfertilizedPlants: UserPlant[];
   dismiss: () => Promise<void>;
   snooze: (days: number) => Promise<void>;
 }
@@ -63,7 +64,8 @@ export function useFertilizationBanner(plants: UserPlant[], latitude: number = 4
   // Stable references that only change when the calendar date actually changes
   const now = new Date();
   const growing = isGrowingSeason(now, latitude);
-  const unfertilizedCount = countUnfertilizedPlants(plants, now);
+  const unfertilizedPlants = getUnfertilizedPlants(plants, now);
+  const unfertilizedCount = unfertilizedPlants.length;
   const key = notificationKey(now);
   const lsKey = localStorageKey(now);
 
@@ -199,6 +201,7 @@ export function useFertilizationBanner(plants: UserPlant[], latitude: number = 4
   return {
     shouldShow,
     unfertilizedCount,
+    unfertilizedPlants,
     dismiss,
     snooze,
   };

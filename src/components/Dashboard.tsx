@@ -44,7 +44,7 @@ import { useCareStreak } from "@/hooks/useCareStreak";
 
 const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule } =
+  const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule, logFertilization } =
     useUserPlants();
   const { profileData } = useProfileData();
   const { preferences, hasPreferences: hasLoadedPreferences, loadPreferences } = useSmartWateringPreferences();
@@ -159,6 +159,7 @@ const Dashboard = () => {
   const {
     shouldShow: shouldShowFertilizationBanner,
     unfertilizedCount,
+    unfertilizedPlants,
     dismiss: dismissFertilizationBanner,
     snooze: snoozeFertilizationBanner,
   } = useFertilizationBanner(plants);
@@ -594,6 +595,8 @@ const Dashboard = () => {
           <CascadingContainer delay={75}>
             <FertilizationBanner
               plantCount={unfertilizedCount}
+              plants={unfertilizedPlants}
+              onLogFertilization={logFertilization}
               onDismiss={dismissFertilizationBanner}
               onSnooze={snoozeFertilizationBanner}
             />

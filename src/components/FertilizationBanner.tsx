@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -12,22 +13,41 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { FlaskConical, X, Clock, Leaf } from "lucide-react";
+import { FlaskConical, X, Clock, Leaf, ChevronDown, CheckCircle2, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { fertilizationToast } from "@/utils/notifications/toast";
+import type { UserPlant } from "@/hooks/useUserPlants";
 
 interface FertilizationBannerProps {
   plantCount: number;
+  plants: UserPlant[];
+  onLogFertilization: (plantId: string) => Promise<boolean>;
   onDismiss: () => void;
   onSnooze: (days: number) => void;
 }
 
+function daysSinceLabel(plant: UserPlant): string {
+  if (!plant.last_fertilized_date) return "never";
+  const days = Math.floor(
+    (Date.now() - new Date(plant.last_fertilized_date).getTime()) / (1000 * 60 * 60 * 24)
+  );
+  if (days === 0) return "today";
+  if (days === 1) return "1d ago";
+  return `${days}d ago`;
+}
+
 export function FertilizationBanner({
   plantCount,
+  plants,
+  onLogFertilization,
   onDismiss,
   onSnooze,
 }: FertilizationBannerProps) {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [snoozeWeeks, setSnoozeWeeks] = useState<number | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [loggedIds, setLoggedIds] = useState<Set<string>>(new Set());
+  const [loggingId, setLoggingId] = useState<string | null>(null);
 
   const handleSnoozeConfirm = () => {
     if (snoozeWeeks === null) return;
@@ -36,8 +56,60 @@ export function FertilizationBanner({
     setSnoozeWeeks(null);
   };
 
+  const [confirmLogPlantId, setConfirmLogPlantId] = useState<string | null>(null);
+  const confirmLogPlant = confirmLogPlantId
+    ? plants.find((p) => p.id === confirmLogPlantId)
+    : null;
+
+  const handleLogConfirm = async () => {
+    if (!confirmLogPlantId) return;
+    const plantId = confirmLogPlantId;
+    setConfirmLogPlantId(null);
+    setLoggingId(plantId);
+    try {
+      const success = await onLogFertilization(plantId);
+      if (success) {
+        setLoggedIds((prev) => new Set(prev).add(plantId));
+      }
+    } finally {
+      setLoggingId(null);
+    }
+  };
+
+  const visiblePlants = plants.filter((p) => !loggedIds.has(p.id));
+
   return (
     <>
+      <AlertDialog
+        open={confirmLogPlantId !== null}
+        onOpenChange={(open) => {
+          if (!open) setConfirmLogPlantId(null);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <FlaskConical className="w-5 h-5 text-sprout-primary" />
+              Log fertilization?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This will record today's date as the last fertilization for{" "}
+              <strong className="text-foreground font-semibold">
+                {confirmLogPlant?.nickname || confirmLogPlant?.plant_type || "this plant"}
+              </strong>.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleLogConfirm}
+              className="bg-sprout-primary hover:bg-sprout-medium text-white border-0"
+            >
+              Yes, log it
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <AlertDialog
         open={snoozeWeeks !== null}
         onOpenChange={(open) => {
@@ -115,7 +187,7 @@ export function FertilizationBanner({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <Card className="group relative overflow-hidden mb-6 border-2 border-sprout-cream/50 dark:border-sprout-cream/40 hover:border-sprout-cream hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-sprout-cream/25 via-sprout-pale to-sprout-pale dark:from-sprout-cream/[0.08] dark:via-card dark:to-card">
+      <Card data-testid="fertilization-banner" className="group relative overflow-hidden mb-6 border-2 border-sprout-cream/50 dark:border-sprout-cream/40 hover:border-sprout-cream hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-sprout-cream/25 via-sprout-pale to-sprout-pale dark:from-sprout-cream/[0.08] dark:via-card dark:to-card">
         {/* Decorative gradient blobs */}
         <div className="absolute -top-10 -right-10 w-40 h-40 bg-sprout-cream/20 rounded-full blur-2xl" />
         <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-sprout-cream/10 rounded-full blur-2xl" />
@@ -166,6 +238,66 @@ export function FertilizationBanner({
               Got it
             </Button>
           </div>
+
+          {/* Expandable plant list */}
+          {visiblePlants.length > 0 && (
+            <div className="mb-3">
+              <button
+                onClick={() => setIsExpanded((prev) => !prev)}
+                className="flex items-center gap-1.5 text-xs font-medium text-sprout-primary dark:text-sprout-cream hover:underline"
+              >
+                <ChevronDown
+                  className={cn(
+                    "w-3.5 h-3.5 transition-transform duration-200",
+                    isExpanded && "rotate-180"
+                  )}
+                />
+                {isExpanded ? "Hide plants" : "Show plants"}
+              </button>
+
+              {isExpanded && (
+                <div className="mt-2 rounded-lg bg-background/40 dark:bg-background/20 backdrop-blur-sm border border-border/50 divide-y divide-border/50">
+                  {visiblePlants.map((plant) => {
+                    const isLogging = loggingId === plant.id;
+                    return (
+                      <div
+                        key={plant.id}
+                        className="flex items-center justify-between px-3 py-2"
+                      >
+                        <div className="min-w-0 flex-1">
+                          <Link
+                            to={`/my-plants/${plant.id}`}
+                            className="text-sm font-medium text-foreground hover:text-white hover:underline truncate block"
+                          >
+                            {plant.nickname || plant.plant_type || "Unnamed plant"}
+                          </Link>
+                          <span className="text-xs text-muted-foreground">
+                            Last: {daysSinceLabel(plant)}
+                          </span>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setConfirmLogPlantId(plant.id)}
+                          disabled={isLogging}
+                          className="text-xs font-medium text-sprout-primary dark:text-sprout-cream hover:bg-sprout-cream/20 flex-shrink-0 ml-2 h-7 px-2.5"
+                        >
+                          {isLogging ? (
+                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            <>
+                              <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
+                              Log
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Snooze options */}
           <div className="flex items-center gap-1.5">
