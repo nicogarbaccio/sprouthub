@@ -1,9 +1,19 @@
 import { test, expect } from '@playwright/test';
-import { getToast, clearFertilizationDismissals, resetFertilizationDates } from './helpers';
+import {
+  getToast,
+  clearFertilizationDismissals,
+  resetFertilizationDates,
+  saveFertilizationDates,
+  restoreFertilizationDates,
+  type FertilizationSnapshot,
+} from './helpers';
 
 const TEST_EMAIL = process.env.TEST_USER_EMAIL!;
 
 test.use({ storageState: 'e2e/.auth/user.json' });
+
+// Snapshot of original fertilization dates — saved in beforeAll, restored in afterAll
+let savedSnapshot: FertilizationSnapshot[] = [];
 
 /**
  * Clear localStorage keys that could hide the fertilization banner.
@@ -35,14 +45,16 @@ async function gotoDashboardWithBanner(page: import('@playwright/test').Page): P
 }
 
 test.describe.serial('Fertilization Banner', () => {
-  // Reset fertilization state so the banner is guaranteed to show
+  // Save original dates, then reset so the banner shows
   test.beforeAll(async () => {
+    savedSnapshot = await saveFertilizationDates(TEST_EMAIL);
     await resetFertilizationDates(TEST_EMAIL);
     await clearFertilizationDismissals(TEST_EMAIL);
   });
 
-  // Restore clean state after all tests
+  // Always restore original dates after tests
   test.afterAll(async () => {
+    await restoreFertilizationDates(savedSnapshot);
     await clearFertilizationDismissals(TEST_EMAIL);
   });
 
@@ -129,6 +141,7 @@ test.describe.serial('Fertilization Banner', () => {
 
   test('should snooze banner for 1 week', async ({ page }) => {
     // Reset dates again in case previous test logged all plants
+    // (afterAll will still restore the original snapshot)
     await resetFertilizationDates(TEST_EMAIL);
     await clearFertilizationDismissals(TEST_EMAIL);
 
@@ -145,7 +158,7 @@ test.describe.serial('Fertilization Banner', () => {
     await expect(getToast(page, 'Reminder Snoozed')).toBeVisible({ timeout: 10000 });
     await expect(page.getByTestId('fertilization-banner')).not.toBeVisible({ timeout: 5000 });
 
-    // Cleanup
+    // Cleanup dismissals (date restore happens in afterAll)
     await clearFertilizationDismissals(TEST_EMAIL);
     await clearBannerLocalStorage(page);
   });

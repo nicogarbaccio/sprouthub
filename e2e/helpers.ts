@@ -210,9 +210,80 @@ export const deleteAllHiddenForUser = async (userEmail: string) => {
   }
 };
 
+export interface FertilizationSnapshot {
+  id: string;
+  last_fertilized_date: string | null;
+}
+
+/**
+ * Save current last_fertilized_date values for all of a user's plants.
+ * Returns a snapshot that can be passed to restoreFertilizationDates().
+ */
+export const saveFertilizationDates = async (userEmail: string): Promise<FertilizationSnapshot[]> => {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    console.warn('Skipping fertilization date save - no admin client available.');
+    return [];
+  }
+
+  try {
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('email', userEmail)
+      .single();
+
+    if (profileError || !profile) {
+      console.warn(`User profile not found for email: ${userEmail}`, profileError);
+      return [];
+    }
+
+    const { data: plants, error } = await supabase
+      .from('user_plants')
+      .select('id, last_fertilized_date')
+      .eq('user_id', profile.id);
+
+    if (error) {
+      console.error('Error saving fertilization dates:', error);
+      return [];
+    }
+
+    const snapshot = (plants ?? []).map((p) => ({
+      id: p.id as string,
+      last_fertilized_date: (p.last_fertilized_date as string | null),
+    }));
+    console.log(`Saved fertilization dates for ${snapshot.length} plant(s)`);
+    return snapshot;
+  } catch (error) {
+    console.error('Unexpected error saving fertilization dates:', error);
+    return [];
+  }
+};
+
+/**
+ * Restore last_fertilized_date values from a previously saved snapshot.
+ */
+export const restoreFertilizationDates = async (snapshot: FertilizationSnapshot[]): Promise<void> => {
+  const supabase = getSupabaseAdmin();
+  if (!supabase || snapshot.length === 0) return;
+
+  try {
+    for (const plant of snapshot) {
+      await supabase
+        .from('user_plants')
+        .update({ last_fertilized_date: plant.last_fertilized_date })
+        .eq('id', plant.id);
+    }
+    console.log(`Restored fertilization dates for ${snapshot.length} plant(s)`);
+  } catch (error) {
+    console.error('Unexpected error restoring fertilization dates:', error);
+  }
+};
+
 /**
  * Reset last_fertilized_date to null for all of a user's plants (test cleanup).
  * This ensures the fertilization banner will reappear.
+ * WARNING: Always call saveFertilizationDates() first and restoreFertilizationDates() after.
  * @param userEmail - Email of the user
  */
 export const resetFertilizationDates = async (userEmail: string) => {
