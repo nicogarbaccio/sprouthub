@@ -188,7 +188,7 @@ const Discover = () => {
             <div className="space-y-4">
               <div className="flex items-center gap-2" data-testid="seasonal-section">
                 <div className="p-2 rounded-xl bg-sprout-success/10"><SeasonIcon className={`h-5 w-5 ${seasonConfig.color}`} /></div>
-                <h2 className="text-lg font-semibold">{seasonConfig.label} Plant Care</h2>
+                <h2 className="text-lg font-semibold">Seasonal Plant Care</h2>
                 {seasonalPosts && seasonalPosts.length >= 4 && (
                   <Link
                     to={`/discover/articles?mode=seasonal&season=${season}`}

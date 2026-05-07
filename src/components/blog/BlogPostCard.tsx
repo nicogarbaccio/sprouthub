@@ -68,7 +68,7 @@ const BlogPostCard = ({ post, matchedPlants, showHideButton = true }: BlogPostCa
               toggleSave({ blogPostId: post.id, wasSaved: isSaved });
             }}
             disabled={isPending}
-            className="absolute top-2 right-2 z-10 p-1.5 rounded-full bg-background shadow-md hover:bg-background/90 transition-colors disabled:opacity-50"
+            className="absolute top-2 right-2 z-10 p-1.5 rounded-full bg-background shadow-md hover:bg-background/90 transition-colors disabled:opacity-50 flex items-center justify-center"
             aria-label={isSaved ? 'Unsave article' : 'Save article'}
           >
             {isSaved ? (
@@ -86,7 +86,7 @@ const BlogPostCard = ({ post, matchedPlants, showHideButton = true }: BlogPostCa
               hideArticle({ blogPostId: post.id });
             }}
             disabled={isHidePending}
-            className="absolute top-2 left-2 z-10 p-1 rounded-full bg-background/60 shadow-sm hover:bg-background/90 transition-colors disabled:opacity-50"
+            className="absolute top-2 left-2 z-10 p-1.5 rounded-full bg-background/60 shadow-sm hover:bg-background/90 transition-colors disabled:opacity-50 flex items-center justify-center"
             aria-label="Hide article"
           >
             <EyeOff className="h-4 w-4 text-muted-foreground" />

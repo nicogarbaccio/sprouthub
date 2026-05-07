@@ -16,10 +16,10 @@ import { usePaginationUrl } from '@/hooks/usePaginationUrl';
 const PAGE_SIZE = 24;
 
 const SEASON_LABELS: Record<string, { label: string; icon: typeof Sun }> = {
-  spring: { label: 'Spring Plant Care', icon: Flower },
-  summer: { label: 'Summer Plant Care', icon: Sun },
-  fall: { label: 'Fall Plant Care', icon: CloudRain },
-  winter: { label: 'Winter Plant Care', icon: Snowflake },
+  spring: { label: 'Seasonal Plant Care', icon: Flower },
+  summer: { label: 'Seasonal Plant Care', icon: Sun },
+  fall: { label: 'Seasonal Plant Care', icon: CloudRain },
+  winter: { label: 'Seasonal Plant Care', icon: Snowflake },
 };
 
 function getTitle(mode: string, params: { season?: string; plant?: string }): string {
