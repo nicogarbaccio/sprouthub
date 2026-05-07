@@ -54,9 +54,9 @@ const BlogPostsSection = ({ plantName }: BlogPostsSectionProps) => {
       ) : (
         <Carousel
           opts={{ align: 'start', loop: false }}
-          className="w-full"
+          className="w-full overflow-visible"
         >
-          <CarouselContent className="-ml-3">
+          <CarouselContent className="-ml-3 py-2">
             {posts!.map((post) => (
               <CarouselItem
                 key={post.id}

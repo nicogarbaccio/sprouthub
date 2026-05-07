@@ -200,8 +200,8 @@ const Discover = () => {
               </div>
 
               {seasonalPosts && seasonalPosts.length > 0 ? (
-                <Carousel opts={{ align: 'start', loop: false }} className="w-full">
-                  <CarouselContent className="-ml-3">
+                <Carousel opts={{ align: 'start', loop: false }} className="w-full overflow-visible">
+                  <CarouselContent className="-ml-3 py-2">
                     {seasonalPosts.map((post) => (
                       <CarouselItem
                         key={post.id}
@@ -250,8 +250,8 @@ const Discover = () => {
               </div>
 
               {generalPosts && generalPosts.length > 0 ? (
-                <Carousel opts={{ align: 'start', loop: false }} className="w-full">
-                  <CarouselContent className="-ml-3">
+                <Carousel opts={{ align: 'start', loop: false }} className="w-full overflow-visible">
+                  <CarouselContent className="-ml-3 py-2">
                     {generalPosts.map((post) => (
                       <CarouselItem
                         key={post.id}
@@ -282,7 +282,7 @@ const Discover = () => {
               <div className="h-1 bg-gradient-to-r from-sprout-water via-sprout-success to-sprout-medium" />
               <div className="p-6 space-y-4">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-sprout-primary/10"><Search className="h-5 w-5 text-sprout-primary" /></div>
+                <div className="p-2 rounded-xl bg-sprout-primary/10 dark:bg-sprout-light/20"><Search className="h-5 w-5 text-sprout-primary dark:text-sprout-light" /></div>
                 <h2 className="text-lg font-semibold">Browse by Plant</h2>
                 {debouncedSearch && plantPosts && plantPosts.length >= 4 && (
                   <Link
@@ -331,8 +331,8 @@ const Discover = () => {
                   </div>
                 ) : plantPosts && plantPosts.length > 0 ? (
                   <div className="animate-in fade-in duration-300">
-                    <Carousel opts={{ align: 'start', loop: false }} className="w-full">
-                      <CarouselContent className="-ml-3">
+                    <Carousel opts={{ align: 'start', loop: false }} className="w-full overflow-visible">
+                      <CarouselContent className="-ml-3 py-2">
                         {plantPosts.map((post) => (
                           <CarouselItem
                             key={post.id}

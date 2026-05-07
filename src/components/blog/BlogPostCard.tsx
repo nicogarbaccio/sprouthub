@@ -43,7 +43,7 @@ const BlogPostCard = ({ post, matchedPlants, showHideButton = true }: BlogPostCa
   const visiblePlants = matchedPlants?.slice(0, 2);
 
   return (
-    <Card className="h-full overflow-hidden border-0 shadow-md [@media(hover:hover)]:hover:shadow-lg [@media(hover:hover)]:hover:-translate-y-0.5 transition-all duration-300 flex flex-col relative group" data-testid="blog-post-card">
+    <Card className="h-full overflow-hidden border border-border/60 dark:border-0 shadow-md [@media(hover:hover)]:hover:shadow-lg [@media(hover:hover)]:hover:-translate-y-0.5 transition-all duration-300 flex flex-col relative group" data-testid="blog-post-card">
       <div className="relative">
         {showPlaceholder ? (
           <div className="aspect-[16/9] overflow-hidden bg-sprout-pale/50 dark:bg-sprout-medium/20 flex items-center justify-center">
