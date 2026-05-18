@@ -262,25 +262,23 @@ export function FertilizationBanner({
                     return (
                       <div
                         key={plant.id}
-                        className="flex items-center justify-between px-3 py-2"
+                        className="flex items-center justify-between px-3 py-2.5 gap-2"
                       >
-                        <div className="min-w-0 flex-1">
+                        <div className="min-w-0 flex-1 leading-tight">
                           <Link
                             to={`/my-plants/${plant.id}`}
-                            className="text-sm font-medium text-foreground hover:text-white hover:underline truncate block"
+                            className="text-sm font-medium text-foreground hover:text-white hover:underline block truncate [min-height:unset]"
                           >
                             {plant.nickname || plant.plant_type || "Unnamed plant"}
                           </Link>
-                          <span className="text-xs text-muted-foreground">
-                            Last: {daysSinceLabel(plant)}
+                          <span className="text-xs text-muted-foreground block mt-0.5">
+                            Last fertilized: {daysSinceLabel(plant)}
                           </span>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
+                        <button
                           onClick={() => setConfirmLogPlantId(plant.id)}
                           disabled={isLogging}
-                          className="text-xs font-medium text-sprout-primary dark:text-sprout-cream hover:bg-sprout-cream/20 flex-shrink-0 ml-2 h-7 px-2.5"
+                          className="text-xs font-medium text-sprout-primary dark:text-sprout-cream hover:bg-sprout-cream/20 rounded-md flex-shrink-0 ml-2 py-1 px-2.5 flex items-center gap-1 disabled:opacity-50 [min-height:unset] [min-width:unset]"
                         >
                           {isLogging ? (
                             <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -290,7 +288,7 @@ export function FertilizationBanner({
                               Log
                             </>
                           )}
-                        </Button>
+                        </button>
                       </div>
                     );
                   })}
