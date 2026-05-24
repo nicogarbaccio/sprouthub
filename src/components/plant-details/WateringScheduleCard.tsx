@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatDistanceToNow } from "date-fns";
+import { format } from "date-fns";
 import type { UserPlant } from "@/hooks/useUserPlants";
 
 interface WateringScheduleCardProps {
@@ -22,9 +22,7 @@ const WateringScheduleCard = ({ plant }: WateringScheduleCardProps) => {
             </span>
             <span className="text-xs sm:text-sm font-medium">
               {plant.latest_watering
-                ? formatDistanceToNow(new Date(plant.latest_watering), {
-                    addSuffix: true,
-                  })
+                ? format(new Date(plant.latest_watering), "MMM d, yyyy")
                 : "Never"}
             </span>
           </div>

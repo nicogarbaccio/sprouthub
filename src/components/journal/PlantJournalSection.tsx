@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookOpen, Plus, ChevronDown, ChevronUp } from 'lucide-react';
+import { BookOpen, Plus, ChevronDown, ChevronUp, Droplets, FlaskConical, StickyNote } from 'lucide-react';
 import { useJournalEntries } from '@/hooks/useJournalEntries';
 import { useWateringRecords } from '@/hooks/useWateringRecords';
 import { JournalEntryForm } from './JournalEntryForm';
 import { JournalEntryList } from './JournalEntryList';
 import { JournalEntryFormData } from '@/types/journalTypes';
+import { cn } from '@/lib/utils';
+
+type JournalFilter = 'all' | 'watering' | 'fertilization' | 'other';
 
 interface PlantJournalSectionProps {
   plantId: string;
@@ -19,6 +22,7 @@ export function PlantJournalSection({
   const [showForm, setShowForm] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [hasLoadedInitially, setHasLoadedInitially] = useState(false);
+  const [filter, setFilter] = useState<JournalFilter>('all');
 
   const {
     entries,
@@ -48,6 +52,14 @@ export function PlantJournalSection({
   }, [plantId, loadJournalEntries, loadWateringRecords, hasLoadedInitially]);
 
   const stats = getJournalStats(plantId);
+
+  const filteredEntries = entries.filter((entry) => {
+    if (filter === 'all') return true;
+    if (filter === 'watering') return entry.title === 'Watered';
+    if (filter === 'fertilization') return entry.title === 'Fertilized' || entry.title === 'Fertilization note';
+    // 'other' — everything that isn't a watering or fertilization
+    return entry.title !== 'Watered' && entry.title !== 'Fertilized' && entry.title !== 'Fertilization note';
+  });
 
   const handleSubmitEntry = async (formData: JournalEntryFormData) => {
     const success = await addJournalEntry(
@@ -155,10 +167,36 @@ export function PlantJournalSection({
             </div>
           )}
 
+          {/* Filter Tabs */}
+          {(isExpanded || entries.length === 0) && !showForm && entries.length > 0 && (
+            <div className="flex gap-1 flex-wrap">
+              {([
+                { key: 'all', label: 'All', icon: BookOpen },
+                { key: 'watering', label: 'Waterings', icon: Droplets },
+                { key: 'fertilization', label: 'Fertilizations', icon: FlaskConical },
+                { key: 'other', label: 'Other', icon: StickyNote },
+              ] as const).map(({ key, label, icon: Icon }) => (
+                <Button
+                  key={key}
+                  size="sm"
+                  variant={filter === key ? 'default' : 'outline'}
+                  onClick={() => setFilter(key)}
+                  className={cn(
+                    'text-xs h-7 px-2.5',
+                    filter === key && 'bg-emerald-600 hover:bg-emerald-700 text-white'
+                  )}
+                >
+                  <Icon className="w-3 h-3 mr-1" />
+                  {label}
+                </Button>
+              ))}
+            </div>
+          )}
+
           {/* Entry List */}
           {(isExpanded || entries.length === 0) && !showForm && (
             <JournalEntryList
-              entries={entries}
+              entries={filteredEntries}
               isLoading={!hasLoadedInitially}
               onDeleteEntry={handleDeleteEntry}
               deleteLoadingEntries={deleteLoadingEntries}

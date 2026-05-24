@@ -169,10 +169,8 @@ const FertilizationCard = ({
   };
 
   const lastFertilizedText = () => {
-    if (status.daysSinceLastFertilized === null) return "Never logged";
-    if (status.daysSinceLastFertilized === 0) return "Today";
-    if (status.daysSinceLastFertilized === 1) return "Yesterday";
-    return `${status.daysSinceLastFertilized} days ago`;
+    if (!plant.last_fertilized_date) return "Never logged";
+    return format(new Date(plant.last_fertilized_date), "MMM d, yyyy");
   };
 
   return (

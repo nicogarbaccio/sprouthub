@@ -111,13 +111,13 @@ export const usePlantActions = ({
         prevPlants.map(p =>
           p.id === plantId
             ? {
-                ...p,
-                latest_watering: wateringDate,
-                days_since_watering: 0,
-                // Clear postponement since we're watering
-                postponement_date: undefined,
-                postponement_notes: undefined,
-              }
+              ...p,
+              latest_watering: wateringDate,
+              days_since_watering: 0,
+              // Clear postponement since we're watering
+              postponement_date: undefined,
+              postponement_notes: undefined,
+            }
             : p
         )
       );
@@ -148,6 +148,18 @@ export const usePlantActions = ({
         });
 
       if (error) throw error;
+
+      // Create a journal entry so the watering appears in the plant journal
+      await supabase
+        .from('plant_journal_entries')
+        .insert({
+          plant_id: plantId,
+          user_id: user.id,
+          title: 'Watered',
+          content: notes ? `Watered ${plantName}. Notes: ${notes}` : `Watered ${plantName}.`,
+          mood: null,
+          entry_date: wateringDate,
+        });
 
       wateringToast.recorded(plantName);
 
@@ -207,11 +219,11 @@ export const usePlantActions = ({
         prevPlants.map(p =>
           p.id === plantId
             ? {
-                ...p,
-                postponement_date: postponementDate,
-                postponement_notes:
-                  "POSTPONEMENT: Watering postponed - plant didn't need water yet",
-              }
+              ...p,
+              postponement_date: postponementDate,
+              postponement_notes:
+                "POSTPONEMENT: Watering postponed - plant didn't need water yet",
+            }
             : p
         )
       );
@@ -317,6 +329,18 @@ export const usePlantActions = ({
         .eq('id', plantId);
 
       if (error) throw error;
+
+      // Create a journal entry so the fertilization appears in the plant journal
+      await supabase
+        .from('plant_journal_entries')
+        .insert({
+          plant_id: plantId,
+          user_id: user.id,
+          title: 'Fertilized',
+          content: `Fertilization logged for ${plantName}.`,
+          mood: null,
+          entry_date: fertilizedDate,
+        });
 
       fertilizationToast.recorded(plantName);
       await fetchPlants();
