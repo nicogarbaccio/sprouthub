@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -107,6 +107,7 @@ export const SmartWateringWizard = ({
     location: location.location,
     autoFetch: enableWeatherData && !!location.location,
   });
+  const hasInitializedFromPreferences = useRef(false);
 
   const labels = getFactorLabels();
 
@@ -138,7 +139,8 @@ export const SmartWateringWizard = ({
   }, [weather.weatherData, enableWeatherData]);
 
   useEffect(() => {
-    if (preferences) {
+    if (preferences && !hasInitializedFromPreferences.current) {
+      hasInitializedFromPreferences.current = true;
       initializeFromPreferences();
     }
   }, [preferences, initializeFromPreferences]);
@@ -246,6 +248,7 @@ export const SmartWateringWizard = ({
     });
     setResult(null);
     setWeatherMappingReasons([]);
+    hasInitializedFromPreferences.current = false;
   };
 
   const handleLocationSelected = (_selectedLocation: LocationData) => {
