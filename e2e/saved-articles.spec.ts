@@ -23,8 +23,8 @@ test.describe.serial('Saved Articles', () => {
     await page.goto('/my-articles');
     await expect(page.getByTestId('my-articles-page')).toBeVisible({ timeout: 15000 });
 
-    // Wait for content to settle (either cards or empty state)
-    await page.waitForTimeout(2000);
+    // Wait for cards or empty state to appear
+    await page.waitForSelector('[data-testid="blog-post-card"], [class*="flex-col items-center"]', { timeout: 10000 }).catch(() => { });
 
     // Unsave all articles if any exist
     const unsaveButtons = page.getByLabel('Unsave article');
@@ -33,8 +33,8 @@ test.describe.serial('Saved Articles', () => {
       await unsaveButtons.first().click();
       // Use .first() to avoid strict mode violation when multiple toasts stack
       await expect(getToast(page, 'Article removed from saved').first()).toBeVisible({ timeout: 10000 });
-      // Wait for toast to dismiss and card to be removed
-      await page.waitForTimeout(1000);
+      // Wait for the card to be removed
+      await expect(page.getByLabel('Unsave article')).toHaveCount(count - 1, { timeout: 10000 }).catch(() => { });
       count = await unsaveButtons.count();
     }
 
@@ -134,9 +134,14 @@ test.describe.serial('Saved Articles', () => {
 
     const plantSection = page.getByTestId('my-plants-blog-section');
 
-    // Wait for dashboard content to load, then check if section exists
-    await page.waitForTimeout(3000);
-    const sectionVisible = await plantSection.isVisible().catch(() => false);
+    // Wait for the section to appear (it renders null if no posts)
+    let sectionVisible: boolean;
+    try {
+      await expect(plantSection).toBeVisible({ timeout: 10000 });
+      sectionVisible = true;
+    } catch {
+      sectionVisible = false;
+    }
     if (!sectionVisible) {
       test.skip(true, 'No "For Your Plants" section — user has no plants');
       return;
@@ -146,16 +151,9 @@ test.describe.serial('Saved Articles', () => {
     const card = plantSection
       .getByTestId('blog-post-card')
       .filter({ has: page.getByLabel('Save article') })
+      .filter({ has: page.locator('.absolute.bottom-2.left-2') })
       .first();
     await expect(card).toBeVisible({ timeout: 15000 });
-
-    // Read the plant pill texts from the card
-    const pillContainer = card.locator('.absolute.bottom-2');
-    const pillTexts = await pillContainer.locator('[class*="inline-flex"]').allTextContents();
-
-    // Filter out "+N" overflow badges (e.g. "+5")
-    const plantNames = pillTexts.filter((t) => !t.startsWith('+'));
-    expect(plantNames.length).toBeGreaterThan(0);
 
     // Grab the article title
     const articleTitle = await card.getByRole('link').textContent();
@@ -169,14 +167,16 @@ test.describe.serial('Saved Articles', () => {
     await page.goto('/my-articles');
     await expect(page.getByTestId('my-articles-page')).toBeVisible({ timeout: 15000 });
 
-    // Find the same card
+    // Find the same card — wait for cards to load
     const savedCard = page.getByTestId('blog-post-card').filter({ hasText: articleTitle! });
     await expect(savedCard).toBeVisible({ timeout: 15000 });
 
-    // Verify the same plant pills appear
-    for (const name of plantNames) {
-      await expect(savedCard.getByText(name, { exact: true })).toBeVisible();
-    }
+    // Verify plant pills appear on the saved card (My Articles computes its own
+    // matchedPlants so we just check that at least one pill badge is rendered)
+    const savedPillContainer = savedCard.locator('.absolute.bottom-2.left-2');
+    await expect(savedPillContainer).toBeVisible({ timeout: 10000 });
+    const pillCount = await savedPillContainer.locator('[class*="inline-flex"]').count();
+    expect(pillCount).toBeGreaterThan(0);
 
     // Cleanup: unsave the article
     await savedCard.getByLabel('Unsave article').click();

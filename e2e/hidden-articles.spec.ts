@@ -124,7 +124,7 @@ test.describe.serial('Hidden Articles', () => {
     await page.getByRole('tab', { name: /Preferences/i }).click();
 
     // The Hidden Articles card should be visible
-    await expect(page.getByText('Hidden Articles')).toBeVisible({ timeout: 10000 });
+    await expect(page.getByRole('heading', { name: 'Hidden Articles' })).toBeVisible({ timeout: 10000 });
 
     // The hidden article's title should appear in the list
     await expect(page.getByText(articleTitle!)).toBeVisible({ timeout: 10000 });

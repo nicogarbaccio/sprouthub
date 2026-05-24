@@ -39,9 +39,13 @@ async function gotoDashboardWithBanner(page: import('@playwright/test').Page): P
   await page.reload();
   await expect(page.getByTestId('dashboard')).toBeVisible({ timeout: 15000 });
 
-  // Give the banner hook time to check dismissal state
-  await page.waitForTimeout(2000);
-  return page.getByTestId('fertilization-banner').isVisible().catch(() => false);
+  // Wait for the banner to appear (or determine it won't show)
+  try {
+    await expect(page.getByTestId('fertilization-banner')).toBeVisible({ timeout: 10000 });
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 test.describe.serial('Fertilization Banner', () => {
@@ -82,7 +86,7 @@ test.describe.serial('Fertilization Banner', () => {
     const banner = page.getByTestId('fertilization-banner');
     const logButtons = banner.getByRole('button', { name: 'Log' });
     await expect(logButtons.first()).toBeVisible({ timeout: 5000 });
-    await expect(banner.getByText(/Last:/).first()).toBeVisible();
+    await expect(banner.getByText(/Last fertilized:/).first()).toBeVisible();
 
     // Collapse
     await page.getByText('Hide plants').click();
