@@ -30,6 +30,7 @@ import { useEnrichedPlant } from "@/hooks/useEnrichedPlant";
 import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { useJournalEntries } from "@/hooks/useJournalEntries";
+import { useManualNotifications } from "@/hooks/usePlantNotifications";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 
 const MyPlantDetails = () => {
@@ -46,6 +47,8 @@ const MyPlantDetails = () => {
     fetchPlants,
     logFertilization,
   } = useUserPlants();
+
+  const { notifyWateringSuccess } = useManualNotifications();
 
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
   const [showPostponeConfirmation, setShowPostponeConfirmation] =
@@ -124,20 +127,22 @@ const MyPlantDetails = () => {
     async (notes?: string) => {
       if (plant) {
         await waterPlant(plant.id, notes);
+        notifyWateringSuccess(plant.nickname);
         setShowWaterConfirmation(false);
       }
     },
-    [plant, waterPlant],
+    [plant, waterPlant, notifyWateringSuccess],
   );
 
   const handleAlreadyWatered = useCallback(
     async (_date: string, notes?: string) => {
       if (plant) {
         await waterPlant(plant.id, notes);
+        notifyWateringSuccess(plant.nickname);
         setShowWaterConfirmation(false);
       }
     },
-    [plant, waterPlant],
+    [plant, waterPlant, notifyWateringSuccess],
   );
 
   const handleConfirmPostpone = useCallback(async () => {
