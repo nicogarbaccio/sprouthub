@@ -23,13 +23,31 @@ export interface WateringStats {
   longestStreak: number;
 }
 
+export interface PlantRef {
+  id: string;
+  name: string;
+}
+
 export interface PlantHealthStats {
   totalPlants: number;
   healthyPlants: number;
   needsAttention: number;
   overduePlants: number;
   onSchedule: number;
-  overwateringRisk: number;
+  /** Per-bucket plant lists for the status drill-down (single source of truth). */
+  lists: {
+    overdue: PlantRef[];
+    needsAttention: PlantRef[];
+    onSchedule: PlantRef[];
+  };
+}
+
+/** Watering-habit groupings derived from the historical `pattern` field. */
+export interface WateringHabits {
+  late: PlantRef[];
+  early: PlantRef[];
+  irregular: PlantRef[];
+  consistentCount: number;
 }
 
 export interface WateringFrequency {
@@ -123,45 +141,85 @@ export function calculateWateringStats(
  */
 export function calculatePlantHealthStats(plants: UserPlant[]): PlantHealthStats {
   let healthyPlants = 0;
-  let needsAttention = 0;
-  let overduePlants = 0;
-  let onSchedule = 0;
-  let overwateringRisk = 0;
+  const lists: PlantHealthStats['lists'] = { overdue: [], needsAttention: [], onSchedule: [] };
 
   plants.forEach(plant => {
+    const ref: PlantRef = { id: plant.id, name: plant.nickname };
     const daysSinceWatering = plant.days_since_watering || 0;
     const scheduleDays = plant.suggested_watering_days || 7;
     const daysUntilDue = scheduleDays - daysSinceWatering;
 
     // Overdue
     if (daysUntilDue < 0) {
-      overduePlants++;
-      needsAttention++;
+      lists.overdue.push(ref);
+      lists.needsAttention.push(ref);
     }
     // Due today or tomorrow
     else if (daysUntilDue <= 1) {
-      needsAttention++;
+      lists.needsAttention.push(ref);
     }
     // On schedule (2+ days until watering)
     else if (daysUntilDue >= 2) {
-      onSchedule++;
+      lists.onSchedule.push(ref);
       healthyPlants++;
-    }
-
-    // Check for overwatering risk (watered within 30% of schedule)
-    if (daysSinceWatering < scheduleDays * 0.3) {
-      overwateringRisk++;
     }
   });
 
   return {
     totalPlants: plants.length,
     healthyPlants,
-    needsAttention,
-    overduePlants,
-    onSchedule,
-    overwateringRisk,
+    needsAttention: lists.needsAttention.length,
+    overduePlants: lists.overdue.length,
+    onSchedule: lists.onSchedule.length,
+    lists,
   };
+}
+
+/**
+ * Group plants by their historical watering habit, derived from the same
+ * `pattern` value that drives the Performance table's Pattern column — so
+ * this grouping can never disagree with that column.
+ */
+export function classifyWateringHabits(enriched: PlantPerformance[]): WateringHabits {
+  const habits: WateringHabits = { late: [], early: [], irregular: [], consistentCount: 0 };
+
+  enriched.forEach(p => {
+    const ref: PlantRef = { id: p.plantId, name: p.plantName };
+    switch (p.pattern) {
+      case 'late':
+        habits.late.push(ref);
+        break;
+      case 'early':
+        habits.early.push(ref);
+        break;
+      case 'irregular':
+        habits.irregular.push(ref);
+        break;
+      case 'consistent':
+        habits.consistentCount++;
+        break;
+      // 'insufficient' — not enough history to judge a habit; omitted
+    }
+  });
+
+  return habits;
+}
+
+/**
+ * Short inline hint describing a plant's watering habit, for annotating
+ * status chips. Returns null when there's no notable habit to surface.
+ */
+export function habitNote(pattern?: PlantPerformance['pattern']): string | null {
+  switch (pattern) {
+    case 'late':
+      return 'runs late';
+    case 'early':
+      return 'runs early';
+    case 'irregular':
+      return 'inconsistent';
+    default:
+      return null;
+  }
 }
 
 /**
@@ -563,17 +621,6 @@ export function getAnalyticsInsights(
       ? ` and ${overduePlants.length - 3} more`
       : '';
     insights.push({ names: names.join(', ') + suffix, message: 'overdue for watering' });
-  }
-
-  // Overwatering risk — name the plants
-  const overwateredPlants = plants.filter(p => {
-    const daysSince = p.days_since_watering || 0;
-    const schedule = p.suggested_watering_days || 7;
-    return daysSince < schedule * 0.3;
-  });
-  if (overwateredPlants.length > 0) {
-    const names = overwateredPlants.slice(0, 3).map(p => p.nickname);
-    insights.push({ names: names.join(', '), message: 'watered recently, check soil before watering again' });
   }
 
   // Postponement insights from enriched data

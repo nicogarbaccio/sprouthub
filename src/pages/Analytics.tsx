@@ -23,6 +23,8 @@ import {
 import {
   calculateWateringStats,
   calculatePlantHealthStats,
+  classifyWateringHabits,
+  habitNote,
   getTimeDistribution,
   getAnalyticsInsights,
   calculateFertilizationSummaries,
@@ -58,26 +60,14 @@ const AnalyticsContent = () => {
 
   const fertilizationSummaries = !isLoading ? calculateFertilizationSummaries(plants) : [];
 
-  // Categorize plants for health overview drill-down
-  const healthPlantLists = !isLoading ? (() => {
-    const overdue: { id: string; name: string }[] = [];
-    const needsAttention: { id: string; name: string }[] = [];
-    const overwateringRisk: { id: string; name: string }[] = [];
-    const onSchedule: { id: string; name: string }[] = [];
-    plants.forEach(p => {
-      const entry = { id: p.id, name: p.nickname };
-      const daysSince = p.days_since_watering || 0;
-      const schedule = p.suggested_watering_days || 7;
-      const daysUntilDue = schedule - daysSince;
-      if (daysUntilDue < 0) { overdue.push(entry); needsAttention.push(entry); }
-      else if (daysUntilDue <= 1) { needsAttention.push(entry); }
-      else { onSchedule.push(entry); }
-      if (daysSince < schedule * 0.3) { overwateringRisk.push(entry); }
-    });
-    return { overdue, needsAttention, overwateringRisk, onSchedule };
-  })() : { overdue: [], needsAttention: [], overwateringRisk: [], onSchedule: [] };
   const wateringStats = !isLoading ? calculateWateringStats(plants, wateringRecords.size > 0 ? wateringRecords : undefined) : { totalWaterings: 0, thisWeek: 0, averagePerWeek: 0, streak: 0, longestStreak: 0, thisMonth: 0 };
-  const healthStats = !isLoading ? calculatePlantHealthStats(plants) : { totalPlants: 0, onSchedule: 0, needsAttention: 0, overduePlants: 0, overwateringRisk: 0 };
+  const healthStats = !isLoading ? calculatePlantHealthStats(plants) : { totalPlants: 0, healthyPlants: 0, onSchedule: 0, needsAttention: 0, overduePlants: 0, lists: { overdue: [], needsAttention: [], onSchedule: [] } };
+  // Single source of truth for the status drill-down lists
+  const healthPlantLists = healthStats.lists;
+  // Habit groupings + per-plant lookup, both derived from the same `pattern`
+  // value that drives the Performance table's Pattern column.
+  const wateringHabits = classifyWateringHabits(enrichedPerformance);
+  const perfByPlantId = new Map(enrichedPerformance.map(p => [p.plantId, p]));
   const weeklyDistribution = !isLoading ? getTimeDistribution(plants, wateringRecords.size > 0 ? wateringRecords : undefined) : [];
   const insights = !isLoading ? getAnalyticsInsights(plants, enrichedPerformance.length > 0 ? enrichedPerformance : undefined) : [];
 
@@ -206,96 +196,177 @@ const AnalyticsContent = () => {
                   Plant Health Overview
                 </CardTitle>
                 <CardDescription>
-                  Current status of your {healthStats.totalPlants} plants
+                  Where your {healthStats.totalPlants} plants stand right now, and how your watering habits look over the last 90 days
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {/* Healthy Plants */}
+                <div className="space-y-6">
+                  {/* Section A — current status (snapshot) */}
                   <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle className="h-4 w-4 text-green-500" />
-                        <span className="text-sm font-medium">On Schedule</span>
-                      </div>
-                      <span className="text-sm font-bold">{healthStats.onSchedule}</span>
+                    <div className="flex items-baseline gap-2 mb-3">
+                      <h3 className="text-sm font-semibold">Watering status</h3>
+                      <span className="text-xs text-muted-foreground">right now</span>
                     </div>
-                    <Progress
-                      value={(healthStats.onSchedule / healthStats.totalPlants) * 100}
-                      className="h-2"
-                    />
-                    {healthPlantLists.onSchedule.length > 0 && (
-                      <p className="text-xs text-muted-foreground mt-1.5">
-                        {healthPlantLists.onSchedule.map((p, i) => (
-                          <span key={p.id}>{i > 0 && ', '}<Link to={`/my-plants/${p.id}`} className="underline underline-offset-2 hover:text-foreground">{p.name}</Link></span>
-                        ))}
-                      </p>
-                    )}
+                    <div className="space-y-4">
+                      {/* On Schedule */}
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <CheckCircle className="h-4 w-4 text-green-500" />
+                            <span className="text-sm font-medium">On Schedule</span>
+                          </div>
+                          <span className="text-sm font-bold">{healthStats.onSchedule}</span>
+                        </div>
+                        <Progress
+                          value={(healthStats.onSchedule / healthStats.totalPlants) * 100}
+                          className="h-2"
+                        />
+                        {healthPlantLists.onSchedule.length > 0 && (
+                          <p className="text-xs text-muted-foreground mt-1.5">
+                            {healthPlantLists.onSchedule.map((p, i) => {
+                              const note = habitNote(perfByPlantId.get(p.id)?.pattern);
+                              return (
+                                <span key={p.id}>{i > 0 && ', '}<Link to={`/my-plants/${p.id}`} className="underline underline-offset-2 hover:text-foreground">{p.name}</Link>{note && <span className="opacity-70"> · {note}</span>}</span>
+                              );
+                            })}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Needs Attention */}
+                      {healthStats.needsAttention > 0 && (
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <AlertTriangle className="h-4 w-4 text-orange-500" />
+                              <span className="text-sm font-medium">Needs Attention</span>
+                            </div>
+                            <span className="text-sm font-bold">{healthStats.needsAttention}</span>
+                          </div>
+                          <Progress
+                            value={(healthStats.needsAttention / healthStats.totalPlants) * 100}
+                            className="h-2 [&>div]:bg-orange-500"
+                          />
+                          <p className="text-xs text-orange-600 dark:text-orange-400 mt-1.5">
+                            {healthPlantLists.needsAttention.map((p, i) => {
+                              const note = habitNote(perfByPlantId.get(p.id)?.pattern);
+                              return (
+                                <span key={p.id}>{i > 0 && ', '}<Link to={`/my-plants/${p.id}`} className="underline underline-offset-2 hover:text-orange-400 dark:hover:text-orange-300">{p.name}</Link>{note && <span className="opacity-70"> · {note}</span>}</span>
+                              );
+                            })}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Overdue */}
+                      {healthStats.overduePlants > 0 && (
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <AlertTriangle className="h-4 w-4 text-red-500" />
+                              <span className="text-sm font-medium">Overdue</span>
+                            </div>
+                            <span className="text-sm font-bold">{healthStats.overduePlants}</span>
+                          </div>
+                          <Progress
+                            value={(healthStats.overduePlants / healthStats.totalPlants) * 100}
+                            className="h-2 [&>div]:bg-red-500"
+                          />
+                          <p className="text-xs text-red-600 dark:text-red-400 mt-1.5">
+                            {healthPlantLists.overdue.map((p, i) => {
+                              const note = habitNote(perfByPlantId.get(p.id)?.pattern);
+                              return (
+                                <span key={p.id}>{i > 0 && ', '}<Link to={`/my-plants/${p.id}`} className="underline underline-offset-2 hover:text-red-400 dark:hover:text-red-300">{p.name}</Link>{note && <span className="opacity-70"> · {note}</span>}</span>
+                              );
+                            })}
+                          </p>
+                        </div>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Needs Attention */}
-                  {healthStats.needsAttention > 0 && (
+                  {/* Section B — watering habits (90-day history) */}
+                  {enrichedPerformance.length > 0 && (
                     <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <AlertTriangle className="h-4 w-4 text-orange-500" />
-                          <span className="text-sm font-medium">Needs Attention</span>
-                        </div>
-                        <span className="text-sm font-bold">{healthStats.needsAttention}</span>
+                      <div className="flex items-baseline gap-2 mb-3">
+                        <h3 className="text-sm font-semibold">Watering habits</h3>
+                        <span className="text-xs text-muted-foreground">last 90 days</span>
                       </div>
-                      <Progress
-                        value={(healthStats.needsAttention / healthStats.totalPlants) * 100}
-                        className="h-2 [&>div]:bg-orange-500"
-                      />
-                      <p className="text-xs text-orange-600 dark:text-orange-400 mt-1.5">
-                        {healthPlantLists.needsAttention.map((p, i) => (
-                          <span key={p.id}>{i > 0 && ', '}<Link to={`/my-plants/${p.id}`} className="underline underline-offset-2 hover:text-orange-400 dark:hover:text-orange-300">{p.name}</Link></span>
-                        ))}
-                      </p>
-                    </div>
-                  )}
+                      {wateringHabits.late.length === 0 && wateringHabits.early.length === 0 && wateringHabits.irregular.length === 0 ? (
+                        <p className="text-xs text-muted-foreground">
+                          {wateringHabits.consistentCount > 0
+                            ? 'Your plants are watered on a consistent rhythm — nice work!'
+                            : 'Not enough watering history yet to spot habits.'}
+                        </p>
+                      ) : (
+                        <div className="space-y-4">
+                          {/* Runs late */}
+                          {wateringHabits.late.length > 0 && (
+                            <div>
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="inline-block w-3 h-3 rounded-full bg-orange-500" />
+                                  <span className="text-sm font-medium">Runs late</span>
+                                </div>
+                                <span className="text-sm font-bold">{wateringHabits.late.length}</span>
+                              </div>
+                              <Progress
+                                value={(wateringHabits.late.length / healthStats.totalPlants) * 100}
+                                className="h-2 [&>div]:bg-orange-500"
+                              />
+                              <p className="text-xs text-orange-600 dark:text-orange-400 mt-1.5">
+                                {wateringHabits.late.map((p, i) => (
+                                  <span key={p.id}>{i > 0 && ', '}<Link to={`/my-plants/${p.id}`} className="underline underline-offset-2 hover:text-orange-400 dark:hover:text-orange-300">{p.name}</Link></span>
+                                ))}
+                              </p>
+                            </div>
+                          )}
 
-                  {/* Overdue */}
-                  {healthStats.overduePlants > 0 && (
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <AlertTriangle className="h-4 w-4 text-red-500" />
-                          <span className="text-sm font-medium">Overdue</span>
-                        </div>
-                        <span className="text-sm font-bold">{healthStats.overduePlants}</span>
-                      </div>
-                      <Progress
-                        value={(healthStats.overduePlants / healthStats.totalPlants) * 100}
-                        className="h-2 [&>div]:bg-red-500"
-                      />
-                      <p className="text-xs text-red-600 dark:text-red-400 mt-1.5">
-                        {healthPlantLists.overdue.map((p, i) => (
-                          <span key={p.id}>{i > 0 && ', '}<Link to={`/my-plants/${p.id}`} className="underline underline-offset-2 hover:text-red-400 dark:hover:text-red-300">{p.name}</Link></span>
-                        ))}
-                      </p>
-                    </div>
-                  )}
+                          {/* Runs early */}
+                          {wateringHabits.early.length > 0 && (
+                            <div>
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="inline-block w-3 h-3 rounded-full bg-blue-500" />
+                                  <span className="text-sm font-medium">Runs early</span>
+                                </div>
+                                <span className="text-sm font-bold">{wateringHabits.early.length}</span>
+                              </div>
+                              <Progress
+                                value={(wateringHabits.early.length / healthStats.totalPlants) * 100}
+                                className="h-2 [&>div]:bg-blue-500"
+                              />
+                              <p className="text-xs text-blue-600 dark:text-blue-400 mt-1.5">
+                                {wateringHabits.early.map((p, i) => (
+                                  <span key={p.id}>{i > 0 && ', '}<Link to={`/my-plants/${p.id}`} className="underline underline-offset-2 hover:text-blue-400 dark:hover:text-blue-300">{p.name}</Link></span>
+                                ))}
+                              </p>
+                            </div>
+                          )}
 
-                  {/* Overwatering Risk */}
-                  {healthStats.overwateringRisk > 0 && (
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <Droplets className="h-4 w-4 text-blue-500" />
-                          <span className="text-sm font-medium">Overwatering Risk</span>
+                          {/* Inconsistent */}
+                          {wateringHabits.irregular.length > 0 && (
+                            <div>
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <span className="inline-block w-3 h-3 rounded-full bg-muted-foreground/50" />
+                                  <span className="text-sm font-medium">Inconsistent timing</span>
+                                </div>
+                                <span className="text-sm font-bold">{wateringHabits.irregular.length}</span>
+                              </div>
+                              <Progress
+                                value={(wateringHabits.irregular.length / healthStats.totalPlants) * 100}
+                                className="h-2 [&>div]:bg-muted-foreground/50"
+                              />
+                              <p className="text-xs text-muted-foreground mt-1.5">
+                                {wateringHabits.irregular.map((p, i) => (
+                                  <span key={p.id}>{i > 0 && ', '}<Link to={`/my-plants/${p.id}`} className="underline underline-offset-2 hover:text-foreground">{p.name}</Link></span>
+                                ))}
+                              </p>
+                            </div>
+                          )}
                         </div>
-                        <span className="text-sm font-bold">{healthStats.overwateringRisk}</span>
-                      </div>
-                      <Progress
-                        value={(healthStats.overwateringRisk / healthStats.totalPlants) * 100}
-                        className="h-2 [&>div]:bg-blue-500"
-                      />
-                      <p className="text-xs text-blue-600 dark:text-blue-400 mt-1.5">
-                        {healthPlantLists.overwateringRisk.map((p, i) => (
-                          <span key={p.id}>{i > 0 && ', '}<Link to={`/my-plants/${p.id}`} className="underline underline-offset-2 hover:text-blue-400 dark:hover:text-blue-300">{p.name}</Link></span>
-                        ))}
-                      </p>
+                      )}
                     </div>
                   )}
                 </div>
