@@ -363,6 +363,38 @@ export const clearFertilizationDismissals = async (userEmail: string) => {
 };
 
 /**
+ * Delete test households by name pattern (useful for test cleanup).
+ * Removes households whose name matches the given SQL LIKE pattern.
+ * Associated household_members rows are cascade-deleted by the FK constraint.
+ * @param namePattern - Pattern to match household names (supports SQL LIKE syntax, e.g. 'Test Household%')
+ */
+export const deleteTestHouseholds = async (namePattern: string = 'Test Household%') => {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) {
+    console.warn('Skipping household cleanup - no admin client available.');
+    return;
+  }
+
+  try {
+    const { data: deleted, error } = await supabase
+      .from('households')
+      .delete()
+      .like('name', namePattern)
+      .select();
+
+    if (error) {
+      console.error('Error deleting test households:', error);
+    } else if (deleted && deleted.length > 0) {
+      console.log(`Deleted ${deleted.length} test household(s) matching pattern: ${namePattern}`);
+    } else {
+      console.log(`No households found matching pattern: ${namePattern}`);
+    }
+  } catch (error) {
+    console.error('Unexpected error during household cleanup:', error);
+  }
+};
+
+/**
  * Delete journal entries by title pattern (useful for test cleanup)
  * @param titlePattern - Pattern to match entry titles (supports SQL LIKE syntax)
  * @param userEmail - Email of the user whose entries to delete

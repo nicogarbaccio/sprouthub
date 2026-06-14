@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { deleteTestHouseholds } from './helpers';
 
 // Reuse authenticated state from the setup project
 test.use({ storageState: 'e2e/.auth/user.json' });
@@ -114,6 +115,16 @@ test.describe('Household Management Page', () => {
 
 test.describe('Household - Create & Delete', () => {
   test.use({ storageState: 'e2e/.auth/user.json' });
+
+  // Clean up any leftover test households before and after the test
+  // This prevents accumulation from previous failed runs
+  test.beforeAll(async () => {
+    await deleteTestHouseholds();
+  });
+
+  test.afterAll(async () => {
+    await deleteTestHouseholds();
+  });
 
   test('should create a household then delete it', async ({ page }) => {
     const householdName = `Test Household ${Date.now()}`;
