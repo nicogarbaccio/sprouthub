@@ -209,7 +209,20 @@ export const usePlantActions = ({
     }
   };
 
-  const postponeWatering = async (plantId: string) => {
+  /**
+   * Defers a plant's watering.
+   *
+   * @param plantId - plant to postpone
+   * @param days - how many days to defer, defaulting to 1. Rain delay suggests 1–3 days
+   *   depending on forecast probability, and postponement is the only mechanism that moves a
+   *   due date, so it has to be able to express more than "tomorrow".
+   * @param reason - optional human-readable cause, recorded in the postponement notes
+   */
+  const postponeWatering = async (
+    plantId: string,
+    days: number = 1,
+    reason?: string
+  ) => {
     if (!user) return false;
 
     const tracker = trackOperation(HOOK_NAME, 'postponeWatering');
@@ -239,20 +252,24 @@ export const usePlantActions = ({
         return true;
       }
 
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      tomorrow.setHours(9, 0, 0, 0); // Set to 9 AM tomorrow for consistency
+      const deferDays = Math.max(1, Math.round(days));
+      const postponeTo = new Date();
+      postponeTo.setDate(postponeTo.getDate() + deferDays);
+      postponeTo.setHours(9, 0, 0, 0); // 9 AM on the target day, for consistency
+
+      const notes = reason
+        ? `POSTPONEMENT: ${reason}`
+        : "POSTPONEMENT: Watering postponed - plant didn't need water yet";
 
       // Optimistically update the UI
-      const postponementDate = tomorrow.toISOString();
+      const postponementDate = postponeTo.toISOString();
       setPlants(prevPlants =>
         prevPlants.map(p =>
           p.id === plantId
             ? {
               ...p,
               postponement_date: postponementDate,
-              postponement_notes:
-                "POSTPONEMENT: Watering postponed - plant didn't need water yet",
+              postponement_notes: notes,
             }
             : p
         )
@@ -263,7 +280,7 @@ export const usePlantActions = ({
         .insert({
           plant_id: plantId,
           watered_at: postponementDate,
-          notes: "POSTPONEMENT: Watering postponed - plant didn't need water yet",
+          notes,
           performed_by: user.id,
         });
 
@@ -289,7 +306,9 @@ export const usePlantActions = ({
 
       utilityToast.info(
         'Watering Postponed',
-        `${plantName} watering pushed to tomorrow`
+        deferDays === 1
+          ? `${plantName} watering pushed to tomorrow`
+          : `${plantName} watering pushed out ${deferDays} days`
       );
 
       // Fetch fresh data in the background to ensure accuracy

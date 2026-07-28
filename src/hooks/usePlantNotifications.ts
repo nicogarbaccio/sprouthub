@@ -3,6 +3,7 @@ import { useNotifications } from '@/contexts/NotificationContext';
 import { useNotificationPreferences } from '@/contexts/NotificationPreferencesContext';
 import { useNotificationAcknowledgements } from '@/hooks/useNotificationAcknowledgements';
 import { generatePlantNotifications } from '@/utils/notifications/generator';
+import type { RainDelayAdvice } from '@/utils/watering/rainDelay';
 import type { UserPlant } from '@/hooks/useUserPlants';
 
 /**
@@ -11,7 +12,15 @@ import type { UserPlant } from '@/hooks/useUserPlants';
  *
  * Acknowledgement state is synced to the database so dismissals persist across devices.
  */
-export function usePlantNotifications(plants: UserPlant[], enabled: boolean = true) {
+/**
+ * @param rainDelayByPlantId - optional rain delay advice used to annotate notifications for
+ *   outdoor plants, so the notification center agrees with the Dashboard about the same plant.
+ */
+export function usePlantNotifications(
+  plants: UserPlant[],
+  enabled: boolean = true,
+  rainDelayByPlantId: Record<string, RainDelayAdvice> = {}
+) {
   const { addNotification, notifications } = useNotifications();
   const { preferences } = useNotificationPreferences();
   const { isLoaded, getAcknowledgedIds } = useNotificationAcknowledgements();
@@ -38,7 +47,7 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
       }
 
       // Generate notifications from current plant state
-      const newNotifications = generatePlantNotifications(plants);
+      const newNotifications = generatePlantNotifications(plants, rainDelayByPlantId);
 
       // Add individual plant notifications
       newNotifications.forEach(notification => {
@@ -76,7 +85,7 @@ export function usePlantNotifications(plants: UserPlant[], enabled: boolean = tr
     } catch (error) {
       console.error('[usePlantNotifications] Error generating notifications:', error);
     }
-  }, [plants, addNotification, notifications, enabled, preferences, isLoaded, getAcknowledgedIds]);
+  }, [plants, addNotification, notifications, enabled, preferences, isLoaded, getAcknowledgedIds, rainDelayByPlantId]);
 }
 
 /**

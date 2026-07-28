@@ -46,6 +46,7 @@ import {
   useManualNotifications,
 } from "@/hooks/usePlantNotifications";
 import { generatePlantNotifications } from "@/utils/notifications/generator";
+import { useRainDelay } from "@/hooks/useRainDelay";
 import { useNotifications } from "@/contexts/NotificationContext";
 
 const MyPlantsCollectionContent = () => {
@@ -120,6 +121,9 @@ const MyPlantsCollectionContent = () => {
     useManualNotifications();
   const { addNotification } = useNotifications();
 
+  // Same rain delay advice the Dashboard and notification center use.
+  const { rainDelayByPlantId } = useRainDelay(plants);
+
   // Listen for push permission granted event to trigger immediate notification check
   useEffect(() => {
     const handlePushPermissionGranted = () => {
@@ -129,7 +133,10 @@ const MyPlantsCollectionContent = () => {
 
       // Generate notifications immediately when push permission is granted
       if (plants.length > 0) {
-        const notifications = generatePlantNotifications(plants);
+        const notifications = generatePlantNotifications(
+          plants,
+          rainDelayByPlantId
+        );
         notifications.forEach((notification) => {
           addNotification(notification);
         });
@@ -150,7 +157,7 @@ const MyPlantsCollectionContent = () => {
         handlePushPermissionGranted
       );
     };
-  }, [plants, addNotification]);
+  }, [plants, addNotification, rainDelayByPlantId]);
 
   // Setup keyboard shortcuts - MUST be before any early returns
   useKeyboardShortcuts({

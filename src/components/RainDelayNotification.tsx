@@ -3,13 +3,13 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { RainDelayResult } from "@/utils/watering/rainDelay";
+import { RainDelayAdvice } from "@/utils/watering/rainDelay";
 import { WeatherData } from "@/services/weatherTypes";
 import { cn } from "@/lib/utils";
 
 interface RainDelayNotificationProps {
-  delayResult: RainDelayResult;
-  weatherData: WeatherData;
+  /** Advice from `getRainDelayAdvice`. Render nothing when there is none. */
+  advice: RainDelayAdvice | null | undefined;
   plantName?: string;
   onWaterAnyway?: () => void;
   onPostpone?: (days: number) => void;
@@ -18,21 +18,20 @@ interface RainDelayNotificationProps {
 }
 
 export function RainDelayNotification({
-  delayResult,
-  weatherData,
+  advice,
   plantName,
   onWaterAnyway,
   onPostpone,
   className,
   variant = "card",
 }: RainDelayNotificationProps) {
-  if (!delayResult.shouldDelay) {
+  if (!advice) {
     return null;
   }
 
   const plantRef = plantName || "this plant";
-  const delayDays = delayResult.recommendedDelayDays || 1;
-  const rainProbability = weatherData.upcoming_rain_probability;
+  const delayDays = advice.suggestedDelayDays;
+  const rainProbability = advice.rainProbability;
 
   const content = (
     <>
@@ -47,15 +46,14 @@ export function RainDelayNotification({
           </div>
 
           <p className="text-sm text-sprout-light">
-            {delayResult.delayReason ||
-              `Watering ${plantRef} can be delayed due to expected rain.`}
+            {`${plantRef} is due, but ${advice.reason.charAt(0).toLowerCase()}${advice.reason.slice(1)}.`}
           </p>
 
-          {delayResult.nextCheckDate && (
+          {advice.nextCheckDate && (
             <div className="flex items-center gap-2 text-xs text-sprout-light">
               <Calendar className="w-3 h-3" />
               <span>
-                Check again on {delayResult.nextCheckDate.toLocaleDateString()}
+                Check again on {advice.nextCheckDate.toLocaleDateString()}
               </span>
             </div>
           )}

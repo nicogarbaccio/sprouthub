@@ -31,6 +31,8 @@ import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { useJournalEntries } from "@/hooks/useJournalEntries";
 import { useManualNotifications } from "@/hooks/usePlantNotifications";
+import { useRainDelay } from "@/hooks/useRainDelay";
+import { RainDelayNotification } from "@/components/RainDelayNotification";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 
 const MyPlantDetails = () => {
@@ -49,6 +51,10 @@ const MyPlantDetails = () => {
   } = useUserPlants();
 
   const { notifyWateringSuccess } = useManualNotifications();
+
+  // Rain delay advice for this plant, resolved through the same shared hook the Dashboard and
+  // notification center use, so all three agree.
+  const { rainDelayByPlantId } = useRainDelay(plants);
 
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
   const [showPostponeConfirmation, setShowPostponeConfirmation] =
@@ -204,6 +210,7 @@ const MyPlantDetails = () => {
   }
 
   const statusInfo = getStatusInfo();
+  const rainDelay = rainDelayByPlantId[plant.id];
   const wateringCalc = calculateWateringSchedule(plant);
   const { daysUntilWatering, isOverdue, isPostponed } = wateringCalc;
   const isDueToday = daysUntilWatering === 0 && !isPostponed;
@@ -231,6 +238,27 @@ const MyPlantDetails = () => {
               statusInfo={statusInfo}
             />
           </CascadingContainer>
+
+          {/*
+            Rain delay notice. This is where a watering notification lands, so it is the natural
+            place to explain why the user might hold off and to offer the postponement. The
+            plant remains due — rain probability carries no timing, so nothing here suppresses
+            the reminder.
+          */}
+          {rainDelay && (
+            <CascadingContainer delay={40} duration={200}>
+              <RainDelayNotification
+                advice={rainDelay}
+                plantName={plant.nickname}
+                variant="alert"
+                className="mb-4"
+                onWaterAnyway={() => setShowWaterConfirmation(true)}
+                onPostpone={(days) =>
+                  postponeWatering(plant.id, days, "Rain expected")
+                }
+              />
+            </CascadingContainer>
+          )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
             <CascadingContainer delay={50} duration={200}>

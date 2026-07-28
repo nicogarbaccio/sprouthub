@@ -1,179 +1,174 @@
-import { WeatherData } from '@/services/weatherTypes';
-import { shouldDelayWateringForRain } from '@/utils/weather/mapping';
+/**
+ * Rain delay advice for outdoor plants.
+ *
+ * ## Advisory, not suppressive
+ *
+ * Rain delay never changes whether a plant is due. It annotates a due or overdue plant with
+ * "rain is coming, you may want to wait" and offers a postponement.
+ *
+ * That is a deliberate limit. `WeatherData` carries `upcoming_rain_probability` with no
+ * timing information — nothing tells us whether that rain is tonight or six days out.
+ * Suppressing a reminder for up to three days on an untimed probability risks a plant going
+ * unwatered with no nag at all if the rain misses.
+ *
+ * So there is exactly one mechanism that moves a plant's due date: postponement. Rain delay
+ * is a reason to offer one. The previous `getAdjustedWateringSchedule` helper added delay days
+ * straight onto the interval, creating a second, invisible deferral path that nothing else in
+ * the app knew about; it has been removed rather than wired up.
+ *
+ * ## Due-awareness
+ *
+ * Advice is only produced for a plant that is actually due or overdue. The previous
+ * implementation ignored due-ness entirely, so the (dead) bulk helper reported "delay
+ * watering" for plants that had been watered the day before.
+ */
 
-export interface RainDelayResult {
-  shouldDelay: boolean;
-  delayReason?: string;
-  recommendedDelayDays?: number;
-  nextCheckDate?: Date;
+import type { WeatherData } from '@/services/weatherTypes';
+import {
+  calculateWateringSchedule,
+  type PlantWateringInfo,
+} from './schedule';
+
+/** Rain probability at or above which a delay is worth suggesting. */
+export const RAIN_DELAY_THRESHOLD_PCT = 60;
+
+/** Longest delay we will ever suggest. */
+export const MAX_RAIN_DELAY_DAYS = 3;
+
+export interface RainDelayAdvice {
+  /** Forecast probability that triggered the advice. */
+  rainProbability: number;
+  /** How many days the watering could reasonably wait (1–3). */
+  suggestedDelayDays: number;
+  /** When to reconsider, i.e. now plus `suggestedDelayDays`. */
+  nextCheckDate: Date;
+  /** User-facing explanation. */
+  reason: string;
+  /** True when the forecast precipitation is snow rather than rain. */
+  isSnowing: boolean;
 }
 
 export interface RainDelayOptions {
-  rainThreshold?: number; // Minimum rain probability to trigger delay (default: 60%)
-  maxDelayDays?: number; // Maximum days to delay watering (default: 3)
-  isOutdoorPlant?: boolean; // Whether the plant is outdoors
+  rainThreshold?: number;
+  maxDelayDays?: number;
+}
+
+/** The plant fields rain delay needs: watering schedule plus the outdoor flag. */
+export interface RainDelayPlant extends PlantWateringInfo {
+  is_outdoor_plant?: boolean | null;
+}
+
+export interface RainDelayParams {
+  plant: RainDelayPlant;
+  weather: WeatherData | null;
+  /** False when the user has not enabled weather features. */
+  enabled?: boolean;
+  options?: RainDelayOptions;
+  /** Evaluation time, for tests. */
+  now?: Date;
 }
 
 /**
- * Determine if watering should be delayed due to expected rain
- * @param weatherData - Current weather data including rain forecast
- * @param options - Configuration options for rain delay logic
- * @returns Rain delay decision with reasoning
+ * Rain delay advice for a single plant, or `null` when no delay should be suggested.
+ *
+ * Returns null unless all of the following hold:
+ *   - weather features are enabled and weather data is available
+ *   - the plant is outdoors (rain does not water an indoor plant)
+ *   - the forecast precipitation probability meets the threshold
+ *   - the plant is currently due or overdue
  */
-export function calculateRainDelay(
-  weatherData: WeatherData | null,
-  options: RainDelayOptions = {}
-): RainDelayResult {
+export function getRainDelayAdvice({
+  plant,
+  weather,
+  enabled = true,
+  options = {},
+  now = new Date(),
+}: RainDelayParams): RainDelayAdvice | null {
   const {
-    rainThreshold = 60,
-    maxDelayDays = 3,
-    isOutdoorPlant = false,
+    rainThreshold = RAIN_DELAY_THRESHOLD_PCT,
+    maxDelayDays = MAX_RAIN_DELAY_DAYS,
   } = options;
 
-  // No delay if no weather data or not an outdoor plant
-  if (!weatherData || !isOutdoorPlant) {
-    return { shouldDelay: false };
-  }
+  if (!enabled || !weather) return null;
+  if (!plant.is_outdoor_plant) return null;
 
-  const rainDelayCheck = shouldDelayWateringForRain(
-    weatherData,
-    isOutdoorPlant,
-    rainThreshold
+  const rainProbability = weather.upcoming_rain_probability;
+  if (rainProbability < rainThreshold) return null;
+
+  // Only meaningful for a plant that would otherwise be watered now.
+  const schedule = calculateWateringSchedule(plant, { now });
+  const isDueOrOverdue =
+    !schedule.hasUnknownWateringDate &&
+    !schedule.isPostponed &&
+    (schedule.isOverdue || schedule.daysUntilWatering === 0);
+
+  if (!isDueOrOverdue) return null;
+
+  const suggestedDelayDays = Math.min(
+    delayDaysForProbability(rainProbability),
+    maxDelayDays
   );
 
-  if (rainDelayCheck.shouldDelay) {
-    // Calculate recommended delay (1-3 days based on rain probability)
-    let delayDays = 1;
-    if (weatherData.upcoming_rain_probability >= 80) {
-      delayDays = 3;
-    } else if (weatherData.upcoming_rain_probability >= 70) {
-      delayDays = 2;
-    }
+  const nextCheckDate = new Date(now);
+  nextCheckDate.setDate(nextCheckDate.getDate() + suggestedDelayDays);
 
-    delayDays = Math.min(delayDays, maxDelayDays);
-
-    const nextCheckDate = new Date();
-    nextCheckDate.setDate(nextCheckDate.getDate() + delayDays);
-
-    return {
-      shouldDelay: true,
-      delayReason: rainDelayCheck.reason,
-      recommendedDelayDays: delayDays,
-      nextCheckDate,
-    };
-  }
-
-  return { shouldDelay: false };
-}
-
-/**
- * Get a user-friendly message explaining the rain delay
- */
-export function getRainDelayMessage(
-  delayResult: RainDelayResult,
-  plantName?: string
-): string {
-  if (!delayResult.shouldDelay) {
-    return '';
-  }
-
-  const plantRef = plantName ? `${plantName}` : 'your outdoor plant';
-  const delayDays = delayResult.recommendedDelayDays || 1;
-  const dayText = delayDays === 1 ? 'day' : 'days';
-
-  return `💧 Watering ${plantRef} can be delayed for ${delayDays} ${dayText} due to expected rain. Check again ${delayResult.nextCheckDate?.toLocaleDateString() || 'soon'}.`;
-}
-
-/**
- * Check if a plant should show rain delay notification
- */
-export function shouldShowRainDelayNotification(
-  weatherData: WeatherData | null,
-  isOutdoorPlant: boolean,
-  daysSinceWatering: number,
-  normalWateringInterval: number
-): boolean {
-  if (!isOutdoorPlant || !weatherData) {
-    return false;
-  }
-
-  // Only show if the plant is due for watering (within 1 day of schedule)
-  const isDue = daysSinceWatering >= (normalWateringInterval - 1);
-  
-  if (!isDue) {
-    return false;
-  }
-
-  const delayResult = calculateRainDelay(weatherData, { isOutdoorPlant: true });
-  return delayResult.shouldDelay;
-}
-
-/**
- * Get rain delay status for multiple plants
- */
-export function getBulkRainDelayStatus(
-  plants: Array<{
-    id: string;
-    nickname: string;
-    is_outdoor_plant?: boolean;
-    days_since_watering?: number;
-    suggested_watering_days?: number;
-  }>,
-  weatherData: WeatherData | null
-): Array<{
-  plantId: string;
-  plantName: string;
-  shouldDelay: boolean;
-  delayResult: RainDelayResult;
-  message?: string;
-}> {
-  return plants.map(plant => {
-    const isOutdoor = plant.is_outdoor_plant || false;
-    const delayResult = calculateRainDelay(weatherData, { isOutdoorPlant: isOutdoor });
-    
-    return {
-      plantId: plant.id,
-      plantName: plant.nickname,
-      shouldDelay: delayResult.shouldDelay,
-      delayResult,
-      message: delayResult.shouldDelay 
-        ? getRainDelayMessage(delayResult, plant.nickname)
-        : undefined,
-    };
-  });
-}
-
-/**
- * Calculate adjusted watering schedule considering rain delays
- */
-export function getAdjustedWateringSchedule(
-  baseDays: number,
-  weatherData: WeatherData | null,
-  isOutdoorPlant: boolean = false
-): {
-  adjustedDays: number;
-  hasRainAdjustment: boolean;
-  rainAdjustmentReason?: string;
-} {
-  if (!isOutdoorPlant || !weatherData) {
-    return {
-      adjustedDays: baseDays,
-      hasRainAdjustment: false,
-    };
-  }
-
-  const delayResult = calculateRainDelay(weatherData, { isOutdoorPlant });
-  
-  if (delayResult.shouldDelay && delayResult.recommendedDelayDays) {
-    return {
-      adjustedDays: baseDays + delayResult.recommendedDelayDays,
-      hasRainAdjustment: true,
-      rainAdjustmentReason: delayResult.delayReason,
-    };
-  }
+  const precipitation = weather.is_snowing ? 'Snow' : 'Rain';
 
   return {
-    adjustedDays: baseDays,
-    hasRainAdjustment: false,
+    rainProbability,
+    suggestedDelayDays,
+    nextCheckDate,
+    reason: `${precipitation} expected (${rainProbability}% chance), so outdoor watering can wait`,
+    isSnowing: Boolean(weather.is_snowing),
   };
+}
+
+/** Heavier forecast precipitation justifies a longer wait. */
+function delayDaysForProbability(probability: number): number {
+  if (probability >= 80) return 3;
+  if (probability >= 70) return 2;
+  return 1;
+}
+
+/**
+ * Builds rain delay advice for a list of plants, keyed by plant id.
+ * Plants with no advice are omitted, so the map doubles as a membership test.
+ */
+export function getRainDelayByPlantId<T extends RainDelayPlant & { id: string }>(
+  plants: T[],
+  params: Omit<RainDelayParams, 'plant'>
+): Record<string, RainDelayAdvice> {
+  const result: Record<string, RainDelayAdvice> = {};
+
+  for (const plant of plants) {
+    const advice = getRainDelayAdvice({ ...params, plant });
+    if (advice) result[plant.id] = advice;
+  }
+
+  return result;
+}
+
+/**
+ * Short user-facing sentence describing the advice.
+ *
+ * Deliberately phrased as a choice ("you may want to wait") rather than a statement of fact
+ * ("watering can be skipped"). The plant is still due; the user is being offered a reason to
+ * defer, and the Dashboard copy previously implied the reminder had been handled for them.
+ */
+export function getRainDelayMessage(
+  advice: RainDelayAdvice,
+  plantName?: string
+): string {
+  const subject = plantName ?? 'this outdoor plant';
+  const days = advice.suggestedDelayDays;
+  const dayText = days === 1 ? 'day' : 'days';
+  const precipitation = advice.isSnowing ? 'snow' : 'rain';
+
+  return `${subject} is due, but ${precipitation} is expected (${advice.rainProbability}%). You may want to wait ${days} ${dayText}.`;
+}
+
+/** Compact suffix for appending to an existing due/overdue message. */
+export function getRainDelayAnnotation(advice: RainDelayAdvice): string {
+  const precipitation = advice.isSnowing ? 'snow' : 'rain';
+  return `${advice.rainProbability}% chance of ${precipitation} — you may want to wait`;
 }

@@ -1,455 +1,302 @@
 /**
- * Unit tests for rain delay logic
+ * Tests for rain delay advice.
+ *
+ * Rain delay is advisory: it never changes whether a plant is due, it annotates a due plant and
+ * offers a postponement. These tests pin that down, along with the due-awareness the previous
+ * implementation lacked.
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
-  calculateRainDelay,
+  getRainDelayAdvice,
+  getRainDelayByPlantId,
   getRainDelayMessage,
-  shouldShowRainDelayNotification,
-  getBulkRainDelayStatus,
-  getAdjustedWateringSchedule,
-  type RainDelayResult,
-  type RainDelayOptions
+  getRainDelayAnnotation,
+  RAIN_DELAY_THRESHOLD_PCT,
+  MAX_RAIN_DELAY_DAYS,
+  type RainDelayPlant,
 } from '../watering/rainDelay';
 import type { WeatherData } from '@/services/weatherTypes';
 
-// Mock the weatherMapping module
-vi.mock('../weather/mapping', () => ({
-  shouldDelayWateringForRain: vi.fn((weatherData, isOutdoorPlant, rainThreshold) => {
-    if (!isOutdoorPlant) {
-      return { shouldDelay: false };
-    }
-    if (weatherData.upcoming_rain_probability >= rainThreshold) {
-      const precipType = weatherData.is_snowing ? 'Snow' : 'Rain';
-      return {
-        shouldDelay: true,
-        reason: `${precipType} expected (${weatherData.upcoming_rain_probability}% chance) - outdoor watering can be delayed`,
-      };
-    }
-    return { shouldDelay: false };
-  })
-}));
+const NOW = new Date('2026-06-15T12:00:00Z');
 
-describe('rainDelayLogic', () => {
-  const createMockWeather = (overrides: Partial<WeatherData> = {}): WeatherData => ({
+function weather(overrides: Partial<WeatherData> = {}): WeatherData {
+  return {
     current_temp_celsius: 20,
-    current_humidity_percent: 60,
-    season: 'spring',
-    daylight_hours: 12,
-    upcoming_rain_probability: 70,
+    current_humidity_percent: 55,
+    season: 'summer',
+    daylight_hours: 14,
+    upcoming_rain_probability: 75,
     is_snowing: false,
-    weather_condition: 'Cloudy',
-    ...overrides
+    weather_condition: 'Rain',
+    ...overrides,
+  };
+}
+
+/** ISO timestamp N days before NOW. */
+function daysBefore(days: number): string {
+  const d = new Date(NOW);
+  d.setDate(d.getDate() - days);
+  return d.toISOString();
+}
+
+/** An outdoor plant that is due today on a 7-day schedule. */
+function duePlant(overrides: Partial<RainDelayPlant> = {}): RainDelayPlant {
+  return {
+    is_outdoor_plant: true,
+    latest_watering: daysBefore(7),
+    suggested_watering_days: 7,
+    ...overrides,
+  };
+}
+
+describe('getRainDelayAdvice', () => {
+  it('advises a delay for a due outdoor plant when rain is likely', () => {
+    const advice = getRainDelayAdvice({
+      plant: duePlant(),
+      weather: weather(),
+      now: NOW,
+    });
+
+    expect(advice).not.toBeNull();
+    expect(advice!.rainProbability).toBe(75);
+    expect(advice!.suggestedDelayDays).toBe(2);
   });
 
-  beforeEach(() => {
-    vi.clearAllMocks();
+  it('advises a delay for an overdue outdoor plant', () => {
+    const advice = getRainDelayAdvice({
+      plant: duePlant({ latest_watering: daysBefore(12) }),
+      weather: weather(),
+      now: NOW,
+    });
+
+    expect(advice).not.toBeNull();
   });
 
-  describe('calculateRainDelay', () => {
-    it('should return no delay when weather data is null', () => {
-      const result = calculateRainDelay(null, { isOutdoorPlant: true });
-      expect(result.shouldDelay).toBe(false);
+  it('gives no advice for an indoor plant', () => {
+    // Rain does not water an indoor plant.
+    const advice = getRainDelayAdvice({
+      plant: duePlant({ is_outdoor_plant: false }),
+      weather: weather(),
+      now: NOW,
     });
 
-    it('should return no delay for indoor plants', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 80 });
-      const result = calculateRainDelay(weather, { isOutdoorPlant: false });
-      expect(result.shouldDelay).toBe(false);
+    expect(advice).toBeNull();
+  });
+
+  it('gives no advice when weather features are disabled', () => {
+    const advice = getRainDelayAdvice({
+      plant: duePlant(),
+      weather: weather(),
+      enabled: false,
+      now: NOW,
     });
 
-    it('should return no delay when rain probability is below threshold', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 50 });
-      const result = calculateRainDelay(weather, { isOutdoorPlant: true, rainThreshold: 60 });
-      expect(result.shouldDelay).toBe(false);
+    expect(advice).toBeNull();
+  });
+
+  it('gives no advice without weather data', () => {
+    const advice = getRainDelayAdvice({
+      plant: duePlant(),
+      weather: null,
+      now: NOW,
     });
 
-    it('should delay for outdoor plants with high rain probability', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 70 });
-      const result = calculateRainDelay(weather, { isOutdoorPlant: true });
+    expect(advice).toBeNull();
+  });
 
-      expect(result.shouldDelay).toBe(true);
-      expect(result.delayReason).toContain('Rain expected');
-      expect(result.recommendedDelayDays).toBeDefined();
+  it('gives no advice below the probability threshold', () => {
+    const advice = getRainDelayAdvice({
+      plant: duePlant(),
+      weather: weather({ upcoming_rain_probability: RAIN_DELAY_THRESHOLD_PCT - 1 }),
+      now: NOW,
     });
 
-    it('should recommend 1 day delay for 60-69% rain probability', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 65 });
-      const result = calculateRainDelay(weather, { isOutdoorPlant: true });
+    expect(advice).toBeNull();
+  });
 
-      expect(result.shouldDelay).toBe(true);
-      expect(result.recommendedDelayDays).toBe(1);
+  it('advises at exactly the threshold', () => {
+    const advice = getRainDelayAdvice({
+      plant: duePlant(),
+      weather: weather({ upcoming_rain_probability: RAIN_DELAY_THRESHOLD_PCT }),
+      now: NOW,
     });
 
-    it('should recommend 2 day delay for 70-79% rain probability', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 75 });
-      const result = calculateRainDelay(weather, { isOutdoorPlant: true });
+    expect(advice).not.toBeNull();
+  });
 
-      expect(result.shouldDelay).toBe(true);
-      expect(result.recommendedDelayDays).toBe(2);
-    });
-
-    it('should recommend 3 day delay for 80%+ rain probability', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 85 });
-      const result = calculateRainDelay(weather, { isOutdoorPlant: true });
-
-      expect(result.shouldDelay).toBe(true);
-      expect(result.recommendedDelayDays).toBe(3);
-    });
-
-    it('should respect maxDelayDays option', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 85 });
-      const result = calculateRainDelay(weather, {
-        isOutdoorPlant: true,
-        maxDelayDays: 2
+  describe('due-awareness', () => {
+    it('gives no advice for a plant that is not due yet', () => {
+      // Regression: the previous implementation ignored due-ness entirely, so it reported
+      // "delay watering" for a plant watered the day before.
+      const advice = getRainDelayAdvice({
+        plant: duePlant({ latest_watering: daysBefore(1) }),
+        weather: weather(),
+        now: NOW,
       });
 
-      expect(result.shouldDelay).toBe(true);
-      expect(result.recommendedDelayDays).toBe(2);
+      expect(advice).toBeNull();
     });
 
-    it('should use custom rain threshold', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 50 });
-      const result = calculateRainDelay(weather, {
-        isOutdoorPlant: true,
-        rainThreshold: 50
+    it('gives no advice for a plant with no watering history', () => {
+      const advice = getRainDelayAdvice({
+        plant: duePlant({ latest_watering: null }),
+        weather: weather(),
+        now: NOW,
       });
 
-      expect(result.shouldDelay).toBe(true);
+      expect(advice).toBeNull();
     });
 
-    it('should include nextCheckDate in result', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 70 });
-      const result = calculateRainDelay(weather, { isOutdoorPlant: true });
+    it('gives no advice for a plant already postponed', () => {
+      // Its due date has already moved, so there is nothing to defer.
+      const postponeTo = new Date(NOW);
+      postponeTo.setDate(postponeTo.getDate() + 2);
 
-      expect(result.nextCheckDate).toBeInstanceOf(Date);
-      expect(result.nextCheckDate!.getTime()).toBeGreaterThan(Date.now());
-    });
-
-    it('should calculate nextCheckDate based on delay days', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 85 });
-      const result = calculateRainDelay(weather, { isOutdoorPlant: true });
-
-      const now = new Date();
-      const expectedDate = new Date();
-      expectedDate.setDate(expectedDate.getDate() + 3);
-
-      expect(result.nextCheckDate!.getDate()).toBe(expectedDate.getDate());
-    });
-
-    it('should handle snow delay reason', () => {
-      const weather = createMockWeather({
-        upcoming_rain_probability: 70,
-        is_snowing: true
+      const advice = getRainDelayAdvice({
+        plant: duePlant({ postponement_date: postponeTo.toISOString() }),
+        weather: weather(),
+        now: NOW,
       });
-      const result = calculateRainDelay(weather, { isOutdoorPlant: true });
 
-      expect(result.shouldDelay).toBe(true);
-      expect(result.delayReason).toContain('Snow expected');
-    });
-
-    it('should use default options when none provided', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 70 });
-      const result = calculateRainDelay(weather);
-
-      // Default isOutdoorPlant is false, so no delay
-      expect(result.shouldDelay).toBe(false);
+      expect(advice).toBeNull();
     });
   });
 
-  describe('getRainDelayMessage', () => {
-    it('should return empty string when no delay', () => {
-      const delayResult: RainDelayResult = { shouldDelay: false };
-      const message = getRainDelayMessage(delayResult);
+  describe('delay length', () => {
+    it('suggests one day for a moderate chance', () => {
+      const advice = getRainDelayAdvice({
+        plant: duePlant(),
+        weather: weather({ upcoming_rain_probability: 65 }),
+        now: NOW,
+      });
 
-      expect(message).toBe('');
+      expect(advice!.suggestedDelayDays).toBe(1);
     });
 
-    it('should return message with plant name', () => {
-      const delayResult: RainDelayResult = {
-        shouldDelay: true,
-        recommendedDelayDays: 2,
-        nextCheckDate: new Date('2024-06-15')
-      };
-      const message = getRainDelayMessage(delayResult, 'Monstera');
+    it('suggests two days for a high chance', () => {
+      const advice = getRainDelayAdvice({
+        plant: duePlant(),
+        weather: weather({ upcoming_rain_probability: 75 }),
+        now: NOW,
+      });
 
-      expect(message).toContain('Monstera');
-      expect(message).toContain('2 days');
-      // Date formatting can vary by locale, just check it has a date
-      expect(message).toMatch(/\d+\/\d+\/\d+/);
+      expect(advice!.suggestedDelayDays).toBe(2);
     });
 
-    it('should use generic plant reference when no name provided', () => {
-      const delayResult: RainDelayResult = {
-        shouldDelay: true,
-        recommendedDelayDays: 1,
-        nextCheckDate: new Date('2024-06-15')
-      };
-      const message = getRainDelayMessage(delayResult);
+    it('suggests three days for a very high chance', () => {
+      const advice = getRainDelayAdvice({
+        plant: duePlant(),
+        weather: weather({ upcoming_rain_probability: 85 }),
+        now: NOW,
+      });
 
-      expect(message).toContain('your outdoor plant');
+      expect(advice!.suggestedDelayDays).toBe(3);
     });
 
-    it('should use singular "day" for 1 day delay', () => {
-      const delayResult: RainDelayResult = {
-        shouldDelay: true,
-        recommendedDelayDays: 1,
-        nextCheckDate: new Date('2024-06-15')
-      };
-      const message = getRainDelayMessage(delayResult, 'Basil');
+    it('never exceeds the maximum delay', () => {
+      const advice = getRainDelayAdvice({
+        plant: duePlant(),
+        weather: weather({ upcoming_rain_probability: 100 }),
+        now: NOW,
+      });
 
-      expect(message).toContain('1 day');
-      expect(message).not.toContain('1 days');
+      expect(advice!.suggestedDelayDays).toBeLessThanOrEqual(MAX_RAIN_DELAY_DAYS);
     });
 
-    it('should use plural "days" for multiple days delay', () => {
-      const delayResult: RainDelayResult = {
-        shouldDelay: true,
-        recommendedDelayDays: 3,
-        nextCheckDate: new Date('2024-06-15')
-      };
-      const message = getRainDelayMessage(delayResult, 'Tomato');
+    it('respects a caller-supplied maximum', () => {
+      const advice = getRainDelayAdvice({
+        plant: duePlant(),
+        weather: weather({ upcoming_rain_probability: 95 }),
+        options: { maxDelayDays: 1 },
+        now: NOW,
+      });
 
-      expect(message).toContain('3 days');
+      expect(advice!.suggestedDelayDays).toBe(1);
     });
 
-    it('should include water drop emoji', () => {
-      const delayResult: RainDelayResult = {
-        shouldDelay: true,
-        recommendedDelayDays: 2,
-        nextCheckDate: new Date('2024-06-15')
-      };
-      const message = getRainDelayMessage(delayResult);
+    it('respects a caller-supplied threshold', () => {
+      const advice = getRainDelayAdvice({
+        plant: duePlant(),
+        weather: weather({ upcoming_rain_probability: 40 }),
+        options: { rainThreshold: 40 },
+        now: NOW,
+      });
 
-      expect(message).toContain('💧');
+      expect(advice).not.toBeNull();
     });
 
-    it('should handle missing nextCheckDate gracefully', () => {
-      const delayResult: RainDelayResult = {
-        shouldDelay: true,
-        recommendedDelayDays: 2
-      };
-      const message = getRainDelayMessage(delayResult);
+    it('sets nextCheckDate to the end of the suggested delay', () => {
+      const advice = getRainDelayAdvice({
+        plant: duePlant(),
+        weather: weather({ upcoming_rain_probability: 85 }),
+        now: NOW,
+      });
 
-      expect(message).toContain('soon');
-    });
+      const expected = new Date(NOW);
+      expected.setDate(expected.getDate() + 3);
 
-    it('should default to 1 day when recommendedDelayDays is undefined', () => {
-      const delayResult: RainDelayResult = {
-        shouldDelay: true,
-        nextCheckDate: new Date('2024-06-15')
-      };
-      const message = getRainDelayMessage(delayResult);
-
-      expect(message).toContain('1 day');
+      expect(advice!.nextCheckDate.toDateString()).toBe(expected.toDateString());
     });
   });
 
-  describe('shouldShowRainDelayNotification', () => {
-    it('should return false for indoor plants', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 80 });
-      const show = shouldShowRainDelayNotification(weather, false, 7, 7);
-
-      expect(show).toBe(false);
+  it('describes snow rather than rain when the forecast is snow', () => {
+    const advice = getRainDelayAdvice({
+      plant: duePlant(),
+      weather: weather({ is_snowing: true }),
+      now: NOW,
     });
 
-    it('should return false when no weather data', () => {
-      const show = shouldShowRainDelayNotification(null, true, 7, 7);
-
-      expect(show).toBe(false);
-    });
-
-    it('should return false when plant is not due for watering', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 80 });
-      const show = shouldShowRainDelayNotification(weather, true, 3, 7);
-
-      expect(show).toBe(false);
-    });
-
-    it('should return true when outdoor plant is due and rain expected', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 70 });
-      const show = shouldShowRainDelayNotification(weather, true, 7, 7);
-
-      expect(show).toBe(true);
-    });
-
-    it('should show notification when plant is within 1 day of due', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 70 });
-      const show = shouldShowRainDelayNotification(weather, true, 6, 7);
-
-      expect(show).toBe(true);
-    });
-
-    it('should not show notification when plant is 2+ days before due', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 70 });
-      const show = shouldShowRainDelayNotification(weather, true, 5, 7);
-
-      expect(show).toBe(false);
-    });
-
-    it('should handle overdue plants', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 70 });
-      const show = shouldShowRainDelayNotification(weather, true, 10, 7);
-
-      expect(show).toBe(true);
-    });
-
-    it('should return false when rain probability is low', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 30 });
-      const show = shouldShowRainDelayNotification(weather, true, 7, 7);
-
-      expect(show).toBe(false);
-    });
+    expect(advice!.isSnowing).toBe(true);
+    expect(advice!.reason).toContain('Snow');
   });
+});
 
-  describe('getBulkRainDelayStatus', () => {
-    const mockPlants = [
-      {
-        id: '1',
-        nickname: 'Outdoor Rose',
-        is_outdoor_plant: true,
-        days_since_watering: 5,
-        suggested_watering_days: 7
-      },
-      {
-        id: '2',
-        nickname: 'Indoor Fern',
-        is_outdoor_plant: false,
-        days_since_watering: 3,
-        suggested_watering_days: 5
-      },
-      {
-        id: '3',
-        nickname: 'Outdoor Tomato',
-        is_outdoor_plant: true,
-        days_since_watering: 2,
-        suggested_watering_days: 3
-      }
+describe('getRainDelayByPlantId', () => {
+  it('keys advice by plant id and omits plants without advice', () => {
+    const plants = [
+      { id: 'outdoor-due', ...duePlant() },
+      { id: 'indoor-due', ...duePlant({ is_outdoor_plant: false }) },
+      { id: 'outdoor-not-due', ...duePlant({ latest_watering: daysBefore(1) }) },
     ];
 
-    it('should return status for all plants', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 70 });
-      const statuses = getBulkRainDelayStatus(mockPlants, weather);
+    const result = getRainDelayByPlantId(plants, { weather: weather(), now: NOW });
 
-      expect(statuses).toHaveLength(3);
-      expect(statuses[0].plantId).toBe('1');
-      expect(statuses[1].plantId).toBe('2');
-      expect(statuses[2].plantId).toBe('3');
-    });
-
-    it('should delay outdoor plants with rain expected', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 75 });
-      const statuses = getBulkRainDelayStatus(mockPlants, weather);
-
-      expect(statuses[0].shouldDelay).toBe(true); // Outdoor Rose
-      expect(statuses[1].shouldDelay).toBe(false); // Indoor Fern
-      expect(statuses[2].shouldDelay).toBe(true); // Outdoor Tomato
-    });
-
-    it('should include delay messages for delayed plants', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 70 });
-      const statuses = getBulkRainDelayStatus(mockPlants, weather);
-
-      const outdoorStatus = statuses.find(s => s.plantId === '1');
-      expect(outdoorStatus?.message).toBeDefined();
-      expect(outdoorStatus?.message).toContain('Outdoor Rose');
-    });
-
-    it('should not include messages for non-delayed plants', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 70 });
-      const statuses = getBulkRainDelayStatus(mockPlants, weather);
-
-      const indoorStatus = statuses.find(s => s.plantId === '2');
-      expect(indoorStatus?.message).toBeUndefined();
-    });
-
-    it('should handle plants without is_outdoor_plant field', () => {
-      const plantsWithoutOutdoor = [
-        { id: '1', nickname: 'Unknown Plant' }
-      ];
-
-      const weather = createMockWeather({ upcoming_rain_probability: 80 });
-      const statuses = getBulkRainDelayStatus(plantsWithoutOutdoor, weather);
-
-      expect(statuses[0].shouldDelay).toBe(false);
-    });
-
-    it('should handle null weather data', () => {
-      const statuses = getBulkRainDelayStatus(mockPlants, null);
-
-      expect(statuses.every(s => !s.shouldDelay)).toBe(true);
-    });
-
-    it('should return empty array for empty plant list', () => {
-      const weather = createMockWeather();
-      const statuses = getBulkRainDelayStatus([], weather);
-
-      expect(statuses).toHaveLength(0);
-    });
+    expect(Object.keys(result)).toEqual(['outdoor-due']);
   });
 
-  describe('getAdjustedWateringSchedule', () => {
-    it('should not adjust schedule for indoor plants', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 80 });
-      const adjusted = getAdjustedWateringSchedule(7, weather, false);
+  it('returns an empty map when weather is unavailable', () => {
+    const plants = [{ id: 'a', ...duePlant() }];
 
-      expect(adjusted.adjustedDays).toBe(7);
-      expect(adjusted.hasRainAdjustment).toBe(false);
-    });
+    expect(getRainDelayByPlantId(plants, { weather: null, now: NOW })).toEqual({});
+  });
+});
 
-    it('should not adjust when no weather data', () => {
-      const adjusted = getAdjustedWateringSchedule(7, null, true);
+describe('messaging', () => {
+  const advice = getRainDelayAdvice({
+    plant: duePlant(),
+    weather: weather(),
+    now: NOW,
+  })!;
 
-      expect(adjusted.adjustedDays).toBe(7);
-      expect(adjusted.hasRainAdjustment).toBe(false);
-    });
+  it('frames the message as a choice rather than a decision already made', () => {
+    const message = getRainDelayMessage(advice, 'Tomato');
 
-    it('should add delay days to base schedule for outdoor plants', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 75 });
-      const adjusted = getAdjustedWateringSchedule(7, weather, true);
+    expect(message).toContain('Tomato');
+    expect(message).toContain('is due');
+    expect(message).toContain('may want to wait');
+    // The old copy asserted watering "can be skipped", implying the reminder was handled.
+    expect(message.toLowerCase()).not.toContain('skip');
+  });
 
-      expect(adjusted.adjustedDays).toBe(9); // 7 + 2 days delay
-      expect(adjusted.hasRainAdjustment).toBe(true);
-      expect(adjusted.rainAdjustmentReason).toBeDefined();
-    });
+  it('falls back to a generic subject without a plant name', () => {
+    expect(getRainDelayMessage(advice)).toContain('this outdoor plant');
+  });
 
-    it('should not adjust when rain probability is low', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 30 });
-      const adjusted = getAdjustedWateringSchedule(7, weather, true);
+  it('produces a compact annotation for appending to existing copy', () => {
+    const annotation = getRainDelayAnnotation(advice);
 
-      expect(adjusted.adjustedDays).toBe(7);
-      expect(adjusted.hasRainAdjustment).toBe(false);
-    });
-
-    it('should include adjustment reason when delaying', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 80 });
-      const adjusted = getAdjustedWateringSchedule(5, weather, true);
-
-      expect(adjusted.hasRainAdjustment).toBe(true);
-      expect(adjusted.rainAdjustmentReason).toContain('Rain expected');
-    });
-
-    it('should add correct delay days based on rain probability', () => {
-      const weather85 = createMockWeather({ upcoming_rain_probability: 85 });
-      const adjusted85 = getAdjustedWateringSchedule(5, weather85, true);
-      expect(adjusted85.adjustedDays).toBe(8); // 5 + 3 days
-
-      const weather75 = createMockWeather({ upcoming_rain_probability: 75 });
-      const adjusted75 = getAdjustedWateringSchedule(5, weather75, true);
-      expect(adjusted75.adjustedDays).toBe(7); // 5 + 2 days
-
-      const weather65 = createMockWeather({ upcoming_rain_probability: 65 });
-      const adjusted65 = getAdjustedWateringSchedule(5, weather65, true);
-      expect(adjusted65.adjustedDays).toBe(6); // 5 + 1 day
-    });
-
-    it('should default to indoor when isOutdoorPlant not specified', () => {
-      const weather = createMockWeather({ upcoming_rain_probability: 80 });
-      const adjusted = getAdjustedWateringSchedule(7, weather);
-
-      expect(adjusted.adjustedDays).toBe(7);
-      expect(adjusted.hasRainAdjustment).toBe(false);
-    });
+    expect(annotation).toContain('75%');
+    expect(annotation).toContain('rain');
   });
 });

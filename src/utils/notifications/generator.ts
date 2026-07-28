@@ -1,6 +1,10 @@
 import type { UserPlant } from '@/hooks/useUserPlants';
 import type { Notification } from '@/types/notificationTypes';
 import { calculateWateringSchedule } from '../watering/schedule';
+import {
+  getRainDelayAnnotation,
+  type RainDelayAdvice,
+} from '../watering/rainDelay';
 
 // Navigation helper - will be set by the app
 let navigateFunction: ((path: string) => void) | null = null;
@@ -26,13 +30,25 @@ function navigateToPlants() {
  * Generate notifications from plant data
  * This analyzes the current state of plants and creates relevant notifications
  * Creates individual notifications for each plant that needs attention
+ *
+ * @param plants - plants to evaluate
+ * @param rainDelayByPlantId - optional rain delay advice, keyed by plant id. When a plant has
+ *   advice its notification is annotated rather than suppressed: rain delay is advisory, so the
+ *   plant genuinely is still due. Without this the notification center reported plants as
+ *   plainly overdue while the Dashboard was telling the user rain was coming.
  */
-export function generatePlantNotifications(plants: UserPlant[]): Omit<Notification, 'id' | 'timestamp' | 'read' | 'dismissed'>[] {
+export function generatePlantNotifications(
+  plants: UserPlant[],
+  rainDelayByPlantId: Record<string, RainDelayAdvice> = {}
+): Omit<Notification, 'id' | 'timestamp' | 'read' | 'dismissed'>[] {
   try {
     const notifications: Omit<Notification, 'id' | 'timestamp' | 'read' | 'dismissed'>[] = [];
 
     plants.forEach((plant) => {
       const { daysUntilWatering, isOverdue } = calculateWateringSchedule(plant);
+      const rainDelay = rainDelayByPlantId[plant.id];
+      // Appended rather than replacing the message, so the plant's actual state stays visible.
+      const rainSuffix = rainDelay ? ` — ${getRainDelayAnnotation(rainDelay)}` : '';
 
       // Create individual notification for overdue plants
       if (isOverdue) {
@@ -41,7 +57,7 @@ export function generatePlantNotifications(plants: UserPlant[]): Omit<Notificati
           type: 'overdue_watering',
           priority: 'high',
           title: 'Plant Overdue',
-          message: `${plant.nickname} is ${daysOverdue} day${daysOverdue > 1 ? 's' : ''} overdue for watering`,
+          message: `${plant.nickname} is ${daysOverdue} day${daysOverdue > 1 ? 's' : ''} overdue for watering${rainSuffix}`,
           actions: [
             {
               label: 'Water Now',
@@ -63,7 +79,7 @@ export function generatePlantNotifications(plants: UserPlant[]): Omit<Notificati
           type: 'due_today',
           priority: 'medium',
           title: 'Plant Due Today',
-          message: `${plant.nickname} should be watered today`,
+          message: `${plant.nickname} should be watered today${rainSuffix}`,
           actions: [
             {
               label: 'Water Now',

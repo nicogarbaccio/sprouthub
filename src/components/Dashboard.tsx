@@ -16,6 +16,7 @@ import { DashboardDialogs } from "@/components/dashboard/DashboardDialogs";
 const COMPONENT_NAME = "Dashboard";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { DashboardSkeleton } from "@/components/DashboardSkeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { LoadingTransition } from "@/components/ui/loading-transition";
@@ -28,7 +29,7 @@ import { useLocation } from "@/hooks/useLocation";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
 import { useCalendarSeasonalNotification } from "@/hooks/useCalendarSeasonalNotification";
 import { WeatherMoodBanner } from "@/components/WeatherMoodBanner";
-import { calculateRainDelay } from "@/utils/watering/rainDelay";
+import { useRainDelayFromWeather } from "@/hooks/useRainDelay";
 import { SeasonalReviewBanner } from "./SeasonalReviewBanner";
 import { CalendarSeasonalBanner } from "./CalendarSeasonalBanner";
 import { FertilizationBanner } from "./FertilizationBanner";
@@ -44,8 +45,15 @@ import { useCareStreak } from "@/hooks/useCareStreak";
 
 const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { plants, loading, waterPlant, fetchPlants, updatePlantSchedule, logFertilization } =
-    useUserPlants();
+  const {
+    plants,
+    loading,
+    waterPlant,
+    postponeWatering,
+    fetchPlants,
+    updatePlantSchedule,
+    logFertilization,
+  } = useUserPlants();
   const { profileData } = useProfileData();
   const { preferences, hasPreferences: hasLoadedPreferences, loadPreferences } = useSmartWateringPreferences();
   const location = useLocation({
@@ -314,25 +322,21 @@ const Dashboard = () => {
       return 0; // Equal priority
     });
 
-  // Check for outdoor plants that should be rain-delayed
-  const outdoorPlantsWithRainDelay = useMemo(() => {
-    if (!weather.weatherData || !preferences?.use_weather_data) {
-      return [];
-    }
+  // Rain delay advice, shared with the notification center so the two agree. Reuses the
+  // weather instance already loaded above rather than mounting a second one.
+  const rainDelayByPlantId = useRainDelayFromWeather(
+    plants,
+    weather.weatherData,
+    Boolean(preferences?.use_weather_data)
+  );
 
-    return plantsNeedingWater
-      .filter((plant) => plant.is_outdoor_plant)
-      .map((plant) => {
-        const rainDelay = calculateRainDelay(weather.weatherData, {
-          isOutdoorPlant: true,
-        });
-        return {
-          plant,
-          rainDelay,
-        };
-      })
-      .filter((item) => item.rainDelay.shouldDelay);
-  }, [plantsNeedingWater, weather.weatherData, preferences?.use_weather_data]);
+  const outdoorPlantsWithRainDelay = useMemo(
+    () =>
+      plantsNeedingWater
+        .map((plant) => ({ plant, rainDelay: rainDelayByPlantId[plant.id] }))
+        .filter((item) => Boolean(item.rainDelay)),
+    [plantsNeedingWater, rainDelayByPlantId]
+  );
 
   // Get recent activities (recently watered plants)
   const recentlyWateredPlants = plants
@@ -395,6 +399,14 @@ const Dashboard = () => {
       notes || `Backdated watering from dashboard`,
       date
     );
+  };
+
+  /**
+   * Defer a rain-delayed plant through the normal postponement mechanism, so its due date moves
+   * in the one way the rest of the app understands.
+   */
+  const handlePostponeForRain = async (plantId: string, days: number) => {
+    await postponeWatering(plantId, days, "Rain expected");
   };
 
 
@@ -685,26 +697,52 @@ const Dashboard = () => {
                     <div className="flex-1 space-y-2">
                       <div className="flex items-center gap-2 flex-wrap">
                         <h4 className="font-medium text-sprout-white">
-                          Rain Expected - Watering Can Wait
+                          Rain Expected
                         </h4>
                         <Badge variant="secondary" className="text-xs">
                           {weather.weatherData.upcoming_rain_probability}%
                           chance
                         </Badge>
                       </div>
+                      {/*
+                        These plants are still due and remain in Today's Tasks. The copy used to
+                        say watering "can wait" and that plants "can skip watering", which
+                        implied the reminder had been handled — but rain probability carries no
+                        timing, so nothing here justifies dropping the reminder. Postponing is
+                        offered as an explicit choice instead.
+                      */}
                       <p className="text-sm text-sprout-light">
                         {outdoorPlantsWithRainDelay.length} outdoor plant
-                        {outdoorPlantsWithRainDelay.length !== 1 ? "s" : ""} can
-                        skip watering due to expected rain:
+                        {outdoorPlantsWithRainDelay.length !== 1 ? "s are" : " is"}{" "}
+                        due, but rain is forecast. You may want to postpone
+                        {outdoorPlantsWithRainDelay.length !== 1 ? " them" : " it"}:
                       </p>
-                      <ul className="text-sm text-sprout-light space-y-1 ml-4">
+                      <ul className="text-sm text-sprout-light space-y-1.5">
                         {outdoorPlantsWithRainDelay.slice(0, 3).map((item) => (
-                          <li key={item.plant.id} className="list-disc">
-                            {item.plant.nickname || item.plant.plant_type}
+                          <li
+                            key={item.plant.id}
+                            className="flex items-center justify-between gap-2"
+                          >
+                            <span className="truncate">
+                              {item.plant.nickname || item.plant.plant_type}
+                            </span>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 px-2 text-xs text-sprout-water hover:bg-sprout-water/20 flex-shrink-0"
+                              onClick={() =>
+                                handlePostponeForRain(
+                                  item.plant.id,
+                                  item.rainDelay.suggestedDelayDays
+                                )
+                              }
+                            >
+                              Postpone {item.rainDelay.suggestedDelayDays}d
+                            </Button>
                           </li>
                         ))}
                         {outdoorPlantsWithRainDelay.length > 3 && (
-                          <li className="list-none text-xs">
+                          <li className="text-xs">
                             +{outdoorPlantsWithRainDelay.length - 3} more
                           </li>
                         )}
