@@ -48,7 +48,7 @@ interface DashboardDialogsProps {
   };
   onWaterConfirmationChange: (open: boolean) => void;
   onConfirmQuickWater: (notes?: string) => void;
-  onAlreadyWatered: (date: string, notes?: string) => void;
+  onAlreadyWatered: (date: Date, notes?: string) => void;
   showOverwateringWarning: boolean;
   daysSinceLastWatered?: number;
   wateringScheduleDays: number;

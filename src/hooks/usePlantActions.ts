@@ -3,6 +3,7 @@ import { useToast } from '@/hooks/use-toast';
 import { utilityToast, wateringToast, plantToast, fertilizationToast } from '@/utils/notifications/toast';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { handleApiError } from '@/utils/errorHandling';
+import { POSTPONEMENT_LIKE_PATTERN } from '@/utils/watering/notesPrefixes';
 import type { UserPlant } from '@/hooks/useUserPlants';
 
 const HOOK_NAME = 'usePlantActions';
@@ -95,7 +96,17 @@ export const usePlantActions = ({
     return;
   };
 
-  const waterPlant = async (plantId: string, notes?: string) => {
+  /**
+   * Records a watering for a plant.
+   *
+   * @param plantId - plant to water
+   * @param notes - optional notes, which may carry a health-observation prefix
+   * @param wateredAt - when the watering actually happened. Defaults to now. Pass this
+   *   when the user is backdating via "I already watered this" so the recorded interval
+   *   reflects reality — pattern analysis and analytics derive schedules from these
+   *   timestamps, so silently substituting "now" corrupts the plant's history.
+   */
+  const waterPlant = async (plantId: string, notes?: string, wateredAt?: Date) => {
     if (!user) return false;
 
     const tracker = trackOperation(HOOK_NAME, 'waterPlant');
@@ -106,14 +117,13 @@ export const usePlantActions = ({
       const plantName = plant?.nickname || 'Plant';
 
       // Optimistically update the UI
-      const wateringDate = new Date().toISOString();
+      const wateringDate = (wateredAt ?? new Date()).toISOString();
       setPlants(prevPlants =>
         prevPlants.map(p =>
           p.id === plantId
             ? {
               ...p,
               latest_watering: wateringDate,
-              days_since_watering: 0,
               // Clear postponement since we're watering
               postponement_date: undefined,
               postponement_notes: undefined,
@@ -124,7 +134,7 @@ export const usePlantActions = ({
 
       // Reset postponement_count — the user has now watered, so the streak of
       // "plant didn't need water" decisions is resolved.
-      // Note: postponement watering_records are preserved for analytics history.
+      // Note: past postponement watering_records are preserved for analytics history.
       const { error: resetCountError } = await supabase
         .from('user_plants')
         .update({ postponement_count: 0, last_postponement_date: null })
@@ -135,6 +145,26 @@ export const usePlantActions = ({
           error: resetCountError,
         });
         // Non-fatal — watering_records is the source of truth for analysis
+      }
+
+      // Delete any *pending* (future-dated) postponement. Without this the plant reads
+      // back as postponed immediately after being watered: postponements are selected by
+      // "watered_at newer than the last watering", and a postponement dated tomorrow is
+      // always newer than a watering recorded now.
+      // Past postponements are intentionally left alone — they are real evidence that the
+      // user checked the soil and found it moist, which pattern analysis relies on.
+      const { error: clearPostponementError } = await supabase
+        .from('watering_records')
+        .delete()
+        .eq('plant_id', plantId)
+        .like('notes', POSTPONEMENT_LIKE_PATTERN)
+        .gt('watered_at', wateringDate);
+
+      if (clearPostponementError) {
+        hookLogger.warn(HOOK_NAME, 'Could not clear pending postponement', {
+          error: clearPostponementError,
+        });
+        // Non-fatal — the watering itself succeeded
       }
 
       // Create the actual watering record
@@ -194,7 +224,7 @@ export const usePlantActions = ({
         .from('watering_records')
         .select('*')
         .eq('plant_id', plantId)
-        .like('notes', '%POSTPONEMENT:%')
+        .like('notes', POSTPONEMENT_LIKE_PATTERN)
         .gt('watered_at', new Date().toISOString());
 
       if (fetchError) throw fetchError;
@@ -306,7 +336,21 @@ export const usePlantActions = ({
     }
   };
 
-  const logFertilization = async (plantId: string, date?: Date): Promise<boolean> => {
+  /**
+   * Records a fertilization for a plant.
+   *
+   * Writes an append-only row to `fertilization_records` rather than overwriting a single
+   * timestamp on `user_plants`, so intervals can be derived, history is auditable, and
+   * household members don't clobber each other.
+   *
+   * @param date - when the fertilization happened. Defaults to now.
+   * @param fertilizerType - optionally what was applied
+   */
+  const logFertilization = async (
+    plantId: string,
+    date?: Date,
+    fertilizerType?: string
+  ): Promise<boolean> => {
     if (!user) return false;
 
     const tracker = trackOperation(HOOK_NAME, 'logFertilization');
@@ -319,14 +363,18 @@ export const usePlantActions = ({
       // Optimistic update
       setPlants(prev =>
         prev.map(p =>
-          p.id === plantId ? { ...p, last_fertilized_date: fertilizedDate } : p
+          p.id === plantId ? { ...p, last_fertilized_at: fertilizedDate } : p
         )
       );
 
       const { error } = await supabase
-        .from('user_plants')
-        .update({ last_fertilized_date: fertilizedDate })
-        .eq('id', plantId);
+        .from('fertilization_records')
+        .insert({
+          plant_id: plantId,
+          fertilized_at: fertilizedDate,
+          fertilizer_type: fertilizerType ?? null,
+          performed_by: user.id,
+        });
 
       if (error) throw error;
 

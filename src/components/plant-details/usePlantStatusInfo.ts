@@ -1,5 +1,6 @@
 import { useCallback } from "react";
 import { calculateWateringSchedule } from "@/utils/watering/schedule";
+import { getWateringStatus } from "@/utils/watering/status";
 import type { UserPlant } from "@/hooks/useUserPlants";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 
@@ -14,56 +15,22 @@ export interface BadgeInfo {
   description: string;
 }
 
+/**
+ * Watering status for the plant detail page.
+ *
+ * Delegates to the canonical formatter so the detail page and the plant cards can never
+ * disagree about the same plant.
+ */
 export function useStatusInfo(plant: UserPlant | undefined) {
   return useCallback((): StatusInfo => {
     if (!plant) return { color: "bg-gray-500", text: "Unknown" };
 
-    const wateringCalc = calculateWateringSchedule(plant);
-    const {
-      daysUntilWatering,
-      isOverdue,
-      isPostponed,
-      hasUnknownWateringDate,
-    } = wateringCalc;
+    const status = getWateringStatus(
+      calculateWateringSchedule(plant),
+      plant.latest_watering
+    );
 
-    if (hasUnknownWateringDate) {
-      return { color: "bg-neutral-500 text-white", text: "Unknown schedule" };
-    }
-    if (isPostponed) {
-      if (daysUntilWatering === 0)
-        return {
-          color: "bg-sprout-water text-white",
-          text: "Postponed until later today",
-        };
-      if (daysUntilWatering === 1)
-        return {
-          color: "bg-sprout-water text-white",
-          text: "Postponed until tomorrow",
-        };
-      return {
-        color: "bg-sprout-water text-white",
-        text: `Postponed for ${daysUntilWatering} days`,
-      };
-    }
-    if (isOverdue) {
-      return {
-        color: "bg-red-500 text-white",
-        text: `Overdue by ${Math.abs(daysUntilWatering)} days`,
-      };
-    }
-    if (daysUntilWatering === 0) {
-      return { color: "bg-orange-500 text-white", text: "Due today" };
-    }
-    if (daysUntilWatering <= 2) {
-      return {
-        color: "bg-orange-500 text-white",
-        text: `Due in ${daysUntilWatering} days`,
-      };
-    }
-    return {
-      color: "bg-sprout-success text-white",
-      text: `Due in ${daysUntilWatering} days`,
-    };
+    return { color: status.colorClasses, text: status.text };
   }, [plant]);
 }
 

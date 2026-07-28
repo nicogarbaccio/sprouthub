@@ -20,7 +20,7 @@ interface PlantCardDialogsProps {
   showWaterConfirmation: boolean;
   onWaterConfirmationChange: (open: boolean) => void;
   onConfirmWater: (notes?: string) => void;
-  onAlreadyWatered: (date: string, notes?: string) => void;
+  onAlreadyWatered: (date: Date, notes?: string) => void;
 
   showFullscreenImage: boolean;
   onFullscreenImageClose: () => void;

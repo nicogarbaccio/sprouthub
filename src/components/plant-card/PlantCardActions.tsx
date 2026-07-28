@@ -17,7 +17,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 interface PlantCardActionsProps {
-  daysUntilWatering: number;
+  /** `null` when the plant has no watering history; always gated by `hasUnknownWateringDate`. */
+  daysUntilWatering: number | null;
   isPostponed?: boolean;
   hasUnknownWateringDate: boolean;
   lastWateredDate?: string;

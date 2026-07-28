@@ -1,5 +1,11 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from 'jsr:@supabase/supabase-js@2';
+// Imported from the app source on purpose: due-ness must be decided by exactly one
+// implementation, or a push notification can contradict what the UI shows. This module is
+// dependency-free and safe to bundle into the function.
+import { calculateWateringSchedule } from '../../../src/utils/watering/schedule.ts';
+import { selectActivePostponement } from '../../../src/utils/watering/postponement.ts';
+import { POSTPONEMENT_LIKE_PATTERN } from '../../../src/utils/watering/notesPrefixes.ts';
 
 // Types for our database
 interface UserPlant {
@@ -26,12 +32,6 @@ interface PushToken {
   token: string;
   device_type: 'ios' | 'android' | 'web';
   is_active: boolean;
-}
-
-interface WateringCalculation {
-  daysUntilWatering: number;
-  isOverdue: boolean;
-  isPostponed: boolean;
 }
 
 // Check if it's the notification time in the user's timezone
@@ -62,36 +62,6 @@ function isNotificationTime(
     console.error('Error checking notification time:', error);
     return false;
   }
-}
-
-// Calculate watering schedule for a plant
-function calculateWateringSchedule(plant: UserPlant): WateringCalculation {
-  const wateringSchedule = plant.suggested_watering_days || 7;
-
-  // Normal watering calculation
-  if (!plant.last_watered_at) {
-    return {
-      daysUntilWatering: 0,
-      isOverdue: true,
-      isPostponed: false
-    };
-  }
-
-  const lastWatered = new Date(plant.last_watered_at);
-  lastWatered.setHours(0, 0, 0, 0);
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const timeDiff = today.getTime() - lastWatered.getTime();
-  const daysSinceWatering = Math.round(timeDiff / (1000 * 60 * 60 * 24));
-  const daysUntilWatering = wateringSchedule - daysSinceWatering;
-  const isOverdue = daysUntilWatering < 0;
-
-  return {
-    daysUntilWatering,
-    isOverdue,
-    isPostponed: false
-  };
 }
 
 // Send push notification via OneSignal (you can swap this for FCM or other services)
@@ -211,16 +181,57 @@ Deno.serve(async (req: Request) => {
           continue;
         }
 
+        // Load postponements. Without these the job would push "overdue" reminders for
+        // plants the user has explicitly deferred, contradicting the UI.
+        const { data: postponementRows, error: postponementError } = await supabase
+          .from('watering_records')
+          .select('plant_id, watered_at, notes')
+          .in('plant_id', plants.map(p => p.id))
+          .like('notes', POSTPONEMENT_LIKE_PATTERN)
+          .order('watered_at', { ascending: false });
+
+        if (postponementError) {
+          console.error(`Error fetching postponements for user ${profile.id}:`, postponementError);
+          // Continue without postponement data rather than skipping the user entirely,
+          // but log it — the result may be noisier than the UI.
+        }
+
+        const postponementsByPlant = new Map<string, { watered_at: string; notes: string | null }[]>();
+        for (const row of postponementRows || []) {
+          const list = postponementsByPlant.get(row.plant_id) || [];
+          list.push({ watered_at: row.watered_at, notes: row.notes });
+          postponementsByPlant.set(row.plant_id, list);
+        }
+
         // Analyze plants for watering needs
         const overduePlants: UserPlant[] = [];
         const dueTodayPlants: UserPlant[] = [];
 
         for (const plant of plants) {
-          const schedule = calculateWateringSchedule(plant);
+          const activePostponement = selectActivePostponement(
+            postponementsByPlant.get(plant.id) || [],
+            plant.last_watered_at
+          );
+
+          const schedule = calculateWateringSchedule(
+            {
+              latest_watering: plant.last_watered_at,
+              suggested_watering_days: plant.suggested_watering_days,
+              postponement_date: activePostponement?.watered_at ?? null,
+            },
+            // Resolve calendar days in the user's timezone. The edge runtime is UTC, so
+            // without this every user west of UTC would be told their plant is due a day
+            // early.
+            { timeZone: profile.push_notification_timezone }
+          );
+
+          // A plant with no watering history has no derivable due date. The UI shows
+          // "Unknown schedule" for these, so pushing "overdue" would be wrong.
+          if (schedule.hasUnknownWateringDate || schedule.isPostponed) continue;
 
           if (schedule.isOverdue) {
             overduePlants.push(plant);
-          } else if (schedule.daysUntilWatering === 0 && !schedule.isOverdue) {
+          } else if (schedule.daysUntilWatering === 0) {
             dueTodayPlants.push(plant);
           }
         }

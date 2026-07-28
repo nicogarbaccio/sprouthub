@@ -16,6 +16,7 @@ import {
 import { FlaskConical, X, Clock, Leaf, ChevronDown, CheckCircle2, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { fertilizationToast } from "@/utils/notifications/toast";
+import { getDaysSince } from "@/utils/watering/schedule";
 import type { UserPlant } from "@/hooks/useUserPlants";
 
 interface FertilizationBannerProps {
@@ -27,10 +28,8 @@ interface FertilizationBannerProps {
 }
 
 function daysSinceLabel(plant: UserPlant): string {
-  if (!plant.last_fertilized_date) return "never";
-  const days = Math.floor(
-    (Date.now() - new Date(plant.last_fertilized_date).getTime()) / (1000 * 60 * 60 * 24)
-  );
+  const days = getDaysSince(plant.last_fertilized_at);
+  if (days === null) return "never";
   if (days === 0) return "today";
   if (days === 1) return "1d ago";
   return `${days}d ago`;

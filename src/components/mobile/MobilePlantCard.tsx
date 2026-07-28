@@ -31,7 +31,7 @@ interface MobilePlantCardProps {
     is_favorite?: boolean;
     suggested_watering_days?: number;
   };
-  onWater?: (plantId: string) => void;
+  onWater?: (plantId: string, notes?: string, wateredAt?: Date) => void;
   onFavorite?: (plantId: string) => void;
   onEdit?: (plantId: string) => void;
   onShare?: (plantId: string) => void;
@@ -96,16 +96,13 @@ export function MobilePlantCard({
     setShowActions(false);
   };
 
-  const handleConfirmWater = (_notes?: string) => {
-    onWater?.(plant.id);
+  const handleConfirmWater = (notes?: string) => {
+    onWater?.(plant.id, notes);
     success();
   };
 
-  const handleAlreadyWatered = (_date: string, _notes?: string) => {
-    // FUTURE FEATURE: Implement backdating watering to a specific date
-    // This would require modifying onWater to accept a date parameter
-    // For now, just water the plant with current timestamp
-    onWater?.(plant.id);
+  const handleAlreadyWatered = (date: Date, notes?: string) => {
+    onWater?.(plant.id, notes, date);
     success();
   };
 

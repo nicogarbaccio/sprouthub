@@ -247,7 +247,7 @@ describe('WeatherService', () => {
 
     it('should calculate correct season for northern hemisphere', async () => {
       const realDate = Date;
-      const mockDate = new Date(2024, 5, 15); // June
+      const mockDate = new Date(2024, 5, 25); // late June — mid-summer up north under equinox boundaries
 
       global.Date = class extends Date {
         constructor() {
@@ -278,7 +278,7 @@ describe('WeatherService', () => {
 
     it('should flip seasons for southern hemisphere', async () => {
       const realDate = Date;
-      const mockDate = new Date(2024, 5, 15); // June
+      const mockDate = new Date(2024, 5, 25); // late June — mid-summer up north under equinox boundaries
 
       global.Date = class extends Date {
         constructor() {

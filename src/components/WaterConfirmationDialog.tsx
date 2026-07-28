@@ -14,14 +14,18 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Droplets, AlertTriangle, Clock, History, Leaf } from "lucide-react";
-import { addDays, format } from "date-fns";
+import { addDays, format, parse } from "date-fns";
 import { buildWateringNotes } from "@/utils/watering/notesPrefixes";
 
 interface WaterConfirmationDialogProps {
  open: boolean;
  onOpenChange: (open: boolean) => void;
  onConfirm: (notes?: string) => void;
- onAlreadyWatered?: (date: string, notes?: string) => void;
+ /**
+  * Called when the user records a watering that already happened.
+  * `date` is the calendar day they picked, resolved to local noon.
+  */
+ onAlreadyWatered?: (date: Date, notes?: string) => void;
  plantName: string;
  showOverwateringWarning?: boolean;
  daysSinceLastWatered?: number;
@@ -72,7 +76,13 @@ export function WaterConfirmationDialog({
     isLateWatering ? healthObservation : null,
     alreadyWateredNotes
    );
-   onAlreadyWatered(alreadyWateredDate, finalNotes ?? undefined);
+   // Parse the yyyy-MM-dd input as a LOCAL date. `new Date("2026-07-20")` would be
+   // parsed as UTC midnight, which lands on the previous day for anyone west of UTC.
+   // Noon keeps the date stable regardless of timezone or DST.
+   const wateredOn = parse(alreadyWateredDate, "yyyy-MM-dd", new Date());
+   wateredOn.setHours(12, 0, 0, 0);
+
+   onAlreadyWatered(wateredOn, finalNotes ?? undefined);
    setShowAlreadyWatered(false);
    setAlreadyWateredNotes("");
    setHealthObservation(null);

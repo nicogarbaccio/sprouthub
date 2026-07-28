@@ -9,18 +9,25 @@ import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { hookLogger } from '@/utils/hookLogging';
-import { calendarSeasonalService } from '@/services/calendarSeasonalService';
+import { getPlantFertilizationStatus } from '@/utils/plants/fertilizationAdvice';
+import {
+  getSeasonForLocation,
+  isGrowingSeason,
+  type HemisphereInput,
+} from '@/utils/season';
 import type { UserPlant } from '@/hooks/useUserPlants';
 
 const HOOK_NAME = 'useFertilizationBanner';
 
 /**
- * Growing season = spring or summer per calendarSeasonalService, which
- * handles hemisphere flipping via latitude. Defaults to 40°N.
+ * Growing season for the user's resolved hemisphere.
+ *
+ * Hemisphere comes from the documented fallback chain rather than a hardcoded 40°N default,
+ * so a southern-hemisphere user is not shown a spring fertilization banner in September.
  */
-function isGrowingSeason(date: Date = new Date(), latitude: number = 40): boolean {
-  const season = calendarSeasonalService.getCurrentSeason(latitude, date);
-  return season === 'spring' || season === 'summer';
+function inGrowingSeason(date: Date, hemisphereInput: HemisphereInput): boolean {
+  const { season } = getSeasonForLocation({ ...hemisphereInput, date });
+  return isGrowingSeason(season);
 }
 
 /** Unique notification key for this spring/summer period */
@@ -34,17 +41,21 @@ function localStorageKey(date: Date = new Date()): string {
   return `fertilization_banner_dismissed_${notificationKey(date)}`;
 }
 
-/** 60-day threshold: plants not fertilized in > 60 days count as unfertilized */
-const STALE_DAYS = 60;
-
-function getUnfertilizedPlants(plants: UserPlant[], now: Date = new Date()): UserPlant[] {
-  return plants.filter(p => {
-    if (!p.last_fertilized_date) return true;
-    const daysSince = Math.floor(
-      (now.getTime() - new Date(p.last_fertilized_date).getTime()) / (1000 * 60 * 60 * 24)
-    );
-    return daysSince > STALE_DAYS;
-  });
+/**
+ * Plants that are actually due for feeding, per each plant's own frequency.
+ *
+ * This used to be a flat 60-day threshold, which disagreed with the per-plant schedule
+ * shown on the plant detail page — a monthly feeder was overdue for a month before the
+ * banner noticed, and a quarterly feeder got flagged early.
+ */
+function getUnfertilizedPlants(
+  plants: UserPlant[],
+  now: Date,
+  hemisphereInput: HemisphereInput
+): UserPlant[] {
+  return plants.filter(
+    p => getPlantFertilizationStatus(p, now, hemisphereInput).status.isDue
+  );
 }
 
 export interface UseFertilizationBannerReturn {
@@ -55,7 +66,14 @@ export interface UseFertilizationBannerReturn {
   snooze: (days: number) => Promise<void>;
 }
 
-export function useFertilizationBanner(plants: UserPlant[], latitude: number = 40): UseFertilizationBannerReturn {
+/**
+ * @param hemisphereInput - latitude when location is granted, otherwise the user's stored
+ *   timezone. Omitting it falls back to the browser timezone rather than assuming 40°N.
+ */
+export function useFertilizationBanner(
+  plants: UserPlant[],
+  hemisphereInput: HemisphereInput = {}
+): UseFertilizationBannerReturn {
   const { user } = useAuth();
   const [isDismissed, setIsDismissed] = useState(false);
   const [isSnoozed, setIsSnoozed] = useState(false);
@@ -63,8 +81,8 @@ export function useFertilizationBanner(plants: UserPlant[], latitude: number = 4
 
   // Stable references that only change when the calendar date actually changes
   const now = new Date();
-  const growing = isGrowingSeason(now, latitude);
-  const unfertilizedPlants = getUnfertilizedPlants(plants, now);
+  const growing = inGrowingSeason(now, hemisphereInput);
+  const unfertilizedPlants = getUnfertilizedPlants(plants, now, hemisphereInput);
   const unfertilizedCount = unfertilizedPlants.length;
   const key = notificationKey(now);
   const lsKey = localStorageKey(now);

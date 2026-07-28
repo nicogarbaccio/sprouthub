@@ -119,6 +119,15 @@ describe('SeasonalDetectionService', () => {
   });
 
   describe('getCurrentSeason', () => {
+    /**
+     * Season detection now follows astronomical (equinox) boundaries rather than whole-month
+     * ones, so these cases use the 25th of each month — unambiguously mid-season under that
+     * model. On the 15th, March, June, September and December all fall in the *previous*
+     * season, which is precisely the three-week discrepancy the old month-based derivation
+     * had against the seasonal banner. Boundary behaviour is covered in `season.test.ts`.
+     */
+    const DAY_OF_MONTH = 25;
+
     const testCases: Array<{ month: number; hemisphere: 'north' | 'south'; expected: Season }> = [
       // Northern hemisphere
       { month: 1, hemisphere: 'north', expected: 'winter' },
@@ -141,7 +150,7 @@ describe('SeasonalDetectionService', () => {
     testCases.forEach(({ month, hemisphere, expected }) => {
       it(`should return ${expected} for month ${month} in ${hemisphere}ern hemisphere`, () => {
         const realDate = Date;
-        const mockDate = new Date(2024, month - 1, 15); // month is 0-indexed in Date
+        const mockDate = new Date(2024, month - 1, DAY_OF_MONTH); // month is 0-indexed in Date
 
         global.Date = class extends Date {
           constructor() {
@@ -164,7 +173,7 @@ describe('SeasonalDetectionService', () => {
 
     it('should handle equator location as northern hemisphere', () => {
       const realDate = Date;
-      const mockDate = new Date(2024, 5, 15); // June
+      const mockDate = new Date(2024, 5, 25); // late June, unambiguously summer up north
 
       global.Date = class extends Date {
         constructor() {

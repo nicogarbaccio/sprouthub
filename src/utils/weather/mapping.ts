@@ -1,6 +1,7 @@
 import { WeatherData } from '@/services/weatherTypes';
 import { WateringFactors } from '../watering/smartSchedule';
 import { formatTemperature } from './temperature';
+import { getSeason, resolveHemisphereFromEnvironment } from '@/utils/season';
 
 export interface WeatherMappingResult {
   factors: Pick<WateringFactors, 'temperature' | 'humidity' | 'season'>;
@@ -63,7 +64,8 @@ export function mapWeatherToFactors(
   let humidity: WateringFactors['humidity'];
   if (weatherData.current_humidity_percent < humidityThresholds.dry) {
     humidity = 'dry';
-    reasons.push(`Low indoor humidity (${weatherData.current_humidity_percent}%) increases plant water needs`);
+    // Describes the measured weather, not the plant's room — this is outdoor API data.
+    reasons.push(`Low humidity (${weatherData.current_humidity_percent}%) increases plant water needs`);
   } else if (weatherData.current_humidity_percent > humidityThresholds.humid) {
     humidity = 'humid';
     reasons.push(`High humidity (${weatherData.current_humidity_percent}%) reduces plant water needs`);
@@ -140,50 +142,14 @@ export function shouldDelayWateringForRain(
   return { shouldDelay: false };
 }
 
-/**
- * Adjust watering schedule based on extreme weather conditions
- */
-export function getExtremeWeatherAdjustment(weatherData: WeatherData): {
-  adjustment: number; // days to add/subtract
-  reason?: string;
-} {
-  const temp = weatherData.current_temp_celsius;
-  const humidity = weatherData.current_humidity_percent;
-
-  // Heat wave adjustment (>30°C / 86°F)
-  if (temp > 30) {
-    return {
-      adjustment: -1,
-      reason: `Hot indoor conditions (${formatTemperature(temp)}) increase plant water needs`,
-    };
-  }
-
-  // Cold snap adjustment (<5°C / 41°F)
-  if (temp < 5) {
-    return {
-      adjustment: +2,
-      reason: `Cold conditions (${formatTemperature(temp)}) slow plant growth significantly`,
-    };
-  }
-
-  // Extremely dry air (<20% humidity)
-  if (humidity < 20) {
-    return {
-      adjustment: -1,
-      reason: `Very dry indoor air (${humidity}%) increases plant water loss`,
-    };
-  }
-
-  // Extremely humid air (>90% humidity)
-  if (humidity > 90) {
-    return {
-      adjustment: +1,
-      reason: `High humidity (${humidity}%) means plants need less water`,
-    };
-  }
-
-  return { adjustment: 0 };
-}
+// `getExtremeWeatherAdjustment` and `getDaylightAdjustment` used to live here. They were
+// removed rather than deprecated: both returned a single flat day offset, and the former
+// early-returned on the first matching condition so a 32 °C day at 15% humidity reported only
+// the heat and silently dropped the dryness.
+//
+// Their replacement is `getWeatherFactors` in `@/utils/watering/scheduleAdjustment`, which
+// composes every out-of-range condition, scales with the plant's interval, and bounds the
+// combined result.
 
 /**
  * Calculate growing degree days for more precise seasonal adjustments
@@ -198,33 +164,7 @@ export function calculateGrowingDegreeDays(
   return Math.max(0, currentTemp - baseTemperature);
 }
 
-/**
- * Get enhanced seasonal adjustment based on actual daylight hours
- */
-export function getDaylightAdjustment(weatherData: WeatherData): {
-  adjustment: number;
-  reason?: string;
-} {
-  const daylight = weatherData.daylight_hours;
 
-  // Very short days (winter-like conditions)
-  if (daylight < 9) {
-    return {
-      adjustment: +1,
-      reason: `Short days (${daylight}h) mean less light and reduced water needs for plants`,
-    };
-  }
-
-  // Very long days (summer-like conditions)
-  if (daylight > 15) {
-    return {
-      adjustment: -1,
-      reason: `Long days (${daylight}h) provide more light and increase plant water use`,
-    };
-  }
-
-  return { adjustment: 0 };
-}
 
 /**
  * Create fallback weather data for when API is unavailable
@@ -232,16 +172,10 @@ export function getDaylightAdjustment(weatherData: WeatherData): {
 export function createFallbackWeatherData(
   season?: WateringFactors['season']
 ): WeatherData {
-  const now = new Date();
-  const month = now.getMonth() + 1;
-
-  // Determine season if not provided
-  const fallbackSeason = season || (() => {
-    if (month >= 3 && month <= 5) return 'spring';
-    if (month >= 6 && month <= 8) return 'summer';
-    if (month >= 9 && month <= 11) return 'fall';
-    return 'winter';
-  })();
+  // Season falls back to the canonical detector rather than a local month check, so fallback
+  // weather data does not silently assume the northern hemisphere.
+  const fallbackSeason =
+    season ?? getSeason(new Date(), resolveHemisphereFromEnvironment().hemisphere);
 
   // Default values based on season
   const seasonDefaults = {

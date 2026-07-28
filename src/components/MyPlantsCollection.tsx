@@ -23,11 +23,7 @@ import WateringHistoryDialog from "./WateringHistoryDialog";
 import { useUserPlants, UserPlant } from "@/hooks/useUserPlants";
 import { useAuth } from "@/contexts/AuthContext";
 import { groupPlantsByRoom } from "@/utils/rooms";
-import {
-  calculateWateringSchedule,
-  getNextWateringDate as getNextWateringDateUtil,
-  isPlantOverdue,
-} from "@/utils/watering/schedule";
+import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { updatePlantWateringSchedule } from "@/utils/watering/scheduleUpdater";
 import { utilityToast } from "@/utils/notifications/toast";
 import { toast } from "sonner";
@@ -229,9 +225,13 @@ const MyPlantsCollectionContent = () => {
   };
 
   // Individual plant water handler with notification
-  const handleWaterPlant = async (plantId: string) => {
+  const handleWaterPlant = async (
+    plantId: string,
+    notes?: string,
+    wateredAt?: Date
+  ) => {
     const plant = plants.find((p) => p.id === plantId);
-    await waterPlant(plantId);
+    await waterPlant(plantId, notes, wateredAt);
     if (plant) {
       notifyWateringSuccess(plant.nickname);
     }
@@ -317,28 +317,6 @@ const MyPlantsCollectionContent = () => {
       year: "numeric",
       timeZone: "UTC",
     });
-  };
-
-  // Wrapper functions for backward compatibility with RoomSection
-  const getNextWateringDate = (
-    lastWatered: string | undefined,
-    daysAgo: number | undefined,
-    wateringSchedule: number
-  ) => {
-    return getNextWateringDateUtil(
-      lastWatered,
-      daysAgo,
-      wateringSchedule,
-      formatDate
-    );
-  };
-
-  const isOverdue = (
-    daysAgo: number | undefined,
-    wateringSchedule: number,
-    hasLastWatered: boolean
-  ) => {
-    return isPlantOverdue(daysAgo, wateringSchedule, hasLastWatered);
   };
 
   return (
@@ -515,8 +493,6 @@ const MyPlantsCollectionContent = () => {
                   onScheduleAdjustment={handleScheduleAdjustment}
                   onFertilizePlant={logFertilization}
                   formatDate={formatDate}
-                  getNextWateringDate={getNextWateringDate}
-                  isOverdue={isOverdue}
                   delay={200 + index * 100}
                   overwateringByPlantId={overwateringByPlantId}
                 />

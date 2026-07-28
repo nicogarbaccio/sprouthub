@@ -6,8 +6,15 @@
  * and last fertilized date.
  */
 
-import type { UserPlant } from '@/hooks/useUserPlants';
-import { calendarSeasonalService } from '@/services/calendarSeasonalService';
+import { getEnrichedPlantSync } from '@/data/enrichedPlants';
+import { getDaysSince } from '@/utils/watering/schedule';
+import {
+  getSeason,
+  isGrowingSeason,
+  resolveHemisphere,
+  resolveHemisphereFromEnvironment,
+  type HemisphereInput,
+} from '@/utils/season';
 
 export interface FertilizationAdvice {
   /** Verbatim matched line from careInstructions, if one was found */
@@ -25,13 +32,35 @@ export interface FertilizationAdvice {
 export interface FertilizationStatus {
   /** True when it is spring or summer (active growing season) */
   isGrowingSeason: boolean;
-  /** Days since last_fertilized_date, or null if never logged */
+  /** Days since the last logged fertilization, or null if never logged */
   daysSinceLastFertilized: number | null;
-  /** True when past the max frequency interval or never fertilized */
+  /**
+   * True when the plant should be fertilized now: past its interval (or never fertilized)
+   * AND in the growing season. Feeding during dormancy causes salt buildup, so this is
+   * always false in fall and winter.
+   */
   isDue: boolean;
-  /** Days until the max-interval due date, or null if already due */
+  /**
+   * True when the interval has elapsed, regardless of season. Use this to explain *why*
+   * a dormant plant isn't being flagged ("ready, but wait for spring").
+   */
+  isIntervalElapsed: boolean;
+  /**
+   * Days until the interval elapses. Negative when already elapsed, null only when the
+   * plant has never been fertilized. Available year-round, so the UI can say
+   * "next feeding in N days" outside the growing season too.
+   */
   daysUntilDue: number | null;
+  /** The interval in days that this status was computed against. */
+  intervalDays: number;
 }
+
+/**
+ * Fallback interval when a plant's care instructions mention fertilizing but in a form we
+ * can't parse a frequency from. Without this, such plants were never due — `isDue` stayed
+ * false forever with no signal to the user.
+ */
+export const DEFAULT_FERTILIZATION_WEEKS = 4;
 
 // ---------------------------------------------------------------------------
 // Category-based fallbacks
@@ -225,48 +254,85 @@ export function parseFertilizationFromCareInstructions(
 /**
  * Compute the current fertilization status for a plant.
  *
- * Growing season is derived from `calendarSeasonalService.getCurrentSeason()`,
- * which handles hemisphere flipping via `latitude`. Defaults to 40°N when no
- * latitude is provided (safe default for most users in Northern Hemisphere).
+ * This is the SINGLE source of truth for "is this plant due for feeding?". The reminder
+ * banner and the room cards previously used their own flat 60-day thresholds, so a plant
+ * on a two-week schedule was due on its detail page at day 14 but invisible to the banner
+ * until day 60, while a plant on a three-month schedule got flagged by the cards at day 61
+ * even though its own advice said it wasn't due.
  *
- * `isDue` is only ever true during the growing season — fertilization outside
- * the growing season is botanically unsound regardless of timing.
+ * Growing season is derived from the canonical season module, with hemisphere resolved via the
+ * documented fallback chain (latitude, then timezone, then a flagged northern assumption).
+ *
+ * `isDue` is only ever true during the growing season — fertilizing during dormancy causes
+ * salt buildup and root damage. Use `isIntervalElapsed` when you need the season-agnostic
+ * answer.
  */
 export function getFertilizationStatus(
-  plant: Pick<UserPlant, 'last_fertilized_date'>,
+  plant: { last_fertilized_at?: string | null },
   advice: FertilizationAdvice,
   currentDate: Date = new Date(),
-  latitude: number = 40
+  /**
+   * Hemisphere input. Pass a latitude when location is granted; otherwise pass the user's
+   * stored timezone. Omitting both resolves via the browser timezone rather than silently
+   * assuming the northern hemisphere, which the previous `latitude = 40` default did.
+   */
+  hemisphereInput: HemisphereInput | number = {}
 ): FertilizationStatus {
-  const season = calendarSeasonalService.getCurrentSeason(latitude, currentDate);
-  const isGrowingSeason = season === 'spring' || season === 'summer';
+  const resolution =
+    typeof hemisphereInput === 'number'
+      ? resolveHemisphere({ latitude: hemisphereInput })
+      : resolveHemisphereFromEnvironment(hemisphereInput);
 
-  let daysSinceLastFertilized: number | null = null;
-  if (plant.last_fertilized_date) {
-    const lastDate = new Date(plant.last_fertilized_date);
-    daysSinceLastFertilized = Math.floor(
-      (currentDate.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24)
-    );
-  }
+  const season = getSeason(currentDate, resolution.hemisphere);
+  const growingSeason = isGrowingSeason(season);
 
-  const maxIntervalDays = advice.frequencyWeeks ? advice.frequencyWeeks[1] * 7 : null;
+  // Calendar-day based, matching the watering side of the app.
+  const daysSinceLastFertilized = getDaysSince(plant.last_fertilized_at, {
+    now: currentDate,
+  });
 
-  // A plant is only due during the growing season
-  const isDue =
-    isGrowingSeason && (
-      daysSinceLastFertilized === null ||
-      (maxIntervalDays !== null && daysSinceLastFertilized >= maxIntervalDays)
-    );
+  // Fall back to a sane interval rather than leaving the plant permanently "not due".
+  const intervalDays =
+    (advice.frequencyWeeks?.[1] ?? DEFAULT_FERTILIZATION_WEEKS) * 7;
 
-  let daysUntilDue: number | null = null;
-  if (!isDue && isGrowingSeason && maxIntervalDays !== null && daysSinceLastFertilized !== null) {
-    daysUntilDue = maxIntervalDays - daysSinceLastFertilized;
-  }
+  const isIntervalElapsed =
+    daysSinceLastFertilized === null || daysSinceLastFertilized >= intervalDays;
 
   return {
-    isGrowingSeason,
+    isGrowingSeason: growingSeason,
     daysSinceLastFertilized,
-    isDue,
-    daysUntilDue,
+    isDue: growingSeason && isIntervalElapsed,
+    isIntervalElapsed,
+    // Computed year-round now, so dormant-season UI can still count down.
+    daysUntilDue:
+      daysSinceLastFertilized === null
+        ? null
+        : intervalDays - daysSinceLastFertilized,
+    intervalDays,
+  };
+}
+
+/**
+ * Resolves fertilization advice and status for a plant in one step, matching it against the
+ * plant catalog for care instructions.
+ *
+ * Prefer this over calling `parseFertilizationFromCareInstructions` and
+ * `getFertilizationStatus` separately — it is what keeps every surface consistent.
+ */
+export function getPlantFertilizationStatus(
+  plant: { plant_type: string; last_fertilized_at?: string | null },
+  currentDate: Date = new Date(),
+  /** See `getFertilizationStatus` — accepts a latitude, a timezone, or nothing. */
+  hemisphereInput: HemisphereInput | number = {}
+): { advice: FertilizationAdvice; status: FertilizationStatus } {
+  const catalogEntry = getEnrichedPlantSync(plant.plant_type);
+  const advice = parseFertilizationFromCareInstructions(
+    catalogEntry?.careInstructions ?? [],
+    catalogEntry?.category
+  );
+
+  return {
+    advice,
+    status: getFertilizationStatus(plant, advice, currentDate, hemisphereInput),
   };
 }

@@ -469,12 +469,12 @@ const HouseholdManagement = () => {
                                     : 'bg-sprout-success/10 text-sprout-success border-sprout-success/20'
                                 }`}
                               >
-                                {wateringCalc.isOverdue
+                                {wateringCalc.hasUnknownWateringDate
+                                  ? "Unknown"
+                                  : wateringCalc.isOverdue
                                   ? "Overdue"
                                   : wateringCalc.daysUntilWatering === 0
                                   ? "Due today"
-                                  : wateringCalc.daysUntilWatering === 999
-                                  ? "Unknown"
                                   : `${wateringCalc.daysUntilWatering}d`}
                               </Badge>
                             </div>
@@ -496,7 +496,7 @@ const HouseholdManagement = () => {
                                 <span>
                                   Next:{" "}
                                   <span className="font-medium text-gray-900 dark:text-white">
-                                    {wateringCalc.daysUntilWatering === 999
+                                    {wateringCalc.hasUnknownWateringDate
                                       ? "Unknown"
                                       : wateringCalc.daysUntilWatering === 0
                                       ? "Today"

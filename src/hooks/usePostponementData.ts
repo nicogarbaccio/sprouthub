@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
+import { POSTPONEMENT_LIKE_PATTERN } from '@/utils/watering/notesPrefixes';
 
 /**
  * Type definition for postponement record
@@ -53,7 +54,7 @@ export const usePostponementData = () => {
           .from('watering_records')
           .select('plant_id, watered_at, notes')
           .in('plant_id', plantIds)
-          .like('notes', '%POSTPONEMENT:%')
+          .like('notes', POSTPONEMENT_LIKE_PATTERN)
           .order('watered_at', { ascending: false });
 
         if (error) {

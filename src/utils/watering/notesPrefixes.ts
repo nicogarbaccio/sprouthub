@@ -56,3 +56,35 @@ export function stripNotesPrefixes(notes: string | null | undefined): string {
   }
   return notes;
 }
+
+/**
+ * Whether a `watering_records` row is a postponement rather than a real watering.
+ *
+ * Postponements are stored as rows in `watering_records` with a `POSTPONEMENT:` marker in
+ * their notes, dated in the future. Every query that derives watering intervals, streaks,
+ * counts or averages MUST exclude them — a postponement is the user saying they did *not*
+ * water.
+ *
+ * Always use this helper rather than an inline `notes.includes('POSTPONEMENT:')` check, so
+ * there is one place to update when the marker moves to a real column.
+ */
+export function isPostponementRecord(record: {
+  notes?: string | null;
+}): boolean {
+  return Boolean(record.notes?.includes(POSTPONEMENT_PREFIX));
+}
+
+/**
+ * Filters a list of watering records down to real waterings, excluding postponements.
+ */
+export function excludePostponements<T extends { notes?: string | null }>(
+  records: T[]
+): T[] {
+  return records.filter(record => !isPostponementRecord(record));
+}
+
+/**
+ * SQL fragment matching postponement notes, for use with Supabase `.like()` / `.not()`.
+ * Keeps the wildcard pattern in one place.
+ */
+export const POSTPONEMENT_LIKE_PATTERN = `%${POSTPONEMENT_PREFIX}%`;

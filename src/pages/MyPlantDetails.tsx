@@ -135,9 +135,9 @@ const MyPlantDetails = () => {
   );
 
   const handleAlreadyWatered = useCallback(
-    async (_date: string, notes?: string) => {
+    async (date: Date, notes?: string) => {
       if (plant) {
-        await waterPlant(plant.id, notes);
+        await waterPlant(plant.id, notes, date);
         notifyWateringSuccess(plant.nickname);
         setShowWaterConfirmation(false);
       }

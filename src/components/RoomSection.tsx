@@ -9,16 +9,16 @@ import { getRoomIcon, getRoomLabel, getRoomTheme } from "@/utils/rooms";
 import type { OverwateringRisk } from "@/utils/plants/overwatering";
 import {
   calculateWateringSchedule,
-  getNextWateringDate as getNextWateringDateUtil,
+  formatNextWateringDate,
 } from "@/utils/watering/schedule";
 import { plants as catalogPlants } from "@/data/plantData";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
-import { calendarSeasonalService } from "@/services/calendarSeasonalService";
+import { getPlantFertilizationStatus } from "@/utils/plants/fertilizationAdvice";
 
 interface RoomSectionProps {
   roomKey: string;
   plants: UserPlant[];
-  onWaterPlant: (plantId: string) => void;
+  onWaterPlant: (plantId: string, notes?: string, wateredAt?: Date) => void;
   onEditPlant: (plant: UserPlant) => void;
   onAddPlant: () => void;
   onPostponeWatering?: (plantId: string) => void;
@@ -29,16 +29,6 @@ interface RoomSectionProps {
   ) => Promise<void>;
   onFertilizePlant?: (plantId: string) => void;
   formatDate: (dateString: string) => string;
-  getNextWateringDate: (
-    lastWatered: string | undefined,
-    daysAgo: number | undefined,
-    wateringSchedule: number
-  ) => string;
-  isOverdue: (
-    daysAgo: number | undefined,
-    wateringSchedule: number,
-    hasLastWatered: boolean
-  ) => boolean;
   delay: number;
   overwateringByPlantId?: Record<string, OverwateringRisk>;
 }
@@ -57,10 +47,6 @@ const RoomSection = ({
   delay,
   overwateringByPlantId,
 }: RoomSectionProps) => {
-  const isGrowingSeason = (() => {
-    const season = calendarSeasonalService.getCurrentSeason(40);
-    return season === 'spring' || season === 'summer';
-  })();
   const roomLabel = getRoomLabel(roomKey);
   const roomIcon = getRoomIcon(roomKey);
   const roomTheme = getRoomTheme(roomKey);
@@ -245,15 +231,10 @@ const RoomSection = ({
             // Use the new watering schedule calculation utility
             const wateringCalc = calculateWateringSchedule(plant);
 
-            // Fertilization is due when in growing season and never fertilized,
-            // or last fertilized more than 60 days ago
-            const isFertilizationDue = isGrowingSeason && (() => {
-              if (!plant.last_fertilized_date) return true;
-              const daysSince = Math.floor(
-                (Date.now() - new Date(plant.last_fertilized_date).getTime()) / (1000 * 60 * 60 * 24)
-              );
-              return daysSince > 60;
-            })();
+            // Per-plant frequency, not a flat 60-day guess, so the card agrees with the
+            // plant's detail page and the reminder banner.
+            const isFertilizationDue =
+              getPlantFertilizationStatus(plant).status.isDue;
 
             // Find matching plant data from catalog for image fallback
             const catalogPlant = catalogPlants.find(
@@ -277,19 +258,7 @@ const RoomSection = ({
                     : "Unknown"
                 }
                 lastWateredDate={plant.latest_watering}
-                nextWateringDue={getNextWateringDateUtil(
-                  plant.latest_watering,
-                  plant.latest_watering
-                    ? Math.round(
-                        (new Date().getTime() -
-                          new Date(plant.latest_watering).getTime()) /
-                          (1000 * 60 * 60 * 24)
-                      )
-                    : undefined,
-                  plant.suggested_watering_days || 7,
-                  formatDate,
-                  plant.postponement_date
-                )}
+                nextWateringDue={formatNextWateringDate(plant, formatDate)}
                 isOverdue={wateringCalc.isOverdue}
                 daysUntilWatering={wateringCalc.daysUntilWatering}
                 hasUnknownWateringDate={wateringCalc.hasUnknownWateringDate}
@@ -302,7 +271,9 @@ const RoomSection = ({
                     ? overwateringByPlantId[plant.id]
                     : undefined
                 }
-                onWater={() => onWaterPlant(plant.id)}
+                onWater={(notes, wateredAt) =>
+                  onWaterPlant(plant.id, notes, wateredAt)
+                }
                 onEdit={() => onEditPlant(plant)}
                 onPostpone={
                   onPostponeWatering

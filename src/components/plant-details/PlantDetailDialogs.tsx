@@ -32,7 +32,7 @@ interface PlantDetailDialogsProps {
   showWaterConfirmation: boolean;
   onWaterConfirmationChange: (open: boolean) => void;
   onConfirmWater: (notes?: string) => Promise<void>;
-  onAlreadyWatered: (date: string, notes?: string) => Promise<void>;
+  onAlreadyWatered: (date: Date, notes?: string) => Promise<void>;
   showOverwateringWarning: boolean;
   daysSinceLastWatered: number | null;
 

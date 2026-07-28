@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
+import { getDaysSince } from "@/utils/watering/schedule";
 import type { UserPlant } from "@/hooks/useUserPlants";
 
 interface WateringScheduleCardProps {
@@ -39,7 +40,7 @@ const WateringScheduleCard = ({ plant }: WateringScheduleCardProps) => {
               Days since:
             </span>
             <span className="text-xs sm:text-sm font-medium">
-              {plant.days_since_watering || 0} days
+              {getDaysSince(plant.latest_watering) ?? 0} days
             </span>
           </div>
         </div>

@@ -9,6 +9,10 @@ import {
 } from '@/services/calendarSeasonalService';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { safeJsonParse } from '@/utils/safeJsonParse';
+import {
+  resolveHemisphereFromEnvironment,
+  type HemisphereInput,
+} from '@/utils/season';
 
 const dismissalSchema = z.object({
   dismissed_at: z.string().optional(),
@@ -47,8 +51,17 @@ interface UseCalendarSeasonalNotificationReturn {
  * change notifications based purely on calendar dates.
  */
 export function useCalendarSeasonalNotification(
-  latitude: number = 0 // Default to Northern Hemisphere
+  /**
+   * Hemisphere input. Pass a latitude when location is granted, otherwise the user's stored
+   * timezone. The previous `latitude = 0` default silently placed every user without location
+   * access on the equator, which resolves as northern.
+   */
+  hemisphereInput: HemisphereInput = {}
 ): UseCalendarSeasonalNotificationReturn {
+  const { hemisphere } = resolveHemisphereFromEnvironment(hemisphereInput);
+  // The service still takes a latitude; a sign-carrying sentinel conveys the resolved
+  // hemisphere without pretending to know a real coordinate.
+  const latitude = hemisphere === 'southern' ? -1 : 1;
   const { user } = useAuth();
 
   const [upcomingChange, setUpcomingChange] = useState<UpcomingSeasonChange | null>(null);

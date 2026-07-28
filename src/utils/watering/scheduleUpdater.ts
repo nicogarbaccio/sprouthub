@@ -3,6 +3,7 @@
  */
 
 import { supabase } from '@/integrations/supabase/client';
+import { getSeason, resolveHemisphereFromEnvironment } from '@/utils/season';
 
 export interface ScheduleUpdateResult {
   success: boolean;
@@ -47,7 +48,7 @@ export async function updatePlantWateringSchedule(
     // Update the schedule
     const { error: updateError } = await supabase
       .from('user_plants')
-      .update({ 
+      .update({
         suggested_watering_days: newSchedule,
         updated_at: new Date().toISOString(),
       })
@@ -115,10 +116,10 @@ export async function recordScheduleAdjustment(
     // This would insert into a schedule_adjustments table if we had one
     // For now, we'll just log it or store it in notes
     const adjustmentNote = `Schedule adjusted from ${previousSchedule} to ${newSchedule} days based on pattern analysis (${confidence} confidence): ${reason}`;
-    
+
     // In a real implementation, you might want to store this in a dedicated table
     console.log('Schedule adjustment recorded:', adjustmentNote);
-    
+
     return true;
   } catch (error) {
     console.error('Error recording schedule adjustment:', error);
@@ -154,17 +155,19 @@ export function validateScheduleAdjustment(
     if (plantType.toLowerCase().includes('succulent') && proposedSchedule < 7) {
       warnings.push('Succulents typically prefer less frequent watering (7+ days)');
     }
-    
+
     if (plantType.toLowerCase().includes('fern') && proposedSchedule > 5) {
       warnings.push('Ferns typically prefer more frequent watering (3-5 days)');
     }
   }
 
-  // Seasonal considerations (basic)
-  const month = new Date().getMonth() + 1;
-  const isWinter = month === 12 || month === 1 || month === 2;
-  if (isWinter && proposedSchedule < currentSchedule) {
-    warnings.push('Plants typically need less water in winter months');
+  // Seasonal considerations. Uses the canonical detector rather than an inline
+  // `month === 12 || 1 || 2` check, which was both northern-hemisphere-only and three weeks
+  // out of step with the equinox dates used everywhere else.
+  const { hemisphere } = resolveHemisphereFromEnvironment();
+  const season = getSeason(new Date(), hemisphere);
+  if (season === 'winter' && proposedSchedule < currentSchedule) {
+    warnings.push('Plants typically need less water during winter dormancy');
   }
 
   return { isValid, warnings };

@@ -1,71 +1,73 @@
+import { excludePostponements } from '@/utils/watering/notesPrefixes';
+import { getDaysSince } from '@/utils/watering/schedule';
+
 export interface OverwateringRisk {
- level: 'none' | 'low' | 'high';
- count: number;
- windowDays: number;
- avgIntervalDays?: number;
+    level: 'none' | 'low' | 'high';
+    count: number;
+    windowDays: number;
+    avgIntervalDays?: number;
 }
 
 export interface WateringRecordLike {
- watered_at: string;
- notes?: string | null;
+    watered_at: string;
+    notes?: string | null;
 }
 
 export function computeOverwateringRisk(params: {
- records: WateringRecordLike[];
- suggestedDays?: number | null;
- now?: Date;
+    records: WateringRecordLike[];
+    suggestedDays?: number | null;
+    now?: Date;
 }): OverwateringRisk {
- const now = params.now ?? new Date();
- const suggestedDaysRaw = typeof params.suggestedDays === 'number' && !Number.isNaN(params.suggestedDays)
- ? params.suggestedDays
- : 7;
- const windowDays = Math.min(Math.max(suggestedDaysRaw, 2), 30);
- const windowStart = new Date(now.getTime() - windowDays * 24 * 60 * 60 * 1000);
+    const now = params.now ?? new Date();
+    const suggestedDaysRaw = typeof params.suggestedDays === 'number' && !Number.isNaN(params.suggestedDays)
+        ? params.suggestedDays
+        : 7;
+    const windowDays = Math.min(Math.max(suggestedDaysRaw, 2), 30);
+    const windowStart = new Date(now.getTime() - windowDays * 24 * 60 * 60 * 1000);
 
- const recentDates = params.records
- .filter((record) => !record.notes || !record.notes.includes('POSTPONEMENT:'))
- .map((record) => new Date(record.watered_at))
- .filter((date) => date <= now && date >= windowStart)
- .sort((a, b) => a.getTime() - b.getTime());
+    const recentDates = excludePostponements(params.records)
+        .map((record) => new Date(record.watered_at))
+        .filter((date) => date <= now && date >= windowStart)
+        .sort((a, b) => a.getTime() - b.getTime());
 
- const count = recentDates.length;
+    const count = recentDates.length;
 
- let avgIntervalDays: number | undefined;
- if (recentDates.length > 1) {
- const intervals: number[] = [];
- for (let i = 1; i < recentDates.length; i += 1) {
-  const ms = recentDates[i].getTime() - recentDates[i - 1].getTime();
-  intervals.push(ms / (1000 * 60 * 60 * 24));
- }
- const lastIntervals = intervals.slice(-5);
- const average = lastIntervals.reduce((sum, d) => sum + d, 0) / lastIntervals.length;
- avgIntervalDays = Math.round(average);
- }
+    let avgIntervalDays: number | undefined;
+    if (recentDates.length > 1) {
+        const intervals: number[] = [];
+        for (let i = 1; i < recentDates.length; i += 1) {
+            const ms = recentDates[i].getTime() - recentDates[i - 1].getTime();
+            intervals.push(ms / (1000 * 60 * 60 * 24));
+        }
+        const lastIntervals = intervals.slice(-5);
+        const average = lastIntervals.reduce((sum, d) => sum + d, 0) / lastIntervals.length;
+        avgIntervalDays = Math.round(average);
+    }
 
- let level: OverwateringRisk['level'] = 'none';
- 
- // Only flag as overwatering if we have interval data and it's significantly less than suggested
- if (avgIntervalDays !== undefined) {
-  // High risk: watering more than twice as frequently as suggested (interval < 50% of suggested)
-  if (avgIntervalDays < suggestedDaysRaw * 0.5) {
-   level = 'high';
-  }
-  // Low risk: watering somewhat too frequently (interval < 70% of suggested)
-  // Removed the count >= 3 requirement to make "low" risk more achievable
-  else if (avgIntervalDays < suggestedDaysRaw * 0.7) {
-   level = 'low';
-  }
-  // No risk: watering at an appropriate interval (>= 70% of suggested), even if there are many waterings
-  else {
-   level = 'none';
-  }
- } else if (count >= 4) {
-  // Fallback: If we can't calculate intervals but there are 4+ waterings in the window,
-  // that's definitely too many (even without interval data)
-  level = 'high';
- }
+    let level: OverwateringRisk['level'] = 'none';
 
- return { level, count, windowDays, avgIntervalDays };
+    // Only flag as overwatering if we have interval data and it's significantly less than suggested
+    if (avgIntervalDays !== undefined) {
+        // High risk: watering more than twice as frequently as suggested (interval < 50% of suggested)
+        if (avgIntervalDays < suggestedDaysRaw * 0.5) {
+            level = 'high';
+        }
+        // Low risk: watering somewhat too frequently (interval < 70% of suggested)
+        // Removed the count >= 3 requirement to make "low" risk more achievable
+        else if (avgIntervalDays < suggestedDaysRaw * 0.7) {
+            level = 'low';
+        }
+        // No risk: watering at an appropriate interval (>= 70% of suggested), even if there are many waterings
+        else {
+            level = 'none';
+        }
+    } else if (count >= 4) {
+        // Fallback: If we can't calculate intervals but there are 4+ waterings in the window,
+        // that's definitely too many (even without interval data)
+        level = 'high';
+    }
+
+    return { level, count, windowDays, avgIntervalDays };
 }
 
 /**
@@ -75,37 +77,34 @@ export function computeOverwateringRisk(params: {
  * @returns Object with warning flag and days since last watered
  */
 export function shouldShowOverwateringWarning(
- lastWatered: string | null | undefined,
- suggestedWateringDays: number = 7
+    lastWatered: string | null | undefined,
+    suggestedWateringDays: number = 7
 ): { showWarning: boolean; daysSinceLastWatered?: number } {
- if (!lastWatered) {
- return { showWarning: false };
- }
+    if (!lastWatered) {
+        return { showWarning: false };
+    }
 
- const lastWateredDate = new Date(lastWatered);
- const now = new Date();
- 
- // Skip if the last watered date is in the future (postponed)
- if (lastWateredDate > now) {
- return { showWarning: false };
- }
+    const lastWateredDate = new Date(lastWatered);
+    const now = new Date();
 
- // Use calendar date arithmetic to match database view calculation
- // This ensures consistency between UI display and warning logic
- const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
- const wateredDate = new Date(lastWateredDate.getFullYear(), lastWateredDate.getMonth(), lastWateredDate.getDate());
- const timeDiff = nowDate.getTime() - wateredDate.getTime();
- const daysSinceLastWatered = Math.round(timeDiff / (1000 * 60 * 60 * 24));
+    // Skip if the last watered date is in the future (postponed)
+    if (lastWateredDate > now) {
+        return { showWarning: false };
+    }
 
- // Show warning if watered within the last 2 days OR if watering too frequently
- // compared to the suggested schedule (less than 50% of suggested days)
- const tooRecent = daysSinceLastWatered <= 2;
- const tooFrequent = daysSinceLastWatered < (suggestedWateringDays * 0.5);
- 
- return {
- showWarning: tooRecent || tooFrequent,
- daysSinceLastWatered,
- };
+    // Delegate to the canonical helper so this agrees with the rest of the app's notion
+    // of a calendar day.
+    const daysSinceLastWatered = getDaysSince(lastWatered, { now }) ?? 0;
+
+    // Show warning if watered within the last 2 days OR if watering too frequently
+    // compared to the suggested schedule (less than 50% of suggested days)
+    const tooRecent = daysSinceLastWatered <= 2;
+    const tooFrequent = daysSinceLastWatered < (suggestedWateringDays * 0.5);
+
+    return {
+        showWarning: tooRecent || tooFrequent,
+        daysSinceLastWatered,
+    };
 }
 
 

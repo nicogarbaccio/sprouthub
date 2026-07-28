@@ -39,13 +39,19 @@ interface MyPlantCardProps {
   lastWateredDate?: string;
   nextWateringDue: string;
   isOverdue: boolean;
-  daysUntilWatering: number;
+  /** `null` when the plant has no watering history; pair with `hasUnknownWateringDate`. */
+  daysUntilWatering: number | null;
   hasUnknownWateringDate: boolean;
   isPostponed?: boolean;
   suggestedWateringDays?: number;
   householdName?: string;
   householdId?: string;
-  onWater: () => void;
+  /**
+   * @param notes - notes from the confirmation dialog, which may carry a health
+   *   observation prefix used by pattern analysis
+   * @param wateredAt - when the watering happened, when the user is backdating it
+   */
+  onWater: (notes?: string, wateredAt?: Date) => void;
   onEdit: () => void;
   onPostpone?: () => void;
   onViewHistory?: () => void;
@@ -168,8 +174,8 @@ const MyPlantCard = ({
     }
   };
 
-  const handleConfirmWater = async (_notes?: string) => {
-    onWater();
+  const handleConfirmWater = async (notes?: string) => {
+    onWater(notes);
 
     if (patternAnalysisTimeoutRef.current) {
       clearTimeout(patternAnalysisTimeoutRef.current);
@@ -200,8 +206,8 @@ const MyPlantCard = ({
     }, TIMING.WATERING_PATTERN_DELAY);
   };
 
-  const handleAlreadyWatered = async (_date: string, _notes?: string) => {
-    onWater();
+  const handleAlreadyWatered = async (date: Date, notes?: string) => {
+    onWater(notes, date);
   };
 
   const handleNameClick = (e: React.MouseEvent) => {

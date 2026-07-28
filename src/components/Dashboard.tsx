@@ -139,7 +139,12 @@ const Dashboard = () => {
     snoozeNotification: snoozeCalendarNotification,
     applyAllSuggestions: applyAllCalendarSuggestions,
     applySuggestion: applyCalendarSuggestion,
-  } = useCalendarSeasonalNotification(location.location?.latitude || 0);
+    // Pass latitude only when we actually have it. Previously this coerced a missing
+    // location to `0`, which placed the user on the equator and resolved as northern; now an
+    // absent latitude falls through to timezone-based hemisphere inference.
+  } = useCalendarSeasonalNotification({
+    latitude: location.location?.latitude,
+  });
 
   // Track which plants have been applied in calendar suggestions and their applied values
   const [appliedCalendarPlants, setAppliedCalendarPlants] = useState<
@@ -162,7 +167,11 @@ const Dashboard = () => {
     unfertilizedPlants,
     dismiss: dismissFertilizationBanner,
     snooze: snoozeFertilizationBanner,
-  } = useFertilizationBanner(plants);
+    // Latitude when location is granted; otherwise hemisphere is inferred from the browser
+    // timezone, which on the client is a better signal than the stored profile timezone.
+  } = useFertilizationBanner(plants, {
+    latitude: location.location?.latitude,
+  });
 
   // Smart suggestions analysis - stabilize plantIds to prevent infinite re-renders
   const plantIds = useMemo(() => plants.map((plant) => plant.id), [plants]);
@@ -378,13 +387,14 @@ const Dashboard = () => {
     await waterPlant(plantId, notes || `Quick watered from dashboard`);
   };
 
-  const handleAlreadyWatered = async (_date: string, notes?: string) => {
+  const handleAlreadyWatered = async (date: Date, notes?: string) => {
     const plantId = waterConfirmation.plantId;
     setWaterConfirmation({ show: false, plantId: "", plantName: "" });
-    // FUTURE FEATURE: Implement backdating watering to a specific date
-    // This would require modifying waterPlant to accept a date parameter
-    // For now, just water the plant with current timestamp
-    await waterPlant(plantId, notes || `Backdated watering from dashboard`);
+    await waterPlant(
+      plantId,
+      notes || `Backdated watering from dashboard`,
+      date
+    );
   };
 
 

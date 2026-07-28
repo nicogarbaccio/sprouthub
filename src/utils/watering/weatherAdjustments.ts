@@ -1,96 +1,107 @@
+/**
+ * Weather-based schedule adjustment.
+ *
+ * This is now a thin adapter over the canonical model in `./scheduleAdjustment`. It exists to
+ * keep the existing call shape (base days in, adjusted days out) while the underlying
+ * behaviour changed in two ways:
+ *
+ *   1. Factors compose. Previously `getExtremeWeatherAdjustment` early-returned, so only the
+ *      first out-of-range condition counted and the check order decided which one won.
+ *   2. Adjustments scale with the plant's interval instead of being flat day offsets, and the
+ *      combined effect is bounded.
+ */
+
 import { WeatherData } from '@/services/weatherTypes';
 import {
-  getExtremeWeatherAdjustment,
-  getDaylightAdjustment
-} from '../weather/mapping';
+  calculateScheduleAdjustment,
+  getWeatherFactors,
+  type AdjustmentFactor,
+} from './scheduleAdjustment';
+import { clampWateringInterval } from './bounds';
 
 export interface WeatherAdjustmentResult {
   adjustmentDays: number;
   reasons: string[];
   hasExtremeConditions: boolean;
+  /** Individual contributing factors, so callers can explain the total. */
+  factors: AdjustmentFactor[];
+}
+
+export interface WeatherAdjustmentContext {
+  /** Weather affects outdoor plants more directly than indoor ones. */
+  isOutdoor?: boolean;
+  /** Plant type, used only for consistency with the shared context shape. */
+  plantType?: string;
 }
 
 /**
- * Calculate comprehensive weather-based adjustments to watering schedule
- * Combines extreme weather and daylight adjustments
+ * Calculate weather-based adjustments to a watering schedule.
  *
- * @param weatherData - Current weather data
- * @param baseScheduleDays - Base watering schedule in days
- * @returns Adjustment result with recommended changes and explanations
+ * @param weatherData - current weather, or null for no adjustment
+ * @param baseScheduleDays - the plant's current interval, which adjustments scale against
+ * @param context - plant characteristics affecting how strongly weather applies
  */
 export function calculateWeatherScheduleAdjustments(
   weatherData: WeatherData | null,
-  _baseScheduleDays: number
+  baseScheduleDays: number,
+  context: WeatherAdjustmentContext = {}
 ): WeatherAdjustmentResult {
   if (!weatherData) {
     return {
       adjustmentDays: 0,
       reasons: [],
       hasExtremeConditions: false,
+      factors: [],
     };
   }
 
-  let totalAdjustment = 0;
-  const reasons: string[] = [];
-  let hasExtremeConditions = false;
-
-  // Check for extreme weather conditions
-  const extremeWeather = getExtremeWeatherAdjustment(weatherData);
-  if (extremeWeather.adjustment !== 0) {
-    totalAdjustment += extremeWeather.adjustment;
-    hasExtremeConditions = true;
-    if (extremeWeather.reason) {
-      reasons.push(extremeWeather.reason);
-    }
-  }
-
-  // Check for daylight-based adjustments
-  const daylightAdjustment = getDaylightAdjustment(weatherData);
-  if (daylightAdjustment.adjustment !== 0) {
-    totalAdjustment += daylightAdjustment.adjustment;
-    if (daylightAdjustment.reason) {
-      reasons.push(daylightAdjustment.reason);
-    }
-  }
+  const factors = getWeatherFactors(
+    {
+      currentScheduleDays: baseScheduleDays,
+      plantType: context.plantType ?? '',
+      isOutdoor: context.isOutdoor ?? false,
+    },
+    weatherData
+  );
 
   return {
-    adjustmentDays: totalAdjustment,
-    reasons,
-    hasExtremeConditions,
+    adjustmentDays: factors.reduce((sum, f) => sum + f.days, 0),
+    reasons: factors.map(f => f.reason),
+    // Temperature and humidity factors only fire outside their extreme thresholds; a daylight
+    // factor alone is a normal seasonal signal rather than an extreme condition.
+    hasExtremeConditions: factors.some(
+      f => f.kind === 'temperature' || f.kind === 'humidity'
+    ),
+    factors,
   };
 }
 
 /**
- * Apply weather adjustments to a base watering schedule
- * Returns the adjusted schedule with bounds checking
+ * Apply weather adjustments to a base schedule, clamped to the shared 2–90 day range.
  *
- * @param baseScheduleDays - Base watering schedule in days
- * @param weatherData - Current weather data
- * @param minDays - Minimum allowed schedule (default: 2)
- * @param maxDays - Maximum allowed schedule (default: 45)
- * @returns Adjusted schedule in days
+ * The previous signature accepted `minDays`/`maxDays` overrides defaulting to 2 and 45. Those
+ * are gone deliberately: per-call-site bounds are how four different clamps ended up in the
+ * codebase. Use `clampWateringInterval` if you need the bound directly.
  */
 export function applyWeatherAdjustments(
   baseScheduleDays: number,
   weatherData: WeatherData | null,
-  minDays: number = 2,
-  maxDays: number = 45
+  context: WeatherAdjustmentContext = {}
 ): number {
-  const adjustment = calculateWeatherScheduleAdjustments(weatherData, baseScheduleDays);
-  const adjustedSchedule = baseScheduleDays + adjustment.adjustmentDays;
+  const result = calculateScheduleAdjustment(
+    {
+      currentScheduleDays: baseScheduleDays,
+      plantType: context.plantType ?? '',
+      isOutdoor: context.isOutdoor ?? false,
+    },
+    { weather: weatherData }
+  );
 
-  // Apply bounds
-  return Math.max(minDays, Math.min(maxDays, adjustedSchedule));
+  return result.suggestedDays;
 }
 
 /**
- * Get a summary of weather impact on watering schedule
- * Useful for displaying to users
- *
- * @param weatherData - Current weather data
- * @param originalSchedule - Original schedule in days
- * @param adjustedSchedule - Adjusted schedule in days
- * @returns Human-readable summary
+ * Human-readable summary of weather's impact on a schedule.
  */
 export function getWeatherAdjustmentSummary(
   weatherData: WeatherData | null,
@@ -104,9 +115,8 @@ export function getWeatherAdjustmentSummary(
   const diff = adjustedSchedule - originalSchedule;
   if (diff > 0) {
     return `Schedule extended by ${diff} day${diff !== 1 ? 's' : ''} due to current weather conditions`;
-  } else if (diff < 0) {
-    return `Schedule shortened by ${Math.abs(diff)} day${Math.abs(diff) !== 1 ? 's' : ''} due to current weather conditions`;
   }
-
-  return '';
+  return `Schedule shortened by ${Math.abs(diff)} day${Math.abs(diff) !== 1 ? 's' : ''} due to current weather conditions`;
 }
+
+export { clampWateringInterval };

@@ -1,4 +1,5 @@
 import type { PatternInsight } from "@/types/wateringPatternTypes";
+import { getWateringStatus } from "@/utils/watering/status";
 
 export interface BadgeInfo {
   message: string;
@@ -32,8 +33,8 @@ export function getSuggestionMetadata(visiblePendingInsights: PatternInsight[]) 
     highPriorityCount > 0
       ? "high"
       : mediumPriorityCount > 0
-      ? "medium"
-      : "low";
+        ? "medium"
+        : "low";
 
   return {
     count,
@@ -151,67 +152,48 @@ export function getBadgeInfo(
   };
 }
 
+/**
+ * Watering badge colour.
+ *
+ * Thin adapter over the canonical formatter in `@/utils/watering/status` so cards keep
+ * their existing positional-argument call style. Prefer calling `getWateringStatus`
+ * directly with a `WateringCalculation` in new code.
+ */
 export function getStatusColor(
   hasUnknownWateringDate: boolean,
   isOverdue: boolean,
   isPostponed: boolean | undefined,
-  daysUntilWatering: number,
+  daysUntilWatering: number | null,
   lastWateredDate?: string
 ) {
-  if (hasUnknownWateringDate)
-    return "bg-neutral-500 text-white border-neutral-500";
-  if (isOverdue) return "bg-red-500 text-white border-red-500";
-  if (isPostponed) return "bg-sprout-water text-white border-sprout-water";
-
-  if (daysUntilWatering === 0) {
-    if (lastWateredDate) {
-      const today = new Date();
-      const lastWateredDateObj = new Date(lastWateredDate);
-      const timeDiff = today.getTime() - lastWateredDateObj.getTime();
-      const hoursDiff = timeDiff / (1000 * 60 * 60);
-      if (hoursDiff <= 12) {
-        return "bg-sprout-success text-white border-sprout-success";
-      }
-    }
-    return "bg-orange-500 text-white border-orange-500";
-  }
-
-  if (daysUntilWatering <= 2)
-    return "bg-orange-500 text-white border-orange-500";
-
-  return "bg-sprout-success text-white border-sprout-success";
+  return getWateringStatus(
+    {
+      hasUnknownWateringDate,
+      isOverdue,
+      isPostponed: Boolean(isPostponed),
+      daysUntilWatering,
+    },
+    lastWateredDate
+  ).colorClasses;
 }
 
+/**
+ * Watering badge label. See {@link getStatusColor} for why this adapter exists.
+ */
 export function getStatusText(
   hasUnknownWateringDate: boolean,
   isOverdue: boolean,
   isPostponed: boolean | undefined,
-  daysUntilWatering: number,
+  daysUntilWatering: number | null,
   lastWateredDate?: string
 ) {
-  if (hasUnknownWateringDate) return "Unknown schedule";
-  if (isPostponed) {
-    if (daysUntilWatering === 0) return "Postponed until later today";
-    if (daysUntilWatering === 1) return "Postponed until tomorrow";
-    return `Postponed for ${daysUntilWatering} days`;
-  }
-  if (isOverdue) return `Overdue by ${Math.abs(daysUntilWatering)} days`;
-
-  if (daysUntilWatering === 0) {
-    if (lastWateredDate) {
-      const today = new Date();
-      const lastWateredDateObj = new Date(lastWateredDate);
-      const timeDiff = today.getTime() - lastWateredDateObj.getTime();
-      const hoursDiff = timeDiff / (1000 * 60 * 60);
-      if (hoursDiff <= 12) {
-        return "Watered today";
-      }
-    }
-    return "Due today";
-  }
-
-  if (daysUntilWatering === 1) return "Water tomorrow";
-  if (daysUntilWatering < 0)
-    return `Overdue by ${Math.abs(daysUntilWatering)} days`;
-  return `Water in ${daysUntilWatering} days`;
+  return getWateringStatus(
+    {
+      hasUnknownWateringDate,
+      isOverdue,
+      isPostponed: Boolean(isPostponed),
+      daysUntilWatering,
+    },
+    lastWateredDate
+  ).text;
 }

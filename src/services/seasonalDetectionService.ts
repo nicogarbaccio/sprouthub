@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { WeatherData, LocationData } from './weatherTypes';
 import { weatherService } from './weatherService';
 import { safeJsonParse } from '@/utils/safeJsonParse';
+import { getSeasonForLocation, type Season as CanonicalSeason } from '@/utils/season';
 
 const weatherHistoryEntrySchema = z.object({
   date: z.string(),
@@ -18,7 +19,10 @@ const weatherHistoryEntrySchema = z.object({
 
 const weatherHistorySchema = z.array(weatherHistoryEntrySchema);
 
-export type Season = 'winter' | 'spring' | 'summer' | 'fall';
+/**
+ * Re-exported from the canonical season module so there is exactly one `Season` definition.
+ */
+export type Season = CanonicalSeason;
 
 export interface SeasonalTransition {
   from_season: Season;
@@ -57,14 +61,14 @@ class SeasonalDetectionService {
       // Get current weather and build criteria
       const currentWeather = await weatherService.getCurrentWeather(location);
       const weatherHistory = this.getWeatherHistory();
-      
+
       if (weatherHistory.length < 7) {
         // Need at least 7 days of data for reliable detection
         return null;
       }
 
       const criteria = this.buildSeasonDetectionCriteria(currentWeather, weatherHistory, location);
-      
+
       // Check for each possible transition
       const transitions = [
         this.detectSpringOnset(criteria, currentSeason),
@@ -78,9 +82,9 @@ class SeasonalDetectionService {
       }
 
       // Return the transition with highest confidence
-      return transitions.reduce((best, current) => 
-        this.getConfidenceScore(current.confidence) > this.getConfidenceScore(best.confidence) 
-          ? current 
+      return transitions.reduce((best, current) =>
+        this.getConfidenceScore(current.confidence) > this.getConfidenceScore(best.confidence)
+          ? current
           : best
       );
 
@@ -159,7 +163,7 @@ class SeasonalDetectionService {
     // Heat consistency - no cold snaps
     const recentHistory = this.getWeatherHistory().slice(-7);
     const hasColSnap = recentHistory.some(entry => entry.weather.current_temp_celsius < 18);
-    
+
     if (!hasColSnap && criteria.avg_temperature_7day > 20) {
       factors.push('No cold snaps below 18°C in past week');
     }
@@ -247,7 +251,7 @@ class SeasonalDetectionService {
     // Sustained cold - no warm days
     const recentHistory = this.getWeatherHistory().slice(-7);
     const hasWarmDay = recentHistory.some(entry => entry.weather.current_temp_celsius > 15);
-    
+
     if (!hasWarmDay && criteria.avg_temperature_7day < 12) {
       factors.push('No warm days above 15°C in past week');
     }
@@ -276,20 +280,20 @@ class SeasonalDetectionService {
     // Calculate 7-day average temperature
     const recent7Days = history.slice(-7);
     const avg_temperature_7day = recent7Days.reduce(
-      (sum, entry) => sum + entry.weather.current_temp_celsius, 
+      (sum, entry) => sum + entry.weather.current_temp_celsius,
       0
     ) / recent7Days.length;
 
     // Calculate temperature trend
     const first3Days = recent7Days.slice(0, 3);
     const last3Days = recent7Days.slice(-3);
-    
+
     const first3Avg = first3Days.reduce((sum, entry) => sum + entry.weather.current_temp_celsius, 0) / first3Days.length;
     const last3Avg = last3Days.reduce((sum, entry) => sum + entry.weather.current_temp_celsius, 0) / last3Days.length;
-    
+
     const tempDiff = last3Avg - first3Avg;
     let temperature_trend: 'rising' | 'falling' | 'stable';
-    
+
     if (tempDiff > 2) {
       temperature_trend = 'rising';
     } else if (tempDiff < -2) {
@@ -299,7 +303,7 @@ class SeasonalDetectionService {
     }
 
     // Calculate humidity change
-    const humidity_change = recent7Days.length > 1 
+    const humidity_change = recent7Days.length > 1
       ? recent7Days[recent7Days.length - 1].weather.current_humidity_percent - recent7Days[0].weather.current_humidity_percent
       : 0;
 
@@ -400,36 +404,14 @@ class SeasonalDetectionService {
   }
 
   /**
-   * Get current season based on calendar and location
+   * Get current season based on calendar and location.
+   *
+   * Delegates to the canonical season module. This previously derived the season from the
+   * month using coarse boundaries (month 3-5 = spring), which disagreed with the
+   * equinox-accurate dates used elsewhere by up to three weeks around each transition.
    */
   getCurrentSeason(location: LocationData): Season {
-    const now = new Date();
-    const month = now.getMonth() + 1; // 1-12
-    const isNorthernHemisphere = location.latitude >= 0;
-
-    let season: Season;
-    
-    if (month >= 3 && month <= 5) {
-      season = 'spring';
-    } else if (month >= 6 && month <= 8) {
-      season = 'summer';
-    } else if (month >= 9 && month <= 11) {
-      season = 'fall';
-    } else {
-      season = 'winter';
-    }
-
-    // Flip seasons for southern hemisphere
-    if (!isNorthernHemisphere) {
-      const seasonMap: Record<Season, Season> = {
-        spring: 'fall',
-        summer: 'winter',
-        fall: 'spring',
-        winter: 'summer',
-      };
-      season = seasonMap[season];
-    }
-
+    const { season } = getSeasonForLocation({ latitude: location.latitude });
     return season;
   }
 }

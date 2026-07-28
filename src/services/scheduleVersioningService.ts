@@ -2,6 +2,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { WeatherData } from './weatherTypes';
 import { Season } from './seasonalDetectionService';
 import type { Database } from '@/integrations/supabase/types';
+import { excludePostponements } from '@/utils/watering/notesPrefixes';
+import { calculateScheduleAdjustment } from '@/utils/watering/scheduleAdjustment';
+import { clampWateringInterval } from '@/utils/watering/bounds';
 
 type PlantSeasonalSchedule = Database['public']['Tables']['plant_seasonal_schedules']['Row'];
 type PlantSeasonalScheduleInsert = Database['public']['Tables']['plant_seasonal_schedules']['Insert'];
@@ -64,7 +67,7 @@ class ScheduleVersioningService {
           currentYear,
           weatherConditions
         );
-        
+
         if (suggestion) {
           suggestions.push(suggestion);
         }
@@ -107,14 +110,14 @@ class ScheduleVersioningService {
 
       // Check if we have previous year's data
       const lastYearSchedule = historicalSchedules?.find(s => s.year === year - 1);
-      
+
       if (lastYearSchedule) {
         // Base suggestion on previous year
         suggestedDays = lastYearSchedule.watering_days;
         basedOn = 'previous_year';
         confidence = 'high';
         reasoning.push(`Based on last year's ${season} schedule (${lastYearSchedule.watering_days} days)`);
-        
+
         previousSchedule = {
           year: lastYearSchedule.year,
           days: lastYearSchedule.watering_days,
@@ -133,7 +136,8 @@ class ScheduleVersioningService {
           currentWateringDays,
           season,
           weatherConditions,
-          plant.is_outdoor_plant
+          plant.is_outdoor_plant,
+          plant.plant_type
         );
         basedOn = 'weather_conditions';
         confidence = 'medium';
@@ -161,8 +165,10 @@ class ScheduleVersioningService {
         plant.is_outdoor_plant
       );
 
-      // Ensure reasonable bounds
-      suggestedDays = Math.max(1, Math.min(21, suggestedDays));
+      // Single shared clamp. The previous 1–21 bound here was the tightest of the four that
+      // existed and silently prevented any plant on a 21-day-or-longer schedule from ever
+      // being extended, which is exactly the case slow-drinking plants need.
+      suggestedDays = clampWateringInterval(suggestedDays);
 
       // Only suggest if there's a meaningful change
       if (Math.abs(suggestedDays - currentWateringDays) < 1) {
@@ -187,54 +193,28 @@ class ScheduleVersioningService {
   }
 
   /**
-   * Calculate weather-based watering schedule
+   * Calculate a weather- and season-adjusted watering schedule.
+   *
+   * Delegates to the canonical percentage-based model. This previously applied flat day
+   * offsets scaled by an indoor/outdoor multiplier, which disagreed with the seasonal banner
+   * for every plant — the banner used percentages while this used days, so the same plant in
+   * the same season got two different suggestions depending on which surface produced it.
    */
   private calculateWeatherBasedSchedule(
     currentDays: number,
     season: Season,
     weather: WeatherData,
-    isOutdoor: boolean | null
+    isOutdoor: boolean | null,
+    plantType: string
   ): number {
-    let adjustment = 0;
-    const baseMultiplier = isOutdoor ? 1.5 : 0.8; // Outdoor plants more affected
-
-    switch (season) {
-      case 'spring':
-        // Moderate temperature, increasing growth
-        adjustment = -1 * baseMultiplier; // Water more frequently
-        break;
-        
-      case 'summer':
-        // Hot weather, high evaporation
-        if (weather.current_temp_celsius > 25) {
-          adjustment = -2 * baseMultiplier; // Much more frequent watering
-        } else {
-          adjustment = -1 * baseMultiplier;
-        }
-        
-        // Consider humidity
-        if (weather.current_humidity_percent < 40) {
-          adjustment -= 0.5 * baseMultiplier; // Dry air needs more water
-        }
-        break;
-        
-      case 'fall':
-        // Cooling down, less evaporation
-        adjustment = 1 * baseMultiplier; // Water less frequently
-        break;
-        
-      case 'winter':
-        // Cold, dormant period
-        adjustment = 2 * baseMultiplier; // Much less frequent watering
-        
-        // Very cold conditions
-        if (weather.current_temp_celsius < 5) {
-          adjustment += 1 * baseMultiplier;
-        }
-        break;
-    }
-
-    return currentDays + adjustment;
+    return calculateScheduleAdjustment(
+      {
+        currentScheduleDays: currentDays,
+        plantType,
+        isOutdoor: Boolean(isOutdoor),
+      },
+      { season, weather }
+    ).suggestedDays;
   }
 
   /**
@@ -310,7 +290,7 @@ class ScheduleVersioningService {
       const seasonStart = new Date(schedule.year, this.getSeasonStartMonth(schedule.season as Season), 1);
       const seasonEnd = new Date(schedule.year, this.getSeasonStartMonth(schedule.season as Season) + 3, 0);
 
-      const { data: wateringRecords, error: recordsError } = await supabase
+      const { data: rawRecords, error: recordsError } = await supabase
         .from('watering_records')
         .select('*')
         .eq('plant_id', schedule.plant_id)
@@ -318,7 +298,12 @@ class ScheduleVersioningService {
         .lte('watered_at', seasonEnd.toISOString())
         .order('watered_at');
 
-      if (recordsError || !wateringRecords) return 'fair';
+      if (recordsError || !rawRecords) return 'fair';
+
+      // Postponements are stored as watering_records but represent the user deciding NOT
+      // to water. Counting them shrinks the average interval and makes a well-managed
+      // plant look like it's being watered too often.
+      const wateringRecords = excludePostponements(rawRecords);
 
       // Calculate actual watering frequency
       if (wateringRecords.length < 2) return 'fair';
@@ -336,7 +321,7 @@ class ScheduleVersioningService {
 
       // Good performance: actual interval close to scheduled
       const deviation = Math.abs(avgInterval - scheduledInterval) / scheduledInterval;
-      
+
       if (deviation < 0.2) return 'good';      // Within 20%
       if (deviation < 0.5) return 'fair';      // Within 50%
       return 'poor';                           // More than 50% deviation
@@ -398,7 +383,7 @@ class ScheduleVersioningService {
       // Also update the plant's current watering schedule
       const { error: plantError } = await supabase
         .from('user_plants')
-        .update({ 
+        .update({
           suggested_watering_days: wateringDays,
           last_schedule_review: new Date().toISOString()
         })
@@ -476,7 +461,7 @@ class ScheduleVersioningService {
         .single();
 
       if (error && error.code !== 'PGRST116') throw error; // PGRST116 is "not found"
-      
+
       // If no schedule exists for this season/year, needs review
       return !existingSchedule;
     } catch (error) {

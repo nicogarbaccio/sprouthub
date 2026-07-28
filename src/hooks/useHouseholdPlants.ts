@@ -7,6 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 import { utilityToast } from '@/utils/notifications/toast';
 import { useUserHouseholdMemberships } from '@/hooks/useUserHouseholdMemberships';
 import { usePostponementData } from '@/hooks/usePostponementData';
+import { selectActivePostponement } from '@/utils/watering/postponement';
 import { useOverwateringAnalysis } from '@/hooks/useOverwateringAnalysis';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { handleApiError, getErrorMessage } from '@/utils/errorHandling';
@@ -204,7 +205,13 @@ export const useHouseholdPlants = () => {
         // Combine all data
         const enrichedPlants: HouseholdPlant[] = plantsData.map(plant => {
           const postponements = postponementsGrouped.get(plant.id) || [];
-          const latestPostponement = postponements.length > 0 ? postponements[0] : null;
+          // Same rule as useUserPlants: only postponements made after the last real
+          // watering still apply. Without this guard the household view resurrected
+          // long-resolved postponements.
+          const latestPostponement = selectActivePostponement(
+            postponements,
+            plant.last_watered_at
+          );
           const household = plant.household_id
             ? householdData.find(h => h.id === plant.household_id)
             : null;

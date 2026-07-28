@@ -2,12 +2,10 @@ import type { UserPlant } from '@/hooks/useUserPlants';
 import type { WateringPatternAnalysis } from '@/types/wateringPatternTypes';
 import type { PostponementRecord } from '@/hooks/usePostponementData';
 import { differenceInDays, format, startOfWeek, startOfMonth, subDays } from 'date-fns';
-import { getEnrichedCatalogSync } from '@/data/enrichedPlants';
-import {
-  parseFertilizationFromCareInstructions,
-  getFertilizationStatus,
-} from '@/utils/plants/fertilizationAdvice';
+
+import { getPlantFertilizationStatus } from '@/utils/plants/fertilizationAdvice';
 import { calendarSeasonalService } from '@/services/calendarSeasonalService';
+import { calculateWateringSchedule, getDaysSince } from '@/utils/watering/schedule';
 
 export interface Insight {
   names: string; // plant name(s) to highlight
@@ -145,21 +143,29 @@ export function calculatePlantHealthStats(plants: UserPlant[]): PlantHealthStats
 
   plants.forEach(plant => {
     const ref: PlantRef = { id: plant.id, name: plant.nickname };
-    const daysSinceWatering = plant.days_since_watering || 0;
-    const scheduleDays = plant.suggested_watering_days || 7;
-    const daysUntilDue = scheduleDays - daysSinceWatering;
 
-    // Overdue
-    if (daysUntilDue < 0) {
+    // Use the canonical calculation so analytics agrees with the plant cards. Previously
+    // this derived due-ness from the `days_since_watering` view column, which is computed
+    // on a UTC calendar day and is postponement-blind, so the overdue count here could
+    // disagree with what the same plant's card showed.
+    const { daysUntilWatering, isOverdue, isPostponed, hasUnknownWateringDate } =
+      calculateWateringSchedule(plant);
+
+    // A plant with no watering history has no derivable status — it is neither overdue
+    // nor confirmed on-schedule, so it is left out of all three lists.
+    if (hasUnknownWateringDate) return;
+
+    if (isOverdue) {
       lists.overdue.push(ref);
       lists.needsAttention.push(ref);
-    }
-    // Due today or tomorrow
-    else if (daysUntilDue <= 1) {
+    } else if (isPostponed) {
+      // Postponement is an explicit "checked it, doesn't need water" decision.
+      lists.onSchedule.push(ref);
+      healthyPlants++;
+    } else if (daysUntilWatering <= 1) {
+      // Due today or tomorrow
       lists.needsAttention.push(ref);
-    }
-    // On schedule (2+ days until watering)
-    else if (daysUntilDue >= 2) {
+    } else {
       lists.onSchedule.push(ref);
       healthyPlants++;
     }
@@ -262,7 +268,9 @@ export function calculatePlantPerformance(plants: UserPlant[]): PlantPerformance
       : 0;
 
     const scheduleDays = plant.suggested_watering_days || 7;
-    const daysSinceWatering = plant.days_since_watering || 0;
+    // Derive from the watering timestamp rather than the UTC-based view column so this
+    // matches the rest of the app's notion of a day.
+    const daysSinceWatering = getDaysSince(plant.latest_watering) ?? 0;
     const isOnTime = daysSinceWatering <= scheduleDays;
 
     return {
@@ -502,11 +510,11 @@ export function mergePerformanceWithAnalysis(
 
     const careScore = hasScoreData
       ? calculateCareScore(
-          avgInterval,
-          plant.scheduleDays,
-          patternFromAnalysis ?? 'irregular',
-          postponementCount,
-        )
+        avgInterval,
+        plant.scheduleDays,
+        patternFromAnalysis ?? 'irregular',
+        postponementCount,
+      )
       : -1;
 
     const healthObs = analysis?.healthObservationContext;
@@ -610,11 +618,7 @@ export function getAnalyticsInsights(
   const healthStats = calculatePlantHealthStats(plants);
 
   // Overdue — name the plants
-  const overduePlants = plants.filter(p => {
-    const daysSince = p.days_since_watering || 0;
-    const schedule = p.suggested_watering_days || 7;
-    return daysSince > schedule;
-  });
+  const overduePlants = plants.filter(p => calculateWateringSchedule(p).isOverdue);
   if (overduePlants.length > 0) {
     const names = overduePlants.slice(0, 3).map(p => p.nickname);
     const suffix = overduePlants.length > 3
@@ -639,7 +643,7 @@ export function getAnalyticsInsights(
     // Stressed health observations
     const stressedPlants = enrichedPerformance.filter(
       p => p.healthObservation && p.healthObservation.stressedCount > 0 &&
-           p.healthObservation.stressedCount >= p.healthObservation.healthyCount
+        p.healthObservation.stressedCount >= p.healthObservation.healthyCount
     );
     if (stressedPlants.length > 0) {
       const names = stressedPlants.slice(0, 3).map(p => p.plantName);
@@ -719,16 +723,8 @@ export interface FertilizationSummary {
  * against the plant catalog (for careInstructions / category fallback).
  */
 export function calculateFertilizationSummaries(plants: UserPlant[]): FertilizationSummary[] {
-  const catalog = getEnrichedCatalogSync();
-  const catalogByName = new Map(catalog.map(c => [c.name.toLowerCase(), c]));
-
   return plants.map(plant => {
-    const catalogEntry = catalogByName.get(plant.plant_type.toLowerCase());
-    const advice = parseFertilizationFromCareInstructions(
-      catalogEntry?.careInstructions ?? [],
-      catalogEntry?.category,
-    );
-    const status = getFertilizationStatus(plant, advice);
+    const { advice, status } = getPlantFertilizationStatus(plant);
 
     return {
       plantId: plant.id,

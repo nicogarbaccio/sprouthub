@@ -17,6 +17,7 @@ import type { CatalogPlant } from "@/data/types";
 import {
   parseFertilizationFromCareInstructions,
   getFertilizationStatus,
+  getPlantFertilizationStatus,
 } from "@/utils/plants/fertilizationAdvice";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -93,10 +94,14 @@ const FertilizationCard = ({
       });
   }, [user, key, lsKey, plant.id]);
 
-  const advice = parseFertilizationFromCareInstructions(
-    catalogPlant?.careInstructions ?? [],
-    catalogPlant?.category
-  );
+  // Prefer the catalog entry already resolved by the page; fall back to the shared
+  // lookup so this card can never disagree with the banner or the room cards.
+  const advice = catalogPlant
+    ? parseFertilizationFromCareInstructions(
+        catalogPlant.careInstructions ?? [],
+        catalogPlant.category
+      )
+    : getPlantFertilizationStatus(plant).advice;
 
   const status = getFertilizationStatus(plant, advice);
 
@@ -169,8 +174,8 @@ const FertilizationCard = ({
   };
 
   const lastFertilizedText = () => {
-    if (!plant.last_fertilized_date) return "Never logged";
-    return format(new Date(plant.last_fertilized_date), "MMM d, yyyy");
+    if (!plant.last_fertilized_at) return "Never logged";
+    return format(new Date(plant.last_fertilized_at), "MMM d, yyyy");
   };
 
   return (

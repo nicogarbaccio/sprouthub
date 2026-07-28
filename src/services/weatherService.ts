@@ -9,6 +9,7 @@ import {
   WeatherServiceOptions,
 } from './weatherTypes';
 import { hookLogger } from '@/utils/hookLogging';
+import { getSeason, resolveHemisphere } from '@/utils/season';
 import { safeJsonParse } from '@/utils/safeJsonParse';
 import {
   DEFAULT_WEATHER_CACHE_TIMEOUT_MS,
@@ -63,7 +64,7 @@ class WeatherService {
     try {
       // Fetch current weather
       const currentWeatherUrl = `${this.baseUrl}/weather?lat=${location.latitude}&lon=${location.longitude}&appid=${OPENWEATHER_API_KEY}&units=metric`;
-      
+
       const currentResponse = await fetch(currentWeatherUrl);
       if (!currentResponse.ok) {
         throw this.createWeatherError(currentResponse.status, 'Failed to fetch current weather');
@@ -73,11 +74,11 @@ class WeatherService {
 
       // Fetch forecast for rain probability
       const forecastUrl = `${this.baseUrl}/forecast?lat=${location.latitude}&lon=${location.longitude}&appid=${OPENWEATHER_API_KEY}&units=metric&cnt=8`; // Next 24 hours (3-hour intervals)
-      
+
       const forecastResponse = await fetch(forecastUrl);
       let rainProbability = 0;
       let isForecastSnow = false;
-      
+
       if (forecastResponse.ok) {
         const forecastData: OpenWeatherForecastResponse = await forecastResponse.json();
         // Calculate max rain probability in next 24 hours
@@ -85,7 +86,7 @@ class WeatherService {
           // Check if this forecast item is snow (ID 6xx) or if it's precipitating near freezing
           const isSnowId = item.weather.some(w => w.id >= 600 && w.id < 700);
           const isFreezingPrecip = item.pop > 0 && item.main.temp <= 1; // <= 1°C
-          
+
           if ((item.pop > 0.3 && isSnowId) || (item.pop > 0.5 && isFreezingPrecip)) {
             isForecastSnow = true;
           }
@@ -96,10 +97,10 @@ class WeatherService {
       const currentCondition = currentData.weather[0]?.main || 'Clear';
       const currentId = currentData.weather[0]?.id || 800;
       const currentTemp = Math.round(currentData.main.temp);
-      
+
       // Determine if it's currently snowing based on ID (6xx) or temperature + rain
-      const isCurrentSnow = 
-        (currentId >= 600 && currentId < 700) || 
+      const isCurrentSnow =
+        (currentId >= 600 && currentId < 700) ||
         (currentCondition === 'Rain' && currentTemp <= 1); // If it says rain but it's freezing, it's snow/sleet
 
       // Convert to our WeatherData format
@@ -250,36 +251,16 @@ class WeatherService {
   }
 
   /**
-   * Calculate season based on date and hemisphere
+   * Calculate season based on date and hemisphere.
+   *
+   * Delegates to the canonical season module. This previously used coarse month boundaries
+   * (month 3–5 = spring), which disagreed with the equinox-accurate dates used elsewhere by up
+   * to three weeks. Since `weatherData.season` flows into the watering wizard, that mismatch
+   * meant the wizard and the seasonal banner could name different seasons on the same day.
    */
   private calculateSeason(date: Date, latitude: number): WeatherData['season'] {
-    const month = date.getMonth() + 1; // 1-12
-    const isNorthernHemisphere = latitude >= 0;
-
-    let season: WeatherData['season'];
-    
-    if (month >= 3 && month <= 5) {
-      season = 'spring';
-    } else if (month >= 6 && month <= 8) {
-      season = 'summer';
-    } else if (month >= 9 && month <= 11) {
-      season = 'fall';
-    } else {
-      season = 'winter';
-    }
-
-    // Flip seasons for southern hemisphere
-    if (!isNorthernHemisphere) {
-      const seasonMap: Record<WeatherData['season'], WeatherData['season']> = {
-        spring: 'fall',
-        summer: 'winter',
-        fall: 'spring',
-        winter: 'summer',
-      };
-      season = seasonMap[season];
-    }
-
-    return season;
+    const { hemisphere } = resolveHemisphere({ latitude });
+    return getSeason(date, hemisphere);
   }
 
   /**
@@ -354,12 +335,12 @@ class WeatherService {
     const R = 6371; // Earth's radius in kilometers
     const dLat = this.toRadians(lat2 - lat1);
     const dLon = this.toRadians(lon2 - lon1);
-    
+
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(this.toRadians(lat1)) * Math.cos(this.toRadians(lat2)) *
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    
+
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   }
@@ -397,7 +378,7 @@ class WeatherService {
     if (error.name === 'TypeError' && error.message.includes('fetch')) {
       return this.createWeatherError('network', 'Network connection failed');
     }
-    
+
     return this.createWeatherError('unknown', error.message);
   }
 
