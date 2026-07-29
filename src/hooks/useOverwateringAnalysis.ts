@@ -81,7 +81,7 @@ export const useOverwateringAnalysis = () => {
       // Fetch all watering records within the window
       const { data: records, error } = await supabase
         .from('watering_records')
-        .select('plant_id, watered_at, notes')
+        .select('plant_id, watered_at, notes, record_type')
         .in('plant_id', plants.map(p => p.id))
         .gte('watered_at', startDate.toISOString())
         .lte('watered_at', now.toISOString())

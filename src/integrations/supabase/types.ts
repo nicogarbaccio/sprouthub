@@ -705,7 +705,6 @@ export type Database = {
           id: string
           image: string | null
           is_outdoor_plant: boolean | null
-          last_fertilized_date: string | null
           last_postponement_date: string | null
           last_schedule_review: string | null
           nickname: string
@@ -723,7 +722,6 @@ export type Database = {
           id?: string
           image?: string | null
           is_outdoor_plant?: boolean | null
-          last_fertilized_date?: string | null
           last_postponement_date?: string | null
           last_schedule_review?: string | null
           nickname: string
@@ -741,7 +739,6 @@ export type Database = {
           id?: string
           image?: string | null
           is_outdoor_plant?: boolean | null
-          last_fertilized_date?: string | null
           last_postponement_date?: string | null
           last_schedule_review?: string | null
           nickname?: string
@@ -820,6 +817,7 @@ export type Database = {
           notes: string | null
           performed_by: string | null
           plant_id: string
+          record_type: string
           watered_at: string
         }
         Insert: {
@@ -828,6 +826,7 @@ export type Database = {
           notes?: string | null
           performed_by?: string | null
           plant_id: string
+          record_type?: string
           watered_at?: string
         }
         Update: {
@@ -836,6 +835,7 @@ export type Database = {
           notes?: string | null
           performed_by?: string | null
           plant_id?: string
+          record_type?: string
           watered_at?: string
         }
         Relationships: [
@@ -861,14 +861,12 @@ export type Database = {
         Row: {
           alternative_names: string[] | null
           created_at: string | null
-          days_since_watering: number | null
           household_id: string | null
           id: string | null
           image: string | null
           is_outdoor_plant: boolean | null
           last_fertilization_notes: string | null
           last_fertilized_at: string | null
-          last_fertilized_date: string | null
           last_watered_at: string | null
           last_watering_notes: string | null
           nickname: string | null

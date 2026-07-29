@@ -3,6 +3,10 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { utilityToast, wateringToast } from '@/utils/notifications/toast';
 import { hookLogger } from '@/utils/hookLogging';
+import {
+  isPostponementRecord,
+  WATERING_RECORD_TYPE,
+} from '@/utils/watering/notesPrefixes';
 
 const HOOK_NAME = 'useWateringRecords';
 
@@ -42,9 +46,9 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
         // Add is_postponement flag to records for UI differentiation
         const processedRecords = (data || []).map(record => ({
           ...record,
-          is_postponement: record.notes?.includes('POSTPONEMENT:') || false
+          is_postponement: isPostponementRecord(record),
         }));
-        
+
         setRecords(processedRecords);
       } catch (error) {
         hookLogger.error(HOOK_NAME, 'Error loading watering records:', error);
@@ -77,7 +81,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
 
         // Refresh records to show the new one
         await loadWateringRecords(plantId);
-        
+
         // Only show success toast after UI has been updated
         wateringToast.recorded('Plant');
         return true;
@@ -106,14 +110,15 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
         const recordToDelete = records.find(r => r.id === recordId);
         if (!recordToDelete) throw new Error('Record not found');
 
-        const isPostponement = recordToDelete.notes?.includes('POSTPONEMENT:') || recordToDelete.is_postponement || false;
-        
-        
+        const isPostponement =
+          recordToDelete.is_postponement ?? isPostponementRecord(recordToDelete);
+
+
         // Optimistic UI update - remove the record from the local state immediately
-        setRecords(currentRecords => 
+        setRecords(currentRecords =>
           currentRecords.filter(record => record.id !== recordId)
         );
-        
+
         // Delete the specific record from database
         const { error } = await supabase
           .from('watering_records')
@@ -130,14 +135,14 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
         } else {
           wateringToast.deleted();
         }
-        
+
         // Trigger plant data refresh callback if provided
         // This is important for both regular waterings and postponements to ensure
         // the parent component's plant data is updated (e.g., updating the pill status on plant cards)
         if (onPlantDataChange) {
           onPlantDataChange();
         }
-        
+
         // Don't refresh from server for regular records - trust our optimistic update
         // This avoids race conditions where the server response hasn't fully processed the deletion yet
         return true;
@@ -154,7 +159,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
         } catch (refreshError) {
           hookLogger.error(HOOK_NAME, 'Error refreshing after failed deletion:', refreshError);
         }
-        
+
         return false;
       } finally {
         // Remove from loading set
@@ -192,7 +197,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
 
         // Refresh records to show the updated one
         await loadWateringRecords(recordToUpdate.plant_id);
-        
+
         // Trigger plant data refresh callback if provided
         if (onPlantDataChange) {
           onPlantDataChange();
@@ -224,6 +229,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
             plant_id: plantId,
             watered_at: date.toISOString(),
             notes: `POSTPONEMENT: ${notes || 'Watering postponed'}`,
+            record_type: WATERING_RECORD_TYPE.postponement,
             performed_by: user.id,
           });
 
@@ -231,7 +237,7 @@ export function useWateringRecords(onPlantDataChange?: () => void) {
 
         // Refresh records to show the new one
         await loadWateringRecords(plantId);
-        
+
         // Only show success toast after UI has been updated
         utilityToast.info('Watering postponed', 'Watering postponed successfully');
         return true;

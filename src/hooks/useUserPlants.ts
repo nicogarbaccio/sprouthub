@@ -32,12 +32,6 @@ export interface UserPlant {
   room?: string;
   suggested_watering_days?: number;
   latest_watering?: string;
-  /**
-   * @deprecated Computed by the database as `now()::date - watered_at::date`, i.e. on a
-   * UTC calendar day, so it drifts by a day from what the user sees. Use
-   * `getDaysSince(plant.latest_watering)` from `@/utils/watering/schedule` instead.
-   */
-  days_since_watering?: number;
   is_outdoor_plant?: boolean;
   household_id?: string;
   alternative_names?: string[];
@@ -51,11 +45,6 @@ export interface UserPlant {
   // Fertilization tracking — derived from the newest fertilization_records row.
   last_fertilized_at?: string | null;
   last_fertilization_notes?: string | null;
-  /**
-   * @deprecated Superseded by `fertilization_records` and the `last_fertilized_at` view
-   * column. Retained only until the old column is dropped; nothing should read it.
-   */
-  last_fertilized_date?: string | null;
   // Household info (populated via join)
   household?: {
     name: string;

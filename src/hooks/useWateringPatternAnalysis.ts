@@ -65,7 +65,7 @@ export function useWateringPatternAnalysis(
   const fetchWateringRecords = useCallback(async (targetPlantId: string): Promise<WateringRecordForAnalysis[]> => {
     const { data, error } = await supabase
       .from('watering_records')
-      .select('id, watered_at, notes')
+      .select('id, watered_at, notes, record_type')
       .eq('plant_id', targetPlantId)
       .order('watered_at', { ascending: false })
       .limit(20); // Get last 20 records for analysis
@@ -300,7 +300,7 @@ export function useQuickPatternAnalysis() {
     try {
       const { data: records } = await supabase
         .from('watering_records')
-        .select('id, watered_at, notes')
+        .select('id, watered_at, notes, record_type')
         .eq('plant_id', plantId)
         .order('watered_at', { ascending: false })
         .limit(10);
@@ -367,7 +367,7 @@ export function useBulkPatternAnalysis(plantIds: string[]) {
           ] = await Promise.all([
             supabase
               .from('watering_records')
-              .select('id, watered_at, notes')
+              .select('id, watered_at, notes, record_type')
               .eq('plant_id', plantId)
               .order('watered_at', { ascending: false })
               .limit(15),

@@ -3,7 +3,7 @@ import { supabase } from '@/integrations/supabase/client';
 import type { UserPlant } from '@/hooks/useUserPlants';
 import { useWateringPatternAnalysis } from '@/hooks/useWateringPatternAnalysis';
 import { usePostponementData } from '@/hooks/usePostponementData';
-import { POSTPONEMENT_PREFIX } from '@/utils/watering/notesPrefixes';
+import { isPostponementRecord } from '@/utils/watering/notesPrefixes';
 import { scheduleVersioningService } from '@/services/scheduleVersioningService';
 import type { PlantMood } from '@/types/journalTypes';
 import {
@@ -110,7 +110,7 @@ async function fetchWateringRecordsGrouped(
 
   const { data, error } = await supabase
     .from('watering_records')
-    .select('plant_id, watered_at, notes')
+    .select('plant_id, watered_at, notes, record_type')
     .in('plant_id', plantIds)
     .gte('watered_at', windowStart)
     .order('watered_at', { ascending: false });
@@ -120,7 +120,7 @@ async function fetchWateringRecordsGrouped(
   const map = new Map<string, { watered_at: string }[]>();
   for (const row of data || []) {
     // Exclude postponements — they aren't real waterings
-    if (row.notes?.includes(POSTPONEMENT_PREFIX)) continue;
+    if (isPostponementRecord(row)) continue;
 
     const list = map.get(row.plant_id) || [];
     list.push({ watered_at: row.watered_at });

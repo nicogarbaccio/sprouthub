@@ -39,6 +39,11 @@ export interface WateringRecordForAnalysis {
   id: string;
   watered_at: string;
   notes?: string | null;
+  /**
+   * Discriminator from `watering_records.record_type`. Authoritative for telling a real
+   * watering from a postponement; the legacy notes marker is only a fallback.
+   */
+  record_type?: string | null;
 }
 
 export interface PatternAnalysisResult {

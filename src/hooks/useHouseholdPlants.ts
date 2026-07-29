@@ -8,6 +8,7 @@ import { utilityToast } from '@/utils/notifications/toast';
 import { useUserHouseholdMemberships } from '@/hooks/useUserHouseholdMemberships';
 import { usePostponementData } from '@/hooks/usePostponementData';
 import { selectActivePostponement } from '@/utils/watering/postponement';
+import { WATERING_RECORD_TYPE } from '@/utils/watering/notesPrefixes';
 import { useOverwateringAnalysis } from '@/hooks/useOverwateringAnalysis';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { handleApiError, getErrorMessage } from '@/utils/errorHandling';
@@ -40,7 +41,6 @@ export interface HouseholdPlant {
   room?: string;
   suggested_watering_days?: number;
   latest_watering?: string;
-  days_since_watering?: number;
   is_outdoor_plant?: boolean;
   household_id?: string;
   user_id: string; // Plant owner
@@ -438,6 +438,7 @@ export const useHouseholdPlants = () => {
         plant_id: plantId,
         watered_at: postponeTo.toISOString(),
         notes: `POSTPONEMENT: ${notes || 'Watering postponed'}`,
+        record_type: WATERING_RECORD_TYPE.postponement,
         performed_by: user.id,
       });
 

@@ -3,7 +3,7 @@ import { useToast } from '@/hooks/use-toast';
 import { utilityToast, wateringToast, plantToast, fertilizationToast } from '@/utils/notifications/toast';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { handleApiError } from '@/utils/errorHandling';
-import { POSTPONEMENT_LIKE_PATTERN } from '@/utils/watering/notesPrefixes';
+import { WATERING_RECORD_TYPE } from '@/utils/watering/notesPrefixes';
 import type { UserPlant } from '@/hooks/useUserPlants';
 
 const HOOK_NAME = 'usePlantActions';
@@ -157,7 +157,7 @@ export const usePlantActions = ({
         .from('watering_records')
         .delete()
         .eq('plant_id', plantId)
-        .like('notes', POSTPONEMENT_LIKE_PATTERN)
+        .eq('record_type', WATERING_RECORD_TYPE.postponement)
         .gt('watered_at', wateringDate);
 
       if (clearPostponementError) {
@@ -174,6 +174,7 @@ export const usePlantActions = ({
           plant_id: plantId,
           watered_at: wateringDate,
           notes: notes || null,
+          record_type: WATERING_RECORD_TYPE.watering,
           performed_by: user.id,
         });
 
@@ -237,7 +238,7 @@ export const usePlantActions = ({
         .from('watering_records')
         .select('*')
         .eq('plant_id', plantId)
-        .like('notes', POSTPONEMENT_LIKE_PATTERN)
+        .eq('record_type', WATERING_RECORD_TYPE.postponement)
         .gt('watered_at', new Date().toISOString());
 
       if (fetchError) throw fetchError;
@@ -281,6 +282,7 @@ export const usePlantActions = ({
           plant_id: plantId,
           watered_at: postponementDate,
           notes,
+          record_type: WATERING_RECORD_TYPE.postponement,
           performed_by: user.id,
         });
 

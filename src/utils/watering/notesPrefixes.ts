@@ -58,33 +58,58 @@ export function stripNotesPrefixes(notes: string | null | undefined): string {
 }
 
 /**
+ * Discriminator values for the `watering_records.record_type` column.
+ *
+ * Postponements are stored as rows in `watering_records` dated in the future. Every query that
+ * derives watering intervals, streaks, counts or averages MUST exclude them — a postponement is
+ * the user saying they did *not* water.
+ */
+export const WATERING_RECORD_TYPE = {
+  watering: 'watering',
+  postponement: 'postponement',
+} as const;
+
+export type WateringRecordType =
+  (typeof WATERING_RECORD_TYPE)[keyof typeof WATERING_RECORD_TYPE];
+
+/** The shape needed to classify a watering record. */
+export interface ClassifiableRecord {
+  record_type?: string | null;
+  notes?: string | null;
+}
+
+/**
  * Whether a `watering_records` row is a postponement rather than a real watering.
  *
- * Postponements are stored as rows in `watering_records` with a `POSTPONEMENT:` marker in
- * their notes, dated in the future. Every query that derives watering intervals, streaks,
- * counts or averages MUST exclude them — a postponement is the user saying they did *not*
- * water.
+ * `record_type` is authoritative. The legacy `POSTPONEMENT:` notes marker is still consulted as
+ * a fallback, which covers rows written by a stale client that predates the column. Writes set
+ * both, so the fallback should never be the deciding factor in practice.
  *
- * Always use this helper rather than an inline `notes.includes('POSTPONEMENT:')` check, so
- * there is one place to update when the marker moves to a real column.
+ * Always use this helper rather than an inline notes check: the substring convention was
+ * duplicated across roughly eight call sites and one of them had already forgotten to apply it.
  */
-export function isPostponementRecord(record: {
-  notes?: string | null;
-}): boolean {
+export function isPostponementRecord(record: ClassifiableRecord): boolean {
+  if (record.record_type) {
+    return record.record_type === WATERING_RECORD_TYPE.postponement;
+  }
   return Boolean(record.notes?.includes(POSTPONEMENT_PREFIX));
 }
 
 /**
  * Filters a list of watering records down to real waterings, excluding postponements.
  */
-export function excludePostponements<T extends { notes?: string | null }>(
-  records: T[]
-): T[] {
+export function excludePostponements<T extends ClassifiableRecord>(records: T[]): T[] {
   return records.filter(record => !isPostponementRecord(record));
 }
 
 /**
- * SQL fragment matching postponement notes, for use with Supabase `.like()` / `.not()`.
- * Keeps the wildcard pattern in one place.
+ * Column list to select when records will be classified. Selecting `notes` alone is no longer
+ * sufficient, since `record_type` is the authoritative discriminator.
+ */
+export const CLASSIFIABLE_RECORD_COLUMNS = 'record_type, notes';
+
+/**
+ * @deprecated Superseded by filtering on `record_type`. Retained only so the legacy marker
+ * remains discoverable; do not use it for new queries.
  */
 export const POSTPONEMENT_LIKE_PATTERN = `%${POSTPONEMENT_PREFIX}%`;

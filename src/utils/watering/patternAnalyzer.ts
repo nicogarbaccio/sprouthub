@@ -13,7 +13,11 @@ import {
   PatternAnalysisOptions,
   PatternAnalysisStats,
 } from '@/types/wateringPatternTypes';
-import { LATE_HEALTHY_PREFIX, LATE_STRESSED_PREFIX, POSTPONEMENT_PREFIX } from '@/utils/watering/notesPrefixes';
+import {
+  LATE_HEALTHY_PREFIX,
+  LATE_STRESSED_PREFIX,
+  isPostponementRecord,
+} from '@/utils/watering/notesPrefixes';
 
 const DEFAULT_OPTIONS: Required<PatternAnalysisOptions> = {
   minRecords: 3,
@@ -301,7 +305,7 @@ export class WateringPatternAnalyzer {
     return records
       .filter(record => {
         // Exclude postponement records — they are analyzed separately
-        if (record.notes?.includes(POSTPONEMENT_PREFIX)) {
+        if (isPostponementRecord(record)) {
           return false;
         }
 
@@ -333,7 +337,7 @@ export class WateringPatternAnalyzer {
     const windowEnd = new Date(analysisDate.getTime() + 2 * 24 * 60 * 60 * 1000);
 
     const postponementRecords = allRecords.filter(r => {
-      if (!r.notes?.includes(POSTPONEMENT_PREFIX)) return false;
+      if (!isPostponementRecord(r)) return false;
       const date = new Date(r.watered_at);
       return date >= windowStart && date <= windowEnd;
     });
@@ -871,10 +875,10 @@ export class WateringPatternAnalyzer {
       reasoning,
       postponementContext: postponementSignal
         ? {
-            count: postponementSignal.count,
-            averageDelayDays: Math.round(postponementSignal.averageDelayDays * 10) / 10,
-            isSignificant: postponementSignal.isSignificant,
-          }
+          count: postponementSignal.count,
+          averageDelayDays: Math.round(postponementSignal.averageDelayDays * 10) / 10,
+          isSignificant: postponementSignal.isSignificant,
+        }
         : undefined,
       analysisWindowNote: windowWasClipped
         ? "Using only post-season-change data to give you accurate seasonal analysis"

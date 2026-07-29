@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { POSTPONEMENT_LIKE_PATTERN } from '@/utils/watering/notesPrefixes';
+import { WATERING_RECORD_TYPE } from '@/utils/watering/notesPrefixes';
 
 interface PlantWithSchedule {
   id: string;
@@ -70,7 +70,7 @@ export const useCareStreak = () => {
         .select('plant_id, watered_at, notes')
         .in('plant_id', plants.map(p => p.id))
         .gte('watered_at', startDate.toISOString())
-        .not('notes', 'like', POSTPONEMENT_LIKE_PATTERN)
+        .neq('record_type', WATERING_RECORD_TYPE.postponement)
         .order('watered_at', { ascending: false });
 
       if (error) throw error;
