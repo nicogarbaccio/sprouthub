@@ -43,6 +43,32 @@ describe('WateringPatternAnalyzer', () => {
 
       expect(result.pattern).toBe('consistent');
       expect(result.actualAverageInterval).toBe(7);
+      // 3 intervals (4 records) is deliberately below the threshold for medium/high
+      // confidence — a single outlier would swing the result. Confidence grows with data.
+      expect(result.confidence).toBe('low');
+    });
+
+    it('should reach high confidence with enough consistent data', () => {
+      const data: WateringPatternData = {
+        plantId: 'plant-1',
+        records: [
+          { id: '1', watered_at: '2025-01-20T10:00:00Z' },
+          { id: '2', watered_at: '2025-01-13T10:00:00Z' },
+          { id: '3', watered_at: '2025-01-06T10:00:00Z' },
+          { id: '4', watered_at: '2024-12-30T10:00:00Z' },
+          { id: '5', watered_at: '2024-12-23T10:00:00Z' },
+          { id: '6', watered_at: '2024-12-16T10:00:00Z' },
+          { id: '7', watered_at: '2024-12-09T10:00:00Z' },
+          { id: '8', watered_at: '2024-12-02T10:00:00Z' },
+          { id: '9', watered_at: '2024-11-25T10:00:00Z' },
+        ],
+        suggestedDays: 7,
+        analysisDate,
+      };
+
+      const result = analyzer.analyzePattern(data);
+
+      expect(result.pattern).toBe('consistent');
       expect(result.confidence).toBe('high');
     });
 
@@ -63,6 +89,28 @@ describe('WateringPatternAnalyzer', () => {
 
       expect(result.pattern).toBe('early');
       expect(result.actualAverageInterval).toBe(5);
+      // 3 intervals = low confidence, same threshold as the consistent test above.
+      expect(result.confidence).toBe('low');
+    });
+
+    it('should detect early pattern with medium confidence given enough data', () => {
+      const data: WateringPatternData = {
+        plantId: 'plant-1',
+        records: [
+          { id: '1', watered_at: '2025-01-20T10:00:00Z' },
+          { id: '2', watered_at: '2025-01-15T10:00:00Z' },
+          { id: '3', watered_at: '2025-01-10T10:00:00Z' },
+          { id: '4', watered_at: '2025-01-05T10:00:00Z' },
+          { id: '5', watered_at: '2024-12-31T10:00:00Z' },
+          { id: '6', watered_at: '2024-12-26T10:00:00Z' },
+        ],
+        suggestedDays: 10,
+        analysisDate,
+      };
+
+      const result = analyzer.analyzePattern(data);
+
+      expect(result.pattern).toBe('early');
       expect(result.confidence).not.toBe('low');
     });
 
@@ -142,15 +190,21 @@ describe('WateringPatternAnalyzer', () => {
     });
 
     it('should suggest schedule adjustment for significant deviations', () => {
+      // Need 5+ intervals (6+ records) for the code to reach medium confidence and produce a
+      // suggestion. Extending the schedule (watering less often) additionally requires health
+      // evidence — the user must have confirmed the plant looked fine when watered late.
       const data: WateringPatternData = {
         plantId: 'plant-1',
         records: [
-          { id: '1', watered_at: '2025-01-20T10:00:00Z' },
-          { id: '2', watered_at: '2025-01-10T10:00:00Z' }, // 10 days
-          { id: '3', watered_at: '2024-12-31T10:00:00Z' }, // 10 days
-          { id: '4', watered_at: '2024-12-21T10:00:00Z' }, // 10 days
+          { id: '1', watered_at: '2025-01-20T10:00:00Z', notes: 'LATE_HEALTHY:' },
+          { id: '2', watered_at: '2025-01-10T10:00:00Z', notes: 'LATE_HEALTHY:' },
+          { id: '3', watered_at: '2024-12-31T10:00:00Z', notes: 'LATE_HEALTHY:' },
+          { id: '4', watered_at: '2024-12-21T10:00:00Z' },
+          { id: '5', watered_at: '2024-12-11T10:00:00Z' },
+          { id: '6', watered_at: '2024-12-01T10:00:00Z' },
+          { id: '7', watered_at: '2024-11-21T10:00:00Z' },
         ],
-        suggestedDays: 5, // Suggesting 5 but user does 10
+        suggestedDays: 5, // Suggesting 5 but user does 10 — and reports plant is fine
         analysisDate,
       };
 
@@ -158,6 +212,27 @@ describe('WateringPatternAnalyzer', () => {
 
       expect(result.suggestedAdjustment).toBeDefined();
       expect(result.suggestedAdjustment).toBe(10);
+    });
+
+    it('should NOT suggest adjustment with only 3-4 data points', () => {
+      // Insufficient data to be confident in a recommendation.
+      const data: WateringPatternData = {
+        plantId: 'plant-1',
+        records: [
+          { id: '1', watered_at: '2025-01-20T10:00:00Z' },
+          { id: '2', watered_at: '2025-01-10T10:00:00Z' },
+          { id: '3', watered_at: '2024-12-31T10:00:00Z' },
+          { id: '4', watered_at: '2024-12-21T10:00:00Z' },
+        ],
+        suggestedDays: 5,
+        analysisDate,
+      };
+
+      const result = analyzer.analyzePattern(data);
+
+      // Pattern is detected, but confidence is too low to act on.
+      expect(result.pattern).toBe('late');
+      expect(result.suggestedAdjustment).toBeUndefined();
     });
 
     it('should not suggest adjustment for small deviations', () => {
