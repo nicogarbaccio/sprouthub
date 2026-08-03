@@ -3,6 +3,19 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import BlogPostCard from '../BlogPostCard';
 import type { BlogPost } from '@/types/blogTypes';
 
+// BlogPostCard uses useAuth, useSavedArticleIds, useToggleSavedArticle, and useHideArticle.
+// Mock them so the component renders without providers.
+vi.mock('@/contexts/AuthContext', () => ({
+  useAuth: () => ({ user: null, loading: false }),
+}));
+vi.mock('@/hooks/useSavedArticles', () => ({
+  useSavedArticleIds: () => ({ data: new Set() }),
+  useToggleSavedArticle: () => ({ mutate: vi.fn(), isPending: false }),
+}));
+vi.mock('@/hooks/useHiddenArticles', () => ({
+  useHideArticle: () => ({ mutate: vi.fn(), isPending: false }),
+}));
+
 const makePost = (overrides: Partial<BlogPost> = {}): BlogPost => ({
   id: 'post-1',
   title: 'How to Care for Monstera',

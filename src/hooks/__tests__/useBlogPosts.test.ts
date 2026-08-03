@@ -138,7 +138,7 @@ describe('useBlogPosts hooks', () => {
   });
 
   describe('useMyPlantsBlogPosts', () => {
-    it('should query blog_post_plants with plant names array', () => {
+    it('should query blog_post_plants with plant names using OR ilike filters', () => {
       const chain = mockSupabaseChain({
         data: [
           {
@@ -153,7 +153,10 @@ describe('useBlogPosts hooks', () => {
       renderHook(() => useMyPlantsBlogPosts(['Monstera', 'Pothos']));
 
       expect(supabase.from).toHaveBeenCalledWith('blog_post_plants');
-      expect(chain.in).toHaveBeenCalledWith('plant_name', ['Monstera', 'Pothos']);
+      // The implementation builds an OR-filter with ilike partial matches for each plant name.
+      expect(chain.or).toHaveBeenCalledWith(
+        'plant_name.ilike.%Monstera%,plant_name.ilike.%Pothos%'
+      );
     });
 
     it('should not query when plantNames array is empty', () => {
