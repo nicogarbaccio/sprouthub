@@ -4,6 +4,7 @@ import { utilityToast, wateringToast, plantToast, fertilizationToast } from '@/u
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { handleApiError } from '@/utils/errorHandling';
 import { WATERING_RECORD_TYPE } from '@/utils/watering/notesPrefixes';
+import { postponePlantWatering } from '@/utils/watering/postponeWatering';
 import type { UserPlant } from '@/hooks/useUserPlants';
 
 const HOOK_NAME = 'usePlantActions';
@@ -68,6 +69,7 @@ export const usePlantActions = ({
             plant_id: plantResult.id,
             watered_at: plantData.last_watered_date,
             notes: 'Initial watering record from plant creation',
+            record_type: WATERING_RECORD_TYPE.watering,
             performed_by: user.id,
           });
 
@@ -233,18 +235,15 @@ export const usePlantActions = ({
       const plant = plants.find(p => p.id === plantId);
       const plantName = plant?.nickname || 'Plant';
 
-      // First, check if there's already a postponement record for this plant
-      const { data: existingPostponements, error: fetchError } = await supabase
-        .from('watering_records')
-        .select('*')
-        .eq('plant_id', plantId)
-        .eq('record_type', WATERING_RECORD_TYPE.postponement)
-        .gt('watered_at', new Date().toISOString());
+      const outcome = await postponePlantWatering({
+        plantId,
+        userId: user.id,
+        days,
+        reason,
+        currentPostponementCount: plant?.postponement_count,
+      });
 
-      if (fetchError) throw fetchError;
-
-      // If there's already a future postponement, don't create another one
-      if (existingPostponements && existingPostponements.length > 0) {
+      if (outcome.status === 'already_postponed') {
         utilityToast.info(
           'Already Postponed',
           "This plant's watering is already postponed"
@@ -253,64 +252,24 @@ export const usePlantActions = ({
         return true;
       }
 
-      const deferDays = Math.max(1, Math.round(days));
-      const postponeTo = new Date();
-      postponeTo.setDate(postponeTo.getDate() + deferDays);
-      postponeTo.setHours(9, 0, 0, 0); // 9 AM on the target day, for consistency
-
-      const notes = reason
-        ? `POSTPONEMENT: ${reason}`
-        : "POSTPONEMENT: Watering postponed - plant didn't need water yet";
-
       // Optimistically update the UI
-      const postponementDate = postponeTo.toISOString();
       setPlants(prevPlants =>
         prevPlants.map(p =>
           p.id === plantId
             ? {
               ...p,
-              postponement_date: postponementDate,
-              postponement_notes: notes,
+              postponement_date: outcome.postponementDate,
+              postponement_notes: outcome.notes,
             }
             : p
         )
       );
 
-      const { error } = await supabase
-        .from('watering_records')
-        .insert({
-          plant_id: plantId,
-          watered_at: postponementDate,
-          notes,
-          record_type: WATERING_RECORD_TYPE.postponement,
-          performed_by: user.id,
-        });
-
-      if (error) throw error;
-
-      // Increment postponement_count — each postponement is a "soil was still moist"
-      // signal used by pattern analysis to detect over-scheduled plants.
-      const currentCount = plant?.postponement_count ?? 0;
-      const { error: countError } = await supabase
-        .from('user_plants')
-        .update({
-          postponement_count: currentCount + 1,
-          last_postponement_date: postponementDate,
-        })
-        .eq('id', plantId);
-
-      if (countError) {
-        hookLogger.warn(HOOK_NAME, 'Could not increment postponement_count', {
-          error: countError,
-        });
-        // Non-fatal — watering_records is the source of truth for analysis
-      }
-
       utilityToast.info(
         'Watering Postponed',
-        deferDays === 1
+        outcome.days === 1
           ? `${plantName} watering pushed to tomorrow`
-          : `${plantName} watering pushed out ${deferDays} days`
+          : `${plantName} watering pushed out ${outcome.days} days`
       );
 
       // Fetch fresh data in the background to ensure accuracy

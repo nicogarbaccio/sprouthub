@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { plantToast, wateringToast, utilityToast } from "@/utils/notifications/toast";
 import { NO_ROOM_VALUE } from "@/utils/rooms";
+import { isPostponementRecord } from "@/utils/watering/notesPrefixes";
 import PlantDetailsForm from "./edit-plant/PlantDetailsForm";
 import WateringRecordForm from "./edit-plant/WateringRecordForm";
 import WateringRecordsList from "./edit-plant/WateringRecordsList";
@@ -146,10 +147,12 @@ const EditPlantDialog = ({
 
       if (error) throw error;
 
-      // Add is_postponement flag for UI differentiation
+      // Add is_postponement flag for UI differentiation. Uses the shared classifier so
+      // record_type is authoritative — an inline notes-substring check here would silently
+      // stop recognising postponements once the legacy marker is retired from writes.
       const processedRecords = (data || []).map((record) => ({
         ...record,
-        is_postponement: record.notes?.includes("POSTPONEMENT:") || false,
+        is_postponement: isPostponementRecord(record),
       }));
 
       setWateringRecords(processedRecords);

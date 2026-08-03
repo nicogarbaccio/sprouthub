@@ -27,6 +27,7 @@ import {
   Pencil,
 } from "lucide-react";
 import { computeOverwateringRisk } from "@/utils/plants/overwatering";
+import { stripNotesPrefixes } from "@/utils/watering/notesPrefixes";
 import { wateringToast } from "@/utils/notifications/toast";
 import { format, isFuture } from "date-fns";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
@@ -556,12 +557,12 @@ const WateringHistoryDialog = memo(
                                 <div className="flex items-start gap-3 mt-3">
                                   <FileText className="w-5 h-5 sm:w-4 sm:h-4 text-muted-foreground mt-0.5 flex-shrink-0" />
                                   <p className="text-base sm:text-sm text-muted-foreground">
-                                    {isPostponement
-                                      ? record.notes.replace(
-                                          "POSTPONEMENT: ",
-                                          ""
-                                        )
-                                      : record.notes}
+                                    {/*
+                                      Strip every system-generated prefix, not just
+                                      POSTPONEMENT:. This used to be a manual replace, so
+                                      LATE_HEALTHY:/LATE_STRESSED: markers leaked into the UI.
+                                    */}
+                                    {stripNotesPrefixes(record.notes)}
                                   </p>
                                 </div>
                               )}

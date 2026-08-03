@@ -8,6 +8,7 @@ import { utilityToast } from '@/utils/notifications/toast';
 import { useUserHouseholdMemberships } from '@/hooks/useUserHouseholdMemberships';
 import { usePostponementData } from '@/hooks/usePostponementData';
 import { selectActivePostponement } from '@/utils/watering/postponement';
+import { postponePlantWatering } from '@/utils/watering/postponeWatering';
 import { WATERING_RECORD_TYPE } from '@/utils/watering/notesPrefixes';
 import { useOverwateringAnalysis } from '@/hooks/useOverwateringAnalysis';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
@@ -328,6 +329,7 @@ export const useHouseholdPlants = () => {
       await supabase.from('watering_records').insert({
         plant_id: data.id,
         watered_at: new Date().toISOString(),
+        record_type: WATERING_RECORD_TYPE.watering,
         notes: 'Initial watering record from plant creation',
         performed_by: user.id,
       });
@@ -409,6 +411,7 @@ export const useHouseholdPlants = () => {
       const { error } = await supabase.from('watering_records').insert({
         plant_id: plantId,
         watered_at: new Date().toISOString(),
+        record_type: WATERING_RECORD_TYPE.watering,
         notes: notes || null,
         performed_by: user.id,
       });
@@ -424,25 +427,42 @@ export const useHouseholdPlants = () => {
     }
   };
 
+  /**
+   * Defers a household plant's watering.
+   *
+   * Takes a day count rather than an absolute date, matching `usePlantActions.postponeWatering`.
+   * The two previously had different signatures for the same concept, and this one also skipped
+   * the already-postponed dedupe check and the `postponement_count` increment that pattern
+   * analysis depends on. Both now run through the shared helper.
+   */
   const postponeWatering = async (
     plantId: string,
-    postponeTo: Date,
-    notes?: string
+    days: number = 1,
+    reason?: string
   ) => {
     if (!user) return;
 
     const tracker = trackOperation(HOOK_NAME, 'postponeWatering');
 
     try {
-      const { error } = await supabase.from('watering_records').insert({
-        plant_id: plantId,
-        watered_at: postponeTo.toISOString(),
-        notes: `POSTPONEMENT: ${notes || 'Watering postponed'}`,
-        record_type: WATERING_RECORD_TYPE.postponement,
-        performed_by: user.id,
+      const plant = plants.find(p => p.id === plantId);
+
+      const outcome = await postponePlantWatering({
+        plantId,
+        userId: user.id,
+        days,
+        reason,
+        currentPostponementCount: plant?.postponement_count,
       });
 
-      if (error) throw error;
+      if (outcome.status === 'already_postponed') {
+        utilityToast.info(
+          'Already Postponed',
+          "This plant's watering is already postponed"
+        );
+        tracker.complete({ plantId, alreadyPostponed: true });
+        return;
+      }
 
       await fetchPlants();
       tracker.complete({ plantId });

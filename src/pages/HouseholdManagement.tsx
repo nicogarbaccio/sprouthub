@@ -129,13 +129,7 @@ const HouseholdManagement = () => {
 
   const handlePostponePlant = async (plantId: string) => {
     try {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      await postponeWatering(
-        plantId,
-        tomorrow,
-        "Postponed by household member"
-      );
+      await postponeWatering(plantId, 1, "Postponed by household member");
       toast.success("Plant watering postponed successfully!");
     } catch (error) {
       console.error("Error postponing plant:", error);
