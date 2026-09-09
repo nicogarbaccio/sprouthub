@@ -36,6 +36,41 @@ export const tropicalPlants: Plant[] = [
     ]
   },
   {
+    name: 'Monstera Thai Constellation',
+    botanicalName: "Monstera deliciosa 'Thai Constellation'",
+    otherNames: ['Variegated Monstera', 'Thai Constellation Monstera', 'Variegated Swiss Cheese Plant'],
+    image: PLANT_IMAGES_BASE_URL + '/Monstera%20Thai%20Constellation.jpg',
+    wateringFrequency: 'Weekly',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Tropical Plants',
+    description: 'A lab-created, tissue-cultured cultivar of Monstera deliciosa, Thai Constellation is one of the most sought-after (and expensive) variegated houseplants in the world, prized for its splashy, creamy-yellow variegation that scatters across the leaves like a galaxy of stars - hence the name. Unlike the unstable, unpredictable variegation of Monstera albo, Thai Constellation\'s variegation is stable and consistent because it is propagated in labs rather than by cuttings, so every plant reliably develops the same speckled, marbled cream-and-green pattern along with the classic fenestrations and splits. Because the cream sections contain no chlorophyll, the plant photosynthesizes more slowly and grows noticeably slower than standard Monstera deliciosa, staying more compact indoors. It is slightly more demanding than its all-green cousin - the variegated tissue is more sensitive to scorching, browning, and rot - but with bright indirect light and careful watering it rewards you with truly show-stopping, one-of-a-kind foliage.',
+    toxicity: 'Toxic to pets and humans if ingested - contains calcium oxalate crystals',
+    temperature: '65-85°F (18-29°C)',
+    humidity: '50-60%',
+    careInstructions: [
+      'Water when top 2-3 inches of soil are dry - typically weekly, and err on the drier side',
+      'Provide bright, indirect light to maintain variegation - more light than an all-green Monstera needs',
+      'Avoid harsh direct sun, which scorches the delicate cream-colored sections',
+      'Provide a moss pole or trellis for climbing - encourages larger, more fenestrated leaves',
+      'Wipe leaves monthly with a damp cloth to keep them dust-free and photosynthesizing efficiently',
+      'Aerial roots are normal and beneficial - don\'t cut them off',
+      'Fertilize monthly during the growing season with a balanced fertilizer',
+      'Grows slower than standard Monstera - be patient, this is normal for variegated plants',
+      'Rotate occasionally for even growth and balanced variegation'
+    ],
+    commonProblems: [
+      'Brown, crispy patches on cream areas: Sunburn from direct light or low humidity - variegated tissue is delicate',
+      'Reverting to solid green leaves: Not enough light - move to a brighter spot to preserve variegation',
+      'Fully white/cream leaves: Too much variegation with no chlorophyll - these leaves can\'t sustain themselves and may brown',
+      'Yellow leaves: Overwatering (most common) or natural aging of older leaves',
+      'Slow or stalled growth: Normal for variegated plants due to reduced chlorophyll',
+      'Brown spots or mushy stems: Overwatering and root rot - variegated sections rot more easily',
+      'No leaf holes/splits: Normal for young plants, or needs more light as it matures'
+    ]
+  },
+  {
     name: 'Bird of Paradise',
     botanicalName: 'Strelitzia nicolai',
     otherNames: ['White Bird of Paradise', 'Giant Bird of Paradise', 'Wild Banana'],

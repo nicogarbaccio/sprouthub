@@ -73,6 +73,41 @@ export const treesLargePlants: Plant[] = [
     ]
   },
   {
+    name: 'Ficus Elastica Tineke',
+    botanicalName: "Ficus elastica 'Tineke'",
+    otherNames: ['Variegated Rubber Plant', 'Variegated Rubber Tree', 'Tineke Rubber Plant'],
+    image: PLANT_IMAGES_BASE_URL + '/Ficus%20Elastica%20Tineke.jpg',
+    wateringFrequency: 'Weekly',
+    suggestedWateringDays: 7,
+    lightRequirement: 'Bright Indirect Light',
+    careLevel: 'Medium' as const,
+    category: 'Trees & Large Plants',
+    description: 'A stunning variegated cultivar of the classic Ficus elastica, Tineke turns the bold, glossy leaves of the Rubber Plant into living artwork, each large oval leaf marbled in shades of deep green, sage, and creamy-white, with new growth and midribs often blushed a soft pink that unfurls from rosy-red sheaths. Growing 4-8 feet indoors, it delivers the same architectural, statement-tree presence as the standard Rubber Plant but with far more color and light. Because the cream and white areas lack chlorophyll, Tineke needs noticeably brighter (indirect) light than its all-green cousin to keep its variegation vivid - too little light and the leaves fade toward plain green and grow leggy. Slightly more particular about light and consistent watering than the ordinary Rubber Plant but still very approachable, Tineke is an excellent way to add a large, colorful, variegated focal point without the fussiness of a Fiddle Leaf Fig.',
+    toxicity: 'Toxic to pets and humans - milky sap causes skin irritation and stomach upset if ingested',
+    temperature: '60-80°F (15-27°C)',
+    humidity: '40-60%',
+    careInstructions: [
+      'Water when top 2-3 inches of soil are dry - typically weekly, allowing more drying in winter',
+      'Provide bright, indirect light to keep the variegation vivid - brighter than an all-green Rubber Plant needs',
+      'Avoid harsh direct sun, which can scorch the pale, cream-colored sections',
+      'Wipe leaves every 1-2 weeks with a damp cloth to keep them glossy and dust-free',
+      'Prune top growth to encourage branching - new shoots emerge below the cut',
+      'Fertilize monthly during the growing season with a balanced fertilizer',
+      'Rotate occasionally so variegation and growth stay even on all sides',
+      'Wear gloves when pruning - the milky latex sap irritates skin and stains surfaces',
+      'Repot every 2-3 years or when roots emerge from the drainage holes'
+    ],
+    commonProblems: [
+      'Reverting to solid green leaves: Not enough light - move to a brighter spot to preserve variegation',
+      'Faded or dull variegation: Insufficient light over time',
+      'Brown, crispy patches on cream areas: Sunburn from direct light or low humidity',
+      'Leaf drop: Temperature fluctuations, overwatering, drafts, or moving the plant',
+      'Yellow leaves: Overwatering (most common) or natural shedding of lower leaves',
+      'Brown leaf edges: Underwatering, low humidity, or fluoride sensitivity',
+      'Leggy growth with widely spaced leaves: Insufficient light'
+    ]
+  },
+  {
     name: 'Dracaena',
     botanicalName: 'Dracaena marginata',
     otherNames: ['Dragon Tree', 'Madagascar Dragon Tree', 'Red-Edge Dracaena'],

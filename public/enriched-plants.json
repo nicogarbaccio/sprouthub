@@ -14,7 +14,7 @@
     "careLevel": "Easy",
     "category": "Flowering Plants",
     "description": "One of the most popular and forgiving houseplants, the Peace Lily is celebrated for its elegant white spathes (often mistaken for flowers) that bloom throughout the year and its remarkable air-purifying qualities. Native to the tropical rainforests of Central and South America, this graceful plant features glossy, deep green leaves that arch elegantly and distinctive white \"blooms\" that emerge on tall stems. Growing 1-4 feet tall depending on variety, it's famous for dramatically drooping when thirsty, then perking up quickly after watering - making it perfect for beginners who want visual watering cues. It thrives in low to medium light where most flowering plants struggle, making it ideal for offices and north-facing rooms.",
-    "toxicity": "Toxic to cats, dogs, horses, small-mammals. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
     "temperature": "65-80°F (18-27°C)",
     "humidity": "40-60%",
     "careInstructions": [
@@ -50,7 +50,7 @@
     "careLevel": "Medium",
     "category": "Flowering Plants",
     "description": "A stunning tropical plant native to Colombia and Ecuador, Flamingo Flower produces glossy, heart-shaped \"flowers\" (actually modified leaves called spathes) in vibrant reds, pinks, whites, or even purple, each lasting 6-8 weeks. The true flowers are the tiny bumps on the protruding spadix in the center. With proper care, anthuriums can bloom year-round, making them one of the longest-flowering houseplants available. The plant grows 12-18 inches tall with dark green, leathery leaves that provide a beautiful backdrop to the colorful blooms. As an epiphyte in nature, it appreciates well-draining conditions and high humidity, bringing a touch of the rainforest to indoor spaces.",
-    "toxicity": "Toxic to cats, dogs, horses, small-mammals. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
     "temperature": "65-80°F (18-27°C)",
     "humidity": "60-80%",
     "careInstructions": [
@@ -158,7 +158,7 @@
     "careLevel": "Medium",
     "category": "Flowering Plants",
     "description": "A showstopping foliage plant native to the Himalayan region of India, Rex Begonia is grown primarily for its extraordinary leaves rather than its small, unremarkable flowers. Each cultivar displays a unique masterpiece of colors and patterns - swirls of silver, purple, pink, red, and green with metallic sheens, spots, or spiral patterns that look hand-painted by an artist. The textured, asymmetrical leaves can be smooth or puckered, creating living art that rivals any flowering plant. Growing 12-18 inches tall and wide, these rhizomatous begonias make dramatic statement pieces for bright, humid spaces. While they require more attention than basic houseplants, the spectacular foliage display rewards dedicated care with year-round visual interest.",
-    "toxicity": "Toxic to dogs, cats, horses, small-mammals. Symptoms: Kidney Failure, Vomiting, Hypersalivation",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Kidney Failure, Vomiting, Drooling",
     "temperature": "60-75°F (15-24°C)",
     "humidity": "50-70%",
     "careInstructions": [
@@ -194,7 +194,7 @@
     "careLevel": "Hard",
     "category": "Flowering Plants",
     "description": "A stunning cool-season bloomer native to the Mediterranean, Cyclamen produces delicate, upswept butterfly-like flowers in shades of red, pink, white, or purple that appear to hover above a mound of heart-shaped, silver-marbled leaves. The elegant flowers bloom prolifically from fall through spring when most houseplants are dormant, making it a perfect winter companion. However, cyclamen has specific requirements: it's a cool-temperature plant that struggles in typical heated homes and follows a natural dormancy cycle in summer. The tuberous root (corm) sits at soil level and is prone to rot if watered incorrectly. While challenging, successfully maintaining a cyclamen through multiple bloom cycles is deeply rewarding for dedicated plant enthusiasts.",
-    "toxicity": "Toxic to dogs, cats, horses, small-mammals. Symptoms: Hypersalivation, Vomiting, Diarrhea, Seizures, Cardiac Arrhythmias",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Drooling, Vomiting, Diarrhea, Seizures, Cardiac Arrhythmias",
     "temperature": "50-65°F (10-18°C) - cool temps essential for blooming",
     "humidity": "50-60%",
     "careInstructions": [
@@ -231,7 +231,7 @@
     "careLevel": "Easy",
     "category": "Flowering Plants",
     "description": "A classic flowering plant native to South Africa, geraniums (technically pelargoniums) have been beloved since Victorian times for their reliable, colorful blooms and distinctive scented foliage. They produce large, rounded clusters of flowers in vibrant reds, pinks, oranges, whites, or bi-colors atop sturdy stems with circular, zoned leaves that often feature darker horseshoe-shaped markings. Growing 12-24 inches tall, geraniums are among the easiest flowering plants to maintain indoors, thriving with lots of sun and minimal fussing. Unlike many houseplants, they actually prefer to dry out slightly between waterings and bloom more profusely when slightly pot-bound. With proper light and regular deadheading, they can flower almost continuously year-round.",
-    "toxicity": "Toxic to dogs, cats, horses, small-mammals. Symptoms: Vomiting, Anorexia, Depression, Dermatitis",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Loss Of Appetite, Depression, Dermatitis, Incoordination",
     "temperature": "65-75°F (18-24°C) during day, cooler at night",
     "humidity": "30-50%",
     "careInstructions": [
@@ -303,7 +303,7 @@
     "careLevel": "Medium",
     "category": "Flowering Plants",
     "description": "Native to East Africa, Impatiens are beloved for their ability to bloom continuously in lower light conditions where most flowering plants fail. The common name \"Touch-Me-Not\" refers to the explosive seed pods that burst open when touched when mature. These cheerful plants produce abundant five-petaled flowers in vivid shades of pink, red, orange, white, purple, or bi-colors against bright green succulent stems and leaves. Growing 6-18 inches tall depending on variety, they create mounding, colorful displays perfect for brightening shady spots. While technically perennials in their native habitat, they're often grown as annuals but can be maintained indoors as long-term houseplants with proper attention to their high water and humidity needs.",
-    "toxicity": "Toxic to small-mammals. Symptoms: Extreme Stomach Pain, Abdominal Pain, Hyper Salivaton, Salivation, Skin Irritation",
+    "toxicity": "Non-toxic to pets and humans",
     "temperature": "65-75°F (18-24°C)",
     "humidity": "50-70%",
     "careInstructions": [
@@ -376,7 +376,7 @@
     "careLevel": "Medium",
     "category": "Flowering Plants",
     "description": "Despite its common name, Flowering Maple isn't a maple at all but a member of the mallow family from Central and South America. It earned its nickname from its distinctive maple-like lobed leaves that provide an attractive backdrop to the real stars: pendulous, bell-shaped flowers in vibrant oranges, reds, pinks, yellows, or white that dangle like little lanterns from the stems. This fast-growing shrubby plant can reach 3-6 feet indoors and has the remarkable ability to bloom almost year-round with adequate light, producing flowers continuously rather than in seasonal flushes. The combination of ornamental foliage and nearly constant flowering makes it a prized specimen for bright rooms, sunrooms, or patios.",
-    "toxicity": "Toxic to small-mammals. Symptoms: Extreme Stomach Pain, Abdominal Pain, Hyper Salivaton, Salivation, Skin Irritation",
+    "toxicity": "Non-toxic to pets and humans",
     "temperature": "60-75°F (15-24°C)",
     "humidity": "40-60%",
     "careInstructions": [
@@ -414,7 +414,7 @@
     "careLevel": "Medium",
     "category": "Flowering Plants",
     "description": "A tropical showstopper native to East Asia, Chinese Hibiscus produces enormous, flamboyant flowers (4-8 inches wide) in stunning shades of red, pink, orange, yellow, white, or multi-colored varieties with prominent stamens that extend from the center. While individual blooms last only 1-2 days, healthy plants produce new flowers continuously throughout warm months, creating an ever-changing display. The glossy, dark green foliage provides an elegant backdrop even when not in bloom. This woody shrub can grow 4-10 feet indoors and adapts well to container growing. Native to warm climates, it thrives outdoors in summer and needs protection from cold, but rewards dedicated care with spectacular tropical beauty that transforms any space into a paradise.",
-    "toxicity": "Toxic to cats, dogs, horses, reptiles, small-mammals. Symptoms: Vomiting, Depression, Diarrhea, Hypersalivation",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Abdominal Pain, Drooling, Dermatitis, Difficulty Breathing, Cardiac Failure",
     "temperature": "60-90°F (15-32°C) - warm temps encourage blooming",
     "humidity": "50-70%",
     "careInstructions": [
@@ -486,7 +486,7 @@
     "careLevel": "Easy",
     "category": "Flowering Plants",
     "description": "Native to Madagascar, Crown of Thorns is a succulent shrub that combines dramatic spiny stems with delicate, colorful blooms that appear year-round with proper care. The small, bright flowers (actually colored bracts) come in reds, pinks, whites, yellows, or orange and cluster at the tips of thorny branches. Despite its fierce appearance, it's one of the easiest and most reliable flowering houseplants available, tolerating neglect, dry air, and drought while blooming continuously. The thick stems store water and sport fierce thorns (the source of its biblical common name), and the plant produces a milky white sap when cut that can irritate skin. Growing 1-3 feet indoors, it's perfect for sunny windowsills where its combination of exotic flowers and sculptural form creates dramatic interest.",
-    "toxicity": "Toxic to small-mammals. Symptoms: Weak Pulse, Increased Heart Rate, High Heart Rate, Oral Irritation, Drooling",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Vomiting, Diarrhea, Abdominal Pain, Drooling",
     "temperature": "65-85°F (18-29°C) - tolerates heat well",
     "humidity": "30-50%",
     "careInstructions": [
@@ -561,7 +561,7 @@
     "careLevel": "Easy",
     "category": "Tropical Plants",
     "description": "Native to the rainforests of Central America, Monstera deliciosa is one of the most iconic and Instagram-famous houseplants, beloved for its massive, glossy leaves with dramatic natural splits (fenestrations) and holes that create a striking Swiss cheese appearance. Young plants start with solid, heart-shaped leaves, developing the characteristic splits and holes as they mature - a fascinating transformation to witness. In nature, this climbing vine uses aerial roots to scale trees up to 70 feet, but indoors it typically reaches 6-8 feet. With proper support like a moss pole, the leaves can grow 2-3 feet across. The name \"deliciosa\" refers to the edible fruit it produces in tropical conditions (rarely indoors), which tastes like a combination of pineapple and banana. Easy to care for and fast-growing, it brings instant jungle vibes to any space.",
-    "toxicity": "Toxic to dogs, cats, horses, small-mammals. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
     "temperature": "65-85°F (18-29°C)",
     "humidity": "40-60%",
     "careInstructions": [
@@ -584,6 +584,45 @@
     ]
   },
   {
+    "name": "Monstera Thai Constellation",
+    "botanicalName": "Monstera deliciosa 'Thai Constellation'",
+    "otherNames": [
+      "Variegated Monstera",
+      "Thai Constellation Monstera",
+      "Variegated Swiss Cheese Plant"
+    ],
+    "image": "https://ufhjudswppdqupjbqbwm.supabase.co/storage/v1/object/public/plant-images/Monstera%20Thai%20Constellation.jpg",
+    "wateringFrequency": "Weekly",
+    "suggestedWateringDays": 7,
+    "lightRequirement": "Bright Indirect Light",
+    "careLevel": "Medium",
+    "category": "Tropical Plants",
+    "description": "A lab-created, tissue-cultured cultivar of Monstera deliciosa, Thai Constellation is one of the most sought-after (and expensive) variegated houseplants in the world, prized for its splashy, creamy-yellow variegation that scatters across the leaves like a galaxy of stars - hence the name. Unlike the unstable, unpredictable variegation of Monstera albo, Thai Constellation's variegation is stable and consistent because it is propagated in labs rather than by cuttings, so every plant reliably develops the same speckled, marbled cream-and-green pattern along with the classic fenestrations and splits. Because the cream sections contain no chlorophyll, the plant photosynthesizes more slowly and grows noticeably slower than standard Monstera deliciosa, staying more compact indoors. It is slightly more demanding than its all-green cousin - the variegated tissue is more sensitive to scorching, browning, and rot - but with bright indirect light and careful watering it rewards you with truly show-stopping, one-of-a-kind foliage.",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "temperature": "65-85°F (18-29°C)",
+    "humidity": "50-60%",
+    "careInstructions": [
+      "Water when top 2-3 inches of soil are dry - typically weekly, and err on the drier side",
+      "Provide bright, indirect light to maintain variegation - more light than an all-green Monstera needs",
+      "Avoid harsh direct sun, which scorches the delicate cream-colored sections",
+      "Provide a moss pole or trellis for climbing - encourages larger, more fenestrated leaves",
+      "Wipe leaves monthly with a damp cloth to keep them dust-free and photosynthesizing efficiently",
+      "Aerial roots are normal and beneficial - don't cut them off",
+      "Fertilize monthly during the growing season with a balanced fertilizer",
+      "Grows slower than standard Monstera - be patient, this is normal for variegated plants",
+      "Rotate occasionally for even growth and balanced variegation"
+    ],
+    "commonProblems": [
+      "Brown, crispy patches on cream areas: Sunburn from direct light or low humidity - variegated tissue is delicate",
+      "Reverting to solid green leaves: Not enough light - move to a brighter spot to preserve variegation",
+      "Fully white/cream leaves: Too much variegation with no chlorophyll - these leaves can't sustain themselves and may brown",
+      "Yellow leaves: Overwatering (most common) or natural aging of older leaves",
+      "Slow or stalled growth: Normal for variegated plants due to reduced chlorophyll",
+      "Brown spots or mushy stems: Overwatering and root rot - variegated sections rot more easily",
+      "No leaf holes/splits: Normal for young plants, or needs more light as it matures"
+    ]
+  },
+  {
     "name": "Bird of Paradise",
     "botanicalName": "Strelitzia nicolai",
     "otherNames": [
@@ -598,7 +637,7 @@
     "careLevel": "Medium",
     "category": "Tropical Plants",
     "description": "Native to South Africa, Strelitzia nicolai is a dramatic, architectural plant featuring enormous, paddle-shaped leaves on tall stems that create a bold tropical statement. The leaves are similar to banana leaves and can reach 5-6 feet long, giving any space an instant resort-like atmosphere. Growing 6-10 feet indoors (20-30 feet outdoors), it develops a palm-like appearance despite not being a palm. The name comes from the distinctive white and blue flowers that resemble a bird's head (though flowering is rare indoors, requiring years of maturity, bright light, and proper conditions). While not as difficult as its reputation suggests, Bird of Paradise needs space, bright light, and consistent care. It's naturally prone to split leaves - this is not damage but an adaptation to withstand wind, adding to its exotic character.",
-    "toxicity": "Toxic to dogs, cats, horses, small-mammals. Symptoms: Nausea, Vomiting, Drowsiness",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Nausea, Vomiting, Lethargy, Drowsiness",
     "temperature": "65-80°F (18-27°C)",
     "humidity": "50-60%",
     "careInstructions": [
@@ -637,7 +676,7 @@
     "careLevel": "Hard",
     "category": "Tropical Plants",
     "description": "A hybrid Alocasia (not actually from the Amazon despite the name), African Mask is one of the most striking foliage plants available, featuring dramatic arrow-shaped leaves in deep green with bold white or silvery veining and purple undersides. The glossy, almost plastic-looking leaves emerge tightly rolled and unfurl to reveal their stunning patterns - like living art painted with a brush. Growing 1-2 feet tall, it's compact but makes a huge visual impact. However, Alocasias are notoriously finicky and challenging, earning their \"hard\" reputation honestly. They demand high humidity, consistent moisture, bright indirect light, and stable conditions. They're prone to dormancy in winter (losing all leaves), sensitive to changes, and attractive to spider mites. Only for dedicated plant parents willing to meet their exacting tropical needs.",
-    "toxicity": "Toxic to birds. Symptoms: Vomiting, Diarrhea, Lethargy, Increased Urination, Blindness",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
     "temperature": "65-80°F (18-27°C) - no fluctuations",
     "humidity": "60-80% - high humidity essential",
     "careInstructions": [
@@ -677,7 +716,7 @@
     "careLevel": "Easy",
     "category": "Tropical Plants",
     "description": "Native to Central and South American rainforests, Monstera adansonii is the delicate, vining cousin of the famous Monstera deliciosa, featuring smaller heart-shaped leaves (4-8 inches) with oblong holes and fenestrations that create intricate, lacy patterns. Unlike its upright relative, this climbing vine naturally trails or climbs with aerial roots, making it perfect for hanging baskets, trellises, or cascading from shelves. The leaves emerge solid and develop holes as they mature, creating beautiful textural interest. Fast-growing and more compact than M. deliciosa, it can quickly fill a space with lush, perforated foliage. Much easier to care for than other tropical plants, it tolerates a range of conditions while still delivering that coveted Swiss cheese leaf aesthetic. Perfect for adding vertical interest or trailing beauty without the space demands of larger Monsteras.",
-    "toxicity": "Toxic to dogs, cats, horses, small-mammals. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
     "temperature": "65-80°F (18-27°C)",
     "humidity": "50-70%",
     "careInstructions": [
@@ -751,7 +790,7 @@
     "careLevel": "Easy",
     "category": "Tropical Plants",
     "description": "A stunning variegated cultivar of the classic Heartleaf Philodendron, Brasil features heart-shaped leaves painted with vibrant chartreuse yellow or lime green splashes against dark green - like someone brushed bright paint across each leaf. This fast-growing trailing or climbing vine can reach 10-20 feet, creating lush displays cascading from hanging baskets, shelves, or climbing up moss poles. The variegation is stable but needs adequate light to maintain the bright coloring. Even easier to care for than its already-forgiving parent species, Brasil tolerates a wide range of conditions including lower light (though variegation fades). It propagates effortlessly in water, grows vigorously, and brings cheerful color without the maintenance demands of fussier variegated plants. Perfect for beginners wanting colorful, fast-growing foliage.",
-    "toxicity": "Toxic to dogs, cats, horses, reptiles, birds, small-mammals. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
     "temperature": "65-80°F (18-27°C)",
     "humidity": "40-60%",
     "careInstructions": [
@@ -864,7 +903,7 @@
     "careLevel": "Medium",
     "category": "Tropical Plants",
     "description": "Native to Indonesia, Malaysia, and Pacific islands, Croton is one of the most colorful foliage plants available, featuring thick, leathery leaves in stunning combinations of red, orange, yellow, pink, green, and even purple - often with multiple colors swirling within a single leaf like an artist's palette. Leaf shapes vary from narrow and linear to broad and lobed. Growing 3-6 feet indoors (10+ feet outdoors), it creates a bold, tropical statement. However, the spectacular colors come with demands: Croton requires bright, direct light to maintain vibrant coloring (colors fade dramatically in shade), consistent moisture, warmth, and stable conditions. It's notoriously dramatic about changes, dropping leaves at the slightest provocation. For those who can provide bright light and consistency, it's a stunning showpiece.",
-    "toxicity": "Toxic to small-mammals. Symptoms: Weak Pulse, Increased Heart Rate, High Heart Rate, Oral Irritation, Drooling",
+    "toxicity": "Toxic to horses. Symptoms: Kidney Failure, Weakness, Tremors, Incoordination, Recumbency",
     "temperature": "60-85°F (15-29°C) - prefers warmth, avoid cold",
     "humidity": "50-70%",
     "careInstructions": [
@@ -900,7 +939,7 @@
     "careLevel": "Medium",
     "category": "Tropical Plants",
     "description": "A highly coveted cultivar of Philodendron erubescens, Pink Princess features dark green to nearly black leaves dramatically splashed with bubblegum pink variegation that ranges from small spots to half-pink leaves. The pink is caused by a lack of chlorophyll, making each leaf unique and unpredictable. The burgundy stems add to the dramatic coloring. Growing as a climbing vine to 4-6 feet indoors, it creates a stunning, Instagram-worthy display. However, the pink variegation is unstable - plants can produce all-green or all-pink (non-viable) leaves that must be pruned. High demand and slow propagation have made it expensive. While not extremely difficult, maintaining the pink variegation requires proper light, and the plant's unpredictable nature means patience and acceptance that not every leaf will be perfectly pink.",
-    "toxicity": "Toxic to dogs, cats, horses, reptiles, birds, small-mammals. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
     "temperature": "65-80°F (18-27°C)",
     "humidity": "50-70%",
     "careInstructions": [
@@ -938,7 +977,7 @@
     "careLevel": "Hard",
     "category": "Tropical Plants",
     "description": "Native to Southeast Asia and the Pacific, Alocasia macrorrhiza is the largest Alocasia species, producing absolutely enormous, glossy arrow-shaped leaves that can grow 3-6 feet long - truly earning the \"elephant ear\" name. The massive leaves emerge from thick stems in an upright, architectural form that commands attention and creates instant tropical drama. Growing 6-8 feet tall indoors (15+ feet outdoors), it needs substantial space. Like other Alocasias, it's notoriously challenging, demanding high humidity, consistent moisture, bright light, and stable conditions. It may go dormant in winter, losing all leaves and retreating to its corm. The giant leaves make a spectacular statement but require serious commitment to tropical conditions, space, and the acceptance that perfection is difficult with such massive, delicate foliage.",
-    "toxicity": "Toxic to dogs, cats, horses, birds. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
     "temperature": "65-80°F (18-27°C) - no fluctuations",
     "humidity": "60-80% - high humidity essential",
     "careInstructions": [
@@ -978,7 +1017,7 @@
     "careLevel": "Easy",
     "category": "Succulents",
     "description": "Native to West Africa, Snake Plant is legendary as one of the most indestructible houseplants available, tolerating extreme neglect, low light, irregular watering, and poor conditions that would kill most plants. The architectural sword-shaped leaves grow upright in rosettes, featuring striking patterns of dark green with lighter green horizontal bands - like snake skin markings. Varieties range from compact 6-inch types to tall 4-foot specimens. The thick, succulent leaves store water, allowing it to survive weeks or even months without watering. NASA studies have shown it's one of the best air purifiers, removing toxins and uniquely producing oxygen at night. Its combination of stunning sculptural form, extreme hardiness, and air-cleaning abilities makes it the ultimate plant for beginners, busy people, low-light spaces, or anyone who's ever said \"I kill every plant I touch.\"",
-    "toxicity": "Toxic to dogs, cats, horses, small-mammals. Symptoms: Anorexia, Hypersalivation, Dilated Pupils, Abdominal Pain, Increased Heart Rate",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Loss Of Appetite, Drooling, Dilated Pupils, Abdominal Pain, High Heart Rate",
     "temperature": "55-85°F (13-29°C) - extremely temperature tolerant",
     "humidity": "30-50% - tolerates very dry air",
     "careInstructions": [
@@ -1016,7 +1055,7 @@
     "careLevel": "Easy",
     "category": "Succulents",
     "description": "Native to the Arabian Peninsula but now cultivated worldwide, Aloe Vera is a medicinal succulent prized for over 6,000 years for the soothing gel inside its thick, fleshy leaves that treats burns, cuts, and skin irritations. The plant forms rosettes of upright, lance-shaped, gray-green leaves with serrated edges, growing 12-24 inches tall and producing numerous offsets (pups) that create clusters. Mature plants send up tall spikes with tubular yellow or orange flowers. The leaves are plump and filled with clear gel that's 96% water, making the plant remarkably drought-tolerant. Beyond its medicinal benefits, Aloe Vera is an easy-care houseplant that thrives on neglect, making it perfect for beginners who want both ornamental beauty and practical first-aid benefits literally at their fingertips.",
-    "toxicity": "Toxic to dogs, cats, horses, small-mammals. Symptoms: Vomiting, Lethargy, Diarrhea",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Lethargy, Diarrhea",
     "temperature": "55-80°F (13-27°C)",
     "humidity": "30-50% - tolerates dry air",
     "careInstructions": [
@@ -1128,7 +1167,7 @@
     "careLevel": "Medium",
     "category": "Succulents",
     "description": "Native to the dry regions of southwest Africa, String of Pearls is an unusual succulent featuring long, trailing stems adorned with spherical, pea-sized leaves that look exactly like strings of green beads or pearls - one of nature's most whimsical designs. Each \"pearl\" has a translucent window stripe that allows light to penetrate for photosynthesis. The delicate stems can trail 2-3 feet long, creating stunning cascading displays in hanging baskets. When happy, it produces small white flowers with a cinnamon-like fragrance. However, String of Pearls has a reputation for being finicky - the pearls drop easily when touched, it's prone to rot, and it requires specific watering and light conditions. Success requires understanding its needs, but the enchanting appearance makes it worth the effort for patient growers.",
-    "toxicity": "Toxic to small-mammals. Symptoms: Weak Pulse, Increased Heart Rate, High Heart Rate, Oral Irritation, Drooling",
+    "toxicity": "Toxic to pets if ingested - can cause vomiting and diarrhea",
     "temperature": "65-80°F (18-27°C)",
     "humidity": "30-50% - prefers dry air",
     "careInstructions": [
@@ -1387,7 +1426,7 @@
     "careLevel": "Easy",
     "category": "Succulents",
     "description": "Native to South Africa, String of Buttons is a unique and architectural succulent where triangular, blue-green leaves appear threaded directly onto upright or trailing stems - like buttons on a string or beads on a necklace. The leaves are stacked in perfect alternating pairs, creating fascinating geometric patterns and spiral effects. With bright light, the leaf margins develop pink or red edges. Growing 12-18 inches tall, stems can sprawl or be trained upright, making it versatile for arrangements. It produces small, pale yellow flowers on stalks in late winter to spring. The unusual growth pattern, ease of care, and striking architectural form make it popular in modern succulent arrangements and as a specimen plant for those wanting something geometrically interesting.",
-    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Nausea, Retching",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Nausea, Dry Heaving, Vomiting, Tremors",
     "temperature": "65-80°F (18-27°C)",
     "humidity": "30-50% - tolerates dry air",
     "careInstructions": [
@@ -1498,7 +1537,7 @@
     "careLevel": "Easy",
     "category": "Hanging & Trailing Plants",
     "description": "Often called the most indestructible houseplant, Pothos is native to the Solomon Islands and has become the ultimate beginner plant thanks to its incredible adaptability and forgiving nature. This vigorous trailing vine features heart-shaped leaves splashed with yellow or white variegation (or solid green in some varieties) that cascade gracefully from hanging baskets or climb up moss poles with aerial roots. The vines can grow 20-40 feet long in ideal conditions, though most indoor plants are kept trimmed to 6-10 feet. Pothos earned its nickname \"Devil's Ivy\" because it's nearly impossible to kill and stays green even in near darkness. It's also a powerful air purifier, removing toxins like formaldehyde and benzene from indoor air, making it both beautiful and functional.",
-    "toxicity": "Toxic to dogs, cats, horses, reptiles, small-mammals. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
     "temperature": "60-85°F (15-29°C) - extremely temperature tolerant",
     "humidity": "30-50% (tolerates dry air)",
     "careInstructions": [
@@ -1521,6 +1560,189 @@
     ]
   },
   {
+    "name": "Marble Queen Pothos",
+    "botanicalName": "Epipremnum aureum 'Marble Queen'",
+    "otherNames": [
+      "Variegated Pothos",
+      "Marble Pothos",
+      "Marble Queen Devil's Ivy"
+    ],
+    "image": "https://ufhjudswppdqupjbqbwm.supabase.co/storage/v1/object/public/plant-images/Marble%20Queen%20Pothos.jpg",
+    "wateringFrequency": "Weekly",
+    "suggestedWateringDays": 7,
+    "lightRequirement": "Medium to Bright Indirect Light",
+    "careLevel": "Easy",
+    "category": "Hanging & Trailing Plants",
+    "description": "One of the most striking pothos varieties, Marble Queen is a heavily variegated cultivar of Epipremnum aureum whose heart-shaped leaves are splashed and streaked with creamy-white and green in a marbled pattern so dense that some leaves are nearly half white. As easy and forgiving as classic Golden Pothos, it trails elegantly from shelves and hanging baskets or climbs a moss pole with aerial roots. The one key difference is light: because so much of each leaf lacks chlorophyll, Marble Queen needs brighter indirect light than the all-green types to keep its variegation crisp and to grow at a reasonable pace - in low light it grows slowly and the new leaves lose their marbling and revert toward solid green. Give it good light and consistent-but-not-soggy watering and it rewards you with cascading, painterly foliage that looks far fussier than it actually is.",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "temperature": "60-85°F (15-29°C)",
+    "humidity": "40-60%",
+    "careInstructions": [
+      "Water when top 1-2 inches of soil are dry - typically weekly",
+      "Provide medium to bright indirect light to keep variegation strong - brighter than Golden Pothos needs",
+      "Avoid harsh direct sun, which scorches the white sections",
+      "Prune regularly to maintain length and encourage fuller, bushier growth",
+      "Propagates easily in water - cut just below a node",
+      "Wipe leaves monthly to remove dust and enhance variegation",
+      "Fertilize monthly during the growing season with a diluted balanced fertilizer",
+      "Grows slower than all-green pothos - normal for a heavily variegated plant"
+    ],
+    "commonProblems": [
+      "Loss of variegation / reverting to green: Insufficient light - move to a brighter spot",
+      "Brown, crispy patches on white areas: Sunburn from direct light or low humidity",
+      "Yellow leaves: Usually overwatering - allow soil to dry more between waterings",
+      "Brown leaf tips: Fluoride or chlorine sensitivity - use filtered water",
+      "Leggy growth with sparse leaves: Not enough light",
+      "Root rot: Overwatering or poor drainage - ensure the pot has drainage holes"
+    ]
+  },
+  {
+    "name": "Snow Queen Pothos",
+    "botanicalName": "Epipremnum aureum 'Snow Queen'",
+    "otherNames": [
+      "Variegated Pothos",
+      "Snow Queen Devil's Ivy"
+    ],
+    "image": "https://ufhjudswppdqupjbqbwm.supabase.co/storage/v1/object/public/plant-images/Snow%20Queen%20Pothos.jpg",
+    "wateringFrequency": "Weekly",
+    "suggestedWateringDays": 7,
+    "lightRequirement": "Bright Indirect Light",
+    "careLevel": "Medium",
+    "category": "Hanging & Trailing Plants",
+    "description": "Snow Queen is the whitest of the common pothos cultivars - often confused with Marble Queen, but far more heavily variegated, with leaves that can be predominantly bright white with only flecks and brushstrokes of green. The effect is luminous and frosty, hence the name. It trails and climbs exactly like other pothos, but the extreme variegation makes it a little more demanding: with so little chlorophyll, Snow Queen grows slowly, needs consistently bright indirect light to sustain itself, and is more sensitive to overwatering and scorching than green or Marble Queen pothos. Give it plenty of bright, filtered light (without harsh direct sun) and let the soil dry between waterings, and it delivers some of the most dramatic white foliage you can grow on an easy-care trailing vine.",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "temperature": "60-85°F (15-29°C)",
+    "humidity": "40-60%",
+    "careInstructions": [
+      "Water when top 1-2 inches of soil are dry - err on the drier side, as it drinks less than green pothos",
+      "Provide bright, indirect light to sustain the heavy white variegation",
+      "Avoid harsh direct sun, which easily scorches the mostly-white leaves",
+      "Prune regularly to keep growth full and encourage branching",
+      "Propagate from stem cuttings, ideally including some green leaf tissue so cuttings can photosynthesize",
+      "Wipe leaves gently to keep them clean and bright",
+      "Fertilize monthly during the growing season with a diluted balanced fertilizer",
+      "Expect slow growth - normal for such a heavily variegated plant"
+    ],
+    "commonProblems": [
+      "Brown, crispy patches on white leaves: Sunburn or low humidity - the white tissue is delicate",
+      "Reverting to greener leaves: Actually helps the plant - too-white sections can't photosynthesize",
+      "Fully white leaves that brown and die: No chlorophyll to sustain them - normal, remove as needed",
+      "Yellow leaves: Overwatering - allow more drying between waterings",
+      "Slow or stalled growth: Normal, or needs brighter light",
+      "Root rot: Overwatering or poor drainage"
+    ]
+  },
+  {
+    "name": "Manjula Pothos",
+    "botanicalName": "Epipremnum aureum 'Manjula'",
+    "otherNames": [
+      "HANSOTI14 Pothos",
+      "Happy Leaf Pothos"
+    ],
+    "image": "https://ufhjudswppdqupjbqbwm.supabase.co/storage/v1/object/public/plant-images/Manjula%20Pothos.jpg",
+    "wateringFrequency": "Weekly",
+    "suggestedWateringDays": 7,
+    "lightRequirement": "Medium to Bright Indirect Light",
+    "careLevel": "Medium",
+    "category": "Hanging & Trailing Plants",
+    "description": "A patented cultivar developed at the University of Florida, Manjula is one of the most beautiful and collectible pothos, prized for its wide, wavy, heart-shaped leaves with slightly ruffled edges and a swirling mix of green, silvery-grey, cream, and white variegation - often with speckles and patches unique to each leaf. Unlike Marble Queen's fine marbling, Manjula's variegation appears in broad, painterly sections, and its leaves tend to curl rather than lie flat, giving it a soft, sculptural look. It grows a bit more slowly and compactly than standard pothos, making it well suited to smaller hanging baskets or shelves. Care is the same easygoing pothos routine, with the usual variegated-plant caveat: it needs medium-to-bright indirect light to keep its creamy patches vivid and to avoid reverting toward green.",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "temperature": "60-85°F (15-29°C)",
+    "humidity": "40-60%",
+    "careInstructions": [
+      "Water when top 1-2 inches of soil are dry - typically weekly",
+      "Provide medium to bright indirect light to keep the cream and white variegation vivid",
+      "Avoid harsh direct sun, which scorches the pale sections",
+      "Prune to maintain shape and encourage bushier growth",
+      "Propagates easily in water or soil from stem cuttings below a node",
+      "Wipe the wavy leaves gently to remove dust",
+      "Fertilize monthly during the growing season with a diluted balanced fertilizer",
+      "Grows slower and more compact than Golden Pothos - normal for this cultivar"
+    ],
+    "commonProblems": [
+      "Loss of variegation / reverting to green: Insufficient light - move to a brighter spot",
+      "Brown, crispy patches on cream areas: Sunburn from direct light or low humidity",
+      "Yellow leaves: Usually overwatering - allow soil to dry more between waterings",
+      "Brown leaf tips: Fluoride or chlorine sensitivity - use filtered water",
+      "Leggy growth: Not enough light",
+      "Root rot: Overwatering or poor drainage"
+    ]
+  },
+  {
+    "name": "Pearls and Jade Pothos",
+    "botanicalName": "Epipremnum aureum 'Pearls and Jade'",
+    "otherNames": [
+      "Pearls & Jade Pothos",
+      "NJOY-related Pothos"
+    ],
+    "image": "https://ufhjudswppdqupjbqbwm.supabase.co/storage/v1/object/public/plant-images/Pearls%20and%20Jade%20Pothos.jpg",
+    "wateringFrequency": "Weekly",
+    "suggestedWateringDays": 7,
+    "lightRequirement": "Medium to Bright Indirect Light",
+    "careLevel": "Medium",
+    "category": "Hanging & Trailing Plants",
+    "description": "A patented sport of Marble Queen developed at the University of Florida, Pearls and Jade is a compact, small-leaved pothos with a distinctive variegation pattern: green centers surrounded by irregular margins of white and grey-green, often with fine speckling and patches that push in from the leaf edges rather than streaking through the middle. The leaves are smaller than most pothos (2-4 inches), and the plant stays notably compact and slow-growing, making it ideal for small pots, shelves, and tight spaces. Because the variegation includes a lot of white and grey, it needs bright indirect light to look its best and grows more slowly than green pothos. Otherwise it shares the same forgiving, near-indestructible pothos temperament that makes the whole family so beginner-friendly.",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "temperature": "60-85°F (15-29°C)",
+    "humidity": "40-60%",
+    "careInstructions": [
+      "Water when top 1-2 inches of soil are dry - typically weekly, and slightly less as it grows slowly",
+      "Provide medium to bright indirect light to keep variegation crisp",
+      "Avoid harsh direct sun, which scorches the white margins",
+      "Prune to maintain its compact shape and encourage fullness",
+      "Propagates easily from stem cuttings below a node",
+      "Wipe the small leaves gently to keep them clean",
+      "Fertilize monthly during the growing season with a diluted balanced fertilizer",
+      "Expect slow, compact growth - normal for this cultivar"
+    ],
+    "commonProblems": [
+      "Loss of variegation / reverting to green: Insufficient light - move to a brighter spot",
+      "Brown speckles or crispy white margins: Sunburn from direct light or low humidity",
+      "Yellow leaves: Usually overwatering - allow soil to dry more between waterings",
+      "Brown leaf tips: Fluoride or chlorine sensitivity - use filtered water",
+      "Very slow growth: Normal for this compact cultivar, or needs brighter light",
+      "Root rot: Overwatering or poor drainage"
+    ]
+  },
+  {
+    "name": "Satin Pothos",
+    "botanicalName": "Scindapsus pictus",
+    "otherNames": [
+      "Silver Pothos",
+      "Silver Vine",
+      "Silver Satin Pothos",
+      "Satin Pothos"
+    ],
+    "image": "https://ufhjudswppdqupjbqbwm.supabase.co/storage/v1/object/public/plant-images/Satin%20Pothos.jpg",
+    "wateringFrequency": "Weekly",
+    "suggestedWateringDays": 7,
+    "lightRequirement": "Medium to Bright Indirect Light",
+    "careLevel": "Easy",
+    "category": "Hanging & Trailing Plants",
+    "description": "Despite its common name, Satin Pothos is not a true pothos at all but a member of the Scindapsus genus - though it is grown and loved just like one. Its thick, heart-shaped leaves have a soft, matte, almost velvety texture and are dusted with shimmering silvery-grey spots and margins over deep green, giving the whole plant a satin sheen that catches the light beautifully. A naturally trailing and climbing vine, it looks stunning cascading from a shelf or hanging basket, and its variegation is naturally stable (silver markings, not chlorophyll-free white patches), so it holds its look reliably. Easy-going and forgiving, it tolerates a range of conditions but shows its best silvery contrast in medium-to-bright indirect light. Slightly slower-growing and more drought-tolerant than Golden Pothos, it is an excellent, elegant choice for beginners who want a trailing plant with more texture and shimmer.",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "temperature": "65-85°F (18-29°C)",
+    "humidity": "40-60%",
+    "careInstructions": [
+      "Water when top 1-2 inches of soil are dry - drought-tolerant, so err on the drier side",
+      "Provide medium to bright indirect light for the strongest silver variegation",
+      "Avoid harsh direct sun, which fades and scorches the leaves",
+      "Let it trail from a hanging basket or climb a small trellis or moss pole",
+      "Prune to encourage fuller, bushier growth",
+      "Propagates easily in water or soil from stem cuttings below a node",
+      "Wipe leaves gently to preserve the matte, silvery finish",
+      "Fertilize monthly during the growing season with a diluted balanced fertilizer"
+    ],
+    "commonProblems": [
+      "Faded or dull silver markings: Too little light - move to a brighter spot",
+      "Yellow leaves: Overwatering - allow more drying between waterings",
+      "Brown, crispy leaf edges: Underwatering, low humidity, or sun scorch",
+      "Curling leaves: Underwatering or low humidity",
+      "Leggy growth with widely spaced leaves: Insufficient light",
+      "Root rot: Overwatering or poor drainage"
+    ]
+  },
+  {
     "name": "Spider Plant",
     "botanicalName": "Chlorophytum comosum",
     "otherNames": [
@@ -1536,7 +1758,7 @@
     "careLevel": "Easy",
     "category": "Hanging & Trailing Plants",
     "description": "Native to coastal South Africa, Spider Plant is a classic houseplant that has graced homes since Victorian times thanks to its graceful arching foliage and fascinating reproductive habit. The plant forms fountain-like rosettes of long, slender leaves striped with white or cream, and as it matures, it sends out long stems (stolons) that dangle like spiders on silk threads, producing miniature plantlets (babies or \"spiderettes\") at the ends. These babies can be rooted easily, making spider plants one of the most shareable houseplants. Highly effective at purifying air and removing pollutants, it's also incredibly forgiving and adaptable. The combination of attractive variegated foliage, easy propagation, and air-cleaning abilities makes it perfect for beginners and a staple in plant collections.",
-    "toxicity": "Toxic to small-mammals. Symptoms: Weak Pulse, Increased Heart Rate, High Heart Rate, Oral Irritation, Drooling",
+    "toxicity": "Non-toxic to pets and humans (though cats may be attracted to the leaves)",
     "temperature": "60-80°F (15-27°C)",
     "humidity": "40-60%",
     "careInstructions": [
@@ -1573,7 +1795,7 @@
     "careLevel": "Medium",
     "category": "Hanging & Trailing Plants",
     "description": "A timeless classic from Europe, North Africa, and Western Asia, English Ivy has adorned buildings and homes for centuries with its elegant, lobed leaves that come in various sizes and variegation patterns from deep green to cream and white. This versatile plant can trail gracefully from hanging baskets, climb up trellises with clinging aerial roots, or be trained into topiary shapes. The vines can grow several feet long indoors, creating lush, sophisticated displays. While beautiful, English Ivy is more demanding than other trailing plants, requiring cooler temperatures, higher humidity, and vigilant pest management. When its needs are met, it rewards with dense, classical beauty and excellent air-purifying qualities, particularly effective at removing airborne mold spores.",
-    "toxicity": "Toxic to dogs, cats, horses, small-mammals. Symptoms: Vomiting, Abdominal Pain, Hypersalivation, Diarrhea",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Abdominal Pain, Drooling, Diarrhea",
     "temperature": "50-70°F (10-21°C) - prefers cool conditions",
     "humidity": "50-70% - higher humidity is critical",
     "careInstructions": [
@@ -1648,7 +1870,7 @@
     "careLevel": "Easy",
     "category": "Hanging & Trailing Plants",
     "description": "Native to the rainforests of Central America and the Caribbean, Heartleaf Philodendron is one of the most popular and easiest houseplants in cultivation, beloved for its glossy, heart-shaped leaves that emerge bronze-tinted and mature to deep green. This vigorous climber/trailer can grow vines 10-20 feet long indoors, making it perfect for cascading from high shelves or hanging baskets, or it can be trained to climb a moss pole or trellis. The plant adapts remarkably well to various light conditions, tolerating low light better than most houseplants while thriving in brighter spots. Its forgiving nature, rapid growth, and easy propagation make it ideal for beginners, while its lush, tropical appearance keeps it popular with experienced plant enthusiasts.",
-    "toxicity": "Toxic to reptiles, small-mammals. Symptoms: Drooling, Vomiting, Diarrhea, Lethargy, Respiratory Depression",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Abdominal Pain, Drooling, Diarrhea",
     "temperature": "65-80°F (18-27°C)",
     "humidity": "40-60% (tolerates average home humidity)",
     "careInstructions": [
@@ -1685,7 +1907,7 @@
     "careLevel": "Easy",
     "category": "Hanging & Trailing Plants",
     "description": "Native to South Africa, String of Bananas is a delightful succulent vine featuring plump, curved leaves that look remarkably like tiny green bananas dangling from thin stems - a whimsical relative of the popular String of Pearls but generally easier to care for. The banana-shaped leaves are actually modified for water storage, allowing the plant to tolerate drought. Stems can trail 2-3 feet long, creating cascading displays that look unique and playful in hanging baskets or spilling over container edges. In bright light, it may produce small white flowers with cinnamon-like fragrance. Fast-growing during warm months and surprisingly forgiving, it's more resilient than String of Pearls while offering similar trailing beauty with its own distinctive character.",
-    "toxicity": "Toxic to dogs, cats, horses, reptiles, small-mammals. Symptoms: Liver Failure, Weight Loss, Weakness, Lethargy, Yawning",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Liver Failure, Weight Loss, Weakness, Lethargy, Yawning",
     "temperature": "65-80°F (18-27°C)",
     "humidity": "30-50% - tolerates dry air",
     "careInstructions": [
@@ -1759,7 +1981,7 @@
     "careLevel": "Hard",
     "category": "Trees & Large Plants",
     "description": "Native to the lowland rainforests of West Africa, Fiddle Leaf Fig has become the \"it plant\" of interior design, gracing magazine covers and Instagram feeds with its dramatic, sculptural presence. This stunning tree features enormous, violin-shaped leaves (up to 18 inches long) with prominent veining that creates bold texture and tropical elegance. Growing 6-10 feet indoors (up to 50 feet in nature), it makes a powerful architectural statement as a floor plant or tree-form specimen. However, its celebrity status comes with a notorious reputation for being finicky - it's extremely sensitive to changes in watering, light, temperature, and location, often responding with dramatic leaf drop or brown spots. Fiddle Leaf Figs demand consistency and attention, making them a challenge even for experienced plant parents. Success requires understanding its specific needs and maintaining unwavering routine.",
-    "toxicity": "Toxic to small-mammals. Symptoms: Weak Pulse, Increased Heart Rate, High Heart Rate, Oral Irritation, Drooling",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Weak Pulse, High Heart Rate, Oral Irritation, Drooling, Difficulty Swallowing",
     "temperature": "60-75°F (15-24°C) - no fluctuations",
     "humidity": "40-60%",
     "careInstructions": [
@@ -1798,7 +2020,7 @@
     "careLevel": "Easy",
     "category": "Trees & Large Plants",
     "description": "Native to the tropical regions of India and Southeast Asia, Rubber Plant is a bold, architectural beauty featuring large, glossy, oval leaves in deep burgundy-black, variegated cream and green, or classic dark green that can grow 8-12 inches long. Much easier and more forgiving than its finicky cousin the Fiddle Leaf Fig, Rubber Plant tolerates a wider range of conditions while still making a dramatic statement. Growing 6-10 feet indoors (100+ feet in nature), it develops a thick trunk and can be pruned to encourage branching or maintained as a single-stem tree. The plant earned its name from the milky white latex sap that was historically used to make rubber. Fast-growing and adaptable, it's perfect for filling large spaces with bold tropical presence without the extreme maintenance demands of other statement plants.",
-    "toxicity": "Toxic to dogs, cats, horses, reptiles, small-mammals. Symptoms: Vomiting, Diarrhea",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Diarrhea",
     "temperature": "60-80°F (15-27°C)",
     "humidity": "40-60%",
     "careInstructions": [
@@ -1823,6 +2045,45 @@
     ]
   },
   {
+    "name": "Ficus Elastica Tineke",
+    "botanicalName": "Ficus elastica 'Tineke'",
+    "otherNames": [
+      "Variegated Rubber Plant",
+      "Variegated Rubber Tree",
+      "Tineke Rubber Plant"
+    ],
+    "image": "https://ufhjudswppdqupjbqbwm.supabase.co/storage/v1/object/public/plant-images/Ficus%20Elastica%20Tineke.jpg",
+    "wateringFrequency": "Weekly",
+    "suggestedWateringDays": 7,
+    "lightRequirement": "Bright Indirect Light",
+    "careLevel": "Medium",
+    "category": "Trees & Large Plants",
+    "description": "A stunning variegated cultivar of the classic Ficus elastica, Tineke turns the bold, glossy leaves of the Rubber Plant into living artwork, each large oval leaf marbled in shades of deep green, sage, and creamy-white, with new growth and midribs often blushed a soft pink that unfurls from rosy-red sheaths. Growing 4-8 feet indoors, it delivers the same architectural, statement-tree presence as the standard Rubber Plant but with far more color and light. Because the cream and white areas lack chlorophyll, Tineke needs noticeably brighter (indirect) light than its all-green cousin to keep its variegation vivid - too little light and the leaves fade toward plain green and grow leggy. Slightly more particular about light and consistent watering than the ordinary Rubber Plant but still very approachable, Tineke is an excellent way to add a large, colorful, variegated focal point without the fussiness of a Fiddle Leaf Fig.",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Dermatitis, Vomiting, Diarrhea, Abdominal Pain",
+    "temperature": "60-80°F (15-27°C)",
+    "humidity": "40-60%",
+    "careInstructions": [
+      "Water when top 2-3 inches of soil are dry - typically weekly, allowing more drying in winter",
+      "Provide bright, indirect light to keep the variegation vivid - brighter than an all-green Rubber Plant needs",
+      "Avoid harsh direct sun, which can scorch the pale, cream-colored sections",
+      "Wipe leaves every 1-2 weeks with a damp cloth to keep them glossy and dust-free",
+      "Prune top growth to encourage branching - new shoots emerge below the cut",
+      "Fertilize monthly during the growing season with a balanced fertilizer",
+      "Rotate occasionally so variegation and growth stay even on all sides",
+      "Wear gloves when pruning - the milky latex sap irritates skin and stains surfaces",
+      "Repot every 2-3 years or when roots emerge from the drainage holes"
+    ],
+    "commonProblems": [
+      "Reverting to solid green leaves: Not enough light - move to a brighter spot to preserve variegation",
+      "Faded or dull variegation: Insufficient light over time",
+      "Brown, crispy patches on cream areas: Sunburn from direct light or low humidity",
+      "Leaf drop: Temperature fluctuations, overwatering, drafts, or moving the plant",
+      "Yellow leaves: Overwatering (most common) or natural shedding of lower leaves",
+      "Brown leaf edges: Underwatering, low humidity, or fluoride sensitivity",
+      "Leggy growth with widely spaced leaves: Insufficient light"
+    ]
+  },
+  {
     "name": "Dracaena",
     "botanicalName": "Dracaena marginata",
     "otherNames": [
@@ -1837,7 +2098,7 @@
     "careLevel": "Easy",
     "category": "Trees & Large Plants",
     "description": "Native to Madagascar and Mauritius, Dracaena marginata is one of the most popular and forgiving indoor trees, featuring long, narrow, arching leaves with distinctive red or pink edges that emerge from woody, gray stems in fountain-like clusters. The unique growth pattern creates a palm-like silhouette that brings tropical elegance without demanding tropical care. Growing 6-8 feet indoors (15+ feet in nature), it develops multiple stems that can be trained or pruned for various forms - single trunk, multi-trunk, or braided. As a slow-growing, low-maintenance plant, it tolerates neglect, irregular watering, and less-than-ideal light better than most trees. NASA studies show it's excellent at removing toxins from indoor air. Perfect for beginners wanting a dramatic, sculptural plant without finicky requirements.",
-    "toxicity": "Toxic to horses, small-mammals. Symptoms: Weak Pulse, Increased Heart Rate, High Heart Rate, Dilated Pupils, Dry Mouth",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Depression, Loss Of Appetite, Drooling, Dilated Pupils",
     "temperature": "65-80°F (18-27°C)",
     "humidity": "40-50%",
     "careInstructions": [
@@ -1876,7 +2137,7 @@
     "careLevel": "Easy",
     "category": "Trees & Large Plants",
     "description": "Native to the rainforests of Australia, New Guinea, and Java, Schefflera is a fast-growing, architectural plant featuring glossy, palmate leaves composed of 7-16 leaflets radiating from a central point like umbrella spokes or octopus tentacles - hence its common names. The leaves can reach 12 inches across, creating bold tropical impact. Growing rapidly to 6-8 feet indoors (40+ feet outdoors in tropical climates), it tolerates a wide range of conditions including lower light, making it one of the most adaptable large plants available. The compact dwarf variety (S. arboricola) is also popular and more manageable for smaller spaces. Easy to care for and extremely forgiving of neglect, it's perfect for beginners wanting a substantial, low-maintenance plant that fills space quickly with lush, tropical foliage.",
-    "toxicity": "Toxic to small-mammals. Symptoms: Extreme Stomach Pain, Abdominal Pain, Hyper Salivaton, Salivation, Skin Irritation",
+    "toxicity": "Toxic to dogs, cats. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
     "temperature": "60-75°F (15-24°C)",
     "humidity": "40-60%",
     "careInstructions": [
@@ -1915,7 +2176,7 @@
     "careLevel": "Easy",
     "category": "Trees & Large Plants",
     "description": "Native to Mexico and Central America, Yucca elephantipes (nicknamed \"Spineless Yucca\" because it lacks the sharp leaf tips of other yucca species) is a bold, architectural plant featuring rosettes of long, sword-shaped, leathery leaves emerging from thick, woody canes that resemble elephant legs. The dramatic upright form with spiky foliage creates instant southwestern or modern aesthetic appeal. Growing 5-8 feet indoors (30+ feet outdoors), it typically has multiple canes of varying heights topped with leaf clusters, creating a sculptural, tree-like presence. Extremely drought-tolerant and low-maintenance, it thrives on neglect and bright light, making it perfect for sunny windows, forgetful plant owners, and anyone wanting bold architectural presence with minimal effort. One of the toughest, most forgiving large houseplants available.",
-    "toxicity": "Toxic to dogs, cats, horses, small-mammals. Symptoms: Vomiting, Liver Damage, Dermatitis",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Liver Damage, Dermatitis, Liver Failure",
     "temperature": "50-90°F (10-32°C) - extremely temperature tolerant",
     "humidity": "30-50% - tolerates very dry air",
     "careInstructions": [
@@ -2286,7 +2547,7 @@
     "careLevel": "Easy",
     "category": "Palms",
     "description": "Native to the rainforests of southern Mexico and Guatemala, Parlor Palm has been a beloved houseplant since Victorian times when it graced the parlors of wealthy homes, earning its common name. This graceful, compact palm features delicate, arching fronds composed of small leaflets that bring tropical elegance without the space demands of larger palms. Growing slowly to 2-4 feet indoors (6 feet maximum), it's perfectly sized for apartments and small spaces. Unlike most palms, Parlor Palm thrives in low to medium light and tolerates typical indoor conditions remarkably well, making it one of the easiest and most forgiving palms for beginners. It's also an excellent air purifier, and occasionally produces tiny yellow flowers even indoors, adding to its charm.",
-    "toxicity": "Toxic to small-mammals. Symptoms: Extreme Stomach Pain, Abdominal Pain, Hyper Salivaton, Salivation, Skin Irritation",
+    "toxicity": "Non-toxic to pets and humans",
     "temperature": "65-80°F (18-27°C)",
     "humidity": "40-50%",
     "careInstructions": [
@@ -2394,7 +2655,7 @@
     "careLevel": "Easy",
     "category": "Ferns",
     "description": "Native to the tropical regions of Asia, Australia, and East Africa, Bird's Nest Fern is an epiphytic fern that grows in tree crevices in nature. Unlike typical lacy ferns, it features glossy, undivided fronds that are bright apple-green and ripple-edged, emerging from a central rosette that resembles a bird's nest (hence the name). The fronds grow upward and outward, creating a dramatic shuttlecock shape that can reach 3-5 feet across in ideal conditions. New fronds unfurl from the fuzzy brown center and are extremely delicate when young. Much easier to care for than most ferns, Bird's Nest Fern tolerates lower humidity and is more forgiving of care mistakes, making it perfect for beginners wanting the tropical look of ferns without the extreme demands. Excellent for bathrooms where humidity is naturally higher.",
-    "toxicity": "Toxic to small-mammals. Symptoms: Extreme Stomach Pain, Abdominal Pain, Hyper Salivaton, Salivation, Skin Irritation",
+    "toxicity": "Non-toxic to pets and humans",
     "temperature": "60-80°F (15-27°C)",
     "humidity": "50-70%",
     "careInstructions": [
@@ -2467,7 +2728,7 @@
     "careLevel": "Medium",
     "category": "Colorful Foliage",
     "description": "Native to the tropical forests of South America, Caladium produces some of the most spectacular foliage in the plant world - large, paper-thin, heart or arrow-shaped leaves in stunning combinations of pink, red, white, and green with intricate veining and patterns that look hand-painted. Each leaf is a unique work of art growing 6-12 inches long on slender stems. The plant grows 12-24 inches tall from underground tubers. However, Caladiums are seasonal plants that follow a natural dormancy cycle - they grow actively in warm months, then die back in fall/winter, requiring a rest period where the tubers are stored dry. While not difficult during active growth, this dormancy requirement and sensitivity to cold make them more involved than evergreen houseplants. Their breathtaking beauty makes them worth the seasonal commitment.",
-    "toxicity": "Toxic to cats, dogs, horses, reptiles, fish, small-mammals. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
     "temperature": "70-85°F (21-29°C) - prefers warm conditions",
     "humidity": "50-70%",
     "careInstructions": [
@@ -2685,7 +2946,7 @@
     "careLevel": "Easy",
     "category": "Low Maintenance",
     "description": "Native to the tropical rainforests of Central and South America, Arrowhead Plant is a versatile, easy-care plant that undergoes a fascinating transformation as it matures. Young plants produce arrow-shaped leaves in various colors - green, white, pink, or burgundy, often with striking variegation. As the plant ages, leaves become more deeply lobed and vine-like, and the plant transitions from bushy to climbing. Most growers keep them pruned for compact, bushy growth, but they can be trained up moss poles to display mature foliage. Growing 3-6 feet indoors depending on training method, Syngonium adapts well to typical home conditions and comes in dozens of stunning varieties, making it popular with collectors seeking colorful, low-maintenance plants.",
-    "toxicity": "Toxic to dogs, cats, horses, small-mammals. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
     "temperature": "60-80°F (15-27°C)",
     "humidity": "40-60%",
     "careInstructions": [
@@ -2722,7 +2983,7 @@
     "careLevel": "Easy",
     "category": "Low Maintenance",
     "description": "Native to Mexico, Central America, and South America, Tradescantia zebrina is a fast-growing trailing plant featuring stunning two-toned leaves with silver and green stripes on top and rich purple undersides that create a beautiful color contrast. The succulent-like stems trail rapidly, creating full, colorful displays in hanging baskets or spilling over container edges. Growing vigorously (several inches per week in good conditions), it can quickly fill a space with lush, colorful foliage. Extremely easy to propagate - simply stick cuttings in water or soil and they root within days. While the common name \"Wandering Jew\" is traditional, many now prefer using the botanical name Tradescantia due to cultural sensitivity. Regardless of name, this is one of the easiest and fastest-growing houseplants available.",
-    "toxicity": "Toxic to cats, dogs, horses. Symptoms: Dermatitis, Vomiting, Diarrhea",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Dermatitis",
     "temperature": "60-80°F (15-27°C)",
     "humidity": "40-60%",
     "careInstructions": [
@@ -2742,6 +3003,44 @@
       "Overgrowing container: Very vigorous grower - trim regularly or repot",
       "Pale leaves: Needs more light or fertilizer",
       "Yellow leaves: Usually overwatering or natural aging"
+    ]
+  },
+  {
+    "name": "Chinese Evergreen",
+    "botanicalName": "Aglaonema commutatum",
+    "otherNames": [
+      "Aglaonema",
+      "Philippine Evergreen",
+      "Poison Dart Plant"
+    ],
+    "image": "https://ufhjudswppdqupjbqbwm.supabase.co/storage/v1/object/public/plant-images/Chinese%20Evergreen.jpg",
+    "wateringFrequency": "Every 1-2 weeks",
+    "suggestedWateringDays": 10,
+    "lightRequirement": "Low to Medium Indirect Light",
+    "careLevel": "Easy",
+    "category": "Tropical Plants",
+    "description": "Native to the tropical and subtropical forests of Southeast Asia, the Chinese Evergreen is one of the most durable and beginner-friendly houseplants available. Prized for its beautifully patterned foliage, modern cultivars come in a stunning range of colors including silver, pink, red, and cream variegation on broad, lance-shaped leaves. Growing 1-3 feet tall and wide, it thrives in low to medium light conditions that would challenge most other houseplants, making it perfect for offices, bedrooms, and dimly lit corners. Aglaonema has been cultivated as a houseplant for centuries in Asia and is considered a symbol of good luck. Its slow to moderate growth rate and tolerance of inconsistent watering make it an ideal choice for beginners or anyone looking for a low-maintenance plant with high visual impact.",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+    "temperature": "65-80°F (18-27°C) - sensitive to cold drafts and temperatures below 60°F",
+    "humidity": "40-60% - tolerates average household humidity but prefers moderate levels",
+    "careInstructions": [
+      "Water when the top 1-2 inches of soil feel dry - every 1-2 weeks depending on light and temperature",
+      "Thrives in low to medium indirect light; avoid direct sunlight which can scorch leaves",
+      "Use well-draining potting mix to prevent waterlogging and root rot",
+      "Feed monthly during spring and summer with a balanced liquid fertilizer diluted to half strength",
+      "Wipe leaves with a damp cloth periodically to remove dust and maintain their glossy appearance",
+      "Keep away from cold drafts, air conditioning vents, and temperatures below 60°F (15°C)",
+      "Repot every 2-3 years or when roots begin circling the pot, moving up one pot size",
+      "Darker green varieties tolerate lower light; colorful pink or red cultivars need brighter indirect light"
+    ],
+    "commonProblems": [
+      "Yellow leaves: Overwatering is the most common cause - reduce watering frequency and ensure drainage",
+      "Brown leaf tips or edges: Low humidity or buildup of salts from tap water - use filtered water and increase humidity",
+      "Curling leaves: Underwatering, cold drafts, or temperature stress - check soil moisture and environment",
+      "Loss of variegation or faded colors: Insufficient light - move to a brighter spot with indirect light",
+      "Drooping or wilting: Either overwatering (check for mushy stems) or underwatering (check dry soil)",
+      "Mealybugs or spider mites: Treat with neem oil or insecticidal soap; inspect regularly",
+      "Leggy growth: Not enough light - relocate to brighter indirect light"
     ]
   },
   {
@@ -2792,7 +3091,7 @@
     "careLevel": "Medium",
     "category": "Air Plants",
     "description": "The iconic symbol of the American South, Spanish Moss creates stunning cascading displays with its silvery-gray, thread-like stems that can grow several feet long. Despite its name, it's not actually a moss but an epiphytic air plant that naturally drapes from tree branches in humid climates. Unlike other Tillandsia species, Spanish Moss has no roots and absorbs all water and nutrients through specialized scales on its stems. It's perfect for creating dramatic hanging installations, adding texture to terrariums, or crafting natural decorative accents. Native to the southeastern United States through South America, it brings an ethereal, bohemian aesthetic to any space.",
-    "toxicity": "Toxic to dogs, cats, horses, reptiles, birds, small-mammals. Symptoms: Hypersalivation, Vomiting, Diarrhea",
+    "toxicity": "Toxic to dogs, cats, horses. Symptoms: Drooling, Vomiting, Diarrhea",
     "temperature": "60-80°F (15-27°C)",
     "humidity": "60-70%",
     "careInstructions": [
