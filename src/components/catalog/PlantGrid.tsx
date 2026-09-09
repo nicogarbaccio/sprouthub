@@ -77,6 +77,7 @@ const PlantGrid = ({
         <CascadingContainer
           key={`${plant.name}-${index}`}
           delay={index * 10}
+          className="h-full"
         >
           <PlantCard
             {...plant}

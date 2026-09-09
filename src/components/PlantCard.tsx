@@ -50,7 +50,7 @@ const PlantCard = ({
 
   return (
     <div
-      className="bg-card rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 overflow-hidden group border-0"
+      className="bg-card rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 overflow-hidden group border-0 h-full flex flex-col"
       data-testid="plant-card"
     >
       <div className="relative">
@@ -86,38 +86,39 @@ const PlantCard = ({
         </div>
       </div>
 
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-1">
         <h3
           className="text-lg font-semibold text-foreground mb-1 "
           data-testid="plant-name"
         >
           <button
             onClick={onViewDetails}
-            className="text-left hover:text-primary transition-colors duration-200 cursor-pointer hover:underline w-full"
+            className="text-left hover:text-primary transition-colors duration-200 cursor-pointer hover:underline w-full line-clamp-1"
           >
             {name}
           </button>
         </h3>
         <p
-          className="text-sm text-muted-foreground italic mb-1"
+          className="text-sm text-muted-foreground italic mb-1 line-clamp-2 min-h-[2.5rem]"
           data-testid="plant-botanical-name"
         >
           {botanicalName}
         </p>
 
-        {otherNames && otherNames.length > 0 && (
-          <p className="text-xs text-muted-foreground/80 mb-4 line-clamp-1">
-            <span className="font-medium">aka:</span> {otherNames.join(", ")}
-          </p>
-        )}
-        {!otherNames?.length && <div className="mb-4"></div>}
+        <p className="text-xs text-muted-foreground/80 mb-4 line-clamp-1 min-h-[1rem]">
+          {otherNames && otherNames.length > 0 && (
+            <>
+              <span className="font-medium">aka:</span> {otherNames.join(", ")}
+            </>
+          )}
+        </p>
 
         <div className="space-y-3 mb-4">
           <div
             className="flex items-center space-x-2"
             data-testid="plant-watering-info"
           >
-            <Droplets className="w-4 h-4 text-plant-primary dark:text-plant-secondary" />
+            <Droplets className="w-4 h-4 shrink-0 text-plant-primary dark:text-plant-secondary" />
             <div>
               <span className="text-sm text-foreground">
                 {wateringFrequency}
@@ -133,12 +134,14 @@ const PlantCard = ({
             className="flex items-center space-x-2"
             data-testid="plant-light-info"
           >
-            <Sun className="w-4 h-4 text-plant-primary dark:text-plant-secondary" />
-            <span className="text-sm text-foreground">{lightRequirement}</span>
+            <Sun className="w-4 h-4 shrink-0 text-plant-primary dark:text-plant-secondary" />
+            <span className="text-sm text-foreground line-clamp-1">
+              {lightRequirement}
+            </span>
           </div>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 mt-auto">
           <Button
             onClick={onViewDetails}
             className="w-full bg-sprout-primary hover:bg-sprout-primary/90 text-sprout-white rounded-xl font-medium border border-sprout-light/30 hover:border-sprout-light/50"
