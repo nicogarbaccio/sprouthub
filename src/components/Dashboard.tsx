@@ -454,38 +454,55 @@ const Dashboard = () => {
   };
 
   const handleApplyAllSuggestions = async () => {
-    // Apply all schedule adjustments
-    const appliedPlantIds: string[] = [];
+    // Apply concrete schedule adjustments where a suggestion exists, and
+    // acknowledge advisory-only insights (no suggestion to apply) so that
+    // "Apply All" always clears every suggestion it displayed.
+    const resolvedPlantIds: string[] = [];
 
     for (const plant of activePlantsWithSuggestions) {
-      for (const insight of plant.insights) {
-        if (insight.suggestion && insight.actionable) {
-          try {
-            // Find the plant in our plants array to apply the schedule change
-            const plantData = plants.find((p) => p.id === plant.plantId);
-            if (plantData && onScheduleAdjustment) {
-              await onScheduleAdjustment(
-                plant.plantId,
-                insight.suggestion.suggestedSchedule
-              );
-              if (!appliedPlantIds.includes(plant.plantId)) {
-                appliedPlantIds.push(plant.plantId);
-              }
-            }
-          } catch (error) {
-            hookLogger.error(
-              COMPONENT_NAME,
-              `Failed to apply suggestion for plant ${plant.plantId}`,
-              error
+      const applicableInsights = plant.insights.filter(
+        (insight) => insight.suggestion && insight.actionable
+      );
+
+      if (applicableInsights.length === 0) {
+        // Advisory-only insights (e.g. frequent postponements): nothing to
+        // apply, so acknowledge them as resolved by the user's action.
+        resolvedPlantIds.push(plant.plantId);
+        continue;
+      }
+
+      // Apply each concrete schedule change for this plant. Only mark the plant
+      // resolved if at least one change was applied successfully, so failures
+      // remain visible for retry.
+      let appliedAny = false;
+      for (const insight of applicableInsights) {
+        try {
+          // Find the plant in our plants array to apply the schedule change
+          const plantData = plants.find((p) => p.id === plant.plantId);
+          if (plantData && onScheduleAdjustment && insight.suggestion) {
+            await onScheduleAdjustment(
+              plant.plantId,
+              insight.suggestion.suggestedSchedule
             );
+            appliedAny = true;
           }
+        } catch (error) {
+          hookLogger.error(
+            COMPONENT_NAME,
+            `Failed to apply suggestion for plant ${plant.plantId}`,
+            error
+          );
         }
+      }
+
+      if (appliedAny) {
+        resolvedPlantIds.push(plant.plantId);
       }
     }
 
-    // Mark applied suggestions as dismissed with 'applied' reason
-    if (appliedPlantIds.length > 0) {
-      dismissMultipleSuggestions(appliedPlantIds, "applied");
+    // Mark resolved suggestions as dismissed with 'applied' reason
+    if (resolvedPlantIds.length > 0) {
+      dismissMultipleSuggestions(resolvedPlantIds, "applied");
     }
 
     // Refresh suggestions after applying changes

@@ -72,6 +72,18 @@ export function SmartSuggestionsDialog({
     0
   );
 
+  // Count insights that carry a concrete schedule change to apply. When there
+  // are none, "Apply All" has nothing to apply and instead acknowledges the
+  // advisory insights, so the button is labelled accordingly.
+  const applicableSuggestions = activePlantSuggestions.reduce(
+    (sum, plant) =>
+      sum +
+      plant.insights.filter((insight) => insight.suggestion && insight.actionable)
+        .length,
+    0
+  );
+  const hasApplicableSuggestions = applicableSuggestions > 0;
+
   const handleApplyAll = async () => {
     setIsApplyingAll(true);
     try {
@@ -224,7 +236,13 @@ export function SmartSuggestionsDialog({
             className="flex-1"
           >
             <CheckCircle2 className="w-4 h-4 mr-2" />
-            {isApplyingAll ? "Applying..." : "Apply All Suggestions"}
+            {isApplyingAll
+              ? hasApplicableSuggestions
+                ? "Applying..."
+                : "Acknowledging..."
+              : hasApplicableSuggestions
+              ? "Apply All Suggestions"
+              : "Acknowledge All"}
           </Button>
           <Button variant="outline" onClick={onDismissAllSuggestions}>
             Dismiss All
