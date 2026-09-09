@@ -65,9 +65,20 @@ const PlantSearchFilters = ({
     placeholder="Search plants..."
     value={searchTerm}
     onChange={(e) => setSearchTerm(e.target.value)}
-    className="pl-10 border-plant-secondary/30 focus:border-plant-primary rounded-xl h-11"
+    className="pl-10 pr-10 border-plant-secondary/30 focus:border-plant-primary rounded-xl h-11"
     data-testid="search-input"
    />
+   {searchTerm && (
+    <button
+    type="button"
+    onClick={() => setSearchTerm("")}
+    aria-label="Clear search"
+    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+    data-testid="clear-search-button"
+    >
+    <X className="w-4 h-4" />
+    </button>
+   )}
    </div>
 
    <CollapsibleTrigger asChild>
