@@ -65,6 +65,13 @@ const PatternSuggestionsDialog = ({
   // Now we can safely do early returns
   if (!analysis) return null;
 
+  // Detect insufficient data scenarios. A plant without enough watering history
+  // is stamped pattern: 'irregular' by the analyzer, so the pattern-based helpers
+  // below must special-case it to avoid the alarming "varies quite a bit" label.
+  const isInsufficientData = analysis.actualAverageInterval === 0 &&
+    analysis.confidence === 'low' &&
+    analysis.reasoning.some(r => r.includes('Need at least'));
+
   const handleDismissInsight = async (insight: PatternInsight) => {
     await dismissInsight(insight);
   };
@@ -75,6 +82,7 @@ const PatternSuggestionsDialog = ({
   };
 
   const getPatternIcon = () => {
+    if (isInsufficientData) return Calendar;
     switch (analysis.pattern) {
       case 'consistent':
         return CheckCircle;
@@ -90,6 +98,7 @@ const PatternSuggestionsDialog = ({
   };
 
   const getPatternColor = () => {
+    if (isInsufficientData) return 'text-muted-foreground';
     switch (analysis.pattern) {
       case 'consistent':
         return 'text-green-600 dark:text-green-400';
@@ -105,6 +114,7 @@ const PatternSuggestionsDialog = ({
   };
 
   const getPatternMessage = () => {
+    if (isInsufficientData) return `Still learning ${plantName}'s watering pattern.`;
     switch (analysis.pattern) {
       case 'consistent':
         return `Great job! You're watering ${plantName} consistently.`;
@@ -121,11 +131,6 @@ const PatternSuggestionsDialog = ({
 
   const PatternIcon = getPatternIcon();
   const hasActionableInsights = activeInsights.some(insight => insight.actionable);
-
-  // Detect insufficient data scenarios
-  const isInsufficientData = analysis.actualAverageInterval === 0 &&
-    analysis.confidence === 'low' &&
-    analysis.reasoning.some(r => r.includes('Need at least'));
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

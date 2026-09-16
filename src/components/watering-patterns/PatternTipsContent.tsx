@@ -66,8 +66,17 @@ const PatternTipsContent = ({
     onAcceptSuggestion?.(insight);
   };
 
+  // Detect insufficient data scenarios. A plant without enough watering history
+  // is stamped pattern: 'irregular' by the analyzer, so the pattern-based helpers
+  // below must special-case it to avoid the alarming "varies quite a bit" label.
+  const isInsufficientData = analysis &&
+    analysis.actualAverageInterval === 0 &&
+    analysis.confidence === 'low' &&
+    analysis.reasoning.some(r => r.includes('Need at least'));
+
   const getPatternIcon = () => {
     if (!analysis) return Brain;
+    if (isInsufficientData) return Calendar;
     switch (analysis.pattern) {
       case 'consistent':
         return CheckCircle;
@@ -84,6 +93,7 @@ const PatternTipsContent = ({
 
   const getPatternColor = () => {
     if (!analysis) return 'text-muted-foreground';
+    if (isInsufficientData) return 'text-muted-foreground';
     switch (analysis.pattern) {
       case 'consistent':
         return 'text-green-600 dark:text-green-400';
@@ -100,6 +110,7 @@ const PatternTipsContent = ({
 
   const getPatternMessage = () => {
     if (!analysis) return `Care tips for ${plantName}`;
+    if (isInsufficientData) return `Still learning ${plantName}'s watering pattern.`;
     switch (analysis.pattern) {
       case 'consistent':
         return `Great job! You're watering ${plantName} consistently.`;
@@ -116,12 +127,6 @@ const PatternTipsContent = ({
 
   const PatternIcon = getPatternIcon();
   const hasActionableInsights = activeInsights.some(insight => insight.actionable);
-
-  // Detect insufficient data scenarios
-  const isInsufficientData = analysis &&
-    analysis.actualAverageInterval === 0 &&
-    analysis.confidence === 'low' &&
-    analysis.reasoning.some(r => r.includes('Need at least'));
 
   return (
     <div className="space-y-6">

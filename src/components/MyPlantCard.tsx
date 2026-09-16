@@ -191,11 +191,8 @@ const MyPlantCard = ({
 
           const hasActionableInsights = insights.some((insight) => insight.actionable);
           const isConsistentPattern = analysis.pattern === "consistent";
-          const isInsufficientData =
-            analysis.confidence === "low" &&
-            analysis.reasoning.some((r) => r.includes("Need at least"));
 
-          if (hasActionableInsights || isConsistentPattern || isInsufficientData) {
+          if (hasActionableInsights || isConsistentPattern) {
             setShowPatternSuggestions(true);
           }
         }
