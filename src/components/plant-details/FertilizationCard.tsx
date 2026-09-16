@@ -9,6 +9,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { FlaskConical, ChevronDown, AlertTriangle, Info, CheckCircle2, BookOpen, BellOff, CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
@@ -49,6 +59,7 @@ const FertilizationCard = ({
   const [noteSaved, setNoteSaved] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const [fertilizationDate, setFertilizationDate] = useState<Date>(new Date());
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const key = seasonKey();
   const lsKey = `fertilization_dismissed_${key}_${plant.id}`;
@@ -106,6 +117,7 @@ const FertilizationCard = ({
   const status = getFertilizationStatus(plant, advice);
 
   const handleLogFertilization = async () => {
+    setConfirmOpen(false);
     setIsLogging(true);
     try {
       await onLogFertilization(fertilizationDate);
@@ -179,9 +191,44 @@ const FertilizationCard = ({
   };
 
   return (
-    <Card
-      className="mb-6 hover:border-plant-primary/50 transition-colors"
-    >
+    <>
+      <AlertDialog
+        open={confirmOpen}
+        onOpenChange={(open) => {
+          if (!open) setConfirmOpen(false);
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <FlaskConical className="w-5 h-5 text-sprout-primary" />
+              Log fertilization?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              This will record{" "}
+              <strong className="text-foreground font-semibold">
+                {format(fertilizationDate, "MMM d, yyyy")}
+              </strong>{" "}
+              as the last fertilization for{" "}
+              <strong className="text-foreground font-semibold">
+                {plant.nickname || plant.plant_type || "this plant"}
+              </strong>.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleLogFertilization}
+              className="bg-sprout-primary hover:bg-sprout-medium text-white border-0"
+            >
+              Yes, log it
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <Card
+        className="mb-6 hover:border-plant-primary/50 transition-colors"
+      >
       {/* Header row — always visible, click to toggle */}
       <CardContent
         className="flex items-center justify-between py-4 px-4 cursor-pointer"
@@ -333,7 +380,7 @@ const FertilizationCard = ({
                 </Popover>
               </div>
               <Button
-                onClick={handleLogFertilization}
+                onClick={() => setConfirmOpen(true)}
                 disabled={!status.isGrowingSeason || isLogging}
                 className="w-full"
                 title={!status.isGrowingSeason ? "Fertilizing during dormancy can damage your plant" : undefined}
@@ -353,7 +400,8 @@ const FertilizationCard = ({
           )}
         </div>
       )}
-    </Card>
+      </Card>
+    </>
   );
 };
 
