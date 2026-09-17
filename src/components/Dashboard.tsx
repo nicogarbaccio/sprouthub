@@ -42,6 +42,7 @@ import { useDismissedSuggestions } from "@/hooks/useDismissedSuggestions";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import { useKeyboardShortcuts, createPlantShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { useCareStreak } from "@/hooks/useCareStreak";
+import { useManualNotifications } from "@/hooks/usePlantNotifications";
 
 const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -64,6 +65,7 @@ const Dashboard = () => {
     autoFetch: !!preferences?.use_weather_data && !!location.location,
   });
   const navigate = useNavigate();
+  const { notifyWateringSuccess, notifyBulkWatering } = useManualNotifications();
 
   // Handle refresh from onboarding
   useEffect(() => {
@@ -381,24 +383,32 @@ const Dashboard = () => {
   };
 
   const handleConfirmQuickWater = async (notes?: string) => {
-    // Capture the plant ID before closing the dialog
+    // Capture the plant ID and name before closing the dialog
     const plantId = waterConfirmation.plantId;
+    const plantName = waterConfirmation.plantName;
 
     // Close dialog immediately to prevent duplicate confirmations
     setWaterConfirmation({ show: false, plantId: "", plantName: "" });
 
     // Then process the watering asynchronously
-    await waterPlant(plantId, notes || `Quick watered from dashboard`);
+    const success = await waterPlant(plantId, notes || `Quick watered from dashboard`);
+    if (success) {
+      notifyWateringSuccess(plantName);
+    }
   };
 
   const handleAlreadyWatered = async (date: Date, notes?: string) => {
     const plantId = waterConfirmation.plantId;
+    const plantName = waterConfirmation.plantName;
     setWaterConfirmation({ show: false, plantId: "", plantName: "" });
-    await waterPlant(
+    const success = await waterPlant(
       plantId,
       notes || `Backdated watering from dashboard`,
       date
     );
+    if (success) {
+      notifyWateringSuccess(plantName);
+    }
   };
 
   /**
@@ -420,13 +430,16 @@ const Dashboard = () => {
     }
 
     // Water all plants that need watering today
+    const wateredCount = plantsNeedingWater.length;
     const waterPromises = plantsNeedingWater.map((plant) =>
       waterPlant(plant.id, `Bulk watered from dashboard`)
     );
 
     try {
       await Promise.all(waterPromises);
-      // Success feedback will be handled by the useUserPlants hook
+      // Add a single summary notification for the bulk action so the
+      // notification center reflects it (each waterPlant only fires a toast).
+      notifyBulkWatering(wateredCount);
     } catch (error) {
       hookLogger.error(COMPONENT_NAME, "Error bulk watering plants", error);
     }

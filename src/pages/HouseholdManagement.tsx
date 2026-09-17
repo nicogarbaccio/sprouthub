@@ -60,6 +60,7 @@ import {
 import { toast } from "sonner";
 import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { getRoomIcon, getRoomLabel } from "@/utils/rooms";
+import { useManualNotifications } from "@/hooks/usePlantNotifications";
 import type { UserPlant } from "@/hooks/useUserPlants";
 
 const HouseholdManagement = () => {
@@ -74,6 +75,8 @@ const HouseholdManagement = () => {
     removeMember,
     deleteHousehold,
   } = useHouseholds();
+
+  const { notifyWateringSuccess } = useManualNotifications();
 
   const [inviteDialogOpen, setInviteDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -121,6 +124,9 @@ const HouseholdManagement = () => {
     try {
       await addWateringRecord(plantId, "Watered by household member");
       toast.success("Plant watered successfully!");
+      const plantName =
+        plants.find((p) => p.id === plantId)?.nickname || "Plant";
+      notifyWateringSuccess(plantName);
     } catch (error) {
       console.error("Error watering plant:", error);
       toast.error("Failed to water plant");
