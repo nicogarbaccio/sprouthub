@@ -28,7 +28,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           cancelButton:
             "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground group-[.toast]:rounded-lg group-[.toast]:px-4 group-[.toast]:py-2 group-[.toast]:font-medium group-[.toast]:transition-all group-[.toast]:hover:bg-muted/80",
           closeButton:
-            "group-[.toast]:bg-background/50 group-[.toast]:border group-[.toast]:border-border/30 group-[.toast]:text-muted-foreground group-[.toast]:hover:bg-background group-[.toast]:hover:text-foreground group-[.toast]:transition-all group-[.toast]:hover:scale-110 group-[.toast]:rounded-lg",
+            "group-[.toast]:bg-background/50 group-[.toast]:border group-[.toast]:border-border/30 group-[.toast]:text-muted-foreground group-[.toast]:hover:bg-background group-[.toast]:hover:text-foreground group-[.toast]:transition-all group-[.toast]:hover:scale-110 group-[.toast]:rounded-lg max-md:group-[.toast]:h-4 max-md:group-[.toast]:w-4 max-md:group-[.toast]:[&>svg]:h-2.5 max-md:group-[.toast]:[&>svg]:w-2.5",
           // Success variant (sprout green)
           success:
             "group-[.toaster]:bg-sprout-success/10 group-[.toaster]:border-sprout-success/30 group-[.toaster]:text-sprout-success dark:group-[.toaster]:bg-sprout-success/20 dark:group-[.toaster]:border-sprout-success/40",
