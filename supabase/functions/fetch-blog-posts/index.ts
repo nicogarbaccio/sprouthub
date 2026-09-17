@@ -67,7 +67,22 @@ const RSS_FEEDS: RssFeed[] = [
   { name: 'Succulents and Sunshine', url: 'https://www.succulentsandsunshine.com/feed/', sourceUrl: 'https://www.succulentsandsunshine.com' },
   { name: 'Sublime Succulents', url: 'https://sublimesucculents.com/feed/', sourceUrl: 'https://sublimesucculents.com' },
   { name: 'Carnivorous Plant Resource', url: 'https://www.carnivorousplantresource.com/feed/', sourceUrl: 'https://www.carnivorousplantresource.com' },
+  // Added to broaden source variety — verified live & actively publishing
+  { name: 'Gardening Know How', url: 'https://www.gardeningknowhow.com/feed', sourceUrl: 'https://www.gardeningknowhow.com' },
+  { name: 'Plant Care Today', url: 'https://plantcaretoday.com/feed', sourceUrl: 'https://plantcaretoday.com' },
+  { name: 'Houseplant Central', url: 'https://houseplantcentral.com/feed/', sourceUrl: 'https://houseplantcentral.com' },
+  { name: 'Gardening Dream', url: 'https://gardeningdream.com/feed/', sourceUrl: 'https://gardeningdream.com' },
+  { name: 'Gardening Chores', url: 'https://www.gardeningchores.com/feed/', sourceUrl: 'https://www.gardeningchores.com' },
 ];
+
+// Skip articles whose original publish date is older than this. Widening this
+// pulls in more of each feed's back catalogue (more variety to rotate through);
+// tightening it favours only recently-published content.
+const MAX_POST_AGE_YEARS = 5;
+
+// Delete stored posts we haven't re-seen in any feed for this long. This is a
+// DB-hygiene window keyed on fetched_at, distinct from MAX_POST_AGE_YEARS above.
+const STALE_POST_CLEANUP_YEARS = 3;
 
 const SEASONAL_KEYWORDS: Record<string, string[]> = {
   winter: ['winter', 'cold weather', 'frost', 'dormancy', 'holiday plant', 'overwintering'],
@@ -512,8 +527,11 @@ Deno.serve(async (req: Request) => {
     );
 
     // ── Phase 2: Parse feeds & filter posts ──
-    const threeYearsAgo = new Date();
-    threeYearsAgo.setFullYear(threeYearsAgo.getFullYear() - 3);
+    const maxPostAge = new Date();
+    maxPostAge.setFullYear(maxPostAge.getFullYear() - MAX_POST_AGE_YEARS);
+    // Feeds that fetched OK but yielded no usable posts (feed moved, went HTML,
+    // or is empty) — surfaced so silently-dead sources can be spotted.
+    const zeroPostFeeds: string[] = [];
 
     const postsNeedingOg: ProcessedPost[] = [];
     const readyPosts: ProcessedPost[] = [];
@@ -534,12 +552,17 @@ Deno.serve(async (req: Request) => {
       feedStats[feed.name].parsed = posts.length;
       console.log(`Parsed ${posts.length} posts from ${feed.name}`);
 
+      if (posts.length === 0) {
+        console.warn(`Feed ${feed.name}: fetched OK but parsed 0 posts (possible dead/changed feed)`);
+        zeroPostFeeds.push(feed.name);
+      }
+
       for (const post of posts) {
         if (shouldSkipPost(post)) {
           feedStats[feed.name].filtered++;
           continue;
         }
-        if (post.publishedAt && new Date(post.publishedAt) < threeYearsAgo) continue;
+        if (post.publishedAt && new Date(post.publishedAt) < maxPostAge) continue;
 
         const processed: ProcessedPost = {
           post,
@@ -634,16 +657,28 @@ Deno.serve(async (req: Request) => {
     }
 
     // ── Phase 5: Clean up old posts ──
+    const staleCleanupCutoff = new Date();
+    staleCleanupCutoff.setFullYear(staleCleanupCutoff.getFullYear() - STALE_POST_CLEANUP_YEARS);
     const { error: cleanupError } = await supabase
       .from('blog_posts')
       .delete()
-      .lt('fetched_at', threeYearsAgo.toISOString());
+      .lt('fetched_at', staleCleanupCutoff.toISOString());
 
     if (cleanupError) {
       console.error('Error cleaning up old posts:', cleanupError.message);
     }
 
-    console.log(`Blog fetch complete: ${totalInserted} inserted/updated, ${totalSkipped} skipped, ${feedErrors} feed errors`);
+    // Consolidated feed-health view: feeds that failed to fetch + feeds that
+    // fetched but produced nothing usable.
+    const unhealthyFeeds = [
+      ...feedErrorDetails.map((detail) => ({ reason: 'fetch_error' as const, detail })),
+      ...zeroPostFeeds.map((name) => ({ reason: 'zero_posts' as const, detail: name })),
+    ];
+    if (unhealthyFeeds.length > 0) {
+      console.warn(`Unhealthy feeds (${unhealthyFeeds.length}): ${unhealthyFeeds.map((f) => `${f.detail} [${f.reason}]`).join(', ')}`);
+    }
+
+    console.log(`Blog fetch complete: ${totalInserted} inserted/updated, ${totalSkipped} skipped, ${feedErrors} feed errors, ${zeroPostFeeds.length} zero-post feeds`);
 
     return new Response(
       JSON.stringify({
@@ -652,6 +687,8 @@ Deno.serve(async (req: Request) => {
         posts_skipped: totalSkipped,
         feed_errors: feedErrors,
         feed_error_details: feedErrorDetails,
+        zero_post_feeds: zeroPostFeeds,
+        unhealthy_feeds: unhealthyFeeds,
         feed_stats: feedStats,
       }),
       { headers: { 'Content-Type': 'application/json' }, status: 200 }
