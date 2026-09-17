@@ -292,7 +292,6 @@ const RoomSection = ({
             );
           }}
           cols={{ default: 1, md: 2, lg: 3, xl: 4 }}
-          balance
           itemDelay={75}
         />
       </div>

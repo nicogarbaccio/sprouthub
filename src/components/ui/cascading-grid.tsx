@@ -14,68 +14,56 @@ interface CascadingGridProps<T> {
  lg?: number;
  xl?: number;
  };
- /**
-  * When true, treat each breakpoint's `cols` value as a *maximum* and reduce it so the items
-  * split into even rows — avoiding a lonely orphan card on the last line (e.g. 5 items render
-  * 3+2 instead of 4+1). Rooms that fit in a single row are left untouched. Off by default so
-  * existing fixed-column layouts are unaffected.
-  */
- balance?: boolean;
 }
 
-/**
- * Fewest columns that keep `n` items in the minimum number of rows for `maxCols`, giving the most
- * even row distribution. Single-row layouts (n <= maxCols) are returned as-is so under-filled rooms
- * keep their standard card size rather than stretching to fill the width.
- */
-function balanceCols(n: number, maxCols: number): number {
- if (n <= 0 || n <= maxCols) return maxCols;
- const rows = Math.ceil(n / maxCols);
- return Math.ceil(n / rows);
-}
-
-// Literal class maps so Tailwind's JIT actually emits every column class we can produce. Building
-// these via string interpolation (`md:grid-cols-${n}`) silently fails for any class not already
-// present verbatim elsewhere in the source (e.g. xl:grid-cols-3), leaving the grid unstyled.
-const DEFAULT_COLS: Record<number, string> = {
- 1: "grid-cols-1",
- 2: "grid-cols-2",
- 3: "grid-cols-3",
- 4: "grid-cols-4",
- 5: "grid-cols-5",
- 6: "grid-cols-6",
+// Every card gets the same fixed width per breakpoint so cards never change size between rooms.
+// Width = (100% - total gap) / columns, with gap-6 (1.5rem) between cards. Using flex-wrap +
+// justify-center (rather than a CSS grid) means an incomplete final row — the leftover cards of a
+// room whose count doesn't fill the row — is centered instead of pinned to the left edge, so a
+// lonely 5th card sits under the middle of the row rather than orphaned in the corner.
+//
+// These are literal class strings so Tailwind's JIT actually emits them (interpolated arbitrary
+// values like basis-[calc(...)] are otherwise dropped). Underscores are Tailwind's encoding for the
+// spaces calc() requires around its operators.
+const BASIS: Record<number, string> = {
+ 1: "basis-full",
+ 2: "basis-[calc((100%_-_1.5rem)/2)]",
+ 3: "basis-[calc((100%_-_3rem)/3)]",
+ 4: "basis-[calc((100%_-_4.5rem)/4)]",
+ 5: "basis-[calc((100%_-_6rem)/5)]",
+ 6: "basis-[calc((100%_-_7.5rem)/6)]",
 };
-const SM_COLS: Record<number, string> = {
- 1: "sm:grid-cols-1",
- 2: "sm:grid-cols-2",
- 3: "sm:grid-cols-3",
- 4: "sm:grid-cols-4",
- 5: "sm:grid-cols-5",
- 6: "sm:grid-cols-6",
+const SM_BASIS: Record<number, string> = {
+ 1: "sm:basis-full",
+ 2: "sm:basis-[calc((100%_-_1.5rem)/2)]",
+ 3: "sm:basis-[calc((100%_-_3rem)/3)]",
+ 4: "sm:basis-[calc((100%_-_4.5rem)/4)]",
+ 5: "sm:basis-[calc((100%_-_6rem)/5)]",
+ 6: "sm:basis-[calc((100%_-_7.5rem)/6)]",
 };
-const MD_COLS: Record<number, string> = {
- 1: "md:grid-cols-1",
- 2: "md:grid-cols-2",
- 3: "md:grid-cols-3",
- 4: "md:grid-cols-4",
- 5: "md:grid-cols-5",
- 6: "md:grid-cols-6",
+const MD_BASIS: Record<number, string> = {
+ 1: "md:basis-full",
+ 2: "md:basis-[calc((100%_-_1.5rem)/2)]",
+ 3: "md:basis-[calc((100%_-_3rem)/3)]",
+ 4: "md:basis-[calc((100%_-_4.5rem)/4)]",
+ 5: "md:basis-[calc((100%_-_6rem)/5)]",
+ 6: "md:basis-[calc((100%_-_7.5rem)/6)]",
 };
-const LG_COLS: Record<number, string> = {
- 1: "lg:grid-cols-1",
- 2: "lg:grid-cols-2",
- 3: "lg:grid-cols-3",
- 4: "lg:grid-cols-4",
- 5: "lg:grid-cols-5",
- 6: "lg:grid-cols-6",
+const LG_BASIS: Record<number, string> = {
+ 1: "lg:basis-full",
+ 2: "lg:basis-[calc((100%_-_1.5rem)/2)]",
+ 3: "lg:basis-[calc((100%_-_3rem)/3)]",
+ 4: "lg:basis-[calc((100%_-_4.5rem)/4)]",
+ 5: "lg:basis-[calc((100%_-_6rem)/5)]",
+ 6: "lg:basis-[calc((100%_-_7.5rem)/6)]",
 };
-const XL_COLS: Record<number, string> = {
- 1: "xl:grid-cols-1",
- 2: "xl:grid-cols-2",
- 3: "xl:grid-cols-3",
- 4: "xl:grid-cols-4",
- 5: "xl:grid-cols-5",
- 6: "xl:grid-cols-6",
+const XL_BASIS: Record<number, string> = {
+ 1: "xl:basis-full",
+ 2: "xl:basis-[calc((100%_-_1.5rem)/2)]",
+ 3: "xl:basis-[calc((100%_-_3rem)/3)]",
+ 4: "xl:basis-[calc((100%_-_4.5rem)/4)]",
+ 5: "xl:basis-[calc((100%_-_6rem)/5)]",
+ 6: "xl:basis-[calc((100%_-_7.5rem)/6)]",
 };
 
 export function CascadingGrid<T>({
@@ -84,25 +72,25 @@ export function CascadingGrid<T>({
  className = "",
  itemDelay = 50,
  cols = { default: 1, md: 2, lg: 3, xl: 4 },
- balance = false,
 }: CascadingGridProps<T>) {
- const resolve = (value: number) =>
- balance ? balanceCols(items.length, value) : value;
-
- const gridCols = cn(
- `grid gap-6`,
- DEFAULT_COLS[resolve(cols.default)] ?? "grid-cols-1",
- cols.sm && SM_COLS[resolve(cols.sm)],
- cols.md && MD_COLS[resolve(cols.md)],
- cols.lg && LG_COLS[resolve(cols.lg)],
- cols.xl && XL_COLS[resolve(cols.xl)],
- className
+ // grow-0 keeps a lone card from stretching to fill the row; the basis classes fix its width.
+ const itemWidth = cn(
+ "grow-0 min-w-0",
+ BASIS[cols.default] ?? "basis-full",
+ cols.sm && SM_BASIS[cols.sm],
+ cols.md && MD_BASIS[cols.md],
+ cols.lg && LG_BASIS[cols.lg],
+ cols.xl && XL_BASIS[cols.xl]
  );
 
  return (
- <div className={gridCols}>
+ <div className={cn("flex flex-wrap justify-center gap-6", className)}>
   {items.map((item, index) => (
-  <CascadingContainer key={index} delay={index * itemDelay}>
+  <CascadingContainer
+   key={index}
+   delay={index * itemDelay}
+   className={itemWidth}
+  >
    {renderItem(item, index)}
   </CascadingContainer>
   ))}
