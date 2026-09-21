@@ -255,7 +255,7 @@ const MyPlantCard = ({
     <>
       <div
         className={cn(
-          "relative bg-card border-0 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 overflow-hidden",
+          "relative bg-card border-0 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 overflow-hidden h-full flex flex-col",
           isSelectionMode && "cursor-pointer",
           isSelected && "ring-2 ring-sprout-primary border-sprout-primary"
         )}
@@ -280,7 +280,7 @@ const MyPlantCard = ({
 
         {/* Image Section with Badges */}
         <div
-          className="cursor-pointer relative group"
+          className="cursor-pointer relative group shrink-0"
           onClick={!isSelectionMode ? handleCardClick : undefined}
         >
           <PlantImage
@@ -371,7 +371,7 @@ const MyPlantCard = ({
         {/* Card Content */}
         <TooltipProvider>
           <div
-            className="p-5 grid h-full"
+            className="p-5 grid flex-1 min-h-0"
             style={{
               gridTemplateRows: "minmax(1.75rem, auto) auto minmax(0, auto) 1fr auto",
             }}
