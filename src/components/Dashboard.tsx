@@ -210,17 +210,6 @@ const Dashboard = () => {
     isDismissedSuggestionsLoaded,
   ]);
 
-  // Request location if user has weather enabled and we don't have location yet
-  useEffect(() => {
-    if (
-      preferences?.use_weather_data &&
-      !location.location &&
-      !location.isLoading
-    ) {
-      location.requestLocation();
-    }
-  }, [preferences?.use_weather_data, location]);
-
   // Only gate the skeleton on plant data — profile is only used for the
   // greeting which already has a fallback ("Welcome back, plant parent!").
   // This avoids keeping the skeleton visible while the profile fetch resolves.
