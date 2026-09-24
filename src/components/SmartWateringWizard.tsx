@@ -256,8 +256,9 @@ export const SmartWateringWizard = ({
   };
 
   const handleUseCurrentLocation = async () => {
-    await location.requestLocation();
-    setShowLocationDialog(false);
+    // Keep the dialog open on failure so the user can search for a city instead
+    const result = await location.requestLocation();
+    if (result) setShowLocationDialog(false);
   };
 
   const handleSearchCity = async (cityName: string) => {

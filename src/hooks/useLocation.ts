@@ -29,8 +29,10 @@ export function useLocation(options: UseLocationOptions = {}) {
     hasPermission: null,
   });
 
-  // Request current location
-  const requestLocation = useCallback(async () => {
+  // Request current location. Resolves to the location, or null if it couldn't be
+  // obtained (the reason is in state.error). It doesn't reject: callers fire this from
+  // effects and click handlers, and a rejection there surfaces as an unhandled error.
+  const requestLocation = useCallback(async (): Promise<LocationData | null> => {
     setState(prev => ({
       ...prev,
       isLoading: true,
@@ -55,7 +57,7 @@ export function useLocation(options: UseLocationOptions = {}) {
         error: weatherError,
         hasPermission: weatherError.type === 'permission_denied' ? false : prev.hasPermission,
       }));
-      throw error;
+      return null;
     }
   }, []);
 
@@ -93,9 +95,7 @@ export function useLocation(options: UseLocationOptions = {}) {
   // Auto-request location on mount if enabled
   useEffect(() => {
     if (autoRequest && isGeolocationSupported && state.hasPermission === null) {
-      requestLocation().catch(() => {
-        // Error is already handled in state
-      });
+      requestLocation();
     }
   }, [autoRequest, isGeolocationSupported, requestLocation, state.hasPermission]);
 

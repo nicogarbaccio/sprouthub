@@ -87,11 +87,15 @@ const Dashboard = () => {
   useEffect(() => {
     if (preferences?.use_weather_data && !location.location && location.requestLocation) {
       hookLogger.info(COMPONENT_NAME, 'Weather enabled, requesting location');
-      location.requestLocation().catch((error) => {
-        hookLogger.warn(COMPONENT_NAME, 'Failed to get location:', error);
-      });
+      location.requestLocation();
     }
   }, [preferences?.use_weather_data, location.location]);
+
+  useEffect(() => {
+    if (location.error) {
+      hookLogger.warn(COMPONENT_NAME, 'Failed to get location:', location.error);
+    }
+  }, [location.error]);
 
   // Dialog states using useDialogState hook
   const addDialog = useDialogState();
