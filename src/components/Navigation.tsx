@@ -29,11 +29,21 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { authToast } from "@/utils/notifications/toast";
 import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
 import { useNotifications } from "@/contexts/NotificationContext";
-import { NotificationCenter } from "@/components/NotificationCenter";
 import { Badge } from "@/components/ui/badge";
-import { QuickActionsMenu } from "@/components/QuickActionsMenu";
 import { useGlobalShortcuts } from "@/hooks/useGlobalShortcuts";
 import { NavigationSkeleton } from "@/components/NavigationSkeleton";
+import { preloadWhenIdle } from "@/utils/preloadWhenIdle";
+
+// These panels only open on demand, so keep them out of the main bundle.
+// They mount the first time they're opened and are preloaded once the app is idle.
+const loadNotificationCenter = () => import("@/components/NotificationCenter");
+const loadQuickActionsMenu = () => import("@/components/QuickActionsMenu");
+const NotificationCenter = React.lazy(() =>
+  loadNotificationCenter().then((m) => ({ default: m.NotificationCenter }))
+);
+const QuickActionsMenu = React.lazy(() =>
+  loadQuickActionsMenu().then((m) => ({ default: m.QuickActionsMenu }))
+);
 
 const Navigation = () => {
   const { user, signOut, loading } = useAuth();
@@ -43,6 +53,13 @@ const Navigation = () => {
   const { unreadCount } = useNotifications();
   const [showNotificationCenter, setShowNotificationCenter] = React.useState(false);
   const [showQuickActions, setShowQuickActions] = React.useState(false);
+  // Stay mounted after the first open so the close animation still plays
+  const [notificationCenterMounted, setNotificationCenterMounted] = React.useState(false);
+  const [quickActionsMounted, setQuickActionsMounted] = React.useState(false);
+  if (showNotificationCenter && !notificationCenterMounted) setNotificationCenterMounted(true);
+  if (showQuickActions && !quickActionsMounted) setQuickActionsMounted(true);
+
+  React.useEffect(() => preloadWhenIdle([loadNotificationCenter, loadQuickActionsMenu]), []);
 
   // Global keyboard shortcuts
   useGlobalShortcuts({
@@ -295,17 +312,23 @@ const Navigation = () => {
         </div>
       </nav>
 
-      {/* Notification Center */}
-      <NotificationCenter
-        open={showNotificationCenter}
-        onOpenChange={setShowNotificationCenter}
-      />
+      <React.Suspense fallback={null}>
+        {/* Notification Center */}
+        {notificationCenterMounted && (
+          <NotificationCenter
+            open={showNotificationCenter}
+            onOpenChange={setShowNotificationCenter}
+          />
+        )}
 
-      {/* Quick Actions Menu */}
-      <QuickActionsMenu
-        open={showQuickActions}
-        onOpenChange={setShowQuickActions}
-      />
+        {/* Quick Actions Menu */}
+        {quickActionsMounted && (
+          <QuickActionsMenu
+            open={showQuickActions}
+            onOpenChange={setShowQuickActions}
+          />
+        )}
+      </React.Suspense>
     </React.Fragment>
   );
 };

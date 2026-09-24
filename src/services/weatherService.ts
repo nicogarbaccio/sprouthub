@@ -1,4 +1,5 @@
-import { z } from 'zod';
+// zod/mini is tree-shakable; the full 'zod' build would add ~64 KB to the main bundle
+import * as z from 'zod/mini';
 import {
   WeatherData,
   LocationData,
@@ -31,8 +32,8 @@ const cachedWeatherSchema = z.object({
   location: z.object({
     latitude: z.number(),
     longitude: z.number(),
-    city: z.string().optional(),
-    country: z.string().optional(),
+    city: z.optional(z.string()),
+    country: z.optional(z.string()),
   }),
   timestamp: z.number(),
 });

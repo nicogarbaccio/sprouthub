@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { NotificationProvider } from "@/contexts/NotificationContext";
 import { NotificationPreferencesProvider } from "@/contexts/NotificationPreferencesContext";
 import { setNotificationNavigate } from "@/utils/notifications/generator";
+import { preloadWhenIdle } from "@/utils/preloadWhenIdle";
 import { useEffect, Suspense, lazy } from "react";
 import { App as CapacitorApp } from '@capacitor/app';
 import * as Sentry from "@sentry/react";
@@ -23,8 +24,14 @@ import { SplashScreen } from "./components/SplashScreen";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { GlobalNotifications } from "./components/GlobalNotifications";
 
+type PageImport = () => Promise<{ default: React.ComponentType<unknown> }>;
+
+// Every lazy page's import, so they can be preloaded in the background after startup
+const pageImports: PageImport[] = [];
+
 // Retry dynamic imports once on failure (handles stale chunks after deploys)
-function lazyWithRetry(importFn: () => Promise<{ default: React.ComponentType<unknown> }>) {
+function lazyWithRetry(importFn: PageImport) {
+  pageImports.push(importFn);
   return lazy(() =>
     importFn().catch(() => {
       const hasReloaded = sessionStorage.getItem('chunk-reload');
@@ -72,9 +79,17 @@ const queryClient = new QueryClient({
   },
 });
 
+// Download every page's code once the app is idle, so the first visit to a page
+// doesn't have to wait on the network (most noticeable right after a cache clear)
+const usePreloadPages = () => {
+  useEffect(() => preloadWhenIdle(pageImports), []);
+};
+
 // Inner component to access useNavigate
 const AppRoutes = () => {
   const navigate = useNavigate();
+
+  usePreloadPages();
 
   // Enable iOS-specific optimizations (swipe-to-go-back, haptics)
   useIOSOptimizations();
@@ -166,7 +181,9 @@ const AppProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     <ThemeProvider defaultTheme="system" storageKey="sprouthub-ui-theme">
       <TooltipProvider>
         <Toaster />
-        <BrowserRouter>
+        {/* v7_startTransition: keep the current page on screen while the next page's code loads,
+            instead of blanking to the Suspense fallback */}
+        <BrowserRouter future={{ v7_startTransition: true }}>
           <AuthProvider>
             <ProfileDataProvider>
               <NotificationPreferencesProvider>

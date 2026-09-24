@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { SkipCascadeContext } from "@/components/ui/cascading-container";
 
 interface LoadingTransitionProps {
   loading: boolean;
@@ -15,6 +16,12 @@ interface LoadingTransitionProps {
  * Children are only rendered once loading becomes false for the first time,
  * so content can safely access data without null-checking during initial load.
  * During the crossfade the skeleton fades out over the content which fades in.
+ *
+ * The skeleton stays the same DOM node from first render through its fade-out
+ * (it's keyed and never moves to a different tree), otherwise it would be
+ * remounted already invisible and simply vanish. Content is rendered fully
+ * visible (CascadingContainers inside skip their own fade-in), so there is no
+ * blank frame between skeleton and content.
  */
 export const LoadingTransition = ({
   loading,
@@ -27,6 +34,9 @@ export const LoadingTransition = ({
   const [hasLoaded, setHasLoaded] = useState(!loading);
   // Keep the skeleton mounted until the fade-out animation finishes
   const [showSkeleton, setShowSkeleton] = useState(loading);
+  // Only fade content in if it's replacing a skeleton; data that's already
+  // available on mount (e.g. from the query cache) shows immediately
+  const fadeInContent = useRef(loading);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
@@ -47,36 +57,36 @@ export const LoadingTransition = ({
     return () => clearTimeout(timerRef.current);
   }, [loading, duration, hasLoaded]);
 
-  // While content has never loaded, just show the skeleton directly
-  if (!hasLoaded) {
-    return <div className={className}>{skeleton}</div>;
-  }
-
-  const transition = `opacity ${duration}ms ease-out`;
-
   return (
     <div className={`relative ${className}`}>
       {/* Content layer — only mounted after first load completes */}
-      <div
-        style={{
-          opacity: !hasLoaded && loading ? 0 : 1,
-          transition,
-        }}
-      >
-        {children}
-      </div>
+      {hasLoaded && (
+        <div
+          key="content"
+          className={fadeInContent.current ? "animate-in fade-in" : undefined}
+          style={fadeInContent.current ? { animationDuration: `${duration}ms` } : undefined}
+        >
+          <SkipCascadeContext.Provider value={true}>{children}</SkipCascadeContext.Provider>
+        </div>
+      )}
 
-      {/* Skeleton layer — overlays content during initial crossfade, then unmounts */}
+      {/* Skeleton layer — in normal flow while loading, then overlays the content and fades out */}
       {showSkeleton && (
         <div
-          aria-hidden={!loading}
-          style={{
-            opacity: loading && !hasLoaded ? 1 : 0,
-            transition,
-            position: "absolute",
-            inset: 0,
-            pointerEvents: loading && !hasLoaded ? "auto" : "none",
-          }}
+          key="skeleton"
+          aria-hidden={hasLoaded}
+          style={
+            hasLoaded
+              ? {
+                  opacity: 0,
+                  transition: `opacity ${duration}ms ease-out`,
+                  position: "absolute",
+                  inset: 0,
+                  overflow: "hidden",
+                  pointerEvents: "none",
+                }
+              : undefined
+          }
         >
           {skeleton}
         </div>

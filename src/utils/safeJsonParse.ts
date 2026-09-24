@@ -1,4 +1,5 @@
-import { z } from "zod";
+import type { ZodType } from "zod";
+import type { ZodMiniType } from "zod/mini";
 
 /**
  * Safely parses a JSON string and validates it against a Zod schema.
@@ -9,7 +10,7 @@ import { z } from "zod";
  */
 export function safeJsonParse<T>(
   raw: string | null,
-  schema: z.ZodType<T>,
+  schema: ZodType<T> | ZodMiniType<T>,
   fallback: T
 ): T {
   if (!raw) return fallback;

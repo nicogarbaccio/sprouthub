@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
 import { cn } from "@/lib/utils";
+
+/**
+ * When true, CascadingContainers render their content immediately instead of
+ * starting hidden and fading in. LoadingTransition sets this for its content so
+ * a skeleton crossfades straight into visible content, with no blank gap.
+ */
+export const SkipCascadeContext = createContext(false);
 
 interface CascadingContainerProps {
   children: React.ReactNode;
@@ -16,19 +23,24 @@ export const CascadingContainer = ({
   className = "",
   isVisible = true,
 }: CascadingContainerProps) => {
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const skipCascade = useContext(SkipCascadeContext);
+  const [hasAnimated, setHasAnimated] = useState(skipCascade);
 
   useEffect(() => {
-    if (!isVisible) return;
+    if (!isVisible || skipCascade) return;
 
     const timer = setTimeout(() => {
       setHasAnimated(true);
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [delay, isVisible]);
+  }, [delay, isVisible, skipCascade]);
 
   if (!isVisible) return null;
+
+  if (skipCascade) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <div

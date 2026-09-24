@@ -1,12 +1,19 @@
 import { useLocation } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { SkipCascadeContext } from "@/components/ui/cascading-container";
 
 /**
- * Wraps page content with framer-motion transitions.
+ * Wraps page content with CSS enter transitions (tailwindcss-animate keyframes).
  * - Forward navigation: fade in from right
  * - Back navigation: fade in from left
- * - Respects prefers-reduced-motion
+ * - Respects prefers-reduced-motion (motion-reduce:animate-none)
+ *
+ * Enter-only: the old page is swapped out directly rather than faded to blank first,
+ * so there's never an empty frame between pages. Combined with the router's
+ * startTransition, the old page stays visible until the new one is ready to render.
+ *
+ * Page content skips CascadingContainer's staggered fade-in: this transition is the
+ * page's entrance animation, and a second one would leave the page blank while it plays.
  */
 
 // Bottom nav tab paths — transitions between these use a simple fade
@@ -34,31 +41,19 @@ export const AnimatedRoutes = ({ children }: { children: React.ReactNode }) => {
   const prevDepth = prevPath.current.split("/").filter(Boolean).length;
   const isBack = currentDepth < prevDepth;
 
-  // Update ref after calculating direction
-  const slideX = isBack ? -30 : 30;
+  // Don't animate the very first page of the session — only navigations
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    isFirstRender.current = false;
+  }, []);
 
-  // Check for reduced motion preference
-  const prefersReducedMotion =
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const variants = prefersReducedMotion
-    ? {
-        initial: { opacity: 1 },
-        animate: { opacity: 1 },
-        exit: { opacity: 1 },
-      }
+  const animationClass = isFirstRender.current
+    ? undefined
     : isTabSwitch
-      ? {
-          initial: { opacity: 0 },
-          animate: { opacity: 1 },
-          exit: { opacity: 0 },
-        }
-      : {
-          initial: { opacity: 0, x: slideX },
-          animate: { opacity: 1, x: 0 },
-          exit: { opacity: 0, x: -slideX },
-        };
+      ? "animate-in fade-in motion-reduce:animate-none"
+      : isBack
+        ? "animate-in fade-in slide-in-from-left-[30px] motion-reduce:animate-none"
+        : "animate-in fade-in slide-in-from-right-[30px] motion-reduce:animate-none";
 
   // Update previous path ref after render
   const key = location.pathname;
@@ -67,18 +62,12 @@ export const AnimatedRoutes = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <motion.div
-        key={key}
-        variants={variants}
-        initial="initial"
-        animate="animate"
-        exit="exit"
-        transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-        style={{ willChange: "opacity, transform" }}
-      >
-        {children}
-      </motion.div>
-    </AnimatePresence>
+    <div
+      key={key}
+      className={animationClass}
+      style={{ animationDuration: "200ms", animationTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)" }}
+    >
+      <SkipCascadeContext.Provider value={true}>{children}</SkipCascadeContext.Provider>
+    </div>
   );
 };

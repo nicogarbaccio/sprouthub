@@ -14,9 +14,9 @@ export const initSentry = () => {
       environment: import.meta.env.MODE,
 
       // Performance Monitoring
+      // Session Replay is added after startup (see loadReplayWhenIdle) to keep it out of the main bundle
       integrations: [
         Sentry.browserTracingIntegration(),
-        Sentry.replayIntegration(),
       ],
 
       // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring
@@ -76,11 +76,32 @@ export const initSentry = () => {
       ],
     });
 
+    loadReplayWhenIdle();
+
     console.log("✅ Sentry initialized for error tracking");
   } else if (import.meta.env.DEV) {
     console.log("ℹ️ Sentry disabled in development mode");
   } else {
     console.warn("⚠️ Sentry DSN not found - error tracking disabled");
+  }
+};
+
+/**
+ * Session Replay is ~125 KB, which would otherwise be the largest thing in the main bundle.
+ * Load it from Sentry's CDN once the app is idle; it picks up the replay sample rates from init.
+ */
+const loadReplayWhenIdle = () => {
+  const load = () => {
+    Sentry.lazyLoadIntegration("replayIntegration")
+      .then((replayIntegration) => Sentry.addIntegration(replayIntegration()))
+      .catch(() => {
+        // Replay is optional — ignore CDN/network failures
+      });
+  };
+  if ("requestIdleCallback" in window) {
+    window.requestIdleCallback(load, { timeout: 5000 });
+  } else {
+    setTimeout(load, 3000);
   }
 };
 
