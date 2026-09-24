@@ -1,8 +1,6 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Bookmark, BookOpen } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -92,8 +90,7 @@ const MyArticlesContent = () => {
   if (!isLoading && !user) return null;
 
   return (
-    <div className="min-h-dvh bg-background pb-28 lg:pb-0" data-testid="my-articles-page">
-      <Navigation />
+    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0" data-testid="my-articles-page">
       <main className="min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
         <LoadingTransition loading={isLoading} skeleton={<MyArticlesSkeleton />}>
           <div className="max-w-5xl mx-auto">
@@ -148,7 +145,6 @@ const MyArticlesContent = () => {
           </div>
         </LoadingTransition>
       </main>
-      <Footer />
     </div>
   );
 };

@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { authToast } from "@/utils/notifications/toast";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import {
  Card,
  CardContent,
@@ -114,8 +112,7 @@ const Auth = () => {
  };
 
  return (
- <div className="min-h-dvh bg-background pb-28 lg:pb-0 ">
-  <Navigation />
+ <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0 ">
   <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-plant-primary/10 to-plant-secondary/10 dark:bg-background flex items-center justify-center p-4">
   <Card className="w-full max-w-md">
    <CardHeader className="text-center">
@@ -149,7 +146,6 @@ const Auth = () => {
    </CardContent>
   </Card>
   </div>
-  <Footer />
  </div>
  );
 };

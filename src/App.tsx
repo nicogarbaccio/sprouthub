@@ -15,6 +15,8 @@ import { useIOSOptimizations } from "@/hooks/useIOSOptimizations";
 import { useStatusBar } from "@/hooks/useStatusBar";
 import ScrollToTop from "./components/ScrollToTop";
 import BottomNav from "./components/BottomNav";
+import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
 import { AnimatedRoutes } from "./components/AnimatedRoutes";
 import { OfflineBanner } from "./components/OfflineBanner";
 import { SplashScreen } from "./components/SplashScreen";
@@ -101,6 +103,8 @@ const AppRoutes = () => {
   }, [navigate]);
 
   const location = useLocation();
+  // Onboarding is a full-screen flow without the top nav or footer
+  const showSiteChrome = location.pathname !== "/onboarding";
 
   return (
     <>
@@ -109,6 +113,8 @@ const AppRoutes = () => {
       <OfflineBanner />
       <GlobalNotifications />
       <BottomNav />
+      {/* Navigation and Footer are mounted once, outside the animated/suspended region, so they stay put across navigations */}
+      {showSiteChrome && <Navigation />}
       <Suspense fallback={<div className="min-h-dvh bg-background" />}>
         <AnimatedRoutes>
           <Routes location={location}>
@@ -146,6 +152,7 @@ const AppRoutes = () => {
           </Routes>
         </AnimatedRoutes>
       </Suspense>
+      {showSiteChrome && <Footer />}
     </>
   );
 };

@@ -11,7 +11,7 @@ test.describe('Households List Page', () => {
   });
 
   test('should display households page with existing household', async ({ page }) => {
-    await expect(page.getByText(/plant care/i)).toBeVisible();
+    await expect(page.getByText(/share the joy of plant care/i)).toBeVisible();
     await expect(page.getByRole('button', { name: 'Create Household' })).toBeVisible();
 
     // At least one household card

@@ -1,5 +1,3 @@
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import ProfileHeader from "@/components/profile/ProfileHeader";
 import ProfileInformation from "@/components/profile/ProfileInformation";
 import SecuritySettings from "@/components/profile/SecuritySettings";
@@ -22,8 +20,7 @@ const Profile = () => {
   } = useProfile();
 
   return (
-    <div className="min-h-dvh bg-background pb-28 lg:pb-0">
-      <Navigation />
+    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
       <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
         <div className="max-w-4xl mx-auto space-y-6">
           <CascadingContainer delay={0}>
@@ -62,7 +59,6 @@ const Profile = () => {
           </div>
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

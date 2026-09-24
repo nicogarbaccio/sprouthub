@@ -1,8 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Leaf, Search, Sun, Snowflake, CloudRain, Flower, X, Loader2 } from 'lucide-react';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { CascadingContainer } from '@/components/ui/cascading-container';
 import { LoadingTransition } from '@/components/ui/loading-transition';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -169,8 +167,7 @@ const Discover = () => {
   }, [myPlantNames]);
 
   return (
-    <div className="min-h-dvh bg-background pb-28 lg:pb-0" data-testid="discover-page">
-      <Navigation />
+    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0" data-testid="discover-page">
       <LoadingTransition loading={pageLoading} skeleton={<DiscoverSkeleton />}>
       <main>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
@@ -362,7 +359,6 @@ const Discover = () => {
         </div>
       </main>
       </LoadingTransition>
-      <Footer />
     </div>
   );
 };

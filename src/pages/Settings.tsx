@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User, Sliders, CloudSun, Bell, Palette } from "lucide-react";
 import { AccountTab } from "@/components/settings/AccountTab";
@@ -39,8 +37,7 @@ const SettingsContent = () => {
   );
 
   return (
-    <div className="min-h-dvh bg-background pb-28 lg:pb-0">
-      <Navigation />
+    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
       <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
         <LoadingTransition loading={loading} skeleton={settingsSkeleton}>
         <div className="max-w-5xl mx-auto">
@@ -101,7 +98,6 @@ const SettingsContent = () => {
         </div>
         </LoadingTransition>
       </main>
-      <Footer />
     </div>
   );
 };

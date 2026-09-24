@@ -2,8 +2,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useUserPlants } from "@/hooks/useUserPlants";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { LoadingTransition } from "@/components/ui/loading-transition";
 import { PlantDetailsPageSkeleton } from "@/components/ui/skeleton";
@@ -168,12 +166,10 @@ const MyPlantDetails = () => {
   }, [plant, deletePlant, navigate]);
 
   const plantDetailsSkeleton = (
-    <div className="min-h-dvh bg-background pb-28 lg:pb-0">
-      <Navigation />
+    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
       <main className="py-4 sm:py-6">
         <PlantDetailsPageSkeleton />
       </main>
-      <Footer />
     </div>
   );
 
@@ -185,8 +181,7 @@ const MyPlantDetails = () => {
   // Plant not found (after loading completes)
   if (!loading && !plant) {
     return (
-      <div className="min-h-dvh bg-background pb-28 lg:pb-0">
-        <Navigation />
+      <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
         <div className="pt-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto py-12 text-center">
             <CascadingContainer delay={0}>
@@ -204,7 +199,6 @@ const MyPlantDetails = () => {
             </CascadingContainer>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -227,8 +221,7 @@ const MyPlantDetails = () => {
 
   return (
     <LoadingTransition loading={loading} skeleton={plantDetailsSkeleton}>
-    <div className="min-h-dvh bg-background pb-28 lg:pb-0">
-      <Navigation />
+    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
       <main className="py-4 sm:py-6">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8">
           <CascadingContainer delay={0} duration={200}>
@@ -404,8 +397,6 @@ const MyPlantDetails = () => {
         onDeleteConfirmationChange={setShowDeleteConfirmation}
         onConfirmDelete={handleConfirmDelete}
       />
-
-      <Footer />
     </div>
     </LoadingTransition>
   );

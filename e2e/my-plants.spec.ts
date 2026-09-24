@@ -40,11 +40,16 @@ test.describe('My Plants - Search, Filter & Sort', () => {
 
   test('should filter plants by nickname search', async ({ page }) => {
     const searchbox = page.getByRole('searchbox', { name: 'Search plants' });
+    const cards = page.getByTestId('plant-card');
+    await expect(cards.first()).toBeVisible();
+    const initialCount = await cards.count();
+
     await searchbox.fill('Monstera');
 
-    // Only matching cards should be visible
-    await expect(page.getByTestId('plant-card')).toHaveCount(1);
-    await expect(page.getByRole('heading', { name: 'Monstera', level: 3 })).toBeVisible();
+    // Only matching cards should be visible (the test user may own more than one Monstera)
+    await expect(page.getByRole('heading', { name: 'Monstera', exact: true, level: 3 })).toBeVisible();
+    await expect(cards.filter({ hasNotText: /monstera/i })).toHaveCount(0);
+    await expect.poll(() => cards.count()).toBeLessThan(initialCount);
   });
 
   test('should filter plants by species search', async ({ page }) => {
@@ -65,13 +70,15 @@ test.describe('My Plants - Search, Filter & Sort', () => {
 
   test('should clear search and show all plants again', async ({ page }) => {
     const searchbox = page.getByRole('searchbox', { name: 'Search plants' });
-    const initialCount = await page.getByTestId('plant-card').count();
+    const cards = page.getByTestId('plant-card');
+    await expect(cards.first()).toBeVisible();
+    const initialCount = await cards.count();
 
     await searchbox.fill('Monstera');
-    await expect(page.getByTestId('plant-card')).toHaveCount(1);
+    await expect.poll(() => cards.count()).toBeLessThan(initialCount);
 
     await searchbox.clear();
-    await expect(page.getByTestId('plant-card')).toHaveCount(initialCount);
+    await expect(cards).toHaveCount(initialCount);
   });
 
   // ── Filters ────────────────────────────────────────────────────────

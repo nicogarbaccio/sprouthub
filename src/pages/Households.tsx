@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useHouseholds } from '@/hooks/useHouseholds';
-import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -58,7 +57,6 @@ const Households = () => {
   if (!user) {
     return (
       <div>
-        <Navigation />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -77,7 +75,6 @@ const Households = () => {
 
   return (
     <div>
-      <Navigation />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Hero Header */}
         <CascadingContainer delay={0}>

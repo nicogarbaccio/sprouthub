@@ -79,7 +79,8 @@ test.describe('Plant Collection - Add Plants', () => {
     await page.getByTestId('plant-type-search-input').fill('Pothos');
 
     // Click on the search result in the dropdown (use the div container)
-    await page.getByRole('option', { name: 'Pothos' }).click();
+    // exact: the catalog also has Pothos varieties (Marble Queen, Satin, ...)
+    await page.getByRole('option', { name: 'Pothos', exact: true }).click();
 
     // Submit
     await page.getByTestId('add-plant-submit-button').click();

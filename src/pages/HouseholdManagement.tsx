@@ -3,7 +3,6 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useHouseholds } from "@/hooks/useHouseholds";
 import { useHouseholdPlants } from "@/hooks/useHouseholdPlants";
-import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -154,7 +153,6 @@ const HouseholdManagement = () => {
   if (!user) {
     return (
       <div>
-        <Navigation />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -169,7 +167,6 @@ const HouseholdManagement = () => {
   if (!loading && !household) {
     return (
       <div>
-        <Navigation />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <Home className="w-16 h-16 mx-auto text-gray-400 mb-4" />
@@ -243,7 +240,6 @@ const HouseholdManagement = () => {
 
   return (
     <div>
-      <Navigation />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <LoadingTransition loading={loading} skeleton={<HouseholdDetailsSkeleton />}>
         {/* Hero Header */}

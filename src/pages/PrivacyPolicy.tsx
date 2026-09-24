@@ -1,13 +1,9 @@
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 
 const PrivacyPolicy = () => {
   return (
-    <div className="min-h-dvh bg-background pb-28 lg:pb-0">
-      <Navigation />
-
+    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
       <main className="py-8 sm:py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <CascadingContainer delay={0}>
@@ -459,8 +455,6 @@ const PrivacyPolicy = () => {
           </CascadingContainer>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 };

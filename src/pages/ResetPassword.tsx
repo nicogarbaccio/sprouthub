@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import {
  Card,
  CardContent,
@@ -45,8 +43,7 @@ const ResetPassword = () => {
  };
 
  return (
- <div className="min-h-dvh bg-background pb-28 lg:pb-0 ">
-  <Navigation />
+ <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0 ">
   <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background flex items-center justify-center py-8 px-4">
   <div className="w-full max-w-md space-y-6">
    <div className="text-center">
@@ -72,7 +69,6 @@ const ResetPassword = () => {
    </Card>
   </div>
   </main>
-  <Footer />
  </div>
  );
 };

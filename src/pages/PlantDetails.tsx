@@ -1,7 +1,6 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
-import Navigation from "@/components/Navigation";
 import AddPlantDialog from "@/components/AddPlantDialog";
 import PlantDetailsHeader from "@/components/plant-details/PlantDetailsHeader";
 import PlantImageSection from "@/components/plant-details/PlantImageSection";
@@ -9,7 +8,6 @@ import PlantInfoSection from "@/components/plant-details/PlantInfoSection";
 import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
 import BlogPostsSection from "@/components/blog/BlogPostsSection";
-import Footer from "@/components/Footer";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { plants } from "@/data/plantData";
 import { useEnrichedPlant } from "@/hooks/useEnrichedPlant";
@@ -48,8 +46,7 @@ const PlantDetails = () => {
 
   if (!plant) {
     return (
-      <div className="min-h-dvh bg-background pb-28 lg:pb-0 ">
-        <Navigation />
+      <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0 ">
         <div className="pt-16 px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto py-12 text-center">
             <CascadingContainer delay={0}>
@@ -62,7 +59,6 @@ const PlantDetails = () => {
             </CascadingContainer>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
@@ -84,8 +80,7 @@ const PlantDetails = () => {
   ];
 
   return (
-    <div className="min-h-dvh bg-background pb-28 lg:pb-0 ">
-      <Navigation />
+    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0 ">
       <div className="pt-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <CascadingContainer delay={0}>
@@ -159,7 +154,6 @@ const PlantDetails = () => {
           }}
         />
       )}
-      <Footer />
     </div>
   );
 };

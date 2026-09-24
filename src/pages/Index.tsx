@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import PlantCatalog from "@/components/PlantCatalog";
@@ -7,7 +6,6 @@ import Dashboard from "@/components/Dashboard";
 
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { useAuth } from "@/contexts/AuthContext";
-import Footer from "@/components/Footer";
 import { PWADebugPanel, usePWADebug } from "@/components/pwa/PWADebugPanel";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -120,10 +118,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-dvh bg-background pb-28 lg:pb-0">
-      {/* Navigation stays mounted at all times to prevent unmount/remount flicker */}
-      <Navigation />
-
+    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
       {/* PWA Debug Panel - Development only */}
       {showDebugPanel && (
         <PWADebugPanel className="fixed top-20 right-4 w-80 z-40" />
@@ -148,9 +143,6 @@ const Index = () => {
           <PlantCatalog isHomepage={true} />
         </div>
       )}
-
-      {/* Footer stays mounted at all times */}
-      <Footer />
     </div>
   );
 };

@@ -1,8 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Leaf, Sun, Snowflake, CloudRain, Flower, Sprout } from 'lucide-react';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import BlogPostCard from '@/components/blog/BlogPostCard';
 import PaginationControls from '@/components/catalog/PaginationControls';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -94,7 +92,6 @@ const ArticlesGrid = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <Navigation />
       <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl">
         <Link
           to="/discover"
@@ -153,7 +150,6 @@ const ArticlesGrid = () => {
           </div>
         )}
       </main>
-      <Footer />
     </div>
   );
 };

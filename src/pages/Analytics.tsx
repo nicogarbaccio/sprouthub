@@ -2,8 +2,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useUserPlants } from '@/hooks/useUserPlants';
 import { useNavigate, Link } from 'react-router-dom';
 import { useEffect } from 'react';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -72,8 +70,7 @@ const AnalyticsContent = () => {
   const insights = !isLoading ? getAnalyticsInsights(plants, enrichedPerformance.length > 0 ? enrichedPerformance : undefined) : [];
 
   return (
-    <div className="min-h-dvh bg-background pb-28 lg:pb-0">
-      <Navigation />
+    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
       <main className="py-8">
         <LoadingTransition loading={isLoading} skeleton={<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><AnalyticsSkeleton /></div>}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -726,7 +723,6 @@ const AnalyticsContent = () => {
         </div>
         </LoadingTransition>
       </main>
-      <Footer />
     </div>
   );
 };

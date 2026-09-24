@@ -1,7 +1,5 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 
 const NotFound = () => {
  const location = useLocation();
@@ -14,8 +12,7 @@ const NotFound = () => {
  }, [location.pathname]);
 
  return (
- <div className="min-h-dvh bg-background pb-28 lg:pb-0 ">
-  <Navigation />
+ <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0 ">
   <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-background">
   <div className="text-center">
    <h1 className="text-4xl font-bold mb-4 text-foreground">404</h1>
@@ -30,7 +27,6 @@ const NotFound = () => {
    </a>
   </div>
   </div>
-  <Footer />
  </div>
  );
 };

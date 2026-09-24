@@ -1,5 +1,3 @@
-import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -89,9 +87,7 @@ const About = () => {
   ];
 
   return (
-    <div className="min-h-dvh bg-background pb-28 lg:pb-0">
-      <Navigation />
-
+    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
       <main>
         {/* Hero Section */}
         <section className="bg-gradient-to-b from-sprout-primary/5 to-background pt-16 sm:pt-20 pb-4">
@@ -289,8 +285,6 @@ const About = () => {
           </div>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 };
