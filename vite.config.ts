@@ -140,6 +140,12 @@ export default defineConfig(({ mode }) => {
       },
     })
   ].filter(Boolean),
+    define: {
+      // Netlify sets CONTEXT during its builds (production, deploy-preview, branch-deploy).
+      // Builds made anywhere else, e.g. a local `npm run build` + preview, report to Sentry
+      // as "local" so testing doesn't mix with real production errors.
+      "import.meta.env.VITE_SENTRY_ENVIRONMENT": JSON.stringify(process.env.CONTEXT ?? "local"),
+    },
     resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

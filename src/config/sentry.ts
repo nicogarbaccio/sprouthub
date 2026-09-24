@@ -10,8 +10,8 @@ export const initSentry = () => {
     Sentry.init({
       dsn: import.meta.env.VITE_SENTRY_DSN,
 
-      // Set environment
-      environment: import.meta.env.MODE,
+      // Netlify deploy context (production, deploy-preview, ...) or "local" — see vite.config.ts
+      environment: import.meta.env.VITE_SENTRY_ENVIRONMENT,
 
       // Performance Monitoring
       // Session Replay is added after startup (see loadReplayWhenIdle) to keep it out of the main bundle
