@@ -1,7 +1,6 @@
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { TreePine } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { FieldLabel, SettingRow } from "@/components/settings/SettingsUI";
 
 interface PlantNotesAndOptionsProps {
   notes: string;
@@ -18,44 +17,31 @@ export const PlantNotesAndOptions = ({
 }: PlantNotesAndOptionsProps) => {
   return (
     <>
-      <div className="space-y-2">
-        <Label
-          htmlFor="notes"
-          className="text-plant-text dark:text-zinc-200"
-        >
-          Notes
-        </Label>
+      <div>
+        <FieldLabel htmlFor="notes">Notes</FieldLabel>
         <Textarea
           id="notes"
           value={notes}
           onChange={(e) => onNotesChange(e.target.value)}
           placeholder="Care instructions, botanical name, etc."
-          className="border-plant-secondary/30 focus:border-plant-primary min-h-20"
+          className="min-h-20 resize-none rounded-2xl border-0 bg-field px-4 py-3 text-[15px] font-medium focus-visible:ring-2 focus-visible:ring-offset-0"
           data-testid="plant-notes-textarea"
         />
       </div>
 
-      <div className="space-y-2">
-        <div className="flex items-center space-x-2">
-          <Checkbox
+      <SettingRow
+        htmlFor="is-outdoor-plant"
+        label="Outdoor plant"
+        description="Gets rain delay suggestions when weather is on"
+        control={
+          <Switch
             id="is-outdoor-plant"
             checked={isOutdoorPlant}
-            onCheckedChange={(checked) => onOutdoorChange(checked === true)}
+            onCheckedChange={onOutdoorChange}
             data-testid="outdoor-plant-checkbox"
           />
-          <Label
-            htmlFor="is-outdoor-plant"
-            className="text-plant-text dark:text-zinc-200 flex items-center gap-2"
-          >
-            <TreePine className="w-4 h-4" />
-            This is an outdoor plant
-          </Label>
-        </div>
-        <p className="text-xs text-muted-foreground">
-          Outdoor plants will get smart rain delay recommendations when
-          weather data is available
-        </p>
-      </div>
+        }
+      />
     </>
   );
 };

@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
 import {
   Droplets,
   Edit,
   Clock,
   History,
-  ChevronDown,
+  MoreHorizontal,
   BookOpen,
   FlaskConical,
 } from "lucide-react";
@@ -51,16 +50,16 @@ export function PlantCardActions({
   onFertilizeClick,
 }: PlantCardActionsProps) {
   return (
-    <div>
+    <div className="shrink-0">
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <Button
-            className="w-full bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
+          <button
+            type="button"
+            className="w-10 h-10 rounded-[14px] bg-field text-foreground flex items-center justify-center hover:bg-sprout-cream hover:text-sprout-dark transition-colors"
             aria-label="Plant actions menu"
           >
-            Actions
-            <ChevronDown className="w-4 h-4 ml-2" />
-          </Button>
+            <MoreHorizontal className="w-5 h-5" />
+          </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
           <DropdownMenuItem
@@ -76,7 +75,7 @@ export function PlantCardActions({
               onClick={onFertilizeClick}
               className="cursor-pointer"
             >
-              <FlaskConical className="w-4 h-4 mr-2 text-amber-500" />
+              <FlaskConical className="w-4 h-4 mr-2 text-sprout-success" />
               Log Fertilization
             </DropdownMenuItem>
           )}
@@ -122,7 +121,7 @@ export function PlantCardActions({
             onFocus={onJournalHover}
             className="cursor-pointer"
           >
-            <BookOpen className="w-4 h-4 mr-2 text-emerald-600" />
+            <BookOpen className="w-4 h-4 mr-2" />
             Plant Journal
           </DropdownMenuItem>
 

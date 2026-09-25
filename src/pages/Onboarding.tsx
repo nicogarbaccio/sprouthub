@@ -10,8 +10,18 @@ import { CompletionStep } from "@/components/onboarding/CompletionStep";
 import { NotificationPermissionPrompt } from "@/components/onboarding/NotificationPermissionPrompt";
 import { pushNotificationService } from "@/services/pushNotificationService";
 import { toast } from "sonner";
+import { Check, CloudSun, Droplets, Heart, Plus, Sprout, Sun } from "lucide-react";
 
 const TOTAL_STEPS = 5;
+
+// Hero tile colour and icon for each step
+const STEP_HERO = [
+  { tile: "bg-sprout-cream text-sprout-dark", icon: Sprout },
+  { tile: "bg-sprout-water text-sprout-dark", icon: CloudSun },
+  { tile: "bg-sprout-primary text-sprout-cream", icon: Heart },
+  { tile: "bg-sprout-warning text-sprout-dark", icon: Plus },
+  { tile: "bg-sprout-success text-sprout-dark", icon: Check },
+];
 
 export default function Onboarding() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -130,41 +140,63 @@ export default function Onboarding() {
     return (
       <div className="min-h-dvh bg-background pb-28 lg:pb-0 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-plant-primary mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-foreground mx-auto mb-4"></div>
           <p className="text-muted-foreground">Loading...</p>
         </div>
       </div>
     );
   }
 
+  const hero = STEP_HERO[currentStep - 1];
+
   return (
     <>
-      <div className="min-h-dvh bg-background pb-28 lg:pb-0">
-        <div className="container max-w-4xl mx-auto px-4 py-8">
-          {/* Progress Indicator */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-muted-foreground">
-                Step {currentStep} of {TOTAL_STEPS}
-              </span>
-              <button
-                onClick={handleSkip}
-                disabled={isCompleting}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Skip onboarding
-              </button>
-            </div>
-            <div className="w-full bg-muted rounded-full h-2">
+      <div className="min-h-dvh bg-background pb-28 lg:pb-10">
+        <div
+          className="max-w-md mx-auto px-4 flex flex-col"
+          style={{ paddingTop: "max(env(safe-area-inset-top), 16px)" }}
+        >
+          {/* Progress */}
+          <div className="flex gap-1.5 px-1.5 mt-2" aria-hidden="true">
+            {Array.from({ length: TOTAL_STEPS }, (_, i) => (
               <div
-                className="bg-plant-primary h-2 rounded-full transition-all duration-300"
-                style={{ width: `${(currentStep / TOTAL_STEPS) * 100}%` }}
+                key={i}
+                className={`flex-1 h-1.5 rounded-full transition-colors duration-300 ${
+                  i < currentStep ? "bg-foreground" : "bg-card"
+                }`}
               />
+            ))}
+          </div>
+          <div className="flex items-center justify-between mt-2.5 px-1.5 text-[13px] font-semibold text-muted-foreground">
+            <span>
+              Step {currentStep} of {TOTAL_STEPS}
+            </span>
+            <button
+              onClick={handleSkip}
+              disabled={isCompleting}
+              className="hover:text-foreground transition-colors"
+            >
+              Skip onboarding
+            </button>
+          </div>
+
+          {/* Hero tiles: the big one changes colour and icon with each step */}
+          <div className="grid grid-cols-[1.3fr_1fr] grid-rows-2 gap-2.5 h-[240px] sm:h-[300px] mt-[18px]" aria-hidden="true">
+            <div
+              className={`row-span-2 rounded-[32px] flex items-center justify-center transition-colors duration-500 ${hero.tile}`}
+            >
+              <hero.icon className="w-24 h-24" strokeWidth={1.6} />
+            </div>
+            <div className="rounded-[28px] bg-sprout-water text-sprout-dark flex items-center justify-center">
+              <Droplets className="w-11 h-11" strokeWidth={1.8} />
+            </div>
+            <div className="rounded-[28px] bg-sprout-warning text-sprout-dark flex items-center justify-center">
+              <Sun className="w-11 h-11" strokeWidth={1.8} />
             </div>
           </div>
 
           {/* Step Content */}
-          <div className="bg-card border rounded-lg shadow-lg p-6 md:p-8">
+          <div className="mt-6">
             {currentStep === 1 && <WelcomeStep onNext={handleNext} />}
             {currentStep === 2 && (
               <WeatherStep onNext={handleNext} onBack={handleBack} />

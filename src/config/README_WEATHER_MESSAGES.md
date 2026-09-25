@@ -251,7 +251,7 @@ perfect: {
 Check out:
 - **Main Documentation**: `/WEATHER_MOOD_BANNER.md`
 - **Service Logic**: `/src/services/weatherMoodService.ts`
-- **Banner Component**: `/src/components/WeatherMoodBanner.tsx`
+- **Weather Tile**: `WeatherTile` in `/src/components/dashboard/BentoHome.tsx`
 
 ---
 

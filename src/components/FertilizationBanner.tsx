@@ -1,8 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,8 +10,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { FlaskConical, X, Clock, Leaf, ChevronDown, CheckCircle2, Loader2 } from "lucide-react";
+import { FlaskConical, Clock, Leaf, ChevronDown, CheckCircle2, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { HomeBanner } from "@/components/dashboard/HomeBanner";
+import {
+  confirmCancelClasses,
+  confirmDialogClasses,
+  confirmIconClasses,
+  confirmPrimaryClasses,
+  confirmTitleClasses,
+} from "@/components/settings/SettingsUI";
 import { fertilizationToast } from "@/utils/notifications/toast";
 import { getDaysSince } from "@/utils/watering/schedule";
 import type { UserPlant } from "@/hooks/useUserPlants";
@@ -85,24 +90,26 @@ export function FertilizationBanner({
           if (!open) setConfirmLogPlantId(null);
         }}
       >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2">
-              <FlaskConical className="w-5 h-5 text-sprout-primary" />
-              Log fertilization?
-            </AlertDialogTitle>
-            <AlertDialogDescription>
+        <AlertDialogContent className={confirmDialogClasses}>
+          <AlertDialogHeader className="text-left">
+            <div className="flex items-center gap-3 mb-1">
+              <div className={cn(confirmIconClasses, "bg-sprout-success text-sprout-dark")}>
+                <FlaskConical className="w-6 h-6" />
+              </div>
+              <AlertDialogTitle className={confirmTitleClasses}>Log fertilization?</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="text-[15px]">
               This will record today's date as the last fertilization for{" "}
-              <strong className="text-foreground font-semibold">
+              <strong className="text-foreground font-bold">
                 {confirmLogPlant?.nickname || confirmLogPlant?.plant_type || "this plant"}
               </strong>.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel className={confirmCancelClasses}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleLogConfirm}
-              className="bg-sprout-primary hover:bg-sprout-medium text-white border-0"
+              className={confirmPrimaryClasses}
             >
               Yes, log it
             </AlertDialogAction>
@@ -115,13 +122,15 @@ export function FertilizationBanner({
           if (!open) setSnoozeWeeks(null);
         }}
       >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-sprout-warning" />
-              Snooze for {snoozeWeeks} week{snoozeWeeks !== 1 ? "s" : ""}?
-            </AlertDialogTitle>
-            <AlertDialogDescription className="space-y-2">
+        <AlertDialogContent className={confirmDialogClasses}>
+          <AlertDialogHeader className="text-left">
+            <div className="flex items-center gap-3 mb-1">
+              <div className={cn(confirmIconClasses, "bg-sprout-cream text-sprout-dark")}>
+                <Clock className="w-6 h-6" />
+              </div>
+              <AlertDialogTitle className={confirmTitleClasses}>Snooze for {snoozeWeeks} week{snoozeWeeks !== 1 ? "s" : ""}?</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="space-y-2 text-[15px]">
               <p>
                 This reminder will be hidden for {snoozeWeeks} week
                 {snoozeWeeks !== 1 ? "s" : ""} and then reappear on the
@@ -129,19 +138,19 @@ export function FertilizationBanner({
               </p>
               <p>
                 Your individual plants will still show a{" "}
-                <strong className="text-sprout-cream font-bold">Due now</strong>{" "}
+                <strong className="text-foreground font-bold">Due now</strong>{" "}
                 badge on their detail pages — you can log fertilization from
                 there at any time.
               </p>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setSnoozeWeeks(null)}>
+            <AlertDialogCancel onClick={() => setSnoozeWeeks(null)} className={confirmCancelClasses}>
               Go back
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={handleSnoozeConfirm}
-              className="bg-sprout-primary hover:bg-sprout-medium text-white border-0"
+              className={confirmPrimaryClasses}
             >
               Snooze for {snoozeWeeks} week{snoozeWeeks !== 1 ? "s" : ""}
             </AlertDialogAction>
@@ -149,26 +158,28 @@ export function FertilizationBanner({
         </AlertDialogContent>
       </AlertDialog>
       <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2">
-              <FlaskConical className="w-5 h-5 text-sprout-warning" />
-              Dismiss for the season?
-            </AlertDialogTitle>
-            <AlertDialogDescription className="space-y-2">
+        <AlertDialogContent className={confirmDialogClasses}>
+          <AlertDialogHeader className="text-left">
+            <div className="flex items-center gap-3 mb-1">
+              <div className={cn(confirmIconClasses, "bg-field text-foreground")}>
+                <FlaskConical className="w-6 h-6" />
+              </div>
+              <AlertDialogTitle className={confirmTitleClasses}>Dismiss for the season?</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="space-y-2 text-[15px]">
               <p>
                 This hides the dashboard reminder for the rest of the growing
                 season.
               </p>
               <p>
                 Your individual plants will still show a{" "}
-                <strong className="text-sprout-cream font-bold">Due now</strong>{" "}
+                <strong className="text-foreground font-bold">Due now</strong>{" "}
                 badge on their detail pages — you can log fertilization or skip
                 the reminder from there.
               </p>
               <p>
                 If you'd rather be reminded later, use{" "}
-                <strong className="text-sprout-cream font-bold">
+                <strong className="text-foreground font-bold">
                   Remind me in
                 </strong>{" "}
                 instead.
@@ -176,150 +187,100 @@ export function FertilizationBanner({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Go back</AlertDialogCancel>
+            <AlertDialogCancel className={confirmCancelClasses}>Go back</AlertDialogCancel>
             <AlertDialogAction
               onClick={onDismiss}
-              className="bg-sprout-primary hover:bg-sprout-medium text-white border-0"
+              className={confirmPrimaryClasses}
             >
               Yes, dismiss for the season
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <Card data-testid="fertilization-banner" className="group relative overflow-hidden mb-6 border-2 border-sprout-cream/50 dark:border-sprout-cream/40 hover:border-sprout-cream hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-sprout-cream/25 via-sprout-pale to-sprout-pale dark:from-sprout-cream/[0.08] dark:via-card dark:to-card">
-        {/* Decorative gradient blobs */}
-        <div className="absolute -top-10 -right-10 w-40 h-40 bg-sprout-cream/20 rounded-full blur-2xl" />
-        <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-sprout-cream/10 rounded-full blur-2xl" />
+      <HomeBanner
+        testId="fertilization-banner"
+        tileClasses="bg-sprout-cream"
+        icon={FlaskConical}
+        chip={<><Leaf className="w-3 h-3" />Growing season</>}
+        title="Time to fertilize"
+        onDismiss={() => setConfirmOpen(true)}
+        dismissLabel="Dismiss for the season"
+        snoozeOptions={[
+          { label: "1 week", onClick: () => setSnoozeWeeks(1) },
+          { label: "2 weeks", onClick: () => setSnoozeWeeks(2) },
+        ]}
+        action={{ label: "Got it", onClick: () => setConfirmOpen(true) }}
+      >
+        <p className="max-w-[60ch]">
+          {plantCount > 0 ? (
+            <>
+              <strong className="font-bold">{plantCount}</strong> plant{plantCount !== 1 ? "s haven't" : " hasn't"} been
+              fertilized recently.
+            </>
+          ) : (
+            "Your plants haven't been fertilized recently."
+          )}{" "}
+          Feeding during the growing season makes the biggest difference.
+        </p>
 
-        <CardContent className="p-4 sm:p-6 relative">
-          {/* Title row: icon + heading + badge + dismiss */}
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-              <h3 className="font-bold text-base sm:text-lg text-sprout-dark dark:text-foreground">
-                Time to fertilize
-              </h3>
-              <Badge className="bg-gradient-to-r from-green-500 to-emerald-500 text-white border-0 text-xs px-2 py-0 flex-shrink-0">
-                <Leaf className="w-2.5 h-2.5 mr-1" />
-                Growing season
-              </Badge>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setConfirmOpen(true)}
-              className="opacity-40 hover:opacity-100 flex-shrink-0 ml-2"
+        {/* Expandable plant list */}
+        {visiblePlants.length > 0 && (
+          <div className="mt-3">
+            <button
+              type="button"
+              onClick={() => setIsExpanded((prev) => !prev)}
+              className="inline-flex items-center gap-1.5 text-sm font-bold"
+              aria-expanded={isExpanded}
             >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
+              <ChevronDown
+                className={cn("w-4 h-4 transition-transform duration-200", isExpanded && "rotate-180")}
+              />
+              {isExpanded ? "Hide plants" : "Show plants"}
+            </button>
 
-          {/* Description + Got it button */}
-          <div className="flex items-center gap-4 mb-3">
-            <p className="text-xs sm:text-sm text-muted-foreground font-medium">
-              {plantCount > 0 ? (
-                <>
-                  <strong className="font-bold text-foreground">
-                    {plantCount}
-                  </strong>{" "}
-                  plant{plantCount !== 1 ? "s haven't" : " hasn't"} been
-                  fertilized recently.
-                </>
-              ) : (
-                "Your plants haven't been fertilized recently."
-              )}{" "}
-              Feeding during the growing season makes the biggest difference.
-            </p>
-            <Button
-              onClick={() => setConfirmOpen(true)}
-              size="sm"
-              className="bg-sprout-cream hover:bg-sprout-cream/80 text-sprout-dark border-0 font-semibold shadow-sm h-8 px-5 text-sm sm:h-9 sm:px-6 flex-shrink-0"
-            >
-              Got it
-            </Button>
-          </div>
-
-          {/* Expandable plant list */}
-          {visiblePlants.length > 0 && (
-            <div className="mb-3">
-              <button
-                onClick={() => setIsExpanded((prev) => !prev)}
-                className="flex items-center gap-1.5 text-xs font-medium text-sprout-primary dark:text-sprout-cream hover:underline"
-              >
-                <ChevronDown
-                  className={cn(
-                    "w-3.5 h-3.5 transition-transform duration-200",
-                    isExpanded && "rotate-180"
-                  )}
-                />
-                {isExpanded ? "Hide plants" : "Show plants"}
-              </button>
-
-              {isExpanded && (
-                <div className="mt-2 rounded-lg bg-background/40 dark:bg-background/20 backdrop-blur-sm border border-border/50 divide-y divide-border/50">
-                  {visiblePlants.map((plant) => {
-                    const isLogging = loggingId === plant.id;
-                    return (
-                      <div
-                        key={plant.id}
-                        className="flex items-center justify-between px-3 py-2.5 gap-2"
-                      >
-                        <div className="min-w-0 flex-1 leading-tight">
-                          <Link
-                            to={`/my-plants/${plant.id}`}
-                            className="text-sm font-medium text-foreground hover:text-white hover:underline block truncate [min-height:unset]"
-                          >
-                            {plant.nickname || plant.plant_type || "Unnamed plant"}
-                          </Link>
-                          <span className="text-xs text-muted-foreground block mt-0.5">
-                            Last fertilized: {daysSinceLabel(plant)}
-                          </span>
-                        </div>
-                        <button
-                          onClick={() => setConfirmLogPlantId(plant.id)}
-                          disabled={isLogging}
-                          className="text-xs font-medium text-sprout-primary dark:text-sprout-cream hover:bg-sprout-cream/20 rounded-md flex-shrink-0 ml-2 py-1 px-2.5 flex items-center gap-1 disabled:opacity-50 [min-height:unset] [min-width:unset]"
+            {isExpanded && (
+              <ul className="mt-2.5 space-y-1.5">
+                {visiblePlants.map((plant) => {
+                  const isLogging = loggingId === plant.id;
+                  return (
+                    <li
+                      key={plant.id}
+                      className="flex items-center gap-3 rounded-[18px] bg-sprout-dark/[0.07] pl-4 pr-2 py-2"
+                    >
+                      <div className="min-w-0 flex-1 leading-tight">
+                        <Link
+                          to={`/my-plants/${plant.id}`}
+                          className="text-[15px] font-bold hover:underline underline-offset-2 block truncate [min-height:unset]"
                         >
-                          {isLogging ? (
-                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                          ) : (
-                            <>
-                              <CheckCircle2 className="h-3.5 w-3.5 mr-1" />
-                              Log
-                            </>
-                          )}
-                        </button>
+                          {plant.nickname || plant.plant_type || "Unnamed plant"}
+                        </Link>
+                        <span className="text-[13px] font-medium opacity-80 block mt-0.5">
+                          Last fertilized: {daysSinceLabel(plant)}
+                        </span>
                       </div>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Snooze options */}
-          <div className="flex items-center gap-1.5">
-            <span className="text-xs text-muted-foreground font-medium whitespace-nowrap">
-              Remind me in:
-            </span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSnoozeWeeks(1)}
-              className="text-xs font-medium hover:bg-sprout-cream/20 text-sprout-primary dark:text-sprout-cream"
-            >
-              <Clock className="h-3 w-3 mr-1" />1 week
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setSnoozeWeeks(2)}
-              className="text-xs font-medium hover:bg-sprout-cream/20 text-sprout-primary dark:text-sprout-cream"
-            >
-              2 weeks
-            </Button>
+                      <button
+                        type="button"
+                        onClick={() => setConfirmLogPlantId(plant.id)}
+                        disabled={isLogging}
+                        className="shrink-0 h-10 px-3.5 rounded-xl bg-sprout-dark text-sprout-cream text-[13px] font-bold inline-flex items-center gap-1.5 disabled:opacity-60"
+                      >
+                        {isLogging ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <>
+                            <CheckCircle2 className="h-4 w-4" />
+                            Log
+                          </>
+                        )}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
           </div>
-        </CardContent>
-      </Card>
+        )}
+      </HomeBanner>
     </>
   );
 }

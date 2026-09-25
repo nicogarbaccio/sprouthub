@@ -1,12 +1,8 @@
 import React from "react";
 import {
- Card,
- CardContent,
- CardDescription,
- CardHeader,
- CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+ SettingsCard,
+ settingsPrimaryButtonClasses,
+} from "@/components/settings/SettingsUI";
 import { Key } from "lucide-react";
 import { PasswordInput } from "@/components/auth/PasswordInput";
 
@@ -32,50 +28,42 @@ const SecuritySettings: React.FC<SecuritySettingsProps> = ({
  hasValidPasswordChanges,
 }) => {
  return (
- <Card>
-  <CardHeader>
-  <div className="flex items-center space-x-2">
-   <Key className="w-5 h-5" />
-   <CardTitle>Change Password</CardTitle>
-  </div>
-  <CardDescription>
-   Update your password to keep your account secure
-  </CardDescription>
-  </CardHeader>
-  <CardContent className="space-y-4">
+ <SettingsCard
+  title="Change Password"
+  description="Use a new password to keep your account secure"
+  icon={Key}
+ >
   <PasswordInput
-   id="new_password"
-   label="New Password"
-   placeholder="Enter new password"
-   value={passwordData.newPassword}
-   onChange={(value) =>
+  id="new_password"
+  label="New Password"
+  placeholder="Enter new password"
+  value={passwordData.newPassword}
+  onChange={(value) =>
    setPasswordData((prev) => ({ ...prev, newPassword: value }))
-   }
+  }
+  autoComplete="new-password"
   />
 
   <PasswordInput
-   id="confirm_password"
-   label="Confirm New Password"
-   placeholder="Confirm new password"
-   value={passwordData.confirmPassword}
-   onChange={(value) =>
+  id="confirm_password"
+  label="Confirm New Password"
+  placeholder="Confirm new password"
+  value={passwordData.confirmPassword}
+  onChange={(value) =>
    setPasswordData((prev) => ({ ...prev, confirmPassword: value }))
-   }
+  }
+  autoComplete="new-password"
   />
 
-  <Button
-   onClick={handleChangePassword}
-   disabled={isLoading || !hasValidPasswordChanges()}
-   className={`w-full font-medium ${
-   hasValidPasswordChanges() && !isLoading
-    ? "bg-sprout-success hover:bg-sprout-success/90 text-white"
-    : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-not-allowed"
-   }`}
+  <button
+  type="button"
+  onClick={handleChangePassword}
+  disabled={isLoading || !hasValidPasswordChanges()}
+  className={settingsPrimaryButtonClasses}
   >
-   {isLoading ? "Updating..." : "Change Password"}
-  </Button>
-  </CardContent>
- </Card>
+  {isLoading ? "Updating..." : "Change Password"}
+  </button>
+ </SettingsCard>
  );
 };
 

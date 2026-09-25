@@ -1,5 +1,3 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { CheckCircle } from "lucide-react";
 import type { WeatherData } from "@/services/weatherTypes";
 import { formatTemperature } from "@/utils/weather/temperature";
@@ -16,36 +14,24 @@ export function WeatherStatusDisplay({
   temperatureUnit = "F",
 }: WeatherStatusDisplayProps) {
   return (
-    <Card
-      className="bg-green-50 border-green-200"
+    <div
+      className="flex items-start gap-3 rounded-[18px] bg-sprout-success text-sprout-dark px-4 py-3.5"
       data-testid="weather-status-active"
     >
-      <CardContent className="pt-6">
-        <div className="flex items-start gap-3">
-          <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-          <div className="flex-1">
-            <div className="font-medium text-green-900 mb-1">
-              Weather data is active!
-            </div>
-            <div
-              className="text-sm text-green-700"
-              data-testid="weather-status-text"
-            >
-              Current:{" "}
-              {formatTemperature(
-                weatherData.current_temp_celsius,
-                temperatureUnit
-              )}
-              , {weatherData.current_humidity_percent}% humidity
-            </div>
-            {isFallback && (
-              <Badge variant="secondary" className="mt-2 text-xs">
-                Using fallback data
-              </Badge>
-            )}
-          </div>
+      <CheckCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+      <div className="flex-1">
+        <div className="text-[15px] font-bold">Weather data is active</div>
+        <div className="text-[13px] font-medium mt-0.5" data-testid="weather-status-text">
+          Current:{" "}
+          {formatTemperature(weatherData.current_temp_celsius, temperatureUnit)},{" "}
+          {weatherData.current_humidity_percent}% humidity
         </div>
-      </CardContent>
-    </Card>
+        {isFallback && (
+          <span className="inline-block mt-2 text-xs font-bold px-2.5 py-1 rounded-full bg-sprout-dark/15">
+            Using fallback data
+          </span>
+        )}
+      </div>
+    </div>
   );
 }

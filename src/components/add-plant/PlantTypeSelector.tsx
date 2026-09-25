@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, Plus, Search } from "lucide-react";
 import { plants as allPlants } from "@/data/plantData";
 import { cn } from "@/lib/utils";
 import type { AddPlantFormData } from "./types";
@@ -48,6 +47,13 @@ export const findPlantInCatalog = (searchName: string) => {
   return plant;
 };
 
+const rank = (name: string, query: string) => {
+  const lower = name.toLowerCase();
+  if (lower === query) return 0;
+  if (lower.startsWith(query)) return 1;
+  return 2;
+};
+
 interface PlantTypeSelectorProps {
   formData: AddPlantFormData;
   isDialogOpen: boolean;
@@ -59,6 +65,10 @@ interface PlantTypeSelectorProps {
   onFormDataChange: (field: string, value: string) => void;
 }
 
+/**
+ * Search field over a wrap of chips: common types by default, catalog matches while typing, and
+ * an "add as custom" chip when nothing matches exactly.
+ */
 export const PlantTypeSelector = ({
   formData,
   isDialogOpen,
@@ -70,120 +80,101 @@ export const PlantTypeSelector = ({
   onFormDataChange,
 }: PlantTypeSelectorProps) => {
   const [plantTypeSearch, setPlantTypeSearch] = useState("");
-  const [isPlantTypePopoverOpen, setIsPlantTypePopoverOpen] = useState(false);
 
-  // Auto-close dropdown when dialog closes
-  if (!isDialogOpen && isPlantTypePopoverOpen) {
-    setIsPlantTypePopoverOpen(false);
+  // Clear the search when the dialog closes
+  if (!isDialogOpen && plantTypeSearch) {
+    setPlantTypeSearch("");
   }
 
-  const filteredPlantNames = plantTypeSearch
-    ? allPlantNames.filter((name) =>
-        name.toLowerCase().includes(plantTypeSearch.toLowerCase())
-      )
-    : commonPlantTypes;
+  const query = plantTypeSearch.trim().toLowerCase();
+  const matches = query
+    ? allPlantNames
+        .filter((name) => name.toLowerCase().includes(query))
+        // Exact, then prefix, then anywhere, so the obvious pick is always in view
+        .sort((a, b) => rank(a, query) - rank(b, query) || a.localeCompare(b))
+        .slice(0, 12)
+    : commonPlantTypes.slice(0, 8);
+
+  // Keep the current pick visible even when it isn't in the default set
+  const chips =
+    formData.plant_type && !isCustomPlantType && !matches.includes(formData.plant_type)
+      ? [formData.plant_type, ...matches]
+      : matches;
+
+  const canAddCustom =
+    query !== "" && !allPlantNames.some((name) => name.toLowerCase() === query);
+
+  const chipClass = (selected: boolean) =>
+    cn(
+      "h-11 px-3.5 rounded-full flex items-center gap-1.5 font-bold text-sm transition-colors",
+      selected ? "bg-foreground text-background" : "bg-card text-foreground"
+    );
 
   return (
-    <div className="space-y-2">
-      <Label
-        htmlFor="plant_type"
-        className="text-plant-text dark:text-zinc-200"
-      >
-        Plant Type *
-      </Label>
-      <div className="relative plant-type-dropdown">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => setIsPlantTypePopoverOpen(!isPlantTypePopoverOpen)}
-          className="w-full justify-between border-plant-secondary/30 focus:border-plant-primary font-normal"
-          data-testid="plant-type-trigger"
-        >
-          <span className="font-normal text-muted-foreground">
-            {formData.plant_type || "Search or select plant type..."}
-          </span>
-          <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-        {isPlantTypePopoverOpen && (
-          <div className="absolute top-full left-0 right-0 z-50 bg-card border border-border rounded-md shadow-lg mt-1">
-            <div className="border-b p-2">
-              <Input
-                placeholder="Search plant types..."
-                value={plantTypeSearch}
-                onChange={(e) => setPlantTypeSearch(e.target.value)}
-                className="border-0 focus:ring-0 focus:outline-none"
-                autoFocus
-                data-testid="plant-type-search-input"
-              />
-            </div>
-            <div
-              role="listbox"
-              className="max-h-[200px] overflow-y-scroll p-1 bg-card"
-              style={{
-                maxHeight: "200px",
-                overflowY: "scroll",
-                scrollbarWidth: "thin",
+    <div className="space-y-3">
+      <div className="relative" data-testid="plant-type-trigger">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
+        <Label htmlFor="plant_type_search" className="sr-only">
+          Plant type
+        </Label>
+        <Input
+          id="plant_type_search"
+          placeholder={`Search ${allPlantNames.length}+ plant types`}
+          value={plantTypeSearch}
+          onChange={(e) => setPlantTypeSearch(e.target.value)}
+          className="h-[52px] rounded-[18px] border-0 bg-card pl-12 text-[15px] font-medium"
+          data-testid="plant-type-search-input"
+          autoComplete="off"
+        />
+      </div>
+
+      <div role="listbox" aria-label="Plant types" className="flex flex-wrap gap-2">
+        {chips.map((type) => {
+          const selected = formData.plant_type === type && !isCustomPlantType;
+          return (
+            <button
+              key={type}
+              type="button"
+              role="option"
+              aria-selected={selected}
+              className={chipClass(selected)}
+              onClick={() => {
+                onPlantSelection(type);
+                setPlantTypeSearch("");
               }}
             >
-              {filteredPlantNames.length === 0 ? (
-                <div className="px-2 py-3 text-sm text-muted-foreground text-center">
-                  No plants found.
-                </div>
-              ) : (
-                filteredPlantNames.map((type) => (
-                  <div
-                    key={type}
-                    role="option"
-                    aria-selected={formData.plant_type === type}
-                    className="flex items-center px-2 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded-sm"
-                    onClick={() => {
-                      onPlantSelection(type);
-                      setPlantTypeSearch("");
-                      setIsPlantTypePopoverOpen(false);
-                    }}
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        formData.plant_type === type
-                          ? "opacity-100"
-                          : "opacity-0"
-                      )}
-                    />
-                    {type}
-                  </div>
-                ))
-              )}
-              {plantTypeSearch &&
-                !allPlantNames.some(
-                  (name) =>
-                    name.toLowerCase() === plantTypeSearch.toLowerCase()
-                ) && (
-                  <div
-                    role="option"
-                    aria-selected={false}
-                    className="flex items-center px-2 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded-sm"
-                    onClick={() => {
-                      onCustomPlantSelection(plantTypeSearch);
-                      setPlantTypeSearch("");
-                      setIsPlantTypePopoverOpen(false);
-                    }}
-                  >
-                    <Check className="mr-2 h-4 w-4 opacity-0" />
-                    Add "{plantTypeSearch}" as custom
-                  </div>
-                )}
-            </div>
-          </div>
+              {selected && <Check className="h-4 w-4" />}
+              {type}
+            </button>
+          );
+        })}
+        {canAddCustom && (
+          <button
+            type="button"
+            role="option"
+            aria-selected={false}
+            className={cn(chipClass(false), "border-2 border-dashed border-muted-foreground/40 bg-transparent")}
+            onClick={() => {
+              onCustomPlantSelection(plantTypeSearch.trim());
+              setPlantTypeSearch("");
+            }}
+          >
+            <Plus className="h-4 w-4" />
+            Add "{plantTypeSearch.trim()}" as custom
+          </button>
+        )}
+        {query && chips.length === 0 && !canAddCustom && (
+          <p className="text-sm text-muted-foreground px-1.5 py-2">No plants found.</p>
         )}
       </div>
+
       {isCustomPlantType && (
-        <div className="space-y-2">
+        <div className="rounded-3xl bg-card p-4 space-y-1.5">
           <Label
             htmlFor="custom_plant_type"
-            className="text-plant-text dark:text-zinc-200"
+            className="text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground"
           >
-            Custom Plant Type *
+            Custom plant type
           </Label>
           <Input
             id="custom_plant_type"
@@ -193,7 +184,7 @@ export const PlantTypeSelector = ({
               onFormDataChange("plant_type", e.target.value);
             }}
             placeholder="Enter custom plant type"
-            className="border-plant-secondary/30 focus:border-plant-primary"
+            className="h-11 rounded-2xl border-0 bg-field text-[15px] font-semibold"
             required
             data-testid="custom-plant-type-input"
           />

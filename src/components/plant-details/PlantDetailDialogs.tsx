@@ -8,6 +8,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Trash2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import {
+  confirmCancelClasses,
+  confirmDestructiveClasses,
+  confirmDialogClasses,
+  confirmIconClasses,
+  confirmTitleClasses,
+} from "@/components/settings/SettingsUI";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
 import PostponeConfirmationDialog from "@/components/PostponeConfirmationDialog";
 import EditPlantDialog from "@/components/EditPlantDialog";
@@ -115,6 +124,7 @@ const PlantDetailDialogs = ({
   return (
     <>
       <WaterConfirmationDialog
+        plantImage={imageSrc}
         open={showWaterConfirmation}
         onOpenChange={onWaterConfirmationChange}
         onConfirm={onConfirmWater}
@@ -185,20 +195,25 @@ const PlantDetailDialogs = ({
         open={showDeleteConfirmation}
         onOpenChange={onDeleteConfirmationChange}
       >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Plant</AlertDialogTitle>
-            <AlertDialogDescription>
+        <AlertDialogContent className={confirmDialogClasses}>
+          <AlertDialogHeader className="text-left">
+            <div className="flex items-center gap-3 mb-1">
+              <div className={cn(confirmIconClasses, "bg-sprout-warning text-sprout-dark")}>
+                <Trash2 className="w-6 h-6" />
+              </div>
+              <AlertDialogTitle className={confirmTitleClasses}>Delete Plant</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="text-[15px]">
               Are you sure you want to delete "{plant.nickname}"? This action
               cannot be undone and will remove all watering history for this
               plant.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel className={confirmCancelClasses}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={onConfirmDelete}
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className={confirmDestructiveClasses}
             >
               Delete Plant
             </AlertDialogAction>

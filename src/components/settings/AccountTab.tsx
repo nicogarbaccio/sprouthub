@@ -2,11 +2,11 @@ import ProfileInformation from "@/components/profile/ProfileInformation";
 import SecuritySettings from "@/components/profile/SecuritySettings";
 import DangerZone from "@/components/profile/DangerZone";
 import { useProfile } from "@/hooks/useProfile";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { SettingsCard } from "./SettingsUI";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { Link } from "react-router-dom";
-import { FileText, Scale, ExternalLink } from "lucide-react";
+import { FileText, Scale, ChevronRight } from "lucide-react";
 
 export const AccountTab = () => {
   const {
@@ -25,23 +25,15 @@ export const AccountTab = () => {
 
   if (isLoadingProfile) {
     return (
-      <div className="space-y-6">
-        <Card>
-          <CardContent className="pt-6">
-            <Skeleton className="h-64" />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="pt-6">
-            <Skeleton className="h-48" />
-          </CardContent>
-        </Card>
+      <div className="space-y-3">
+        <Skeleton className="h-96 rounded-card" />
+        <Skeleton className="h-64 rounded-card" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       <CascadingContainer delay={0}>
         <ProfileInformation
           profileData={profileData}
@@ -63,46 +55,10 @@ export const AccountTab = () => {
       </CascadingContainer>
 
       <CascadingContainer delay={200}>
-        <Card>
-          <CardHeader>
-            <CardTitle>Legal & About</CardTitle>
-            <CardDescription>
-              Review our policies and terms
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <Link
-              to="/privacy-policy"
-              className="flex items-center justify-between p-3 rounded-lg hover:bg-accent transition-colors group"
-            >
-              <div className="flex items-center gap-3">
-                <FileText className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Privacy Policy</p>
-                  <p className="text-sm text-muted-foreground">
-                    How we handle your data
-                  </p>
-                </div>
-              </div>
-              <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-            </Link>
-            <Link
-              to="/terms-of-service"
-              className="flex items-center justify-between p-3 rounded-lg hover:bg-accent transition-colors group"
-            >
-              <div className="flex items-center gap-3">
-                <Scale className="w-5 h-5 text-muted-foreground" />
-                <div>
-                  <p className="font-medium">Terms of Service</p>
-                  <p className="text-sm text-muted-foreground">
-                    Rules and guidelines
-                  </p>
-                </div>
-              </div>
-              <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
-            </Link>
-          </CardContent>
-        </Card>
+        <SettingsCard title="Legal & About" description="Review our policies and terms" icon={FileText}>
+          <LegalLink to="/privacy-policy" icon={FileText} title="Privacy Policy" body="How we handle your data" />
+          <LegalLink to="/terms-of-service" icon={Scale} title="Terms of Service" body="Rules and guidelines" />
+        </SettingsCard>
       </CascadingContainer>
 
       <CascadingContainer delay={250}>
@@ -114,3 +70,27 @@ export const AccountTab = () => {
     </div>
   );
 };
+
+const LegalLink = ({
+  to,
+  icon: Icon,
+  title,
+  body,
+}: {
+  to: string;
+  icon: React.ElementType;
+  title: string;
+  body: string;
+}) => (
+  <Link
+    to={to}
+    className="flex items-center gap-3 rounded-[18px] bg-field px-4 py-3.5 hover:bg-field/70 transition-colors"
+  >
+    <Icon className="w-5 h-5 text-muted-foreground shrink-0" />
+    <span className="flex-1 min-w-0">
+      <span className="block text-[15px] font-bold text-foreground">{title}</span>
+      <span className="block text-[13px] text-muted-foreground">{body}</span>
+    </span>
+    <ChevronRight className="w-5 h-5 text-muted-foreground shrink-0" />
+  </Link>
+);

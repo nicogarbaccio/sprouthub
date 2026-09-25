@@ -10,9 +10,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import {
-  Droplets,
   AlertTriangle,
   CheckCircle2,
   TrendingDown,
@@ -21,9 +19,18 @@ import {
   Lightbulb,
   Eye,
   Clock,
+  X,
 } from "lucide-react";
 import { PatternInsight } from "@/types/wateringPatternTypes";
 import { cn } from "@/lib/utils";
+import {
+  SheetGrabber,
+  dialogSheetClasses,
+  sheetHeaderClasses,
+  sheetIconButtonClasses,
+  sheetPrimaryButtonClasses,
+  sheetTitleClasses,
+} from "@/components/ui/bento-sheet";
 
 interface WateringInsightLearnMoreProps {
   isOpen: boolean;
@@ -45,8 +52,7 @@ const WateringInsightLearnMore = ({
       case "underwatering_risk":
         return {
           icon: TrendingDown,
-          iconColor: "text-orange-600 dark:text-orange-400",
-          bgColor: "bg-orange-50 dark:bg-orange-950/20",
+          iconClasses: "bg-sprout-cream text-sprout-dark",
           title: "Understanding Underwatering",
           sections: [
             {
@@ -93,8 +99,7 @@ const WateringInsightLearnMore = ({
       case "overwatering_risk":
         return {
           icon: TrendingUp,
-          iconColor: "text-red-600 dark:text-red-400",
-          bgColor: "bg-red-50 dark:bg-red-950/20",
+          iconClasses: "bg-sprout-warning text-sprout-dark",
           title: "Understanding Overwatering",
           sections: [
             {
@@ -144,8 +149,7 @@ const WateringInsightLearnMore = ({
       case "consistency_improvement":
         return {
           icon: Calendar,
-          iconColor: "text-blue-600 dark:text-blue-400",
-          bgColor: "bg-blue-50 dark:bg-blue-950/20",
+          iconClasses: "bg-sprout-water text-sprout-dark",
           title: "Improving Watering Consistency",
           sections: [
             {
@@ -203,75 +207,65 @@ const WateringInsightLearnMore = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
-        <DialogHeader>
-          <div className="flex items-center gap-3">
-            <div className={cn("p-2 rounded-full", content.bgColor)}>
-              <Icon className={cn("w-5 h-5", content.iconColor)} />
-            </div>
-            <div>
-              <DialogTitle>{content.title}</DialogTitle>
-              <DialogDescription>
-                Expert guidance for {plantName}
-              </DialogDescription>
-            </div>
+      <DialogContent className={cn(dialogSheetClasses, "sm:max-w-2xl")}>
+        <SheetGrabber />
+        <DialogHeader className={sheetHeaderClasses}>
+          <div className={cn("w-[52px] h-[52px] shrink-0 rounded-[18px] flex items-center justify-center", content.iconClasses)}>
+            <Icon className="w-6 h-6" />
           </div>
+          <div className="flex-1 min-w-0">
+            <DialogTitle className={sheetTitleClasses}>{content.title}</DialogTitle>
+            <DialogDescription className="text-sm font-medium">
+              Expert guidance for {plantName}
+            </DialogDescription>
+          </div>
+          <button type="button" onClick={onClose} className={cn(sheetIconButtonClasses, "self-start")} aria-label="Close">
+            <X className="w-5 h-5" />
+          </button>
         </DialogHeader>
 
-        <div className="space-y-6 py-4">
+        <div className="mt-4 space-y-2">
           {content.sections.map((section, index) => {
             const SectionIcon = section.icon;
             return (
-              <div key={index} className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <SectionIcon className="w-4 h-4 text-sprout-primary" />
-                  <h3 className="font-medium text-base">{section.title}</h3>
-                </div>
+              <section key={index} className="rounded-3xl bg-card p-4">
+                <h3 className="flex items-center gap-2 text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground">
+                  <SectionIcon className="w-4 h-4" />
+                  {section.title}
+                </h3>
 
                 {section.content && (
-                  <p className="text-sm text-muted-foreground leading-relaxed pl-6">
-                    {section.content}
-                  </p>
+                  <p className="text-[15px] text-foreground leading-relaxed mt-2">{section.content}</p>
                 )}
 
                 {section.items && (
-                  <ul className="space-y-2 pl-6">
+                  <ul className="space-y-2 mt-2.5">
                     {section.items.map((item, itemIndex) => (
-                      <li
-                        key={itemIndex}
-                        className="text-sm text-muted-foreground flex items-start gap-2"
-                      >
-                        <Droplets className="w-3 h-3 text-sprout-primary mt-0.5 flex-shrink-0" />
+                      <li key={itemIndex} className="text-[15px] text-foreground leading-snug flex items-start gap-2.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-sprout-light mt-2 shrink-0" aria-hidden="true" />
                         <span>{item}</span>
                       </li>
                     ))}
                   </ul>
                 )}
-              </div>
+              </section>
             );
           })}
 
-          {/* Call to Action */}
-          <div className="pt-4 border-t">
-            <div className="p-4 bg-sprout-pale/30 dark:bg-sprout-dark/20 rounded-lg">
-              <div className="flex items-start gap-3">
-                <Lightbulb className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0" />
-                <div>
-                  <h4 className="font-medium text-sm mb-1">Remember</h4>
-                  <p className="text-xs text-muted-foreground">
-                    Every plant is unique, and these are general guidelines. Pay
-                    attention to how {plantName} responds to your care and
-                    adjust accordingly. When in doubt, check the soil moisture
-                    before watering.
-                  </p>
-                </div>
-              </div>
+          <div className="rounded-3xl bg-sprout-cream text-sprout-dark p-4 flex items-start gap-3">
+            <Lightbulb className="w-5 h-5 mt-0.5 shrink-0" />
+            <div>
+              <h4 className="text-[15px] font-bold">Remember</h4>
+              <p className="text-sm font-medium leading-relaxed mt-0.5">
+                Every plant is unique, and these are general guidelines. Pay attention to how {plantName}{" "}
+                responds to your care and adjust accordingly. When in doubt, check the soil moisture before watering.
+              </p>
             </div>
           </div>
-        </div>
 
-        <div className="flex justify-end pt-4 border-t">
-          <Button onClick={onClose}>Got It</Button>
+          <button type="button" onClick={onClose} className={cn(sheetPrimaryButtonClasses, "mt-1")}>
+            Got It
+          </button>
         </div>
       </DialogContent>
     </Dialog>

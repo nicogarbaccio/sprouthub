@@ -2,18 +2,21 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useHouseholds } from "@/hooks/useHouseholds";
-import { useHouseholdPlants } from "@/hooks/useHouseholdPlants";
-import { Button } from "@/components/ui/button";
+import { useHouseholdPlants, type HouseholdPlant } from "@/hooks/useHouseholdPlants";
+import { cn } from "@/lib/utils";
+import PlantImage from "@/components/ui/plant-image";
+import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
+import { getPlantImageUrl } from "@/utils/plants/images";
+import { getWateringStatus } from "@/utils/watering/status";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+  SettingsCard,
+  confirmDialogClasses,
+  confirmTitleClasses,
+  confirmCancelClasses,
+  confirmDestructiveClasses,
+} from "@/components/settings/SettingsUI";
 import { CascadingContainer } from "@/components/ui/cascading-container";
-import { LoadingTransition } from "@/components/ui/loading-transition";
+import { DelayedSkeleton, LoadingTransition } from "@/components/ui/loading-transition";
 import { HouseholdDetailsSkeleton, Skeleton } from "@/components/ui/skeleton";
 import {
   Settings,
@@ -25,7 +28,7 @@ import {
   Droplets,
   Edit,
   Clock,
-  ChevronDown,
+  MoreHorizontal,
   History,
   ArrowLeft,
   Crown,
@@ -58,7 +61,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { calculateWateringSchedule } from "@/utils/watering/schedule";
-import { getRoomIcon, getRoomLabel } from "@/utils/rooms";
+import { getRoomLabel } from "@/utils/rooms";
 import { useManualNotifications } from "@/hooks/usePlantNotifications";
 import type { UserPlant } from "@/hooks/useUserPlants";
 
@@ -155,7 +158,7 @@ const HouseholdManagement = () => {
       <div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h1 className="font-display text-2xl font-bold text-foreground">
               Please sign in to manage households
             </h1>
           </div>
@@ -166,26 +169,33 @@ const HouseholdManagement = () => {
 
   if (!loading && !household) {
     return (
-      <div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center">
-            <Home className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-              Household not found
-            </h1>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
-              The household you're looking for doesn't exist or you don't have
-              access to it.
-            </p>
-            <Link to="/households">
-              <Button>
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Households
-              </Button>
-            </Link>
-          </div>
+      <div className="max-w-xl mx-auto px-4 pt-16 pb-32 text-center">
+        <div className="w-16 h-16 mx-auto rounded-2xl bg-card flex items-center justify-center mb-4">
+          <Home className="w-8 h-8 text-muted-foreground" />
         </div>
+        <h1 className="font-display text-2xl font-bold text-foreground mb-2">Household not found</h1>
+        <p className="text-muted-foreground mb-6">
+          It doesn't exist, or you don't have access to it.
+        </p>
+        <Link
+          to="/households"
+          className="h-12 px-5 rounded-2xl bg-sprout-dark text-sprout-cream font-bold inline-flex items-center gap-2"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Households
+        </Link>
       </div>
+    );
+  }
+
+  // Still loading: the page reads the household's fields during render, so wait for it
+  if (!household) {
+    return (
+      <DelayedSkeleton>
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-3.5 lg:pt-7 pb-32">
+          <HouseholdDetailsSkeleton />
+        </div>
+      </DelayedSkeleton>
     );
   }
 
@@ -207,467 +217,210 @@ const HouseholdManagement = () => {
     }
   };
 
-  const getRoleBadge = (role: string | undefined) => {
-    switch (role) {
-      case 'owner':
-        return (
-          <Badge className="bg-sprout-cream/20 text-sprout-cream border-sprout-cream/30 font-medium">
-            <Crown className="w-3 h-3 mr-1" />
-            Owner
-          </Badge>
-        );
-      case 'admin':
-        return (
-          <Badge className="bg-sprout-water/20 text-sprout-water border-sprout-water/30 font-medium">
-            <Shield className="w-3 h-3 mr-1" />
-            Admin
-          </Badge>
-        );
-      default:
-        return (
-          <Badge className="bg-white/20 text-white border-white/30 font-medium">
-            Member
-          </Badge>
-        );
-    }
-  };
-
   const overduePlants = householdPlants.filter(p => calculateWateringSchedule(p).isOverdue);
   const dueTodayPlants = householdPlants.filter(p => {
     const calc = calculateWateringSchedule(p);
     return !calc.isOverdue && calc.daysUntilWatering === 0;
   });
 
+  const role = currentUserMember?.role;
+  const roleConfig =
+    role === "owner"
+      ? { icon: Crown, label: "Owner", classes: "bg-sprout-cream text-sprout-dark" }
+      : role === "admin"
+        ? { icon: Shield, label: "Admin", classes: "bg-sprout-water text-sprout-dark" }
+        : { icon: Users, label: "Member", classes: "bg-card text-foreground" };
+  const RoleIcon = roleConfig.icon;
+
   return (
-    <div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="bg-background pb-32 lg:pb-10">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-3.5 lg:pt-7">
         <LoadingTransition loading={loading} skeleton={<HouseholdDetailsSkeleton />}>
-        {/* Hero Header */}
+        {/* Header */}
         <CascadingContainer delay={0}>
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-sprout-dark via-sprout-primary to-sprout-medium p-6 sm:p-8 mb-8">
-            {/* Decorative elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-sprout-light/10 rounded-full -translate-y-1/2 translate-x-1/3" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-sprout-cream/10 rounded-full translate-y-1/2 -translate-x-1/4" />
-            <div className="absolute top-1/2 right-1/4 w-24 h-24 bg-sprout-water/10 rounded-full" />
-
-            <div className="relative z-10">
-              {/* Back link */}
-              <Link
-                to="/households"
-                className="inline-flex items-center gap-1.5 text-sprout-light/80 hover:text-white text-sm mb-4 transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                All Households
-              </Link>
-
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2.5 bg-white/15 rounded-xl backdrop-blur-sm">
-                      <Home className="w-6 h-6 text-white" />
-                    </div>
-                    <h1 className="text-3xl font-bold text-white">
-                      {household.name}
-                    </h1>
-                    {getRoleBadge(currentUserMember?.role)}
-                  </div>
-                  {household.description && (
-                    <p className="text-sprout-light text-base max-w-lg mt-1">
-                      {household.description}
-                    </p>
-                  )}
-                </div>
-                {canManage && (
-                  <Button
-                    onClick={() => setInviteDialogOpen(true)}
-                    className="w-full sm:w-auto bg-white text-sprout-dark hover:bg-sprout-pale font-semibold shadow-lg shadow-black/10"
-                    size="lg"
-                  >
-                    <UserPlus className="w-5 h-5 mr-2" />
-                    Invite Member
-                  </Button>
-                )}
+          <Link
+            to="/households"
+            className="inline-flex items-center gap-1.5 h-9 px-3 rounded-full bg-card text-sm font-bold text-foreground"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            All Households
+          </Link>
+          <div className="flex items-end justify-between gap-3 mt-3 px-1.5 lg:px-0">
+            <div className="min-w-0">
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <h1 className="font-display text-[28px] lg:text-[34px] font-bold tracking-[-0.04em] text-foreground">
+                  {household.name}
+                </h1>
+                <span className={cn("inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full", roleConfig.classes)}>
+                  <RoleIcon className="w-3.5 h-3.5" />
+                  {roleConfig.label}
+                </span>
               </div>
-
-              {/* Quick stats */}
-              <div className="flex flex-wrap gap-3 mt-5">
-                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2 text-sm text-white/90">
-                  <Users className="w-4 h-4" />
-                  <span className="font-medium">{household.member_count}</span> member{household.member_count !== 1 ? 's' : ''}
-                </div>
-                <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2 text-sm text-white/90">
-                  <Leaf className="w-4 h-4" />
-                  <span className="font-medium">{householdPlants.length}</span> plant{householdPlants.length !== 1 ? 's' : ''}
-                </div>
-                {overduePlants.length > 0 && (
-                  <div className="flex items-center gap-2 bg-sprout-warning/20 backdrop-blur-sm rounded-lg px-3 py-2 text-sm text-sprout-cream">
-                    <Droplets className="w-4 h-4" />
-                    <span className="font-medium">{overduePlants.length}</span> overdue
-                  </div>
-                )}
-                {dueTodayPlants.length > 0 && (
-                  <div className="flex items-center gap-2 bg-sprout-water/20 backdrop-blur-sm rounded-lg px-3 py-2 text-sm text-sprout-water">
-                    <Droplets className="w-4 h-4" />
-                    <span className="font-medium">{dueTodayPlants.length}</span> due today
-                  </div>
-                )}
-              </div>
+              {household.description && (
+                <p className="text-sm lg:text-[15px] font-medium text-muted-foreground mt-0.5 max-w-xl">
+                  {household.description}
+                </p>
+              )}
             </div>
+            {canManage && (
+              <button
+                type="button"
+                onClick={() => setInviteDialogOpen(true)}
+                aria-label="Invite Member"
+                className="shrink-0 h-12 w-12 lg:w-auto lg:px-5 rounded-2xl bg-sprout-cream text-sprout-dark font-bold text-[15px] inline-flex items-center justify-center gap-2"
+              >
+                <UserPlus className="w-5 h-5" />
+                <span className="hidden lg:inline">Invite Member</span>
+              </button>
+            )}
           </div>
         </CascadingContainer>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Household Plants */}
-            <CascadingContainer delay={100}>
-              <Card className="border-0 shadow-md overflow-hidden">
-                <div className="h-1 bg-gradient-to-r from-sprout-water via-sprout-success to-sprout-medium" />
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-xl bg-sprout-success/10">
-                        <Leaf className="w-5 h-5 text-sprout-success" />
-                      </div>
-                      <div>
-                        <CardTitle>Household Plants</CardTitle>
-                        <CardDescription>
-                          {householdPlants.length} plant{householdPlants.length !== 1 ? 's' : ''} shared in this household
-                        </CardDescription>
-                      </div>
-                    </div>
-                    <Button
-                      onClick={() => setIsAddPlantDialogOpen(true)}
-                      size="sm"
-                      className="bg-sprout-success hover:bg-sprout-success/90 text-white"
-                    >
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add Plant
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  {plantsLoading ? (
-                    <div className="space-y-4">
-                      {Array.from({ length: 3 }).map((_, i) => (
-                        <div key={i} className="flex items-center space-x-4">
-                          <Skeleton className="h-16 w-16 rounded-lg" />
-                          <div className="space-y-2">
-                            <Skeleton className="h-4 w-32" />
-                            <Skeleton className="h-3 w-24" />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : householdPlants.length === 0 ? (
-                    <div className="text-center py-12">
-                      <div className="w-16 h-16 mx-auto rounded-full bg-sprout-pale dark:bg-sprout-dark/50 flex items-center justify-center mb-4">
-                        <Sprout className="w-8 h-8 text-sprout-medium dark:text-sprout-light" />
-                      </div>
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                        No plants yet
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-sm mx-auto">
-                        Add plants to this household so everyone can help with watering and care.
-                      </p>
-                      <Button
-                        onClick={() => setIsAddPlantDialogOpen(true)}
-                        className="bg-sprout-success hover:bg-sprout-success/90 text-white"
-                      >
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add First Plant
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {householdPlants.map((plant) => {
-                        const wateringCalc = calculateWateringSchedule(plant);
-                        const formatDate = (dateString: string) => {
-                          return new Date(dateString).toLocaleDateString(
-                            "en-US",
-                            {
-                              month: "short",
-                              day: "numeric",
-                              year: "numeric",
-                            }
-                          );
-                        };
-
-                        return (
-                          <div
-                            key={plant.id}
-                            className="group relative border rounded-xl p-4 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 bg-white dark:bg-sprout-dark/30"
-                          >
-                            {/* Status indicator strip */}
-                            <div className={`absolute top-0 left-0 right-0 h-1 rounded-t-xl ${
-                              wateringCalc.isOverdue
-                                ? 'bg-gradient-to-r from-sprout-error to-sprout-warning'
-                                : wateringCalc.daysUntilWatering === 0
-                                ? 'bg-gradient-to-r from-sprout-water to-sprout-water/60'
-                                : 'bg-gradient-to-r from-sprout-success to-sprout-light'
-                            }`} />
-
-                            <div className="flex items-start justify-between mb-3">
-                              <div className="flex-1">
-                                <h4
-                                  className="font-semibold text-lg text-gray-900 dark:text-white cursor-pointer hover:text-sprout-water transition-colors"
-                                  onClick={() =>
-                                    navigate(`/my-plants/${plant.id}`)
-                                  }
-                                  role="button"
-                                  tabIndex={0}
-                                  onKeyDown={(e) => {
-                                    if (e.key === "Enter" || e.key === " ") {
-                                      e.preventDefault();
-                                      navigate(`/my-plants/${plant.id}`);
-                                    }
-                                  }}
-                                  aria-label={`View details for ${plant.nickname}`}
-                                >
-                                  {plant.nickname}
-                                </h4>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">
-                                  {plant.plant_type}
-                                </p>
-                                <div className="flex items-center gap-2 mt-2 flex-wrap">
-                                  <Badge
-                                    variant="secondary"
-                                    className="text-xs bg-sprout-pale dark:bg-sprout-dark/30 text-sprout-dark dark:text-sprout-pale"
-                                  >
-                                    {plant.is_owned_by_user
-                                      ? "Owner: You"
-                                      : `Owner: ${
-                                          plant.plant_owner?.email?.split(
-                                            "@"
-                                          )[0] || "Unknown"
-                                        }`}
-                                  </Badge>
-                                  {plant.room && (
-                                    <Badge
-                                      variant="secondary"
-                                      className="text-xs bg-sprout-pale dark:bg-sprout-dark/30 text-sprout-dark dark:text-sprout-pale"
-                                    >
-                                      <span className="mr-1">
-                                        {getRoomIcon(plant.room)}
-                                      </span>
-                                      {getRoomLabel(plant.room)}
-                                    </Badge>
-                                  )}
-                                </div>
-                              </div>
-                              {/* Status badge */}
-                              <Badge
-                                className={`text-xs shrink-0 ${
-                                  wateringCalc.isOverdue
-                                    ? 'bg-sprout-error/10 text-sprout-error border-sprout-error/20'
-                                    : wateringCalc.daysUntilWatering === 0
-                                    ? 'bg-sprout-water/10 text-sprout-water border-sprout-water/20'
-                                    : 'bg-sprout-success/10 text-sprout-success border-sprout-success/20'
-                                }`}
-                              >
-                                {wateringCalc.hasUnknownWateringDate
-                                  ? "Unknown"
-                                  : wateringCalc.isOverdue
-                                  ? "Overdue"
-                                  : wateringCalc.daysUntilWatering === 0
-                                  ? "Due today"
-                                  : `${wateringCalc.daysUntilWatering}d`}
-                              </Badge>
-                            </div>
-
-                            <div className="space-y-1.5 text-sm mb-4 text-gray-600 dark:text-gray-400">
-                              <div className="flex items-center gap-2">
-                                <Droplets className="w-3.5 h-3.5 text-sprout-water" />
-                                <span>
-                                  Last watered:{" "}
-                                  <span className="font-medium text-gray-900 dark:text-white">
-                                    {plant.latest_watering
-                                      ? formatDate(plant.latest_watering)
-                                      : "Never"}
-                                  </span>
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <CalendarDays className="w-3.5 h-3.5 text-sprout-medium" />
-                                <span>
-                                  Next:{" "}
-                                  <span className="font-medium text-gray-900 dark:text-white">
-                                    {wateringCalc.hasUnknownWateringDate
-                                      ? "Unknown"
-                                      : wateringCalc.daysUntilWatering === 0
-                                      ? "Today"
-                                      : `In ${wateringCalc.daysUntilWatering} days`}
-                                  </span>
-                                </span>
-                              </div>
-                            </div>
-
-                            <div>
-                              <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                  <Button
-                                    size="sm"
-                                    className="w-full bg-sprout-water hover:bg-sprout-water/90 text-white"
-                                    aria-label="Plant actions menu"
-                                  >
-                                    Actions
-                                    <ChevronDown className="w-4 h-4 ml-2" />
-                                  </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-56">
-                                  <DropdownMenuItem
-                                    onClick={() => handleWaterPlant(plant.id)}
-                                    className="cursor-pointer"
-                                  >
-                                    <Droplets className="w-4 h-4 mr-2 text-sprout-water" />
-                                    Water Now
-                                  </DropdownMenuItem>
-
-                                  {wateringCalc.isOverdue && (
-                                    <DropdownMenuItem
-                                      onClick={() =>
-                                        handlePostponePlant(plant.id)
-                                      }
-                                      className="cursor-pointer"
-                                    >
-                                      <Clock className="w-4 h-4 mr-2" />
-                                      Push to Tomorrow
-                                    </DropdownMenuItem>
-                                  )}
-
-                                  {wateringCalc.isOverdue ? (
-                                    <DropdownMenuSeparator />
-                                  ) : null}
-
-                                  <DropdownMenuItem
-                                    onClick={() => handleWateringHistory(plant)}
-                                    className="cursor-pointer"
-                                  >
-                                    <History className="w-4 h-4 mr-2" />
-                                    View Watering History
-                                  </DropdownMenuItem>
-
-                                  <DropdownMenuItem
-                                    onClick={() => handleEditPlant(plant)}
-                                    className="cursor-pointer"
-                                    disabled={!plant.is_owned_by_user}
-                                  >
-                                    <Edit className="w-4 h-4 mr-2" />
-                                    Edit Plant
-                                  </DropdownMenuItem>
-                                </DropdownMenuContent>
-                              </DropdownMenu>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </CascadingContainer>
+        {/* Stat tiles */}
+        <CascadingContainer delay={50}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 md:gap-3.5 mt-[18px]">
+            <StatTile icon={Users} value={household.member_count} label={household.member_count === 1 ? "member" : "members"} classes="bg-card text-foreground" />
+            <StatTile icon={Leaf} value={householdPlants.length} label={householdPlants.length === 1 ? "plant" : "plants"} classes="bg-sprout-primary text-sprout-cream" />
+            <StatTile
+              icon={Droplets}
+              value={overduePlants.length}
+              label="overdue"
+              classes={overduePlants.length > 0 ? "bg-sprout-warning text-sprout-dark" : "bg-card text-foreground"}
+            />
+            <StatTile
+              icon={Droplets}
+              value={dueTodayPlants.length}
+              label="due today"
+              classes={dueTodayPlants.length > 0 ? "bg-sprout-water text-sprout-dark" : "bg-card text-foreground"}
+            />
           </div>
+        </CascadingContainer>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            {/* Members Card */}
-            <CascadingContainer delay={200}>
-              <Card className="border-0 shadow-md overflow-hidden">
-                <div className="h-1 bg-gradient-to-r from-sprout-primary via-sprout-medium to-sprout-light" />
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-xl bg-sprout-primary/10">
-                        <Users className="w-5 h-5 text-sprout-primary dark:text-sprout-light" />
-                      </div>
-                      <CardTitle>Members</CardTitle>
-                    </div>
-                    {canManage && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setInviteDialogOpen(true)}
-                        className="hover:bg-sprout-water/10 hover:border-sprout-water hover:text-sprout-water transition-colors"
-                      >
-                        <UserPlus className="w-4 h-4 mr-1" />
-                        Invite
-                      </Button>
-                    )}
-                  </div>
-                  <CardDescription>
-                    {household.member_count} member{household.member_count !== 1 ? 's' : ''} in this household
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <HouseholdMembersCard
-                    household={household}
-                    currentUserId={user.id}
-                    canManage={canManage}
-                    onRemoveMember={removeMember}
-                    onLeaveHousehold={leaveHousehold}
-                  />
-                </CardContent>
-              </Card>
+        {/* Columns stretch to the same height so both cards end on the same line */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mt-3">
+          {/* Household Plants */}
+          <CascadingContainer delay={100} className="lg:col-span-2">
+            <SettingsCard
+              className="h-full"
+              title="Household Plants"
+              description={`${householdPlants.length} plant${householdPlants.length !== 1 ? "s" : ""} shared in this household`}
+              icon={Leaf}
+              iconClasses="bg-sprout-success text-sprout-dark"
+              action={
+                <button
+                  type="button"
+                  onClick={() => setIsAddPlantDialogOpen(true)}
+                  aria-label="Add Plant"
+                  className="h-10 w-10 sm:w-auto sm:px-3.5 rounded-[14px] bg-sprout-dark text-sprout-cream text-sm font-bold inline-flex items-center justify-center gap-1.5"
+                >
+                  <Plus className="w-4 h-4" strokeWidth={2.5} />
+                  <span className="hidden sm:inline">Add Plant</span>
+                </button>
+              }
+            >
+              {plantsLoading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <Skeleton key={i} className="h-[72px] rounded-[22px]" />
+                  ))}
+                </div>
+              ) : householdPlants.length === 0 ? (
+                <div className="rounded-[22px] bg-field px-5 py-8 text-center">
+                  <Sprout className="w-8 h-8 mx-auto text-muted-foreground mb-3" />
+                  <h3 className="text-[17px] font-bold text-foreground">No plants yet</h3>
+                  <p className="text-sm text-muted-foreground mt-1 mb-4 max-w-sm mx-auto">
+                    Add plants here so everyone can help with watering and care.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setIsAddPlantDialogOpen(true)}
+                    className="h-12 px-5 rounded-2xl bg-sprout-dark text-sprout-cream font-bold inline-flex items-center gap-2"
+                  >
+                    <Plus className="w-4 h-4" strokeWidth={2.5} />
+                    Add First Plant
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {householdPlants.map((plant) => (
+                    <HouseholdPlantRow
+                      key={plant.id}
+                      plant={plant}
+                      onOpen={() => navigate(`/my-plants/${plant.id}`)}
+                      onWater={() => handleWaterPlant(plant.id)}
+                      onPostpone={() => handlePostponePlant(plant.id)}
+                      onHistory={() => handleWateringHistory(plant)}
+                      onEdit={() => handleEditPlant(plant)}
+                    />
+                  ))}
+                </div>
+              )}
+            </SettingsCard>
+          </CascadingContainer>
+
+          {/* Sidebar: the Settings card takes up any extra height */}
+          <div className="flex flex-col gap-3">
+            <CascadingContainer delay={150}>
+              <SettingsCard
+                title="Members"
+                description={`${household.member_count} member${household.member_count !== 1 ? "s" : ""} in this household`}
+                icon={Users}
+                action={
+                  canManage ? (
+                    <button
+                      type="button"
+                      onClick={() => setInviteDialogOpen(true)}
+                      className="h-10 px-3.5 rounded-[14px] bg-field text-foreground text-sm font-bold inline-flex items-center gap-1.5"
+                    >
+                      <UserPlus className="w-4 h-4" />
+                      Invite
+                    </button>
+                  ) : undefined
+                }
+              >
+                <HouseholdMembersCard
+                  household={household}
+                  currentUserId={user.id}
+                  canManage={canManage}
+                  onRemoveMember={removeMember}
+                  onLeaveHousehold={leaveHousehold}
+                />
+              </SettingsCard>
             </CascadingContainer>
 
-            {/* Household Settings */}
-            <CascadingContainer delay={300}>
-              <Card className="border-0 shadow-md overflow-hidden">
-                <div className="h-1 bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300 dark:from-gray-600 dark:via-gray-500 dark:to-gray-600" />
-                <CardHeader>
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-xl bg-gray-100 dark:bg-gray-700">
-                      <Settings className="w-5 h-5 text-gray-600 dark:text-gray-300" />
-                    </div>
-                    <CardTitle>Settings</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-500 dark:text-gray-400 flex items-center gap-2">
-                        <CalendarDays className="w-4 h-4" />
-                        Created
-                      </span>
-                      <span className="font-medium">
-                        {new Date(household.created_at).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                        })}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-500 dark:text-gray-400 flex items-center gap-2">
-                        <Users className="w-4 h-4" />
-                        Members
-                      </span>
-                      <span className="font-medium">{household.member_count}</span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-500 dark:text-gray-400 flex items-center gap-2">
-                        <Crown className="w-4 h-4" />
-                        Your Role
-                      </span>
-                      <span className="font-medium capitalize">{currentUserMember?.role}</span>
-                    </div>
-                  </div>
+            <CascadingContainer delay={200} className="flex-1 flex flex-col">
+              <SettingsCard
+                title="Settings"
+                icon={Settings}
+                className="flex-1 flex flex-col"
+                bodyClassName="flex-1 flex flex-col"
+              >
+                <InfoRow icon={CalendarDays} label="Created">
+                  {new Date(household.created_at).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </InfoRow>
+                <InfoRow icon={Users} label="Members">{household.member_count}</InfoRow>
+                <InfoRow icon={Crown} label="Your Role">
+                  <span className="capitalize">{currentUserMember?.role}</span>
+                </InfoRow>
 
-                  {isOwner && (
-                    <div className="pt-4 border-t">
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => setDeleteDialogOpen(true)}
-                        className="w-full bg-sprout-error hover:bg-sprout-error/90 text-white"
-                      >
-                        <Trash2 className="w-4 h-4 mr-2" />
-                        Delete Household
-                      </Button>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+                {isOwner && (
+                  // Pinned to the bottom if the card grows to match the plants column
+                  <div className="flex-1 flex items-end">
+                    <button
+                      type="button"
+                      onClick={() => setDeleteDialogOpen(true)}
+                      className="w-full h-12 mt-1 rounded-[18px] bg-sprout-warning text-sprout-dark font-bold text-[15px] inline-flex items-center justify-center gap-2"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      Delete Household
+                    </button>
+                  </div>
+                )}
+              </SettingsCard>
             </CascadingContainer>
           </div>
         </div>
@@ -708,9 +461,9 @@ const HouseholdManagement = () => {
         />
 
         <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-          <AlertDialogContent>
+          <AlertDialogContent className={confirmDialogClasses}>
             <AlertDialogHeader>
-              <AlertDialogTitle>Delete Household</AlertDialogTitle>
+              <AlertDialogTitle className={confirmTitleClasses}>Delete Household</AlertDialogTitle>
               <AlertDialogDescription>
                 Are you sure you want to delete "{household.name}"? This action
                 cannot be undone. All household data, including shared plants
@@ -718,10 +471,10 @@ const HouseholdManagement = () => {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogCancel className={confirmCancelClasses}>Cancel</AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleDeleteHousehold}
-                className="bg-sprout-error hover:bg-sprout-error/90 text-white"
+                className={confirmDestructiveClasses}
               >
                 Delete Household
               </AlertDialogAction>
@@ -733,5 +486,137 @@ const HouseholdManagement = () => {
     </div>
   );
 };
+
+
+function StatTile({
+  icon: Icon,
+  value,
+  label,
+  classes,
+}: {
+  icon: React.ElementType;
+  value: number;
+  label: string;
+  classes: string;
+}) {
+  return (
+    <div className={cn("rounded-card px-5 py-4 flex items-center justify-between gap-3", classes)}>
+      <div className="min-w-0">
+        <div className="font-display text-[28px] md:text-[32px] font-extrabold leading-none tabular-nums">{value}</div>
+        <div className="text-[13px] font-bold mt-1.5">{label}</div>
+      </div>
+      <Icon className="w-7 h-7 shrink-0 opacity-80" aria-hidden="true" />
+    </div>
+  );
+}
+
+function InfoRow({
+  icon: Icon,
+  label,
+  children,
+}: {
+  icon: React.ElementType;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-3 rounded-[18px] bg-field px-4 py-3 text-[15px]">
+      <span className="flex items-center gap-2 text-muted-foreground font-semibold">
+        <Icon className="w-4 h-4" />
+        {label}
+      </span>
+      <span className="font-bold text-foreground">{children}</span>
+    </div>
+  );
+}
+
+function HouseholdPlantRow({
+  plant,
+  onOpen,
+  onWater,
+  onPostpone,
+  onHistory,
+  onEdit,
+}: {
+  plant: HouseholdPlant;
+  onOpen: () => void;
+  onWater: () => void;
+  onPostpone: () => void;
+  onHistory: () => void;
+  onEdit: () => void;
+}) {
+  const calc = calculateWateringSchedule(plant);
+  const status = getWateringStatus(calc, plant.latest_watering);
+  const owner = plant.is_owned_by_user
+    ? "You"
+    : plant.plant_owner?.email?.split("@")[0] || "Unknown";
+
+  return (
+    <div className="flex items-center gap-3 rounded-[22px] bg-field p-2.5">
+      <button
+        type="button"
+        onClick={onOpen}
+        className="flex items-center gap-3 flex-1 min-w-0 text-left"
+        aria-label={`View details for ${plant.nickname}`}
+      >
+        <div className="w-14 h-14 shrink-0 rounded-2xl overflow-hidden bg-card">
+          <PlantImage
+            src={getPlantImageUrl(plant.image, plant.plant_type, PLANT_FALLBACK_IMAGE)}
+            alt=""
+            className="w-full h-full"
+          />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h4 className="text-base font-bold text-foreground truncate">{plant.nickname}</h4>
+          <p className="text-[13px] text-muted-foreground truncate">
+            {plant.plant_type}
+            {plant.room ? ` · ${getRoomLabel(plant.room)}` : ""}
+          </p>
+          <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+            <span className={cn("text-[11px] font-bold px-2 py-0.5 rounded-full", status.bentoClasses)}>
+              {status.text}
+            </span>
+            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-card text-muted-foreground">
+              Owner: {owner}
+            </span>
+          </div>
+        </div>
+      </button>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button
+            type="button"
+            className="w-10 h-10 shrink-0 rounded-[14px] bg-card text-foreground flex items-center justify-center hover:bg-sprout-cream hover:text-sprout-dark transition-colors"
+            aria-label="Plant actions menu"
+          >
+            <MoreHorizontal className="w-5 h-5" />
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56 rounded-2xl">
+          <DropdownMenuItem onClick={onWater} className="cursor-pointer">
+            <Droplets className="w-4 h-4 mr-2 text-sprout-water" />
+            Water Now
+          </DropdownMenuItem>
+          {calc.isOverdue && (
+            <DropdownMenuItem onClick={onPostpone} className="cursor-pointer">
+              <Clock className="w-4 h-4 mr-2" />
+              Push to Tomorrow
+            </DropdownMenuItem>
+          )}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={onHistory} className="cursor-pointer">
+            <History className="w-4 h-4 mr-2" />
+            View Watering History
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={onEdit} className="cursor-pointer" disabled={!plant.is_owned_by_user}>
+            <Edit className="w-4 h-4 mr-2" />
+            Edit Plant
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
 
 export default HouseholdManagement;

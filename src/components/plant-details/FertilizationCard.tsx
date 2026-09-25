@@ -1,7 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -21,6 +18,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { FlaskConical, ChevronDown, AlertTriangle, Info, CheckCircle2, BookOpen, BellOff, CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  FieldLabel,
+  confirmCancelClasses,
+  confirmDialogClasses,
+  confirmIconClasses,
+  confirmPrimaryClasses,
+  confirmTitleClasses,
+} from "@/components/settings/SettingsUI";
 import { format } from "date-fns";
 import type { UserPlant } from "@/hooks/useUserPlants";
 import type { CatalogPlant } from "@/data/types";
@@ -42,6 +47,14 @@ interface FertilizationCardProps {
 /** Notification key matching the banner — per-plant dismissal uses the same type but with plant_id set */
 function seasonKey(): string {
   return `spring_fertilization_${new Date().getFullYear()}`;
+}
+
+const primaryButton =
+  "h-12 rounded-[18px] bg-sprout-dark text-sprout-cream font-bold text-[15px] shadow-[inset_0_0_0_2px_#dfc490] hover:bg-sprout-dark/90 disabled:opacity-50 disabled:shadow-none inline-flex items-center justify-center gap-2";
+const secondaryButton = "h-12 rounded-[18px] bg-card text-foreground font-bold text-[15px] hover:bg-card/80";
+
+function Pill({ className, children }: { className: string; children: React.ReactNode }) {
+  return <span className={cn("shrink-0 text-xs font-bold px-2.5 py-[3px] rounded-full", className)}>{children}</span>;
 }
 
 const FertilizationCard = ({
@@ -151,33 +164,25 @@ const FertilizationCard = ({
     setNoteSaved(false);
   };
 
-  // Build the status badge
+  // Status line under the card title
   const renderBadge = () => {
     if (!status.isGrowingSeason) {
-      return (
-        <Badge variant="outline" className="text-xs border-amber-400 text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30">
-          Dormant season
-        </Badge>
-      );
+      return <Pill className="bg-sprout-cream text-sprout-dark">Dormant season</Pill>;
     }
     if (isDismissed) {
-      return (
-        <span className="text-xs text-muted-foreground">Skipped this season</span>
-      );
+      return <span className="text-[13px] text-muted-foreground">Skipped this season</span>;
     }
     if (status.isDue) {
       return (
         <>
-          <Badge variant="outline" className="text-xs border-green-500 text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-950/30">
-            Due now
-          </Badge>
-          <span className="text-xs text-muted-foreground">hasn't been fertilized recently</span>
+          <Pill className="bg-sprout-success text-sprout-dark">Due now</Pill>
+          <span className="text-[13px] text-muted-foreground truncate">hasn't been fertilized recently</span>
         </>
       );
     }
     if (status.daysUntilDue !== null) {
       return (
-        <span className="text-xs text-muted-foreground">
+        <span className="text-[13px] text-muted-foreground">
           Next in {status.daysUntilDue} day{status.daysUntilDue === 1 ? "" : "s"}
         </span>
       );
@@ -198,175 +203,157 @@ const FertilizationCard = ({
           if (!open) setConfirmOpen(false);
         }}
       >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2">
-              <FlaskConical className="w-5 h-5 text-sprout-primary" />
-              Log fertilization?
-            </AlertDialogTitle>
-            <AlertDialogDescription>
+        <AlertDialogContent className={confirmDialogClasses}>
+          <AlertDialogHeader className="text-left">
+            <div className="flex items-center gap-3 mb-1">
+              <div className={cn(confirmIconClasses, "bg-sprout-success text-sprout-dark")}>
+                <FlaskConical className="w-6 h-6" />
+              </div>
+              <AlertDialogTitle className={confirmTitleClasses}>Log fertilization?</AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="text-[15px]">
               This will record{" "}
-              <strong className="text-foreground font-semibold">
+              <strong className="text-foreground font-bold">
                 {format(fertilizationDate, "MMM d, yyyy")}
               </strong>{" "}
               as the last fertilization for{" "}
-              <strong className="text-foreground font-semibold">
+              <strong className="text-foreground font-bold">
                 {plant.nickname || plant.plant_type || "this plant"}
               </strong>.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel className={confirmCancelClasses}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleLogFertilization}
-              className="bg-sprout-primary hover:bg-sprout-medium text-white border-0"
+              className={confirmPrimaryClasses}
             >
               Yes, log it
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <Card
-        className="mb-6 hover:border-plant-primary/50 transition-colors"
-      >
-      {/* Header row — always visible, click to toggle */}
-      <CardContent
-        className="flex items-center justify-between py-4 px-4 cursor-pointer"
+      <section className="rounded-card bg-card">
+      {/* Header row — always visible, tap to toggle */}
+      <button
+        type="button"
+        className="w-full flex items-center gap-3.5 p-[18px] text-left"
         onClick={() => setIsExpanded(prev => !prev)}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            setIsExpanded(prev => !prev);
-          }
-        }}
+        aria-expanded={isExpanded}
       >
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-950/40 flex items-center justify-center flex-shrink-0">
-            <FlaskConical className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-          </div>
-          <div>
-            <p className="text-sm font-medium text-foreground">Fertilization</p>
-            <div className="flex items-center gap-2 mt-0.5">
-              {renderBadge()}
-            </div>
-          </div>
+        <div className="w-11 h-11 shrink-0 rounded-[14px] bg-sprout-success text-sprout-dark flex items-center justify-center">
+          <FlaskConical className="w-5 h-5" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[15px] font-bold text-foreground">Fertilization</p>
+          <div className="flex items-center gap-2 mt-0.5 min-w-0">{renderBadge()}</div>
         </div>
         <ChevronDown
           className={cn(
-            "w-4 h-4 text-muted-foreground transition-transform duration-200",
+            "w-5 h-5 shrink-0 text-muted-foreground transition-transform duration-200",
             isExpanded && "rotate-180"
           )}
         />
-      </CardContent>
+      </button>
 
       {/* Expanded body */}
       {isExpanded && (
-        <div className="px-4 pb-4 pt-0 border-t space-y-4">
+        <div className="px-[18px] pb-[18px] space-y-2">
           {/* Frequency and product type */}
-          <div className="pt-3">
-            <p className="text-sm text-foreground">
-              <span className="font-medium">Feed {advice.frequencyLabel}</span>
+          <div className="rounded-[18px] bg-field p-4">
+            <p className="text-[15px] text-foreground">
+              <span className="font-bold">Feed {advice.frequencyLabel}</span>
               {advice.fertilizerType && (
                 <span className="text-muted-foreground"> with {advice.fertilizerType.toLowerCase()}</span>
               )}
             </p>
             {advice.rawTip && (
-              <blockquote className="mt-2 pl-3 border-l-2 border-sprout-primary/40 text-xs text-muted-foreground italic">
-                {advice.rawTip}
-              </blockquote>
+              <p className="mt-1.5 text-[13px] text-muted-foreground leading-relaxed">{advice.rawTip}</p>
             )}
+            <p className="mt-2 text-[13px] font-semibold text-muted-foreground flex items-center gap-1.5">
+              <Info className="w-3.5 h-3.5 shrink-0" />
+              Last fertilized: {lastFertilizedText()}
+            </p>
           </div>
-
-          {/* Last fertilized */}
-          <p className="text-xs text-muted-foreground flex items-center gap-1.5">
-            <Info className="w-3.5 h-3.5 flex-shrink-0" />
-            Last fertilized: {lastFertilizedText()}
-          </p>
 
           {/* Dormancy warning */}
           {!status.isGrowingSeason && (
-            <div className="flex items-start gap-2 p-3 rounded-md bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/40 text-sm">
-              <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
-              <p className="text-amber-800 dark:text-amber-300">
+            <div className="flex items-start gap-2.5 rounded-[18px] bg-sprout-cream text-sprout-dark p-4 text-sm font-medium">
+              <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+              <p>
                 Your plant is in its dormant season (fall/winter). Skip fertilizing until spring to avoid salt buildup and root damage.
               </p>
             </div>
           )}
 
           {/* Static repotting advisory — always shown */}
-          <div className="flex items-start gap-2 p-3 rounded-md bg-muted/50 border border-border text-xs text-muted-foreground">
-            <Info className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2.5 rounded-[18px] bg-field p-4 text-[13px] text-muted-foreground leading-relaxed">
+            <Info className="w-4 h-4 shrink-0 mt-0.5" />
             <p>
-              <span className="font-medium">Recently repotted?</span> Wait 6–8 weeks before fertilizing — fresh potting mix already has enough nutrients. Fertilizing too soon can burn recovering roots.
+              <span className="font-bold text-foreground">Recently repotted?</span> Wait 6–8 weeks before fertilizing — fresh potting mix already has enough nutrients. Fertilizing too soon can burn recovering roots.
             </p>
           </div>
 
           {/* Log fertilization button — or post-log journal prompt */}
           {isDismissed && status.isGrowingSeason ? (
-            <div className="flex items-center justify-between text-xs text-muted-foreground p-2 rounded-md bg-muted/40">
+            <div className="flex items-center justify-between gap-2 rounded-[18px] bg-field px-4 py-3 text-[13px] text-muted-foreground">
               <span>Fertilization reminder skipped for this season.</span>
               <button
+                type="button"
                 onClick={() => { setIsDismissed(false); localStorage.removeItem(lsKey); }}
-                className="text-xs underline underline-offset-2 hover:text-foreground ml-2 flex-shrink-0"
+                className="shrink-0 font-bold text-link"
               >
                 Undo
               </button>
             </div>
           ) : justLogged ? (
-            <div className="space-y-3 p-3 rounded-md bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800/40">
-              <div className="flex items-center gap-2 text-sm font-medium text-green-800 dark:text-green-300">
-                <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
+            <div className="space-y-2.5 rounded-[18px] bg-sprout-success/15 p-4">
+              <div className="flex items-center gap-2 text-[15px] font-bold text-foreground">
+                <CheckCircle2 className="w-5 h-5 shrink-0 text-sprout-success" />
                 {noteSaved ? "Note saved" : "Fertilization logged"}
               </div>
               {!noteSaved && (
                 <>
-                  <div className="flex items-center gap-1.5 text-xs text-green-700 dark:text-green-400">
-                    <BookOpen className="w-3.5 h-3.5 flex-shrink-0" />
-                    <span>Want to add a journal note? <span className="text-muted-foreground">(optional)</span></span>
+                  <div className="flex items-center gap-1.5 text-[13px] text-muted-foreground">
+                    <BookOpen className="w-3.5 h-3.5 shrink-0" />
+                    <span>Want to add a journal note? (optional)</span>
                   </div>
                   <Textarea
                     value={noteText}
                     onChange={(e) => setNoteText(e.target.value)}
                     placeholder="e.g. Used half-strength liquid fertilizer, leaves looking healthy…"
-                    className="text-sm min-h-[72px] resize-none"
+                    className="min-h-[72px] resize-none rounded-2xl border-0 bg-card px-4 py-3 text-[15px] focus-visible:ring-2 focus-visible:ring-offset-0"
                     autoFocus
                   />
                   <div className="flex gap-2">
-                    <Button
-                      size="sm"
+                    <button type="button" onClick={handleSkipNote} className={cn(secondaryButton, "flex-1")}>
+                      Skip
+                    </button>
+                    <button
+                      type="button"
                       onClick={handleSaveNote}
                       disabled={!noteText.trim() || isSavingNote}
-                      className="flex-1"
+                      className={cn(primaryButton, "flex-[1.4]")}
                     >
                       {isSavingNote ? "Saving…" : "Save note"}
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={handleSkipNote}
-                      className="flex-1"
-                    >
-                      Skip
-                    </Button>
+                    </button>
                   </div>
                 </>
               )}
             </div>
           ) : (
-            <div className="space-y-2">
-              <div className="space-y-1.5">
-                <p className="text-xs font-medium text-muted-foreground">Date</p>
+            <div className="space-y-2 pt-1">
+              <div>
+                <FieldLabel>Date</FieldLabel>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start text-left font-normal text-sm"
+                    <button
+                      type="button"
+                      className="w-full h-12 rounded-2xl bg-field px-4 inline-flex items-center gap-2 text-[15px] font-semibold text-foreground"
                     >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      <CalendarIcon className="h-4 w-4 text-muted-foreground" />
                       {format(fertilizationDate, 'PPP')}
-                    </Button>
+                    </button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
@@ -379,20 +366,23 @@ const FertilizationCard = ({
                   </PopoverContent>
                 </Popover>
               </div>
-              <Button
+              <button
+                type="button"
                 onClick={() => setConfirmOpen(true)}
                 disabled={!status.isGrowingSeason || isLogging}
-                className="w-full"
+                className={cn(primaryButton, "w-full")}
                 title={!status.isGrowingSeason ? "Fertilizing during dormancy can damage your plant" : undefined}
               >
+                <FlaskConical className="w-4 h-4" />
                 {isLogging ? "Logging…" : "Log Fertilization"}
-              </Button>
+              </button>
               {status.isGrowingSeason && status.isDue && (
                 <button
+                  type="button"
                   onClick={handleDismissForSeason}
-                  className="w-full text-xs text-muted-foreground hover:text-foreground flex items-center justify-center gap-1.5 py-1"
+                  className="w-full text-[13px] font-semibold text-muted-foreground hover:text-foreground flex items-center justify-center gap-1.5 py-1"
                 >
-                  <BellOff className="w-3 h-3" />
+                  <BellOff className="w-3.5 h-3.5" />
                   Skip reminder for this season
                 </button>
               )}
@@ -400,7 +390,7 @@ const FertilizationCard = ({
           )}
         </div>
       )}
-      </Card>
+      </section>
     </>
   );
 };

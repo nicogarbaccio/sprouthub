@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +11,7 @@ import {
   Trash2,
   History,
   Clock,
-  ChevronDown,
+  MoreHorizontal,
 } from "lucide-react";
 
 interface PlantActionsMenuProps {
@@ -37,13 +36,13 @@ const PlantActionsMenu = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          className="flex-1 bg-sprout-water hover:bg-sprout-water/90 text-sprout-white rounded-xl font-medium"
+        <button
+          type="button"
+          className="w-12 h-12 rounded-2xl bg-card text-foreground flex items-center justify-center shadow-sm"
           aria-label="Plant actions menu"
         >
-          Actions
-          <ChevronDown className="w-4 h-4 ml-2" />
-        </Button>
+          <MoreHorizontal className="w-[22px] h-[22px]" />
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuItem onClick={onWaterClick} className="cursor-pointer">
@@ -79,7 +78,7 @@ const PlantActionsMenu = ({
 
         <DropdownMenuItem
           onClick={onDeleteClick}
-          className="cursor-pointer text-red-400 focus:text-red-400"
+          className="cursor-pointer text-destructive focus:text-destructive"
         >
           <Trash2 className="w-4 h-4 mr-2" />
           Delete

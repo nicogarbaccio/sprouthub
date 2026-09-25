@@ -1,7 +1,5 @@
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Loader2, Search, Info } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
 
 interface ManualLocationInputProps {
   value: string;
@@ -34,42 +32,44 @@ export function ManualLocationInput({
   };
 
   return (
-    <div className="space-y-2">
-      <Label htmlFor="manual-location" className="text-sm">
+    <div>
+      <label
+        htmlFor="manual-location"
+        className="block text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground px-1 mb-1.5"
+      >
         Manual Location (Optional)
-      </Label>
+      </label>
       <div className="flex gap-2">
         <Input
           id="manual-location"
-          placeholder="Enter ZIP code or city name"
+          placeholder="ZIP code or city"
           value={value}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           disabled={isGeocoding}
           data-testid="manual-location-input"
+          className="h-12 rounded-2xl border-0 bg-field text-[15px] font-medium focus-visible:ring-2 focus-visible:ring-offset-0"
         />
-        <Button
-          variant="outline"
-          size="icon"
+        <button
+          type="button"
           onClick={onGeocode}
           disabled={isGeocoding || !value.trim()}
           data-testid="manual-location-search-button"
+          aria-label="Find location"
+          className="w-12 h-12 shrink-0 rounded-2xl bg-sprout-dark text-sprout-cream flex items-center justify-center disabled:opacity-50"
         >
           {isGeocoding ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
+            <Loader2 className="h-5 w-5 animate-spin" />
           ) : (
-            <Search className="h-4 w-4" />
+            <Search className="h-5 w-5" />
           )}
-        </Button>
+        </button>
       </div>
       {error && (
-        <p className="text-xs text-red-500" data-testid="manual-location-error">{error}</p>
+        <p className="text-[13px] font-semibold text-sprout-warning px-1 mt-1.5" data-testid="manual-location-error">{error}</p>
       )}
-      <p className="text-xs text-muted-foreground flex items-start gap-1">
-        <Info className="h-3 w-3 mt-0.5 flex-shrink-0" />
-        <span>
-          Enter a US ZIP code (e.g., "10001") or city name (e.g., "New York, NY"). Press Enter or click the search button to find the location.
-        </span>
+      <p className="text-[13px] text-muted-foreground px-1 mt-1.5">
+        A US ZIP code (e.g. 10001) or a city (e.g. New York, NY). Press Enter to search.
       </p>
     </div>
   );

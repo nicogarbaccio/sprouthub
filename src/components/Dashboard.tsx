@@ -1,21 +1,20 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { isToday } from "date-fns";
 import { CloudRain, Calendar } from "lucide-react";
 import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { hookLogger } from "@/utils/hookLogging";
 import { useDialogState } from "@/hooks/useDialogState";
-import { WelcomeHeader } from "@/components/dashboard/WelcomeHeader";
-import { QuickActions } from "@/components/dashboard/QuickActions";
-import { CareStatusOverview } from "@/components/dashboard/CareStatusOverview";
-import { DashboardTodaysTasks } from "@/components/dashboard/DashboardTodaysTasks";
-import { DashboardRecentActivity } from "@/components/dashboard/DashboardRecentActivity";
+import {
+  HomeHeader,
+  HomeTiles,
+  UpNextList,
+} from "@/components/dashboard/BentoHome";
 import { DashboardHealthInsights } from "@/components/dashboard/DashboardHealthInsights";
 import MyPlantsBlogSection from "@/components/blog/MyPlantsBlogSection";
 import { DashboardDialogs } from "@/components/dashboard/DashboardDialogs";
 
 const COMPONENT_NAME = "Dashboard";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DashboardSkeleton } from "@/components/DashboardSkeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
@@ -28,14 +27,12 @@ import { useWeatherData } from "@/hooks/useWeatherData";
 import { useLocation } from "@/hooks/useLocation";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
 import { useCalendarSeasonalNotification } from "@/hooks/useCalendarSeasonalNotification";
-import { WeatherMoodBanner } from "@/components/WeatherMoodBanner";
 import { useRainDelayFromWeather } from "@/hooks/useRainDelay";
 import { SeasonalReviewBanner } from "./SeasonalReviewBanner";
 import { CalendarSeasonalBanner } from "./CalendarSeasonalBanner";
 import { FertilizationBanner } from "./FertilizationBanner";
 import { useFertilizationBanner } from "@/hooks/useFertilizationBanner";
 import { SmartSuggestionsBanner } from "./SmartSuggestionsBanner";
-import { EnableWeatherPrompt } from "./EnableWeatherPrompt";
 import { shouldShowOverwateringWarning } from "@/utils/plants/overwatering";
 import { useBulkPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { useDismissedSuggestions } from "@/hooks/useDismissedSuggestions";
@@ -43,6 +40,9 @@ import type { PatternInsight } from "@/types/wateringPatternTypes";
 import { useKeyboardShortcuts, createPlantShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { useCareStreak } from "@/hooks/useCareStreak";
 import { useManualNotifications } from "@/hooks/usePlantNotifications";
+import { useNotifications } from "@/contexts/NotificationContext";
+import { openNotificationCenter } from "@/utils/appEvents";
+import { getPlantFertilizationStatus } from "@/utils/plants/fertilizationAdvice";
 
 const Dashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -66,6 +66,7 @@ const Dashboard = () => {
   });
   const navigate = useNavigate();
   const { notifyWateringSuccess, notifyBulkWatering } = useManualNotifications();
+  const { unreadCount } = useNotifications();
 
   // Handle refresh from onboarding
   useEffect(() => {
@@ -166,7 +167,13 @@ const Dashboard = () => {
   >(new Map());
 
   // Care streak check - verifies recent waterings were actually on time
-  const { hasStreak: hasCareStreak, checkStreak } = useCareStreak();
+  const {
+    hasStreak: hasCareStreak,
+    checkStreak,
+    streakDays,
+    onTimeRate,
+    lookbackDays,
+  } = useCareStreak();
 
   useEffect(() => {
     if (!loading && plants.length > 0) {
@@ -219,11 +226,7 @@ const Dashboard = () => {
   // This avoids keeping the skeleton visible while the profile fetch resolves.
   const isLoading = loading;
 
-  // Get the user's first name, with fallback to "plant parent"
   const firstName = profileData.first_name?.trim();
-  const greeting = firstName
-    ? `Welcome back, ${firstName}!`
-    : "Welcome back, plant parent!";
 
   // Calculate care statistics using the new watering calculation utility
   const totalPlants = plants.length;
@@ -285,13 +288,6 @@ const Dashboard = () => {
                                  overduePlants === 0 &&
                                  plantsWithoutWateringData === 0;
 
-  const recentlyAddedCount = plants.filter((plant) => {
-    const plantDate = new Date(plant.created_at);
-    const daysDiff = Math.floor(
-      (Date.now() - plantDate.getTime()) / (1000 * 60 * 60 * 24)
-    );
-    return daysDiff <= 7;
-  }).length;
 
   // Get plants needing water today (for task list) using the new utility
   const plantsNeedingWater = plants
@@ -333,15 +329,39 @@ const Dashboard = () => {
     [plantsNeedingWater, rainDelayByPlantId]
   );
 
-  // Get recent activities (recently watered plants)
-  const recentlyWateredPlants = plants
-    .filter((plant) => plant.latest_watering)
-    .sort(
-      (a, b) =>
-        new Date(b.latest_watering!).getTime() -
-        new Date(a.latest_watering!).getTime()
+  // The most overdue plant headlines the Overdue tile (the list is sorted most overdue first)
+  const mostOverduePlant = plantsNeedingWater.find(
+    (plant) => calculateWateringSchedule(plant).isOverdue
+  );
+  const mostOverdue = mostOverduePlant
+    ? {
+        plant: mostOverduePlant,
+        days: Math.abs(calculateWateringSchedule(mostOverduePlant).daysUntilWatering ?? 0),
+      }
+    : null;
+
+  // Plants due in the coming week (not today), soonest first
+  const upcomingPlants = plants
+    .map((plant) => ({ plant, calc: calculateWateringSchedule(plant) }))
+    .filter(
+      ({ calc }) =>
+        !calc.hasUnknownWateringDate &&
+        calc.daysUntilWatering !== null &&
+        calc.daysUntilWatering > 0 &&
+        calc.daysUntilWatering <= 7
     )
-    .slice(0, 5);
+    .sort((a, b) => (a.calc.daysUntilWatering ?? 0) - (b.calc.daysUntilWatering ?? 0))
+    .map(({ plant }) => plant);
+
+  const wateredTodayCount = plants.filter(
+    (plant) => plant.latest_watering && isToday(new Date(plant.latest_watering))
+  ).length;
+
+  const plantsReadyToFeed = plants.filter(
+    (plant) => getPlantFertilizationStatus(plant).status.isDue
+  );
+
+  const dueThisWeek = upcomingPlants.length;
 
 
   // Get unique plant type names for blog post matching
@@ -557,51 +577,70 @@ const Dashboard = () => {
     await updatePlantSchedule(plantId, newSchedule);
   };
 
+  // One plant gets its own water sheet (health check, backdating, notes); several get the bulk dialog
+  const openWaterAll = () => {
+    if (plantsNeedingWater.length === 1) {
+      handleQuickWater(plantsNeedingWater[0].id, plantsNeedingWater[0].nickname);
+    } else if (plantsNeedingWater.length > 1) {
+      bulkWaterDialog.open();
+    }
+  };
+
   return (
     <LoadingTransition loading={isLoading} skeleton={<DashboardSkeleton />}>
     <div
       data-testid="dashboard"
-      className="py-8 bg-background min-h-[calc(100vh-4rem)]"
+      className="pt-3.5 pb-32 lg:pt-7 lg:pb-10 bg-background"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Welcome Header */}
-        <WelcomeHeader greeting={greeting} />
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+        <HomeHeader
+          firstName={firstName}
+          unreadCount={unreadCount}
+          onBellClick={openNotificationCenter}
+          onAddPlant={() => addDialog.open()}
+        />
 
-        {/* Weather Mood Banner - cascades in gracefully when data loads */}
-        {preferences?.use_weather_data && (
-          <div
-            className="grid transition-[grid-template-rows] duration-700 ease-out"
-            style={{
-              gridTemplateRows: weather.weatherData && !weather.isLoading ? '1fr' : '0fr',
+        <div className="mt-[18px] lg:mt-6">
+          <HomeTiles
+            weather={{
+              enabled: !!preferences?.use_weather_data,
+              preferencesLoaded: hasLoadedPreferences,
+              data: weather.weatherData ?? null,
+              unit: preferences?.temperature_unit || "F",
+              isLoading: weather.isLoading,
             }}
-          >
-            <div className="overflow-hidden">
-              <div
-                className="transition-all duration-700 ease-out mb-6"
-                style={{
-                  opacity: weather.weatherData && !weather.isLoading ? 1 : 0,
-                  transform: weather.weatherData && !weather.isLoading
-                    ? 'translateY(0)'
-                    : 'translateY(-8px)',
-                }}
-              >
-                {weather.weatherData && (
-                  <div data-testid="weather-mood-banner">
-                    <WeatherMoodBanner
-                      weatherData={weather.weatherData}
-                      temperatureUnit={preferences?.temperature_unit || "F"}
-                      lastUpdated={weather.lastUpdated}
-                      onRefresh={() => weather.refreshWeather()}
-                      isRefreshing={weather.isLoading}
-                      isFallback={weather.isFallback}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
+            streak={{
+              days: streakDays,
+              onTimeRate,
+              lookbackDays,
+            }}
+            hasPlants={totalPlants > 0}
+            dueCount={plantsNeedingWater.length}
+            dueNames={plantsNeedingWater.map((plant) => plant.nickname)}
+            wateredToday={wateredTodayCount}
+            nextUp={
+              upcomingPlants[0]
+                ? {
+                    name: upcomingPlants[0].nickname,
+                    days: calculateWateringSchedule(upcomingPlants[0]).daysUntilWatering ?? 1,
+                  }
+                : null
+            }
+            onWaterAll={openWaterAll}
+            attention={{
+              mostOverdue,
+              overdueCount: overduePlants,
+              readyToFeed: plantsReadyToFeed,
+              unscheduled: plants.filter(
+                (plant) => calculateWateringSchedule(plant).hasUnknownWateringDate
+              ),
+              dueThisWeek,
+            }}
+          />
+        </div>
 
+        {/* Alerts sit between the tiles and today's plants so they're seen but don't bury the tiles */}
+        <div className="mt-6 empty:hidden">
         {/* Weather-based Seasonal Review Banner (requires weather enabled) */}
         {shouldShowReview && pendingTransition && suggestions.length > 0 && (
           <CascadingContainer delay={50}>
@@ -680,141 +719,105 @@ const Dashboard = () => {
           </CascadingContainer>
         )}
 
-        {/* Quick Actions */}
-        <QuickActions
-          plantsNeedingWaterCount={plantsNeedingWater.length}
-          onAddPlantClick={() => addDialog.open()}
-          onWaterPlantsClick={() => {
-            if (plantsNeedingWater.length > 0) {
-              bulkWaterDialog.open();
-            }
-          }}
-          onViewAllPlantsClick={() => navigate("/my-plants")}
-        />
-
-        {/* Care Status Overview */}
-        <CareStatusOverview
-          totalPlants={totalPlants}
-          plantsNeedingWaterToday={plantsNeedingWaterToday}
-          overduePlants={overduePlants}
-          recentlyAddedCount={recentlyAddedCount}
-        />
-
-        {/* Enable Weather Prompt - only show once preferences have loaded and weather is off */}
-        {hasLoadedPreferences && !preferences?.use_weather_data && (
-          <CascadingContainer delay={200}>
-            <div data-testid="enable-weather-prompt">
-              <EnableWeatherPrompt />
-            </div>
-          </CascadingContainer>
-        )}
-
         {/* Rain Delay Notification - Show when outdoor plants can skip watering */}
         {outdoorPlantsWithRainDelay.length > 0 && weather.weatherData && (
           <CascadingContainer delay={275}>
             <div data-testid="rain-delay-notification" className="mb-6">
-              <Card className="border-blue-400 bg-blue-400/5">
-                <CardContent className="p-4">
-                  <div className="flex items-start gap-3">
-                    <CloudRain className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                    <div className="flex-1 space-y-2">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="font-medium text-sprout-white">
-                          Rain Expected
-                        </h4>
-                        <Badge variant="secondary" className="text-xs">
-                          {weather.weatherData.upcoming_rain_probability}%
-                          chance
-                        </Badge>
-                      </div>
-                      {/*
-                        These plants are still due and remain in Today's Tasks. The copy used to
-                        say watering "can wait" and that plants "can skip watering", which
-                        implied the reminder had been handled — but rain probability carries no
-                        timing, so nothing here justifies dropping the reminder. Postponing is
-                        offered as an explicit choice instead.
-                      */}
-                      <p className="text-sm text-sprout-light">
-                        {outdoorPlantsWithRainDelay.length} outdoor plant
-                        {outdoorPlantsWithRainDelay.length !== 1 ? "s are" : " is"}{" "}
-                        due, but rain is forecast. You may want to postpone
-                        {outdoorPlantsWithRainDelay.length !== 1 ? " them" : " it"}:
-                      </p>
-                      <ul className="text-sm text-sprout-light space-y-1.5">
-                        {outdoorPlantsWithRainDelay.slice(0, 3).map((item) => (
-                          <li
-                            key={item.plant.id}
-                            className="flex items-center justify-between gap-2"
-                          >
-                            <span className="truncate">
-                              {item.plant.nickname || item.plant.plant_type}
-                            </span>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-7 px-2 text-xs text-sprout-water hover:bg-sprout-water/20 flex-shrink-0"
-                              onClick={() =>
-                                handlePostponeForRain(
-                                  item.plant.id,
-                                  item.rainDelay.suggestedDelayDays
-                                )
-                              }
-                            >
-                              Postpone {item.rainDelay.suggestedDelayDays}d
-                            </Button>
-                          </li>
-                        ))}
-                        {outdoorPlantsWithRainDelay.length > 3 && (
-                          <li className="text-xs">
-                            +{outdoorPlantsWithRainDelay.length - 3} more
-                          </li>
-                        )}
-                      </ul>
-                      {outdoorPlantsWithRainDelay[0]?.rainDelay
-                        .nextCheckDate && (
-                        <div className="flex items-center gap-2 text-xs text-sprout-light">
-                          <Calendar className="w-3 h-3" />
-                          <span>
-                            Check again on{" "}
-                            {outdoorPlantsWithRainDelay[0].rainDelay.nextCheckDate.toLocaleDateString()}
-                          </span>
-                        </div>
-                      )}
+              <div className="rounded-card bg-sprout-water text-sprout-dark p-5">
+                <div className="flex items-start gap-3">
+                  <CloudRain className="w-6 h-6 mt-0.5 flex-shrink-0" />
+                  <div className="flex-1 space-y-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h4 className="font-display text-lg font-bold">
+                        Rain expected
+                      </h4>
+                      <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-sprout-dark text-sprout-water">
+                        {weather.weatherData.upcoming_rain_probability}% chance
+                      </span>
                     </div>
+                    {/*
+                      These plants are still due and remain in Today's Tasks. The copy used to
+                      say watering "can wait" and that plants "can skip watering", which
+                      implied the reminder had been handled — but rain probability carries no
+                      timing, so nothing here justifies dropping the reminder. Postponing is
+                      offered as an explicit choice instead.
+                    */}
+                    <p className="text-sm font-medium">
+                      {outdoorPlantsWithRainDelay.length} outdoor plant
+                      {outdoorPlantsWithRainDelay.length !== 1 ? "s are" : " is"}{" "}
+                      due, but rain is forecast. You may want to postpone
+                      {outdoorPlantsWithRainDelay.length !== 1 ? " them" : " it"}:
+                    </p>
+                    <ul className="text-sm space-y-1.5">
+                      {outdoorPlantsWithRainDelay.slice(0, 3).map((item) => (
+                        <li
+                          key={item.plant.id}
+                          className="flex items-center justify-between gap-2"
+                        >
+                          <span className="truncate font-semibold">
+                            {item.plant.nickname || item.plant.plant_type}
+                          </span>
+                          <Button
+                            size="sm"
+                            className="h-8 px-3 rounded-xl text-xs font-bold bg-sprout-dark text-sprout-water hover:bg-sprout-dark/90 flex-shrink-0"
+                            onClick={() =>
+                              handlePostponeForRain(
+                                item.plant.id,
+                                item.rainDelay.suggestedDelayDays
+                              )
+                            }
+                          >
+                            Postpone {item.rainDelay.suggestedDelayDays}d
+                          </Button>
+                        </li>
+                      ))}
+                      {outdoorPlantsWithRainDelay.length > 3 && (
+                        <li className="text-xs font-semibold">
+                          +{outdoorPlantsWithRainDelay.length - 3} more
+                        </li>
+                      )}
+                    </ul>
+                    {outdoorPlantsWithRainDelay[0]?.rainDelay
+                      .nextCheckDate && (
+                      <div className="flex items-center gap-2 text-xs font-medium">
+                        <Calendar className="w-3 h-3" />
+                        <span>
+                          Check again on{" "}
+                          {outdoorPlantsWithRainDelay[0].rainDelay.nextCheckDate.toLocaleDateString()}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           </CascadingContainer>
         )}
+        </div>
 
-        {/* Today's Tasks & Recent Activity */}
-        <CascadingContainer delay={300}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <DashboardTodaysTasks
-              plantsNeedingWater={plantsNeedingWater}
-              onQuickWater={handleQuickWater}
-              onNavigate={navigate}
-            />
-
-            <DashboardRecentActivity
-              recentlyWateredPlants={recentlyWateredPlants}
-            />
-          </div>
-        </CascadingContainer>
+        {/* Today's plants and the rest of the week, in one list */}
+        <div className="mt-[26px] lg:mt-7">
+          <UpNextList
+            today={plantsNeedingWater}
+            upcoming={upcomingPlants}
+            onQuickWater={handleQuickWater}
+          />
+        </div>
 
         {/* Plant Health Insights */}
-        <DashboardHealthInsights
-          totalPlants={totalPlants}
-          plantsWithoutWateringData={plantsWithoutWateringData}
-          overduePlants={overduePlants}
-          plantsNeedingWaterToday={plantsNeedingWaterToday}
-          plantsUpcomingSoon={plantsUpcomingSoon}
-          hasActiveCareRoutine={hasActiveCareRoutine}
-          hasCareStreak={hasCareStreak}
-          onAddPlant={() => addDialog.open()}
-          onNavigate={navigate}
-        />
+        <div className="mt-8">
+          <DashboardHealthInsights
+            totalPlants={totalPlants}
+            plantsWithoutWateringData={plantsWithoutWateringData}
+            overduePlants={overduePlants}
+            plantsNeedingWaterToday={plantsNeedingWaterToday}
+            plantsUpcomingSoon={plantsUpcomingSoon}
+            hasActiveCareRoutine={hasActiveCareRoutine}
+            hasCareStreak={hasCareStreak}
+            onAddPlant={() => addDialog.open()}
+            onNavigate={navigate}
+          />
+        </div>
 
         {/* Articles For Your Plants */}
         {myPlantNames.length > 0 && (

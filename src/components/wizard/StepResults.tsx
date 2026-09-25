@@ -1,9 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, AlertCircle } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { capitalize, cn } from "@/lib/utils";
 import type { SmartScheduleResult } from "@/utils/watering/smartSchedule";
+import { sheetPrimaryButtonClasses, sheetSecondaryButtonClasses } from "@/components/ui/bento-sheet";
 
 interface StepResultsProps {
   result: SmartScheduleResult;
@@ -12,110 +9,59 @@ interface StepResultsProps {
 }
 
 export const StepResults = ({ result, onStartOver, onApplySchedule }: StepResultsProps) => {
-  const isIncrease = result.totalAdjustment > 0;
-  const isDecrease = result.totalAdjustment < 0;
-  const noChange = result.totalAdjustment === 0;
+  const adjustment = result.totalAdjustment;
 
   return (
-    <div className="space-y-6">
-      <div className="text-center mb-6">
-        <CheckCircle className="w-12 h-12 text-sprout-light mx-auto mb-2" />
-        <h3 className="text-lg font-semibold text-sprout-white">
-          Your Personalized Schedule
-        </h3>
-        <p className="text-sprout-light">
-          Based on your inputs, here's the optimal watering schedule
-        </p>
+    <div className="space-y-2">
+      {/* Main result */}
+      <div className="rounded-card bg-sprout-water text-sprout-dark p-5">
+        <div className="text-xs font-bold tracking-[0.8px] uppercase">Recommended schedule</div>
+        <div className="font-display text-[40px] font-extrabold leading-none mt-2" data-testid="recommended-days">
+          Every {result.recommendedDays}
+          <span className="text-base"> {result.recommendedDays === 1 ? "day" : "days"}</span>
+        </div>
+        <div className="flex flex-wrap gap-1.5 mt-3.5">
+          <span className="text-xs font-bold px-2.5 py-1 rounded-full border-[1.5px] border-sprout-dark">
+            Base {result.baseDays} days
+          </span>
+          <span className="text-xs font-bold px-2.5 py-1 rounded-full border-[1.5px] border-sprout-dark">
+            {adjustment === 0 ? "No adjustment needed" : `${adjustment > 0 ? "+" : ""}${adjustment} days`}
+          </span>
+          <span
+            className="text-xs font-bold px-2.5 py-1 rounded-full bg-sprout-dark text-sprout-water"
+            data-testid="confidence-level"
+          >
+            {capitalize(result.confidence)} confidence
+          </span>
+        </div>
       </div>
 
-      {/* Main Result */}
-      <Card className="border-sprout-success bg-sprout-primary/50">
-        <CardContent className="p-6 text-center">
-          <div className="space-y-4">
-            <div>
-              <p className="text-sm text-sprout-light mb-1">
-                Recommended Schedule
-              </p>
-              <p
-                className="text-3xl font-bold text-sprout-success"
-                data-testid="recommended-days"
-              >
-                Every {result.recommendedDays} days
-              </p>
-            </div>
-
-            <div className="flex justify-center items-center gap-4 text-sm">
-              <div className="text-sprout-light">
-                Base: {result.baseDays} days
-              </div>
-              <div
-                className={cn(
-                  "font-medium",
-                  isIncrease && "text-sprout-warning",
-                  isDecrease && "text-sprout-water",
-                  noChange && "text-sprout-success"
-                )}
-              >
-                {noChange
-                  ? "No adjustment needed"
-                  : `${isIncrease ? "+" : ""}${result.totalAdjustment} days`}
-              </div>
-            </div>
-
-            <Badge
-              variant={
-                result.confidence === "high"
-                  ? "default"
-                  : result.confidence === "medium"
-                  ? "secondary"
-                  : "destructive"
-              }
-              className="mx-auto"
-              data-testid="confidence-level"
-            >
-              {result.confidence} confidence
-            </Badge>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Explanation */}
       {result.adjustmentReasons.length > 0 && (
-        <Card className="bg-sprout-primary/30 border-sprout-medium">
-          <CardContent className="p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <AlertCircle className="w-4 h-4 text-sprout-water" />
-              <h4 className="font-medium text-sprout-white">
-                Why this schedule?
-              </h4>
-            </div>
-            <ul className="space-y-2" data-testid="adjustment-reasons">
-              {result.adjustmentReasons.map((reason, index) => (
-                <li key={index} className="text-sm text-sprout-light">
-                  • {reason}
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+        <div className="rounded-3xl bg-card p-4">
+          <h4 className="text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground">Why this schedule?</h4>
+          <ul className="space-y-2 mt-2.5" data-testid="adjustment-reasons">
+            {result.adjustmentReasons.map((reason, index) => (
+              <li key={index} className="text-sm text-foreground leading-snug flex items-start gap-2.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-sprout-light mt-1.5 shrink-0" aria-hidden="true" />
+                {reason}
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
 
-      {/* Action Buttons */}
-      <div className="flex gap-3 pt-4">
-        <Button
-          variant="outline"
-          onClick={onStartOver}
-          className="flex-1 border-sprout-light text-sprout-light hover:bg-sprout-light hover:text-sprout-dark"
-        >
+      <div className="flex gap-2 pt-1">
+        <button type="button" onClick={onStartOver} className={cn(sheetSecondaryButtonClasses, "flex-1")}>
           Adjust Settings
-        </Button>
-        <Button
+        </button>
+        <button
+          type="button"
           onClick={onApplySchedule}
-          className="flex-1 bg-sprout-success hover:bg-sprout-success/90 text-sprout-white"
+          className={cn(sheetPrimaryButtonClasses, "flex-[1.3]")}
           data-testid="apply-button"
         >
           Use This Schedule
-        </Button>
+        </button>
       </div>
     </div>
   );

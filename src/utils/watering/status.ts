@@ -25,6 +25,11 @@ export interface WateringStatus {
     tone: WateringStatusTone;
     /** Tailwind classes including background, text and border colour. */
     colorClasses: string;
+    /**
+     * Bento redesign pill classes: terracotta when overdue, water blue when due, green right
+     * after watering, and the plain card surface otherwise.
+     */
+    bentoClasses: string;
 }
 
 /**
@@ -42,6 +47,21 @@ const TONE_CLASSES: Record<WateringStatusTone, string> = {
     soon: 'bg-orange-500 text-white border-orange-500',
     ok: 'bg-sprout-success text-white border-sprout-success',
 };
+
+const BENTO_TONE_CLASSES: Record<WateringStatusTone, string> = {
+    unknown: 'bg-sprout-cream text-sprout-dark',
+    postponed: 'bg-card text-foreground',
+    overdue: 'bg-sprout-warning text-sprout-dark',
+    due: 'bg-sprout-water text-sprout-dark',
+    soon: 'bg-card text-foreground',
+    ok: 'bg-card text-foreground',
+};
+
+const JUST_WATERED_BENTO_CLASSES = 'bg-sprout-success text-sprout-dark';
+
+function status(text: string, tone: WateringStatusTone, bentoClasses = BENTO_TONE_CLASSES[tone]): WateringStatus {
+    return { text, tone, colorClasses: TONE_CLASSES[tone], bentoClasses };
+}
 
 function pluralizeDays(count: number): string {
     return count === 1 ? '1 day' : `${count} days`;
@@ -66,7 +86,7 @@ export function getWateringStatus(
     const { daysUntilWatering, isOverdue, isPostponed, hasUnknownWateringDate } = calc;
 
     if (hasUnknownWateringDate || daysUntilWatering === null) {
-        return { text: 'Unknown schedule', tone: 'unknown', colorClasses: TONE_CLASSES.unknown };
+        return status('Unknown schedule', 'unknown');
     }
 
     if (isPostponed) {
@@ -74,42 +94,30 @@ export function getWateringStatus(
             daysUntilWatering === 1
                 ? 'Postponed until tomorrow'
                 : `Postponed for ${pluralizeDays(daysUntilWatering)}`;
-        return { text, tone: 'postponed', colorClasses: TONE_CLASSES.postponed };
+        return status(text, 'postponed');
     }
 
     if (isOverdue) {
-        return {
-            text: `Overdue by ${pluralizeDays(Math.abs(daysUntilWatering))}`,
-            tone: 'overdue',
-            colorClasses: TONE_CLASSES.overdue,
-        };
+        return status(`Overdue by ${pluralizeDays(Math.abs(daysUntilWatering))}`, 'overdue');
     }
 
     if (daysUntilWatering === 0) {
         // Give immediate feedback right after watering a short-interval plant.
         if (lastWateredDate && hoursSince(lastWateredDate, now) <= JUST_WATERED_HOURS) {
-            return { text: 'Watered today', tone: 'ok', colorClasses: TONE_CLASSES.ok };
+            return status('Watered today', 'ok', JUST_WATERED_BENTO_CLASSES);
         }
-        return { text: 'Due today', tone: 'due', colorClasses: TONE_CLASSES.due };
+        return status('Due today', 'due');
     }
 
     if (daysUntilWatering === 1) {
-        return { text: 'Water tomorrow', tone: 'soon', colorClasses: TONE_CLASSES.soon };
+        return status('Water tomorrow', 'soon');
     }
 
     if (daysUntilWatering <= 2) {
-        return {
-            text: `Water in ${pluralizeDays(daysUntilWatering)}`,
-            tone: 'soon',
-            colorClasses: TONE_CLASSES.soon,
-        };
+        return status(`Water in ${pluralizeDays(daysUntilWatering)}`, 'soon');
     }
 
-    return {
-        text: `Water in ${pluralizeDays(daysUntilWatering)}`,
-        tone: 'ok',
-        colorClasses: TONE_CLASSES.ok,
-    };
+    return status(`Water in ${pluralizeDays(daysUntilWatering)}`, 'ok');
 }
 
 /**

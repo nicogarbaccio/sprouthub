@@ -114,7 +114,7 @@ test.describe('Repotting Guide', () => {
     await dialog.getByRole('button', { name: 'Log a Repotting' }).click();
 
     // Should show the journal form with prefilled data
-    await expect(dialog.getByText('Back to tips')).toBeVisible();
+    await expect(dialog.getByRole('button', { name: 'Back to tips' })).toBeVisible();
     await expect(dialog.locator('input[id="title"]')).toHaveValue('Repotting');
     await expect(dialog.locator('textarea[id="content"]')).toHaveValue('Repotted into fresh soil.');
   });
@@ -127,10 +127,10 @@ test.describe('Repotting Guide', () => {
 
     // Go to log form
     await dialog.getByRole('button', { name: 'Log a Repotting' }).click();
-    await expect(dialog.getByText('Back to tips')).toBeVisible();
+    await expect(dialog.getByRole('button', { name: 'Back to tips' })).toBeVisible();
 
     // Go back
-    await dialog.getByText('Back to tips').click();
+    await dialog.getByRole('button', { name: 'Back to tips' }).click();
     await expect(dialog.getByText('Current plant size')).toBeVisible();
     await expect(dialog.getByText('Repotting tips')).toBeVisible();
   });

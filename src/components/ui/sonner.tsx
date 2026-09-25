@@ -1,50 +1,45 @@
-import { useTheme } from "next-themes";
 import { Toaster as Sonner, toast } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useTheme } from "@/contexts/ThemeContext";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
+/**
+ * Toasts in the bento style: a rounded card with a coloured icon square, matching the
+ * notification center. Error and warning share terracotta; the app doesn't use red.
+ */
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme();
+  // The app's own theme (not the OS), so toasts match the page when they differ
+  const { actualTheme } = useTheme();
   const isMobile = useIsMobile();
 
   return (
     <Sonner
-      theme={theme as ToasterProps["theme"]}
+      theme={actualTheme}
       className="toaster group"
       position={isMobile ? "top-center" : "bottom-right"}
       expand={false}
-      richColors
       closeButton
       toastOptions={{
         classNames: {
           toast:
-            "group toast group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border group-[.toaster]:border-border/50 group-[.toaster]:shadow-xl group-[.toaster]:backdrop-blur-sm group-[.toaster]:rounded-xl group-[.toaster]:py-4 group-[.toaster]:px-5 group-[.toaster]:gap-3 group-[.toaster]:transition-all group-[.toaster]:duration-300",
-          title: "group-[.toast]:font-semibold group-[.toast]:text-base",
-          description:
-            "group-[.toast]:text-sm group-[.toast]:text-muted-foreground group-[.toast]:mt-1",
+            "group toast group-[.toaster]:bg-card group-[.toaster]:text-foreground group-[.toaster]:border-0 group-[.toaster]:rounded-[22px] group-[.toaster]:py-3.5 group-[.toaster]:pl-3.5 group-[.toaster]:pr-5 group-[.toaster]:gap-3 group-[.toaster]:items-center group-[.toaster]:shadow-[0_12px_40px_rgba(29,60,40,0.18)]",
+          icon:
+            "!w-10 !h-10 !m-0 shrink-0 rounded-[14px] bg-field text-foreground flex items-center justify-center [&>svg]:!w-5 [&>svg]:!h-5",
+          content: "gap-0.5",
+          title: "group-[.toast]:font-bold group-[.toast]:text-[15px] group-[.toast]:text-foreground",
+          description: "group-[.toast]:text-[13px] group-[.toast]:text-muted-foreground",
           actionButton:
-            "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground group-[.toast]:rounded-lg group-[.toast]:px-4 group-[.toast]:py-2 group-[.toast]:font-medium group-[.toast]:transition-all group-[.toast]:hover:scale-105 group-[.toast]:hover:shadow-md",
+            "group-[.toast]:!bg-sprout-dark group-[.toast]:!text-sprout-cream group-[.toast]:!rounded-[12px] group-[.toast]:!h-9 group-[.toast]:!px-3.5 group-[.toast]:!font-bold group-[.toast]:!text-[13px]",
           cancelButton:
-            "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground group-[.toast]:rounded-lg group-[.toast]:px-4 group-[.toast]:py-2 group-[.toast]:font-medium group-[.toast]:transition-all group-[.toast]:hover:bg-muted/80",
+            "group-[.toast]:!bg-field group-[.toast]:!text-foreground group-[.toast]:!rounded-[12px] group-[.toast]:!h-9 group-[.toast]:!px-3.5 group-[.toast]:!font-bold group-[.toast]:!text-[13px]",
           closeButton:
-            "group-[.toast]:bg-background/50 group-[.toast]:border group-[.toast]:border-border/30 group-[.toast]:text-muted-foreground group-[.toast]:hover:bg-background group-[.toast]:hover:text-foreground group-[.toast]:transition-all group-[.toast]:hover:scale-110 group-[.toast]:rounded-lg max-md:group-[.toast]:h-4 max-md:group-[.toast]:w-4 max-md:group-[.toast]:[&>svg]:h-2.5 max-md:group-[.toast]:[&>svg]:w-2.5",
-          // Success variant (sprout green)
-          success:
-            "group-[.toaster]:bg-sprout-success/10 group-[.toaster]:border-sprout-success/30 group-[.toaster]:text-sprout-success dark:group-[.toaster]:bg-sprout-success/20 dark:group-[.toaster]:border-sprout-success/40",
-          // Error variant (sprout error red)
-          error:
-            "group-[.toaster]:bg-sprout-error/10 group-[.toaster]:border-sprout-error/30 group-[.toaster]:text-sprout-error dark:group-[.toaster]:bg-sprout-error/20 dark:group-[.toaster]:border-sprout-error/40",
-          // Warning variant (sprout warning orange)
-          warning:
-            "group-[.toaster]:bg-sprout-warning/10 group-[.toaster]:border-sprout-warning/30 group-[.toaster]:text-sprout-warning dark:group-[.toaster]:bg-sprout-warning/20 dark:group-[.toaster]:border-sprout-warning/40",
-          // Info variant (sprout water blue)
-          info: "group-[.toaster]:bg-sprout-water/10 group-[.toaster]:border-sprout-water/30 group-[.toaster]:text-sprout-water dark:group-[.toaster]:bg-sprout-water/20 dark:group-[.toaster]:border-sprout-water/40",
-        },
-        style: {
-          // Add subtle shadow for depth
-          boxShadow:
-            "0 10px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06)",
+            "group-[.toast]:!bg-card group-[.toast]:!border-0 group-[.toast]:!text-muted-foreground group-[.toast]:hover:!text-foreground group-[.toast]:!shadow-md",
+          // The icon square is coloured per type. Written out in full so Tailwind generates them.
+          success: "[&_[data-icon]]:!bg-sprout-success [&_[data-icon]]:!text-sprout-dark",
+          error: "[&_[data-icon]]:!bg-sprout-warning [&_[data-icon]]:!text-sprout-dark",
+          warning: "[&_[data-icon]]:!bg-sprout-warning [&_[data-icon]]:!text-sprout-dark",
+          info: "[&_[data-icon]]:!bg-sprout-water [&_[data-icon]]:!text-sprout-dark",
         },
         duration: 4000,
       }}

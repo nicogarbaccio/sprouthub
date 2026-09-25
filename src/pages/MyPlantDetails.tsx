@@ -3,29 +3,23 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useUserPlants } from "@/hooks/useUserPlants";
 import { CascadingContainer } from "@/components/ui/cascading-container";
-import { LoadingTransition } from "@/components/ui/loading-transition";
+import { DelayedSkeleton, LoadingTransition } from "@/components/ui/loading-transition";
 import { PlantDetailsPageSkeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, BookOpen } from "lucide-react";
-import PlantDetailHeader from "@/components/plant-details/PlantDetailHeader";
-import PlantImageCard from "@/components/plant-details/PlantImageCard";
-import WateringScheduleCard from "@/components/plant-details/WateringScheduleCard";
-import PlantInfoCard from "@/components/plant-details/PlantInfoCard";
+import { ArrowLeft } from "lucide-react";
+import { PlantHero, PlantCareTiles } from "@/components/plant-details/PlantBento";
 import PlantActionsMenu from "@/components/plant-details/PlantActionsMenu";
 import RepottingGuideCard from "@/components/plant-details/RepottingGuideCard";
 import FertilizationCard from "@/components/plant-details/FertilizationCard";
 import PlantDetailDialogs from "@/components/plant-details/PlantDetailDialogs";
-import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
 import BlogPostsSection from "@/components/blog/BlogPostsSection";
-import {
-  useStatusInfo,
-  useBadgeInfo,
-} from "@/components/plant-details/usePlantStatusInfo";
+import { useBadgeInfo } from "@/components/plant-details/usePlantStatusInfo";
 import { shouldShowOverwateringWarning } from "@/utils/plants/overwatering";
 import { plants as catalogPlants } from "@/data/plantData";
 import { useEnrichedPlant } from "@/hooks/useEnrichedPlant";
 import { calculateWateringSchedule } from "@/utils/watering/schedule";
+import { getWateringStatus } from "@/utils/watering/status";
+import { getPlantFertilizationStatus } from "@/utils/plants/fertilizationAdvice";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { useJournalEntries } from "@/hooks/useJournalEntries";
 import { useManualNotifications } from "@/hooks/usePlantNotifications";
@@ -92,7 +86,6 @@ const MyPlantDetails = () => {
   const enrichedCatalogPlant = useEnrichedPlant(plant?.plant_type);
   const catalogPlant = enrichedCatalogPlant ?? staticCatalogPlant;
 
-  const getStatusInfo = useStatusInfo(plant);
   const { getActionableInsights, getBadgeInfo } = useBadgeInfo(pendingInsights);
 
   useEffect(() => {
@@ -166,11 +159,13 @@ const MyPlantDetails = () => {
   }, [plant, deletePlant, navigate]);
 
   const plantDetailsSkeleton = (
-    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
-      <main className="py-4 sm:py-6">
-        <PlantDetailsPageSkeleton />
-      </main>
-    </div>
+    <DelayedSkeleton>
+      <div className="bg-background pb-32 lg:pb-10">
+        <main className="md:pt-6">
+          <PlantDetailsPageSkeleton />
+        </main>
+      </div>
+    </DelayedSkeleton>
   );
 
   // Show skeleton while plant data is loading
@@ -181,29 +176,27 @@ const MyPlantDetails = () => {
   // Plant not found (after loading completes)
   if (!loading && !plant) {
     return (
-      <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
-        <div className="pt-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto py-12 text-center">
-            <CascadingContainer delay={0}>
-              <h1 className="text-2xl font-bold text-foreground mb-4">
-                Plant Not Found
-              </h1>
-              <p className="text-muted-foreground mb-6">
-                The plant you're looking for doesn't exist or you don't have
-                access to it.
-              </p>
-              <Button onClick={() => navigate("/my-plants")}>
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to My Plants
-              </Button>
-            </CascadingContainer>
+      <div className="bg-background pb-32 lg:pb-10 px-4 pt-10">
+        <CascadingContainer delay={0}>
+          <div className="max-w-md mx-auto rounded-tile bg-card p-6 text-center">
+            <h1 className="font-display text-2xl font-bold tracking-[-0.03em] text-foreground">Plant not found</h1>
+            <p className="text-[15px] text-muted-foreground mt-1">
+              The plant you're looking for doesn't exist or you don't have access to it.
+            </p>
+            <button
+              type="button"
+              onClick={() => navigate("/my-plants")}
+              className="mt-5 h-12 px-5 rounded-[18px] bg-sprout-dark text-sprout-cream font-bold text-[15px] inline-flex items-center gap-2 shadow-[inset_0_0_0_2px_#dfc490]"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to My Plants
+            </button>
           </div>
-        </div>
+        </CascadingContainer>
       </div>
     );
   }
 
-  const statusInfo = getStatusInfo();
   const rainDelay = rainDelayByPlantId[plant.id];
   const wateringCalc = calculateWateringSchedule(plant);
   const { daysUntilWatering, isOverdue, isPostponed } = wateringCalc;
@@ -221,14 +214,28 @@ const MyPlantDetails = () => {
 
   return (
     <LoadingTransition loading={loading} skeleton={plantDetailsSkeleton}>
-    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
-      <main className="py-4 sm:py-6">
-        <div className="max-w-4xl mx-auto px-3 sm:px-4 lg:px-8">
+    <div className="bg-background pb-32 lg:pb-10">
+      <main className="md:pt-6">
+        <div className="max-w-4xl mx-auto md:px-6 lg:px-8">
           <CascadingContainer delay={0} duration={200}>
-            <PlantDetailHeader
+            <PlantHero
               plant={plant}
               catalogPlant={catalogPlant}
-              statusInfo={statusInfo}
+              imageSrc={imageSrc}
+              overwatering={overwatering}
+              onBack={() => (window.history.length > 1 ? navigate(-1) : navigate("/my-plants"))}
+              onImageClick={() => setShowFullscreenImage(true)}
+              actions={
+                <PlantActionsMenu
+                  canPostpone={!!canPostpone}
+                  hasSmartTips={!!getBadgeInfo()}
+                  onWaterClick={() => setShowWaterConfirmation(true)}
+                  onPostponeClick={() => setShowPostponeConfirmation(true)}
+                  onViewHistory={() => setShowHistoryDialog(true)}
+                  onEditClick={() => setShowEditDialog(true)}
+                  onDeleteClick={() => setShowDeleteConfirmation(true)}
+                />
+              }
             />
           </CascadingContainer>
 
@@ -240,78 +247,43 @@ const MyPlantDetails = () => {
           */}
           {rainDelay && (
             <CascadingContainer delay={40} duration={200}>
-              <RainDelayNotification
-                advice={rainDelay}
-                plantName={plant.nickname}
-                variant="alert"
-                className="mb-4"
-                onWaterAnyway={() => setShowWaterConfirmation(true)}
-                onPostpone={(days) =>
-                  postponeWatering(plant.id, days, "Rain expected")
-                }
-              />
+              <div className="px-4 md:px-0 pt-4">
+                <RainDelayNotification
+                  advice={rainDelay}
+                  plantName={plant.nickname}
+                  onWaterAnyway={() => setShowWaterConfirmation(true)}
+                  onPostpone={(days) =>
+                    postponeWatering(plant.id, days, "Rain expected")
+                  }
+                />
+              </div>
             </CascadingContainer>
           )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-            <CascadingContainer delay={50} duration={200}>
-              <PlantImageCard
-                imageSrc={imageSrc}
-                plantNickname={plant.nickname}
-                overwatering={overwatering}
-                badgeInfo={getBadgeInfo()}
-                onImageClick={() => setShowFullscreenImage(true)}
-                onSmartTipsClick={() => setShowSuggestionsDialog(true)}
-              />
-            </CascadingContainer>
-
-            <div className="flex flex-col mt-6 mb-6 lg:mt-0 lg:mb-0">
-              <CascadingContainer delay={50} duration={200}>
-                <div className="flex flex-col h-[240px] sm:h-[280px] md:h-[360px] lg:h-[320px] space-y-2">
-                  <WateringScheduleCard plant={plant} />
-                  <PlantInfoCard plant={plant} />
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      className="flex-1 rounded-xl font-medium text-foreground"
-                      onClick={() => setShowJournal(true)}
-                    >
-                      <BookOpen className="w-4 h-4 mr-2 text-emerald-600" />
-                      Plant Journal
-                    </Button>
-                    <PlantActionsMenu
-                      canPostpone={!!canPostpone}
-                      hasSmartTips={!!getBadgeInfo()}
-                      onWaterClick={() => setShowWaterConfirmation(true)}
-                      onPostponeClick={() => setShowPostponeConfirmation(true)}
-                      onViewHistory={() => setShowHistoryDialog(true)}
-                      onEditClick={() => setShowEditDialog(true)}
-                      onDeleteClick={() => setShowDeleteConfirmation(true)}
-                    />
-                  </div>
-                </div>
-              </CascadingContainer>
-            </div>
-          </div>
-
-          <CascadingContainer delay={100} duration={200}>
-            <div className="mb-6">
-              <PlantCareGrid
-                wateringFrequency={catalogPlant?.wateringFrequency || "Weekly"}
-                suggestedWateringDays={
-                  plant.suggested_watering_days ||
-                  catalogPlant?.suggestedWateringDays ||
-                  7
-                }
-                lightRequirement={
-                  catalogPlant?.lightRequirement || "Bright Indirect Light"
-                }
-                temperature={catalogPlant?.temperature || "65-75°F (18-24°C)"}
-                humidity={catalogPlant?.humidity || "40-60%"}
-              />
-            </div>
+          <CascadingContainer delay={50} duration={200}>
+            <PlantCareTiles
+              plant={plant}
+              calc={wateringCalc}
+              status={getWateringStatus(wateringCalc, plant.latest_watering)}
+              lightRequirement={catalogPlant?.lightRequirement || "Bright, indirect"}
+              humidity={catalogPlant?.humidity || "40-60%"}
+              temperature={catalogPlant?.temperature || "65-75°F (18-24°C)"}
+              fertilization={getPlantFertilizationStatus(plant)}
+              analysis={analysis}
+              smartTips={getBadgeInfo()}
+              onWaterClick={() => setShowWaterConfirmation(true)}
+              onFertilizeClick={() =>
+                document
+                  .getElementById("fertilization-card")
+                  ?.scrollIntoView({ behavior: "smooth", block: "start" })
+              }
+              onSmartTipsClick={() => setShowSuggestionsDialog(true)}
+              onHistoryClick={() => setShowHistoryDialog(true)}
+              onJournalClick={() => setShowJournal(true)}
+            />
           </CascadingContainer>
 
+          <div className="px-4 md:px-0 mt-2.5 md:mt-3.5 space-y-2.5 md:space-y-3.5">
           <CascadingContainer delay={125} duration={200}>
             <RepottingGuideCard
               plantNickname={plant.nickname}
@@ -320,6 +292,7 @@ const MyPlantDetails = () => {
           </CascadingContainer>
 
           <CascadingContainer delay={150} duration={200}>
+            <div id="fertilization-card" className="scroll-mt-6" />
             <FertilizationCard
               plant={plant}
               catalogPlant={catalogPlant}
@@ -329,7 +302,7 @@ const MyPlantDetails = () => {
           </CascadingContainer>
 
           <CascadingContainer delay={175} duration={200}>
-            <div className="mb-6">
+            <div>
               <PlantCareCards
                 careInstructions={
                   catalogPlant?.careInstructions || [
@@ -355,6 +328,7 @@ const MyPlantDetails = () => {
           <CascadingContainer delay={200} duration={200}>
             <BlogPostsSection plantName={catalogPlant?.name || plant.plant_type} />
           </CascadingContainer>
+          </div>
         </div>
       </main>
 

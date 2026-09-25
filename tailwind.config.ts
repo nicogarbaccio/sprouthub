@@ -21,6 +21,7 @@ export default {
 		extend: {
 			fontFamily: {
 				'sans': [
+					'"Hanken Grotesk"',
 					'-apple-system',
 					'BlinkMacSystemFont',
 					'"SF Pro Display"',
@@ -29,6 +30,13 @@ export default {
 					'Roboto',
 					'"Helvetica Neue"',
 					'Arial',
+					'sans-serif'
+				],
+				// Bento redesign display face: headings, big numbers, primary CTAs
+				'display': [
+					'Unbounded',
+					'-apple-system',
+					'BlinkMacSystemFont',
 					'sans-serif'
 				],
 				'sf': [
@@ -80,6 +88,14 @@ export default {
 					'dark': '#3a423a',      // Charcoal green for body text, strong accents
 				},
 
+				// Bento redesign surfaces that flip between light and dark mode
+				field: 'hsl(var(--field))',
+				link: 'hsl(var(--link))',
+				nav: {
+					DEFAULT: 'hsl(var(--nav))',
+					foreground: 'hsl(var(--nav-foreground))',
+				},
+
 				// Keep existing shadcn colors
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -128,7 +144,11 @@ export default {
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+				// Bento redesign: big tiles, plant cards, and the image well inside a card
+				tile: '30px',
+				card: '26px',
+				well: '20px',
 			},
 			padding: {
 				'safe': 'env(safe-area-inset-bottom)',

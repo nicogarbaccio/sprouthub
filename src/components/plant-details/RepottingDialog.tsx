@@ -1,12 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, BookOpen, CheckCircle2, Sprout, Sun } from 'lucide-react';
+import { BookOpen, CheckCircle2, ChevronLeft, Sprout, Sun, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import {
+  SheetGrabber,
+  dialogSheetClasses,
+  sheetHeaderClasses,
+  sheetIconButtonClasses,
+  sheetPrimaryButtonClasses,
+  sheetTitleClasses,
+} from '@/components/ui/bento-sheet';
 import { JournalEntryForm } from '@/components/journal/JournalEntryForm';
 import { useJournalEntries } from '@/hooks/useJournalEntries';
 import {
@@ -42,6 +51,12 @@ export function RepottingDialog({
   const [view, setView] = useState<DialogView>('advice');
   const [selectedSize, setSelectedSize] = useState<PlantSize>('medium');
   const { addJournalEntry, isLoading } = useJournalEntries();
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Each view starts at the top, so the header and back button are in view
+  useEffect(() => {
+    contentRef.current?.scrollTo({ top: 0 });
+  }, [view]);
 
   const advice = getRepottingAdvice(plantNickname, catalogPlant, selectedSize);
 
@@ -77,27 +92,42 @@ export function RepottingDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent
-        className="max-w-lg max-h-[85vh] overflow-y-auto !p-0 flex flex-col"
-        onOpenAutoFocus={(e) => e.preventDefault()}
-      >
-        <div className="p-6 pb-0 flex-shrink-0">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-xl">
-              <Sprout className="w-5 h-5 text-plant-primary" />
-              {view === 'success'
-                ? 'Repotting Logged'
-                : `Repotting Guide`}
+      <DialogContent ref={contentRef} className={dialogSheetClasses} onOpenAutoFocus={(e) => e.preventDefault()}>
+        <SheetGrabber />
+        <DialogHeader className={sheetHeaderClasses}>
+          {view === 'log' ? (
+            <button
+              type="button"
+              onClick={() => setView('advice')}
+              className={sheetIconButtonClasses}
+              aria-label="Back to tips"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+          ) : (
+            <div
+              className={cn(
+                'w-[52px] h-[52px] shrink-0 rounded-[18px] flex items-center justify-center',
+                view === 'success' ? 'bg-sprout-success text-sprout-dark' : 'bg-sprout-primary text-sprout-cream'
+              )}
+            >
+              {view === 'success' ? <CheckCircle2 className="w-6 h-6" /> : <Sprout className="w-6 h-6" />}
+            </div>
+          )}
+          <div className="flex-1 min-w-0">
+            <DialogTitle className={sheetTitleClasses}>
+              {view === 'success' ? 'Repotting logged!' : view === 'log' ? 'Log a Repotting' : 'Repotting Guide'}
             </DialogTitle>
-            {view === 'advice' && (
-              <p className="text-sm text-muted-foreground pt-1">
-                Tips for repotting {plantNickname}
-              </p>
-            )}
-          </DialogHeader>
-        </div>
+            <DialogDescription className="text-sm font-medium">
+              {view === 'success' ? plantNickname : view === 'log' ? `A journal entry for ${plantNickname}` : `Tips for repotting ${plantNickname}`}
+            </DialogDescription>
+          </div>
+          <button type="button" onClick={handleClose} className={cn(sheetIconButtonClasses, 'self-start')} aria-label="Close">
+            <X className="w-5 h-5" />
+          </button>
+        </DialogHeader>
 
-        <div className="px-6 pb-6 pt-4 flex-grow">
+        <div className="mt-4">
           {view === 'advice' && (
             <AdviceView
               advice={advice}
@@ -113,7 +143,6 @@ export function RepottingDialog({
               plantId={plantId}
               isLoading={isLoading || isSubmitting}
               onSubmit={handleLogSubmit}
-              onBack={() => setView('advice')}
             />
           )}
 
@@ -142,72 +171,72 @@ function AdviceView({
   catalogPlant: CatalogPlant | undefined;
 }) {
   return (
-    <div className="space-y-5">
+    <div className="space-y-2">
       {/* Light info */}
       {advice.lightRequirement && (
-        <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 rounded-lg px-3 py-2">
-          <Sun className="w-4 h-4 flex-shrink-0 text-amber-500" />
+        <div className="flex items-center gap-2.5 rounded-[20px] bg-sprout-cream text-sprout-dark px-4 py-3 text-sm font-semibold">
+          <Sun className="w-5 h-5 shrink-0" />
           <span>{advice.lightRequirement}</span>
         </div>
       )}
 
       {/* Size selector chips */}
-      <div className="space-y-2">
-        <p className="text-sm font-medium text-foreground">Current plant size</p>
-        <div className="flex gap-2">
-          {SIZE_OPTIONS.map((option) => (
-            <button
-              key={option.value}
-              onClick={() => onSizeChange(option.value)}
-              className={`flex-1 rounded-lg border px-3 py-2 text-center transition-colors ${
-                selectedSize === option.value
-                  ? 'border-plant-primary bg-plant-primary/10 text-plant-primary font-medium'
-                  : 'border-border text-muted-foreground hover:border-plant-primary/50'
-              }`}
-            >
-              <div className="text-sm font-medium">{option.label}</div>
-              <div className="text-xs opacity-70">{option.description}</div>
-            </button>
-          ))}
+      <div className="rounded-3xl bg-card p-4">
+        <p className="text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground">Current plant size</p>
+        <div className="grid grid-cols-3 gap-2 mt-2.5">
+          {SIZE_OPTIONS.map((option) => {
+            const selected = selectedSize === option.value;
+            return (
+              <button
+                key={option.value}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => onSizeChange(option.value)}
+                className={cn(
+                  'min-h-[60px] rounded-[18px] px-2 py-2.5 text-center transition-colors',
+                  selected ? 'bg-sprout-cream text-sprout-dark' : 'bg-field text-foreground hover:bg-field/70'
+                )}
+              >
+                <div className="text-[15px] font-bold">{option.label}</div>
+                <div className={cn('text-xs font-medium', selected ? 'opacity-80' : 'text-muted-foreground')}>
+                  {option.description}
+                </div>
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* Catalog-specific tip */}
       {advice.catalogTip && (
-        <div className="bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 rounded-lg p-3">
-          <p className="text-sm font-medium text-emerald-800 dark:text-emerald-200 mb-1">
+        <div className="rounded-3xl bg-sprout-primary text-sprout-cream p-4">
+          <p className="text-xs font-bold tracking-[0.8px] uppercase opacity-90">
             {catalogPlant?.name ?? 'Species'} tip
           </p>
-          <p className="text-sm text-emerald-700 dark:text-emerald-300">
-            {advice.catalogTip}
-          </p>
+          <p className="text-[15px] font-medium leading-relaxed mt-1">{advice.catalogTip}</p>
         </div>
       )}
 
       {/* General tips */}
-      <div className="space-y-3">
-        <p className="text-sm font-medium text-foreground">Repotting tips</p>
-        <ul className="space-y-3">
+      <div className="rounded-3xl bg-card p-4">
+        <p className="text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground">Repotting tips</p>
+        <ol className="space-y-3 mt-3">
           {advice.tips.map((tip, index) => (
             <li key={index} className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-5 h-5 rounded-full bg-plant-primary/10 text-plant-primary text-xs font-medium flex items-center justify-center mt-0.5">
+              <span className="shrink-0 w-7 h-7 rounded-full bg-field text-foreground font-display text-xs font-bold flex items-center justify-center">
                 {index + 1}
               </span>
-              <span className="text-sm text-foreground/80 leading-relaxed">{tip}</span>
+              <span className="text-[15px] text-foreground leading-relaxed pt-0.5">{tip}</span>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
 
       {/* Log button */}
-      <Button
-        variant="outline"
-        onClick={onLogClick}
-        className="w-full mt-2"
-      >
-        <BookOpen className="w-4 h-4 mr-2" />
+      <button type="button" onClick={onLogClick} className={cn(sheetPrimaryButtonClasses, 'mt-1')}>
+        <BookOpen className="w-5 h-5" />
         Log a Repotting
-      </Button>
+      </button>
     </div>
   );
 }
@@ -218,36 +247,25 @@ function LogView({
   plantId,
   isLoading,
   onSubmit,
-  onBack,
 }: {
   plantId: string;
   isLoading: boolean;
   onSubmit: (formData: JournalEntryFormData) => Promise<void>;
-  onBack: () => void;
 }) {
   return (
-    <div className="space-y-3">
-      <button
-        onClick={onBack}
-        className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
-      >
-        <ArrowLeft className="w-3.5 h-3.5" />
-        Back to tips
-      </button>
-
-      <JournalEntryForm
-        plantId={plantId}
-        onSubmit={onSubmit}
-        isLoading={isLoading}
-        submitButtonText="Log Repotting"
-        initialData={{
-          title: 'Repotting',
-          content: 'Repotted into fresh soil.',
-          mood: 'healthy',
-          entryDate: new Date(),
-        }}
-      />
-    </div>
+    <JournalEntryForm
+      plantId={plantId}
+      onSubmit={onSubmit}
+      isLoading={isLoading}
+      submitButtonText="Log Repotting"
+      heading={null}
+      initialData={{
+        title: 'Repotting',
+        content: 'Repotted into fresh soil.',
+        mood: 'healthy',
+        entryDate: new Date(),
+      }}
+    />
   );
 }
 
@@ -255,19 +273,13 @@ function LogView({
 
 function SuccessView({ onClose }: { onClose: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center py-8 space-y-4 text-center">
-      <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-        <CheckCircle2 className="w-6 h-6 text-emerald-600" />
-      </div>
-      <div>
-        <p className="font-medium text-foreground">Repotting logged!</p>
-        <p className="text-sm text-muted-foreground mt-1">
-          You can find this entry in your plant journal.
-        </p>
-      </div>
-      <Button onClick={onClose} className="bg-emerald-600 hover:bg-emerald-700 text-white">
+    <div className="space-y-2">
+      <p className="rounded-3xl bg-sprout-success text-sprout-dark px-5 py-4 text-[15px] font-semibold">
+        You can find this entry in your plant journal.
+      </p>
+      <button type="button" onClick={onClose} className={sheetPrimaryButtonClasses}>
         Done
-      </Button>
+      </button>
     </div>
   );
 }

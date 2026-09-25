@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -6,10 +6,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import {
+  X,
   Command,
   Zap,
   Home,
@@ -26,6 +24,13 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getDisplayKey } from '@/hooks/useKeyboardShortcuts';
+import {
+  SheetGrabber,
+  dialogSheetClasses,
+  sheetHeaderClasses,
+  sheetIconButtonClasses,
+  sheetTitleClasses,
+} from '@/components/ui/bento-sheet';
 
 interface QuickAction {
   id: string;
@@ -156,23 +161,17 @@ export const QuickActionsMenu: React.FC<QuickActionsMenuProps> = ({
   onOpenChange,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredActions, setFilteredActions] = useState(allActions);
 
-  useEffect(() => {
-    if (searchQuery.trim() === '') {
-      setFilteredActions(allActions);
-    } else {
-      const query = searchQuery.toLowerCase();
-      const filtered = allActions.filter(
+  const query = searchQuery.trim().toLowerCase();
+  const filteredActions = query
+    ? allActions.filter(
         (action) =>
           action.name.toLowerCase().includes(query) ||
           action.description.toLowerCase().includes(query) ||
           action.category.toLowerCase().includes(query) ||
           (action.shortcut && action.shortcut.toLowerCase().includes(query))
-      );
-      setFilteredActions(filtered);
-    }
-  }, [searchQuery]);
+      )
+    : allActions;
 
   const groupedActions = filteredActions.reduce((acc, action) => {
     if (!acc[action.category]) {
@@ -191,104 +190,96 @@ export const QuickActionsMenu: React.FC<QuickActionsMenuProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[80vh] p-0">
-        <DialogHeader className="px-6 pt-6 pb-4">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="h-10 w-10 rounded-lg bg-sprout-primary/10 dark:bg-sprout-primary/20 flex items-center justify-center">
-              <Keyboard className="h-5 w-5 text-sprout-primary" />
-            </div>
-            <div>
-              <DialogTitle className="text-xl">Quick Actions</DialogTitle>
-              <DialogDescription>
-                Keyboard shortcuts and quick commands
-              </DialogDescription>
-            </div>
+      <DialogContent className={cn(dialogSheetClasses, 'sm:max-w-2xl')}>
+        <SheetGrabber />
+        <DialogHeader className={sheetHeaderClasses}>
+          <div className="w-[52px] h-[52px] shrink-0 rounded-[18px] bg-sprout-primary text-sprout-cream flex items-center justify-center">
+            <Keyboard className="w-6 h-6" />
           </div>
+          <div className="flex-1 min-w-0">
+            <DialogTitle className={sheetTitleClasses}>Keyboard shortcuts</DialogTitle>
+            <DialogDescription className="text-sm font-medium">Quick ways around sprouthub</DialogDescription>
+          </div>
+          <button
+            type="button"
+            onClick={() => onOpenChange(false)}
+            className={cn(sheetIconButtonClasses, 'self-start')}
+            aria-label="Close"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </DialogHeader>
 
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search actions..."
+        <div className="mt-4 space-y-4">
+          <div className="flex h-12 items-center gap-2.5 rounded-2xl bg-card px-4 text-muted-foreground">
+            <Search className="h-5 w-5 shrink-0" />
+            <input
+              placeholder="Search shortcuts"
+              aria-label="Search shortcuts"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="flex-1 min-w-0 bg-transparent outline-none text-[15px] font-medium text-foreground placeholder:text-muted-foreground"
               autoFocus
             />
           </div>
-        </DialogHeader>
 
-        <ScrollArea className="px-6 pb-6 max-h-[calc(80vh-180px)]">
           {Object.entries(groupedActions).length === 0 ? (
-            <div className="text-center py-12 text-muted-foreground">
-              <Search className="h-12 w-12 mx-auto mb-3 opacity-50" />
-              <p>No actions found matching "{searchQuery}"</p>
-            </div>
+            <p className="rounded-3xl bg-card p-5 text-sm text-muted-foreground text-center">
+              No shortcuts matching "{searchQuery}"
+            </p>
           ) : (
-            <div className="space-y-6">
-              {Object.entries(groupedActions).map(([category, actions]) => {
-                const CategoryIcon =
-                  categoryIcons[category as keyof typeof categoryIcons] || Zap;
-
-                return (
-                  <div key={category}>
-                    <div className="flex items-center gap-2 mb-3">
-                      <CategoryIcon className="h-4 w-4 text-muted-foreground" />
-                      <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                        {categoryLabels[category as keyof typeof categoryLabels]}
-                      </h3>
-                    </div>
-                    <div className="space-y-2">
-                      {actions.map((action) => {
-                        const Icon = action.icon;
-                        return (
-                          <div
-                            key={action.id}
-                            className={cn(
-                              'flex items-center justify-between p-3 rounded-lg border transition-colors',
-                              action.action
-                                ? 'cursor-pointer hover:bg-muted'
-                                : 'cursor-default'
-                            )}
-                            onClick={() => handleActionClick(action)}
-                          >
-                            <div className="flex items-start gap-3 flex-1 min-w-0">
-                              <div className="mt-0.5">
-                                <Icon className="h-4 w-4 text-muted-foreground" />
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <div className="font-medium text-sm">
-                                  {action.name}
-                                </div>
-                                <div className="text-xs text-muted-foreground">
-                                  {action.description}
-                                </div>
-                              </div>
-                            </div>
-                            {action.shortcut && (
-                              <Badge
-                                variant="secondary"
-                                className="ml-3 font-mono text-xs shrink-0"
-                              >
-                                {getDisplayKey(action.shortcut)}
-                              </Badge>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            Object.entries(groupedActions).map(([category, actions]) => {
+              const CategoryIcon = categoryIcons[category as keyof typeof categoryIcons] || Zap;
+              return (
+                <section key={category}>
+                  <h3 className="flex items-center gap-2 text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground px-1.5 mb-2">
+                    <CategoryIcon className="h-4 w-4" />
+                    {categoryLabels[category as keyof typeof categoryLabels]}
+                  </h3>
+                  <ul className="rounded-3xl bg-card p-1.5">
+                    {actions.map((action) => {
+                      const Icon = action.icon;
+                      const row = (
+                        <>
+                          <span className="w-9 h-9 shrink-0 rounded-xl bg-field text-foreground flex items-center justify-center">
+                            <Icon className="h-4 w-4" />
+                          </span>
+                          <span className="flex-1 min-w-0 text-left">
+                            <span className="block text-[15px] font-bold text-foreground">{action.name}</span>
+                            <span className="block text-[13px] text-muted-foreground">{action.description}</span>
+                          </span>
+                          {action.shortcut && (
+                            <kbd className="shrink-0 font-mono text-xs font-bold px-2.5 py-1 rounded-lg bg-field text-foreground">
+                              {getDisplayKey(action.shortcut)}
+                            </kbd>
+                          )}
+                        </>
+                      );
+                      return (
+                        <li key={action.id}>
+                          {action.action ? (
+                            <button
+                              type="button"
+                              onClick={() => handleActionClick(action)}
+                              className="w-full flex items-center gap-3 rounded-[18px] px-2.5 py-2 hover:bg-field"
+                            >
+                              {row}
+                            </button>
+                          ) : (
+                            <div className="flex items-center gap-3 rounded-[18px] px-2.5 py-2">{row}</div>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </section>
+              );
+            })
           )}
-        </ScrollArea>
 
-        {/* Footer tip */}
-        <div className="px-6 py-3 bg-muted/50 border-t text-center">
-          <p className="text-xs text-muted-foreground">
-            Press <kbd className="px-1.5 py-0.5 bg-background border rounded text-xs font-mono">Shift</kbd> +{' '}
-            <kbd className="px-1.5 py-0.5 bg-background border rounded text-xs font-mono">?</kbd> to open this menu anytime
+          <p className="text-[13px] text-muted-foreground text-center">
+            Press <kbd className="font-mono font-bold px-1.5 py-0.5 rounded-md bg-card text-foreground">Shift</kbd> +{' '}
+            <kbd className="font-mono font-bold px-1.5 py-0.5 rounded-md bg-card text-foreground">?</kbd> to open this anytime
           </p>
         </div>
       </DialogContent>

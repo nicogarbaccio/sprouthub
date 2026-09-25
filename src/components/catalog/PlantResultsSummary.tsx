@@ -1,5 +1,3 @@
-import { Badge } from "@/components/ui/badge";
-
 interface PlantResultsSummaryProps {
  filteredCount: number;
  totalCount: number;
@@ -19,21 +17,17 @@ const PlantResultsSummary = ({
 }: PlantResultsSummaryProps) => {
  const displayText =
  isPaginated && startItem && endItem
-  ? `Showing ${startItem}-${endItem} of ${filteredCount} plants`
+  ? `Showing ${startItem}–${endItem} of ${filteredCount} plants`
   : `Showing ${filteredCount} of ${totalCount} plants`;
 
  return (
- <div className="mb-6 text-center" data-testid="results-summary">
-  <p className="text-muted-foreground">
-  {displayText}
+ <div className="flex items-center gap-2 px-1.5 lg:px-1 mb-3" data-testid="results-summary">
+  <p className="text-sm font-semibold text-muted-foreground">{displayText}</p>
   {hasActiveFilters && (
-   <span className="ml-2">
-   <Badge className="bg-sprout-medium text-white border-none shadow-sm">
-    Filtered
-   </Badge>
-   </span>
+  <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-sprout-cream text-sprout-dark">
+   Filtered
+  </span>
   )}
-  </p>
  </div>
  );
 };

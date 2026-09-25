@@ -1,7 +1,5 @@
 /**
- * Responsive modal wrapper for pattern insights
- * - Desktop: Center dialog
- * - Mobile: Bottom drawer
+ * Modal wrapper for pattern insights: a bottom sheet on phones, a centered panel from `sm` up
  */
 
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -13,14 +11,15 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
+import { Brain, X } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-} from '@/components/ui/drawer';
-import { Brain } from 'lucide-react';
+  SheetGrabber,
+  dialogSheetClasses,
+  sheetHeaderClasses,
+  sheetIconButtonClasses,
+  sheetTitleClasses,
+} from '@/components/ui/bento-sheet';
 import PatternTipsContent from './PatternTipsContent';
 import {
   PatternInsight,
@@ -93,50 +92,30 @@ const PatternTipsModal = ({
     />
   );
 
-  // Mobile: Bottom drawer
-  if (isMobile) {
-    return (
-      <Drawer open={isOpen} onOpenChange={handleOpenChange}>
-        <DrawerContent className="max-h-[85vh] px-4">
-          <DrawerHeader className="text-left px-0">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-sprout-pale dark:bg-sprout-dark/30 rounded-full">
-                <Brain className="w-5 h-5 text-sprout-primary" />
-              </div>
-              <div>
-                <DrawerTitle>Smart Care Tips</DrawerTitle>
-                <DrawerDescription>
-                  Based on your watering pattern for {plantName}
-                </DrawerDescription>
-              </div>
-            </div>
-          </DrawerHeader>
-          <div className="overflow-y-auto pb-4">
-            {content}
-          </div>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
-  // Desktop: Center dialog
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-sprout-pale dark:bg-sprout-dark/30 rounded-full">
-              <Brain className="w-5 h-5 text-sprout-primary" />
-            </div>
-            <div>
-              <DialogTitle>Smart Watering Insights</DialogTitle>
-              <DialogDescription>
-                Based on your watering pattern for {plantName}
-              </DialogDescription>
-            </div>
+      <DialogContent className={dialogSheetClasses}>
+        <SheetGrabber />
+        <DialogHeader className={sheetHeaderClasses}>
+          <div className="w-[52px] h-[52px] shrink-0 rounded-[18px] bg-sprout-primary text-sprout-cream flex items-center justify-center">
+            <Brain className="w-6 h-6" />
           </div>
+          <div className="flex-1 min-w-0">
+            <DialogTitle className={sheetTitleClasses}>Watering insights</DialogTitle>
+            <DialogDescription className="text-sm font-medium">
+              Based on your watering pattern for {plantName}
+            </DialogDescription>
+          </div>
+          <button
+            type="button"
+            onClick={() => handleOpenChange(false)}
+            className={cn(sheetIconButtonClasses, 'self-start')}
+            aria-label="Close"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </DialogHeader>
-        {content}
+        <div className="mt-4">{content}</div>
       </DialogContent>
     </Dialog>
   );

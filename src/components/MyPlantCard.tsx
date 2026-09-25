@@ -19,13 +19,8 @@ import { useNavigate } from "react-router-dom";
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import { useDismissedInsights } from "@/hooks/useDismissedInsights";
 import { useBulkSelection } from "@/contexts/BulkSelectionContext";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { getBadgeInfo, getStatusColor, getStatusText } from "@/components/plant-card/PlantCardBadgeUtils";
+import { getBadgeInfo, getStatusText } from "@/components/plant-card/PlantCardBadgeUtils";
+import { getWateringStatus } from "@/utils/watering/status";
 import { PlantCardActions } from "@/components/plant-card/PlantCardActions";
 import { PlantCardDialogs } from "@/components/plant-card/PlantCardDialogs";
 import { ImageExpandButton } from "@/components/ui/image-expand-button";
@@ -69,7 +64,6 @@ const MyPlantCard = ({
   name,
   plantType,
   image,
-  lastWatered,
   lastWateredDate,
   nextWateringDue,
   isOverdue,
@@ -133,7 +127,6 @@ const MyPlantCard = ({
   );
 
   const badgeInfo = getBadgeInfo(hasPendingSuggestions, visiblePendingInsights);
-  const statusColor = getStatusColor(hasUnknownWateringDate, isOverdue, isPostponed, daysUntilWatering, lastWateredDate);
   const statusText = getStatusText(hasUnknownWateringDate, isOverdue, isPostponed, daysUntilWatering, lastWateredDate);
 
   const handleWaterClick = () => {
@@ -251,208 +244,123 @@ const MyPlantCard = ({
     }
   };
 
+  const status = getWateringStatus(
+    {
+      hasUnknownWateringDate,
+      isOverdue,
+      isPostponed: Boolean(isPostponed),
+      daysUntilWatering,
+    },
+    lastWateredDate
+  );
+
   return (
     <>
       <div
         className={cn(
-          "relative bg-card border-0 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 overflow-hidden h-full flex flex-col",
+          "relative bg-card rounded-card p-2 h-full flex flex-col transition-shadow",
           isSelectionMode && "cursor-pointer",
-          isSelected && "ring-2 ring-sprout-primary border-sprout-primary"
+          isSelected && "ring-[3px] ring-sprout-cream"
         )}
         data-testid="plant-card"
         onClick={isSelectionMode ? () => togglePlantSelection(id) : undefined}
       >
-        {/* Selection Checkbox */}
-        {isSelectionMode && (
-          <div className="absolute top-3 left-3 z-10">
-            <div
-              className={cn(
-                "h-6 w-6 rounded-md border-2 flex items-center justify-center transition-colors",
-                isSelected
-                  ? "bg-sprout-primary border-sprout-primary"
-                  : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-              )}
-            >
-              {isSelected && <CheckCircle2 className="h-4 w-4 text-white" />}
-            </div>
-          </div>
-        )}
-
-        {/* Image Section with Badges */}
+        {/* Photo well with the status pill */}
         <div
-          className="cursor-pointer relative group shrink-0"
+          className="cursor-pointer relative group shrink-0 h-[148px] md:h-[170px] rounded-well overflow-hidden bg-field"
           onClick={!isSelectionMode ? handleCardClick : undefined}
         >
           <PlantImage
             src={image}
             alt={name}
-            className="w-full h-56"
+            className="w-full h-full"
             imageClassName="object-cover"
           />
 
-          {/* Status Badge */}
-          <div
-            className={`absolute top-3 right-3 transition-opacity duration-200 ${
-              isOverwateringActive ? "opacity-0 pointer-events-none" : "opacity-100"
-            }`}
-            aria-hidden={isOverwateringActive}
-          >
-            <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColor}`}>
-              {isPostponed && <Clock className="w-3 h-3 inline mr-1" />}
-              {(isOverdue || hasUnknownWateringDate) && !isPostponed && (
-                <AlertTriangle className="w-3 h-3 inline mr-1" />
-              )}
-              {statusText}
-            </span>
-          </div>
+          {/* Selection Checkbox */}
+          {isSelectionMode && (
+            <div className="absolute top-2 right-2 z-10">
+              <div
+                className={cn(
+                  "h-7 w-7 rounded-full border-2 flex items-center justify-center transition-colors",
+                  isSelected
+                    ? "bg-sprout-cream border-sprout-cream text-sprout-dark"
+                    : "bg-card/90 border-card"
+                )}
+              >
+                {isSelected && <CheckCircle2 className="h-5 w-5" />}
+              </div>
+            </div>
+          )}
 
-          {/* Overwatering Warning Badge */}
-          <div
-            className={`absolute top-3 left-3 transition-opacity duration-200 ${
-              isOverwateringActive ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-            aria-hidden={!isOverwateringActive}
-          >
-            <span
-              className={`px-3 py-1 rounded-full text-xs font-medium border ${
-                overwatering?.level === "high"
-                  ? "bg-red-600 text-white border-red-600"
-                  : "bg-orange-500 text-white border-orange-500"
-              }`}
-            >
-              <AlertTriangle className="w-3 h-3 inline mr-1" />
-              {overwatering?.level === "high" ? "Possible overwatering" : "Watch watering"}
-            </span>
+          {/* Status pill, swapped for the overwatering warning when that's active */}
+          <div className="absolute top-2 left-2 right-2 flex">
+            {isOverwateringActive ? (
+              <span
+                className={cn(
+                  "px-2.5 py-[5px] rounded-full text-xs font-bold truncate",
+                  overwatering?.level === "high"
+                    ? "bg-sprout-warning text-sprout-dark"
+                    : "bg-sprout-cream text-sprout-dark"
+                )}
+              >
+                <AlertTriangle className="w-3 h-3 inline mr-1 -mt-0.5" />
+                {overwatering?.level === "high" ? "Possible overwatering" : "Watch watering"}
+              </span>
+            ) : (
+              <span className={cn("px-2.5 py-[5px] rounded-full text-xs font-bold truncate", status.bentoClasses)}>
+                {isPostponed && <Clock className="w-3 h-3 inline mr-1 -mt-0.5" />}
+                {statusText}
+              </span>
+            )}
           </div>
 
           {/* Smart Suggestions Badge */}
-          {(() => {
-            if (!badgeInfo || isOverwateringActive) return null;
-            return (
-              <div
-                className={`absolute bottom-3 left-3 transition-all duration-200 ${
-                  hasPendingSuggestions && !isOverwateringActive
-                    ? "opacity-100"
-                    : "opacity-0 pointer-events-none"
-                }`}
-              >
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowPendingTips(true);
-                  }}
-                  className={cn(
-                    badgeInfo.classNames,
-                    "hover:scale-105 hover:shadow-md active:scale-95 transition-all duration-150 cursor-pointer"
-                  )}
-                  aria-label={badgeInfo.ariaLabel}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setShowPendingTips(true);
-                    }
-                  }}
-                >
-                  <Lightbulb className="w-3 h-3 inline mr-1" />
-                  {badgeInfo.message}
-                </button>
-              </div>
-            );
-          })()}
+          {badgeInfo && !isOverwateringActive && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowPendingTips(true);
+              }}
+              className="absolute bottom-2 left-2 max-w-[calc(100%-3rem)] truncate px-2.5 py-[5px] rounded-full text-xs font-bold bg-sprout-cream text-sprout-dark hover:scale-105 active:scale-95 transition-transform"
+              aria-label={badgeInfo.ariaLabel}
+            >
+              <Lightbulb className="w-3 h-3 inline mr-1 -mt-0.5" />
+              {badgeInfo.message}
+            </button>
+          )}
 
           {!isSelectionMode && (
             <ImageExpandButton onExpand={() => setShowFullscreenImage(true)} />
           )}
         </div>
 
-        {/* Card Content */}
-        <TooltipProvider>
-          <div
-            className="p-5 grid flex-1 min-h-0"
-            style={{
-              gridTemplateRows: "minmax(1.75rem, auto) auto minmax(0, auto) 1fr auto",
-            }}
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between mb-1">
-              <h3 className="text-lg font-semibold text-foreground flex-1 min-w-0 mr-2">
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <button
-                      onClick={handleNameClick}
-                      className="text-left hover:text-sprout-water transition-colors duration-200 cursor-pointer underline-offset-4 hover:underline line-clamp-1 max-w-full block"
-                    >
-                      {name}
-                    </button>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{name}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </h3>
-              {householdName && (
-                <button
-                  onClick={handleHouseholdClick}
-                  className={cn(
-                    "px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs rounded-full font-medium flex items-center gap-1 flex-shrink-0 transition-colors",
-                    householdId && "hover:bg-blue-200 dark:hover:bg-blue-800 cursor-pointer"
-                  )}
-                  disabled={!householdId}
-                >
-                  🏠 {householdName}
-                </button>
-              )}
-            </div>
-
-            {/* Plant Type */}
-            <div className="mb-4">
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <p className="text-sm text-muted-foreground line-clamp-1">{plantType}</p>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{plantType}</p>
-                </TooltipContent>
-              </Tooltip>
-            </div>
-
-            {/* Warning Messages */}
-            <div className={hasUnknownWateringDate ? "mb-4" : ""}>
-              {hasUnknownWateringDate && (
-                <div className="flex items-center gap-2 p-2 bg-sprout-cream/20 border border-sprout-cream/40 rounded-md">
-                  <AlertTriangle className="h-4 w-4 text-sprout-dark flex-shrink-0" />
-                  <p className="text-xs text-sprout-dark">
-                    Last watering date unknown - please water and record or edit the plant details
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Watering Info */}
-            <div className="space-y-2 mb-4">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Last watered:</span>
-                <span className="text-foreground font-medium">{lastWatered}</span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-muted-foreground">Next watering:</span>
-                <span className="text-foreground font-medium">{nextWateringDue}</span>
-              </div>
-              {overwatering && overwatering.level !== "none" && (
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">Frequency</span>
-                  <span className="text-foreground">
-                    {overwatering.count} in {overwatering.windowDays}d
-                    {overwatering.avgIntervalDays ? ` • avg ${overwatering.avgIntervalDays}d` : ""}
-                  </span>
-                </div>
-              )}
-            </div>
-
-            {/* Action Dropdown */}
+        {/* Name, type and the actions menu */}
+        <div className="flex items-start gap-1.5 px-1.5 pt-2.5 pb-1">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-[17px] font-bold text-foreground leading-snug">
+              <button
+                onClick={handleNameClick}
+                className="text-left truncate max-w-full block hover:underline underline-offset-4"
+                title={name}
+              >
+                {name}
+              </button>
+            </h3>
+            <p className="text-[13px] text-muted-foreground truncate" title={plantType}>
+              {plantType}
+            </p>
+            {householdName && (
+              <button
+                onClick={handleHouseholdClick}
+                className="mt-1 max-w-full truncate text-[11px] font-bold px-2 py-0.5 rounded-full bg-field text-foreground"
+                disabled={!householdId}
+              >
+                {householdName}
+              </button>
+            )}
+          </div>
+          <div onClick={(e) => e.stopPropagation()}>
             <PlantCardActions
               daysUntilWatering={daysUntilWatering}
               isPostponed={isPostponed}
@@ -470,7 +378,7 @@ const MyPlantCard = ({
               onFertilizeClick={onFertilize}
             />
           </div>
-        </TooltipProvider>
+        </div>
       </div>
 
       {/* All Dialogs */}

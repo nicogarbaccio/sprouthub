@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Sprout, X } from "lucide-react";
 import { PlantCardSkeleton } from "@/components/ui/skeleton";
 import PlantCard from "../PlantCard";
 import { Plant } from "@/data/plantData";
@@ -31,8 +31,8 @@ const PlantGrid = ({
  // Show skeleton during loading or page changes
  if (isLoading || isChangingPage) {
  return (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-  {Array.from({ length: 24 }).map((_, index) => (
+  <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2.5 md:gap-3.5">
+  {Array.from({ length: 12 }).map((_, index) => (
    <PlantCardSkeleton key={index} />
   ))}
   </div>
@@ -41,26 +41,19 @@ const PlantGrid = ({
 
  if (plants.length === 0) {
  return (
-  <div className="text-center py-12 animate-fade-in" data-testid="no-results">
-  <div className="mb-4">
-   <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-plant-secondary/20 flex items-center justify-center">
-   <span className="text-2xl">🌱</span>
-   </div>
-   <p className="text-muted-foreground text-lg mb-4">
-   No plants found matching your criteria.
-   </p>
-   <p className="text-muted-foreground/70 text-sm mb-6">
-   Try adjusting your filters or search terms to find more plants.
-   </p>
-  </div>
+  <div className="rounded-tile bg-card p-10 text-center animate-fade-in" data-testid="no-results">
+  <Sprout className="w-12 h-12 mx-auto mb-4 text-muted-foreground opacity-60" />
+  <h3 className="font-display text-xl font-bold text-foreground mb-1">No plants found</h3>
+  <p className="text-muted-foreground mb-5">Try a different search or fewer filters.</p>
   {hasActiveFilters && (
-   <Button
-   variant="outline"
+   <button
+   type="button"
    onClick={clearAllFilters}
-   className="border-plant-secondary/30 hover:bg-plant-secondary/10 transition-all duration-200"
+   className="h-11 px-5 rounded-full bg-foreground text-background font-bold text-sm inline-flex items-center gap-1.5"
    >
+   <X className="h-4 w-4" />
    Clear All Filters
-   </Button>
+   </button>
   )}
   </div>
  );
@@ -69,7 +62,7 @@ const PlantGrid = ({
  return (
     <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 transition-all duration-300"
+        "grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2.5 md:gap-3.5 transition-all duration-300"
       )}
       data-testid="plant-grid"
     >

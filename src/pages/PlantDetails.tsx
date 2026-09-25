@@ -2,7 +2,6 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState } from "react";
 import AddPlantDialog from "@/components/AddPlantDialog";
-import PlantDetailsHeader from "@/components/plant-details/PlantDetailsHeader";
 import PlantImageSection from "@/components/plant-details/PlantImageSection";
 import PlantInfoSection from "@/components/plant-details/PlantInfoSection";
 import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
@@ -46,19 +45,21 @@ const PlantDetails = () => {
 
   if (!plant) {
     return (
-      <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0 ">
-        <div className="pt-16 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto py-12 text-center">
-            <CascadingContainer delay={0}>
-              <h1 className="text-2xl font-bold text-plant-text mb-4">
-                Plant Not Found
-              </h1>
-              <PlantDetailsHeader
-                onBackClick={() => navigate("/plant-catalog")}
-              />
-            </CascadingContainer>
+      <div className="bg-background pb-32 lg:pb-10 px-4 pt-10">
+        <CascadingContainer delay={0}>
+          <div className="max-w-md mx-auto rounded-tile bg-card p-6 text-center">
+            <h1 className="font-display text-2xl font-bold tracking-[-0.03em] text-foreground">Plant not found</h1>
+            <p className="text-[15px] text-muted-foreground mt-1">We couldn't find that plant in the catalog.</p>
+            <button
+              type="button"
+              onClick={() => navigate("/plant-catalog")}
+              className="mt-5 h-12 px-5 rounded-[18px] bg-sprout-dark text-sprout-cream font-bold text-[15px] shadow-[inset_0_0_0_2px_#dfc490]"
+              data-testid="back-to-catalog-button"
+            >
+              Back to Catalog
+            </button>
           </div>
-        </div>
+        </CascadingContainer>
       </div>
     );
   }
@@ -80,61 +81,52 @@ const PlantDetails = () => {
   ];
 
   return (
-    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0 ">
-      <div className="pt-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <CascadingContainer delay={0}>
-            <PlantDetailsHeader
-              onBackClick={() => navigate("/plant-catalog")}
+    <div className="bg-background pb-32 lg:pb-10">
+      <div className="max-w-6xl mx-auto md:px-6 lg:px-8 md:pt-7">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:gap-8">
+          <CascadingContainer delay={0} className="h-full">
+            <PlantImageSection image={plant.image} name={plant.name} onBack={() => navigate("/plant-catalog")} />
+          </CascadingContainer>
+
+          <CascadingContainer delay={75}>
+            <PlantInfoSection
+              name={plant.name}
+              botanicalName={plant.botanicalName}
+              otherNames={plant.otherNames}
+              description={
+                plant.description ||
+                `The ${plant.name} is a beautiful plant that makes a great addition to any home. It's known for its unique characteristics and is perfect for plant enthusiasts.`
+              }
+              careLevel={plant.careLevel}
+              toxicity={plant.toxicity || "Unknown - consult a veterinarian"}
+              onAddToCollection={handleAddToCollection}
+              isAuthenticated={!!user}
+              onSignInToAdd={handleSignInToAdd}
+            />
+          </CascadingContainer>
+        </div>
+
+        <div className="pt-[18px] space-y-2.5 md:space-y-3.5">
+          <CascadingContainer delay={150}>
+            <PlantCareGrid
+              wateringFrequency={plant.wateringFrequency}
+              suggestedWateringDays={plant.suggestedWateringDays || 7}
+              lightRequirement={plant.lightRequirement}
+              temperature={plant.temperature || "65-75°F (18-24°C)"}
+              humidity={plant.humidity || "40-60%"}
             />
           </CascadingContainer>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <CascadingContainer delay={100} className="h-full">
-              <PlantImageSection image={plant.image} name={plant.name} />
-            </CascadingContainer>
-
-            <div className="space-y-6">
-              <CascadingContainer delay={200}>
-                <PlantInfoSection
-                  name={plant.name}
-                  botanicalName={plant.botanicalName}
-                  otherNames={plant.otherNames}
-                  description={
-                    plant.description ||
-                    `The ${plant.name} is a beautiful plant that makes a great addition to any home. It's known for its unique characteristics and is perfect for plant enthusiasts.`
-                  }
-                  careLevel={plant.careLevel}
-                  toxicity={
-                    plant.toxicity || "Unknown - consult a veterinarian"
-                  }
-                  onAddToCollection={handleAddToCollection}
-                  isAuthenticated={!!user}
-                  onSignInToAdd={handleSignInToAdd}
-                />
-              </CascadingContainer>
-
-              <CascadingContainer delay={300}>
-                <PlantCareGrid
-                  wateringFrequency={plant.wateringFrequency}
-                  suggestedWateringDays={plant.suggestedWateringDays || 7}
-                  lightRequirement={plant.lightRequirement}
-                  temperature={plant.temperature || "65-75°F (18-24°C)"}
-                  humidity={plant.humidity || "40-60%"}
-                />
-              </CascadingContainer>
+          <CascadingContainer delay={225}>
+            <div className="px-4 md:px-0">
+              <PlantCareCards careInstructions={careInstructions} commonProblems={commonProblems} />
             </div>
-          </div>
-
-          <CascadingContainer delay={400}>
-            <PlantCareCards
-              careInstructions={careInstructions}
-              commonProblems={commonProblems}
-            />
           </CascadingContainer>
 
-          <CascadingContainer delay={500}>
-            <BlogPostsSection plantName={plant.name} />
+          <CascadingContainer delay={300}>
+            <div className="px-4 md:px-0">
+              <BlogPostsSection plantName={plant.name} />
+            </div>
           </CascadingContainer>
         </div>
       </div>

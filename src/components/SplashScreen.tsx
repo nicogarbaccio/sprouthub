@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/ui/logo";
 
 /**
  * Web-based splash screen shown briefly on app launch (PWA/browser).
@@ -43,13 +44,13 @@ export const SplashScreen = () => {
       )}
       style={{ transitionDuration: `${FADE_OUT_MS}ms` }}
     >
-      <img
-        src="/LogoDark.svg"
+      <Logo
+        onGreen
         alt="sprouthub"
         className="h-20 w-auto mb-4 animate-in fade-in zoom-in-[0.8] [animation-duration:400ms] delay-100 fill-mode-both"
       />
-      <span className="text-3xl font-bold text-sprout-cream animate-in fade-in slide-in-from-bottom-[10px] duration-300 delay-300 fill-mode-both">
-        sprouthub
+      <span className="text-3xl font-bold text-white animate-in fade-in slide-in-from-bottom-[10px] duration-300 delay-300 fill-mode-both">
+        <span className="text-sprout-success">sprout</span><span className="text-sprout-cream">hub</span>
       </span>
     </div>
   );

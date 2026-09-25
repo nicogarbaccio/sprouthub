@@ -8,6 +8,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { useAuth } from "@/contexts/AuthContext";
 import { PWADebugPanel, usePWADebug } from "@/components/pwa/PWADebugPanel";
 import { Skeleton } from "@/components/ui/skeleton";
+import { DelayedSkeleton } from "@/components/ui/loading-transition";
 
 /**
  * Content-only marketing skeleton (no Navigation/Footer - those stay mounted at the top level).
@@ -15,81 +16,26 @@ import { Skeleton } from "@/components/ui/skeleton";
  */
 const MarketingContentSkeleton = () => {
   return (
-    <>
-      {/* Hero Section Skeleton */}
-      <section className="bg-background py-12 sm:py-16 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-start">
-            <div className="text-center lg:text-left mb-6 sm:mb-8 lg:mb-0 lg:pt-8">
-              <Skeleton className="h-12 sm:h-14 lg:h-16 w-3/4 mb-6 mx-auto lg:mx-0" />
-              <div className="space-y-2 mb-8 max-w-2xl mx-auto lg:mx-0">
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-5 w-full" />
-                <Skeleton className="h-5 w-2/3" />
-              </div>
-              <Skeleton className="h-12 w-40 rounded-xl mx-auto lg:mx-0" />
-            </div>
-            <div className="relative hidden lg:flex lg:justify-center">
-              <div className="bg-card rounded-3xl shadow-lg p-4 sm:p-6 relative overflow-hidden mx-auto lg:mx-0 w-full max-w-sm sm:max-w-md lg:min-w-[400px]">
-                <Skeleton className="w-full h-48 sm:h-56 lg:h-64 rounded-3xl mb-4" />
-                <div className="space-y-3">
-                  {Array.from({ length: 3 }).map((_, i) => (
-                    <div key={i} className="flex items-center space-x-3">
-                      <Skeleton className="w-10 h-10 rounded-xl flex-shrink-0" />
-                      <div className="flex-1">
-                        <Skeleton className="h-4 w-48 mb-1" />
-                        <Skeleton className="h-3 w-36" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Tablet Feature Icons Skeleton */}
-          <div className="hidden sm:block lg:hidden mt-12">
-            <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="flex flex-col items-center text-center space-y-3">
-                  <Skeleton className="w-16 h-16 rounded-2xl" />
-                  <div>
-                    <Skeleton className="h-4 w-32 mb-1 mx-auto" />
-                    <Skeleton className="h-3 w-28 mx-auto" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features Section Skeleton */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <Skeleton className="h-10 w-80 mx-auto mb-4" />
-            <Skeleton className="h-6 w-96 mx-auto" />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <div
-                key={index}
-                className="bg-card border border-border rounded-2xl p-8 h-full"
-              >
-                <Skeleton className="w-12 h-12 rounded-xl mb-6" />
-                <Skeleton className="h-6 w-32 mb-3" />
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-3/4" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    </>
+    <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-3.5 lg:pt-7 space-y-2.5 md:space-y-3.5">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-2.5 md:gap-3.5">
+        <Skeleton className="h-[320px] rounded-tile" />
+        <Skeleton className="hidden lg:block h-[320px] rounded-tile" />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 md:gap-3.5">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <Skeleton key={i} className="h-[88px] rounded-card" />
+        ))}
+      </div>
+      <div className="pt-6 space-y-2">
+        <Skeleton className="h-8 w-72 rounded-2xl" />
+        <Skeleton className="h-4 w-96 max-w-full" />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-3.5">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <Skeleton key={i} className="h-44 rounded-card" />
+        ))}
+      </div>
+    </div>
   );
 };
 
@@ -118,7 +64,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
+    <div className="bg-background pb-28 lg:pb-0">
       {/* PWA Debug Panel - Development only */}
       {showDebugPanel && (
         <PWADebugPanel className="fixed top-20 right-4 w-80 z-40" />
@@ -134,7 +80,9 @@ const Index = () => {
         </ErrorBoundary>
       ) : authLoading ? (
         // No session detected — show marketing skeleton while auth resolves
-        <MarketingContentSkeleton />
+        <DelayedSkeleton>
+          <MarketingContentSkeleton />
+        </DelayedSkeleton>
       ) : (
         // Marketing view for non-signed-in users with smooth fade-in
         <div className="animate-fade-in">

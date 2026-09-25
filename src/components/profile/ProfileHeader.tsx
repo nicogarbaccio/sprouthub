@@ -2,12 +2,12 @@ import React from "react";
 
 const ProfileHeader: React.FC = () => {
  return (
- <div className="text-center mb-8">
-  <h1 className="text-3xl font-bold text-foreground mb-2">
-  Profile Settings
+ <div className="px-1.5 lg:px-0">
+  <h1 className="font-display text-[28px] lg:text-[34px] font-bold tracking-[-0.04em] text-foreground">
+  Profile
   </h1>
-  <p className="text-muted-foreground">
-  Manage your account information and preferences
+  <p className="text-sm lg:text-[15px] font-medium text-muted-foreground mt-0.5">
+  Your account details and password
   </p>
  </div>
  );

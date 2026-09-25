@@ -3,23 +3,22 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { MapPin, Navigation, AlertCircle, CheckCircle, Search, Loader2, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { FieldLabel, settingsInputClasses } from "@/components/settings/SettingsUI";
 import {
-  MapPin,
-  Navigation,
-  AlertCircle,
-  CheckCircle,
-  Search,
-  Loader2,
-} from "lucide-react";
+  SheetGrabber,
+  dialogSheetClasses,
+  sheetHeaderClasses,
+  sheetIconButtonClasses,
+  sheetPrimaryButtonClasses,
+  sheetSecondaryButtonClasses,
+  sheetTitleClasses,
+} from "@/components/ui/bento-sheet";
 import { LocationData, WeatherError } from "@/services/weatherTypes";
 
 interface LocationPermissionDialogProps {
@@ -81,149 +80,91 @@ export function LocationPermissionDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-sprout-dark text-sprout-white">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <MapPin className="w-5 h-5 text-sprout-light" />
-            Location for Weather Data
-          </DialogTitle>
-          <DialogDescription className="text-sprout-light">
-            We need your location to provide accurate weather-based watering
-            recommendations.
-          </DialogDescription>
+      <DialogContent className={cn(dialogSheetClasses, "sm:max-w-md")}>
+        <SheetGrabber />
+        <DialogHeader className={sheetHeaderClasses}>
+          <div className="w-[52px] h-[52px] shrink-0 rounded-[18px] bg-sprout-cream text-sprout-dark flex items-center justify-center">
+            <MapPin className="w-6 h-6" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <DialogTitle className={sheetTitleClasses}>Your location</DialogTitle>
+            <DialogDescription className="text-sm font-medium">
+              For accurate weather-based watering advice
+            </DialogDescription>
+          </div>
+          <button type="button" onClick={onClose} className={cn(sheetIconButtonClasses, "self-start")} aria-label="Close">
+            <X className="w-5 h-5" />
+          </button>
         </DialogHeader>
 
-        <div className="space-y-4">
-          {/* Current Location Option */}
-          <Card className="border-sprout-medium bg-sprout-primary/30">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <Navigation className="w-4 h-4 text-sprout-light" />
-                  <span className="font-medium text-sprout-white">
-                    Use Current Location
-                  </span>
-                  <Badge variant="outline" className="text-xs">
-                    Recommended
-                  </Badge>
-                </div>
+        <div className="mt-4 space-y-2">
+          {/* Current location */}
+          <div className="rounded-3xl bg-card p-4 space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="text-[15px] font-bold text-foreground">Use current location</span>
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-sprout-success text-sprout-dark">
+                Recommended
+              </span>
+            </div>
+            <p className="text-sm text-muted-foreground -mt-1.5">The most accurate weather for exactly where you are.</p>
+
+            {error?.type === "permission_denied" && (
+              <div className="flex items-start gap-2 rounded-[16px] bg-sprout-warning text-sprout-dark px-3.5 py-2.5 text-sm font-semibold">
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                Location access denied. Enable location permissions or search for your city.
               </div>
+            )}
 
-              <p className="text-sm text-sprout-light mb-3">
-                Get the most accurate weather data for your exact location.
-              </p>
-
-              {error?.type === "permission_denied" && (
-                <div className="flex items-center gap-2 p-2 bg-sprout-warning/20 rounded mb-3">
-                  <AlertCircle className="w-4 h-4 text-sprout-warning" />
-                  <span className="text-sm text-sprout-warning">
-                    Location access denied. Please enable location permissions
-                    or search for your city.
-                  </span>
-                </div>
-              )}
-
-              {currentLocation && (
-                <div className="flex items-center gap-2 p-2 bg-sprout-success/20 rounded mb-3">
-                  <CheckCircle className="w-4 h-4 text-sprout-success" />
-                  <span className="text-sm text-sprout-success">
-                    Location detected:{" "}
-                    {currentLocation.city || "Current location"}
-                  </span>
-                </div>
-              )}
-
-              <Button
-                onClick={handleUseCurrentLocation}
-                disabled={isLoading}
-                className="w-full bg-sprout-success hover:bg-sprout-success/90"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Getting Location...
-                  </>
-                ) : (
-                  <>
-                    <Navigation className="w-4 h-4 mr-2" />
-                    Use My Current Location
-                  </>
-                )}
-              </Button>
-            </CardContent>
-          </Card>
-
-          {/* Manual City Search */}
-          <Card className="border-sprout-medium bg-sprout-primary/30">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <Search className="w-4 h-4 text-sprout-light" />
-                <span className="font-medium text-sprout-white">
-                  Search by City
-                </span>
+            {currentLocation && (
+              <div className="flex items-center gap-2 rounded-[16px] bg-sprout-success text-sprout-dark px-3.5 py-2.5 text-sm font-semibold">
+                <CheckCircle className="w-4 h-4 shrink-0" />
+                Location detected: {currentLocation.city || "Current location"}
               </div>
+            )}
 
-              <p className="text-sm text-sprout-light mb-3">
-                Enter your city name to get weather data for your area.
-              </p>
+            <button type="button" onClick={handleUseCurrentLocation} disabled={isLoading} className={sheetPrimaryButtonClasses}>
+              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Navigation className="w-5 h-5" />}
+              {isLoading ? "Getting Location..." : "Use My Current Location"}
+            </button>
+          </div>
 
-              <div className="space-y-3">
-                <div>
-                  <Label htmlFor="city-search" className="text-sprout-light">
-                    City Name
-                  </Label>
-                  <Input
-                    id="city-search"
-                    type="text"
-                    placeholder="e.g., New York, London, Tokyo"
-                    value={citySearch}
-                    onChange={(e) => setCitySearch(e.target.value)}
-                    onKeyPress={handleKeyPress}
-                    className="bg-sprout-primary border-sprout-medium text-sprout-white"
-                  />
-                </div>
+          {/* City search */}
+          <div className="rounded-3xl bg-card p-4 space-y-3">
+            <div>
+              <FieldLabel htmlFor="city-search">Or search by city</FieldLabel>
+              <Input
+                id="city-search"
+                type="text"
+                placeholder="e.g., New York, London, Tokyo"
+                value={citySearch}
+                onChange={(e) => setCitySearch(e.target.value)}
+                onKeyDown={handleKeyPress}
+                className={settingsInputClasses}
+              />
+            </div>
 
-                {searchError && (
-                  <div className="flex items-center gap-2 p-2 bg-sprout-danger/20 rounded">
-                    <AlertCircle className="w-4 h-4 text-sprout-danger" />
-                    <span className="text-sm text-sprout-danger">
-                      {searchError}
-                    </span>
-                  </div>
-                )}
-
-                <Button
-                  onClick={handleCitySearch}
-                  disabled={!citySearch.trim() || isSearching}
-                  variant="outline"
-                  className="w-full border-sprout-light text-sprout-light hover:bg-sprout-light hover:text-sprout-dark"
-                >
-                  {isSearching ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Searching...
-                    </>
-                  ) : (
-                    <>
-                      <Search className="w-4 h-4 mr-2" />
-                      Search City
-                    </>
-                  )}
-                </Button>
+            {searchError && (
+              <div className="flex items-start gap-2 rounded-[16px] bg-sprout-warning text-sprout-dark px-3.5 py-2.5 text-sm font-semibold" role="alert">
+                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+                {searchError}
               </div>
-            </CardContent>
-          </Card>
-        </div>
+            )}
 
-        <DialogFooter>
-          <Button
-            variant="ghost"
-            onClick={onClose}
-            className="text-sprout-light hover:bg-sprout-light/20"
-          >
+            <button
+              type="button"
+              onClick={handleCitySearch}
+              disabled={!citySearch.trim() || isSearching}
+              className="w-full h-12 rounded-[18px] bg-field text-foreground font-bold text-[15px] inline-flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {isSearching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+              {isSearching ? "Searching..." : "Search City"}
+            </button>
+          </div>
+
+          <button type="button" onClick={onClose} className={sheetSecondaryButtonClasses}>
             Skip for Now
-          </Button>
-        </DialogFooter>
+          </button>
+        </div>
       </DialogContent>
     </Dialog>
   );

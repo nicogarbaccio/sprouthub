@@ -1,5 +1,5 @@
-import { Plus, LogIn } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Plus, LogIn, PawPrint } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface PlantInfoSectionProps {
   name: string;
@@ -13,6 +13,12 @@ interface PlantInfoSectionProps {
   onSignInToAdd?: () => void;
 }
 
+const CARE_LEVEL_CLASSES: Record<string, string> = {
+  Easy: "bg-sprout-success text-sprout-dark",
+  Medium: "bg-sprout-cream text-sprout-dark",
+  Hard: "bg-sprout-warning text-sprout-dark",
+};
+
 const PlantInfoSection = ({
   name,
   botanicalName,
@@ -24,79 +30,53 @@ const PlantInfoSection = ({
   isAuthenticated = false,
   onSignInToAdd,
 }: PlantInfoSectionProps) => {
-  const getCareColor = (level: string) => {
-    switch (level) {
-      case "Easy":
-        return "bg-sprout-success/20 text-sprout-success border-sprout-success/30";
-      case "Medium":
-        return "bg-sprout-warning/20 text-sprout-warning border-sprout-warning/30";
-      case "Hard":
-        return "bg-sprout-warning/40 text-sprout-dark border-sprout-warning/50";
-      default:
-        return "bg-neutral-light text-neutral-dark border-neutral-medium/30";
-    }
-  };
+  const ActionIcon = isAuthenticated ? Plus : LogIn;
 
   return (
-    <div className="space-y-6">
+    <div className="px-[22px] md:px-2 lg:px-0 pt-5 lg:pt-2 flex flex-col gap-4">
       <div>
-        <div className="flex items-center gap-3 mb-2">
-          <h1
-            className="text-3xl font-bold text-foreground "
-            data-testid="plant-name"
-          >
-            {name}
-          </h1>
-          <span
-            className={`px-3 py-1 rounded-full text-sm font-medium ${getCareColor(
-              careLevel
-            )}`}
-          >
-            {careLevel}
-          </span>
-        </div>
-        <p
-          className="text-lg text-muted-foreground italic mb-2"
-          data-testid="botanical-name"
+        <span
+          className={cn(
+            "inline-flex text-xs font-bold px-2.5 py-[5px] rounded-full",
+            CARE_LEVEL_CLASSES[careLevel] ?? "bg-card text-foreground"
+          )}
         >
+          {careLevel} care
+        </span>
+        <h1
+          className="font-display text-4xl md:text-5xl font-extrabold tracking-[-0.04em] mt-2.5 text-foreground break-words"
+          data-testid="plant-name"
+        >
+          {name}
+        </h1>
+        <p className="text-base font-medium text-muted-foreground italic" data-testid="botanical-name">
           {botanicalName}
         </p>
         {otherNames && otherNames.length > 0 && (
-          <p className="text-sm text-muted-foreground mb-4">
-            <span className="font-semibold">Also known as:</span>{" "}
-            {otherNames.join(", ")}
+          <p className="text-sm text-muted-foreground mt-1">
+            <span className="font-semibold">Also known as:</span> {otherNames.join(", ")}
           </p>
         )}
-        <p className="text-foreground leading-relaxed">{description}</p>
       </div>
 
-      {isAuthenticated ? (
-        <Button
-          onClick={onAddToCollection}
-          className="w-full bg-sprout-success hover:bg-sprout-success/90 text-white rounded-xl font-medium py-3"
-          size="lg"
-          data-testid="add-to-collection-button"
-        >
-          <Plus className="w-5 h-5 mr-2" />
-          Add to My Collection
-        </Button>
-      ) : (
-        <Button
-          onClick={onSignInToAdd}
-          className="w-full bg-sprout-success hover:bg-sprout-success/90 text-white rounded-xl font-medium py-3"
-          size="lg"
-          data-testid="sign-in-to-add-button"
-        >
-          <LogIn className="w-5 h-5 mr-2" />
-          Sign in to Add to Collection
-        </Button>
-      )}
+      <p className="rounded-card bg-card p-[18px] text-[15px] leading-relaxed text-foreground">{description}</p>
 
-      <div className="p-3 bg-sprout-warning/10 rounded-lg border border-sprout-warning/30">
-        <p className="text-sm text-sprout-warning">
-          <strong>Pet Safety:</strong> {toxicity}
+      <div className="rounded-card bg-sprout-cream text-sprout-dark p-[18px] flex items-start gap-3">
+        <PawPrint className="w-5 h-5 shrink-0 mt-0.5" />
+        <p className="text-[15px] font-medium">
+          <span className="font-bold">Pet safety:</span> {toxicity}
         </p>
       </div>
+
+      <button
+        type="button"
+        onClick={isAuthenticated ? onAddToCollection : onSignInToAdd}
+        className="w-full h-16 rounded-3xl bg-sprout-dark text-sprout-cream flex items-center justify-center gap-2.5 font-display font-bold text-base shadow-[inset_0_0_0_2px_#dfc490]"
+        data-testid={isAuthenticated ? "add-to-collection-button" : "sign-in-to-add-button"}
+      >
+        <ActionIcon className="w-5 h-5" strokeWidth={2.5} />
+        {isAuthenticated ? "Add to My Collection" : "Sign in to Add to Collection"}
+      </button>
     </div>
   );
 };

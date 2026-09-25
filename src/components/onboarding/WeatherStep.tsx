@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { CloudSun, ChevronLeft, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
+import { StepHeading, StepNav } from "./OnboardingUI";
 import { useLocation } from "@/hooks/useLocation";
 import { LocationSection } from "@/components/weather/LocationSection";
 import { weatherService } from "@/services/weatherService";
@@ -87,75 +86,65 @@ export const WeatherStep = ({ onNext, onBack }: WeatherStepProps) => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="text-center space-y-2">
-        <div className="flex justify-center mb-4">
-          <div className="w-16 h-16 bg-plant-primary/10 rounded-full flex items-center justify-center">
-            <CloudSun className="w-8 h-8 text-plant-primary" />
-          </div>
-        </div>
-        <h2 className="text-2xl font-bold text-foreground">
-          Enable Weather Features
-        </h2>
-        <p className="text-muted-foreground">
-          Get personalized plant care insights based on your local weather conditions
-        </p>
-      </div>
+    <div className="space-y-4">
+      <StepHeading
+        title="Enable Weather Features"
+        body="We use your local forecast to spot season changes early and flag rain for outdoor plants."
+      />
 
       {/* Weather Toggle */}
-      <div className="border-2 rounded-lg p-4 bg-card">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <Label htmlFor="weather-toggle" className="text-base font-medium">
-              Use Weather Data
-            </Label>
-            <p className="text-sm text-muted-foreground">
-              Get real-time weather-based care recommendations
-            </p>
-          </div>
-          <Switch
-            id="weather-toggle"
-            checked={useWeather}
-            onCheckedChange={handleToggleWeather}
-          />
-        </div>
-      </div>
+      <label
+        htmlFor="weather-toggle"
+        className="flex items-center justify-between gap-4 rounded-[18px] bg-card p-4 cursor-pointer"
+      >
+        <span>
+          <span className="block font-bold text-[15px] text-foreground">Use Weather Data</span>
+          <span className="block text-sm text-muted-foreground mt-0.5">
+            Real-time, weather-based care tips
+          </span>
+        </span>
+        <Switch
+          id="weather-toggle"
+          checked={useWeather}
+          onCheckedChange={handleToggleWeather}
+        />
+      </label>
 
       {/* Temperature Unit */}
       {useWeather && (
-        <div className="space-y-3 animate-in fade-in slide-in-from-top-2 duration-300">
-          <Label className="text-base font-medium">Temperature Unit</Label>
+        <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground px-1.5">
+            Temperature unit
+          </div>
           <RadioGroup
             value={temperatureUnit}
             onValueChange={(value) => setTemperatureUnit(value as "F" | "C")}
-            className="space-y-2"
+            className="grid grid-cols-2 gap-2"
           >
-            <div className="flex items-center space-x-2 border rounded-lg p-3 hover:bg-accent cursor-pointer">
-              <RadioGroupItem value="F" id="fahrenheit" />
+            {([
+              { value: "F", id: "fahrenheit", label: "Fahrenheit (°F)" },
+              { value: "C", id: "celsius", label: "Celsius (°C)" },
+            ] as const).map((unit) => (
               <Label
-                htmlFor="fahrenheit"
-                className="font-normal cursor-pointer flex-1"
+                key={unit.value}
+                htmlFor={unit.id}
+                className={`flex items-center gap-2.5 min-h-[52px] rounded-[18px] px-4 cursor-pointer font-bold text-[15px] transition-colors ${
+                  temperatureUnit === unit.value
+                    ? "bg-sprout-cream text-sprout-dark"
+                    : "bg-card text-foreground"
+                }`}
               >
-                Fahrenheit (°F)
+                <RadioGroupItem value={unit.value} id={unit.id} className="border-current text-current" />
+                {unit.label}
               </Label>
-            </div>
-            <div className="flex items-center space-x-2 border rounded-lg p-3 hover:bg-accent cursor-pointer">
-              <RadioGroupItem value="C" id="celsius" />
-              <Label
-                htmlFor="celsius"
-                className="font-normal cursor-pointer flex-1"
-              >
-                Celsius (°C)
-              </Label>
-            </div>
+            ))}
           </RadioGroup>
         </div>
       )}
 
       {/* Location Section */}
       {useWeather && (
-        <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+        <div className="rounded-3xl bg-card p-4 animate-in fade-in slide-in-from-top-2 duration-300">
           <LocationSection
             browserLocation={location.location}
             isBrowserLoading={location.isLoading}
@@ -175,29 +164,22 @@ export const WeatherStep = ({ onNext, onBack }: WeatherStepProps) => {
 
       {/* Features Info */}
       {useWeather && (
-        <Alert className="animate-in fade-in slide-in-from-top-2 duration-300">
-          <MapPin className="h-4 w-4" />
-          <AlertDescription>
-            <div className="font-medium mb-2">Weather features include:</div>
-            <ul className="text-sm space-y-1 ml-4 list-disc">
-              <li>Weather-based care tips on your dashboard</li>
-              <li>Rain delay notifications for outdoor plants</li>
-              <li>Extreme weather alerts</li>
-              <li>Seasonal watering adjustments</li>
-            </ul>
-          </AlertDescription>
-        </Alert>
+        <div className="rounded-3xl bg-sprout-water text-sprout-dark p-4 animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="flex items-center gap-2 font-bold text-[15px]">
+            <MapPin className="h-4 w-4" />
+            Weather features include:
+          </div>
+          <ul className="text-sm font-medium space-y-1 mt-2 ml-5 list-disc">
+            <li>Weather-based care tips on your dashboard</li>
+            <li>Rain delay notifications for outdoor plants</li>
+            <li>Extreme weather alerts</li>
+            <li>Seasonal watering adjustments</li>
+          </ul>
+        </div>
       )}
 
-      {/* Navigation Buttons */}
-      <div className="flex gap-3 pt-4">
-        <Button variant="outline" onClick={onBack} className="gap-2">
-          <ChevronLeft className="w-4 h-4" />
-          Back
-        </Button>
-        <Button onClick={handleContinue} className="flex-1">
-          Continue
-        </Button>
+      <div className="pt-4">
+        <StepNav onBack={onBack} onNext={handleContinue} label="Continue" />
       </div>
     </div>
   );

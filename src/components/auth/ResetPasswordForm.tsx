@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FieldLabel, settingsInputClasses, settingsPrimaryButtonClasses } from "@/components/settings/SettingsUI";
 import { authToast } from "@/utils/notifications/toast";
 import { PasswordInput } from "./PasswordInput";
 
@@ -72,16 +71,14 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
  formData.password === formData.confirmPassword;
 
  return (
- <form onSubmit={handleSubmit} className="space-y-4">
-  <div className="space-y-2 text-center">
-  <h3 className="text-lg font-medium">Reset your password</h3>
-  <p className="text-sm text-muted-foreground">
-   Enter the token from your email and your new password.
-  </p>
+ <form onSubmit={handleSubmit} className="space-y-3">
+  <div className="space-y-1 px-1">
+  <h3 className="font-display text-xl font-bold tracking-[-0.02em] text-foreground">Reset your password</h3>
+  <p className="text-sm text-muted-foreground">Enter the code from your email and choose a new password.</p>
   </div>
 
-  <div className="space-y-2">
-  <Label htmlFor="email">Email Address</Label>
+  <div>
+  <FieldLabel htmlFor="email">Email Address</FieldLabel>
   <Input
    id="email"
    type="email"
@@ -92,11 +89,12 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
    inputMode="email"
    autoComplete="email"
    data-testid="reset-email"
+   className={settingsInputClasses}
   />
   </div>
 
-  <div className="space-y-2">
-  <Label htmlFor="token">Reset Token</Label>
+  <div>
+  <FieldLabel htmlFor="token">Reset Token</FieldLabel>
   <Input
    id="token"
    type="text"
@@ -105,11 +103,14 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
    onChange={(e) => setFormData({ ...formData, token: e.target.value })}
    required
    maxLength={6}
+   inputMode="numeric"
+   autoComplete="one-time-code"
    data-testid="reset-token"
+   className={settingsInputClasses}
   />
   </div>
 
-  <div className="space-y-2">
+  <div>
   <PasswordInput
    id="new-password"
    label="New Password"
@@ -121,7 +122,7 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
   />
   </div>
 
-  <div className="space-y-2">
+  <div>
   <PasswordInput
    id="confirm-password"
    label="Confirm New Password"
@@ -135,14 +136,14 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
   />
   </div>
 
-  <Button
+  <button
   type="submit"
-  className="w-full bg-sprout-light hover:bg-sprout-medium text-sprout-white"
+  className={settingsPrimaryButtonClasses}
   disabled={isLoading || !isFormValid}
   data-testid="update-password-button"
   >
   {isLoading ? "Updating..." : "Update Password"}
-  </Button>
+  </button>
  </form>
  );
 };

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useBulkSelection } from '@/contexts/BulkSelectionContext';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,6 +19,13 @@ import {
   Square,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+  confirmCancelClasses,
+  confirmDestructiveClasses,
+  confirmDialogClasses,
+  confirmIconClasses,
+  confirmTitleClasses,
+} from '@/components/settings/SettingsUI';
 
 interface BulkActionsBarProps {
   onBulkWater: (plantIds: string[]) => Promise<void>;
@@ -99,80 +104,62 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
       */}
       <div
         className={cn(
-          // Sticky positioning - MUST stay at bottom of viewport
-          'fixed left-0 right-0 bottom-0',
-          // Visual styling
-          'bg-background border-t shadow-lg',
-          // Safe area padding for iOS devices (notch/home indicator)
-          'pb-safe',
+          // Pinned to the bottom of the viewport, over the bottom nav, in the nav's colours
+          'fixed left-0 right-0 bottom-0 bg-nav text-sprout-cream rounded-t-[28px] shadow-[0_-8px_30px_rgba(29,60,40,0.25)] pb-safe',
           className
         )}
-        style={{
-          // Force sticky behavior
-          position: 'fixed' as const,
-          bottom: '0' as const,
-          left: '0' as const,
-          right: '0' as const,
-          zIndex: 50,
-        }}
+        style={{ zIndex: 50 }}
+        role="toolbar"
+        aria-label="Bulk actions"
       >
         <div className="max-w-7xl mx-auto px-4 py-3 md:py-4">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             {/* Left side - Selection info */}
-            <div className="flex items-center justify-between w-full md:w-auto md:justify-start md:gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
                 onClick={exitSelectionMode}
-                className="h-9 px-2 md:px-4 hover:bg-muted"
+                className="w-11 h-11 shrink-0 rounded-2xl bg-sprout-cream/10 hover:bg-sprout-cream/15 flex items-center justify-center"
+                aria-label="Cancel selection"
               >
-                <X className="h-4 w-4 mr-2" />
-                Cancel
-              </Button>
+                <X className="h-5 w-5" />
+              </button>
 
-              <Badge variant="secondary" className="h-7 px-3 whitespace-nowrap">
+              <span className="font-display text-lg font-bold whitespace-nowrap px-1" aria-live="polite">
                 {selectedCount} selected
-              </Badge>
+              </span>
 
-              <Button
-                variant="ghost"
-                size="sm"
+              <button
+                type="button"
                 onClick={handleToggleSelectAll}
-                className="h-9 px-2 md:px-4"
+                className="ml-auto md:ml-2 h-10 px-3.5 rounded-full border-[1.5px] border-sprout-cream/40 text-[13px] font-bold inline-flex items-center gap-1.5 hover:bg-sprout-cream/10"
               >
-                {allSelected ? (
-                  <CheckSquare className="h-4 w-4 mr-2" />
-                ) : (
-                  <Square className="h-4 w-4 mr-2" />
-                )}
-                <span className="hidden sm:inline">{allSelected ? 'Deselect All' : 'Select All'}</span>
-                <span className="sm:hidden">{allSelected ? 'Deselect' : 'Select'}</span>
-              </Button>
+                {allSelected ? <CheckSquare className="h-4 w-4" /> : <Square className="h-4 w-4" />}
+                {allSelected ? 'Deselect all' : 'Select all'}
+              </button>
             </div>
 
             {/* Right side - Actions */}
             <div className="flex items-center gap-2 w-full md:w-auto">
-              <Button
-                variant="default"
-                size="sm"
+              <button
+                type="button"
                 onClick={handleBulkWater}
                 disabled={selectedCount === 0 || isProcessing}
-                className="h-10 flex-1 md:flex-none bg-sprout-water hover:bg-sprout-water/90 text-white"
+                className="h-12 flex-1 md:flex-none md:px-6 rounded-[18px] bg-sprout-water text-sprout-dark font-bold text-[15px] inline-flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                <Droplets className="h-4 w-4 mr-2" />
+                <Droplets className="h-5 w-5" />
                 Water
-              </Button>
+              </button>
 
-              <Button
-                variant="destructive"
-                size="sm"
+              <button
+                type="button"
                 onClick={() => setShowDeleteConfirm(true)}
                 disabled={selectedCount === 0 || isProcessing}
-                className="h-10 flex-1 md:flex-none bg-red-600 hover:bg-red-700 !text-white"
+                className="h-12 flex-1 md:flex-none md:px-6 rounded-[18px] bg-sprout-warning text-sprout-dark font-bold text-[15px] inline-flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                <Trash2 className="h-4 w-4 mr-2" />
+                <Trash2 className="h-5 w-5" />
                 Delete
-              </Button>
+              </button>
             </div>
           </div>
         </div>
@@ -180,19 +167,26 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete {selectedCount} Plant{selectedCount !== 1 ? 's' : ''}?</AlertDialogTitle>
-            <AlertDialogDescription>
+        <AlertDialogContent className={confirmDialogClasses}>
+          <AlertDialogHeader className="text-left">
+            <div className="flex items-center gap-3 mb-1">
+              <div className={cn(confirmIconClasses, 'bg-sprout-warning text-sprout-dark')}>
+                <Trash2 className="w-6 h-6" />
+              </div>
+              <AlertDialogTitle className={confirmTitleClasses}>
+                Delete {selectedCount} Plant{selectedCount !== 1 ? 's' : ''}?
+              </AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="text-[15px]">
               This will permanently delete the selected plant{selectedCount !== 1 ? 's' : ''} and all their watering history.
               This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel className={confirmCancelClasses}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleBulkDelete}
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className={confirmDestructiveClasses}
               disabled={isProcessing}
             >
               {isProcessing ? 'Deleting...' : 'Delete'}
@@ -203,18 +197,25 @@ export const BulkActionsBar: React.FC<BulkActionsBarProps> = ({
 
       {/* Water Confirmation Dialog */}
       <AlertDialog open={showWaterConfirm} onOpenChange={setShowWaterConfirm}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Water {selectedCount} Plant{selectedCount !== 1 ? 's' : ''}?</AlertDialogTitle>
-            <AlertDialogDescription>
+        <AlertDialogContent className={confirmDialogClasses}>
+          <AlertDialogHeader className="text-left">
+            <div className="flex items-center gap-3 mb-1">
+              <div className={cn(confirmIconClasses, 'bg-sprout-water text-sprout-dark')}>
+                <Droplets className="w-6 h-6" />
+              </div>
+              <AlertDialogTitle className={confirmTitleClasses}>
+                Water {selectedCount} Plant{selectedCount !== 1 ? 's' : ''}?
+              </AlertDialogTitle>
+            </div>
+            <AlertDialogDescription className="text-[15px]">
               Are you sure you want to mark {selectedCount} plant{selectedCount !== 1 ? 's' : ''} as watered?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel className={confirmCancelClasses}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmBulkWater}
-              className="bg-sprout-water hover:bg-sprout-water/90 text-white"
+              className="h-12 rounded-[18px] bg-sprout-water text-sprout-dark hover:bg-sprout-water/90 font-bold"
               disabled={isProcessing}
             >
               {isProcessing ? 'Watering...' : 'Water'}

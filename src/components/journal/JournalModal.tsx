@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { BookOpen, Plus, Droplets, FlaskConical, StickyNote, CalendarIcon, X } from "lucide-react";
+import { BookOpen, ChevronLeft, Plus, Droplets, FlaskConical, StickyNote, CalendarIcon, X } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -18,6 +18,28 @@ import { JournalEntry, type PlantMood } from "@/types/journalTypes";
 import { cn } from "@/lib/utils";
 import { format, startOfDay, endOfDay } from "date-fns";
 import type { DateRange } from "react-day-picker";
+import {
+  SheetGrabber,
+  dialogSheetClasses,
+  sheetHeaderClasses,
+  sheetIconButtonClasses,
+  sheetPrimaryButtonClasses,
+  sheetTitleClasses,
+} from "@/components/ui/bento-sheet";
+
+const FILTERS = [
+  { key: 'all', label: 'All', icon: BookOpen },
+  { key: 'watering', label: 'Waterings', icon: Droplets },
+  { key: 'fertilization', label: 'Fertilizations', icon: FlaskConical },
+  { key: 'other', label: 'Other', icon: StickyNote },
+] as const;
+
+/** Filter chip: white when idle, ink-filled when chosen, like the Settings tabs */
+const chipClasses = (active: boolean) =>
+  cn(
+    'shrink-0 h-10 px-3.5 rounded-full inline-flex items-center gap-1.5 text-[13px] font-bold transition-colors',
+    active ? 'bg-foreground text-background' : 'bg-card text-foreground hover:bg-card/80'
+  );
 
 type JournalFilter = 'all' | 'watering' | 'fertilization' | 'other';
 
@@ -59,6 +81,12 @@ export const JournalModal = ({
   } = useWateringRecords();
 
   const stats = getJournalStats(plantId);
+  const contentRef = React.useRef<HTMLDivElement>(null);
+
+  // Switching between the list and the form starts at the top, so the header is in view
+  React.useEffect(() => {
+    contentRef.current?.scrollTo({ top: 0 });
+  }, [showForm]);
 
   // Load entries when modal opens or prefetch is requested
   React.useEffect(() => {
@@ -97,93 +125,76 @@ export const JournalModal = ({
     onClose();
   };
 
+  const plantEntries = entries.filter(e => e.plant_id === plantId);
+  const closeForm = () => { setShowForm(false); setEditingEntry(null); };
+
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent
-        className="max-w-3xl h-[80vh] overflow-y-auto !p-0 flex flex-col"
+        ref={contentRef}
+        className={cn(dialogSheetClasses, "sm:max-w-3xl")}
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
-        <div className="p-6 pb-0 flex-shrink-0">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-2xl">
-              <BookOpen className="w-6 h-6 text-plant-primary" />
-              {plantNickname}'s Journal
-            </DialogTitle>
-            <div className="flex gap-4 text-sm text-muted-foreground pt-2 h-7">
-              {!showForm && (
-                hasLoadedInitially ? (
-                  stats.totalEntries > 0 ? (
-                    <span>{stats.totalEntries} {stats.totalEntries === 1 ? 'entry' : 'entries'}</span>
-                  ) : null
-                ) : (
-                  <Skeleton className="w-24 h-5" />
-                )
-              )}
+        <SheetGrabber />
+        <DialogHeader className={sheetHeaderClasses}>
+          {showForm ? (
+            <button type="button" onClick={closeForm} className={sheetIconButtonClasses} aria-label="Back to journal">
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+          ) : (
+            <div className="w-[52px] h-[52px] shrink-0 rounded-[18px] bg-sprout-primary text-sprout-cream flex items-center justify-center">
+              <BookOpen className="w-6 h-6" />
             </div>
-          </DialogHeader>
-        </div>
+          )}
+          <div className="flex-1 min-w-0">
+            <DialogTitle className={sheetTitleClasses}>
+              {showForm ? (editingEntry ? 'Edit entry' : 'New entry') : 'Journal'}
+            </DialogTitle>
+            <DialogDescription className="text-sm font-medium truncate">
+              {plantNickname}
+              {!showForm && hasLoadedInitially && stats.totalEntries > 0 &&
+                ` · ${stats.totalEntries} ${stats.totalEntries === 1 ? 'entry' : 'entries'}`}
+            </DialogDescription>
+          </div>
+          <button type="button" onClick={handleClose} className={cn(sheetIconButtonClasses, 'self-start')} aria-label="Close">
+            <X className="w-5 h-5" />
+          </button>
+        </DialogHeader>
 
-        <div className="px-6 pb-6 pt-4 flex-grow">
+        <div className="mt-4">
           {!hasLoadedInitially ? (
-            <div className="space-y-4 animate-in fade-in duration-150">
-              <Skeleton className="h-10 w-full rounded-md" />
-              <div className="space-y-3">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="p-4 border rounded-lg space-y-3">
-                    <div className="flex items-center justify-between">
-                      <Skeleton className="h-4 w-28" />
-                      <Skeleton className="h-6 w-6 rounded-full" />
-                    </div>
-                    <Skeleton className="h-5 w-2/3" />
-                    <Skeleton className="h-12 w-full" />
-                  </div>
-                ))}
-              </div>
+            <div className="space-y-2 animate-in fade-in duration-150" aria-busy="true">
+              <Skeleton className="h-[60px] w-full rounded-[22px]" />
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-36 w-full rounded-3xl" />
+              ))}
             </div>
           ) : !showForm ? (
-            <div className="space-y-4 animate-in fade-in duration-200">
-              <Button
-                onClick={() => setShowForm(true)}
-                className="w-full bg-emerald-600 text-white hover:bg-emerald-700 font-medium shadow-sm"
-              >
-                <Plus className="w-4 h-4 mr-2" />
+            <div className="space-y-2 animate-in fade-in duration-200">
+              <button type="button" onClick={() => setShowForm(true)} className={sheetPrimaryButtonClasses}>
+                <Plus className="w-5 h-5" strokeWidth={2.5} />
                 Add Entry
-              </Button>
+              </button>
 
-              {entries.filter(e => e.plant_id === plantId).length > 0 && (
-                <div className="flex gap-1.5 flex-wrap items-center">
-                  {([
-                    { key: 'all', label: 'All', icon: BookOpen },
-                    { key: 'watering', label: 'Waterings', icon: Droplets },
-                    { key: 'fertilization', label: 'Fertilizations', icon: FlaskConical },
-                    { key: 'other', label: 'Other', icon: StickyNote },
-                  ] as const).map(({ key, label, icon: Icon }) => (
-                    <Button
+              {plantEntries.length > 0 && (
+                <div className="flex gap-1.5 items-center overflow-x-auto scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0 py-1">
+                  {FILTERS.map(({ key, label, icon: Icon }) => (
+                    <button
                       key={key}
-                      size="sm"
-                      variant={filter === key ? 'default' : 'outline'}
+                      type="button"
+                      aria-pressed={filter === key}
                       onClick={() => setFilter(key)}
-                      className={cn(
-                        'text-xs h-8 px-3',
-                        filter === key && 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                      )}
+                      className={chipClasses(filter === key)}
                     >
-                      <Icon className="w-3.5 h-3.5 mr-1.5" />
+                      <Icon className="w-3.5 h-3.5" />
                       {label}
-                    </Button>
+                    </button>
                   ))}
 
                   <Popover>
                     <PopoverTrigger asChild>
-                      <Button
-                        size="sm"
-                        variant={dateRange?.from ? 'default' : 'outline'}
-                        className={cn(
-                          'text-xs h-8 px-3 ml-auto',
-                          dateRange?.from && 'bg-emerald-600 hover:bg-emerald-700 text-white'
-                        )}
-                      >
-                        <CalendarIcon className="w-3.5 h-3.5 mr-1.5" />
+                      <button type="button" className={cn(chipClasses(!!dateRange?.from), 'sm:ml-auto')}>
+                        <CalendarIcon className="w-3.5 h-3.5" />
                         {dateRange?.from ? (
                           dateRange.to ? (
                             <>{format(dateRange.from, "MMM d")} – {format(dateRange.to, "MMM d")}</>
@@ -193,7 +204,7 @@ export const JournalModal = ({
                         ) : (
                           "Date range"
                         )}
-                      </Button>
+                      </button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="end">
                       <Calendar
@@ -208,20 +219,20 @@ export const JournalModal = ({
                   </Popover>
 
                   {dateRange?.from && (
-                    <Button
-                      size="sm"
-                      variant="ghost"
+                    <button
+                      type="button"
                       onClick={() => setDateRange(undefined)}
-                      className="text-xs h-8 px-2 text-muted-foreground hover:text-foreground"
+                      className="shrink-0 w-10 h-10 rounded-full bg-card text-muted-foreground hover:text-foreground flex items-center justify-center"
+                      aria-label="Clear date range"
                     >
-                      <X className="w-3.5 h-3.5" />
-                    </Button>
+                      <X className="w-4 h-4" />
+                    </button>
                   )}
                 </div>
               )}
 
               <JournalEntryList
-                entries={entries.filter(e => e.plant_id === plantId).filter((entry) => {
+                entries={plantEntries.filter((entry) => {
                   // Type filter
                   if (filter === 'watering' && entry.title !== 'Watered') return false;
                   if (filter === 'fertilization' && entry.title !== 'Fertilized' && entry.title !== 'Fertilization note') return false;
@@ -245,58 +256,49 @@ export const JournalModal = ({
               />
             </div>
           ) : (
-            <div className="space-y-4">
-              <JournalEntryForm
-                plantId={plantId}
-                wateringRecords={wateringRecords}
-                isLoadingWateringRecords={isLoadingWateringRecords}
-                submitButtonText={editingEntry ? 'Save Changes' : 'Add Entry'}
-                initialData={editingEntry ? {
-                  title: editingEntry.title ?? '',
-                  content: editingEntry.content ?? '',
-                  mood: (editingEntry.mood as PlantMood) ?? null,
-                  entryDate: editingEntry.entry_date ? new Date(editingEntry.entry_date) : new Date(),
-                } : undefined}
-                onSubmit={async (formData) => {
-                  if (editingEntry) {
-                    const success = await updateJournalEntry(
-                      editingEntry.id,
-                      formData.title,
-                      formData.content,
-                      formData.mood,
-                      formData.images,
-                      editingEntry.images ?? [],
-                      formData.entryDate,
-                    );
-                    if (success) {
-                      await handleFormSuccess();
-                    }
-                  } else {
-                    const success = await addJournalEntry(
-                      plantId,
-                      formData.title,
-                      formData.content,
-                      formData.mood,
-                      formData.images,
-                      formData.entryDate,
-                      formData.relatedWateringRecordId
-                    );
-                    if (success) {
-                      await handleFormSuccess();
-                    }
+            <JournalEntryForm
+              plantId={plantId}
+              heading={null}
+              wateringRecords={wateringRecords}
+              isLoadingWateringRecords={isLoadingWateringRecords}
+              submitButtonText={editingEntry ? 'Save Changes' : 'Add Entry'}
+              initialData={editingEntry ? {
+                title: editingEntry.title ?? '',
+                content: editingEntry.content ?? '',
+                mood: (editingEntry.mood as PlantMood) ?? null,
+                entryDate: editingEntry.entry_date ? new Date(editingEntry.entry_date) : new Date(),
+              } : undefined}
+              onSubmit={async (formData) => {
+                if (editingEntry) {
+                  const success = await updateJournalEntry(
+                    editingEntry.id,
+                    formData.title,
+                    formData.content,
+                    formData.mood,
+                    formData.images,
+                    editingEntry.images ?? [],
+                    formData.entryDate,
+                  );
+                  if (success) {
+                    await handleFormSuccess();
                   }
-                }}
-                isLoading={isLoading}
-              />
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => { setShowForm(false); setEditingEntry(null); }}
-                className="w-full"
-              >
-                Cancel
-              </Button>
-            </div>
+                } else {
+                  const success = await addJournalEntry(
+                    plantId,
+                    formData.title,
+                    formData.content,
+                    formData.mood,
+                    formData.images,
+                    formData.entryDate,
+                    formData.relatedWateringRecordId
+                  );
+                  if (success) {
+                    await handleFormSuccess();
+                  }
+                }
+              }}
+              isLoading={isLoading}
+            />
           )}
         </div>
       </DialogContent>

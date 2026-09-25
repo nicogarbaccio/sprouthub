@@ -1,7 +1,13 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
 // Reuse authenticated state from the setup project
 test.use({ storageState: 'e2e/.auth/user.json' });
+
+// Search sits behind the header's Search button
+async function openSearch(page: Page) {
+  await page.getByRole('button', { name: 'Search', exact: true }).click();
+  return page.getByRole('searchbox', { name: 'Search plants' });
+}
 
 test.describe('My Plants - Search, Filter & Sort', () => {
   test.beforeEach(async ({ page }) => {
@@ -13,7 +19,7 @@ test.describe('My Plants - Search, Filter & Sort', () => {
 
   test('should display plants grouped by room', async ({ page }) => {
     // Header
-    await expect(page.getByRole('heading', { name: 'My Plant Collection' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'My Plants' })).toBeVisible();
 
     // Room sections exist
     const roomSections = page.getByTestId('room-section');
@@ -39,7 +45,7 @@ test.describe('My Plants - Search, Filter & Sort', () => {
   // ── Search ─────────────────────────────────────────────────────────
 
   test('should filter plants by nickname search', async ({ page }) => {
-    const searchbox = page.getByRole('searchbox', { name: 'Search plants' });
+    const searchbox = await openSearch(page);
     const cards = page.getByTestId('plant-card');
     await expect(cards.first()).toBeVisible();
     const initialCount = await cards.count();
@@ -53,7 +59,7 @@ test.describe('My Plants - Search, Filter & Sort', () => {
   });
 
   test('should filter plants by species search', async ({ page }) => {
-    const searchbox = page.getByRole('searchbox', { name: 'Search plants' });
+    const searchbox = await openSearch(page);
     await searchbox.fill('Pothos');
 
     // The Disco Pothos card should be visible (species = Pothos)
@@ -61,7 +67,7 @@ test.describe('My Plants - Search, Filter & Sort', () => {
   });
 
   test('should show empty state for search with no results', async ({ page }) => {
-    const searchbox = page.getByRole('searchbox', { name: 'Search plants' });
+    const searchbox = await openSearch(page);
     await searchbox.fill('xyznonexistent');
 
     // No plant cards visible
@@ -69,7 +75,7 @@ test.describe('My Plants - Search, Filter & Sort', () => {
   });
 
   test('should clear search and show all plants again', async ({ page }) => {
-    const searchbox = page.getByRole('searchbox', { name: 'Search plants' });
+    const searchbox = await openSearch(page);
     const cards = page.getByTestId('plant-card');
     await expect(cards.first()).toBeVisible();
     const initialCount = await cards.count();

@@ -58,6 +58,19 @@ export function stripNotesPrefixes(notes: string | null | undefined): string {
 }
 
 /**
+ * Puts the user's edited text back behind whatever system prefix the stored notes had, so
+ * editing a record's notes can't drop its health observation or postponement marker.
+ */
+export function replaceNotesText(originalNotes: string | null | undefined, userText: string): string | null {
+  const prefix = [LATE_HEALTHY_PREFIX, LATE_STRESSED_PREFIX, POSTPONEMENT_PREFIX].find(p =>
+    originalNotes?.startsWith(p)
+  );
+  const trimmed = userText.trim();
+  if (!prefix) return trimmed || null;
+  return trimmed ? `${prefix} ${trimmed}` : prefix;
+}
+
+/**
  * Discriminator values for the `watering_records.record_type` column.
  *
  * Postponements are stored as rows in `watering_records` dated in the future. Every query that

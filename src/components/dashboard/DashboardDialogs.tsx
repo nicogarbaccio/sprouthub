@@ -1,23 +1,24 @@
-import { Droplets, CheckCircle2 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Droplets } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import AddPlantDialog from "@/components/AddPlantDialog";
 import PlantImage from "@/components/ui/plant-image";
 import WaterConfirmationDialog from "@/components/WaterConfirmationDialog";
+import { SheetGrabber, sheetClasses } from "@/components/ui/bento-sheet";
 import { SeasonalReviewDialog } from "@/components/SeasonalReviewDialog";
 import { CalendarSeasonalDialog } from "@/components/CalendarSeasonalDialog";
 import { SmartSuggestionsDialog } from "@/components/SmartSuggestionsDialog";
 import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { getPlantImageUrl } from "@/utils/plants/images";
+import { getWateringStatus } from "@/utils/watering/status";
+import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 import type { SeasonalScheduleSuggestion } from "@/services/scheduleVersioningService";
 import type { SeasonalTransition } from "@/services/seasonalDetectionService";
 import type { UpcomingSeasonChange } from "@/services/calendarSeasonalService";
@@ -141,6 +142,29 @@ export function DashboardDialogs({
   dismissedPlantIds,
   isSuggestionsAnalyzing,
 }: DashboardDialogsProps) {
+  // Wording follows the count: a single plant is named, several are counted
+  const overdueCount = plantsNeedingWater.filter(
+    (plant) => calculateWateringSchedule(plant).isOverdue
+  ).length;
+  const count = plantsNeedingWater.length;
+  const bulkCopy =
+    count === 1
+      ? {
+          title: `Water ${plantsNeedingWater[0].nickname}?`,
+          description: overdueCount ? "It's overdue for water." : "It's due for water today.",
+          action: "Water now",
+        }
+      : {
+          title: `Water ${count} plants?`,
+          description:
+            overdueCount === count
+              ? "All of them are overdue."
+              : overdueCount > 0
+                ? `Everything due today, including ${overdueCount} overdue.`
+                : "Everything that's due today.",
+          action: `Water all ${count}`,
+        };
+
   return (
     <>
       <AddPlantDialog
@@ -157,81 +181,71 @@ export function DashboardDialogs({
           }
         }}
       >
-        <AlertDialogContent data-testid="bulk-water-dialog">
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center">
-              <Droplets className="w-5 h-5 mr-2 text-sprout-water" />
-              Water Multiple Plants
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              You're about to water {plantsNeedingWater.length} plant
-              {plantsNeedingWater.length > 1 ? "s" : ""} that need attention
-              today:
-            </AlertDialogDescription>
+        <AlertDialogContent data-testid="bulk-water-dialog" className={sheetClasses}>
+          <SheetGrabber />
+          <AlertDialogHeader className="flex-row items-center gap-3 space-y-0 mt-[18px] sm:mt-0 px-1.5 text-left">
+            <div className="w-[52px] h-[52px] shrink-0 rounded-[18px] bg-sprout-water text-sprout-dark flex items-center justify-center">
+              <Droplets className="w-6 h-6" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <AlertDialogTitle className="font-display text-2xl font-bold tracking-[-0.03em] text-foreground">
+                {bulkCopy.title}
+              </AlertDialogTitle>
+              <AlertDialogDescription className="text-sm font-medium text-muted-foreground">
+                {bulkCopy.description}
+              </AlertDialogDescription>
+            </div>
           </AlertDialogHeader>
 
           <div
             data-testid="bulk-water-plants-list"
-            className="max-h-48 overflow-y-auto space-y-2 my-4"
+            className="max-h-[45dvh] overflow-y-auto space-y-2 mt-4"
           >
-            {plantsNeedingWater.map((plant) => (
-              <div
-                key={plant.id}
-                className="flex items-center space-x-3 p-2 bg-card border border-border rounded-lg"
-              >
-                <PlantImage
-                  src={getPlantImageUrl(plant.image, plant.plant_type, "")}
-                  fallbackSrc="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=40&h=40&fit=crop"
-                  alt={plant.nickname}
-                  className="w-8 h-8 rounded-full object-cover"
-                />
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-foreground">
-                    {plant.nickname}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {plant.plant_type}
-                  </p>
-                </div>
-                <Badge
-                  className={`text-xs ${
-                    calculateWateringSchedule(plant).isOverdue
-                      ? "bg-sprout-error text-white"
-                      : calculateWateringSchedule(plant).isPostponed
-                      ? "bg-sprout-water/20 text-sprout-water"
-                      : "bg-secondary text-secondary-foreground"
-                  }`}
+            {plantsNeedingWater.map((plant) => {
+              const status = getWateringStatus(
+                calculateWateringSchedule(plant),
+                plant.latest_watering
+              );
+              return (
+                <div
+                  key={plant.id}
+                  className="flex items-center gap-3 p-2.5 rounded-[22px] bg-card"
                 >
-                  {(() => {
-                    const calc = calculateWateringSchedule(plant);
-                    if (calc.isOverdue) {
-                      return `${Math.abs(
-                        calc.daysUntilWatering
-                      )} days overdue`;
-                    } else if (calc.isPostponed) {
-                      return "Postponed";
-                    } else {
-                      return "Due today";
-                    }
-                  })()}
-                </Badge>
-              </div>
-            ))}
+                  <div className="w-12 h-12 shrink-0 rounded-2xl overflow-hidden bg-field">
+                    <PlantImage
+                      src={getPlantImageUrl(plant.image, plant.plant_type, PLANT_FALLBACK_IMAGE)}
+                      alt=""
+                      className="w-full h-full"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-base font-bold text-foreground truncate">{plant.nickname}</p>
+                    <p className="text-[13px] text-muted-foreground truncate">{plant.plant_type}</p>
+                  </div>
+                  <span className={`shrink-0 text-xs font-bold px-2.5 py-[5px] rounded-full ${status.bentoClasses}`}>
+                    {status.text}
+                  </span>
+                </div>
+              );
+            })}
           </div>
 
-          <AlertDialogFooter>
-            <AlertDialogCancel data-testid="bulk-water-cancel-button">
+          <div className="flex gap-2 mt-4">
+            <AlertDialogCancel
+              data-testid="bulk-water-cancel-button"
+              className="mt-0 flex-1 h-[60px] rounded-[22px] border-0 bg-card text-foreground font-bold text-[15px] hover:bg-card"
+            >
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
               data-testid="bulk-water-confirm-button"
               onClick={onBulkWater}
-              className="bg-sprout-water hover:bg-sprout-water/90 text-white"
+              className="flex-[1.3] h-[60px] rounded-[22px] bg-sprout-dark text-sprout-cream font-bold text-base gap-2 shadow-[inset_0_0_0_2px_#dfc490] hover:bg-sprout-water hover:text-sprout-dark hover:shadow-none focus-visible:bg-sprout-water focus-visible:text-sprout-dark transition-colors"
             >
-              <CheckCircle2 className="w-4 h-4 mr-2" />
-              Water All Plants
+              <Droplets className="w-5 h-5" />
+              {bulkCopy.action}
             </AlertDialogAction>
-          </AlertDialogFooter>
+          </div>
         </AlertDialogContent>
       </AlertDialog>
 

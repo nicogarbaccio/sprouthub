@@ -1,5 +1,6 @@
-import { Button } from "@/components/ui/button";
-import { Sprout, ChevronLeft, Plus } from "lucide-react";
+import { Sprout, Plus } from "lucide-react";
+import { openAddPlant } from "@/utils/appEvents";
+import { StepHeading, StepNav } from "./OnboardingUI";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -68,93 +69,62 @@ export const AddPlantStep = ({ onNext, onBack }: AddPlantStepProps) => {
   const handleBrowseCatalog = async () => {
     const success = await completeOnboarding();
     if (success) {
-      navigate("/plants");
+      navigate("/plant-catalog");
     }
   };
 
   const handleCustomPlant = async () => {
     const success = await completeOnboarding();
     if (success) {
-      navigate("/my-plants/add");
+      navigate("/my-plants");
+      openAddPlant();
     }
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="text-center space-y-2">
-        <div className="flex justify-center mb-4">
-          <div className="w-16 h-16 bg-plant-primary/10 rounded-full flex items-center justify-center">
-            <Plus className="w-8 h-8 text-plant-primary" />
-          </div>
-        </div>
-        <h2 className="text-2xl font-bold text-foreground">
-          Add Your First Plant
-        </h2>
-        <p className="text-muted-foreground">
-          Choose from our catalog or create a custom entry
-        </p>
+    <div className="space-y-4">
+      <StepHeading
+        title="Add Your First Plant"
+        body="Pick one from our catalog and we'll fill in its light, water and humidity needs, or add your own."
+      />
+
+      <div className="grid grid-cols-2 gap-2.5">
+        <button
+          onClick={handleBrowseCatalog}
+          disabled={isCompleting}
+          className="rounded-card bg-sprout-cream text-sprout-dark p-4 min-h-[140px] flex flex-col justify-between text-left disabled:opacity-50"
+        >
+          <Sprout className="w-7 h-7" />
+          <span>
+            <span className="block font-bold text-[17px]">Browse Catalog</span>
+            <span className="block text-[13px] font-semibold opacity-80 mt-0.5">
+              Hundreds of plants with care info
+            </span>
+          </span>
+        </button>
+        <button
+          onClick={handleCustomPlant}
+          disabled={isCompleting}
+          className="rounded-card bg-card text-foreground p-4 min-h-[140px] flex flex-col justify-between text-left disabled:opacity-50"
+        >
+          <Plus className="w-7 h-7" />
+          <span>
+            <span className="block font-bold text-[17px]">Custom Plants</span>
+            <span className="block text-[13px] font-semibold text-muted-foreground mt-0.5">
+              Your own notes and schedule
+            </span>
+          </span>
+        </button>
       </div>
 
-      {/* Action Cards */}
-      <div className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <button
-            onClick={handleBrowseCatalog}
-            disabled={isCompleting}
-            className="bg-card border-2 rounded-xl p-6 flex flex-col items-center text-center space-y-3 hover:shadow-lg hover:border-plant-primary/50 hover:-translate-y-1 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none"
-          >
-            <div className="w-12 h-12 bg-plant-primary/10 border-2 border-plant-primary/20 rounded-xl flex items-center justify-center">
-              <Sprout className="w-6 h-6 text-plant-primary" />
-            </div>
-            <div>
-              <h4 className="font-semibold text-foreground mb-1">
-                Browse Catalog
-              </h4>
-              <p className="text-sm text-muted-foreground">
-                Choose from hundreds of plants with detailed care information
-              </p>
-            </div>
-          </button>
-
-          <button
-            onClick={handleCustomPlant}
-            disabled={isCompleting}
-            className="bg-card border-2 rounded-xl p-6 flex flex-col items-center text-center space-y-3 hover:shadow-lg hover:border-plant-primary/50 hover:-translate-y-1 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none"
-          >
-            <div className="w-12 h-12 bg-plant-primary/10 border-2 border-plant-primary/20 rounded-xl flex items-center justify-center">
-              <Plus className="w-6 h-6 text-plant-primary" />
-            </div>
-            <div>
-              <h4 className="font-semibold text-foreground mb-1">
-                Custom Plants
-              </h4>
-              <p className="text-sm text-muted-foreground">
-                Add any plant with your own care notes and schedules
-              </p>
-            </div>
-          </button>
-        </div>
+      <div className="pt-4">
+        <StepNav
+          onBack={onBack}
+          onNext={handleAddPlantLater}
+          label="I'll Add Plants Later"
+          loading={isCompleting}
+        />
       </div>
-
-      {/* Navigation Buttons */}
-      <div className="space-y-3 pt-4">
-        <Button onClick={handleAddPlantLater} className="w-full" size="lg">
-          I'll Add Plants Later
-        </Button>
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={onBack} className="gap-2 flex-1">
-            <ChevronLeft className="w-4 h-4" />
-            Back
-          </Button>
-        </div>
-      </div>
-
-      {/* Note */}
-      <p className="text-xs text-center text-muted-foreground">
-        You can always add plants from your dashboard after completing
-        onboarding
-      </p>
     </div>
   );
 };

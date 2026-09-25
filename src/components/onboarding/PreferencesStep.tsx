@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
-import { Heart, ChevronLeft } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { StepHeading, StepNav, OptionRow } from "./OnboardingUI";
 import { getFactorLabels } from "@/utils/watering/smartSchedule";
 import { safeJsonParse } from "@/utils/safeJsonParse";
 
@@ -60,83 +56,30 @@ export const PreferencesStep = ({ onNext, onBack }: PreferencesStepProps) => {
   ];
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="text-center space-y-2">
-        <div className="flex justify-center mb-4">
-          <div className="w-16 h-16 bg-plant-primary/10 rounded-full flex items-center justify-center">
-            <Heart className="w-8 h-8 text-plant-primary" />
-          </div>
-        </div>
-        <h2 className="text-2xl font-bold text-foreground">
-          Set Your Care Preferences
-        </h2>
-        <p className="text-muted-foreground">
-          Tell us about your plant care style to personalize recommendations
-        </p>
+    <div className="space-y-4">
+      <StepHeading
+        title="Set Your Care Preferences"
+        body="How often do you like to tend your plants? We'll shape watering suggestions around it."
+      />
+
+      <div className="flex flex-col gap-2" role="radiogroup" aria-label="Care style">
+        {careStyleOptions.map((option) => (
+          <OptionRow
+            key={option.value}
+            selected={careStyle === option.value}
+            onClick={() => setCareStyle(option.value)}
+            label={option.label}
+            description={option.description}
+          />
+        ))}
       </div>
 
-      {/* Care Style Selection */}
-      <div className="space-y-3">
-        <Label className="text-base font-medium">
-          How often do you prefer to care for your plants?
-        </Label>
-        <div className="space-y-3">
-          {careStyleOptions.map((option) => (
-            <Card
-              key={option.value}
-              className={cn(
-                "cursor-pointer transition-all hover:shadow-md border-2",
-                careStyle === option.value
-                  ? "border-plant-primary bg-plant-primary/5 dark:bg-plant-primary/10"
-                  : "border-border hover:border-plant-primary/50"
-              )}
-              onClick={() => setCareStyle(option.value)}
-            >
-              <CardContent className="p-4">
-                <div className="flex items-start gap-3">
-                  <div
-                    className={cn(
-                      "w-5 h-5 rounded-full border-2 flex items-center justify-center mt-0.5 transition-colors",
-                      careStyle === option.value
-                        ? "border-plant-primary bg-plant-primary"
-                        : "border-muted-foreground/40 bg-background"
-                    )}
-                  >
-                    {careStyle === option.value && (
-                      <div className="w-2 h-2 bg-white rounded-full" />
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-foreground">
-                      {option.label}
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {option.description}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
+      <p className="text-sm text-muted-foreground px-1.5">
+        You can change this anytime in Settings, along with light, humidity, and soil.
+      </p>
 
-      {/* Info Note */}
-      <div className="bg-muted/50 rounded-lg p-4 text-sm text-muted-foreground">
-        You can always adjust these preferences later in your settings, along
-        with more advanced options like light levels, humidity, and soil types.
-      </div>
-
-      {/* Navigation Buttons */}
-      <div className="flex gap-3 pt-4">
-        <Button variant="outline" onClick={onBack} className="gap-2">
-          <ChevronLeft className="w-4 h-4" />
-          Back
-        </Button>
-        <Button onClick={handleContinue} className="flex-1">
-          Continue
-        </Button>
+      <div className="pt-4">
+        <StepNav onBack={onBack} onNext={handleContinue} label="Continue" />
       </div>
     </div>
   );

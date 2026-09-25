@@ -1,112 +1,49 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Brain } from "lucide-react";
-
-const wateringOptions = [
-  { value: 3, label: "Every 3 days" },
-  { value: 7, label: "Weekly (7 days)" },
-  { value: 10, label: "Every 10 days" },
-  { value: 14, label: "Bi-weekly (14 days)" },
-  { value: 21, label: "Every 3 weeks" },
-  { value: 30, label: "Monthly (30 days)" },
-];
+import { Minus, Plus } from "lucide-react";
 
 interface WateringScheduleSectionProps {
   wateringScheduleDays: number;
-  isCustomSelected: boolean;
-  customDays: string;
-  onScheduleChange: (value: string) => void;
-  onCustomDaysChange: (value: string) => void;
-  onOpenSmartWizard: () => void;
+  onDaysChange: (days: number) => void;
 }
 
+const MIN_DAYS = 1;
+const MAX_DAYS = 365;
+
+/** "Water every N days" tile with a − / + stepper. */
 export const WateringScheduleSection = ({
   wateringScheduleDays,
-  isCustomSelected,
-  customDays,
-  onScheduleChange,
-  onCustomDaysChange,
-  onOpenSmartWizard,
+  onDaysChange,
 }: WateringScheduleSectionProps) => {
-  const getCurrentSelectValue = () => {
-    if (isCustomSelected) return "custom";
-    return wateringScheduleDays.toString();
-  };
+  const set = (days: number) => onDaysChange(Math.max(MIN_DAYS, Math.min(MAX_DAYS, days)));
 
   return (
-    <div className="space-y-2">
-      <Label
-        htmlFor="watering_schedule"
-        className="text-plant-text dark:text-zinc-200"
-      >
-        Watering Schedule
-      </Label>
-      <Select
-        value={getCurrentSelectValue()}
-        onValueChange={onScheduleChange}
-      >
-        <SelectTrigger
-          className="border-plant-secondary/30 focus:border-plant-primary"
-          data-testid="watering-schedule-trigger"
+    <div className="rounded-card bg-sprout-water text-sprout-dark p-4" data-testid="watering-schedule-trigger">
+      <div className="text-xs font-bold tracking-[0.8px] uppercase">Water every</div>
+      <div className="font-display text-[40px] font-extrabold leading-none mt-2" aria-live="polite">
+        {wateringScheduleDays}
+        <span className="text-base"> {wateringScheduleDays === 1 ? "day" : "days"}</span>
+      </div>
+      <div className="flex gap-2 mt-3">
+        <button
+          type="button"
+          onClick={() => set(wateringScheduleDays - 1)}
+          disabled={wateringScheduleDays <= MIN_DAYS}
+          className="w-12 h-11 rounded-[14px] bg-sprout-dark text-sprout-water flex items-center justify-center disabled:opacity-40"
+          aria-label="Fewer days between waterings"
+          data-testid="watering-days-decrease"
         >
-          <SelectValue placeholder="Select watering frequency" />
-        </SelectTrigger>
-        <SelectContent>
-          {wateringOptions.map((option) => (
-            <SelectItem
-              key={option.value}
-              value={option.value.toString()}
-            >
-              {option.label}
-            </SelectItem>
-          ))}
-          <SelectItem value="custom">Custom</SelectItem>
-        </SelectContent>
-      </Select>
-
-      <Button
-        type="button"
-        variant="outline"
-        className="w-full mt-2 text-sm border-plant-primary/30 hover:bg-plant-primary/5 hover:border-plant-primary dark:bg-sprout-success dark:hover:bg-sprout-success/90 dark:border-sprout-success dark:text-white"
-        onClick={onOpenSmartWizard}
-        data-testid="smart-watering-button"
-      >
-        <Brain className="w-4 h-4 mr-2" />
-        Find optimal schedule for this plant
-      </Button>
-
-      {isCustomSelected && (
-        <div className="space-y-1">
-          <Label
-            htmlFor="custom_days"
-            className="text-plant-text dark:text-zinc-200 text-sm"
-          >
-            Custom days
-          </Label>
-          <Input
-            id="custom_days"
-            type="number"
-            min="1"
-            max="365"
-            value={customDays}
-            onChange={(e) => onCustomDaysChange(e.target.value)}
-            placeholder="Enter days between watering"
-            className="border-plant-secondary/30 focus:border-plant-primary"
-            data-testid="custom-days-input"
-          />
-          <p className="text-xs text-muted-foreground">
-            Enter a number between 1 and 365 days
-          </p>
-        </div>
-      )}
+          <Minus className="w-5 h-5" strokeWidth={2.5} />
+        </button>
+        <button
+          type="button"
+          onClick={() => set(wateringScheduleDays + 1)}
+          disabled={wateringScheduleDays >= MAX_DAYS}
+          className="w-12 h-11 rounded-[14px] bg-sprout-dark text-sprout-water flex items-center justify-center disabled:opacity-40"
+          aria-label="More days between waterings"
+          data-testid="watering-days-increase"
+        >
+          <Plus className="w-5 h-5" strokeWidth={2.5} />
+        </button>
+      </div>
     </div>
   );
 };

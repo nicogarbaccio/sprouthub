@@ -3,13 +3,10 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -17,6 +14,13 @@ import {
   SelectTrigger,
 } from '@/components/ui/select';
 import { Mail, UserPlus, Shield } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import {
+  FieldLabel,
+  settingsInputClasses,
+  settingsPrimaryButtonClasses,
+  settingsSecondaryButtonClasses,
+} from '@/components/settings/SettingsUI';
 
 interface InviteMemberDialogProps {
   open: boolean;
@@ -62,32 +66,27 @@ export const InviteMemberDialog: React.FC<InviteMemberDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent data-testid="invite-member-dialog" className="sm:max-w-[460px] p-0 overflow-hidden rounded-2xl">
-        {/* Header with accent background */}
-        <div className="bg-gradient-to-br from-sprout-primary to-sprout-medium px-8 pt-8 pb-6">
-          <div className="flex items-start gap-4">
-            <div className="w-11 h-11 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-              <UserPlus className="w-5 h-5 text-white" />
-            </div>
-            <DialogHeader className="space-y-1 text-left flex-1 min-w-0">
-              <DialogTitle data-testid="invite-member-title" className="text-white text-lg font-semibold">
-                Invite Member
-              </DialogTitle>
-              <DialogDescription className="text-white/75 text-sm leading-relaxed">
-                Send an invitation to collaborate on this household's plants.
-              </DialogDescription>
-            </DialogHeader>
+      <DialogContent data-testid="invite-member-dialog" className="sm:max-w-[460px] border-0 bg-background p-6 sm:rounded-[32px]">
+        <DialogHeader className="text-left flex-row items-start gap-3.5 space-y-0">
+          <div className="w-12 h-12 shrink-0 rounded-2xl bg-sprout-water text-sprout-dark flex items-center justify-center">
+            <UserPlus className="w-6 h-6" />
           </div>
-        </div>
+          <div className="min-w-0">
+            <DialogTitle data-testid="invite-member-title" className="font-display text-2xl font-bold tracking-[-0.03em]">
+              Invite Member
+            </DialogTitle>
+            <DialogDescription className="text-sm font-medium mt-0.5">
+              They'll get an invitation to help care for this household's plants.
+            </DialogDescription>
+          </div>
+        </DialogHeader>
 
-        <form data-testid="invite-member-form" onSubmit={handleSubmit} className="px-8 pb-8">
-          <div className="grid gap-5 pt-6">
-            <div className="grid gap-2">
-              <Label htmlFor="invite-email" className="text-sm font-medium">
-                Email Address
-              </Label>
+        <form data-testid="invite-member-form" onSubmit={handleSubmit} className="mt-2">
+          <div className="space-y-3">
+            <div>
+              <FieldLabel htmlFor="invite-email">Email Address</FieldLabel>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
                   data-testid="invite-email-input"
                   id="invite-email"
@@ -99,26 +98,24 @@ export const InviteMemberDialog: React.FC<InviteMemberDialogProps> = ({
                   inputMode="email"
                   autoComplete="email"
                   disabled={isSubmitting}
-                  className="pl-10 h-11 rounded-xl border-border/50 focus:border-sprout-medium"
+                  className={cn(settingsInputClasses, "pl-11")}
                 />
               </div>
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="invite-role" className="text-sm font-medium">
-                Role
-              </Label>
+            <div>
+              <FieldLabel htmlFor="invite-role">Role</FieldLabel>
               <Select value={role} onValueChange={(value: 'member' | 'admin') => setRole(value)}>
-                <SelectTrigger data-testid="invite-role-select" className="h-11 rounded-xl border-border/50">
+                <SelectTrigger id="invite-role" data-testid="invite-role-select" className={settingsInputClasses}>
                   <div className="flex items-center gap-2">
                     {role === 'member' ? (
-                      <UserPlus className="w-4 h-4 text-sprout-medium flex-shrink-0" />
+                      <UserPlus className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                     ) : (
-                      <Shield className="w-4 h-4 text-sprout-medium flex-shrink-0" />
+                      <Shield className="w-4 h-4 text-muted-foreground flex-shrink-0" />
                     )}
                     <span>{role === 'member' ? 'Member' : 'Admin'}</span>
                   </div>
                 </SelectTrigger>
-                <SelectContent data-testid="invite-role-options" className="rounded-xl p-1">
+                <SelectContent data-testid="invite-role-options" className="rounded-2xl p-1">
                   <SelectItem data-testid="role-member-option" value="member" className="rounded-lg py-3 px-3">
                     <div className="flex items-center gap-3">
                       <UserPlus className="w-4 h-4 text-sprout-medium flex-shrink-0" />
@@ -145,27 +142,26 @@ export const InviteMemberDialog: React.FC<InviteMemberDialogProps> = ({
               </Select>
             </div>
           </div>
-          <DialogFooter className="mt-8 gap-3 sm:gap-3">
-            <Button
+          <div className="flex gap-2 mt-5">
+            <button
               data-testid="invite-member-cancel-button"
               type="button"
-              variant="outline"
               onClick={handleClose}
               disabled={isSubmitting}
-              className="rounded-xl flex-1 sm:flex-none"
+              className={settingsSecondaryButtonClasses}
             >
               Cancel
-            </Button>
-            <Button
+            </button>
+            <button
               data-testid="invite-member-submit-button"
               type="submit"
               disabled={!email.trim() || isSubmitting}
-              className="rounded-xl bg-sprout-medium hover:bg-sprout-primary text-white shadow-md flex-1 sm:flex-none"
+              className={settingsPrimaryButtonClasses}
             >
-              <Mail className="w-4 h-4 mr-2" />
+              <Mail className="w-4 h-4" />
               {isSubmitting ? 'Sending...' : 'Send Invitation'}
-            </Button>
-          </DialogFooter>
+            </button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>

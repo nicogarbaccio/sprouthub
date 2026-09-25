@@ -1,20 +1,11 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Leaf, Search, Sun, Snowflake, CloudRain, Flower, X, Loader2 } from 'lucide-react';
+import { Search, Sun, Snowflake, CloudRain, Flower, X, Loader2 } from 'lucide-react';
 import { CascadingContainer } from '@/components/ui/cascading-container';
 import { LoadingTransition } from '@/components/ui/loading-transition';
 import { Skeleton } from '@/components/ui/skeleton';
-import { PageHero } from '@/components/ui/page-hero';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-} from '@/components/ui/carousel';
-import BlogPostCard from '@/components/blog/BlogPostCard';
+import BlogPostCard, { BlogPostCardSkeleton } from '@/components/blog/BlogPostCard';
+import ArticleRow from '@/components/blog/ArticleRow';
 import MyPlantsBlogSection from '@/components/blog/MyPlantsBlogSection';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUserPlants } from '@/hooks/useUserPlants';
@@ -34,70 +25,49 @@ function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
 }
 
 const SEASON_CONFIG = {
-  spring: { label: 'Spring', icon: Flower, color: 'text-green-500' },
-  summer: { label: 'Summer', icon: Sun, color: 'text-yellow-500' },
-  fall: { label: 'Fall', icon: CloudRain, color: 'text-orange-500' },
-  winter: { label: 'Winter', icon: Snowflake, color: 'text-blue-400' },
+  spring: { label: 'Spring', icon: Flower },
+  summer: { label: 'Summer', icon: Sun },
+  fall: { label: 'Fall', icon: CloudRain },
+  winter: { label: 'Winter', icon: Snowflake },
 };
 
-const BlogPostCardSkeleton = () => (
-  <div className="rounded-lg border bg-card shadow-sm overflow-hidden">
-    <Skeleton className="aspect-[16/9] w-full rounded-none" />
-    <div className="p-4 space-y-2">
-      <Skeleton className="h-4 w-3/4" />
-      <Skeleton className="h-3 w-full" />
-      <Skeleton className="h-3 w-2/3" />
-      <div className="flex justify-between pt-1">
-        <Skeleton className="h-3 w-20" />
-        <Skeleton className="h-3 w-16" />
-      </div>
-    </div>
-  </div>
-);
-
 const DiscoverSkeleton = () => (
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+  <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-3.5 lg:pt-7">
     {/* Header */}
-    <div className="space-y-2">
-      <Skeleton className="h-8 w-40" />
-      <Skeleton className="h-6 w-96 max-w-full" />
+    <div className="px-1.5 lg:px-0 space-y-2">
+      <Skeleton className="h-9 lg:h-10 w-40 rounded-xl" />
+      <Skeleton className="h-4 w-80 max-w-full" />
     </div>
-    {/* Seasonal section */}
-    <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        <Skeleton className="h-5 w-5 rounded" />
-        <Skeleton className="h-5 w-40" />
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Array.from({ length: 3 }).map((_, i) => (
+    {/* Search and plant chips */}
+    <Skeleton className="mt-3.5 h-[52px] w-full lg:max-w-xl rounded-[18px]" />
+    <div className="flex gap-2 overflow-hidden mt-2.5">
+      {[88, 72, 104, 80, 96].map((w, i) => (
+        <Skeleton key={i} className="h-10 shrink-0 rounded-full" style={{ width: w }} />
+      ))}
+    </div>
+    {/* Seasonal: a feature tile beside smaller cards */}
+    <Skeleton className="mt-6 h-6 w-48 rounded-lg mx-1.5 lg:mx-0" />
+    <div className="mt-3 grid gap-2.5 lg:gap-3.5 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,2fr)]">
+      <Skeleton className="h-[320px] lg:h-auto lg:min-h-[420px] rounded-tile" />
+      <div className="hidden lg:grid grid-cols-2 gap-3.5">
+        {Array.from({ length: 4 }).map((_, i) => (
           <BlogPostCardSkeleton key={i} />
         ))}
       </div>
     </div>
-    {/* General section */}
-    <div className="space-y-4">
-      <div className="flex items-center gap-2">
-        <Skeleton className="h-5 w-5 rounded" />
-        <Skeleton className="h-5 w-36" />
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {Array.from({ length: 3 }).map((_, i) => (
-          <BlogPostCardSkeleton key={`g-${i}`} />
-        ))}
-      </div>
-    </div>
-    {/* Browse by Plant section */}
-    <div className="rounded-xl border bg-card p-6 space-y-4">
-      <div className="flex items-center gap-2">
-        <Skeleton className="h-5 w-5 rounded" />
-        <Skeleton className="h-5 w-36" />
-      </div>
-      <Skeleton className="h-10 w-full max-w-md rounded-md" />
-      <div className="flex flex-wrap gap-2">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <Skeleton key={i} className="h-6 w-20 rounded-full" />
-        ))}
-      </div>
+    {/* General: article rows */}
+    <Skeleton className="mt-[26px] h-6 w-40 rounded-lg mx-1.5 lg:mx-0" />
+    <div className="mt-3 grid gap-2 lg:grid-cols-2 lg:gap-3">
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className="flex items-center gap-3 p-2 rounded-3xl bg-card">
+          <Skeleton className="w-[76px] h-[76px] shrink-0 rounded-[18px]" />
+          <div className="flex-1 space-y-2">
+            <Skeleton className="h-4 w-4/5" />
+            <Skeleton className="h-3 w-3/5" />
+            <Skeleton className="h-3 w-1/3" />
+          </div>
+        </div>
+      ))}
     </div>
   </div>
 );
@@ -166,57 +136,125 @@ const Discover = () => {
     return [...myPlantNames, ...popular].slice(0, 10);
   }, [myPlantNames]);
 
+  const [featuredPost, ...moreSeasonalPosts] = seasonalPosts ?? [];
+
   return (
-    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0" data-testid="discover-page">
+    <div className="bg-background pb-32 lg:pb-10" data-testid="discover-page">
       <LoadingTransition loading={pageLoading} skeleton={<DiscoverSkeleton />}>
       <main>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
-          {/* Page Header */}
+        <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-3.5 lg:pt-7">
           <CascadingContainer delay={0}>
-            <PageHero
-              icon={SeasonIcon}
-              title="Discover"
-              subtitle="Curated plant care articles from trusted gardening sources, updated weekly."
-            />
+            <div className="px-1.5 lg:px-0">
+              <h1 className="font-display text-[28px] lg:text-[34px] font-bold tracking-[-0.04em] text-foreground">
+                Discover
+              </h1>
+              <p className="text-sm lg:text-[15px] font-medium text-muted-foreground mt-0.5">
+                Curated plant care articles from trusted gardening sources, updated weekly.
+              </p>
+            </div>
           </CascadingContainer>
 
-          {/* Seasonal Spotlight */}
+          {/* Search by plant, with quick picks underneath */}
+          <CascadingContainer delay={50}>
+            <section className="mt-3.5" data-testid="browse-by-plant-section" aria-labelledby="browse-heading">
+              <h2 id="browse-heading" className="sr-only">Browse by Plant</h2>
+              <div className="relative lg:max-w-xl">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
+                <input
+                  type="search"
+                  placeholder="Search articles by plant, e.g. Monstera"
+                  aria-label="Search articles by plant"
+                  value={plantSearch}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                  className="w-full h-[52px] rounded-[18px] bg-card pl-12 pr-4 text-[15px] font-medium text-foreground placeholder:text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  data-testid="plant-search-input"
+                />
+              </div>
+
+              <div
+                className="flex gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 mt-2.5 lg:mx-0 lg:px-0 lg:flex-wrap"
+                data-testid="plant-chips"
+              >
+                {suggestedPlants.map((name) => {
+                  const isActive = debouncedSearch === name;
+                  return (
+                    <button
+                      key={name}
+                      type="button"
+                      aria-pressed={isActive}
+                      className={`flex-none h-10 px-3.5 rounded-full flex items-center gap-1 text-sm font-bold transition-colors ${
+                        isActive ? 'bg-foreground text-background' : 'bg-card text-foreground'
+                      }`}
+                      onClick={() => handleChipClick(name)}
+                    >
+                      {name}
+                      {isActive && <X className="h-3.5 w-3.5" />}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {debouncedSearch ? (
+                <div className="mt-4">
+                  {plantSearchLoading ? (
+                    <div className="flex justify-center py-6">
+                      <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                    </div>
+                  ) : plantPosts && plantPosts.length > 0 ? (
+                    <div className="animate-in fade-in duration-300">
+                      <ArticleRow
+                        title={`Articles about ${debouncedSearch}`}
+                        posts={plantPosts}
+                        viewAllTo={
+                          plantPosts.length >= 4
+                            ? `/discover/articles?mode=plant&plant=${encodeURIComponent(debouncedSearch)}`
+                            : undefined
+                        }
+                      />
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground px-1.5 animate-in fade-in duration-300">
+                      No articles found for &ldquo;{debouncedSearch}&rdquo;. Try a different plant name.
+                    </p>
+                  )}
+                </div>
+              ) : null}
+            </section>
+          </CascadingContainer>
+
+          {/* Seasonal: a featured story, then the rest of the season's picks */}
           <CascadingContainer delay={100}>
-            <div className="space-y-4">
-              <div className="flex items-center gap-2" data-testid="seasonal-section">
-                <div className="p-2 rounded-xl bg-sprout-success/10"><SeasonIcon className={`h-5 w-5 ${seasonConfig.color}`} /></div>
-                <h2 className="text-lg font-semibold">Seasonal Plant Care</h2>
+            <div className="mt-6 space-y-3">
+              <div className="flex items-baseline justify-between px-1.5 lg:px-0" data-testid="seasonal-section">
+                <h2 className="font-display text-lg lg:text-[22px] font-bold tracking-[-0.03em] text-foreground flex items-center gap-2">
+                  <SeasonIcon className="h-5 w-5" />
+                  {seasonConfig.label} Plant Care
+                </h2>
                 {seasonalPosts && seasonalPosts.length >= 4 && (
                   <Link
                     to={`/discover/articles?mode=seasonal&season=${season}`}
-                    className="ml-auto text-sm text-primary hover:underline"
+                    className="text-sm font-bold text-link"
                   >
-                    View all
+                    See all
                   </Link>
                 )}
               </div>
 
-              {seasonalPosts && seasonalPosts.length > 0 ? (
-                <Carousel opts={{ align: 'start', loop: false }} className="w-full overflow-visible">
-                  <CarouselContent className="-ml-3 py-2">
-                    {seasonalPosts.map((post) => (
-                      <CarouselItem
-                        key={post.id}
-                        className="pl-3 basis-[240px] sm:basis-[260px] lg:basis-[280px]"
-                      >
-                        <BlogPostCard post={post} />
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  {seasonalPosts.length > 2 && (
-                    <>
-                      <CarouselPrevious className="hidden lg:flex" />
-                      <CarouselNext className="hidden lg:flex" />
-                    </>
+              {featuredPost ? (
+                <div className="grid gap-2.5 lg:gap-3.5 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,2fr)]">
+                  <BlogPostCard post={featuredPost} variant="feature" tone="forest" />
+                  {moreSeasonalPosts.length > 0 && (
+                    <div className="flex gap-2.5 overflow-x-auto scrollbar-none snap-x -mx-4 px-4 lg:mx-0 lg:px-0 lg:grid lg:grid-cols-2 lg:gap-3.5 lg:overflow-visible">
+                      {moreSeasonalPosts.slice(0, 4).map((post) => (
+                        <div key={post.id} className="flex-none w-[200px] sm:w-[240px] lg:w-auto snap-start">
+                          <BlogPostCard post={post} />
+                        </div>
+                      ))}
+                    </div>
                   )}
-                </Carousel>
+                </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground px-1.5">
                   No seasonal articles available right now. Check back soon!
                 </p>
               )}
@@ -226,134 +264,37 @@ const Discover = () => {
           {/* For Your Plants - only for logged-in users with plants */}
           {user && myPlantNames.length > 0 && (
             <CascadingContainer delay={200}>
-              <MyPlantsBlogSection plantNames={myPlantNames} />
+              <div className="mt-[26px]">
+                <MyPlantsBlogSection plantNames={myPlantNames} />
+              </div>
             </CascadingContainer>
           )}
 
-          {/* General Plant Care */}
+          {/* General Plant Care, as a compact list */}
           <CascadingContainer delay={user && myPlantNames.length > 0 ? 300 : 200}>
-            <div className="space-y-4">
-              <div className="flex items-center gap-2" data-testid="general-section">
-                <div className="p-2 rounded-xl bg-sprout-primary/10"><Leaf className="h-5 w-5 text-primary" /></div>
-                <h2 className="text-lg font-semibold">Plant Care Tips</h2>
+            <div className="mt-[26px] space-y-3">
+              <div className="flex items-baseline justify-between px-1.5 lg:px-0" data-testid="general-section">
+                <h2 className="font-display text-lg lg:text-[22px] font-bold tracking-[-0.03em] text-foreground">
+                  Plant Care Tips
+                </h2>
                 {generalPosts && generalPosts.length >= 4 && (
-                  <Link
-                    to="/discover/articles?mode=general"
-                    className="ml-auto text-sm text-primary hover:underline"
-                  >
-                    View all
+                  <Link to="/discover/articles?mode=general" className="text-sm font-bold text-link">
+                    See all
                   </Link>
                 )}
               </div>
 
               {generalPosts && generalPosts.length > 0 ? (
-                <Carousel opts={{ align: 'start', loop: false }} className="w-full overflow-visible">
-                  <CarouselContent className="-ml-3 py-2">
-                    {generalPosts.map((post) => (
-                      <CarouselItem
-                        key={post.id}
-                        className="pl-3 basis-[240px] sm:basis-[260px] lg:basis-[280px]"
-                      >
-                        <BlogPostCard post={post} />
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  {generalPosts.length > 2 && (
-                    <>
-                      <CarouselPrevious className="hidden lg:flex" />
-                      <CarouselNext className="hidden lg:flex" />
-                    </>
-                  )}
-                </Carousel>
+                <div className="grid gap-2 lg:grid-cols-2 lg:gap-3">
+                  {generalPosts.slice(0, 6).map((post) => (
+                    <BlogPostCard key={post.id} post={post} variant="row" />
+                  ))}
+                </div>
               ) : (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground px-1.5">
                   No general articles available yet. Check back soon!
                 </p>
               )}
-            </div>
-          </CascadingContainer>
-
-          {/* Browse by Plant */}
-          <CascadingContainer delay={user && myPlantNames.length > 0 ? 400 : 300}>
-            <div className="rounded-xl border-0 bg-card shadow-md overflow-hidden" data-testid="browse-by-plant-section">
-              <div className="h-1 bg-gradient-to-r from-sprout-water via-sprout-success to-sprout-medium" />
-              <div className="p-6 space-y-4">
-              <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-sprout-primary/10 dark:bg-sprout-light/20"><Search className="h-5 w-5 text-sprout-primary dark:text-sprout-light" /></div>
-                <h2 className="text-lg font-semibold">Browse by Plant</h2>
-                {debouncedSearch && plantPosts && plantPosts.length >= 4 && (
-                  <Link
-                    to={`/discover/articles?mode=plant&plant=${encodeURIComponent(debouncedSearch)}`}
-                    className="ml-auto text-sm text-primary hover:underline"
-                  >
-                    View all
-                  </Link>
-                )}
-              </div>
-              <div className="max-w-md">
-                <Input
-                  placeholder="Search for a plant (e.g. Monstera, Peace Lily)..."
-                  value={plantSearch}
-                  onChange={(e) => handleSearchChange(e.target.value)}
-                  className="w-full"
-                  data-testid="plant-search-input"
-                />
-              </div>
-
-              <div className="flex flex-wrap gap-2" data-testid="plant-chips">
-                {suggestedPlants.map((name) => {
-                  const isActive = debouncedSearch === name;
-                  return (
-                    <Badge
-                      key={name}
-                      variant={isActive ? 'default' : 'outline'}
-                      className={`cursor-pointer transition-colors ${
-                        isActive
-                          ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                          : 'hover:bg-primary/10'
-                      }`}
-                      onClick={() => handleChipClick(name)}
-                    >
-                      {name}
-                      {isActive && <X className="ml-1 h-3 w-3" />}
-                    </Badge>
-                  );
-                })}
-              </div>
-
-              {debouncedSearch ? (
-                plantSearchLoading ? (
-                  <div className="flex justify-center py-6">
-                    <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
-                  </div>
-                ) : plantPosts && plantPosts.length > 0 ? (
-                  <div className="animate-in fade-in duration-300">
-                    <Carousel opts={{ align: 'start', loop: false }} className="w-full overflow-visible">
-                      <CarouselContent className="-ml-3 py-2">
-                        {plantPosts.map((post) => (
-                          <CarouselItem
-                            key={post.id}
-                            className="pl-3 basis-[240px] sm:basis-[260px] lg:basis-[280px]"
-                          >
-                            <BlogPostCard post={post} />
-                          </CarouselItem>
-                        ))}
-                      </CarouselContent>
-                      {plantPosts.length > 2 && (
-                        <>
-                          <CarouselPrevious className="hidden lg:flex" />
-                          <CarouselNext className="hidden lg:flex" />
-                        </>
-                      )}
-                    </Carousel>
-                  </div>
-                ) : (
-                  <p className="text-sm text-muted-foreground animate-in fade-in duration-300">
-                    No articles found for &ldquo;{debouncedSearch}&rdquo;. Try a different plant name.
-                  </p>
-                )
-              ) : null}
-              </div>
             </div>
           </CascadingContainer>
         </div>

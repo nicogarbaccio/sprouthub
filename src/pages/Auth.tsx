@@ -2,16 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { authToast } from "@/utils/notifications/toast";
-import {
- Card,
- CardContent,
- CardDescription,
- CardHeader,
-} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SignInForm from "@/components/auth/SignInForm";
 import SignUpForm from "@/components/auth/SignUpForm";
-import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
+import { AuthShell } from "@/components/auth/AuthUI";
 import { supabase } from "@/integrations/supabase/client";
 
 /**
@@ -111,42 +105,28 @@ const Auth = () => {
  return result;
  };
 
+ // Two halves of one segmented control rather than separate pills
+ const tabClasses = "h-10 bg-transparent";
+
  return (
- <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0 ">
-  <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-plant-primary/10 to-plant-secondary/10 dark:bg-background flex items-center justify-center p-4">
-  <Card className="w-full max-w-md">
-   <CardHeader className="text-center">
-   <div className="flex items-center justify-center gap-3 mb-4">
-    <ThemeAwareLogo className="h-12 w-auto" />
-    <span className="text-3xl font-bold text-sprout-dark dark:text-sprout-cream ">
-    sprouthub
-    </span>
-   </div>
-   <CardDescription>
-    Your personal plant care assistant
-   </CardDescription>
-   </CardHeader>
-   <CardContent>
-   <Tabs defaultValue="signin" className="w-full">
-    <TabsList className="grid w-full grid-cols-2">
-    <TabsTrigger data-testid="sign-in-trigger" value="signin">
-     Sign In
-    </TabsTrigger>
-    <TabsTrigger data-testid="sign-up-trigger" value="signup">
-     Sign Up
-    </TabsTrigger>
-    </TabsList>
-    <TabsContent value="signin">
-    <SignInForm isLoading={isLoading} onSignIn={handleSignIn} />
-    </TabsContent>
-    <TabsContent value="signup">
-    <SignUpForm isLoading={isLoading} onSignUp={handleSignUp} />
-    </TabsContent>
-   </Tabs>
-   </CardContent>
-  </Card>
-  </div>
- </div>
+ <AuthShell description="Your personal plant care assistant">
+  <Tabs defaultValue="signin" className="w-full">
+  <TabsList className="grid w-full grid-cols-2 gap-0 p-1 rounded-full bg-field">
+   <TabsTrigger data-testid="sign-in-trigger" value="signin" className={tabClasses}>
+   Sign In
+   </TabsTrigger>
+   <TabsTrigger data-testid="sign-up-trigger" value="signup" className={tabClasses}>
+   Sign Up
+   </TabsTrigger>
+  </TabsList>
+  <TabsContent value="signin" className="mt-5">
+   <SignInForm isLoading={isLoading} onSignIn={handleSignIn} />
+  </TabsContent>
+  <TabsContent value="signup" className="mt-5">
+   <SignUpForm isLoading={isLoading} onSignUp={handleSignUp} />
+  </TabsContent>
+  </Tabs>
+ </AuthShell>
  );
 };
 

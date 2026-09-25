@@ -1,7 +1,5 @@
 import { useState, useRef } from 'react';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -27,6 +25,11 @@ import {
 } from '@/types/journalTypes';
 import { WateringRecord } from '@/hooks/useWateringRecords';
 import { Skeleton } from '@/components/ui/skeleton';
+import { FieldLabel, settingsInputClasses } from '@/components/settings/SettingsUI';
+import { sheetPrimaryButtonClasses } from '@/components/ui/bento-sheet';
+
+const fieldButtonClasses =
+  'h-12 rounded-2xl bg-field text-foreground text-[15px] font-semibold inline-flex items-center justify-center gap-2 px-4 hover:bg-field/70';
 
 interface JournalEntryFormProps {
   onSubmit: (formData: JournalEntryFormData) => Promise<void>;
@@ -36,6 +39,8 @@ interface JournalEntryFormProps {
   plantId?: string;
   wateringRecords?: WateringRecord[];
   isLoadingWateringRecords?: boolean;
+  /** Heading above the fields; pass null when the surrounding dialog's title already says it */
+  heading?: string | null;
 }
 
 export function JournalEntryForm({
@@ -46,6 +51,7 @@ export function JournalEntryForm({
   plantId,
   wateringRecords = [],
   isLoadingWateringRecords = false,
+  heading = 'Add Journal Entry',
 }: JournalEntryFormProps) {
   const [title, setTitle] = useState(initialData?.title || '');
   const [content, setContent] = useState(initialData?.content || '');
@@ -135,185 +141,182 @@ export function JournalEntryForm({
   const isFormValid = title.trim().length > 0 && (content.trim().length > 0 || selectedImages.length > 0);
 
   return (
-    <div className="p-4 border rounded-lg space-y-4 bg-background">
-      <h4 className="font-medium text-lg text-foreground">Add Journal Entry</h4>
+    <div className="space-y-2">
+      {heading && (
+        <h4 className="font-display text-lg font-bold tracking-[-0.02em] text-foreground px-1.5 pb-1">{heading}</h4>
+      )}
 
-      {/* Title Input */}
-      <div className="space-y-2">
-        <Label htmlFor="title">Title</Label>
-        <Input
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="e.g., New leaf growth!"
-          maxLength={100}
-          required
-        />
+      {/* Title and notes */}
+      <div className="rounded-3xl bg-card p-4 space-y-3">
+        <div>
+          <FieldLabel htmlFor="title">Title</FieldLabel>
+          <Input
+            id="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="e.g., New leaf growth!"
+            maxLength={100}
+            required
+            className={settingsInputClasses}
+          />
+        </div>
+        <div>
+          <FieldLabel htmlFor="content">Notes</FieldLabel>
+          <Textarea
+            id="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="Describe what you observed about your plant..."
+            rows={4}
+            className="resize-none rounded-2xl border-0 bg-field px-4 py-3 text-[15px] font-medium focus-visible:ring-2 focus-visible:ring-offset-0"
+          />
+        </div>
       </div>
 
-      {/* Content Textarea */}
-      <div className="space-y-2">
-        <Label htmlFor="content">Notes</Label>
-        <Textarea
-          id="content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Describe what you observed about your plant..."
-          rows={4}
-          className="resize-none"
-        />
-      </div>
-
-      {/* Mood Selector */}
-      <div className="space-y-2">
-        <Label>Plant Mood (optional)</Label>
-        <Select
-          value={mood || undefined}
-          onValueChange={(value) => setMood(value as PlantMood)}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="How is your plant doing?" />
-          </SelectTrigger>
-          <SelectContent>
-            {MOOD_OPTIONS.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                <div className="flex items-center gap-2">
-                  <span>{option.icon}</span>
-                  <span>{option.label}</span>
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+      {/* Mood: tap a chip to pick it, tap it again to clear */}
+      <div className="rounded-3xl bg-card p-4">
+        <FieldLabel>Plant Mood (optional)</FieldLabel>
+        <div className="flex flex-wrap gap-1.5">
+          {MOOD_OPTIONS.map((option) => {
+            const selected = mood === option.value;
+            return (
+              <button
+                key={option.value}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => setMood(selected ? null : option.value)}
+                className={cn(
+                  'h-10 px-3.5 rounded-full text-sm font-bold inline-flex items-center gap-1.5 transition-colors',
+                  selected ? 'bg-sprout-cream text-sprout-dark' : 'bg-field text-foreground hover:bg-field/70'
+                )}
+              >
+                <span aria-hidden="true">{option.icon}</span>
+                {option.label}
+              </button>
+            );
+          })}
+        </div>
         {mood && (
-          <p className="text-sm text-muted-foreground">
+          <p className="text-[13px] font-medium text-muted-foreground mt-2 px-1">
             {MOOD_OPTIONS.find(o => o.value === mood)?.description}
           </p>
         )}
       </div>
 
-      {/* Date Picker */}
-      <div className="space-y-2">
-        <Label>Entry Date</Label>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className={cn(
-                'w-full justify-start text-left font-normal',
-                !entryDate && 'text-muted-foreground'
-              )}
-            >
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {entryDate ? format(entryDate, 'PPP') : 'Pick a date'}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={entryDate}
-              onSelect={(date) => date && setEntryDate(date)}
-              initialFocus
-            />
-          </PopoverContent>
-        </Popover>
+      {/* Date and related watering */}
+      <div className="rounded-3xl bg-card p-4 space-y-3">
+        <div>
+          <FieldLabel>Entry Date</FieldLabel>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button type="button" className={cn(fieldButtonClasses, 'w-full justify-start')}>
+                <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+                {entryDate ? format(entryDate, 'PPP') : 'Pick a date'}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={entryDate}
+                onSelect={(date) => date && setEntryDate(date)}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        {plantId && (
+          <div>
+            <FieldLabel>Related Watering (optional)</FieldLabel>
+            {isLoadingWateringRecords ? (
+              <Skeleton className="h-12 w-full rounded-2xl" />
+            ) : recentWateringRecords.length > 0 ? (
+              <Select
+                value={selectedWateringRecordId || "none"}
+                onValueChange={(val) => setSelectedWateringRecordId(val === "none" ? undefined : val)}
+              >
+                <SelectTrigger className={settingsInputClasses}>
+                  <SelectValue placeholder="Link to a recent watering..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">None</SelectItem>
+                  {recentWateringRecords.map((record) => (
+                    <SelectItem key={record.id} value={record.id}>
+                      <div className="flex items-center gap-2">
+                        <Droplets className="w-4 h-4 text-sprout-water" />
+                        <span>{format(new Date(record.watered_at), 'PPP')}</span>
+                        {record.notes && (
+                          <span className="text-muted-foreground truncate max-w-[150px]">
+                            - {record.notes}
+                          </span>
+                        )}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            ) : (
+              <p className="text-sm font-medium text-muted-foreground px-1">
+                No recent watering records available.
+              </p>
+            )}
+          </div>
+        )}
       </div>
 
-      {/* Watering Record Selector */}
-      {plantId && (
-        <div className="space-y-2">
-          <Label>Related Watering (optional)</Label>
-          {isLoadingWateringRecords ? (
-            <Skeleton className="h-10 w-full" />
-          ) : recentWateringRecords.length > 0 ? (
-            <Select
-              value={selectedWateringRecordId || "none"}
-              onValueChange={(val) => setSelectedWateringRecordId(val === "none" ? undefined : val)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Link to a recent watering..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="none">None</SelectItem>
-                {recentWateringRecords.map((record) => (
-                  <SelectItem key={record.id} value={record.id}>
-                    <div className="flex items-center gap-2">
-                      <Droplets className="w-4 h-4 text-blue-500" />
-                      <span>{format(new Date(record.watered_at), 'PPP')}</span>
-                      {record.notes && (
-                        <span className="text-muted-foreground truncate max-w-[150px]">
-                          - {record.notes}
-                        </span>
-                      )}
-                    </div>
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          ) : (
-            <div className="text-sm text-muted-foreground italic px-1">
-              No recent watering records available.
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Image Upload */}
-      <div className="space-y-2">
-        <Label>
+      {/* Photos */}
+      <div className="rounded-3xl bg-card p-4">
+        <FieldLabel>
           Photos ({selectedImages.length}/{JOURNAL_IMAGE_CONSTANTS.MAX_IMAGES_PER_ENTRY})
-        </Label>
+        </FieldLabel>
 
-        {/* Image Preview Grid */}
         {imagePreviewUrls.length > 0 && (
-          <div className="grid grid-cols-3 gap-2 mb-2">
+          <div className="grid grid-cols-3 gap-2 mb-2.5">
             {imagePreviewUrls.map((url, index) => (
               <div key={index} className="relative aspect-square">
                 <img
                   src={url}
                   alt={`Preview ${index + 1}`}
-                  className="w-full h-full object-cover rounded-lg"
+                  className="w-full h-full object-cover rounded-[18px]"
                 />
                 <button
                   type="button"
                   onClick={() => handleRemoveImage(index)}
-                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                  className="absolute top-1.5 right-1.5 w-7 h-7 rounded-full bg-sprout-dark text-sprout-cream flex items-center justify-center"
+                  aria-label={`Remove photo ${index + 1}`}
                 >
-                  <X className="w-3 h-3" />
+                  <X className="w-3.5 h-3.5" />
                 </button>
               </div>
             ))}
           </div>
         )}
 
-        {/* Upload Buttons */}
         {selectedImages.length < JOURNAL_IMAGE_CONSTANTS.MAX_IMAGES_PER_ENTRY && (
-          <div className="flex gap-2">
-            <Button
+          <div className="grid grid-cols-2 gap-2">
+            <button
               type="button"
-              variant="outline"
               onClick={() => fileInputRef.current?.click()}
-              className="flex-1"
+              className={fieldButtonClasses}
             >
-              <ImageIcon className="w-4 h-4 mr-2" />
+              <ImageIcon className="w-4 h-4" />
               Choose Photos
-            </Button>
+            </button>
 
             {/* Camera button for mobile */}
-            <Button
+            <button
               type="button"
-              variant="outline"
               onClick={() => {
                 if (fileInputRef.current) {
                   fileInputRef.current.setAttribute('capture', 'environment');
                   fileInputRef.current.click();
                 }
               }}
-              className="flex-1"
+              className={fieldButtonClasses}
             >
-              <Camera className="w-4 h-4 mr-2" />
+              <Camera className="w-4 h-4" />
               Take Photo
-            </Button>
+            </button>
           </div>
         )}
 
@@ -326,20 +329,20 @@ export function JournalEntryForm({
           className="hidden"
         />
 
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs font-medium text-muted-foreground mt-2 px-1">
           Max {JOURNAL_IMAGE_CONSTANTS.MAX_FILE_SIZE_MB}MB per image. Formats: JPEG, PNG, WebP
         </p>
       </div>
 
-      {/* Submit Button */}
-      <Button
+      <button
+        type="button"
         onClick={handleSubmit}
         disabled={!isFormValid || isLoading}
-        className="w-full bg-emerald-600 text-white hover:bg-emerald-700 font-medium shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+        className={cn(sheetPrimaryButtonClasses, 'mt-1')}
       >
-        <Plus className="w-4 h-4 mr-2" />
+        <Plus className="w-5 h-5" strokeWidth={2.5} />
         {isLoading ? 'Adding...' : submitButtonText}
-      </Button>
+      </button>
     </div>
   );
 }

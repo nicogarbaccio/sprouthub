@@ -1,22 +1,20 @@
 /**
- * Component for displaying individual pattern insights
+ * One pattern insight in the watering history, with its full reasoning and benefits
  */
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { 
-  AlertTriangle, 
-  TrendingUp, 
-  TrendingDown, 
-  Target, 
-  Calendar,
+import {
+  AlertTriangle,
+  ArrowRight,
+  TrendingUp,
+  TrendingDown,
+  Target,
   CheckCircle,
   AlertCircle,
-  Info
+  Info,
+  X,
 } from 'lucide-react';
 import { PatternInsight } from '@/types/wateringPatternTypes';
-import { cn } from '@/lib/utils';
+import { capitalize, cn } from '@/lib/utils';
 
 interface PatternInsightCardProps {
   insight: PatternInsight;
@@ -24,6 +22,20 @@ interface PatternInsightCardProps {
   onDismiss?: (insight: PatternInsight) => void;
   className?: string;
 }
+
+const TYPE_LABEL: Record<string, string> = {
+  schedule_adjustment: 'Schedule',
+  consistency_improvement: 'Consistency',
+  overwatering_risk: 'Overwatering risk',
+  underwatering_risk: 'Underwatering risk',
+};
+
+/** Icon square colour by how much the insight matters */
+const SEVERITY_CLASSES: Record<string, string> = {
+  high: 'bg-sprout-warning',
+  medium: 'bg-sprout-cream',
+  low: 'bg-sprout-water',
+};
 
 const PatternInsightCard = ({
   insight,
@@ -46,195 +58,108 @@ const PatternInsightCard = ({
     }
   };
 
-  const getInsightColor = () => {
-    switch (insight.severity) {
-      case 'high':
-        return 'destructive';
-      case 'medium':
-        return 'default';
-      case 'low':
-        return 'secondary';
-      default:
-        return 'default';
-    }
-  };
-
-  const getBorderColor = () => {
-    switch (insight.severity) {
-      case 'high':
-        return 'border-red-200 dark:border-red-800';
-      case 'medium':
-        return 'border-orange-200 dark:border-orange-800';
-      case 'low':
-        return 'border-blue-200 dark:border-blue-800';
-      default:
-        return 'border-border';
-    }
-  };
-
-  const getBackgroundColor = () => {
-    switch (insight.severity) {
-      case 'high':
-        return 'bg-red-50 dark:bg-red-950/20';
-      case 'medium':
-        return 'bg-orange-50 dark:bg-orange-950/20';
-      case 'low':
-        return 'bg-blue-50 dark:bg-blue-950/20';
-      default:
-        return 'bg-background';
-    }
-  };
-
   const IconComponent = getInsightIcon();
+  const suggestion = insight.suggestion;
 
   return (
-    <Card className={cn(
-      'transition-all duration-200 hover:shadow-md',
-      getBorderColor(),
-      getBackgroundColor(),
-      className
-    )}>
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3">
-            <div className={cn(
-              'p-2 rounded-full',
-              insight.severity === 'high' ? 'bg-red-100 dark:bg-red-900/30' :
-              insight.severity === 'medium' ? 'bg-orange-100 dark:bg-orange-900/30' :
-              'bg-blue-100 dark:bg-blue-900/30'
-            )}>
-              <IconComponent className={cn(
-                'w-4 h-4',
-                insight.severity === 'high' ? 'text-red-600 dark:text-red-400' :
-                insight.severity === 'medium' ? 'text-orange-600 dark:text-orange-400' :
-                'text-blue-600 dark:text-blue-400'
-              )} />
-            </div>
-            <div>
-              <CardTitle className="text-sm font-medium">{insight.title}</CardTitle>
-              <Badge variant={getInsightColor()} className="mt-1 text-xs">
-                {insight.type.replace('_', ' ')}
-              </Badge>
-            </div>
+    <div className={cn('rounded-3xl bg-card p-4', className)}>
+      <div className="flex items-start gap-3">
+        <div
+          className={cn(
+            'w-10 h-10 shrink-0 rounded-[14px] text-sprout-dark flex items-center justify-center',
+            SEVERITY_CLASSES[insight.severity] ?? SEVERITY_CLASSES.low
+          )}
+        >
+          <IconComponent className="w-5 h-5" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-[15px] font-bold text-foreground leading-snug">{insight.title}</p>
+          <p className="text-xs font-bold tracking-[0.6px] uppercase text-muted-foreground mt-0.5">
+            {TYPE_LABEL[insight.type] ?? insight.type.replace(/_/g, ' ')}
+          </p>
+        </div>
+        {onDismiss && (
+          <button
+            type="button"
+            onClick={() => onDismiss(insight)}
+            className="w-9 h-9 shrink-0 rounded-xl bg-field text-muted-foreground hover:text-foreground flex items-center justify-center"
+            aria-label="Dismiss this suggestion"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+
+      <p className="text-sm text-muted-foreground leading-relaxed mt-2.5">{insight.description}</p>
+
+      {suggestion && (
+        <>
+          <div className="flex items-center justify-between gap-3 mt-3 rounded-[18px] bg-field px-4 py-3">
+            <span className="text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground">Schedule</span>
+            <span className="flex items-center gap-2 font-display font-bold text-foreground">
+              <span className="text-muted-foreground">{suggestion.currentSchedule}d</span>
+              <ArrowRight className="w-4 h-4 text-muted-foreground" />
+              <span className="text-lg">{suggestion.suggestedSchedule}d</span>
+            </span>
           </div>
-          
+
+          {suggestion.reasoning.length > 0 && (
+            <div className="mt-3">
+              <p className="text-[13px] font-bold text-foreground">Why this change?</p>
+              <ul className="space-y-1 mt-1">
+                {suggestion.reasoning.map((reason, index) => (
+                  <li key={index} className="text-[13px] text-muted-foreground flex items-start gap-2">
+                    <span className="w-1 h-1 bg-current rounded-full mt-2 shrink-0" aria-hidden="true" />
+                    {reason}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {suggestion.potentialBenefits.length > 0 && (
+            <div className="mt-3">
+              <p className="text-[13px] font-bold text-foreground">Potential benefits</p>
+              <ul className="space-y-1 mt-1">
+                {suggestion.potentialBenefits.map((benefit, index) => (
+                  <li key={index} className="text-[13px] text-muted-foreground flex items-start gap-2">
+                    <CheckCircle className="w-3.5 h-3.5 text-sprout-success mt-0.5 shrink-0" />
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <span className="inline-flex mt-3 text-xs font-bold px-2.5 py-1 rounded-full bg-field text-foreground">
+            {capitalize(suggestion.confidence)} confidence
+          </span>
+        </>
+      )}
+
+      {insight.actionable && (suggestion && onAcceptSuggestion || onDismiss) && (
+        <div className="flex gap-2 mt-3">
           {onDismiss && (
-            <Button
-              variant="ghost"
-              size="sm"
+            <button
+              type="button"
               onClick={() => onDismiss(insight)}
-              className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+              className="flex-1 h-12 rounded-[18px] bg-field text-foreground font-bold text-sm hover:bg-field/70"
             >
-              ×
-            </Button>
+              Dismiss
+            </button>
+          )}
+          {suggestion && onAcceptSuggestion && (
+            <button
+              type="button"
+              onClick={() => onAcceptSuggestion(insight)}
+              className="flex-[1.4] h-12 rounded-[18px] bg-sprout-dark text-sprout-cream font-bold text-sm shadow-[inset_0_0_0_2px_#dfc490] hover:bg-sprout-dark/90"
+            >
+              Apply {suggestion.adjustmentType === 'increase' ? 'Extension' : 'Shortening'}
+            </button>
           )}
         </div>
-      </CardHeader>
-
-      <CardContent className="pt-0">
-        <p className="text-sm text-muted-foreground mb-4">
-          {insight.description}
-        </p>
-
-        {/* Schedule adjustment details */}
-        {insight.suggestion && (
-          <div className="space-y-3 mb-4">
-            <div className="flex items-center justify-between p-3 bg-background/50 rounded-lg border">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-muted-foreground" />
-                <span className="text-sm font-medium">Schedule Change</span>
-              </div>
-              <div className="text-sm">
-                <span className="text-muted-foreground">
-                  {insight.suggestion.currentSchedule} days
-                </span>
-                <span className="mx-2">→</span>
-                <span className="font-medium text-sprout-primary">
-                  {insight.suggestion.suggestedSchedule} days
-                </span>
-              </div>
-            </div>
-
-            {/* Reasoning */}
-            {insight.suggestion.reasoning.length > 0 && (
-              <div className="space-y-2">
-                <h4 className="text-sm font-medium text-foreground">Why this change?</h4>
-                <ul className="space-y-1">
-                  {insight.suggestion.reasoning.map((reason, index) => (
-                    <li key={index} className="text-xs text-muted-foreground flex items-start gap-2">
-                      <span className="w-1 h-1 bg-current rounded-full mt-1.5 flex-shrink-0" />
-                      {reason}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Potential benefits */}
-            {insight.suggestion.potentialBenefits.length > 0 && (
-              <div className="space-y-2">
-                <h4 className="text-sm font-medium text-foreground">Potential benefits</h4>
-                <ul className="space-y-1">
-                  {insight.suggestion.potentialBenefits.map((benefit, index) => (
-                    <li key={index} className="text-xs text-muted-foreground flex items-start gap-2">
-                      <CheckCircle className="w-3 h-3 text-green-500 mt-0.5 flex-shrink-0" />
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Confidence indicator */}
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span>Confidence:</span>
-              <Badge 
-                variant={
-                  insight.suggestion.confidence === 'high' ? 'default' :
-                  insight.suggestion.confidence === 'medium' ? 'secondary' :
-                  'outline'
-                }
-                className="text-xs"
-              >
-                {insight.suggestion.confidence}
-              </Badge>
-            </div>
-          </div>
-        )}
-
-        {/* Action buttons */}
-        {insight.actionable && (
-          <div className="flex gap-2">
-            {insight.suggestion && onAcceptSuggestion && (
-              <Button
-                size="sm"
-                onClick={() => onAcceptSuggestion(insight)}
-                className="flex-1"
-              >
-                Apply {insight.suggestion.adjustmentType === 'increase' ? 'Extension' : 'Shortening'}
-              </Button>
-            )}
-            
-            {!insight.suggestion && insight.type === 'consistency_improvement' && (
-              <Button size="sm" variant="outline" className="flex-1">
-                Set Reminder
-              </Button>
-            )}
-            
-            {onDismiss && (
-              <Button 
-                size="sm" 
-                variant="ghost"
-                onClick={() => onDismiss(insight)}
-                className="px-3"
-              >
-                Dismiss
-              </Button>
-            )}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+      )}
+    </div>
   );
 };
 

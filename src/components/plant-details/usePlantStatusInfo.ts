@@ -11,7 +11,6 @@ export interface StatusInfo {
 
 export interface BadgeInfo {
   text: string;
-  colorClass: string;
   description: string;
 }
 
@@ -55,7 +54,6 @@ export function useBadgeInfo(
     );
 
     let text = "";
-    let colorClass = "";
     let description = "";
 
     if (hasHighPriority) {
@@ -64,20 +62,15 @@ export function useBadgeInfo(
           ? "Important tip"
           : `${highPriorityCount} important tips`;
       description = `${highPriorityCount} important watering insight${highPriorityCount > 1 ? "s" : ""} available`;
-      colorClass =
-        "bg-amber-500 hover:bg-amber-600 text-white border-amber-500";
     } else if (hasMediumPriority) {
       text = count === 1 ? "Smart tip" : `${count} smart tips`;
       description = `${count} watering insight${count > 1 ? "s" : ""} available`;
-      colorClass = "bg-blue-500 hover:bg-blue-600 text-white border-blue-500";
     } else {
       text = count === 1 ? "Good tip" : `${count} good tips`;
       description = `${count} positive watering insight${count > 1 ? "s" : ""} available`;
-      colorClass =
-        "bg-green-500 hover:bg-green-600 text-white border-green-500";
     }
 
-    return { text, colorClass, description };
+    return { text, description };
   }, [getActionableInsights]);
 
   return { getActionableInsights, getBadgeInfo };

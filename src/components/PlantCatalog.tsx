@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { AuthUpsell } from "./auth/AuthUpsell";
 import PlantCatalogHeader from "./catalog/PlantCatalogHeader";
@@ -258,15 +257,13 @@ const PlantCatalog = ({
 
  return (
  <section
-  className={`py-8 ${
-  isDashboard ? "bg-background" : "bg-plant-neutral dark:bg-background"
-  }`}
+  className={isHomepage ? "py-12 bg-background" : "pt-3.5 pb-8 lg:pt-7 bg-background"}
   data-testid="plant-catalog"
  >
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div className="max-w-7xl mx-auto px-4 lg:px-8">
   {isDashboard ? (
-   <div className="text-center mb-12">
-   <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-4">
+   <div className="text-center mb-8">
+   <h2 className="font-display text-2xl md:text-3xl font-bold tracking-[-0.03em] text-foreground mb-2">
     Discover New Plants
    </h2>
    <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -283,7 +280,7 @@ const PlantCatalog = ({
 
   {!isHomepage && (
    <>
-   {user && (
+   {user ? (
     <PlantSearchFilters
     searchTerm={searchTerm}
     setSearchTerm={setSearchTerm}
@@ -301,6 +298,8 @@ const PlantCatalog = ({
     hasActiveFilters={hasActiveFilters}
     clearAllFilters={clearAllFilters}
     />
+   ) : (
+    <div className="h-[18px]" />
    )}
 
    <PlantResultsSummary
@@ -339,25 +338,26 @@ const PlantCatalog = ({
     onPageChange={paginationHandlers.onPageChange}
     onNextPage={paginationHandlers.onNextPage}
     onPreviousPage={paginationHandlers.onPreviousPage}
-    className="mt-12"
+    className="mt-8"
    />
    ) : (
-   <div className="mt-12">
+   <div className="mt-8">
     <AuthUpsell variant="card" source="catalog" />
    </div>
    ))}
 
   {isHomepage && (
-   <div className="mt-12">
+   <div className="mt-8 flex justify-center">
    {user ? (
-    <Button
+    <button
+    type="button"
     onClick={handleViewAllPlants}
-    className="bg-sprout-dark hover:bg-sprout-dark/90 dark:bg-sprout-cream dark:hover:bg-sprout-cream/90 text-sprout-white dark:text-sprout-dark px-8 py-3 rounded-xl font-medium text-lg"
+    className="h-14 px-6 rounded-[22px] bg-sprout-dark text-sprout-cream font-display font-bold inline-flex items-center gap-2 shadow-[inset_0_0_0_2px_#dfc490]"
     data-testid="view-all-plants"
     >
     View All Plants
-    <ArrowRight className="ml-2 w-5 h-5" />
-    </Button>
+    <ArrowRight className="w-5 h-5" />
+    </button>
    ) : (
     <AuthUpsell variant="card" source="homepage" />
    )}

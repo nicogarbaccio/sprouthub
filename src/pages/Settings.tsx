@@ -7,17 +7,20 @@ import { WeatherTab } from "@/components/settings/WeatherTab";
 import { NotificationsTab } from "@/components/settings/NotificationsTab";
 import { AppearanceTab } from "@/components/settings/AppearanceTab";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { LoadingTransition } from "@/components/ui/loading-transition";
 import { FeatureErrorBoundary } from "@/components/ui/feature-error-boundary";
-import { PageHero } from "@/components/ui/page-hero";
+import { pillTabsListClasses } from "@/components/settings/SettingsUI";
+import { cn } from "@/lib/utils";
 
 const SettingsContent = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("account");
+  const [searchParams] = useSearchParams();
+  // `?tab=weather` lets other screens (e.g. the Home weather tile) link straight to a tab
+  const [activeTab, setActiveTab] = useState(() => searchParams.get("tab") ?? "account");
 
   useEffect(() => {
     if (!loading && !user) {
@@ -30,67 +33,69 @@ const SettingsContent = () => {
   }
 
   const settingsSkeleton = (
-    <div className="max-w-5xl mx-auto">
-      <Skeleton className="h-12 w-48 mb-8" />
-      <Skeleton className="h-96 w-full" />
+    <div className="max-w-3xl mx-auto space-y-3">
+      <Skeleton className="h-10 w-48 rounded-2xl" />
+      <Skeleton className="h-11 w-full rounded-full" />
+      <Skeleton className="h-96 w-full rounded-card" />
     </div>
   );
 
+  const tabs = [
+    { value: "account", label: "Account", icon: User },
+    { value: "preferences", label: "Preferences", icon: Sliders },
+    { value: "weather", label: "Weather", icon: CloudSun },
+    { value: "notifications", label: "Notifications", icon: Bell },
+    { value: "appearance", label: "Appearance", icon: Palette },
+  ];
+
   return (
-    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
-      <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
+    <div className="bg-background pb-32 lg:pb-10">
+      <main className="px-4 lg:px-8 pt-3.5 lg:pt-7">
         <LoadingTransition loading={loading} skeleton={settingsSkeleton}>
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <CascadingContainer delay={0}>
-            <PageHero
-              icon={Sliders}
-              title="Settings"
-              subtitle="Manage your account, preferences, and application settings"
-            />
+            <div className="px-1.5 lg:px-0">
+              <h1 className="font-display text-[28px] lg:text-[34px] font-bold tracking-[-0.04em] text-foreground">
+                Settings
+              </h1>
+              <p className="text-sm lg:text-[15px] font-medium text-muted-foreground mt-0.5">
+                Your account, care defaults, weather, notifications and look
+              </p>
+            </div>
           </CascadingContainer>
 
-          <CascadingContainer delay={100}>
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-5 mb-8">
-                <TabsTrigger value="account" className="flex items-center gap-2">
-                  <User className="w-4 h-4" />
-                  <span className="hidden sm:inline">Account</span>
-                </TabsTrigger>
-                <TabsTrigger value="preferences" className="flex items-center gap-2">
-                  <Sliders className="w-4 h-4" />
-                  <span className="hidden sm:inline">Preferences</span>
-                </TabsTrigger>
-                <TabsTrigger value="weather" className="flex items-center gap-2">
-                  <CloudSun className="w-4 h-4" />
-                  <span className="hidden sm:inline">Weather</span>
-                </TabsTrigger>
-                <TabsTrigger value="notifications" className="flex items-center gap-2">
-                  <Bell className="w-4 h-4" />
-                  <span className="hidden sm:inline">Notifications</span>
-                </TabsTrigger>
-                <TabsTrigger value="appearance" className="flex items-center gap-2">
-                  <Palette className="w-4 h-4" />
-                  <span className="hidden sm:inline">Appearance</span>
-                </TabsTrigger>
+          <CascadingContainer delay={50}>
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-[18px]">
+              <TabsList className={cn(pillTabsListClasses, "-mx-4 px-4 sm:mx-0 sm:px-0")}>
+                {tabs.map((tab) => (
+                  <TabsTrigger
+                    key={tab.value}
+                    value={tab.value}
+                   
+                  >
+                    <tab.icon className="w-4 h-4" />
+                    {tab.label}
+                  </TabsTrigger>
+                ))}
               </TabsList>
 
-              <TabsContent value="account">
+              <TabsContent value="account" className="mt-5">
                 <AccountTab />
               </TabsContent>
 
-              <TabsContent value="preferences">
+              <TabsContent value="preferences" className="mt-5">
                 <PreferencesTab />
               </TabsContent>
 
-              <TabsContent value="weather">
+              <TabsContent value="weather" className="mt-5">
                 <WeatherTab />
               </TabsContent>
 
-              <TabsContent value="notifications">
+              <TabsContent value="notifications" className="mt-5">
                 <NotificationsTab />
               </TabsContent>
 
-              <TabsContent value="appearance">
+              <TabsContent value="appearance" className="mt-5">
                 <AppearanceTab />
               </TabsContent>
             </Tabs>

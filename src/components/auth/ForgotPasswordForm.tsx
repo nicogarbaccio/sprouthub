@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ArrowLeft } from "lucide-react";
+import { FieldLabel, settingsInputClasses, settingsPrimaryButtonClasses, settingsSecondaryButtonClasses } from "@/components/settings/SettingsUI";
+import { ArrowLeft, MailCheck } from "lucide-react";
 import { authToast } from "@/utils/notifications/toast";
 
 interface ForgotPasswordFormProps {
@@ -34,40 +33,37 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
 
  if (isSubmitted) {
  return (
-  <div className="space-y-4 text-center">
-  <div className="space-y-2">
-   <h3 className="text-lg font-medium">Check your email</h3>
+  <div className="space-y-4">
+  <div className="flex items-start gap-3.5">
+   <div className="w-11 h-11 shrink-0 rounded-[14px] bg-sprout-success text-sprout-dark flex items-center justify-center">
+   <MailCheck className="w-5 h-5" />
+   </div>
+   <div className="space-y-1.5">
+   <h3 className="font-display text-xl font-bold tracking-[-0.02em] text-foreground">Check your email</h3>
    <p className="text-sm text-muted-foreground">
-   We've sent a 6-digit verification code to <strong>{email}</strong>
+    We've sent a 6-digit verification code to <strong className="text-foreground">{email}</strong>
    </p>
    <p className="text-sm text-muted-foreground">
-   Once you receive the code, go to the{" "}
-   <a
-    href="/reset-password"
-    className="text-sprout-dark dark:text-sprout-cream hover:text-sprout-primary dark:hover:text-sprout-light underline font-semibold bg-sprout-neutral/10 dark:bg-sprout-dark/20 px-1 py-0.5 rounded transition-colors"
-   >
+    Once it arrives, go to the{" "}
+    <a href="/reset-password" className="font-bold text-link underline underline-offset-2">
     Reset Password page
-   </a>{" "}
-   to enter your code and set a new password.
+    </a>{" "}
+    to enter your code and set a new password.
    </p>
+   </div>
   </div>
   <div className="space-y-2">
-   <Button
+   <button
    type="button"
    onClick={() => (window.location.href = "/reset-password")}
-   className="w-full bg-sprout-light hover:bg-sprout-medium text-sprout-white"
+   className={settingsPrimaryButtonClasses}
    >
    Go to Reset Password Page
-   </Button>
-   <Button
-   type="button"
-   variant="outline"
-   onClick={onBackToSignIn}
-   className="w-full"
-   >
-   <ArrowLeft className="w-4 h-4 mr-2" />
+   </button>
+   <button type="button" onClick={onBackToSignIn} className={`${settingsSecondaryButtonClasses} w-full`}>
+   <ArrowLeft className="w-4 h-4" />
    Back to Sign In
-   </Button>
+   </button>
   </div>
   </div>
  );
@@ -75,16 +71,15 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
 
  return (
  <form onSubmit={handleSubmit} className="space-y-4">
-  <div className="space-y-2 text-center">
-  <h3 className="text-lg font-medium">Forgot your password?</h3>
+  <div className="space-y-1 px-1">
+  <h3 className="font-display text-xl font-bold tracking-[-0.02em] text-foreground">Forgot your password?</h3>
   <p className="text-sm text-muted-foreground">
-   Enter your email address and we'll send you a 6-digit verification
-   code to reset your password.
+   Enter your email and we'll send you a 6-digit code to reset it.
   </p>
   </div>
 
-  <div className="space-y-2">
-  <Label htmlFor="reset-email">Email</Label>
+  <div>
+  <FieldLabel htmlFor="reset-email">Email</FieldLabel>
   <Input
    id="reset-email"
    type="email"
@@ -95,28 +90,24 @@ export const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
    inputMode="email"
    autoComplete="email"
    data-testid="reset-password-email"
+   className={settingsInputClasses}
   />
   </div>
 
   <div className="space-y-2">
-  <Button
+  <button
    type="submit"
-   className="w-full bg-sprout-light hover:bg-sprout-medium text-sprout-white"
+   className={settingsPrimaryButtonClasses}
    disabled={isLoading || !email}
    data-testid="reset-password-button"
   >
    {isLoading ? "Sending..." : "Send Verification Code"}
-  </Button>
+  </button>
 
-  <Button
-   type="button"
-   variant="outline"
-   onClick={onBackToSignIn}
-   className="w-full"
-  >
-   <ArrowLeft className="w-4 h-4 mr-2" />
+  <button type="button" onClick={onBackToSignIn} className={`${settingsSecondaryButtonClasses} w-full`}>
+   <ArrowLeft className="w-4 h-4" />
    Back to Sign In
-  </Button>
+  </button>
   </div>
  </form>
  );

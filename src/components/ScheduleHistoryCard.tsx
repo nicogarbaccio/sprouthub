@@ -1,19 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import {
-  History,
-  Calendar,
-  Droplets,
-  TrendingUp,
-  TrendingDown,
-  Minus,
-  ChevronDown,
-  ChevronRight,
-  Sparkles,
-} from "lucide-react";
+import { Calendar, Droplets, TrendingUp, TrendingDown, Minus, Sparkles } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 import { scheduleVersioningService } from "@/services/scheduleVersioningService";
 import { Season } from "@/services/seasonalDetectionService";
 import type { Database } from "@/integrations/supabase/types";
@@ -42,10 +30,10 @@ const seasonEmoji: Record<Season, string> = {
 };
 
 const seasonColors: Record<Season, string> = {
-  spring: "bg-green-100 text-green-800 border-green-200",
-  summer: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  fall: "bg-orange-100 text-orange-800 border-orange-200",
-  winter: "bg-blue-100 text-blue-800 border-blue-200",
+  spring: "bg-sprout-success text-sprout-dark",
+  summer: "bg-sprout-cream text-sprout-dark",
+  fall: "bg-sprout-warning text-sprout-dark",
+  winter: "bg-sprout-water text-sprout-dark",
 };
 
 export function ScheduleHistoryCard({
@@ -53,15 +41,14 @@ export function ScheduleHistoryCard({
   plantName,
   currentSchedule,
 }: ScheduleHistoryCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
   const [scheduleHistory, setScheduleHistory] = useState<SeasonSchedules[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Lives in its own tab of the edit dialog, so it loads as soon as the tab opens
   useEffect(() => {
-    if (isExpanded && scheduleHistory.length === 0) {
-      loadScheduleHistory();
-    }
-  }, [isExpanded, plantId]);
+    loadScheduleHistory();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [plantId]);
 
   const loadScheduleHistory = async () => {
     try {
@@ -90,10 +77,10 @@ export function ScheduleHistoryCard({
 
   const getChangeIcon = (previous: number, current: number) => {
     if (current > previous)
-      return <TrendingUp className="h-3 w-3 text-blue-500" />;
+      return <TrendingUp className="h-4 w-4 text-muted-foreground" aria-label="Longer than the year before" />;
     if (current < previous)
-      return <TrendingDown className="h-3 w-3 text-orange-500" />;
-    return <Minus className="h-3 w-3 text-gray-400" />;
+      return <TrendingDown className="h-4 w-4 text-muted-foreground" aria-label="Shorter than the year before" />;
+    return <Minus className="h-4 w-4 text-muted-foreground" aria-label="Same as the year before" />;
   };
 
   const formatDate = (dateString: string) => {
@@ -112,228 +99,123 @@ export function ScheduleHistoryCard({
 
   const hasAnyHistory = scheduleHistory.some((s) => s.schedules.length > 0);
 
-  return (
-    <Card className="w-full">
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg flex items-center space-x-2">
-            <History className="h-5 w-5 text-gray-500" />
-            <span>Schedule History</span>
-          </CardTitle>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="flex items-center space-x-1"
-          >
-            {isExpanded ? (
-              <ChevronDown className="h-4 w-4" />
-            ) : (
-              <ChevronRight className="h-4 w-4" />
-            )}
-            <span className="text-sm">
-              {isExpanded ? "Collapse" : "View History"}
-            </span>
-          </Button>
+  if (isLoading) {
+    return (
+      <div className="space-y-2" aria-busy="true" aria-label="Loading schedule history">
+        <Skeleton className="h-[76px] w-full rounded-[22px]" />
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          {seasonOrder.map((season) => (
+            <Skeleton key={season} className="h-24 rounded-[22px]" />
+          ))}
         </div>
+      </div>
+    );
+  }
 
-        {/* Show preview when collapsed */}
-        {!isExpanded && (
-          <div className="mt-2 text-sm text-sprout-light dark:text-sprout-light">
-            {isLoading
-              ? "Loading..."
-              : hasAnyHistory
-              ? `Seasonal watering adjustments for ${plantName}`
-              : "Track seasonal watering schedule changes over time"}
+  return (
+    <div className="space-y-2">
+      {currentSchedule && (
+        <div className="rounded-[22px] bg-card p-4 flex items-center gap-3">
+          <div className="w-11 h-11 shrink-0 rounded-[14px] bg-sprout-water text-sprout-dark flex items-center justify-center">
+            <Droplets className="w-5 h-5" />
           </div>
-        )}
-      </CardHeader>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.8px] text-muted-foreground">Current schedule</p>
+            <p className="font-display text-lg font-bold text-foreground">Every {currentSchedule} days</p>
+          </div>
+        </div>
+      )}
 
-      {isExpanded && (
-        <CardContent>
-          {isLoading ? (
-            <div className="flex items-center justify-center py-8 text-sprout-medium dark:text-sprout-light">
-              <div className="animate-spin mr-2">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              Loading history...
-            </div>
-          ) : !hasAnyHistory ? (
-            <div className="text-center py-8 text-sprout-medium dark:text-sprout-light">
-              <Calendar className="h-8 w-8 mx-auto mb-3 text-sprout-medium dark:text-sprout-light opacity-60" />
-              <p className="text-base font-medium mb-2 text-sprout-dark dark:text-sprout-white">
-                No schedule history yet
-              </p>
-              <p className="text-sm mb-4 max-w-md mx-auto leading-relaxed">
-                This section tracks how your watering schedule changes with the
-                seasons. History will appear when you adjust schedules or when
-                seasonal recommendations are applied.
-              </p>
-              <div className="text-xs text-sprout-medium dark:text-sprout-light space-y-1 opacity-80">
-                <p>• Seasonal schedule adjustments</p>
-                <p>• Smart watering recommendations</p>
-                <p>• Manual schedule changes</p>
-                <p>• Weather-based modifications</p>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {/* Current Schedule */}
-              {currentSchedule && (
-                <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="font-medium text-blue-900">
-                        Current Schedule
-                      </div>
-                      <div className="text-sm text-blue-700">
-                        Every {currentSchedule} days
-                      </div>
-                    </div>
-                    <Droplets className="h-5 w-5 text-blue-500" />
+      {!hasAnyHistory ? (
+        <div className="rounded-3xl bg-card p-5 flex items-start gap-3.5">
+          <div className="w-11 h-11 shrink-0 rounded-[14px] bg-field text-foreground flex items-center justify-center">
+            <Calendar className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-[15px] font-bold text-foreground">No schedule history yet</p>
+            <p className="text-sm text-muted-foreground leading-relaxed mt-0.5">
+              This tracks how {plantName}'s watering schedule changes with the seasons. History appears when you
+              adjust the schedule or apply a seasonal recommendation.
+            </p>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Seasonal pattern overview */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {seasonOrder.map((season) => {
+              const latestSchedule = getLatestScheduleForSeason(season);
+              return (
+                <div
+                  key={season}
+                  className={cn(
+                    "rounded-[22px] p-3.5",
+                    latestSchedule ? seasonColors[season] : "bg-card text-muted-foreground"
+                  )}
+                >
+                  <div className="text-xs font-bold uppercase tracking-[0.8px]">
+                    <span aria-hidden="true">{seasonEmoji[season]} </span>
+                    {season}
                   </div>
+                  <div className="font-display text-lg font-bold mt-1">
+                    {latestSchedule ? `${latestSchedule.watering_days} days` : "No data"}
+                  </div>
+                  {latestSchedule && <div className="text-[13px] font-semibold">{latestSchedule.year}</div>}
                 </div>
-              )}
+              );
+            })}
+          </div>
 
-              <Separator />
+          {/* Detailed history by season */}
+          {scheduleHistory.map(({ season, schedules }) => (
+            <section key={season} className="rounded-3xl bg-card p-4">
+              <h4 className="flex items-center gap-2 text-[15px] font-bold text-foreground capitalize">
+                <span aria-hidden="true">{seasonEmoji[season]}</span>
+                {season}
+                <span className="text-xs font-bold normal-case px-2 py-0.5 rounded-full bg-field text-muted-foreground">
+                  {schedules.length} {schedules.length === 1 ? "year" : "years"}
+                </span>
+              </h4>
 
-              {/* Seasonal Pattern Overview */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {seasonOrder.map((season) => {
-                  const latestSchedule = getLatestScheduleForSeason(season);
-                  const seasonName =
-                    season.charAt(0).toUpperCase() + season.slice(1);
-
+              <ul className="space-y-1.5 mt-3">
+                {schedules.map((schedule, index) => {
+                  const previousSchedule = schedules[index + 1];
+                  const conditions = schedule.weather_conditions as Record<string, unknown> | null;
                   return (
-                    <div
-                      key={season}
-                      className={`p-3 rounded-lg border ${
-                        seasonColors[season]
-                      } ${!latestSchedule ? "opacity-50" : ""}`}
-                    >
-                      <div className="text-center">
-                        <div className="text-lg mb-1">
-                          {seasonEmoji[season]}
-                        </div>
-                        <div className="text-xs font-medium mb-1">
-                          {seasonName}
-                        </div>
-                        <div className="text-sm">
-                          {latestSchedule
-                            ? `${latestSchedule.watering_days} days`
-                            : "No data"}
-                        </div>
-                        {latestSchedule && (
-                          <div className="text-xs opacity-75 mt-1">
-                            {latestSchedule.year}
-                          </div>
-                        )}
+                    <li key={schedule.id} className="flex items-center gap-3 rounded-[16px] bg-field px-3.5 py-2.5">
+                      <div className="min-w-0">
+                        <p className="text-sm font-bold text-foreground">{schedule.year}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {schedule.applied_at ? formatDate(schedule.applied_at) : "Not applied"}
+                        </p>
                       </div>
-                    </div>
+                      {previousSchedule && getChangeIcon(previousSchedule.watering_days, schedule.watering_days)}
+                      <span className="text-sm font-bold text-foreground">{schedule.watering_days} days</span>
+                      {schedule.user_modified && (
+                        <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-card text-foreground">Custom</span>
+                      )}
+                      {conditions && typeof conditions === "object" && "temperature" in conditions && (
+                        <span className="ml-auto text-xs text-muted-foreground">{String(conditions.temperature)}°C</span>
+                      )}
+                    </li>
                   );
                 })}
+              </ul>
+            </section>
+          ))}
+
+          {scheduleHistory.length >= 2 && (
+            <div className="rounded-3xl bg-sprout-cream text-sprout-dark p-4 flex items-start gap-2.5">
+              <Sparkles className="h-5 w-5 mt-0.5 shrink-0" />
+              <div className="text-sm">
+                <p className="font-bold">Pattern insights</p>
+                <div className="font-medium space-y-1 mt-0.5">{getScheduleInsights()}</div>
               </div>
-
-              {/* Detailed History by Season */}
-              {scheduleHistory.map(({ season, schedules }) => (
-                <div key={season} className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <div className="text-lg">{seasonEmoji[season]}</div>
-                    <h4 className="font-medium capitalize">{season} History</h4>
-                    <Badge variant="outline" className="text-xs">
-                      {schedules.length}{" "}
-                      {schedules.length === 1 ? "year" : "years"}
-                    </Badge>
-                  </div>
-
-                  <div className="space-y-2 ml-6">
-                    {schedules.map((schedule, index) => {
-                      const previousSchedule = schedules[index + 1];
-
-                      return (
-                        <div
-                          key={schedule.id}
-                          className="flex items-center justify-between p-2 bg-gray-50 rounded border"
-                        >
-                          <div className="flex items-center space-x-3">
-                            <div className="text-sm">
-                              <div className="font-medium">{schedule.year}</div>
-                              <div className="text-xs text-gray-600">
-                                {schedule.applied_at
-                                  ? formatDate(schedule.applied_at)
-                                  : "Not applied"}
-                              </div>
-                            </div>
-
-                            {previousSchedule && (
-                              <div className="flex items-center space-x-1">
-                                {getChangeIcon(
-                                  previousSchedule.watering_days,
-                                  schedule.watering_days
-                                )}
-                              </div>
-                            )}
-
-                            <div className="text-sm">
-                              <span className="font-medium">
-                                {schedule.watering_days} days
-                              </span>
-                              {schedule.user_modified && (
-                                <Badge
-                                  variant="outline"
-                                  className="ml-2 text-xs"
-                                >
-                                  Custom
-                                </Badge>
-                              )}
-                            </div>
-                          </div>
-
-                          {schedule.weather_conditions && (
-                            <div className="text-xs text-gray-500">
-                              {typeof schedule.weather_conditions ===
-                                "object" &&
-                                schedule.weather_conditions !== null &&
-                                "temperature" in
-                                  schedule.weather_conditions && (
-                                  <span>
-                                    {
-                                      String((schedule.weather_conditions as Record<string, unknown>)
-                                        .temperature)
-                                    }
-                                    °C
-                                  </span>
-                                )}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
-
-              {/* Insights */}
-              {scheduleHistory.length >= 2 && (
-                <div className="mt-6 p-3 bg-green-50 border border-green-200 rounded-lg">
-                  <div className="flex items-start space-x-2">
-                    <Sparkles className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <div className="text-sm">
-                      <div className="font-medium text-green-900 mb-1">
-                        Pattern Insights
-                      </div>
-                      <div className="text-green-800 space-y-1">
-                        {getScheduleInsights()}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
           )}
-        </CardContent>
+        </>
       )}
-    </Card>
+    </div>
   );
 
   function getScheduleInsights(): React.ReactNode[] {

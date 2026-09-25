@@ -1,16 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { CloudSun, Loader2, Info } from "lucide-react";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
 import { useLocation } from "@/hooks/useLocation";
@@ -20,7 +11,8 @@ import { weatherService } from "@/services/weatherService";
 import type { LocationData } from "@/services/weatherTypes";
 import { LocationSection } from "@/components/weather/LocationSection";
 import { WeatherStatusDisplay } from "@/components/weather/WeatherStatusDisplay";
-import { CascadingContainer } from "@/components/ui/cascading-container";
+import { cn } from "@/lib/utils";
+import { SettingsCard, SettingRow, settingsPrimaryButtonClasses } from "./SettingsUI";
 
 export const WeatherTab = () => {
   const { preferences, savePreferences, isLoading: isSavingPreferences } =
@@ -152,159 +144,120 @@ export const WeatherTab = () => {
     useWeather && weather.weatherData && !weather.isLoading;
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <CloudSun className="h-5 w-5 text-blue-500" />
-            <CardTitle>Weather Integration</CardTitle>
-          </div>
-          <CardDescription>
-            Enable weather features to get personalized plant care insights based
-            on your local conditions
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Weather Toggle */}
-          <CascadingContainer delay={0}>
-            <Card className="border-2">
-              <CardContent className="pt-6">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-1">
-                    <Label
-                      htmlFor="weather-toggle"
-                      className="text-base font-medium"
-                    >
-                      Use Weather Data
-                    </Label>
-                    <p className="text-sm text-muted-foreground">
-                      Get real-time weather-based care recommendations
-                    </p>
-                  </div>
-                  <Switch
-                    id="weather-toggle"
-                    checked={useWeather}
-                    onCheckedChange={handleToggleWeather}
-                    className="data-[state=unchecked]:bg-gray-300 dark:data-[state=unchecked]:bg-gray-600"
-                    data-testid="weather-toggle"
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </CascadingContainer>
+    <div className="space-y-3">
+      <SettingsCard
+        title="Weather Integration"
+        description="Care tips based on your local conditions"
+        icon={CloudSun}
+        iconClasses="bg-sprout-water text-sprout-dark"
+      >
+        <SettingRow
+          htmlFor="weather-toggle"
+          label="Use Weather Data"
+          description="Real-time, weather-based care recommendations"
+          control={
+            <Switch
+              id="weather-toggle"
+              checked={useWeather}
+              onCheckedChange={handleToggleWeather}
+              data-testid="weather-toggle"
+            />
+          }
+        />
 
-          {/* Temperature Unit */}
-          {useWeather && (
-            <CascadingContainer delay={50}>
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="space-y-3">
-                    <Label className="text-base font-medium">
-                      Temperature Unit
-                    </Label>
-                    <RadioGroup
-                      value={temperatureUnit}
-                      onValueChange={(value) =>
-                        setTemperatureUnit(value as "F" | "C")
-                      }
-                    >
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="F"
-                          id="fahrenheit"
-                          data-testid="temp-unit-f"
-                        />
-                        <Label
-                          htmlFor="fahrenheit"
-                          className="font-normal cursor-pointer"
-                        >
-                          Fahrenheit (°F)
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="C"
-                          id="celsius"
-                          data-testid="temp-unit-c"
-                        />
-                        <Label
-                          htmlFor="celsius"
-                          className="font-normal cursor-pointer"
-                        >
-                          Celsius (°C)
-                        </Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
-                </CardContent>
-              </Card>
-            </CascadingContainer>
-          )}
-
-          {/* Location Section */}
-          {useWeather && (
-            <CascadingContainer delay={100}>
-              <LocationSection
-                browserLocation={location.location}
-                isBrowserLoading={location.isLoading}
-                browserError={location.error}
-                onRequestBrowserLocation={() => location.requestLocation()}
-                manualLocation={manualLocation}
-                manualLocationData={manualLocationData}
-                isGeocoding={isGeocodingLocation}
-                geocodingError={geocodingError}
-                onManualLocationChange={setManualLocation}
-                onGeocode={handleGeocodeLocation}
-                onClearManualLocation={handleClearManualLocation}
-                onGeocodingErrorClear={() => setGeocodingError(null)}
-              />
-            </CascadingContainer>
-          )}
-
-          {/* Weather Status */}
-          {isWeatherDataAvailable && (
-            <CascadingContainer delay={150}>
-              <WeatherStatusDisplay
-                weatherData={weather.weatherData}
-                isFallback={weather.isFallback}
-                temperatureUnit={temperatureUnit}
-              />
-            </CascadingContainer>
-          )}
-
-          {/* Features Info */}
-          {useWeather && (
-            <CascadingContainer delay={200}>
-              <Alert>
-                <Info className="h-4 w-4" />
-                <AlertDescription>
-                  <div className="font-medium mb-2">Weather features include:</div>
-                  <ul className="text-sm space-y-1 ml-4 list-disc">
-                    <li>Weather mood banner with daily care tips</li>
-                    <li>Rain delay notifications for outdoor plants</li>
-                    <li>Extreme weather alerts</li>
-                    <li>Seasonal schedule suggestions</li>
-                  </ul>
-                </AlertDescription>
-              </Alert>
-            </CascadingContainer>
-          )}
-
-          {/* Save Button */}
-          <div className="flex gap-3 pt-4 border-t">
-            <Button
-              onClick={handleSave}
-              disabled={isSavingPreferences || !hasChanges}
-              className="flex-1"
+        {/* Temperature Unit */}
+        {useWeather && (
+          <div className="pt-2">
+            <div className="text-[15px] font-bold text-foreground px-1 mb-2">Temperature Unit</div>
+            <RadioGroup
+              value={temperatureUnit}
+              onValueChange={(value) => setTemperatureUnit(value as "F" | "C")}
+              className="grid grid-cols-2 gap-2"
             >
-              {isSavingPreferences && (
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-              )}
-              Save Settings
-            </Button>
+              {([
+                { value: "F", id: "fahrenheit", label: "Fahrenheit (°F)", testId: "temp-unit-f" },
+                { value: "C", id: "celsius", label: "Celsius (°C)", testId: "temp-unit-c" },
+              ] as const).map((unit) => (
+                <Label
+                  key={unit.value}
+                  htmlFor={unit.id}
+                  className={cn(
+                    "flex items-center gap-2.5 min-h-[52px] rounded-[18px] px-4 cursor-pointer font-bold text-[15px] transition-colors",
+                    temperatureUnit === unit.value
+                      ? "bg-sprout-cream text-sprout-dark"
+                      : "bg-field text-foreground"
+                  )}
+                >
+                  <RadioGroupItem
+                    value={unit.value}
+                    id={unit.id}
+                    data-testid={unit.testId}
+                    className="border-current text-current"
+                  />
+                  {unit.label}
+                </Label>
+              ))}
+            </RadioGroup>
           </div>
-        </CardContent>
-      </Card>
+        )}
+
+        {/* Location Section */}
+        {useWeather && (
+          <div className="pt-2">
+            <LocationSection
+              browserLocation={location.location}
+              isBrowserLoading={location.isLoading}
+              browserError={location.error}
+              onRequestBrowserLocation={() => location.requestLocation()}
+              manualLocation={manualLocation}
+              manualLocationData={manualLocationData}
+              isGeocoding={isGeocodingLocation}
+              geocodingError={geocodingError}
+              onManualLocationChange={setManualLocation}
+              onGeocode={handleGeocodeLocation}
+              onClearManualLocation={handleClearManualLocation}
+              onGeocodingErrorClear={() => setGeocodingError(null)}
+            />
+          </div>
+        )}
+
+        {/* Weather Status */}
+        {isWeatherDataAvailable && (
+          <WeatherStatusDisplay
+            weatherData={weather.weatherData}
+            isFallback={weather.isFallback}
+            temperatureUnit={temperatureUnit}
+          />
+        )}
+
+        {/* Features Info */}
+        {useWeather && (
+          <div className="rounded-[18px] bg-field px-4 py-3.5">
+            <div className="flex items-center gap-2 text-[15px] font-bold text-foreground">
+              <Info className="h-4 w-4 text-muted-foreground" />
+              What weather adds
+            </div>
+            <ul className="text-[13px] text-muted-foreground space-y-1 mt-2 ml-6 list-disc">
+              <li>A daily weather tile with care tips on Home</li>
+              <li>Rain delay suggestions for outdoor plants</li>
+              <li>Extreme weather alerts</li>
+              <li>Seasonal schedule suggestions</li>
+            </ul>
+          </div>
+        )}
+
+        <div className="pt-2">
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={isSavingPreferences || !hasChanges}
+            className={settingsPrimaryButtonClasses}
+          >
+            {isSavingPreferences && <Loader2 className="h-4 w-4 animate-spin" />}
+            Save Settings
+          </button>
+        </div>
+      </SettingsCard>
     </div>
   );
 };

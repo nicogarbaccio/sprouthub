@@ -1,6 +1,7 @@
 import type { UserPlant } from '@/hooks/useUserPlants';
 import type { PlantStatus, SortOption } from '@/components/SearchFilterBar';
 import { calculateWateringSchedule } from '../watering/schedule';
+import { getPlantFertilizationStatus } from './fertilizationAdvice';
 
 /**
  * Filter plants by search query (name or type)
@@ -23,10 +24,17 @@ export function filterByStatus(plants: UserPlant[], status: PlantStatus): UserPl
   if (status === 'all') return plants;
 
   return plants.filter((plant) => {
-    const { daysUntilWatering, isOverdue, hasUnknownWateringDate } =
+    const { daysUntilWatering, isOverdue, isPostponed, hasUnknownWateringDate } =
       calculateWateringSchedule(plant);
 
     switch (status) {
+      case 'unscheduled':
+        return hasUnknownWateringDate;
+      case 'ready-to-feed':
+        return getPlantFertilizationStatus(plant).status.isDue;
+      case 'thirsty':
+        // Everything that should be watered today: overdue or due, but not postponed
+        return !hasUnknownWateringDate && !isPostponed && (isOverdue || daysUntilWatering === 0);
       case 'overdue':
         return isOverdue;
       case 'due-today':

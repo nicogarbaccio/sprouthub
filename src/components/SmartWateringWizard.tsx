@@ -6,17 +6,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import {
-  Brain,
-  ChevronLeft,
-  ChevronRight,
-  CheckCircle,
-  Lightbulb,
-  Thermometer,
-  Heart,
-} from "lucide-react";
+import { Brain, X } from "lucide-react";
 import {
   WateringFactors,
   SmartScheduleResult,
@@ -36,6 +26,14 @@ import { StepPlantSize } from "@/components/wizard/StepPlantSize";
 import { StepEnvironment } from "@/components/wizard/StepEnvironment";
 import { StepPreferences } from "@/components/wizard/StepPreferences";
 import { StepResults } from "@/components/wizard/StepResults";
+import { StepNav } from "@/components/onboarding/OnboardingUI";
+import {
+  SheetGrabber,
+  dialogSheetClasses,
+  sheetHeaderClasses,
+  sheetIconButtonClasses,
+  sheetTitleClasses,
+} from "@/components/ui/bento-sheet";
 
 interface SmartWateringWizardProps {
   isOpen: boolean;
@@ -45,38 +43,11 @@ interface SmartWateringWizardProps {
   plantName: string;
 }
 
-interface StepData {
-  id: number;
-  title: string;
-  subtitle: string;
-  icon: React.ReactNode;
-}
-
-const STEPS: StepData[] = [
-  {
-    id: 1,
-    title: "Plant Size",
-    subtitle: "How big is your plant?",
-    icon: <Lightbulb className="w-5 h-5" />,
-  },
-  {
-    id: 2,
-    title: "Environment",
-    subtitle: "Light, temperature & humidity",
-    icon: <Thermometer className="w-5 h-5" />,
-  },
-  {
-    id: 3,
-    title: "Preferences",
-    subtitle: "Your care style & soil type",
-    icon: <Heart className="w-5 h-5" />,
-  },
-  {
-    id: 4,
-    title: "Results",
-    subtitle: "Your personalized schedule",
-    icon: <CheckCircle className="w-5 h-5" />,
-  },
+const STEPS = [
+  { id: 1, title: "Plant size" },
+  { id: 2, title: "Environment" },
+  { id: 3, title: "Preferences" },
+  { id: 4, title: "Results" },
 ];
 
 export const SmartWateringWizard = ({
@@ -108,6 +79,12 @@ export const SmartWateringWizard = ({
     autoFetch: enableWeatherData && !!location.location,
   });
   const hasInitializedFromPreferences = useRef(false);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Each step starts at the top of the sheet
+  useEffect(() => {
+    contentRef.current?.scrollTo({ top: 0 });
+  }, [currentStep]);
 
   const labels = getFactorLabels();
 
@@ -329,102 +306,63 @@ export const SmartWateringWizard = ({
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto bg-sprout-dark text-sprout-white">
-          <DialogHeader>
-            <DialogTitle
-              className="flex items-center gap-2 text-sprout-white"
-              data-testid="wizard-title"
-            >
-              <Brain className="w-5 h-5 text-sprout-light" />
-              Smart Watering Schedule
-            </DialogTitle>
-            <DialogDescription className="text-sprout-light">
-              Let's create a personalized watering schedule based on your
-              plant's needs and environment.
-            </DialogDescription>
+        <DialogContent ref={contentRef} className={cn(dialogSheetClasses, "sm:max-w-xl")}>
+          <SheetGrabber />
+          <DialogHeader className={sheetHeaderClasses}>
+            <div className="w-[52px] h-[52px] shrink-0 rounded-[18px] bg-sprout-primary text-sprout-cream flex items-center justify-center">
+              <Brain className="w-6 h-6" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <DialogTitle className={sheetTitleClasses} data-testid="wizard-title">
+                Smart schedule
+              </DialogTitle>
+              <DialogDescription className="text-sm font-medium truncate">For {plantName}</DialogDescription>
+            </div>
+            <button type="button" onClick={onClose} className={cn(sheetIconButtonClasses, "self-start")} aria-label="Close">
+              <X className="w-5 h-5" />
+            </button>
           </DialogHeader>
 
-          {/* Progress Bar */}
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm text-sprout-light">
+          {/* Progress: one segment per step */}
+          <div className="mt-4 px-1.5">
+            <div className="flex items-baseline justify-between text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground">
               <span>
                 Step {currentStep} of {STEPS.length}
               </span>
-              <span>
-                {Math.round(((currentStep - 1) / STEPS.length) * 100)}% complete
-              </span>
+              <span>{STEPS[currentStep - 1].title}</span>
             </div>
-            <Progress
-              value={((currentStep - 1) / STEPS.length) * 100}
-              className="h-2"
+            <div
+              className="flex gap-1.5 mt-2"
+              role="progressbar"
+              aria-valuemin={1}
+              aria-valuemax={STEPS.length}
+              aria-valuenow={currentStep}
+              aria-label="Wizard progress"
               data-testid="progress-bar"
-            />
-          </div>
-
-          {/* Step Indicators */}
-          <div
-            className="flex justify-between items-center py-4"
-            data-testid="step-indicators"
-          >
-            {STEPS.map((step) => (
-              <div
-                key={step.id}
-                className={cn(
-                  "flex flex-col items-center text-center flex-1",
-                  step.id <= currentStep
-                    ? "text-sprout-success"
-                    : "text-sprout-medium"
-                )}
-                data-testid={`step-indicator-${step.id}`}
-              >
+            >
+              {STEPS.map((step) => (
                 <div
+                  key={step.id}
+                  data-testid={`step-indicator-${step.id}`}
                   className={cn(
-                    "w-8 h-8 rounded-full flex items-center justify-center mb-1 border-2",
-                    step.id < currentStep
-                      ? "bg-sprout-success border-sprout-success text-sprout-white"
-                      : step.id === currentStep
-                      ? "border-sprout-success bg-sprout-success/20"
-                      : "border-sprout-medium"
+                    "h-1.5 flex-1 rounded-full transition-colors",
+                    step.id <= currentStep ? "bg-sprout-success" : "bg-card"
                   )}
-                >
-                  {step.id < currentStep ? (
-                    <CheckCircle className="w-4 h-4" />
-                  ) : (
-                    step.icon
-                  )}
-                </div>
-                <span className="text-xs font-medium text-sprout-white">
-                  {step.title}
-                </span>
-              </div>
-            ))}
+                />
+              ))}
+            </div>
           </div>
 
-          {/* Step Content */}
-          <div className="py-4">{renderStepContent()}</div>
+          <div className="mt-5">{renderStepContent()}</div>
 
-          {/* Navigation */}
           {currentStep < 4 && (
-            <div className="flex justify-between pt-4">
-              <Button
-                variant="outline"
-                onClick={goToPreviousStep}
-                disabled={currentStep === 1}
-                className="flex items-center gap-2 border-sprout-light text-sprout-light hover:bg-sprout-light hover:text-sprout-dark"
-                data-testid="back-button"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                Previous
-              </Button>
-              <Button
-                onClick={goToNextStep}
+            <div className="mt-5">
+              <StepNav
+                onBack={currentStep > 1 ? goToPreviousStep : undefined}
+                onNext={goToNextStep}
                 disabled={!canProceedToNextStep()}
-                className="flex items-center gap-2 bg-sprout-success hover:bg-sprout-success/90 text-sprout-white"
-                data-testid="next-button"
-              >
-                {currentStep === 3 ? "Calculate Schedule" : "Continue"}
-                <ChevronRight className="w-4 h-4" />
-              </Button>
+                label={currentStep === 3 ? "Calculate schedule" : "Continue"}
+              />
             </div>
           )}
         </DialogContent>

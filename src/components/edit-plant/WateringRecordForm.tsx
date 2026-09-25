@@ -1,88 +1,84 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
-import {
- Popover,
- PopoverContent,
- PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarIcon, Plus } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { FieldLabel } from "@/components/settings/SettingsUI";
 
 interface WateringRecordFormProps {
- onAddWatering: (date: Date, notes: string) => Promise<void>;
+  onAddWatering: (date: Date, notes: string) => Promise<void>;
 }
 
 const WateringRecordForm = ({ onAddWatering }: WateringRecordFormProps) => {
- const [newWateringDate, setNewWateringDate] = useState<Date>();
- const [newWateringNotes, setNewWateringNotes] = useState("");
+  const [newWateringDate, setNewWateringDate] = useState<Date>();
+  const [newWateringNotes, setNewWateringNotes] = useState("");
 
- const handleAddWatering = async () => {
- if (!newWateringDate) return;
+  const handleAddWatering = async () => {
+    if (!newWateringDate) return;
 
- await onAddWatering(newWateringDate, newWateringNotes);
- setNewWateringDate(undefined);
- setNewWateringNotes("");
- };
+    await onAddWatering(newWateringDate, newWateringNotes);
+    setNewWateringDate(undefined);
+    setNewWateringNotes("");
+  };
 
- return (
- <div data-testid="watering-record-form" className="p-4 border rounded-lg space-y-3">
-  <h4 className="font-medium">Add Watering Record</h4>
+  return (
+    <div data-testid="watering-record-form" className="rounded-3xl bg-card p-4 space-y-3">
+      <h4 className="text-[15px] font-bold text-foreground">Add a past watering</h4>
 
-  <div className="space-y-2">
-  <Label>Date Watered</Label>
-  <Popover>
-   <PopoverTrigger asChild>
-   <Button
-    data-testid="watering-date-picker-button"
-    variant="outline"
-    className={cn(
-    "w-full justify-start text-left font-normal",
-    !newWateringDate && "text-muted-foreground"
-    )}
-   >
-    <CalendarIcon className="mr-2 h-4 w-4" />
-    {newWateringDate ? format(newWateringDate, "PPP") : "Pick a date"}
-   </Button>
-   </PopoverTrigger>
-   <PopoverContent className="w-auto p-0" align="start">
-   <Calendar
-    data-testid="watering-date-calendar"
-    mode="single"
-    selected={newWateringDate}
-    onSelect={setNewWateringDate}
-    initialFocus
-   />
-   </PopoverContent>
-  </Popover>
-  </div>
+      <div>
+        <FieldLabel>Date Watered</FieldLabel>
+        <Popover>
+          <PopoverTrigger asChild>
+            <button
+              data-testid="watering-date-picker-button"
+              type="button"
+              className={cn(
+                "w-full h-12 rounded-2xl bg-field px-4 inline-flex items-center gap-2 text-[15px] font-semibold",
+                newWateringDate ? "text-foreground" : "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+              {newWateringDate ? format(newWateringDate, "PPP") : "Pick a date"}
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              data-testid="watering-date-calendar"
+              mode="single"
+              selected={newWateringDate}
+              onSelect={setNewWateringDate}
+              disabled={(date) => date > new Date()}
+              initialFocus
+            />
+          </PopoverContent>
+        </Popover>
+      </div>
 
-  <div className="space-y-2">
-  <Label htmlFor="notes">Notes (optional)</Label>
-  <Textarea
-   data-testid="watering-notes-input"
-   id="notes"
-   value={newWateringNotes}
-   onChange={(e) => setNewWateringNotes(e.target.value)}
-   placeholder="Add any notes about this watering..."
-   rows={2}
-  />
-  </div>
+      <Textarea
+        data-testid="watering-notes-input"
+        id="notes"
+        aria-label="Notes (optional)"
+        value={newWateringNotes}
+        onChange={(e) => setNewWateringNotes(e.target.value)}
+        placeholder="Notes (optional)"
+        rows={2}
+        className="resize-none rounded-2xl border-0 bg-field px-4 py-3 text-[15px] font-medium focus-visible:ring-2 focus-visible:ring-offset-0"
+      />
 
-  <Button
-  data-testid="add-watering-record-button"
-  onClick={handleAddWatering}
-  disabled={!newWateringDate}
-  className="w-full bg-plant-water text-white hover:bg-plant-water/90 hover:text-white"
-  >
-  <Plus className="w-4 h-4 mr-2" />
-  Add Watering Record
-  </Button>
- </div>
- );
+      <button
+        data-testid="add-watering-record-button"
+        type="button"
+        onClick={handleAddWatering}
+        disabled={!newWateringDate}
+        className="w-full h-12 rounded-[18px] bg-sprout-water text-sprout-dark font-bold text-[15px] inline-flex items-center justify-center gap-2 disabled:opacity-50"
+      >
+        <Plus className="w-4 h-4" strokeWidth={2.5} />
+        Add Watering Record
+      </button>
+    </div>
+  );
 };
 
 export default WateringRecordForm;

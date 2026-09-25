@@ -1,15 +1,13 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
 import { Bookmark, BookOpen } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CascadingContainer } from '@/components/ui/cascading-container';
 import { LoadingTransition } from '@/components/ui/loading-transition';
 import { FeatureErrorBoundary } from '@/components/ui/feature-error-boundary';
-import { PageHero } from '@/components/ui/page-hero';
 import { useSavedArticles } from '@/hooks/useSavedArticles';
-import BlogPostCard from '@/components/blog/BlogPostCard';
+import BlogPostCard, { BlogPostCardSkeleton } from '@/components/blog/BlogPostCard';
 import PaginationControls from '@/components/catalog/PaginationControls';
 import { usePaginationUrl } from '@/hooks/usePaginationUrl';
 
@@ -32,25 +30,11 @@ function usePageSize() {
   return pageSize;
 }
 
-const BlogPostCardSkeleton = () => (
-  <div className="rounded-lg border bg-card shadow-sm overflow-hidden">
-    <Skeleton className="aspect-[16/9] w-full rounded-none" />
-    <div className="p-4 space-y-2">
-      <Skeleton className="h-4 w-3/4" />
-      <Skeleton className="h-3 w-full" />
-      <Skeleton className="h-3 w-2/3" />
-      <div className="flex justify-between pt-1">
-        <Skeleton className="h-3 w-20" />
-        <Skeleton className="h-3 w-16" />
-      </div>
-    </div>
-  </div>
-);
-
 const MyArticlesSkeleton = () => (
   <div className="max-w-5xl mx-auto">
-    <Skeleton className="h-40 w-full rounded-2xl mb-8" />
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <Skeleton className="h-10 w-48 rounded-2xl mb-2" />
+    <Skeleton className="h-4 w-64 mb-[18px]" />
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-3.5">
       {[1, 2, 3, 4, 5, 6].map((i) => (
         <BlogPostCardSkeleton key={i} />
       ))}
@@ -90,41 +74,48 @@ const MyArticlesContent = () => {
   if (!isLoading && !user) return null;
 
   return (
-    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0" data-testid="my-articles-page">
-      <main className="min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
+    <div className="bg-background pb-28 lg:pb-0" data-testid="my-articles-page">
+      <main className="px-4 lg:px-8 pt-3.5 lg:pt-7">
         <LoadingTransition loading={isLoading} skeleton={<MyArticlesSkeleton />}>
           <div className="max-w-5xl mx-auto">
             <CascadingContainer delay={0}>
-              <PageHero
-                icon={Bookmark}
-                title="My Articles"
-                subtitle="Articles you've saved for later reading"
-                actions={
-                  <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-lg px-3 py-2 text-sm text-white/90">
-                    <Bookmark className="w-4 h-4" />
-                    <span className="font-medium">{articles.length}</span> saved
-                  </div>
-                }
-              />
+              <div className="flex items-end justify-between gap-3 px-1.5 lg:px-0 mb-[18px]">
+                <div className="min-w-0">
+                  <h1 className="font-display text-[28px] lg:text-[34px] font-bold tracking-[-0.04em] text-foreground">
+                    My Articles
+                  </h1>
+                  <p className="text-sm lg:text-[15px] font-medium text-muted-foreground mt-0.5">
+                    Articles you've saved for later reading
+                  </p>
+                </div>
+                <span className="shrink-0 inline-flex items-center gap-1.5 h-10 px-3.5 rounded-full bg-card text-foreground text-sm font-bold">
+                  <Bookmark className="w-4 h-4" />
+                  {articles.length} saved
+                </span>
+              </div>
             </CascadingContainer>
 
             <CascadingContainer delay={100}>
               {articles.length === 0 ? (
-                <div className="flex flex-col items-center justify-center py-16 text-center">
-                  <div className="p-4 rounded-full bg-muted mb-4">
-                    <BookOpen className="h-8 w-8 text-muted-foreground" />
+                <div className="rounded-tile bg-sprout-cream text-sprout-dark p-6 md:p-8">
+                  <div className="w-14 h-14 rounded-2xl bg-sprout-dark text-sprout-cream flex items-center justify-center">
+                    <BookOpen className="w-7 h-7" />
                   </div>
-                  <h3 className="text-lg font-semibold mb-2">No saved articles yet</h3>
-                  <p className="text-muted-foreground mb-6 max-w-md">
+                  <h2 className="font-display text-2xl font-bold tracking-[-0.03em] mt-4">No saved articles yet</h2>
+                  <p className="text-[15px] font-medium mt-1.5 max-w-[46ch]">
                     Save articles while browsing to find them here later. Look for the bookmark icon on any article card.
                   </p>
-                  <Button onClick={() => navigate('/discover')}>
+                  <button
+                    type="button"
+                    onClick={() => navigate('/discover')}
+                    className="mt-5 h-14 px-6 rounded-[22px] bg-sprout-dark text-sprout-cream font-display font-bold"
+                  >
                     Browse Articles
-                  </Button>
+                  </button>
                 </div>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-3.5">
                     {visibleArticles.map((post) => (
                       <BlogPostCard key={post.id} post={post} matchedPlants={post.matchedPlants} showHideButton={false} />
                     ))}

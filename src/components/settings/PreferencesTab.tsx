@@ -1,15 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
 import { UserWateringPreferences } from "@/types/smartWateringTypes";
 import { getFactorLabels } from "@/utils/watering/smartSchedule";
@@ -22,8 +12,16 @@ import {
   Shovel,
   MapPin,
   Loader2,
+  Sprout,
+  CheckCircle2,
 } from "lucide-react";
-import { CascadingContainer } from "@/components/ui/cascading-container";
+import {
+  SettingsCard,
+  ChoiceChips,
+  settingsInputClasses,
+  settingsPrimaryButtonClasses,
+  settingsSecondaryButtonClasses,
+} from "./SettingsUI";
 import HiddenArticlesCard from "./HiddenArticlesCard";
 
 export const PreferencesTab = () => {
@@ -93,210 +91,99 @@ export const PreferencesTab = () => {
     }
   };
 
-  const renderOptionCards = <T extends string>(
+  const field = <T extends string>(
+    title: string,
+    icon: React.ElementType,
     options: readonly T[],
-    currentValue: T | undefined,
-    onSelect: (value: T) => void,
-    getLabel: (value: T) => string
-  ) => (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-      {options.map((option) => (
-        <Card
-          key={option}
-          className={cn(
-            "cursor-pointer transition-all hover:shadow-md border-2",
-            currentValue === option
-              ? "border-plant-primary bg-plant-primary/5 dark:bg-plant-primary/10"
-              : "border-border hover:border-plant-primary/50"
-          )}
-          onClick={() => onSelect(option)}
-        >
-          <CardContent className="p-3">
-            <div className="text-center">
-              <p className="font-medium text-foreground">{getLabel(option)}</p>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
+    value: T | undefined,
+    key: keyof UserWateringPreferences,
+    labelMap: Record<string, string>
+  ) => {
+    const Icon = icon;
+    return (
+      <div>
+        <div className="flex items-center gap-2 px-1 mb-2 text-[15px] font-bold text-foreground">
+          <Icon className="w-4 h-4 text-muted-foreground" />
+          {title}
+        </div>
+        <ChoiceChips
+          ariaLabel={title}
+          options={options}
+          value={value}
+          onChange={(next) => setFormData((prev) => ({ ...prev, [key]: next }))}
+          getLabel={(option) => labelMap[option]}
+        />
+      </div>
+    );
+  };
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Smart Watering Preferences</CardTitle>
-          <CardDescription>
-            Set your default environmental conditions and care preferences to
-            personalize watering recommendations
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-8">
-          {/* Light Level */}
-          <CascadingContainer delay={0}>
-            <div className="space-y-3">
-              <Label className="flex items-center gap-2 text-base font-medium">
-                <Lightbulb className="w-4 h-4" />
-                Default Light Level
-              </Label>
-              {renderOptionCards(
-                ["low", "medium", "high"] as const,
-                formData.default_light_level,
-                (value) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    default_light_level: value,
-                  })),
-                (value) =>
-                  labels.lightLevel[value as keyof typeof labels.lightLevel]
-              )}
-            </div>
-          </CascadingContainer>
+    <div className="space-y-3">
+      <SettingsCard
+        title="Smart Watering Preferences"
+        description="Your usual home conditions. The Smart Watering Wizard starts from these."
+        icon={Sprout}
+      >
+        <div className="space-y-5">
+          {field("Default Light Level", Lightbulb, ["low", "medium", "high"] as const, formData.default_light_level, "default_light_level", labels.lightLevel)}
+          {field("Default Temperature", Thermometer, ["cool", "normal", "warm"] as const, formData.default_temperature, "default_temperature", labels.temperature)}
+          {field("Default Humidity Level", Droplets, ["dry", "normal", "humid"] as const, formData.default_humidity, "default_humidity", labels.humidity)}
+          {field("Default Care Style", Heart, ["frequent", "balanced", "minimal"] as const, formData.default_care_style, "default_care_style", labels.careStyle)}
+          {field("Default Soil Type", Shovel, ["regular", "draining", "retaining"] as const, formData.default_soil_type, "default_soil_type", labels.soilType)}
 
-          {/* Temperature */}
-          <CascadingContainer delay={50}>
-            <div className="space-y-3">
-              <Label className="flex items-center gap-2 text-base font-medium">
-                <Thermometer className="w-4 h-4" />
-                Default Temperature
-              </Label>
-              {renderOptionCards(
-                ["cool", "normal", "warm"] as const,
-                formData.default_temperature,
-                (value) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    default_temperature: value,
-                  })),
-                (value) =>
-                  labels.temperature[value as keyof typeof labels.temperature]
-              )}
-            </div>
-          </CascadingContainer>
-
-          {/* Humidity */}
-          <CascadingContainer delay={100}>
-            <div className="space-y-3">
-              <Label className="flex items-center gap-2 text-base font-medium">
-                <Droplets className="w-4 h-4" />
-                Default Humidity Level
-              </Label>
-              {renderOptionCards(
-                ["dry", "normal", "humid"] as const,
-                formData.default_humidity,
-                (value) =>
-                  setFormData((prev) => ({ ...prev, default_humidity: value })),
-                (value) => labels.humidity[value as keyof typeof labels.humidity]
-              )}
-            </div>
-          </CascadingContainer>
-
-          {/* Care Style */}
-          <CascadingContainer delay={150}>
-            <div className="space-y-3">
-              <Label className="flex items-center gap-2 text-base font-medium">
-                <Heart className="w-4 h-4" />
-                Default Care Style
-              </Label>
-              {renderOptionCards(
-                ["frequent", "balanced", "minimal"] as const,
-                formData.default_care_style,
-                (value) =>
-                  setFormData((prev) => ({ ...prev, default_care_style: value })),
-                (value) =>
-                  labels.careStyle[value as keyof typeof labels.careStyle]
-              )}
-            </div>
-          </CascadingContainer>
-
-          {/* Soil Type */}
-          <CascadingContainer delay={200}>
-            <div className="space-y-3">
-              <Label className="flex items-center gap-2 text-base font-medium">
-                <Shovel className="w-4 h-4" />
-                Default Soil Type
-              </Label>
-              {renderOptionCards(
-                ["regular", "draining", "retaining"] as const,
-                formData.default_soil_type,
-                (value) =>
-                  setFormData((prev) => ({ ...prev, default_soil_type: value })),
-                (value) => labels.soilType[value as keyof typeof labels.soilType]
-              )}
-            </div>
-          </CascadingContainer>
-
-          {/* Location (Optional) */}
-          <CascadingContainer delay={250}>
-            <div className="space-y-3">
-              <Label
-                htmlFor="location"
-                className="flex items-center gap-2 text-base font-medium"
-              >
-                <MapPin className="w-4 h-4" />
-                Location (Optional)
-              </Label>
-              <Input
-                id="location"
-                placeholder="e.g., San Francisco, CA"
-                value={formData.location || ""}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, location: e.target.value }))
-                }
-                className="w-full"
-              />
-              <p className="text-sm text-muted-foreground">
-                Help us provide more accurate seasonal adjustments
-              </p>
-            </div>
-          </CascadingContainer>
-
-          {/* Status */}
-          {preferences && !hasChanges && (
-            <div className="bg-plant-primary/10 dark:bg-plant-primary/5 p-4 rounded-lg">
-              <div className="flex items-center gap-2 mb-2">
-                <Badge
-                  variant="secondary"
-                  className="bg-plant-primary text-white"
-                >
-                  Preferences Saved
-                </Badge>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Your preferences will be used as defaults in the Smart Watering
-                Wizard
-              </p>
-            </div>
-          )}
-
-          {/* Actions */}
-          <div className="flex gap-3 pt-4 border-t">
-            <Button
-              onClick={handleSave}
-              disabled={isLoading || !hasChanges}
-              className={cn(
-                "flex-1",
-                hasChanges
-                  ? "bg-sprout-success hover:bg-sprout-success/90 text-white"
-                  : ""
-              )}
+          <div>
+            <label
+              htmlFor="location"
+              className="flex items-center gap-2 px-1 mb-2 text-[15px] font-bold text-foreground"
             >
-              {isLoading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-              {isLoading ? "Saving..." : "Save Preferences"}
-            </Button>
-
-            {preferences && (
-              <Button
-                variant="outline"
-                onClick={handleClear}
-                disabled={isLoading}
-              >
-                Reset to Defaults
-              </Button>
-            )}
+              <MapPin className="w-4 h-4 text-muted-foreground" />
+              Location (Optional)
+            </label>
+            <Input
+              id="location"
+              placeholder="e.g., San Francisco, CA"
+              value={formData.location || ""}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, location: e.target.value }))
+              }
+              className={settingsInputClasses}
+            />
+            <p className="text-[13px] text-muted-foreground px-1 mt-1.5">
+              Helps with more accurate seasonal adjustments
+            </p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
+        {preferences && !hasChanges && (
+          <div className="flex items-center gap-2.5 rounded-[18px] bg-sprout-success/15 px-4 py-3 text-sm font-semibold text-foreground">
+            <CheckCircle2 className="w-5 h-5 text-sprout-success shrink-0" />
+            Saved. The Smart Watering Wizard will use these as defaults.
+          </div>
+        )}
+
+        <div className="flex gap-2 pt-2">
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={isLoading || !hasChanges}
+            className={settingsPrimaryButtonClasses}
+          >
+            {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+            {isLoading ? "Saving..." : "Save Preferences"}
+          </button>
+
+          {preferences && (
+            <button
+              type="button"
+              onClick={handleClear}
+              disabled={isLoading}
+              className={cn(settingsSecondaryButtonClasses, "shrink-0")}
+            >
+              Reset to Defaults
+            </button>
+          )}
+        </div>
+      </SettingsCard>
 
       <HiddenArticlesCard />
     </div>

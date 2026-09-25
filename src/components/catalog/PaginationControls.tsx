@@ -104,7 +104,7 @@ const PaginationControls = ({
    size="sm"
    onClick={onPreviousPage}
    disabled={!hasPreviousPage || isChangingPage}
-   className="bg-card border-border hover:bg-muted text-foreground disabled:opacity-50 transition-all duration-200"
+   className="h-10 px-4 rounded-2xl bg-card text-foreground font-bold hover:bg-card/80 disabled:opacity-40 transition-colors"
    data-testid="previous-page"
   >
    {isChangingPage ? (
@@ -115,7 +115,7 @@ const PaginationControls = ({
    Previous
   </Button>
 
-  <div className="text-sm text-foreground px-4 min-w-[100px] text-center">
+  <div className="text-sm font-bold text-foreground px-3 min-w-[100px] text-center">
    Page {currentPage} of {totalPages}
   </div>
 
@@ -124,7 +124,7 @@ const PaginationControls = ({
    size="sm"
    onClick={onNextPage}
    disabled={!hasNextPage || isChangingPage}
-   className="bg-card border-border hover:bg-muted text-foreground disabled:opacity-50 transition-all duration-200"
+   className="h-10 px-4 rounded-2xl bg-card text-foreground font-bold hover:bg-card/80 disabled:opacity-40 transition-colors"
    data-testid="next-page"
   >
    Next
@@ -144,7 +144,7 @@ const PaginationControls = ({
    size="sm"
    onClick={onPreviousPage}
    disabled={!hasPreviousPage || isChangingPage}
-   className="bg-card border-border hover:bg-muted text-foreground disabled:opacity-50 mr-2 transition-all duration-200"
+   className="h-10 px-4 rounded-2xl bg-card text-foreground font-bold hover:bg-card/80 disabled:opacity-40 transition-colors mr-1.5"
   >
    {isChangingPage ? (
    <Loader2 className="w-4 h-4 mr-1 animate-spin" />
@@ -160,7 +160,7 @@ const PaginationControls = ({
    return (
     <div
     key={`ellipsis-${index}`}
-    className="flex items-center justify-center w-8 h-8"
+    className="flex items-center justify-center w-10 h-10"
     >
     <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
     </div>
@@ -176,11 +176,12 @@ const PaginationControls = ({
     size="sm"
     onClick={() => onPageChange(page)}
     disabled={isChangingPage}
+    aria-current={isCurrentPage ? "page" : undefined}
     className={cn(
-    "w-8 h-8 p-0 transition-all duration-200 transform",
+    "w-10 h-10 p-0 rounded-full font-bold transition-colors",
     isCurrentPage
-     ? "bg-sprout-primary hover:bg-sprout-primary/90 text-white border-sprout-primary shadow-sm dark:bg-sprout-light dark:hover:bg-sprout-light/90 dark:text-sprout-dark dark:border-sprout-light"
-     : "bg-card border-border hover:bg-muted text-foreground hover:border-border",
+     ? "bg-foreground text-background hover:bg-foreground"
+     : "bg-card text-foreground hover:bg-card/80",
     isChangingPage && "opacity-60"
     )}
    >
@@ -199,7 +200,7 @@ const PaginationControls = ({
    size="sm"
    onClick={onNextPage}
    disabled={!hasNextPage || isChangingPage}
-   className="bg-card border-border hover:bg-muted text-foreground disabled:opacity-50 ml-2 transition-all duration-200"
+   className="h-10 px-4 rounded-2xl bg-card text-foreground font-bold hover:bg-card/80 disabled:opacity-40 transition-colors ml-1.5"
   >
    Next
    {isChangingPage ? (
@@ -211,7 +212,7 @@ const PaginationControls = ({
   </div>
 
   {/* Keyboard navigation hint */}
-  <div className="hidden lg:block text-xs text-muted-foreground/70 mt-2">
+  <div className="hidden lg:block text-xs font-medium text-muted-foreground mt-1">
   Use ← → arrow keys to navigate
   </div>
  </div>

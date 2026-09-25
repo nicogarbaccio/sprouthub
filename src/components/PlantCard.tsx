@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Droplets, Sun, Plus, Eye, LogIn } from "lucide-react";
+import { Droplets, Sun, Plus, LogIn } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
 import FullscreenImageModal from "@/components/ui/fullscreen-image-modal";
 import { ImageExpandButton } from "@/components/ui/image-expand-button";
@@ -35,27 +34,23 @@ const PlantCard = ({
   onSignInToAdd,
 }: PlantCardProps) => {
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
-  const getCareColor = (level: string) => {
-    switch (level) {
-      case "Easy":
-        return "bg-sprout-success text-sprout-white border-sprout-success";
-      case "Medium":
-        return "bg-sprout-warning text-sprout-white border-sprout-warning";
-      case "Hard":
-        return "bg-sprout-error text-sprout-white border-sprout-error";
-      default:
-        return "bg-neutral-light text-neutral-dark border-neutral-medium/30";
-    }
-  };
+
+  // Bento status colours: green for easy, cream for medium, terracotta for hard (never red)
+  const careClasses =
+    careLevel === "Easy"
+      ? "bg-sprout-success text-sprout-dark"
+      : careLevel === "Medium"
+        ? "bg-sprout-cream text-sprout-dark"
+        : careLevel === "Hard"
+          ? "bg-sprout-warning text-sprout-dark"
+          : "bg-card text-foreground";
 
   return (
-    <div
-      className="bg-card rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 overflow-hidden group border-0 h-full flex flex-col"
-      data-testid="plant-card"
-    >
-      <div className="relative">
+    <div className="bg-card rounded-card p-2 h-full flex flex-col" data-testid="plant-card">
+      {/* Photo well */}
+      <div className="relative group h-[148px] md:h-[180px] rounded-well overflow-hidden bg-field shrink-0">
         <div
-          className="cursor-pointer group"
+          className="w-full h-full cursor-pointer"
           onClick={() => onViewDetails?.()}
           role="button"
           tabIndex={0}
@@ -67,108 +62,74 @@ const PlantCard = ({
           }}
           aria-label={`View ${name} details`}
         >
-          <PlantImage
-            src={image}
-            alt={name}
-            className="w-full h-56"
-            imageClassName="object-cover"
-          />
-          <ImageExpandButton onExpand={() => setShowFullscreenImage(true)} />
+          <PlantImage src={image} alt={name} className="w-full h-full" imageClassName="object-cover" />
         </div>
-        <div className="absolute top-3 right-3">
-          <span
-            className={`px-2 py-1 rounded-full text-xs font-medium ${getCareColor(
-              careLevel
-            )}`}
-          >
-            {careLevel}
-          </span>
-        </div>
+        <span className={`absolute top-2 left-2 px-2.5 py-[5px] rounded-full text-xs font-bold pointer-events-none ${careClasses}`}>
+          {careLevel}
+        </span>
+        <ImageExpandButton onExpand={() => setShowFullscreenImage(true)} />
       </div>
 
-      <div className="p-6 flex flex-col flex-1">
-        <h3
-          className="text-lg font-semibold text-foreground mb-1 "
-          data-testid="plant-name"
-        >
-          <button
-            onClick={onViewDetails}
-            className="text-left hover:text-primary transition-colors duration-200 cursor-pointer hover:underline w-full line-clamp-1"
-          >
+      <div className="flex flex-col flex-1 px-1.5 pt-2.5 pb-1.5">
+        <h3 className="text-[17px] font-bold text-foreground leading-snug" data-testid="plant-name">
+          <button onClick={onViewDetails} className="text-left w-full truncate block hover:underline underline-offset-4">
             {name}
           </button>
         </h3>
-        <p
-          className="text-sm text-muted-foreground italic mb-1 line-clamp-2 min-h-[2.5rem]"
-          data-testid="plant-botanical-name"
-        >
+        <p className="text-[13px] text-muted-foreground italic truncate" data-testid="plant-botanical-name" title={botanicalName}>
           {botanicalName}
         </p>
+        {otherNames && otherNames.length > 0 && (
+          <p className="text-xs text-muted-foreground truncate mt-0.5" title={otherNames.join(", ")}>
+            aka {otherNames.join(", ")}
+          </p>
+        )}
 
-        <p className="text-xs text-muted-foreground/80 mb-4 line-clamp-1 min-h-[1rem]">
-          {otherNames && otherNames.length > 0 && (
-            <>
-              <span className="font-medium">aka:</span> {otherNames.join(", ")}
-            </>
-          )}
-        </p>
-
-        <div className="space-y-3 mb-4">
-          <div
-            className="flex items-center space-x-2"
-            data-testid="plant-watering-info"
-          >
-            <Droplets className="w-4 h-4 shrink-0 text-plant-primary dark:text-plant-secondary" />
-            <div>
-              <span className="text-sm text-foreground">
-                {wateringFrequency}
-              </span>
-              {suggestedWateringDays && (
-                <span className="text-xs text-muted-foreground ml-1">
-                  (Every {suggestedWateringDays} days)
-                </span>
-              )}
-            </div>
-          </div>
-          <div
-            className="flex items-center space-x-2"
-            data-testid="plant-light-info"
-          >
-            <Sun className="w-4 h-4 shrink-0 text-plant-primary dark:text-plant-secondary" />
-            <span className="text-sm text-foreground line-clamp-1">
-              {lightRequirement}
+        <div className="space-y-1.5 mt-3 mb-3">
+          <div className="flex items-center gap-2 rounded-xl bg-field px-2.5 py-1.5" data-testid="plant-watering-info">
+            <Droplets className="w-3.5 h-3.5 shrink-0 text-sprout-water" />
+            <span className="text-[13px] font-semibold text-foreground truncate">
+              {suggestedWateringDays ? `Every ${suggestedWateringDays} days` : wateringFrequency}
             </span>
+          </div>
+          <div className="flex items-center gap-2 rounded-xl bg-field px-2.5 py-1.5" data-testid="plant-light-info">
+            <Sun className="w-3.5 h-3.5 shrink-0 text-muted-foreground" />
+            <span className="text-[13px] font-semibold text-foreground truncate">{lightRequirement}</span>
           </div>
         </div>
 
-        <div className="space-y-2 mt-auto">
-          <Button
+        <div className="flex gap-1.5 mt-auto">
+          <button
+            type="button"
             onClick={onViewDetails}
-            className="w-full bg-sprout-primary hover:bg-sprout-primary/90 text-sprout-white rounded-xl font-medium border border-sprout-light/30 hover:border-sprout-light/50"
+            className="flex-1 h-10 rounded-[14px] bg-field text-foreground text-sm font-bold hover:bg-sprout-cream hover:text-sprout-dark transition-colors"
             data-testid="view-details-button"
           >
-            <Eye className="w-4 h-4 mr-2" />
-            View Details
-          </Button>
+            Details
+          </button>
 
           {isAuthenticated ? (
-            <Button
+            <button
+              type="button"
               onClick={onAddToCollection}
-              className="w-full bg-sprout-success hover:bg-sprout-success/90 text-sprout-white rounded-xl font-medium"
+              className="flex-1 h-10 rounded-[14px] bg-sprout-dark text-sprout-cream dark:bg-sprout-cream dark:text-sprout-dark text-sm font-bold inline-flex items-center justify-center gap-1"
+              aria-label={`Add ${name} to your collection`}
               data-testid="add-to-collection-button"
             >
-              <Plus className="w-4 h-4 mr-2" />
-              Add to Collection
-            </Button>
+              <Plus className="w-4 h-4" strokeWidth={2.5} />
+              Add
+            </button>
           ) : (
-            <Button
+            <button
+              type="button"
               onClick={onSignInToAdd}
-              className="w-full bg-sprout-light hover:bg-sprout-medium text-sprout-white rounded-xl font-medium"
+              className="flex-1 h-10 rounded-[14px] bg-sprout-dark text-sprout-cream dark:bg-sprout-cream dark:text-sprout-dark text-sm font-bold inline-flex items-center justify-center gap-1"
+              aria-label={`Sign in to add ${name}`}
               data-testid="sign-in-to-add-button"
             >
-              <LogIn className="w-4 h-4 mr-2" />
-              Sign in to Add
-            </Button>
+              <LogIn className="w-4 h-4" />
+              Sign in
+            </button>
           )}
         </div>
       </div>

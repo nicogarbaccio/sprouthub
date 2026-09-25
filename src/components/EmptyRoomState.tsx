@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Plus, Lightbulb } from "lucide-react";
-import { getRoomIcon, getRoomLabel, getRoomTheme } from "@/utils/rooms";
+import { getRoomIcon, getRoomLabel } from "@/utils/rooms";
 
 interface EmptyRoomStateProps {
  roomKey: string;
@@ -10,7 +9,6 @@ interface EmptyRoomStateProps {
 const EmptyRoomState = ({ roomKey, onAddPlant }: EmptyRoomStateProps) => {
  const roomLabel = getRoomLabel(roomKey);
  const roomIcon = getRoomIcon(roomKey);
- const roomTheme = getRoomTheme(roomKey);
 
  // Room-specific plant suggestions
  const getRoomSuggestions = (roomKey: string) => {
@@ -44,52 +42,44 @@ const EmptyRoomState = ({ roomKey, onAddPlant }: EmptyRoomStateProps) => {
  const suggestions = getRoomSuggestions(roomKey);
 
  return (
- <div
-  className={`${roomTheme.background} ${roomTheme.border} border-2 rounded-2xl p-8 text-center`}
- >
-  <div
-  className={`${roomTheme.iconBg} w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4`}
-  >
-  <span className="text-4xl">{roomIcon}</span>
+ <div className="rounded-tile bg-card p-6 md:p-8 text-center">
+  <div className="w-16 h-16 rounded-full bg-field flex items-center justify-center mx-auto mb-4">
+  <span className="text-3xl" aria-hidden="true">{roomIcon}</span>
   </div>
 
-  <h3 className="text-xl font-semibold text-plant-text mb-2 ">
+  <h3 className="font-display text-xl font-bold tracking-[-0.02em] text-foreground">
   No plants in {roomLabel} yet
   </h3>
 
-  <p className="text-plant-text/60 mb-6 max-w-md mx-auto">
+  <p className="text-[15px] text-muted-foreground mt-1.5 mb-5 max-w-md mx-auto">
   {roomKey === "unassigned"
    ? "These plants haven't been assigned to a room yet. Edit them to organize your collection!"
    : `Add some plants to brighten up your ${roomLabel.toLowerCase()}. Plants improve air quality and add natural beauty to any space.`}
   </p>
 
-  {/* Plant Suggestions */}
+  {/* Plant suggestions */}
   <div className="mb-6">
-  <div className="flex items-center justify-center gap-2 mb-3">
-   <Lightbulb className="w-4 h-4 text-plant-primary" />
-   <span className="text-sm font-medium text-plant-primary">
-   Great plants for {roomLabel.toLowerCase()}:
-   </span>
+  <div className="flex items-center justify-center gap-1.5 mb-2.5 text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground">
+   <Lightbulb className="w-4 h-4" />
+   Great for {roomLabel.toLowerCase()}
   </div>
-  <div className="flex flex-wrap justify-center gap-2">
-   {suggestions.slice(0, 4).map((plant, index) => (
-   <span
-    key={index}
-    className={`px-3 py-1 ${roomTheme.iconBg} ${roomTheme.accent} text-xs rounded-full font-medium`}
-   >
+  <div className="flex flex-wrap justify-center gap-1.5">
+   {suggestions.slice(0, 4).map((plant) => (
+   <span key={plant} className="px-3 py-1.5 rounded-full bg-field text-foreground text-[13px] font-bold">
     {plant}
    </span>
    ))}
   </div>
   </div>
 
-  <Button
+  <button
+  type="button"
   onClick={onAddPlant}
-  className="bg-plant-primary hover:bg-plant-primary/90 text-white rounded-xl"
+  className="h-12 px-5 rounded-[18px] bg-sprout-cream text-sprout-dark font-bold text-[15px] inline-flex items-center gap-2"
   >
-  <Plus className="w-4 h-4 mr-2" />
+  <Plus className="w-5 h-5" strokeWidth={2.5} />
   Add Plant to {roomLabel}
-  </Button>
+  </button>
  </div>
  );
 };

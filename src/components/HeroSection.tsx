@@ -1,149 +1,64 @@
-import { Button } from "@/components/ui/button";
 import { ArrowRight, Droplets, Calendar, Camera } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const HIGHLIGHTS = [
+  { icon: Droplets, title: "Smart Watering Reminders", body: "Never miss watering again", classes: "bg-sprout-water text-sprout-dark" },
+  { icon: Calendar, title: "Care Tracking", body: "Log and monitor plant health", classes: "bg-card text-foreground" },
+  { icon: Camera, title: "Plant Library", body: "Extensive care guides", classes: "bg-sprout-primary text-sprout-cream" },
+];
+
+/** Signed-out home: the pitch, a way in, and three reasons to stay */
 const HeroSection = () => {
- return (
-  <section
-   className="bg-background dark:bg-sprout-dark py-12 sm:py-16 lg:py-20 dark:shadow-lg dark:shadow-sprout-cream/20"
-   data-testid="hero-section"
-  >
-   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-start">
-     <div className="text-center lg:text-left mb-6 sm:mb-8 lg:mb-0 lg:pt-8">
-      <h1
-       className="text-4xl md:text-5xl lg:text-6xl font-medium text-foreground dark:text-sprout-white mb-6 leading-tight"
-       data-testid="hero-title"
-      >
-       Your plants deserve the
-       <span className="text-sprout-success dark:text-sprout-cream">
-        {" "}
-        best care
-       </span>
-      </h1>
-      <p className="text-lg text-sprout-neutral-dark/80 dark:text-sprout-neutral mb-8 max-w-2xl mx-auto lg:mx-0 font-light">
-       Never forget to water your plants again. Track care schedules,
-       browse plant guides, and build your perfect indoor garden with{" "}
-       <span className="text-sprout-success dark:text-sprout-cream font-bold">
-        sprouthub
-       </span>
-       .
-      </p>
-      <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-       <Link to="/plant-catalog">
-        <Button
-         className="bg-sprout-dark hover:bg-sprout-primary dark:bg-sprout-cream dark:hover:bg-sprout-cream/90 text-sprout-white dark:text-sprout-dark px-8 py-3 rounded-xl font-medium text-lg"
-         data-testid="start-growing-button"
-        >
-         Start Growing
-         <ArrowRight className="ml-2 w-5 h-5" />
-        </Button>
-       </Link>
-      </div>
-     </div>
-
-     <div className="relative hidden lg:flex lg:justify-center">
-      <div className="bg-card dark:bg-sprout-dark rounded-3xl shadow-xl dark:shadow-none dark:border dark:border-sprout-cream/30 p-4 sm:p-6 relative overflow-hidden mx-auto lg:mx-0 w-full max-w-sm sm:max-w-md lg:min-w-[400px]">
-       <div className="relative">
-        <img
-         src="https://ufhjudswppdqupjbqbwm.supabase.co/storage/v1/object/public/other/sprouthub%20hero.png"
-         alt="Person watering a plant"
-         className="w-full h-64 sm:h-72 lg:h-64 object-contain rounded-3xl mb-4"
-         data-testid="hero-image"
-        />
-        <div className="space-y-3">
-         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-sprout-dark rounded-xl flex items-center justify-center">
-           <Droplets className="w-5 h-5 text-sprout-white" />
-          </div>
-          <div>
-           <p className="font-medium text-sprout-neutral-dark dark:text-white">
-            Smart Watering Reminders
-           </p>
-           <p className="text-sm text-sprout-neutral-dark/70 dark:text-white/80">
-            Never miss watering again
-           </p>
-          </div>
-         </div>
-         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-sprout-dark rounded-xl flex items-center justify-center">
-           <Calendar className="w-5 h-5 text-sprout-white" />
-          </div>
-          <div>
-           <p className="font-medium text-sprout-neutral-dark dark:text-white">
-            Care Tracking
-           </p>
-           <p className="text-sm text-sprout-neutral-dark/70 dark:text-white/80">
-            Log and monitor plant health
-           </p>
-          </div>
-         </div>
-         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-sprout-dark rounded-xl flex items-center justify-center">
-           <Camera className="w-5 h-5 text-sprout-white" />
-          </div>
-          <div>
-           <p className="font-medium text-sprout-neutral-dark dark:text-white">
-            Plant Library
-           </p>
-           <p className="text-sm text-sprout-neutral-dark/70 dark:text-white/80">
-            Extensive care guides
-           </p>
-          </div>
-         </div>
+  return (
+    <section className="max-w-7xl mx-auto px-4 lg:px-8 pt-3.5 lg:pt-7" data-testid="hero-section">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.4fr_1fr] gap-2.5 md:gap-3.5">
+        <div className="rounded-tile bg-sprout-cream text-sprout-dark p-6 md:p-10 relative overflow-clip flex flex-col justify-center min-h-[320px]">
+          <div aria-hidden="true" className="absolute -right-16 -bottom-24 w-80 h-80 rounded-full bg-sprout-dark opacity-[0.07]" />
+          <h1
+            className="relative font-display text-[40px] md:text-6xl font-extrabold leading-[0.95] tracking-[-0.05em]"
+            data-testid="hero-title"
+          >
+            Your plants deserve the best care
+          </h1>
+          <p className="relative text-base md:text-lg font-medium mt-4 max-w-xl">
+            Never forget to water your plants again. Track care schedules, browse plant guides, and build your
+            perfect indoor garden with <span className="font-bold">sprouthub</span>.
+          </p>
+          <Link
+            to="/plant-catalog"
+            className="relative self-start mt-6 h-14 px-6 rounded-[20px] bg-sprout-dark text-sprout-cream font-display font-bold inline-flex items-center gap-2"
+            data-testid="start-growing-button"
+          >
+            Start Growing
+            <ArrowRight className="w-5 h-5" />
+          </Link>
         </div>
-       </div>
-      </div>
-     </div>
-    </div>
 
-    {/* Feature Icons - Tablet Only (hidden on mobile) */}
-    <div className="hidden sm:block lg:hidden mt-12">
-     <div className="grid grid-cols-3 gap-6 max-w-3xl mx-auto">
-      <div className="flex flex-col items-center text-center space-y-3">
-       <div className="w-16 h-16 bg-sprout-dark dark:bg-sprout-cream rounded-2xl flex items-center justify-center">
-        <Droplets className="w-8 h-8 text-sprout-white dark:text-sprout-dark" />
-       </div>
-       <div>
-        <p className="font-semibold text-sprout-neutral-dark dark:text-white">
-         Smart Watering Reminders
-        </p>
-        <p className="text-sm text-sprout-neutral-dark/70 dark:text-white/80">
-         Never miss watering again
-        </p>
-       </div>
+        <div className="hidden lg:flex rounded-tile bg-card p-4 items-center justify-center">
+          <img
+            src="https://ufhjudswppdqupjbqbwm.supabase.co/storage/v1/object/public/other/sprouthub%20hero.png"
+            alt="Person watering a plant"
+            className="w-full h-72 object-contain rounded-well"
+            data-testid="hero-image"
+          />
+        </div>
       </div>
-      <div className="flex flex-col items-center text-center space-y-3">
-       <div className="w-16 h-16 bg-sprout-dark dark:bg-sprout-cream rounded-2xl flex items-center justify-center">
-        <Calendar className="w-8 h-8 text-sprout-white dark:text-sprout-dark" />
-       </div>
-       <div>
-        <p className="font-semibold text-sprout-neutral-dark dark:text-white">
-         Care Tracking
-        </p>
-        <p className="text-sm text-sprout-neutral-dark/70 dark:text-white/80">
-         Log and monitor plant health
-        </p>
-       </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 md:gap-3.5 mt-2.5 md:mt-3.5">
+        {HIGHLIGHTS.map(({ icon: Icon, title, body, classes }) => (
+          <div key={title} className={`rounded-card p-5 flex items-center gap-3.5 ${classes}`}>
+            <div className="w-11 h-11 shrink-0 rounded-[14px] bg-sprout-dark/10 flex items-center justify-center">
+              <Icon className="w-5 h-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[15px] font-bold">{title}</p>
+              <p className="text-sm font-medium opacity-80">{body}</p>
+            </div>
+          </div>
+        ))}
       </div>
-      <div className="flex flex-col items-center text-center space-y-3">
-       <div className="w-16 h-16 bg-sprout-dark dark:bg-sprout-cream rounded-2xl flex items-center justify-center">
-        <Camera className="w-8 h-8 text-sprout-white dark:text-sprout-dark" />
-       </div>
-       <div>
-        <p className="font-semibold text-sprout-neutral-dark dark:text-white">
-         Plant Library
-        </p>
-        <p className="text-sm text-sprout-neutral-dark/70 dark:text-white/80">
-         Extensive care guides
-        </p>
-       </div>
-      </div>
-     </div>
-    </div>
-   </div>
-  </section>
- );
+    </section>
+  );
 };
 
 export default HeroSection;

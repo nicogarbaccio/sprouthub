@@ -5,18 +5,18 @@
 @layer base {
   :root {
     /* Light mode - using new sprouthub palette colors */
-    --background: 0 0% 100%; /* sprout-white #ffffff */
-    --foreground: 120 8% 24%; /* neutral-dark #3a423a converted to HSL */
+    --background: 120 8% 91%; /* neutral-light #e8ebe8 — bento page background */
+    --foreground: 141 35% 17%; /* sprout-dark #1d3c28 — bento ink */
     
     /* Safe Area Variables */
     --safe-area-top: env(safe-area-inset-top);
     --safe-area-bottom: env(safe-area-inset-bottom);
 
     --card: 0 0% 100%; /* sprout-white */
-    --card-foreground: 120 8% 24%; /* neutral-dark */
+    --card-foreground: 141 35% 17%; /* sprout-dark */
 
     --popover: 0 0% 100%; /* sprout-white */
-    --popover-foreground: 120 8% 24%; /* neutral-dark */
+    --popover-foreground: 141 35% 17%; /* sprout-dark */
 
     --primary: 142 30% 28%; /* sprout-primary #2d5a3a converted to HSL */
     --primary-foreground: 0 0% 100%; /* sprout-white */
@@ -47,6 +47,12 @@
     --sidebar-accent-foreground: 120 8% 24%; /* neutral-dark */
     --sidebar-border: 120 8% 91%; /* neutral-light */
     --sidebar-ring: 142 30% 28%; /* sprout-primary */
+
+    /* Bento redesign */
+    --field: 135 15% 95%; /* sprout-pale #f0f4f1 — inset wells, unselected options */
+    --link: 137 33% 26%; /* sprout-primary #2d5a3a — "See all" style links */
+    --nav: 141 35% 17%; /* sprout-dark #1d3c28 — bottom bar and sidebar */
+    --nav-foreground: 120 4% 63%; /* neutral-medium #9ca39c — inactive nav items */
   }
 
   .dark {
@@ -67,7 +73,7 @@
     --secondary-foreground: 120 8% 91%; /* neutral-light */
 
     --muted: 142 30% 28%; /* sprout-primary */
-    --muted-foreground: 120 8% 91%; /* neutral-light */
+    --muted-foreground: 135 16% 76%; /* #b7cbbc — bento secondary ink */
 
     --accent: 142 33% 18%; /* sprout-dark */
     --accent-foreground: 120 8% 91%; /* neutral-light */
@@ -87,6 +93,12 @@
     --sidebar-accent-foreground: 120 8% 91%; /* neutral-light */
     --sidebar-border: 142 25% 39%; /* sprout-medium */
     --sidebar-ring: 142 20% 56%; /* sprout-light */
+
+    /* Bento redesign */
+    --field: 141 35% 17%; /* sprout-dark */
+    --link: 39 55% 72%; /* sprout-cream #dfc490 */
+    --nav: 137 33% 26%; /* sprout-primary #2d5a3a */
+    --nav-foreground: 135 16% 76%; /* #b7cbbc */
   }
 }
 
@@ -110,7 +122,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-light;
+    @apply bg-background text-foreground font-normal;
     transition: background-color 0.3s ease, color 0.3s ease;
     /* Optimize SF Pro Display/Text rendering */
     -webkit-font-smoothing: antialiased;
@@ -197,6 +209,15 @@
     .transition-smooth {
       transition: none;
     }
+  }
+
+  /* Horizontal chip and card rows scroll without a visible scrollbar */
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 
   /* Custom scrollbar for better UX */

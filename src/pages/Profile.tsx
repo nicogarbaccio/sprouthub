@@ -20,14 +20,14 @@ const Profile = () => {
   } = useProfile();
 
   return (
-    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
-      <main className="pt-20 min-h-[calc(100vh-4rem)] bg-plant-neutral dark:bg-background py-8 px-4">
-        <div className="max-w-4xl mx-auto space-y-6">
+    <div className="bg-background pb-32 lg:pb-10">
+      <main className="px-4 lg:px-8 pt-3.5 lg:pt-7">
+        <div className="max-w-5xl mx-auto space-y-[18px]">
           <CascadingContainer delay={0}>
             <ProfileHeader />
           </CascadingContainer>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 items-start">
             <CascadingContainer delay={100}>
               <ProfileInformation
                 profileData={profileData}
@@ -38,7 +38,7 @@ const Profile = () => {
               />
             </CascadingContainer>
 
-            <div className="space-y-6">
+            <div className="space-y-3">
               <CascadingContainer delay={200}>
                 <SecuritySettings
                   passwordData={passwordData}

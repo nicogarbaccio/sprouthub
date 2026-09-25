@@ -1,6 +1,6 @@
-import { Search, Filter, X } from "lucide-react";
+import { Search, SlidersHorizontal, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
  Select,
  SelectContent,
@@ -53,19 +53,50 @@ const PlantSearchFilters = ({
   (v) => v && v !== "all"
  ).length;
 
+ const selectClasses =
+ "h-12 rounded-2xl border-0 bg-field text-[15px] font-medium focus:ring-2 focus:ring-offset-0";
+
+ const filter = (
+ label: string,
+ value: string,
+ onChange: (v: string) => void,
+ options: string[],
+ allLabel: string,
+ testId: string
+ ) => (
+ <div>
+  <label className="block text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground px-1 mb-1.5">
+  {label}
+  </label>
+  <Select value={value} onValueChange={onChange}>
+  <SelectTrigger className={selectClasses} data-testid={testId}>
+   <SelectValue placeholder={allLabel} />
+  </SelectTrigger>
+  <SelectContent className="rounded-2xl max-h-60">
+   <SelectItem value="all">{allLabel}</SelectItem>
+   {options.map((option) => (
+   <SelectItem key={option} value={option}>
+    {option}
+   </SelectItem>
+   ))}
+  </SelectContent>
+  </Select>
+ </div>
+ );
+
  return (
- <div className="max-w-4xl mx-auto space-y-6 mb-8">
+ <div className="mt-[18px] mb-4">
   <Collapsible open={isFilterOpen} onOpenChange={setIsFilterOpen}>
-  {/* Search Bar and Filter Button Row */}
-  <div className="flex justify-center gap-4">
-   <div className="relative w-full max-w-md">
-   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+  <div className="flex gap-2">
+   <div className="relative flex-1 min-w-0 lg:max-w-xl">
+   <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5 pointer-events-none" />
    <Input
     type="text"
-    placeholder="Search plants..."
+    placeholder="Search plants"
+    aria-label="Search plants"
     value={searchTerm}
     onChange={(e) => setSearchTerm(e.target.value)}
-    className="pl-10 pr-10 border-plant-secondary/30 focus:border-plant-primary rounded-xl h-11"
+    className="h-[52px] rounded-[18px] border-0 bg-card pl-12 pr-11 text-[15px] font-medium focus-visible:ring-2 focus-visible:ring-offset-0"
     data-testid="search-input"
    />
    {searchTerm && (
@@ -73,7 +104,7 @@ const PlantSearchFilters = ({
     type="button"
     onClick={() => setSearchTerm("")}
     aria-label="Clear search"
-    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+    className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-xl flex items-center justify-center text-muted-foreground hover:text-foreground"
     data-testid="clear-search-button"
     >
     <X className="w-4 h-4" />
@@ -82,114 +113,46 @@ const PlantSearchFilters = ({
    </div>
 
    <CollapsibleTrigger asChild>
-   <Button
-    variant={activeFilterCount > 0 ? "default" : "outline"}
-    className={
-     activeFilterCount > 0
-      ? "bg-sprout-medium hover:bg-sprout-primary text-white rounded-xl h-11 px-6 flex-shrink-0 ring-2 ring-sprout-light/50 ring-offset-2 ring-offset-background shadow-lg transition-all"
-      : "border-plant-secondary/30 hover:bg-plant-secondary/10 rounded-xl h-11 px-6 flex-shrink-0"
-    }
+   <button
+    type="button"
+    className={cn(
+    "shrink-0 h-[52px] px-4 rounded-[18px] font-bold text-sm inline-flex items-center gap-2 transition-colors",
+    activeFilterCount > 0 || isFilterOpen
+     ? "bg-foreground text-background"
+     : "bg-card text-foreground"
+    )}
     data-testid="filters-button"
    >
-    <Filter className="w-4 h-4 mr-2" />
+    <SlidersHorizontal className="w-4 h-4" />
     Filters
     {activeFilterCount > 0 && (
-    <span className="ml-2 inline-flex items-center justify-center w-5 h-5 rounded-full bg-white text-sprout-primary text-xs font-bold">
+    <span className="inline-flex items-center justify-center min-w-5 h-5 px-1 rounded-full bg-sprout-cream text-sprout-dark text-xs font-bold">
      {activeFilterCount}
     </span>
     )}
-   </Button>
+   </button>
    </CollapsibleTrigger>
   </div>
 
-  {/* Filters Panel - Appears Below and Centered */}
-  <CollapsibleContent className="mt-6">
-   <div className="flex justify-center">
-   <div className="p-6 bg-card rounded-xl border border-border shadow-lg w-full max-w-3xl">
-    {/* Filter Controls */}
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div className="space-y-3">
-     <label className="text-sm font-medium text-foreground block">
-     Category
-     </label>
-     <Select
-     value={selectedCategory}
-     onValueChange={setSelectedCategory}
-     >
-     <SelectTrigger className="border-plant-secondary/30 w-full h-11" data-testid="category-filter">
-      <SelectValue placeholder="All Categories" />
-     </SelectTrigger>
-     <SelectContent className="bg-card border border-plant-secondary/30 shadow-lg z-50 max-h-60">
-      <SelectItem value="all">All Categories</SelectItem>
-      {categories.map((category) => (
-      <SelectItem key={category} value={category}>
-       {category}
-      </SelectItem>
-      ))}
-     </SelectContent>
-     </Select>
-    </div>
-
-    <div className="space-y-3">
-     <label className="text-sm font-medium text-foreground block">
-     Care Level
-     </label>
-     <Select
-     value={selectedCareLevel}
-     onValueChange={setSelectedCareLevel}
-     >
-     <SelectTrigger className="border-plant-secondary/30 w-full h-11" data-testid="care-level-filter">
-      <SelectValue placeholder="All Levels" />
-     </SelectTrigger>
-     <SelectContent className="bg-card border border-plant-secondary/30 shadow-lg z-50 max-h-60">
-      <SelectItem value="all">All Levels</SelectItem>
-      {careLevels.map((level) => (
-      <SelectItem key={level} value={level}>
-       {level}
-      </SelectItem>
-      ))}
-     </SelectContent>
-     </Select>
-    </div>
-
-    <div className="space-y-3">
-     <label className="text-sm font-medium text-foreground block">
-     Light Requirement
-     </label>
-     <Select
-     value={selectedLightRequirement}
-     onValueChange={setSelectedLightRequirement}
-     >
-     <SelectTrigger className="border-plant-secondary/30 w-full h-11" data-testid="light-requirement-filter">
-      <SelectValue placeholder="All Light Types" />
-     </SelectTrigger>
-     <SelectContent className="bg-card border border-plant-secondary/30 shadow-lg z-50 max-h-60">
-      <SelectItem value="all">All Light Types</SelectItem>
-      {lightRequirements.map((light) => (
-      <SelectItem key={light} value={light}>
-       {light}
-      </SelectItem>
-      ))}
-     </SelectContent>
-     </Select>
-    </div>
-    </div>
-
-    {/* Clear Filters Button */}
-    {hasActiveFilters && (
-    <div className="mt-6 pt-4 border-t border-border flex justify-center">
-     <Button
-     variant="ghost"
-     onClick={clearAllFilters}
-     className="text-muted-foreground hover:text-foreground hover:bg-accent px-4 py-2 transition-colors"
-     data-testid="clear-filters-button"
-     >
-     <X className="w-4 h-4 mr-2" />
-     Clear All Filters
-     </Button>
-    </div>
-    )}
+  <CollapsibleContent className="mt-3">
+   <div className="rounded-card bg-card p-4 md:p-5">
+   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+    {filter("Category", selectedCategory, setSelectedCategory, categories, "All Categories", "category-filter")}
+    {filter("Care Level", selectedCareLevel, setSelectedCareLevel, careLevels, "All Levels", "care-level-filter")}
+    {filter("Light Requirement", selectedLightRequirement, setSelectedLightRequirement, lightRequirements, "All Light Types", "light-requirement-filter")}
    </div>
+
+   {hasActiveFilters && (
+    <button
+    type="button"
+    onClick={clearAllFilters}
+    className="mt-3 h-10 px-4 rounded-[14px] bg-field text-foreground text-sm font-bold inline-flex items-center gap-1.5"
+    data-testid="clear-filters-button"
+    >
+    <X className="w-4 h-4" />
+    Clear All Filters
+    </button>
+   )}
    </div>
   </CollapsibleContent>
   </Collapsible>

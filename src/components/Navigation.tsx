@@ -10,8 +10,11 @@ import {
   Bell,
   BarChart3,
   Bookmark,
+  MoreHorizontal,
+  Moon,
+  Sun,
+  LogIn,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,15 +27,15 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useProfileData } from "@/contexts/ProfileDataContext";
 import { useNavigate, Link } from "react-router-dom";
 import * as React from "react";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useTheme } from "@/contexts/ThemeContext";
 import { authToast } from "@/utils/notifications/toast";
-import { ThemeAwareLogo } from "@/components/ui/theme-aware-logo";
 import { useNotifications } from "@/contexts/NotificationContext";
-import { Badge } from "@/components/ui/badge";
 import { useGlobalShortcuts } from "@/hooks/useGlobalShortcuts";
-import { NavigationSkeleton } from "@/components/NavigationSkeleton";
 import { preloadWhenIdle } from "@/utils/preloadWhenIdle";
+import { OPEN_NOTIFICATIONS_EVENT } from "@/utils/appEvents";
+import { Logo } from "@/components/ui/logo";
+import { cn } from "@/lib/utils";
+import { isNavActive, useNavPath } from "@/hooks/useNavPath";
 
 // These panels only open on demand, so keep them out of the main bundle.
 // They mount the first time they're opened and are preloaded once the app is idle.
@@ -45,6 +48,12 @@ const QuickActionsMenu = React.lazy(() =>
   loadQuickActionsMenu().then((m) => ({ default: m.QuickActionsMenu }))
 );
 
+/**
+ * Left-hand navigation for tablet landscape and desktop.
+ *
+ * lg: an icon rail. xl: a full sidebar with labels. Below lg the bottom bar takes over, but this
+ * component stays mounted everywhere because it owns the notification center and quick actions.
+ */
 const Navigation = () => {
   const { user, signOut, loading } = useAuth();
   const { profileData } = useProfileData();
@@ -61,6 +70,13 @@ const Navigation = () => {
 
   React.useEffect(() => preloadWhenIdle([loadNotificationCenter, loadQuickActionsMenu]), []);
 
+  // The Home header bell and the mobile More sheet open the notification center from outside
+  React.useEffect(() => {
+    const handleOpen = () => setShowNotificationCenter(true);
+    window.addEventListener(OPEN_NOTIFICATIONS_EVENT, handleOpen);
+    return () => window.removeEventListener(OPEN_NOTIFICATIONS_EVENT, handleOpen);
+  }, []);
+
   // Global keyboard shortcuts
   useGlobalShortcuts({
     onQuickActionsOpen: () => setShowQuickActions(true),
@@ -68,21 +84,13 @@ const Navigation = () => {
     onThemeToggle: () => setTheme(actualTheme === 'dark' ? 'light' : 'dark'),
   });
 
-  const handleSignIn = () => {
-    console.log("Navigation: Sign in button clicked, current user:", user);
-    console.log("Navigation: Navigating to /auth");
-    navigate("/auth");
-  };
-
   const handleSignOut = async (event?: React.MouseEvent) => {
     if (event) {
       event.preventDefault();
       event.stopPropagation();
     }
     try {
-      console.log("Attempting to sign out...");
       await signOut();
-      console.log("Sign out successful, navigating to home...");
       authToast.signOutSuccess();
       navigate("/");
     } catch (error) {
@@ -103,166 +111,97 @@ const Navigation = () => {
     )}`.toUpperCase();
   };
 
-  // Show skeleton while authentication is loading
-  if (loading) {
-    return <NavigationSkeleton />;
-  }
+  // Highlight follows the address bar, not the router's committed location, so it moves the
+  // moment a link is clicked even while the next page is still loading
+  const navPath = useNavPath();
+  const isActive = (to: string) => isNavActive(navPath, to);
+
+  const displayName = profileData.first_name?.trim() || "Account";
 
   return (
     <React.Fragment>
-      <nav
-        className="bg-background dark:bg-sprout-dark shadow-sm border-b border-sprout-cream/30 dark:border-sprout-cream/20 transition-colors backdrop-blur-sm sticky top-0 z-40"
+      <aside
+        className="hidden lg:flex fixed inset-y-0 left-0 z-40 w-[92px] xl:w-[248px] flex-col items-center xl:items-stretch gap-1.5 bg-nav text-nav-foreground py-6 xl:py-7 xl:px-4 overflow-y-auto scrollbar-none"
         data-testid="navigation"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link
-              to="/"
-              className="flex items-center gap-3 group"
-              data-testid="logo"
-            >
-              <ThemeAwareLogo className="h-8 w-auto" />
-              <span className="text-2xl font-bold text-sprout-primary dark:text-sprout-cream transition-colors duration-200">
-                sprouthub
-              </span>
-            </Link>
+        <Link
+          to="/"
+          className="flex items-center gap-2.5 font-display font-extrabold text-white text-[22px] tracking-tight pb-[18px] xl:pb-6 xl:px-3"
+          data-testid="logo"
+          aria-label="sprouthub home"
+        >
+          <Logo onGreen alt="" className="h-10 w-auto shrink-0" />
+          <span className="hidden xl:inline"><span className="text-sprout-success">sprout</span><span className="text-sprout-cream">hub</span></span>
+        </Link>
 
-            {/* Desktop Nav - Grouped with user section */}
-            <div className="hidden lg:flex items-center space-x-4">
-              <ThemeToggle />
-              {user && (
-                <Link to="/">
-                  <Button
-                    variant="ghost"
-                    className="text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                    data-testid="nav-dashboard-button"
-                  >
-                    <Home className="w-4 h-4" />
-                    <span>Dashboard</span>
-                  </Button>
-                </Link>
-              )}
-              <Link to="/discover">
-                <Button
-                  variant="ghost"
-                  className="text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                  data-testid="nav-discover-button"
-                >
-                  <Newspaper className="w-4 h-4" />
-                  <span>Discover</span>
-                </Button>
-              </Link>
-              <Link to="/plant-catalog">
-                <Button
-                  variant="ghost"
-                  className="text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                  data-testid="nav-plant-catalog-button"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>Plant Catalog</span>
-                </Button>
-              </Link>
-              {user && (
-                <Link to="/my-plants">
-                  <Button
-                    variant="ghost"
-                    className="text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white flex items-center space-x-2 transition-all duration-200 rounded-lg font-medium"
-                    data-testid="nav-my-plants-button"
-                  >
-                    <Flower2 className="w-4 h-4" />
-                    <span>My Plants</span>
-                  </Button>
-                </Link>
-              )}
-              {user && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="relative text-foreground hover:text-white hover:bg-sprout-medium dark:hover:bg-sprout-medium/20 dark:hover:text-white transition-all duration-200 rounded-lg"
+        {/* While auth resolves, show only the logo so links don't flash in and out */}
+        {!loading && (
+          <>
+            {user && (
+              <NavItem to="/" icon={Home} label="Home" active={isActive("/")} testId="nav-dashboard-button" />
+            )}
+            {user && (
+              <NavItem to="/my-plants" icon={Flower2} label="My Plants" active={isActive("/my-plants")} testId="nav-my-plants-button" />
+            )}
+            <NavItem to="/discover" icon={Newspaper} label="Discover" active={isActive("/discover")} testId="nav-discover-button" />
+            <NavItem to="/plant-catalog" icon={BookOpen} label="Plant Catalog" active={isActive("/plant-catalog")} testId="nav-plant-catalog-button" />
+            {user && (
+              <NavItem to="/analytics" icon={BarChart3} label="Analytics" active={isActive("/analytics")} testId="nav-analytics-button" />
+            )}
+
+            <div className="flex-1" />
+
+            {user ? (
+              <>
+                <NavButton
+                  icon={Bell}
+                  label="Notifications"
                   onClick={() => setShowNotificationCenter(true)}
-                  data-testid="nav-notifications-button"
-                >
-                  <Bell className="w-5 h-5" />
-                  {unreadCount > 0 && (
-                    <Badge
-                      variant="destructive"
-                      className="absolute -top-1 -right-1 h-5 min-w-5 px-1 text-xs flex items-center justify-center"
-                    >
-                      {unreadCount > 9 ? '9+' : unreadCount}
-                    </Badge>
-                  )}
-                </Button>
-              )}
+                  testId="nav-notifications-button"
+                  badge={unreadCount > 0 ? (unreadCount > 9 ? "9+" : String(unreadCount)) : undefined}
+                />
+                {/* Households and Settings live in the account menu below, keeping the rail short */}
 
-              {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-neutral-medium hover:text-sprout-primary p-0 !border-none !ring-0 !outline-none !focus:outline-none !focus-visible:outline-none focus:shadow-none focus-visible:shadow-none rounded-full data-[state=open]:outline-none data-[state=open]:ring-0 data-[state=open]:shadow-none group"
+                    <button
+                      className="w-14 h-14 xl:w-auto xl:h-[52px] rounded-[18px] flex items-center justify-center xl:justify-start gap-3 xl:px-2 mt-1 font-semibold text-[15px] hover:bg-white/5 hover:text-sprout-cream transition-colors outline-none focus-visible:ring-2 focus-visible:ring-sprout-cream"
                       data-testid="user-dropdown-trigger"
-                      style={{
-                        background: "none",
-                        border: "none",
-                        outline: "none",
-                        boxShadow: "none",
-                        boxSizing: "border-box",
-                      }}
+                      aria-label="Account menu"
                     >
-                      <Avatar
-                        className="w-10 h-10 transition-all duration-200 hover:ring-4 hover:ring-sprout-primary dark:hover:ring-white hover:ring-offset-2 dark:hover:ring-offset-background hover:shadow-lg"
-                        style={{
-                          border: "none",
-                          outline: "none",
-                          boxShadow: "none",
-                        }}
-                      >
-                        <AvatarImage
-                          src={profileData.avatar_url}
-                          alt="User avatar"
-                        />
-                        <AvatarFallback className="text-xs font-medium bg-sprout-pale dark:bg-sprout-medium/30 text-sprout-primary dark:text-white transition-all duration-200 group-hover:bg-sprout-primary group-hover:text-white dark:group-hover:bg-white dark:group-hover:text-sprout-primary">
+                      <MoreHorizontal className="w-[22px] h-[22px] xl:hidden" />
+                      <Avatar className="hidden xl:flex w-9 h-9">
+                        <AvatarImage src={profileData.avatar_url} alt="User avatar" />
+                        <AvatarFallback className="text-xs font-bold bg-sprout-cream text-sprout-dark">
                           {getInitials()}
                         </AvatarFallback>
                       </Avatar>
-                    </Button>
+                      <span className="hidden xl:inline truncate">{displayName}</span>
+                    </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                      onClick={() => navigate("/profile")}
-                      className="cursor-pointer"
-                    >
+                  <DropdownMenuContent side="right" align="end" className="w-56 rounded-2xl">
+                    <DropdownMenuItem onClick={() => navigate("/profile")} className="cursor-pointer">
                       <User className="w-4 h-4 mr-2" />
                       Profile
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => navigate("/households")}
-                      className="cursor-pointer"
-                    >
+                    <DropdownMenuItem onClick={() => navigate("/households")} className="cursor-pointer">
                       <Users className="w-4 h-4 mr-2" />
                       Households
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => navigate("/analytics")}
-                      className="cursor-pointer"
-                    >
-                      <BarChart3 className="w-4 h-4 mr-2" />
-                      Analytics
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => navigate("/my-articles")}
-                      className="cursor-pointer"
-                    >
+                    <DropdownMenuItem onClick={() => navigate("/my-articles")} className="cursor-pointer">
                       <Bookmark className="w-4 h-4 mr-2" />
                       My Articles
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => navigate("/settings")}
-                      className="cursor-pointer"
-                    >
+                    <DropdownMenuItem onClick={() => navigate("/settings")} className="cursor-pointer">
                       <SettingsIcon className="w-4 h-4 mr-2" />
                       Settings
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => setTheme(actualTheme === "dark" ? "light" : "dark")}
+                      className="cursor-pointer"
+                    >
+                      {actualTheme === "dark" ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
+                      {actualTheme === "dark" ? "Light Mode" : "Dark Mode"}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -275,42 +214,28 @@ const Navigation = () => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              ) : (
-                <Button
-                  onClick={handleSignIn}
-                  className="bg-sprout-dark hover:bg-sprout-primary dark:hover:bg-sprout-medium/20 text-sprout-white font-medium shadow-sm"
+              </>
+            ) : (
+              <>
+                <NavButton
+                  icon={actualTheme === "dark" ? Sun : Moon}
+                  label={actualTheme === "dark" ? "Light Mode" : "Dark Mode"}
+                  onClick={() => setTheme(actualTheme === "dark" ? "light" : "dark")}
+                />
+                <Link
+                  to="/auth"
+                  className="w-14 h-14 xl:w-auto xl:h-[52px] rounded-[18px] bg-sprout-cream text-sprout-dark flex items-center justify-center xl:justify-start gap-3 xl:px-3.5 font-bold text-[15px]"
                   data-testid="nav-sign-in-button"
+                  aria-label="Sign In"
                 >
-                  Sign In
-                </Button>
-              )}
-            </div>
-
-            {/* Mobile Nav - minimal top bar, main nav is in BottomNav */}
-            <div className="lg:hidden flex items-center gap-2">
-              {user && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="relative text-foreground"
-                  onClick={() => setShowNotificationCenter(true)}
-                  data-testid="mobile-nav-notifications-button"
-                >
-                  <Bell className="h-6 w-6" />
-                  {unreadCount > 0 && (
-                    <Badge
-                      variant="destructive"
-                      className="absolute -top-1 -right-1 h-4 min-w-4 px-1 text-[10px] flex items-center justify-center"
-                    >
-                      {unreadCount > 9 ? "9+" : unreadCount}
-                    </Badge>
-                  )}
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
-      </nav>
+                  <LogIn className="w-[22px] h-[22px]" />
+                  <span className="hidden xl:inline">Sign In</span>
+                </Link>
+              </>
+            )}
+          </>
+        )}
+      </aside>
 
       <React.Suspense fallback={null}>
         {/* Notification Center */}
@@ -332,5 +257,72 @@ const Navigation = () => {
     </React.Fragment>
   );
 };
+
+const itemClasses = (active: boolean) =>
+  cn(
+    // No colour transition: a fading highlight briefly leaves the previous item brighter than
+    // the new one, which reads as a flicker. The global `*` transition covers the icon and
+    // label too, hence [&_*].
+    "relative w-14 h-14 xl:w-auto xl:h-[52px] rounded-[18px] flex items-center justify-center xl:justify-start gap-3 xl:px-3.5 text-[15px] transition-none [&_*]:transition-none shrink-0",
+    active
+      ? "bg-sprout-cream text-sprout-dark font-bold"
+      : "font-semibold hover:bg-white/5 hover:text-sprout-cream"
+  );
+
+const NavItem = ({
+  to,
+  icon: Icon,
+  label,
+  active,
+  testId,
+}: {
+  to: string;
+  icon: React.ElementType;
+  label: string;
+  active: boolean;
+  testId?: string;
+}) => (
+  <Link
+    to={to}
+    className={itemClasses(active)}
+    aria-label={label}
+    aria-current={active ? "page" : undefined}
+    title={label}
+    data-testid={testId}
+  >
+    <Icon className="w-[22px] h-[22px] shrink-0" />
+    <span className="hidden xl:inline">{label}</span>
+  </Link>
+);
+
+const NavButton = ({
+  icon: Icon,
+  label,
+  onClick,
+  testId,
+  badge,
+}: {
+  icon: React.ElementType;
+  label: string;
+  onClick: () => void;
+  testId?: string;
+  badge?: string;
+}) => (
+  <button
+    onClick={onClick}
+    className={itemClasses(false)}
+    aria-label={label}
+    title={label}
+    data-testid={testId}
+  >
+    <Icon className="w-[22px] h-[22px] shrink-0" />
+    <span className="hidden xl:inline flex-1 text-left">{label}</span>
+    {badge && (
+      <span className="absolute top-2 right-2 xl:static min-w-5 h-5 px-1.5 rounded-full bg-sprout-warning text-sprout-dark text-[11px] font-bold flex items-center justify-center">
+        {badge}
+      </span>
+    )}
+  </button>
+);
 
 export default Navigation;

@@ -1,9 +1,8 @@
 import { useState, useMemo } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Leaf, Sun, Snowflake, CloudRain, Flower, Sprout } from 'lucide-react';
-import BlogPostCard from '@/components/blog/BlogPostCard';
+import BlogPostCard, { BlogPostCardSkeleton } from '@/components/blog/BlogPostCard';
 import PaginationControls from '@/components/catalog/PaginationControls';
-import { Skeleton } from '@/components/ui/skeleton';
 import { useAuth } from '@/contexts/AuthContext';
 import { useUserPlants } from '@/hooks/useUserPlants';
 import { useBlogPostsGrid } from '@/hooks/useBlogPosts';
@@ -38,21 +37,6 @@ function getTitleIcon(mode: string, season?: string) {
   if (mode === 'my-plants') return <Sprout className="h-6 w-6" />;
   return <Leaf className="h-6 w-6" />;
 }
-
-const CardSkeleton = () => (
-  <div className="rounded-lg border bg-card shadow-sm overflow-hidden">
-    <Skeleton className="aspect-[16/9] w-full rounded-none" />
-    <div className="p-4 space-y-2">
-      <Skeleton className="h-4 w-3/4" />
-      <Skeleton className="h-3 w-full" />
-      <Skeleton className="h-3 w-2/3" />
-      <div className="flex justify-between pt-1">
-        <Skeleton className="h-3 w-20" />
-        <Skeleton className="h-3 w-16" />
-      </div>
-    </div>
-  </div>
-);
 
 const ArticlesGrid = () => {
   const [searchParams] = useSearchParams();
@@ -91,7 +75,7 @@ const ArticlesGrid = () => {
   const title = getTitle(mode, { season, plant });
 
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="flex flex-col bg-background">
       <main className="flex-1 container mx-auto px-4 py-8 max-w-7xl">
         <Link
           to="/discover"
@@ -112,7 +96,7 @@ const ArticlesGrid = () => {
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {Array.from({ length: 12 }).map((_, i) => (
-              <CardSkeleton key={i} />
+              <BlogPostCardSkeleton key={i} />
             ))}
           </div>
         ) : posts.length > 0 ? (

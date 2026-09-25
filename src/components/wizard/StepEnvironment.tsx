@@ -1,16 +1,8 @@
-import { Badge } from "@/components/ui/badge";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import {
-  Lightbulb,
-  Thermometer,
-  Droplets,
-  Cloud,
-  MapPin,
-  RefreshCw,
-} from "lucide-react";
-import { OptionCard } from "./OptionCard";
+import { MapPin, RefreshCw } from "lucide-react";
+import { OptionCard, OptionGroup, WizardStepHeading } from "./OptionCard";
+import { SettingRow } from "@/components/settings/SettingsUI";
+import { capitalize } from "@/lib/utils";
 import { formatTemperature } from "@/utils/weather/temperature";
 import { WeatherIndicator } from "@/components/WeatherIndicator";
 import type { WizardStepProps } from "./types";
@@ -45,37 +37,34 @@ export const StepEnvironment = ({
   locationIsLoading,
   weatherMappingReasons,
   temperatureUnit,
-}: StepEnvironmentProps) => (
-  <div className="space-y-6">
-    <div className="text-center mb-6">
-      <Thermometer className="w-12 h-12 text-sprout-light mx-auto mb-2" />
-      <h3 className="text-lg font-semibold text-sprout-white">
-        Environmental Conditions
-      </h3>
-      <p className="text-sprout-light">
-        These factors affect how quickly your plant uses water
-      </p>
-    </div>
+}: StepEnvironmentProps) => {
+  const autoDetected = enableWeatherData && weatherData ? "Auto-detected" : undefined;
 
-    {/* Weather Data Toggle */}
-    <Card className="border-sprout-medium bg-sprout-primary/30">
-      <CardContent className="p-4">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            <Cloud className="w-4 h-4 text-sprout-light" />
-            <span className="font-medium text-sprout-white">
-              Use Current Weather
-            </span>
-          </div>
-          <Switch
-            checked={enableWeatherData}
-            onCheckedChange={onToggleWeatherData}
-            data-testid="weather-data-toggle"
-          />
-        </div>
+  return (
+    <div className="space-y-5">
+      <WizardStepHeading
+        title="Where it lives"
+        body="Light, temperature and humidity change how quickly your plant uses water"
+      />
+
+      <div className="rounded-3xl bg-card p-2 space-y-2">
+        <SettingRow
+          htmlFor="wizard-weather-toggle"
+          label="Use current weather"
+          description={enableWeatherData ? undefined : "Otherwise the settings below are used"}
+          className="bg-transparent"
+          control={
+            <Switch
+              id="wizard-weather-toggle"
+              checked={enableWeatherData}
+              onCheckedChange={onToggleWeatherData}
+              data-testid="weather-data-toggle"
+            />
+          }
+        />
 
         {enableWeatherData && (
-          <div className="space-y-3">
+          <div className="px-2 pb-2 space-y-2">
             {locationExists && weatherData ? (
               <WeatherIndicator
                 weatherData={weatherData}
@@ -84,23 +73,23 @@ export const StepEnvironment = ({
                 error={weatherError}
                 temperatureUnit={temperatureUnit}
                 onRefresh={onRefreshWeather}
-                compact
+                className="px-2"
               />
             ) : locationIsLoading || weatherIsLoading ? (
-              <div className="flex items-center gap-2 text-sm text-sprout-light">
+              <p className="flex items-center gap-2 text-sm text-muted-foreground px-2">
                 <RefreshCw className="w-4 h-4 animate-spin" />
                 Loading weather data...
-              </div>
+              </p>
             ) : (
-              <div className="flex items-center gap-2 text-sm text-sprout-warning">
+              <p className="flex items-center gap-2 text-sm font-semibold text-foreground px-2">
                 <MapPin className="w-4 h-4" />
                 Location needed for weather data
-              </div>
+              </p>
             )}
 
             {weatherMappingReasons.length > 0 && (
-              <div className="text-xs text-sprout-light bg-sprout-medium/20 p-2 rounded">
-                <p className="font-medium mb-1">Weather-based adjustments:</p>
+              <div className="rounded-[16px] bg-field px-3.5 py-3 text-[13px] text-muted-foreground">
+                <p className="font-bold text-foreground mb-1">Weather-based adjustments</p>
                 <ul className="list-disc list-inside space-y-1">
                   {weatherMappingReasons.map((reason, index) => (
                     <li key={index}>{reason}</li>
@@ -110,110 +99,60 @@ export const StepEnvironment = ({
             )}
           </div>
         )}
-
-        {!enableWeatherData && (
-          <p className="text-sm text-sprout-light">
-            Manual environmental settings will be used instead
-          </p>
-        )}
-      </CardContent>
-    </Card>
-
-    {/* Light Level */}
-    <div className="space-y-3">
-      <Label className="text-base font-medium flex items-center gap-2 text-sprout-white">
-        <Lightbulb className="w-4 h-4" />
-        Light Conditions
-      </Label>
-      <div className="space-y-2">
-        {(
-          Object.keys(labels.lightLevel) as Array<
-            keyof typeof labels.lightLevel
-          >
-        ).map((level) => (
-          <div key={level}>
-            <OptionCard
-              value={level}
-              currentValue={factors.lightLevel}
-              onClick={(value) => updateFactor("lightLevel", value)}
-              label={level.charAt(0).toUpperCase() + level.slice(1)}
-              description={labels.lightLevel[level]}
-              testId={`light-level-${level}`}
-            />
-          </div>
-        ))}
       </div>
-    </div>
 
-    {/* Temperature */}
-    <div className="space-y-3">
-      <Label className="text-base font-medium flex items-center gap-2 text-sprout-white">
-        <Thermometer className="w-4 h-4" />
-        Room Temperature
-        {enableWeatherData && weatherData && (
-          <Badge variant="secondary" className="text-xs ml-2">
-            Auto-detected
-          </Badge>
-        )}
-      </Label>
-      <div className="space-y-2">
-        {(
-          Object.keys(labels.temperature) as Array<
-            keyof typeof labels.temperature
-          >
-        ).map((temp) => (
-          <div key={temp}>
-            <OptionCard
-              value={temp}
-              currentValue={factors.temperature}
-              onClick={(value) => updateFactor("temperature", value)}
-              label={temp.charAt(0).toUpperCase() + temp.slice(1)}
-              description={labels.temperature[temp]}
-              testId={`temperature-${temp}`}
-            />
-          </div>
+      <OptionGroup label="Light">
+        {(Object.keys(labels.lightLevel) as Array<keyof typeof labels.lightLevel>).map((level) => (
+          <OptionCard
+            key={level}
+            value={level}
+            currentValue={factors.lightLevel}
+            onClick={(value) => updateFactor("lightLevel", value)}
+            label={capitalize(level)}
+            description={labels.lightLevel[level]}
+            testId={`light-level-${level}`}
+          />
         ))}
-      </div>
-      {enableWeatherData && weatherData && (
-        <p className="text-xs text-sprout-light">
-          Current temperature:{" "}
-          {formatTemperature(weatherData.current_temp_celsius)}
-        </p>
-      )}
-    </div>
+      </OptionGroup>
 
-    {/* Humidity */}
-    <div className="space-y-3">
-      <Label className="text-base font-medium flex items-center gap-2 text-sprout-white">
-        <Droplets className="w-4 h-4" />
-        Air Humidity
-        {enableWeatherData && weatherData && (
-          <Badge variant="secondary" className="text-xs ml-2">
-            Auto-detected
-          </Badge>
-        )}
-      </Label>
-      <div className="space-y-2">
-        {(
-          Object.keys(labels.humidity) as Array<keyof typeof labels.humidity>
-        ).map((humidity) => (
-          <div key={humidity}>
-            <OptionCard
-              value={humidity}
-              currentValue={factors.humidity}
-              onClick={(value) => updateFactor("humidity", value)}
-              label={humidity.charAt(0).toUpperCase() + humidity.slice(1)}
-              description={labels.humidity[humidity]}
-              testId={`humidity-${humidity}`}
-            />
-          </div>
+      <OptionGroup
+        label="Room temperature"
+        badge={autoDetected}
+        footnote={
+          autoDetected &&
+          `Current temperature: ${formatTemperature(weatherData!.current_temp_celsius, temperatureUnit)}`
+        }
+      >
+        {(Object.keys(labels.temperature) as Array<keyof typeof labels.temperature>).map((temp) => (
+          <OptionCard
+            key={temp}
+            value={temp}
+            currentValue={factors.temperature}
+            onClick={(value) => updateFactor("temperature", value)}
+            label={capitalize(temp)}
+            description={labels.temperature[temp]}
+            testId={`temperature-${temp}`}
+          />
         ))}
-      </div>
-      {enableWeatherData && weatherData && (
-        <p className="text-xs text-sprout-light">
-          Current humidity: {weatherData.current_humidity_percent}%
-        </p>
-      )}
+      </OptionGroup>
+
+      <OptionGroup
+        label="Air humidity"
+        badge={autoDetected}
+        footnote={autoDetected && `Current humidity: ${weatherData!.current_humidity_percent}%`}
+      >
+        {(Object.keys(labels.humidity) as Array<keyof typeof labels.humidity>).map((humidity) => (
+          <OptionCard
+            key={humidity}
+            value={humidity}
+            currentValue={factors.humidity}
+            onClick={(value) => updateFactor("humidity", value)}
+            label={capitalize(humidity)}
+            description={labels.humidity[humidity]}
+            testId={`humidity-${humidity}`}
+          />
+        ))}
+      </OptionGroup>
     </div>
-  </div>
-);
+  );
+};

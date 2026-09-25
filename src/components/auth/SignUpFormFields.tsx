@@ -1,7 +1,9 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+import { FieldLabel, settingsInputClasses } from "@/components/settings/SettingsUI";
 import { PasswordInput } from "./PasswordInput";
+import { FieldError, invalidInputClasses } from "./AuthUI";
 import type { FormData, ValidationErrors } from "@/utils/auth/validation";
 
 interface SignUpFormFieldsProps {
@@ -20,9 +22,9 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
 }) => {
  return (
  <>
-  <div className="grid grid-cols-2 gap-4">
-  <div className="space-y-2">
-   <Label htmlFor="firstName">First Name</Label>
+  <div className="grid grid-cols-2 gap-3">
+  <div>
+   <FieldLabel htmlFor="firstName">First Name</FieldLabel>
    <Input
    id="firstName"
    placeholder="First name"
@@ -30,11 +32,12 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
    onChange={(e) => onInputChange("firstName", e.target.value)}
    required
    autoComplete="given-name"
+   className={settingsInputClasses}
    data-testid="first-name-input"
    />
   </div>
-  <div className="space-y-2">
-   <Label htmlFor="lastName">Last Name</Label>
+  <div>
+   <FieldLabel htmlFor="lastName">Last Name</FieldLabel>
    <Input
    id="lastName"
    placeholder="Last name"
@@ -42,43 +45,46 @@ export const SignUpFormFields: React.FC<SignUpFormFieldsProps> = ({
    onChange={(e) => onInputChange("lastName", e.target.value)}
    required
    autoComplete="family-name"
+   className={settingsInputClasses}
    data-testid="last-name-input"
    />
   </div>
   </div>
 
-  <div className="space-y-2">
-  <Label htmlFor="username">Username</Label>
+  <div>
+  <FieldLabel htmlFor="username">Username</FieldLabel>
   <Input
    id="username"
    placeholder="Choose a username"
    value={formData.username}
    onChange={(e) => onInputChange("username", e.target.value)}
-   className={errors.username ? "border-red-500" : ""}
+   className={cn(settingsInputClasses, errors.username && invalidInputClasses)}
+   aria-invalid={!!errors.username}
    required
    autoComplete="username"
    data-testid="username-input"
   />
   {errors.username && (
-   <p className="text-sm text-red-500" data-testid="username-error">{errors.username}</p>
+   <FieldError testId="username-error">{errors.username}</FieldError>
   )}
   </div>
 
-  <div className="space-y-2">
-  <Label htmlFor="signup-email">Email</Label>
+  <div>
+  <FieldLabel htmlFor="signup-email">Email</FieldLabel>
   <Input
    id="signup-email"
    type="email"
    placeholder="Enter your email"
    value={formData.email}
    onChange={(e) => onInputChange("email", e.target.value)}
-   className={errors.email ? "border-red-500" : ""}
+   className={cn(settingsInputClasses, errors.email && invalidInputClasses)}
+   aria-invalid={!!errors.email}
    required
    inputMode="email"
    autoComplete="email"
    data-testid="sign-up-email"
   />
-  {errors.email && <p className="text-sm text-red-500" data-testid="email-error">{errors.email}</p>}
+  {errors.email && <FieldError testId="email-error">{errors.email}</FieldError>}
   </div>
 
   <PasswordInput

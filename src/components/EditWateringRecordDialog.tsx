@@ -2,12 +2,10 @@ import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Popover,
@@ -15,10 +13,21 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
+import { CalendarIcon, Clock, Droplets, X } from "lucide-react";
+import { format, startOfDay } from "date-fns";
 import { cn } from "@/lib/utils";
 import type { WateringRecord } from "@/hooks/useWateringRecords";
+import { replaceNotesText, stripNotesPrefixes } from "@/utils/watering/notesPrefixes";
+import { FieldLabel } from "@/components/settings/SettingsUI";
+import {
+  SheetGrabber,
+  dialogSheetClasses,
+  sheetHeaderClasses,
+  sheetIconButtonClasses,
+  sheetPrimaryButtonClasses,
+  sheetSecondaryButtonClasses,
+  sheetTitleClasses,
+} from "@/components/ui/bento-sheet";
 
 interface EditWateringRecordDialogProps {
   isOpen: boolean;
@@ -41,7 +50,8 @@ function EditWateringRecordDialog({
   useEffect(() => {
     if (record && isOpen) {
       setSelectedDate(new Date(record.watered_at));
-      setNotes(record.notes || "");
+      // Only the user's own text is editable; the system prefix is restored on save
+      setNotes(stripNotesPrefixes(record.notes));
     }
   }, [record, isOpen]);
 
@@ -50,7 +60,11 @@ function EditWateringRecordDialog({
 
     setIsLoading(true);
     try {
-      const success = await onUpdate(record.id, selectedDate, notes);
+      const success = await onUpdate(
+        record.id,
+        selectedDate,
+        replaceNotesText(record.notes, notes) ?? undefined
+      );
       if (success) {
         onClose();
       }
@@ -68,28 +82,49 @@ function EditWateringRecordDialog({
     }, 200);
   };
 
+  const isPostponement = record?.is_postponement;
+
   return (
     <Dialog open={isOpen} onOpenChange={handleCancel}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Edit Watering Record</DialogTitle>
+      <DialogContent className={cn(dialogSheetClasses, "sm:max-w-md")}>
+        <SheetGrabber />
+        <DialogHeader className={sheetHeaderClasses}>
+          <div
+            className={cn(
+              "w-[52px] h-[52px] shrink-0 rounded-[18px] text-sprout-dark flex items-center justify-center",
+              isPostponement ? "bg-sprout-cream" : "bg-sprout-water"
+            )}
+          >
+            {isPostponement ? <Clock className="w-6 h-6" /> : <Droplets className="w-6 h-6" />}
+          </div>
+          <div className="flex-1 min-w-0">
+            <DialogTitle className={sheetTitleClasses}>
+              {isPostponement ? "Edit postponement" : "Edit watering"}
+            </DialogTitle>
+            <DialogDescription className="text-sm font-medium">
+              {record ? format(new Date(record.watered_at), "EEEE, MMM d") : ""}
+            </DialogDescription>
+          </div>
+          <button type="button" onClick={handleCancel} className={cn(sheetIconButtonClasses, "self-start")} aria-label="Close">
+            <X className="w-5 h-5" />
+          </button>
         </DialogHeader>
 
-        <div className="space-y-4 py-4">
-          <div className="space-y-2">
-            <Label>Date Watered</Label>
+        <div className="mt-4 space-y-2">
+          <div className="rounded-3xl bg-card p-4">
+            <FieldLabel>{isPostponement ? "Postponed until" : "Date watered"}</FieldLabel>
             <Popover>
               <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
+                <button
+                  type="button"
                   className={cn(
-                    "w-full justify-start text-left font-normal",
-                    !selectedDate && "text-muted-foreground"
+                    "w-full h-12 rounded-2xl bg-field px-4 inline-flex items-center gap-2 text-[15px] font-semibold",
+                    selectedDate ? "text-foreground" : "text-muted-foreground"
                   )}
                 >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  <CalendarIcon className="h-4 w-4 text-muted-foreground" />
                   {selectedDate ? format(selectedDate, "PPP") : "Pick a date"}
-                </Button>
+                </button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
@@ -97,42 +132,44 @@ function EditWateringRecordDialog({
                   selected={selectedDate}
                   onSelect={setSelectedDate}
                   initialFocus
+                  // A postponement is a date the user chose to wait until, so it lives in the future
                   disabled={(date) =>
-                    date > new Date() || date < new Date("1900-01-01")
+                    isPostponement
+                      ? date < startOfDay(new Date())
+                      : date > new Date() || date < new Date("1900-01-01")
                   }
                 />
               </PopoverContent>
             </Popover>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="edit-notes">Notes (optional)</Label>
-            <Textarea
-              id="edit-notes"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="Add any notes about this watering..."
-              rows={3}
-            />
-          </div>
+          <Textarea
+            id="edit-notes"
+            aria-label="Notes (optional)"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="Add any notes about this watering..."
+            rows={3}
+            className="resize-none rounded-[20px] border-0 bg-card px-4 py-3.5 text-[15px] placeholder:text-neutral-medium"
+          />
         </div>
 
-        <DialogFooter className="gap-2">
-          <Button variant="outline" onClick={handleCancel} disabled={isLoading}>
+        <div className="flex gap-2 mt-3">
+          <button type="button" onClick={handleCancel} disabled={isLoading} className={cn(sheetSecondaryButtonClasses, "flex-1")}>
             Cancel
-          </Button>
-          <Button
+          </button>
+          <button
+            type="button"
             onClick={handleSave}
             disabled={!selectedDate || isLoading}
-            className="bg-sprout-cream hover:bg-sprout-cream/90 text-sprout-dark font-semibold px-6"
+            className={cn(sheetPrimaryButtonClasses, "flex-[1.3]")}
           >
             {isLoading ? "Saving..." : "Save Changes"}
-          </Button>
-        </DialogFooter>
+          </button>
+        </div>
       </DialogContent>
     </Dialog>
   );
 }
 
 export default EditWateringRecordDialog;
-

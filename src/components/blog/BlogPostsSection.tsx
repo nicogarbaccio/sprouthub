@@ -1,5 +1,4 @@
 import { BookOpen } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
 import {
   Carousel,
   CarouselContent,
@@ -7,28 +6,13 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from '@/components/ui/carousel';
-import BlogPostCard from './BlogPostCard';
+import BlogPostCard, { BlogPostCardSkeleton } from './BlogPostCard';
 import { usePlantBlogPosts } from '@/hooks/useBlogPosts';
 import { useFilterHidden } from '@/hooks/useHiddenArticles';
 
 interface BlogPostsSectionProps {
   plantName: string;
 }
-
-const BlogPostCardSkeleton = () => (
-  <div className="rounded-lg border bg-card shadow-sm overflow-hidden">
-    <Skeleton className="aspect-[16/9] w-full rounded-none" />
-    <div className="p-4 space-y-2">
-      <Skeleton className="h-4 w-3/4" />
-      <Skeleton className="h-3 w-full" />
-      <Skeleton className="h-3 w-2/3" />
-      <div className="flex justify-between pt-1">
-        <Skeleton className="h-3 w-20" />
-        <Skeleton className="h-3 w-16" />
-      </div>
-    </div>
-  </div>
-);
 
 const BlogPostsSection = ({ plantName }: BlogPostsSectionProps) => {
   const { data: rawPosts, isLoading } = usePlantBlogPosts(plantName);

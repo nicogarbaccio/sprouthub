@@ -4,7 +4,6 @@ import { getWateringStatus } from "@/utils/watering/status";
 export interface BadgeInfo {
   message: string;
   ariaLabel: string;
-  classNames: string;
   severity: string;
   count: number;
 }
@@ -106,47 +105,9 @@ export function getBadgeInfo(
     }
   }
 
-  // Determine styling based on severity
-  let bgColor = "";
-  let textColor = "";
-  let borderColor = "";
-  let darkBgColor = "";
-  let darkTextColor = "";
-  let darkBorderColor = "";
-
-  switch (highestSeverity) {
-    case "high":
-      bgColor = "bg-amber-100";
-      textColor = "text-amber-800";
-      borderColor = "border-amber-200";
-      darkBgColor = "dark:bg-amber-950/40";
-      darkTextColor = "dark:text-amber-300";
-      darkBorderColor = "dark:border-amber-700";
-      break;
-    case "medium":
-      bgColor = "bg-blue-100";
-      textColor = "text-blue-800";
-      borderColor = "border-blue-200";
-      darkBgColor = "dark:bg-blue-950/40";
-      darkTextColor = "dark:text-blue-300";
-      darkBorderColor = "dark:border-blue-700";
-      break;
-    default:
-      bgColor = "bg-green-100";
-      textColor = "text-green-800";
-      borderColor = "border-green-200";
-      darkBgColor = "dark:bg-green-950/40";
-      darkTextColor = "dark:text-green-300";
-      darkBorderColor = "dark:border-green-700";
-      break;
-  }
-
-  const classNames = `px-2 py-1 rounded-full text-xs font-medium ${bgColor} ${textColor} border ${borderColor} ${darkBgColor} ${darkTextColor} ${darkBorderColor}`;
-
   return {
     message,
     ariaLabel,
-    classNames,
     severity: highestSeverity,
     count,
   };

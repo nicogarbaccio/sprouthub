@@ -1,45 +1,27 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Sprout, ChevronDown } from "lucide-react";
+import { ChevronRight, Sprout } from "lucide-react";
 
 interface RepottingGuideCardProps {
   plantNickname: string;
   onClick: () => void;
 }
 
-const RepottingGuideCard = ({
-  plantNickname,
-  onClick,
-}: RepottingGuideCardProps) => {
+/** Row that opens the repotting guide, styled like the Journal tile above it */
+const RepottingGuideCard = ({ plantNickname, onClick }: RepottingGuideCardProps) => {
   return (
-    <Card
-      className="mb-6 cursor-pointer hover:border-plant-primary/50 transition-colors"
+    <button
+      type="button"
       onClick={onClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onClick();
-        }
-      }}
+      className="w-full rounded-card bg-card p-[18px] flex items-center gap-3.5 text-left"
     >
-      <CardContent className="flex items-center justify-between py-4 px-4">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-plant-primary/10 flex items-center justify-center">
-            <Sprout className="w-5 h-5 text-plant-primary" />
-          </div>
-          <div>
-            <p className="text-sm font-medium text-foreground">
-              Repotting Guide
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Tips for repotting {plantNickname}
-            </p>
-          </div>
-        </div>
-        <ChevronDown className="w-4 h-4 text-muted-foreground -rotate-90" />
-      </CardContent>
-    </Card>
+      <div className="w-11 h-11 shrink-0 rounded-[14px] bg-sprout-primary text-sprout-cream flex items-center justify-center">
+        <Sprout className="w-5 h-5" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-[15px] font-bold text-foreground">Repotting Guide</p>
+        <p className="text-sm text-muted-foreground truncate">Tips for repotting {plantNickname}</p>
+      </div>
+      <ChevronRight className="w-5 h-5 shrink-0 text-muted-foreground" />
+    </button>
   );
 };
 

@@ -1,7 +1,4 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Mail, Check, X, Clock } from 'lucide-react';
 import type { HouseholdInvitation } from '@/hooks/useHouseholds';
 
@@ -32,62 +29,61 @@ export const HouseholdInvitations: React.FC<HouseholdInvitationsProps> = ({
   };
 
   return (
-    <Card className="mb-6 border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/30">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-blue-900 dark:text-blue-100">
-          <Mail className="w-5 h-5" />
-          Pending Invitations ({invitations.length})
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          {invitations.map((invitation) => (
-            <div
-              key={invitation.id}
-              className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg border"
-            >
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-1">
-                  <h4 className="font-medium">
-                    {invitation.households?.name || 'Household'}
-                  </h4>
-                  <Badge variant="secondary" className="text-xs">
-                    {invitation.role}
-                  </Badge>
-                </div>
-                {invitation.households?.description && (
-                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">
-                    {invitation.households.description}
-                  </p>
-                )}
-                <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                  <Clock className="w-3 h-3" />
-                  {formatExpirationDate(invitation.expires_at)}
-                </div>
+    <section aria-labelledby="invitations-heading">
+      <h2
+        id="invitations-heading"
+        className="flex items-center gap-2 font-display text-xl font-bold tracking-[-0.02em] text-foreground px-1.5 lg:px-1"
+      >
+        <Mail className="w-5 h-5" />
+        Invitations
+        <span className="text-[13px] font-bold px-[9px] py-[3px] rounded-full bg-card text-muted-foreground font-sans tracking-normal">
+          {invitations.length}
+        </span>
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+        {invitations.map((invitation) => (
+          <div
+            key={invitation.id}
+            className="rounded-tile bg-sprout-cream text-sprout-dark p-5 flex flex-col gap-4"
+          >
+            <div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-display text-xl font-bold tracking-[-0.02em]">
+                  {invitation.households?.name || 'Household'}
+                </h3>
+                <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-sprout-dark/10 capitalize">
+                  {invitation.role}
+                </span>
               </div>
-              <div className="flex gap-2">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => onDecline(invitation.id)}
-                  className="text-gray-600 hover:text-red-600"
-                >
-                  <X className="w-4 h-4 mr-1" />
-                  Decline
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={() => onAccept(invitation.id)}
-                  className="bg-green-600 hover:bg-green-700 text-white"
-                >
-                  <Check className="w-4 h-4 mr-1" />
-                  Accept
-                </Button>
+              {invitation.households?.description && (
+                <p className="text-sm font-medium mt-1 opacity-90">{invitation.households.description}</p>
+              )}
+              <div className="flex items-center gap-1.5 text-[13px] font-semibold mt-2 opacity-80">
+                <Clock className="w-3.5 h-3.5" />
+                {formatExpirationDate(invitation.expires_at)}
               </div>
             </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => onDecline(invitation.id)}
+                className="h-12 px-5 rounded-2xl bg-sprout-dark/10 font-bold text-[15px] inline-flex items-center gap-1.5"
+              >
+                <X className="w-4 h-4" />
+                Decline
+              </button>
+              <button
+                type="button"
+                onClick={() => onAccept(invitation.id)}
+                className="flex-1 h-12 rounded-2xl bg-sprout-dark text-sprout-cream font-bold text-[15px] inline-flex items-center justify-center gap-1.5"
+              >
+                <Check className="w-4 h-4" />
+                Accept
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 };

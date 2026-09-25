@@ -1,7 +1,6 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+
 
 interface Props {
   children: ReactNode;
@@ -60,56 +59,50 @@ export class ErrorBoundary extends Component<Props, State> {
       // Default error UI
       return (
         <div className="min-h-[400px] flex items-center justify-center p-6">
-          <Card className="w-full max-w-md">
-            <CardHeader className="text-center">
-              <div className="mx-auto w-12 h-12 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center mb-4">
-                <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
+          <div className="w-full max-w-md rounded-tile bg-card p-6">
+            <div className="flex items-start gap-3.5">
+              <div className="w-12 h-12 shrink-0 rounded-2xl bg-sprout-warning text-sprout-dark flex items-center justify-center">
+                <AlertTriangle className="w-6 h-6" />
               </div>
-              <CardTitle className="text-red-900 dark:text-red-100">
-                Something went wrong
-              </CardTitle>
-              <CardDescription>
-                An error occurred while rendering this component
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {process.env.NODE_ENV === 'development' && this.state.error && (
-                <div className="text-xs text-muted-foreground bg-muted p-3 rounded font-mono">
-                  <strong>Error:</strong> {this.state.error.message}
-                  {this.state.error.stack && (
-                    <details className="mt-2">
-                      <summary className="cursor-pointer">Stack Trace</summary>
-                      <pre className="mt-2 text-xs overflow-auto">
-                        {this.state.error.stack}
-                      </pre>
-                    </details>
-                  )}
-                </div>
-              )}
-
-              <div className="flex gap-2">
-                <Button
-                  onClick={this.handleReset}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  Try Again
-                </Button>
-                <Button
-                  onClick={this.handleReload}
-                  className="flex-1"
-                >
-                  Reload Page
-                </Button>
+              <div>
+                <h2 className="font-display text-xl font-bold tracking-[-0.02em] text-foreground">Something went wrong</h2>
+                <p className="text-sm text-muted-foreground mt-0.5">An error occurred while showing this part of the app.</p>
               </div>
+            </div>
 
-              {process.env.NODE_ENV === 'development' && (
-                <p className="text-xs text-muted-foreground text-center">
-                  Check the console for more details
-                </p>
-              )}
-            </CardContent>
-          </Card>
+            {process.env.NODE_ENV === 'development' && this.state.error && (
+              <div className="mt-4 text-xs text-muted-foreground bg-field p-3 rounded-[16px] font-mono">
+                <strong>Error:</strong> {this.state.error.message}
+                {this.state.error.stack && (
+                  <details className="mt-2">
+                    <summary className="cursor-pointer">Stack Trace</summary>
+                    <pre className="mt-2 text-xs overflow-auto">{this.state.error.stack}</pre>
+                  </details>
+                )}
+              </div>
+            )}
+
+            <div className="flex gap-2 mt-5">
+              <button
+                type="button"
+                onClick={this.handleReset}
+                className="flex-1 h-12 rounded-[18px] bg-field text-foreground font-bold text-[15px]"
+              >
+                Try Again
+              </button>
+              <button
+                type="button"
+                onClick={this.handleReload}
+                className="flex-1 h-12 rounded-[18px] bg-sprout-dark text-sprout-cream font-bold text-[15px] shadow-[inset_0_0_0_2px_#dfc490]"
+              >
+                Reload Page
+              </button>
+            </div>
+
+            {process.env.NODE_ENV === 'development' && (
+              <p className="text-xs text-muted-foreground text-center mt-3">Check the console for more details</p>
+            )}
+          </div>
         </div>
       );
     }

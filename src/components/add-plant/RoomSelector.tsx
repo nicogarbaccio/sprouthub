@@ -1,13 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { ROOM_OPTIONS, NO_ROOM_VALUE } from "@/utils/rooms";
+import { cn } from "@/lib/utils";
 
 interface RoomSelectorProps {
   room: string;
@@ -18,6 +12,7 @@ interface RoomSelectorProps {
   onCustomRoomChange: (value: string) => void;
 }
 
+/** A swipeable row of room chips, with "Custom" revealing a name field. */
 export const RoomSelector = ({
   room,
   isCustomRoom,
@@ -26,54 +21,73 @@ export const RoomSelector = ({
   onCustomRoomToggle,
   onCustomRoomChange,
 }: RoomSelectorProps) => {
+  const chipClass = (selected: boolean) =>
+    cn(
+      "flex-none h-11 px-3.5 rounded-full flex items-center font-bold text-sm transition-colors",
+      selected ? "bg-foreground text-background" : "bg-card text-foreground"
+    );
+
+  const pick = (value: string) => {
+    onCustomRoomToggle(false);
+    onCustomRoomChange("");
+    onRoomChange(value);
+  };
+
   return (
-    <div className="space-y-2">
-      <Label
-        htmlFor="room"
-        className="text-plant-text dark:text-zinc-200"
+    <div className="space-y-2" data-testid="room-select-trigger">
+      <div className="text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground px-1.5">
+        Room
+      </div>
+      <div
+        role="radiogroup"
+        aria-label="Room"
+        className="flex gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 sm:-mx-6 sm:px-6"
       >
-        Room (Optional)
-      </Label>
-      <Select
-        value={room}
-        onValueChange={(value) => {
-          if (value === "custom") {
+        {ROOM_OPTIONS.map((option) => {
+          const selected = !isCustomRoom && room === option.value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              className={chipClass(selected)}
+              onClick={() => pick(option.value)}
+            >
+              {option.label}
+            </button>
+          );
+        })}
+        <button
+          type="button"
+          role="radio"
+          aria-checked={isCustomRoom}
+          className={chipClass(isCustomRoom)}
+          onClick={() => {
             onCustomRoomToggle(true);
             onRoomChange(customRoom);
-          } else {
-            onCustomRoomToggle(false);
-            onCustomRoomChange("");
-            onRoomChange(value);
-          }
-        }}
-      >
-        <SelectTrigger
-          className="border-plant-secondary/30 focus:border-plant-primary [&>span]:line-clamp-none"
-          data-testid="room-select-trigger"
+          }}
         >
-          <SelectValue placeholder="Select a room or leave empty" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value={NO_ROOM_VALUE}>No room assigned</SelectItem>
-          {ROOM_OPTIONS.map((roomOption) => (
-            <SelectItem key={roomOption.value} value={roomOption.value}>
-              <span className="flex items-center gap-2 min-w-0">
-                <span className="shrink-0">{roomOption.icon}</span>
-                <span className="truncate">{roomOption.label}</span>
-              </span>
-            </SelectItem>
-          ))}
-          <SelectItem value="custom">🏠 Custom Room</SelectItem>
-        </SelectContent>
-      </Select>
+          Custom
+        </button>
+        <button
+          type="button"
+          role="radio"
+          aria-checked={!isCustomRoom && room === NO_ROOM_VALUE}
+          className={chipClass(!isCustomRoom && room === NO_ROOM_VALUE)}
+          onClick={() => pick(NO_ROOM_VALUE)}
+        >
+          No room
+        </button>
+      </div>
 
       {isCustomRoom && (
-        <div className="space-y-1">
+        <div className="rounded-3xl bg-card p-4 space-y-1.5">
           <Label
             htmlFor="custom_room"
-            className="text-plant-text dark:text-zinc-200 text-sm"
+            className="text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground"
           >
-            Custom Room Name
+            Custom room name
           </Label>
           <Input
             id="custom_room"
@@ -82,9 +96,10 @@ export const RoomSelector = ({
               onCustomRoomChange(e.target.value);
               onRoomChange(e.target.value);
             }}
-            placeholder="Enter custom room name"
-            className="border-plant-secondary/30 focus:border-plant-primary"
+            placeholder="e.g. Sunroom"
+            className="h-11 rounded-2xl border-0 bg-field text-[15px] font-semibold"
             data-testid="custom-room-input"
+            autoFocus
           />
         </div>
       )}

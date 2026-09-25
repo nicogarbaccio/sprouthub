@@ -1,6 +1,4 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Download, X, Smartphone } from "lucide-react";
 import { usePWA } from "@/hooks/use-pwa";
 
@@ -95,80 +93,51 @@ export function PWAInstallBanner({
   };
 
   return (
-    <Card
-      className={`fixed bottom-4 left-4 right-4 z-50 shadow-lg border-plant-primary/20 bg-gradient-to-r from-plant-primary/5 to-plant-secondary/5 animate-in slide-in-from-bottom-2 duration-500 ${className}`}
+    <div
+      className={`fixed bottom-4 left-4 right-4 z-50 rounded-tile bg-sprout-cream text-sprout-dark p-4 shadow-[0_12px_30px_rgba(29,60,40,0.25)] animate-in slide-in-from-bottom-2 duration-500 ${className ?? ""}`}
+      role="dialog"
+      aria-label="Install sprouthub"
     >
-      <CardContent className="p-4">
-        <div className="flex items-start space-x-3">
-          <div className="flex-shrink-0">
-            <div className="w-10 h-10 bg-plant-primary/10 rounded-full flex items-center justify-center">
-              <Smartphone className="w-5 h-5 text-plant-primary" />
-            </div>
-          </div>
-
-          <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-semibold text-plant-text mb-1">
-              Install sprouthub
-            </h3>
-            <p className="text-xs text-plant-text/70 mb-3">
-              Add to your home screen for quick access and offline use. Get
-              native app experience with push notifications for plant care
-              reminders.
-            </p>
-
-            <div className="flex space-x-2">
-              <Button
-                onClick={handleInstall}
-                size="sm"
-                className="bg-plant-primary hover:bg-plant-primary/90 text-white px-4 py-2 h-8 text-xs"
-              >
-                <Download className="w-3 h-3 mr-1" />
-                Install
-              </Button>
-              <Button
-                onClick={handleNotNow}
-                variant="ghost"
-                size="sm"
-                className="text-plant-text/60 hover:text-plant-text px-2 py-2 h-8"
-              >
-                Not now
-              </Button>
-            </div>
-          </div>
-
-          <Button
-            onClick={handleDismiss}
-            variant="ghost"
-            size="icon"
-            className="flex-shrink-0 w-6 h-6 text-plant-text/60 hover:text-plant-text"
-            title="Don't show again"
-          >
-            <X className="w-4 h-4" />
-          </Button>
+      <div className="flex items-start gap-3">
+        <div className="w-11 h-11 shrink-0 rounded-[14px] bg-sprout-dark text-sprout-cream flex items-center justify-center">
+          <Smartphone className="w-5 h-5" />
         </div>
-      </CardContent>
-    </Card>
-  );
-}
 
-// Simplified install button for navigation or other locations
-export function PWAInstallButton() {
-  const { canInstall, promptInstall, isStandalone } = usePWA();
+        <div className="flex-1 min-w-0">
+          <h3 className="font-display text-lg font-bold tracking-[-0.02em]">Install sprouthub</h3>
+          <p className="text-sm font-medium mt-0.5">
+            Add it to your home screen for quick access, offline use and plant care reminders.
+          </p>
 
-  if (!canInstall || isStandalone) {
-    return null;
-  }
+          <div className="flex gap-2 mt-3">
+            <button
+              type="button"
+              onClick={handleInstall}
+              className="h-10 px-4 rounded-full bg-sprout-dark text-sprout-cream text-[13px] font-bold inline-flex items-center gap-1.5"
+            >
+              <Download className="w-4 h-4" />
+              Install
+            </button>
+            <button
+              type="button"
+              onClick={handleNotNow}
+              className="h-10 px-4 rounded-full border-[1.5px] border-sprout-dark text-[13px] font-bold"
+            >
+              Not now
+            </button>
+          </div>
+        </div>
 
-  return (
-    <Button
-      onClick={promptInstall}
-      variant="outline"
-      size="sm"
-      className="border-plant-primary text-plant-primary hover:bg-plant-primary hover:text-white"
-    >
-      <Download className="w-4 h-4 mr-2" />
-      Install App
-    </Button>
+        <button
+          type="button"
+          onClick={handleDismiss}
+          className="w-9 h-9 shrink-0 rounded-xl bg-sprout-dark/10 flex items-center justify-center"
+          aria-label="Don't show again"
+        >
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
   );
 }
 

@@ -1,16 +1,13 @@
 import React from "react";
-import {
- Card,
- CardContent,
- CardDescription,
- CardHeader,
- CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Separator } from "@/components/ui/separator";
+import {
+ SettingsCard,
+ FieldLabel,
+ settingsInputClasses,
+ settingsPrimaryButtonClasses,
+} from "@/components/settings/SettingsUI";
+import { cn } from "@/lib/utils";
 import { User } from "lucide-react";
 import ImageUpload from "@/components/ui/image-upload";
 
@@ -44,30 +41,20 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
  };
 
  return (
- <Card data-testid="profile-information-card">
-  <CardHeader>
-  <div className="flex items-center space-x-2">
-   <User className="w-5 h-5" />
-   <CardTitle>Profile Information</CardTitle>
-  </div>
-  <CardDescription>
-   Update your personal information and avatar
-  </CardDescription>
-  </CardHeader>
-  <CardContent className="space-y-4">
-  <div className="space-y-4">
-   <div className="flex justify-center">
-   <Avatar className="w-24 h-24 border-2 border-border shadow-lg">
-    <AvatarImage
-    src={profileData.avatar_url}
-    className="rounded-full"
-    />
-    <AvatarFallback className="text-lg font-semibold bg-sprout-pale dark:bg-sprout-medium text-sprout-primary dark:text-white rounded-full">
-    {getInitials()}
-    </AvatarFallback>
-   </Avatar>
-   </div>
-
+ <SettingsCard
+  testId="profile-information-card"
+  title="Profile Information"
+  description="Your name, username and photo"
+  icon={User}
+ >
+  <div className="flex items-center gap-4">
+  <Avatar className="w-16 h-16 shrink-0">
+   <AvatarImage src={profileData.avatar_url} className="rounded-full object-cover" />
+   <AvatarFallback className="text-lg font-bold bg-sprout-cream text-sprout-dark rounded-full">
+   {getInitials()}
+   </AvatarFallback>
+  </Avatar>
+  <div className="flex-1 min-w-0">
    <ImageUpload
    value={profileData.avatar_url || ""}
    onChange={(url) =>
@@ -78,89 +65,87 @@ const ProfileInformation: React.FC<ProfileInformationProps> = ({
    showPreview={false}
    />
   </div>
-
-  <Separator />
-
-  <div className="grid grid-cols-2 gap-4">
-   <div className="space-y-2">
-   <Label htmlFor="first_name">First Name</Label>
-   <Input
-    data-testid="first-name-input"
-    id="first_name"
-    value={profileData.first_name}
-    onChange={(e) =>
-    setProfileData((prev) => ({
-     ...prev,
-     first_name: e.target.value,
-    }))
-    }
-    placeholder="Enter your first name"
-    autoComplete="given-name"
-   />
-   </div>
-
-   <div className="space-y-2">
-   <Label htmlFor="last_name">Last Name</Label>
-   <Input
-    data-testid="last-name-input"
-    id="last_name"
-    value={profileData.last_name}
-    onChange={(e) =>
-    setProfileData((prev) => ({
-     ...prev,
-     last_name: e.target.value,
-    }))
-    }
-    placeholder="Enter your last name"
-    autoComplete="family-name"
-   />
-   </div>
   </div>
 
-  <div className="space-y-2">
-   <Label htmlFor="username">Username</Label>
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+  <div>
+   <FieldLabel htmlFor="first_name">First Name</FieldLabel>
    <Input
+   data-testid="first-name-input"
+   id="first_name"
+   value={profileData.first_name}
+   onChange={(e) =>
+    setProfileData((prev) => ({
+    ...prev,
+    first_name: e.target.value,
+    }))
+   }
+   placeholder="Enter your first name"
+   autoComplete="given-name"
+   className={settingsInputClasses}
+   />
+  </div>
+
+  <div>
+   <FieldLabel htmlFor="last_name">Last Name</FieldLabel>
+   <Input
+   data-testid="last-name-input"
+   id="last_name"
+   value={profileData.last_name}
+   onChange={(e) =>
+    setProfileData((prev) => ({
+    ...prev,
+    last_name: e.target.value,
+    }))
+   }
+   placeholder="Enter your last name"
+   autoComplete="family-name"
+   className={settingsInputClasses}
+   />
+  </div>
+  </div>
+
+  <div>
+  <FieldLabel htmlFor="username">Username</FieldLabel>
+  <Input
    data-testid="username-input"
    id="username"
    value={profileData.username}
    onChange={(e) =>
-    setProfileData((prev) => ({ ...prev, username: e.target.value }))
+   setProfileData((prev) => ({ ...prev, username: e.target.value }))
    }
    placeholder="Enter your username"
    autoComplete="username"
-   />
+   className={settingsInputClasses}
+  />
   </div>
 
-  <div className="space-y-2">
-   <Label htmlFor="email">Email</Label>
-   <Input
+  <div>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input
    data-testid="email-input"
    id="email"
    type="email"
    value={profileData.email}
    disabled
    autoComplete="email"
-   className="bg-muted"
-   />
-   <p className="text-sm text-muted-foreground/70">
-   Email cannot be changed from here
-   </p>
+   className={cn(settingsInputClasses, "disabled:opacity-70")}
+  />
+  <p className="text-[13px] text-muted-foreground px-1 mt-1.5">
+   Email can't be changed from here
+  </p>
   </div>
 
-  <Button
-   data-testid="update-profile-button"
-   onClick={handleUpdateProfile}
-   disabled={isLoading || !hasProfileChanges()}
-   className={`w-full font-medium ${
-   hasProfileChanges() && !isLoading
-    ? "bg-sprout-success hover:bg-sprout-success/90 text-white"
-    : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600 cursor-not-allowed"
-   }`}
+  <button
+  type="button"
+  data-testid="update-profile-button"
+  onClick={handleUpdateProfile}
+  disabled={isLoading || !hasProfileChanges()}
+  className={cn(settingsPrimaryButtonClasses, "mt-2")}
   >
-   {isLoading ? "Updating..." : "Update Profile"}
-  </Button>
-  </CardContent>
- </Card>
+  {isLoading ? "Updating..." : "Update Profile"}
+  </button>
+ </SettingsCard>
  );
 };
 

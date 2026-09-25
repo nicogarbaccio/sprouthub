@@ -1,67 +1,93 @@
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon, AlertTriangle } from "lucide-react";
-import { format } from "date-fns";
+import { format, isToday, isYesterday, subDays } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface LastWateredPickerProps {
   lastWateredDate: Date | undefined;
   onDateChange: (date: Date | undefined) => void;
 }
 
+/** Today / Yesterday / a picked date, stacked in a tile. */
 export const LastWateredPicker = ({
   lastWateredDate,
   onDateChange,
 }: LastWateredPickerProps) => {
+  const [calendarOpen, setCalendarOpen] = useState(false);
+
+  const today = !!lastWateredDate && isToday(lastWateredDate);
+  const yesterday = !!lastWateredDate && isYesterday(lastWateredDate);
+  const other = !!lastWateredDate && !today && !yesterday;
+
+  const optionClass = (selected: boolean) =>
+    cn(
+      "h-10 rounded-[14px] flex items-center px-3 font-bold text-sm text-left transition-colors",
+      selected ? "bg-sprout-cream text-sprout-dark" : "bg-field text-foreground"
+    );
+
   return (
-    <div className="space-y-2">
-      <Label className="text-plant-text dark:text-zinc-200">
-        Last Watered
-      </Label>
-      <Popover>
+    <div className="rounded-card bg-card p-4 flex flex-col gap-1.5" role="radiogroup" aria-label="Last watered">
+      <div className="text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground">
+        Last watered
+      </div>
+      <button type="button" role="radio" aria-checked={today} className={optionClass(today)} onClick={() => onDateChange(new Date())}>
+        Today
+      </button>
+      <button
+        type="button"
+        role="radio"
+        aria-checked={yesterday}
+        className={optionClass(yesterday)}
+        onClick={() => onDateChange(subDays(new Date(), 1))}
+      >
+        Yesterday
+      </button>
+      <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
         <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            className="w-full justify-start text-left font-normal border-plant-secondary/30 focus:border-plant-primary"
+          <button
+            type="button"
+            role="radio"
+            aria-checked={other}
+            className={optionClass(other)}
             data-testid="last-watered-date-trigger"
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            {lastWateredDate
-              ? format(lastWateredDate, "PPP")
-              : "Select date"}
-          </Button>
+            {other ? format(lastWateredDate!, "MMM d") : "Pick a date"}
+          </button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent className="w-auto p-0 rounded-2xl" align="end">
           <Calendar
             mode="single"
             selected={lastWateredDate}
-            onSelect={onDateChange}
+            onSelect={(date) => {
+              onDateChange(date);
+              setCalendarOpen(false);
+            }}
+            disabled={{ after: new Date() }}
             initialFocus
           />
           <div className="p-3 border-t">
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => onDateChange(undefined)}
+            <button
+              type="button"
+              className="w-full h-10 rounded-xl bg-field text-sm font-bold"
+              onClick={() => {
+                onDateChange(undefined);
+                setCalendarOpen(false);
+              }}
             >
-              Clear Date
-            </Button>
+              I don't know
+            </button>
           </div>
         </PopoverContent>
       </Popover>
       {!lastWateredDate && (
-        <div className="flex items-center gap-2 p-2 bg-sprout-warning/10 border border-sprout-warning/30 rounded-md">
-          <AlertTriangle className="h-4 w-4 text-sprout-warning" />
-          <p className="text-sm text-sprout-warning">
-            No last watering date set - watering schedule calculations may
-            be inaccurate
-          </p>
-        </div>
+        <p className="text-xs font-semibold text-sprout-warning px-1 mt-0.5">
+          No date set, so the first reminder may be off.
+        </p>
       )}
     </div>
   );

@@ -23,6 +23,7 @@ import { OfflineBanner } from "./components/OfflineBanner";
 import { SplashScreen } from "./components/SplashScreen";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { GlobalNotifications } from "./components/GlobalNotifications";
+import { GlobalAddPlantDialog } from "./components/GlobalAddPlantDialog";
 
 type PageImport = () => Promise<{ default: React.ComponentType<unknown> }>;
 
@@ -118,7 +119,7 @@ const AppRoutes = () => {
   }, [navigate]);
 
   const location = useLocation();
-  // Onboarding is a full-screen flow without the top nav or footer
+  // Onboarding is a full-screen flow without the navigation or footer
   const showSiteChrome = location.pathname !== "/onboarding";
 
   return (
@@ -127,9 +128,14 @@ const AppRoutes = () => {
       <ScrollToTop />
       <OfflineBanner />
       <GlobalNotifications />
-      <BottomNav />
+      {showSiteChrome && <BottomNav />}
+      <GlobalAddPlantDialog />
       {/* Navigation and Footer are mounted once, outside the animated/suspended region, so they stay put across navigations */}
       {showSiteChrome && <Navigation />}
+      {/* Leave room for the sidebar: an icon rail at lg, the full sidebar at xl */}
+      {/* Full-height column so the footer stays at the bottom on short pages */}
+      <div className={showSiteChrome ? "lg:pl-[92px] xl:pl-[248px] min-h-dvh flex flex-col" : undefined}>
+      <div className="flex-1">
       <Suspense fallback={<div className="min-h-dvh bg-background" />}>
         <AnimatedRoutes>
           <Routes location={location}>
@@ -167,7 +173,9 @@ const AppRoutes = () => {
           </Routes>
         </AnimatedRoutes>
       </Suspense>
+      </div>
       {showSiteChrome && <Footer />}
+      </div>
     </>
   );
 };

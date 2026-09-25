@@ -97,17 +97,22 @@ const ImageUpload = ({
   };
 
   return (
-    <div className="w-full space-y-2">
-      <Label htmlFor="image">{label}</Label>
+    <div className="w-full">
+      <Label
+        htmlFor="image"
+        className="block text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground px-1 mb-1.5"
+      >
+        {label}
+      </Label>
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         {/* URL Input */}
         <Input
           id="image"
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="w-full border-sprout-medium/30 focus:border-sprout-primary"
+          className="w-full h-12 rounded-2xl border-0 bg-field text-[15px] font-medium focus-visible:ring-2 focus-visible:ring-offset-0"
           data-testid="image-url-input"
         />
 
@@ -115,10 +120,9 @@ const ImageUpload = ({
         <div className="flex gap-2 w-full">
           <Button
             type="button"
-            variant="outline"
             onClick={handleUploadClick}
             disabled={isUploading}
-            className="flex-1 bg-sprout-light hover:bg-sprout-light/90 text-white border-sprout-light"
+            className="flex-1 h-12 rounded-2xl bg-sprout-dark hover:bg-sprout-dark/90 text-sprout-cream font-bold"
             data-testid="upload-image-button"
           >
             {isUploading ? (
@@ -137,10 +141,10 @@ const ImageUpload = ({
           {value && (
             <Button
               type="button"
-              variant="outline"
               size="icon"
               onClick={handleRemoveImage}
-              className="text-red-600 hover:text-red-700"
+              className="w-12 h-12 rounded-2xl bg-field text-foreground hover:bg-field/70"
+              aria-label="Remove image"
               data-testid="remove-image-button"
             >
               <X className="w-4 h-4" />
@@ -163,7 +167,7 @@ const ImageUpload = ({
             <img
               src={value}
               alt="Preview"
-              className="w-20 h-20 object-cover rounded-lg border"
+              className="w-20 h-20 object-cover rounded-2xl"
               onError={(e) => {
                 e.currentTarget.style.display = "none";
               }}

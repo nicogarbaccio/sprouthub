@@ -12,7 +12,7 @@ const TabsList = React.forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      "inline-flex h-10 items-center justify-center rounded-md bg-muted p-0 text-muted-foreground dark:bg-sprout-dark/50",
+      "inline-flex items-center gap-2",
       className
     )}
     {...props}
@@ -27,7 +27,8 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-sprout-success data-[state=active]:text-white data-[state=active]:border-sprout-success data-[state=active]:shadow-sm hover:bg-sprout-light/10 dark:border dark:border-sprout-light/30 dark:-ml-px dark:first:ml-0 dark:first:rounded-l-md dark:last:rounded-r-md dark:rounded-none dark:text-sprout-light dark:data-[state=active]:bg-sprout-success dark:data-[state=active]:text-white dark:data-[state=active]:border-sprout-success w-full h-full",
+      // Bento pills: white when idle, ink-filled when active
+      "inline-flex h-11 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-card px-4 text-sm font-bold text-foreground ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-foreground data-[state=active]:text-background",
       className
     )}
     {...props}

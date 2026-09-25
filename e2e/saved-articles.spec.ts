@@ -151,7 +151,7 @@ test.describe.serial('Saved Articles', () => {
     const card = plantSection
       .getByTestId('blog-post-card')
       .filter({ has: page.getByLabel('Save article') })
-      .filter({ has: page.locator('.absolute.bottom-2.left-2') })
+      .filter({ has: page.getByTestId('matched-plants') })
       .first();
     await expect(card).toBeVisible({ timeout: 15000 });
 
@@ -173,9 +173,9 @@ test.describe.serial('Saved Articles', () => {
 
     // Verify plant pills appear on the saved card (My Articles computes its own
     // matchedPlants so we just check that at least one pill badge is rendered)
-    const savedPillContainer = savedCard.locator('.absolute.bottom-2.left-2');
+    const savedPillContainer = savedCard.getByTestId('matched-plants');
     await expect(savedPillContainer).toBeVisible({ timeout: 10000 });
-    const pillCount = await savedPillContainer.locator('[class*="inline-flex"]').count();
+    const pillCount = await savedPillContainer.getByTestId('matched-plant').count();
     expect(pillCount).toBeGreaterThan(0);
 
     // Cleanup: unsave the article

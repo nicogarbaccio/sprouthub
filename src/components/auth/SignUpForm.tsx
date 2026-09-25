@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { settingsPrimaryButtonClasses } from "@/components/settings/SettingsUI";
 import { SignUpFormFields } from "./SignUpFormFields";
 import { authToast } from "@/utils/notifications/toast";
 import {
@@ -81,20 +81,20 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({
  };
 
  return (
- <form onSubmit={handleSubmit} className="space-y-4">
+ <form onSubmit={handleSubmit} className="space-y-3">
   <SignUpFormFields
   formData={formData}
   errors={errors}
   onInputChange={handleInputChange}
   />
-  <Button
+  <button
   type="submit"
-  className="w-full bg-sprout-light hover:bg-sprout-medium text-sprout-white"
+  className={settingsPrimaryButtonClasses}
   disabled={isLoading}
   data-testid="sign-up-button"
   >
   {isLoading ? "Creating account..." : "Sign Up"}
-  </Button>
+  </button>
  </form>
  );
 };

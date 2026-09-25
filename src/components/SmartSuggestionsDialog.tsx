@@ -6,20 +6,26 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import {
+  AlertTriangle,
+  ArrowRight,
   Brain,
   CheckCircle,
-  Target,
-  TrendingUp,
-  TrendingDown,
-  Clock,
-  Eye,
   CheckCircle2,
+  Eye,
+  Lightbulb,
   X,
 } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  SheetGrabber,
+  dialogSheetClasses,
+  sheetHeaderClasses,
+  sheetIconButtonClasses,
+  sheetPrimaryButtonClasses,
+  sheetSecondaryButtonClasses,
+  sheetTitleClasses,
+} from "@/components/ui/bento-sheet";
 import { cn } from "@/lib/utils";
 import { PatternInsight } from "@/types/wateringPatternTypes";
 
@@ -112,269 +118,166 @@ export function SmartSuggestionsDialog({
     onDismissPlantSuggestions(plantId);
   };
 
-  const getInsightIcon = (insight: PatternInsight) => {
-    if (insight.suggestion?.adjustmentType === "increase") {
-      return TrendingUp;
-    } else if (insight.suggestion?.adjustmentType === "decrease") {
-      return TrendingDown;
-    }
-    return Target;
-  };
-
-  const getInsightColor = (severity: string) => {
-    switch (severity) {
-      case "high":
-        return "bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800 text-red-900 dark:text-red-100";
-      case "medium":
-        return "bg-orange-50 dark:bg-orange-950/20 border-orange-200 dark:border-orange-800 text-orange-900 dark:text-orange-100";
-      default:
-        return "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800 text-blue-900 dark:text-blue-100";
-    }
-  };
-
-  // Show loading state while data is being fetched
-  if (isLoading) {
-    return (
-      <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Brain className="w-5 h-5 text-blue-600" />
-              Loading Suggestions...
-            </DialogTitle>
-            <DialogDescription>
-              Analyzing your watering patterns
-            </DialogDescription>
-          </DialogHeader>
-          <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-sm text-muted-foreground">
-              Please wait while we analyze your plants...
-            </p>
-          </div>
-        </DialogContent>
-      </Dialog>
-    );
-  }
-
-  if (activePlantSuggestions.length === 0) {
-    return (
-      <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-lg">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              All Caught Up!
-            </DialogTitle>
-            <DialogDescription>
-              No pending smart suggestions at the moment.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="text-center py-6">
-            <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
-            <p className="text-sm text-muted-foreground">
-              Your plants are all set with their current watering patterns.
-              Keep up the great care!
-            </p>
-          </div>
-          <div className="flex justify-end">
-            <Button onClick={onClose}>Close</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    );
-  }
+  const empty = !isLoading && activePlantSuggestions.length === 0;
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-50 dark:bg-blue-950/30 rounded-full">
-              <Brain className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            </div>
-            <div>
-              <DialogTitle>Smart Watering Suggestions</DialogTitle>
-              <DialogDescription>
-                AI-powered recommendations to optimize your plant care
-              </DialogDescription>
-            </div>
+      <DialogContent className={cn(dialogSheetClasses, "sm:max-w-2xl")}>
+        <SheetGrabber />
+        <DialogHeader className={sheetHeaderClasses}>
+          <div
+            className={cn(
+              "w-[52px] h-[52px] shrink-0 rounded-[18px] flex items-center justify-center text-sprout-dark",
+              empty ? "bg-sprout-success" : "bg-sprout-water"
+            )}
+          >
+            {empty ? <CheckCircle className="w-6 h-6" /> : <Brain className="w-6 h-6" />}
           </div>
+          <div className="flex-1 min-w-0">
+            <DialogTitle className={sheetTitleClasses}>
+              {isLoading ? "Loading suggestions..." : empty ? "All caught up!" : "Watering suggestions"}
+            </DialogTitle>
+            <DialogDescription className="text-sm font-medium">
+              {isLoading
+                ? "Analyzing your watering patterns"
+                : empty
+                  ? "No pending suggestions right now"
+                  : `${activePlantSuggestions.length} plant${activePlantSuggestions.length !== 1 ? "s" : ""} · ${totalSuggestions} suggestion${totalSuggestions !== 1 ? "s" : ""}${highPrioritySuggestions > 0 ? ` · ${highPrioritySuggestions} high priority` : ""}`}
+            </DialogDescription>
+          </div>
+          <button type="button" onClick={onClose} className={cn(sheetIconButtonClasses, "self-start")} aria-label="Close">
+            <X className="w-5 h-5" />
+          </button>
         </DialogHeader>
 
-        {/* Summary */}
-        <div className="p-4 bg-gradient-to-r from-blue-50/50 to-blue-100/50 dark:from-blue-950/20 dark:to-blue-950/10 rounded-lg">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="font-medium text-blue-900 dark:text-blue-100">
-              Suggestions Summary
-            </h3>
-            <div className="flex gap-2">
-              {highPrioritySuggestions > 0 && (
-                <Badge
-                  variant="outline"
-                  className="text-xs bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-950/20 dark:text-orange-300 dark:border-orange-800"
-                >
-                  {highPrioritySuggestions} high priority
-                </Badge>
-              )}
-              <Badge variant="outline" className="text-xs">
-                {totalSuggestions} total suggestions
-              </Badge>
+        <div className="mt-4 space-y-2">
+          {isLoading ? (
+            <div className="space-y-2" aria-busy="true">
+              <Skeleton className="h-40 w-full rounded-3xl" />
+              <Skeleton className="h-40 w-full rounded-3xl" />
             </div>
-          </div>
-          <p className="text-sm text-blue-700 dark:text-blue-300">
-            {activePlantSuggestions.length} plant{activePlantSuggestions.length !== 1 ? "s" : ""}{" "}
-            with optimization opportunities
-          </p>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex gap-3">
-          <Button
-            onClick={handleApplyAll}
-            disabled={isApplyingAll || totalSuggestions === 0}
-            className="flex-1"
-          >
-            <CheckCircle2 className="w-4 h-4 mr-2" />
-            {isApplyingAll
-              ? hasApplicableSuggestions
-                ? "Applying..."
-                : "Acknowledging..."
-              : hasApplicableSuggestions
-              ? "Apply All Suggestions"
-              : "Acknowledge All"}
-          </Button>
-          <Button variant="outline" onClick={onDismissAllSuggestions}>
-            Dismiss All
-          </Button>
-        </div>
-
-        <Separator />
-
-        {/* Plant Suggestions */}
-        <div className="space-y-6">
-          {activePlantSuggestions.map((plantSuggestion, plantIndex) => (
-            <div key={plantSuggestion.plantId} className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4 className="font-medium text-lg">{plantSuggestion.plantName}</h4>
-                  <p className="text-sm text-muted-foreground">
-                    {plantSuggestion.plantType}
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => onViewPlantHistory(plantSuggestion.plantId)}
-                  >
-                    <Eye className="w-4 h-4 mr-1" />
-                    View History
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDismissPlant(plantSuggestion.plantId)}
-                  >
-                    <X className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-
-              {plantSuggestion.insights.map((insight, insightIndex) => {
-                const InsightIcon = getInsightIcon(insight);
-                const isApplying = applyingPlantId === plantSuggestion.plantId;
-
-                return (
-                  <div
-                    key={`${insight.type}-${insightIndex}`}
-                    className={cn(
-                      "p-4 rounded-lg border",
-                      getInsightColor(insight.severity)
-                    )}
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <InsightIcon className="w-4 h-4" />
-                        <h5 className="font-medium text-sm">{insight.title}</h5>
-                        <Badge
-                          variant="outline"
-                          className={cn(
-                            "text-xs",
-                            insight.severity === "high"
-                              ? "bg-red-100 text-red-800 border-red-300 dark:bg-red-950/40 dark:text-red-300 dark:border-red-700"
-                              : insight.severity === "medium"
-                              ? "bg-orange-100 text-orange-800 border-orange-300 dark:bg-orange-950/40 dark:text-orange-300 dark:border-orange-700"
-                              : "bg-blue-100 text-blue-800 border-blue-300 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-700"
-                          )}
-                        >
-                          {insight.severity}
-                        </Badge>
-                      </div>
+          ) : empty ? (
+            <>
+              <p className="rounded-3xl bg-card p-5 text-[15px] text-muted-foreground">
+                Your plants are all set with their current watering patterns. Keep up the great care!
+              </p>
+              <button type="button" onClick={onClose} className={sheetPrimaryButtonClasses}>
+                Close
+              </button>
+            </>
+          ) : (
+            <>
+              {activePlantSuggestions.map((plantSuggestion) => (
+                <section key={plantSuggestion.plantId} className="rounded-3xl bg-card p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-display text-lg font-bold tracking-[-0.02em] text-foreground truncate">
+                        {plantSuggestion.plantName}
+                      </h4>
+                      <p className="text-[13px] text-muted-foreground truncate">{plantSuggestion.plantType}</p>
                     </div>
-
-                    <p className="text-sm mb-3 opacity-90">{insight.description}</p>
-
-                    {insight.suggestion && (
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between p-2 bg-background/80 rounded border">
-                          <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 opacity-60" />
-                            <span className="text-sm">Schedule Change</span>
-                          </div>
-                          <div className="flex items-center gap-1 text-sm">
-                            <span className="opacity-60">
-                              {insight.suggestion.currentSchedule}d
-                            </span>
-                            {insight.suggestion.adjustmentType === "increase" ? (
-                              <TrendingUp className="w-3 h-3 text-green-600" />
-                            ) : (
-                              <TrendingDown className="w-3 h-3 text-blue-600" />
-                            )}
-                            <span className="font-medium">
-                              {insight.suggestion.suggestedSchedule}d
-                            </span>
-                          </div>
-                        </div>
-
-                        {insight.suggestion.reasoning[0] && (
-                          <p className="text-xs bg-background/60 p-2 rounded border-l-2 border-current/20 opacity-75">
-                            {insight.suggestion.reasoning[0]}
-                          </p>
-                        )}
-
-                        <div className="flex gap-2">
-                          <Button
-                            size="sm"
-                            onClick={() =>
-                              handleApplySuggestion(plantSuggestion.plantId, insight)
-                            }
-                            disabled={isApplying}
-                            className="flex-1"
-                          >
-                            {isApplying ? "Applying..." : "Apply Change"}
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleDismissPlant(plantSuggestion.plantId)}
-                          >
-                            Dismiss
-                          </Button>
-                        </div>
-                      </div>
-                    )}
+                    <button
+                      type="button"
+                      onClick={() => onViewPlantHistory(plantSuggestion.plantId)}
+                      className="shrink-0 h-9 px-3 rounded-full bg-field text-foreground text-[13px] font-bold inline-flex items-center gap-1.5"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      History
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDismissPlant(plantSuggestion.plantId)}
+                      className="shrink-0 w-9 h-9 rounded-xl bg-field text-muted-foreground hover:text-foreground flex items-center justify-center"
+                      aria-label={`Dismiss suggestions for ${plantSuggestion.plantName}`}
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
-                );
-              })}
 
-              {plantIndex < activePlantSuggestions.length - 1 && <Separator />}
-            </div>
-          ))}
-        </div>
+                  <div className="space-y-2 mt-3">
+                    {plantSuggestion.insights.map((insight, insightIndex) => {
+                      const isApplying = applyingPlantId === plantSuggestion.plantId;
+                      const high = insight.severity === "high";
+                      return (
+                        <div key={`${insight.type}-${insightIndex}`} className="rounded-[20px] bg-field p-3.5">
+                          <div className="flex items-start gap-2.5">
+                            <div
+                              className={cn(
+                                "w-8 h-8 shrink-0 rounded-[10px] text-sprout-dark flex items-center justify-center",
+                                high ? "bg-sprout-warning" : insight.severity === "medium" ? "bg-sprout-cream" : "bg-sprout-water"
+                              )}
+                            >
+                              {high ? <AlertTriangle className="w-4 h-4" /> : <Lightbulb className="w-4 h-4" />}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <h5 className="text-[15px] font-bold text-foreground leading-snug">{insight.title}</h5>
+                              <p className="text-sm text-muted-foreground leading-relaxed mt-0.5">{insight.description}</p>
+                            </div>
+                          </div>
 
-        <div className="flex justify-end pt-4 border-t">
-          <Button onClick={onClose}>Close</Button>
+                          {insight.suggestion && (
+                            <>
+                              <div className="flex items-center justify-between gap-3 mt-3 rounded-[16px] bg-card px-4 py-2.5">
+                                <span className="text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground">
+                                  Schedule
+                                </span>
+                                <span className="flex items-center gap-2 font-display font-bold text-foreground">
+                                  <span className="text-muted-foreground">{insight.suggestion.currentSchedule}d</span>
+                                  <ArrowRight className="w-4 h-4 text-muted-foreground" />
+                                  <span className="text-lg">{insight.suggestion.suggestedSchedule}d</span>
+                                </span>
+                              </div>
+                              {insight.suggestion.reasoning[0] && (
+                                <p className="text-[13px] text-muted-foreground mt-2 px-1">{insight.suggestion.reasoning[0]}</p>
+                              )}
+                              <div className="flex gap-2 mt-3">
+                                <button
+                                  type="button"
+                                  onClick={() => handleDismissPlant(plantSuggestion.plantId)}
+                                  className="flex-1 h-11 rounded-[16px] bg-card text-foreground font-bold text-sm"
+                                >
+                                  Dismiss
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleApplySuggestion(plantSuggestion.plantId, insight)}
+                                  disabled={isApplying}
+                                  className="flex-[1.4] h-11 rounded-[16px] bg-sprout-dark text-sprout-cream font-bold text-sm shadow-[inset_0_0_0_2px_#dfc490] disabled:opacity-60"
+                                >
+                                  {isApplying ? "Applying..." : "Apply Change"}
+                                </button>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </section>
+              ))}
+
+              <div className="flex gap-2 pt-1">
+                <button type="button" onClick={onDismissAllSuggestions} className={cn(sheetSecondaryButtonClasses, "flex-1")}>
+                  Dismiss All
+                </button>
+                <button
+                  type="button"
+                  onClick={handleApplyAll}
+                  disabled={isApplyingAll || totalSuggestions === 0}
+                  className={cn(sheetPrimaryButtonClasses, "flex-[1.4]")}
+                >
+                  <CheckCircle2 className="w-5 h-5" />
+                  {isApplyingAll
+                    ? hasApplicableSuggestions
+                      ? "Applying..."
+                      : "Acknowledging..."
+                    : hasApplicableSuggestions
+                      ? "Apply All"
+                      : "Acknowledge All"}
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </DialogContent>
     </Dialog>

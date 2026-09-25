@@ -1,4 +1,4 @@
-import { Label } from "@/components/ui/label";
+import { FieldLabel, settingsInputClasses } from "@/components/settings/SettingsUI";
 import {
   Select,
   SelectContent,
@@ -27,13 +27,8 @@ export const HouseholdSelector = ({
   if (households.length === 0) return null;
 
   return (
-    <div className="space-y-2">
-      <Label
-        htmlFor="household_assignment"
-        className="text-plant-text dark:text-zinc-200"
-      >
-        Assignment
-      </Label>
+    <div>
+      <FieldLabel htmlFor="household_assignment">Assignment</FieldLabel>
       <Select
         value={householdId || "personal"}
         onValueChange={(value) =>
@@ -41,7 +36,8 @@ export const HouseholdSelector = ({
         }
       >
         <SelectTrigger
-          className="border-plant-secondary/30 focus:border-plant-primary [&>span]:line-clamp-none"
+          id="household_assignment"
+          className={`${settingsInputClasses} [&>span]:line-clamp-none`}
           data-testid="household-select-trigger"
         >
           <SelectValue placeholder="Personal plant or assign to household" />
@@ -66,11 +62,11 @@ export const HouseholdSelector = ({
           ))}
         </SelectContent>
       </Select>
-      {householdId && (
-        <p className="text-xs text-muted-foreground">
-          This plant will be visible and manageable by all household members
-        </p>
-      )}
+      <p className="text-[13px] text-muted-foreground px-1 mt-1.5">
+        {householdId
+          ? "Everyone in the household can see and care for this plant"
+          : "Only you can see this plant"}
+      </p>
     </div>
   );
 };

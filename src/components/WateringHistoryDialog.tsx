@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo, useCallback, memo } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -15,17 +16,31 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import {
-  Calendar,
   Droplets,
-  FileText,
   AlertTriangle,
   Trash2,
   Clock,
   Pencil,
+  X,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import PlantImage from "@/components/ui/plant-image";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  SheetGrabber,
+  dialogSheetClasses,
+  sheetHeaderClasses,
+  sheetIconButtonClasses,
+  sheetTitleClasses,
+} from "@/components/ui/bento-sheet";
+import {
+  confirmCancelClasses,
+  confirmDestructiveClasses,
+  confirmDialogClasses,
+  confirmIconClasses,
+  confirmTitleClasses,
+} from "@/components/settings/SettingsUI";
 import { computeOverwateringRisk } from "@/utils/plants/overwatering";
 import { stripNotesPrefixes } from "@/utils/watering/notesPrefixes";
 import { wateringToast } from "@/utils/notifications/toast";
@@ -206,7 +221,7 @@ const WateringHistoryDialog = memo(
 
     const formatDate = (dateString: string) => {
       try {
-        return format(new Date(dateString), "PPP 'at' p");
+        return format(new Date(dateString), "MMM d, yyyy · p");
       } catch {
         return "Invalid date";
       }
@@ -300,310 +315,163 @@ const WateringHistoryDialog = memo(
     const plantImage =
       plant.image || catalogPlant?.image || PLANT_FALLBACK_IMAGE;
 
+    const schedule = plant.suggested_watering_days || 7;
+
     // Use key to force complete unmount/remount when plant changes
     return (
       <>
         <Dialog open={isOpen} onOpenChange={onClose}>
           <DialogContent
             key={plant?.id}
-            className="max-w-2xl max-h-[80vh] overflow-y-auto p-6 sm:p-8 z-50"
+            className={cn(dialogSheetClasses, "sm:max-w-2xl")}
             onOpenAutoFocus={(e) => e.preventDefault()} // Prevent autofocus which might cause rerenders
           >
-            <DialogHeader className="border-b border-sprout-cream/30 dark:border-sprout-cream/20 pb-4 mb-6">
-              <DialogTitle className="flex items-center gap-2 text-lg sm:text-xl">
-                <Droplets className="w-5 h-5 text-sprout-water" />
-                Watering History for {plant.nickname}
-              </DialogTitle>
+            <SheetGrabber />
+            <DialogHeader className={sheetHeaderClasses}>
+              <div className="w-[52px] h-[52px] shrink-0 rounded-[18px] overflow-hidden bg-field">
+                <PlantImage src={plantImage} alt="" className="w-full h-full" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <DialogTitle className={sheetTitleClasses}>Watering history</DialogTitle>
+                <DialogDescription className="text-sm font-medium truncate">
+                  {plant.nickname} · every {schedule} {schedule === 1 ? "day" : "days"}
+                </DialogDescription>
+              </div>
+              <button type="button" onClick={onClose} className={cn(sheetIconButtonClasses, "self-start")} aria-label="Close">
+                <X className="w-5 h-5" />
+              </button>
             </DialogHeader>
 
-            <div className="space-y-8">
-              {/* Plant Overview */}
-              <div className="bg-gradient-to-r from-sprout-pale to-sprout-pale/50 dark:from-sprout-dark/30 dark:to-sprout-dark/10 rounded-xl p-6 border border-sprout-cream/20 shadow-sm">
-                <div className="flex items-center gap-6">
-                  {plantImage && (
-                    <img
-                      src={plantImage}
-                      alt={plant.nickname}
-                      className="w-20 h-20 sm:w-16 sm:h-16 rounded-xl object-cover flex-shrink-0 shadow-md ring-2 ring-sprout-cream/20"
-                    />
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-xl sm:text-lg">
-                      {plant.nickname}
-                    </h3>
-                    <p className="text-muted-foreground text-base sm:text-sm">
-                      {plant.plant_type}
-                    </p>
-                    <div className="flex items-center gap-1.5 mt-2">
-                      <Droplets className="w-3.5 h-3.5 text-sprout-water" />
-                      <p className="text-sm sm:text-xs text-sprout-medium">
-                        Every {plant.suggested_watering_days || 7} days
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+            <div className="mt-4 space-y-2">
               {/* Statistics */}
               {stats && stats.totalWaterings > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <div className="bg-gradient-to-br from-sprout-water/10 to-sprout-water/5 rounded-xl p-6 border border-sprout-water/20 shadow-sm">
-                    <div className="text-center">
-                      <Droplets className="w-5 h-5 text-sprout-water mx-auto mb-2" />
-                      <div className="text-3xl sm:text-2xl font-bold text-sprout-water">
-                        {stats.totalWaterings}
-                      </div>
-                      <div className="text-sm sm:text-xs text-muted-foreground mt-1">
-                        Total Waterings
-                      </div>
-                    </div>
-                  </div>
-
-                  {stats.avgInterval && (
-                    <div className="bg-gradient-to-br from-violet-500/10 to-violet-500/5 dark:from-violet-400/10 dark:to-violet-400/5 rounded-xl p-6 border border-violet-300/30 dark:border-violet-500/20 shadow-sm">
-                      <div className="text-center">
-                        <Calendar className="w-5 h-5 text-violet-500 dark:text-violet-400 mx-auto mb-2" />
-                        <div className="text-3xl sm:text-2xl font-bold text-violet-600 dark:text-violet-400">
-                          {stats.avgInterval}
-                        </div>
-                        <div className="text-sm sm:text-xs text-muted-foreground mt-1">
-                          Avg Days Between
-                        </div>
-                      </div>
-                    </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  <StatTile className="bg-sprout-water text-sprout-dark" label="Waterings" value={stats.totalWaterings} />
+                  {stats.avgInterval !== null && (
+                    <StatTile className="bg-sprout-cream text-sprout-dark" label="Avg gap" value={`${stats.avgInterval}d`} />
                   )}
-
-                  {risk.level !== "none" && (
-                    <div
-                      className={`rounded-lg p-6 border ${
-                        risk.level === "high"
-                          ? "bg-red-600/10 border-red-600/30"
-                          : "bg-orange-500/10 border-orange-500/30"
-                      }`}
-                    >
-                      <div className="flex items-center justify-center gap-2 text-base sm:text-sm">
-                        <AlertTriangle
-                          className={`w-5 h-5 sm:w-4 sm:h-4 ${
-                            risk.level === "high"
-                              ? "text-red-600"
-                              : "text-orange-500"
-                          }`}
-                        />
-                        <span className="font-medium">
-                          {risk.level === "high"
-                            ? "Possible overwatering"
-                            : "Watch watering frequency"}
-                        </span>
-                      </div>
-                      <p className="text-center text-sm sm:text-xs text-muted-foreground mt-2">
-                        {risk.count} in last {risk.windowDays} days
-                        {risk.avgIntervalDays
-                          ? ` • avg ${risk.avgIntervalDays}d vs ${
-                              plant?.suggested_watering_days || 7
-                            }d`
-                          : ""}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Only show schedule tracking when we have enough data (2+ waterings) */}
-                  {stats.avgInterval && (
-                    <div className={`rounded-xl p-6 border shadow-sm ${
-                      stats.isOnTrack === true
-                        ? "bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border-emerald-300/30 dark:border-emerald-500/20"
-                        : stats.isOnTrack === false
-                        ? "bg-gradient-to-br from-amber-500/10 to-amber-500/5 border-amber-300/30 dark:border-amber-500/20"
-                        : "bg-gradient-to-br from-gray-500/10 to-gray-500/5 border-gray-300/30 dark:border-gray-500/20"
-                    }`}>
-                      <div className="text-center flex flex-col items-center justify-center h-full">
-                        <div
-                          className={`w-10 h-10 sm:w-8 sm:h-8 rounded-full flex items-center justify-center mb-2 ${
-                            stats.isOnTrack === true
-                              ? "bg-emerald-500/20"
-                              : stats.isOnTrack === false
-                              ? "bg-amber-500/20"
-                              : "bg-gray-500/20"
-                          }`}
-                        >
-                          <span className={`text-xl sm:text-lg font-bold ${
-                            stats.isOnTrack === true
-                              ? "text-emerald-600 dark:text-emerald-400"
-                              : stats.isOnTrack === false
-                              ? "text-amber-600 dark:text-amber-400"
-                              : "text-muted-foreground"
-                          }`}>
-                            {stats.isOnTrack === true
-                              ? "✓"
-                              : stats.isOnTrack === false
-                              ? "!"
-                              : "?"}
-                          </span>
-                        </div>
-                        <div className="text-base sm:text-sm font-semibold mt-1">
-                          {stats.isOnTrack === true
-                            ? "On Schedule"
-                            : stats.isOnTrack === false
-                            ? "Off Schedule"
-                            : "Need More Data"}
-                        </div>
-                        <div className="text-sm sm:text-xs text-muted-foreground mt-1">
-                          {stats.avgInterval}d avg / {stats.suggestedInterval}d suggested
-                        </div>
-                      </div>
-                    </div>
+                  {stats.avgInterval !== null && (
+                    <StatTile
+                      className={cn(
+                        "col-span-2 sm:col-span-1",
+                        stats.isOnTrack ? "bg-sprout-success text-sprout-dark" : "bg-card text-foreground"
+                      )}
+                      label={stats.isOnTrack ? "On schedule" : "Off schedule"}
+                      value={`${stats.avgInterval}d vs ${stats.suggestedInterval}d`}
+                    />
                   )}
                 </div>
               )}
 
-              {/* Watering Records */}
-              <div>
-                <h3 className="text-xl sm:text-lg font-semibold mb-6 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-sprout-water/20 to-sprout-water/40 flex items-center justify-center">
-                    <Calendar className="w-4 h-4 text-sprout-water" />
-                  </div>
-                  Watering History & Postponements
-                </h3>
-
-                {isLoading ? (
-                  <div className="text-center py-12">
-                    <div className="animate-spin rounded-full h-10 w-10 sm:h-8 sm:w-8 border-b-2 border-sprout-primary mx-auto"></div>
-                    <p className="text-muted-foreground mt-4 text-base sm:text-sm">
-                      Loading watering history...
+              {risk.level !== "none" && (
+                <div
+                  className={cn(
+                    "flex items-start gap-2.5 rounded-3xl p-4 text-sprout-dark",
+                    risk.level === "high" ? "bg-sprout-warning" : "bg-sprout-cream"
+                  )}
+                >
+                  <AlertTriangle className="w-5 h-5 mt-0.5 shrink-0" />
+                  <div className="text-sm">
+                    <p className="font-bold">
+                      {risk.level === "high" ? "Possible overwatering" : "Watch watering frequency"}
+                    </p>
+                    <p className="font-medium">
+                      {risk.count} in the last {risk.windowDays} days
+                      {risk.avgIntervalDays ? ` · avg ${risk.avgIntervalDays}d vs ${schedule}d` : ""}
                     </p>
                   </div>
-                ) : wateringRecords.length === 0 ? (
-                  <div className="text-center py-12 bg-gradient-to-b from-sprout-water/5 to-transparent rounded-xl border border-dashed border-sprout-water/20">
-                    <div className="w-16 h-16 sm:w-12 sm:h-12 rounded-full bg-sprout-water/10 flex items-center justify-center mx-auto mb-4">
-                      <Droplets className="w-8 h-8 sm:w-6 sm:h-6 text-sprout-water/50" />
-                    </div>
-                    <p className="text-muted-foreground text-lg sm:text-base font-medium">
-                      No watering records yet
-                    </p>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      Start tracking by watering your plant!
-                    </p>
+                </div>
+              )}
+
+              {/* Watering records */}
+              <h3 className="text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground px-1.5 pt-2">
+                Waterings &amp; postponements
+              </h3>
+
+              {isLoading ? (
+                <div className="space-y-2" aria-busy="true" aria-label="Loading watering history">
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <Skeleton key={i} className="h-[72px] w-full rounded-[22px]" />
+                  ))}
+                </div>
+              ) : wateringRecords.length === 0 ? (
+                <div className="rounded-3xl bg-card p-5 flex items-center gap-3.5">
+                  <div className="w-11 h-11 shrink-0 rounded-[14px] bg-sprout-water text-sprout-dark flex items-center justify-center">
+                    <Droplets className="w-5 h-5" />
                   </div>
-                ) : (
-                  <div className="space-y-4">
-                    {wateringRecords.map((record, index) => {
-                      const isPostponement = record.is_postponement;
-                      const isFutureDate = isFuture(
-                        new Date(record.watered_at)
-                      );
-                      return (
-                        <div key={record.id}>
-                          <div
-                            className={`flex items-start gap-6 p-6 rounded-xl border hover:shadow-md hover:-translate-y-0.5 transition-all duration-200
-                          ${
-                            isPostponement
-                              ? isFutureDate
-                                ? "bg-gradient-to-r from-amber-50 to-amber-100/50 dark:from-amber-950/30 dark:to-amber-900/10 border-amber-300 dark:border-amber-700/40"
-                                : "bg-gradient-to-r from-gray-50 to-gray-100/50 dark:from-gray-800/30 dark:to-gray-700/10 border-gray-300 dark:border-gray-600/30"
-                              : "bg-gradient-to-r from-sky-50/50 to-card dark:from-sky-950/20 dark:to-card border-sprout-water/30"
-                          }`}
-                          >
-                            <div className="flex-shrink-0">
-                              <div
-                                className={`w-12 h-12 sm:w-10 sm:h-10 rounded-full flex items-center justify-center shadow-sm
-                            ${
-                              isPostponement
-                                ? "bg-gradient-to-br from-amber-200 to-amber-300 dark:from-amber-800/50 dark:to-amber-900/30"
-                                : "bg-gradient-to-br from-sprout-water/30 to-sprout-water/50"
-                            }`}
-                              >
-                                {isPostponement ? (
-                                  <Clock className="w-6 h-6 sm:w-5 sm:h-5 text-amber-600 dark:text-amber-400" />
-                                ) : (
-                                  <Droplets className="w-6 h-6 sm:w-5 sm:h-5 text-sprout-water" />
-                                )}
-                              </div>
-                            </div>
-
-                            <div className="flex-1 min-w-0">
-                              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                                <p className="font-medium text-foreground text-lg sm:text-base">
-                                  {isPostponement
-                                    ? isFutureDate
-                                      ? "Postponed Watering"
-                                      : "Past Postponement"
-                                    : "Watered"}
-                                </p>
-                                <div className="flex items-center gap-1">
-                                  <span className="text-base sm:text-sm text-muted-foreground mt-1 sm:mt-0">
-                                    {formatDate(record.watered_at)}
-                                  </span>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => setRecordToEdit(record)}
-                                    className="text-muted-foreground hover:text-sprout-water hover:bg-sprout-water/10 ml-2 flex-shrink-0 rounded-lg transition-colors"
-                                    title="Edit record"
-                                  >
-                                    <Pencil className="w-4 h-4" />
-                                  </Button>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => setRecordToDelete(record)}
-                                    className="text-muted-foreground hover:text-red-500 hover:bg-red-500/10 flex-shrink-0 rounded-lg transition-colors"
-                                    title="Delete record"
-                                  >
-                                    <Trash2 className="w-4 h-4" />
-                                  </Button>
-                                </div>
-                              </div>
-
-                              {record.notes && (
-                                <div className="flex items-start gap-3 mt-3">
-                                  <FileText className="w-5 h-5 sm:w-4 sm:h-4 text-muted-foreground mt-0.5 flex-shrink-0" />
-                                  <p className="text-base sm:text-sm text-muted-foreground">
-                                    {/*
-                                      Strip every system-generated prefix, not just
-                                      POSTPONEMENT:. This used to be a manual replace, so
-                                      LATE_HEALTHY:/LATE_STRESSED: markers leaked into the UI.
-                                    */}
-                                    {stripNotesPrefixes(record.notes)}
-                                  </p>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          {index < wateringRecords.length - 1 && (
-                            <div className="border-b border-sprout-cream/10 dark:border-sprout-cream/5 mx-6" />
+                  <div>
+                    <p className="text-[15px] font-bold text-foreground">No watering records yet</p>
+                    <p className="text-sm text-muted-foreground">Start tracking by watering your plant!</p>
+                  </div>
+                </div>
+              ) : (
+                <ul className="space-y-2">
+                  {wateringRecords.map((record) => {
+                    const isPostponement = record.is_postponement;
+                    const isFutureDate = isFuture(new Date(record.watered_at));
+                    const notes = stripNotesPrefixes(record.notes);
+                    return (
+                      <li key={record.id} className="flex items-start gap-3 p-2.5 rounded-[22px] bg-card">
+                        <div
+                          className={cn(
+                            "w-11 h-11 shrink-0 rounded-2xl flex items-center justify-center",
+                            !isPostponement
+                              ? "bg-sprout-water text-sprout-dark"
+                              : isFutureDate
+                                ? "bg-sprout-cream text-sprout-dark"
+                                : "bg-field text-muted-foreground"
                           )}
+                        >
+                          {isPostponement ? <Clock className="w-5 h-5" /> : <Droplets className="w-5 h-5" />}
                         </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
+                        <div className="flex-1 min-w-0 pt-0.5">
+                          <p className="text-[15px] font-bold text-foreground">
+                            {isPostponement
+                              ? isFutureDate
+                                ? "Postponed watering"
+                                : "Past postponement"
+                              : "Watered"}
+                          </p>
+                          <p className="text-[13px] text-muted-foreground">{formatDate(record.watered_at)}</p>
+                          {notes && <p className="text-sm text-foreground mt-1.5 leading-snug">{notes}</p>}
+                        </div>
+                        <div className="flex gap-1.5 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => setRecordToEdit(record)}
+                            className="w-10 h-10 rounded-xl bg-field text-foreground flex items-center justify-center hover:bg-sprout-water hover:text-sprout-dark transition-colors"
+                            aria-label="Edit record"
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setRecordToDelete(record)}
+                            className="w-10 h-10 rounded-xl bg-field text-foreground flex items-center justify-center hover:bg-sprout-warning hover:text-sprout-dark transition-colors"
+                            aria-label="Delete record"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
 
               {/* Pattern Analysis Section */}
               {analysis && (
-                <>
-                  <Separator className="my-6" />
-                  <PatternAnalysisSection
-                    analysis={analysis}
-                    insights={visibleInsights}
-                    stats={patternStats}
-                    isLoading={isAnalyzing}
-                    onAcceptSuggestion={handleScheduleAdjustment}
-                    onDismissInsight={handleDismissInsight}
-                    onRefreshAnalysis={handleRefreshAnalysis}
-                  />
-                </>
+                <PatternAnalysisSection
+                  className="pt-4"
+                  analysis={analysis}
+                  insights={visibleInsights}
+                  stats={patternStats}
+                  isLoading={isAnalyzing}
+                  onAcceptSuggestion={handleScheduleAdjustment}
+                  onDismissInsight={handleDismissInsight}
+                  onRefreshAnalysis={handleRefreshAnalysis}
+                />
               )}
-
-              {/* Action Buttons */}
-              <div className="flex justify-end pt-6 border-t border-sprout-cream/30 dark:border-sprout-cream/20">
-                <Button
-                  variant="outline"
-                  onClick={onClose}
-                  className="px-6 py-2 text-base sm:text-sm"
-                >
-                  Close
-                </Button>
-              </div>
             </div>
           </DialogContent>
         </Dialog>
@@ -621,33 +489,32 @@ const WateringHistoryDialog = memo(
           open={!!recordToDelete}
           onOpenChange={(open) => !open && setRecordToDelete(null)}
         >
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Delete Watering Record</AlertDialogTitle>
-              <AlertDialogDescription>
-                Are you sure you want to delete this{" "}
-                {recordToDelete?.is_postponement
-                  ? "postponement"
-                  : "watering record"}
-                ? This action cannot be undone.
-                {recordToDelete?.notes && !recordToDelete.is_postponement && (
-                  <>
-                    <br />
-                    <br />
-                    <span className="font-medium">Notes: </span>
-                    {recordToDelete.notes}
-                  </>
+          <AlertDialogContent className={confirmDialogClasses}>
+            <AlertDialogHeader className="text-left">
+              <div className="flex items-center gap-3 mb-1">
+                <div className={cn(confirmIconClasses, "bg-sprout-warning text-sprout-dark")}>
+                  <Trash2 className="w-6 h-6" />
+                </div>
+                <AlertDialogTitle className={confirmTitleClasses}>
+                  Delete {recordToDelete?.is_postponement ? "postponement" : "watering"}?
+                </AlertDialogTitle>
+              </div>
+              <AlertDialogDescription className="text-[15px]">
+                {recordToDelete && `${formatDate(recordToDelete.watered_at)}. `}
+                This can't be undone.
+                {recordToDelete?.notes && !recordToDelete.is_postponement && stripNotesPrefixes(recordToDelete.notes) && (
+                  <span className="block mt-2">
+                    <span className="font-bold text-foreground">Notes: </span>
+                    {stripNotesPrefixes(recordToDelete.notes)}
+                  </span>
                 )}
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => setRecordToDelete(null)}>
+              <AlertDialogCancel onClick={() => setRecordToDelete(null)} className={confirmCancelClasses}>
                 Cancel
               </AlertDialogCancel>
-              <AlertDialogAction
-                onClick={handleConfirmDelete}
-                className="bg-red-500 hover:bg-red-600 text-white"
-              >
+              <AlertDialogAction onClick={handleConfirmDelete} className={confirmDestructiveClasses}>
                 Delete
               </AlertDialogAction>
             </AlertDialogFooter>
@@ -657,5 +524,14 @@ const WateringHistoryDialog = memo(
     );
   }
 );
+
+function StatTile({ className, label, value }: { className: string; label: string; value: React.ReactNode }) {
+  return (
+    <div className={cn("rounded-[22px] p-3.5", className)}>
+      <div className="text-xs font-bold uppercase tracking-[0.8px]">{label}</div>
+      <div className="font-display text-lg font-bold mt-1">{value}</div>
+    </div>
+  );
+}
 
 export default WateringHistoryDialog;

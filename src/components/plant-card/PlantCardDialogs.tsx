@@ -88,6 +88,7 @@ export function PlantCardDialogs({
   return (
     <>
       <WaterConfirmationDialog
+        plantImage={image}
         open={showWaterConfirmation}
         onOpenChange={onWaterConfirmationChange}
         onConfirm={onConfirmWater}

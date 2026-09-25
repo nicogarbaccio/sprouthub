@@ -33,14 +33,16 @@ test.describe('Plant Details Page', () => {
   });
 
   test('should display watering schedule info', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Watering Schedule' })).toBeVisible();
-    await expect(page.getByText('Last watered:')).toBeVisible();
-    await expect(page.getByText('Frequency:')).toBeVisible();
+    // The watering tile: current status, the schedule, and a Water button
+    await expect(page.getByTestId('plant-watering-status')).toBeVisible();
+    await expect(page.getByText(/Every \d+ days? ·/)).toBeVisible();
+    await expect(page.getByTestId('plant-water-button')).toBeVisible();
   });
 
-  test('should display plant info section', async ({ page }) => {
-    await expect(page.getByRole('heading', { name: 'Plant Info' })).toBeVisible();
-    await expect(page.getByText('Added:')).toBeVisible();
+  test('should display journal, repotting and fertilization entry points', async ({ page }) => {
+    await expect(page.getByRole('button', { name: /Plant Journal/ })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Repotting Guide/ })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Fertilization/ })).toBeVisible();
   });
 
   test('should display care details grid', async ({ page }) => {

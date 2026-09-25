@@ -3,7 +3,7 @@ import { CascadingContainer } from "@/components/ui/cascading-container";
 
 const PrivacyPolicy = () => {
   return (
-    <div className="min-h-[calc(100dvh-4rem)] bg-background pb-28 lg:pb-0">
+    <div className="bg-background pb-28 lg:pb-0">
       <main className="py-8 sm:py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <CascadingContainer delay={0}>

@@ -6,8 +6,29 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AlertTriangle, Trash2, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import PlantImage from "@/components/ui/plant-image";
+import { getPlantImageUrl } from "@/utils/plants/images";
+import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
+import {
+  SheetGrabber,
+  dialogSheetClasses,
+  sheetHeaderClasses,
+  sheetIconButtonClasses,
+  sheetPrimaryButtonClasses,
+  sheetSecondaryButtonClasses,
+  sheetTitleClasses,
+} from "@/components/ui/bento-sheet";
+import {
+  confirmCancelClasses,
+  confirmDestructiveClasses,
+  confirmDialogClasses,
+  confirmIconClasses,
+  confirmTitleClasses,
+  pillTabsListClasses,
+} from "@/components/settings/SettingsUI";
 import { supabase } from "@/integrations/supabase/client";
 import { plantToast, wateringToast, utilityToast } from "@/utils/notifications/toast";
 import { NO_ROOM_VALUE } from "@/utils/rooms";
@@ -371,59 +392,51 @@ const EditPlantDialog = ({
     }
   };
 
+  const tabs = [
+    { value: "details", label: "Details", testId: "details-tab" },
+    { value: "watering", label: "Waterings", testId: "watering-history-tab" },
+    { value: "schedule", label: "Schedule", testId: "schedule-history-tab" },
+    { value: "settings", label: "Settings", testId: "settings-tab" },
+  ];
+
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent
-          data-testid="edit-plant-dialog"
-          className="max-w-2xl max-h-[80vh] overflow-y-auto"
-        >
-          <DialogHeader className="border-b border-sprout-cream/30 dark:border-sprout-cream/20 pb-4 mb-6">
-            <DialogTitle data-testid="edit-plant-dialog-title">
-              Edit Plant Details
-            </DialogTitle>
-            <DialogDescription>
-              Update your plant's information, care schedule, and watering
-              history.
-            </DialogDescription>
+        <DialogContent data-testid="edit-plant-dialog" className={cn(dialogSheetClasses, "sm:max-w-2xl")}>
+          <SheetGrabber />
+          <DialogHeader className={sheetHeaderClasses}>
+            <div className="w-[52px] h-[52px] shrink-0 rounded-[18px] overflow-hidden bg-field">
+              {plant && (
+                <PlantImage
+                  src={getPlantImageUrl(image || plant.image, plant.plant_type, PLANT_FALLBACK_IMAGE)}
+                  alt=""
+                  className="w-full h-full"
+                />
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <DialogTitle data-testid="edit-plant-dialog-title" className={sheetTitleClasses}>
+                Edit plant
+              </DialogTitle>
+              <DialogDescription className="text-sm font-medium truncate">
+                {plant?.nickname}
+              </DialogDescription>
+            </div>
+            <button type="button" onClick={onClose} className={cn(sheetIconButtonClasses, "self-start")} aria-label="Close">
+              <X className="w-5 h-5" />
+            </button>
           </DialogHeader>
 
-          <Tabs defaultValue="details" className="space-y-6">
-            <TabsList
-              data-testid="edit-plant-tabs"
-              className="grid w-full grid-cols-2 md:grid-cols-4 h-auto md:h-10 gap-2"
-            >
-              <TabsTrigger
-                data-testid="details-tab"
-                value="details"
-                className="!rounded-md"
-              >
-                Plant Details
-              </TabsTrigger>
-              <TabsTrigger
-                data-testid="watering-history-tab"
-                value="watering"
-                className="!rounded-md"
-              >
-                Watering History
-              </TabsTrigger>
-              <TabsTrigger
-                data-testid="schedule-history-tab"
-                value="schedule"
-                className="!rounded-md"
-              >
-                Schedule History
-              </TabsTrigger>
-              <TabsTrigger
-                data-testid="settings-tab"
-                value="settings"
-                className="!rounded-md"
-              >
-                Settings
-              </TabsTrigger>
+          <Tabs defaultValue="details" className="mt-4">
+            <TabsList data-testid="edit-plant-tabs" className={cn(pillTabsListClasses, "-mx-4 px-4 sm:mx-0 sm:px-0")}>
+              {tabs.map((tab) => (
+                <TabsTrigger key={tab.value} data-testid={tab.testId} value={tab.value}>
+                  {tab.label}
+                </TabsTrigger>
+              ))}
             </TabsList>
 
-            <TabsContent value="details" className="space-y-6 mt-8 md:mt-2">
+            <TabsContent value="details" className="mt-4">
               <PlantDetailsForm
                 nickname={nickname}
                 setNickname={setNickname}
@@ -444,36 +457,32 @@ const EditPlantDialog = ({
                 setAlternativeNames={setAlternativeNames}
               />
 
-              <div className="flex justify-end space-x-2 pt-4">
-                <Button
+              <div className="flex gap-2 mt-4">
+                <button
                   data-testid="cancel-edit-button"
-                  variant="outline"
+                  type="button"
                   onClick={onClose}
+                  className={cn(sheetSecondaryButtonClasses, "flex-1")}
                 >
                   Cancel
-                </Button>
-                <Button
+                </button>
+                <button
                   data-testid="save-plant-button"
+                  type="button"
                   onClick={handleSave}
                   disabled={isLoading || !hasChanges()}
-                  className={`${
-                    hasChanges()
-                      ? "bg-sprout-primary hover:bg-sprout-primary/90 text-white dark:bg-sprout-medium dark:hover:bg-sprout-medium/90"
-                      : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed hover:bg-gray-300 dark:hover:bg-gray-600"
-                  }`}
+                  className={cn(sheetPrimaryButtonClasses, "flex-[1.3]")}
                 >
                   {isLoading ? "Saving..." : "Save Changes"}
-                </Button>
+                </button>
               </div>
             </TabsContent>
 
-            <TabsContent
-              data-testid="watering-history-content"
-              value="watering"
-              className="space-y-4 mt-8 md:mt-2"
-            >
-              <h3 className="text-lg font-semibold">Watering History</h3>
+            <TabsContent data-testid="watering-history-content" value="watering" className="mt-4 space-y-2">
               <WateringRecordForm onAddWatering={handleAddWatering} />
+              <h3 className="text-xs font-bold tracking-[0.8px] uppercase text-muted-foreground px-1.5 pt-2">
+                Watering history
+              </h3>
               <WateringRecordsList
                 records={wateringRecords}
                 onDeleteRecord={handleDeleteWatering}
@@ -482,7 +491,7 @@ const EditPlantDialog = ({
               />
             </TabsContent>
 
-            <TabsContent value="schedule" className="space-y-4 mt-8 md:mt-2">
+            <TabsContent value="schedule" className="mt-4">
               {plant && (
                 <ScheduleHistoryCard
                   plantId={plant.id}
@@ -491,56 +500,61 @@ const EditPlantDialog = ({
                 />
               )}
             </TabsContent>
-            <TabsContent
-              data-testid="settings-content"
-              value="settings"
-              className="space-y-4 mt-8 md:mt-2"
-            >
+
+            <TabsContent data-testid="settings-content" value="settings" className="mt-4">
               {/* Danger Zone for Delete Plant */}
-              <div
-                data-testid="danger-zone"
-                className="border border-red-200 bg-red-50 rounded-lg p-6 flex flex-col items-center"
-              >
-                <h4 className="text-red-700 font-semibold mb-2">Danger Zone</h4>
-                <p className="text-sm text-red-600 mb-4 text-center">
-                  Deleting this plant will remove it and all its watering
-                  records from your collection. This action cannot be undone.
-                </p>
-                <AlertDialog
-                  open={isDeleteDialogOpen}
-                  onOpenChange={setIsDeleteDialogOpen}
-                >
+              <div data-testid="danger-zone" className="rounded-3xl bg-card p-5">
+                <div className="flex items-start gap-3.5">
+                  <div className="w-11 h-11 shrink-0 rounded-[14px] bg-sprout-warning text-sprout-dark flex items-center justify-center">
+                    <AlertTriangle className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="font-display text-lg font-bold tracking-[-0.02em] text-foreground">Danger Zone</h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed mt-0.5">
+                      Deleting this plant removes it and all its watering records from your collection. This can't be
+                      undone.
+                    </p>
+                  </div>
+                </div>
+                <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
                   <AlertDialogTrigger asChild>
-                    <Button
+                    <button
                       data-testid="delete-plant-trigger-button"
                       type="button"
-                      className="bg-sprout-error hover:bg-sprout-error/90 text-sprout-white"
+                      className="mt-4 w-full h-12 rounded-[18px] bg-sprout-warning text-sprout-dark font-bold text-[15px] inline-flex items-center justify-center gap-2 hover:bg-sprout-warning/90 disabled:opacity-50"
                       onClick={() => setIsDeleteDialogOpen(true)}
                       disabled={isLoading || isDeleting}
                     >
+                      <Trash2 className="w-4 h-4" />
                       Delete Plant
-                    </Button>
+                    </button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent data-testid="delete-plant-confirmation-dialog">
-                    <AlertDialogHeader>
-                      <AlertDialogTitle data-testid="delete-plant-confirmation-title">
-                        Delete Plant
-                      </AlertDialogTitle>
-                      <AlertDialogDescription>
-                        Are you sure you want to delete this plant? This action
-                        cannot be undone.
+                  <AlertDialogContent data-testid="delete-plant-confirmation-dialog" className={confirmDialogClasses}>
+                    <AlertDialogHeader className="text-left">
+                      <div className="flex items-center gap-3 mb-1">
+                        <div className={cn(confirmIconClasses, "bg-sprout-warning text-sprout-dark")}>
+                          <Trash2 className="w-6 h-6" />
+                        </div>
+                        <AlertDialogTitle data-testid="delete-plant-confirmation-title" className={confirmTitleClasses}>
+                          Delete Plant
+                        </AlertDialogTitle>
+                      </div>
+                      <AlertDialogDescription className="text-[15px]">
+                        Are you sure you want to delete {plant?.nickname ? `"${plant.nickname}"` : "this plant"}? This
+                        action cannot be undone.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel
                         data-testid="delete-plant-cancel-button"
                         disabled={isDeleting}
+                        className={confirmCancelClasses}
                       >
                         Cancel
                       </AlertDialogCancel>
                       <AlertDialogAction
                         data-testid="delete-plant-confirm-button"
-                        className="bg-sprout-error hover:bg-sprout-error/90 text-white"
+                        className={confirmDestructiveClasses}
                         onClick={handleDeletePlant}
                         disabled={isDeleting}
                       >

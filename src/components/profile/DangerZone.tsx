@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
- Card,
- CardContent,
- CardDescription,
- CardHeader,
- CardTitle,
-} from "@/components/ui/card";
+  SettingsCard,
+  confirmCancelClasses,
+  confirmDestructiveClasses,
+  confirmDialogClasses,
+  confirmTitleClasses,
+} from "@/components/settings/SettingsUI";
 import {
  AlertDialog,
  AlertDialogAction,
@@ -16,7 +16,6 @@ import {
  AlertDialogHeader,
  AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import { Trash2, AlertTriangle } from "lucide-react";
 
 interface DangerZoneProps {
@@ -37,41 +36,30 @@ const DangerZone: React.FC<DangerZoneProps> = ({
 
  return (
  <>
-  <Card>
-   <CardHeader>
-   <div className="flex items-center space-x-2">
-    <Trash2 className="w-5 h-5 text-sprout-error dark:text-sprout-error" />
-    <CardTitle className="text-sprout-error dark:text-sprout-error">
-    Danger Zone
-    </CardTitle>
-   </div>
-   <CardDescription>
-    Irreversible actions that affect your account
-   </CardDescription>
-   </CardHeader>
-   <CardContent>
-   <Button
+  <SettingsCard
+   title="Danger Zone"
+   description="Permanently delete your account and everything in it"
+   icon={Trash2}
+   iconClasses="bg-sprout-warning text-sprout-dark"
+  >
+   <button
+    type="button"
     onClick={() => setShowConfirmDialog(true)}
     disabled={isLoading}
-    variant="destructive"
-    className="w-full bg-sprout-error hover:bg-sprout-error/90 dark:bg-sprout-error/80 dark:hover:bg-sprout-error/70"
+    className="w-full h-14 rounded-[18px] bg-sprout-warning text-sprout-dark font-bold text-[15px] disabled:opacity-50 inline-flex items-center justify-center gap-2"
    >
     {isLoading ? "Deleting..." : "Delete Account"}
-   </Button>
-   <p className="text-sm text-muted-foreground mt-2">
-    This will permanently delete your account and all associated data.
-   </p>
-   </CardContent>
-  </Card>
+   </button>
+  </SettingsCard>
 
   <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
-   <AlertDialogContent>
+   <AlertDialogContent className={confirmDialogClasses}>
     <AlertDialogHeader>
      <div className="flex items-center gap-3 mb-2">
-      <div className="w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center">
-       <AlertTriangle className="w-6 h-6 text-destructive" />
+      <div className="w-12 h-12 bg-sprout-warning text-sprout-dark rounded-2xl flex items-center justify-center">
+       <AlertTriangle className="w-6 h-6" />
       </div>
-      <AlertDialogTitle className="text-xl">Delete Account?</AlertDialogTitle>
+      <AlertDialogTitle className={confirmTitleClasses}>Delete Account?</AlertDialogTitle>
      </div>
      <AlertDialogDescription className="space-y-3 text-base">
       <p className="font-semibold text-foreground">
@@ -103,10 +91,10 @@ const DangerZone: React.FC<DangerZoneProps> = ({
      </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter>
-     <AlertDialogCancel>Cancel</AlertDialogCancel>
+     <AlertDialogCancel className={confirmCancelClasses}>Cancel</AlertDialogCancel>
      <AlertDialogAction
       onClick={handleConfirmDelete}
-      className="bg-destructive hover:bg-destructive/90"
+      className={confirmDestructiveClasses}
      >
       Yes, Delete My Account
      </AlertDialogAction>

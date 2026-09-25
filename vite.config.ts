@@ -61,8 +61,9 @@ export default defineConfig(({ mode }) => {
         name: 'sprouthub - Plant Care Tracker',
         short_name: 'sprouthub',
         description: 'Track, care for, and grow your plant collection with intelligent reminders and insights',
-        theme_color: '#4a6741',
-        background_color: '#ffffff',
+        // Forest green to match the nav and the icon, so the install splash doesn't flash white
+        theme_color: '#1d3c28',
+        background_color: '#1d3c28',
         display: 'standalone',
         orientation: 'portrait',
         scope: '/',

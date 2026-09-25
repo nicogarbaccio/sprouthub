@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Eye, EyeOff } from "lucide-react";
+import { FieldLabel, settingsInputClasses, settingsPrimaryButtonClasses } from "@/components/settings/SettingsUI";
+import { PasswordInput } from "./PasswordInput";
 import { authToast } from "@/utils/notifications/toast";
 import { Link } from "react-router-dom";
 
@@ -24,7 +23,6 @@ export const SignInForm: React.FC<SignInFormProps> = ({
  isLoading,
  onSignIn,
 }) => {
- const [showPassword, setShowPassword] = useState(false);
  const [formData, setFormData] = useState({
  email: "",
  password: "",
@@ -39,9 +37,9 @@ export const SignInForm: React.FC<SignInFormProps> = ({
  };
 
  return (
- <form onSubmit={handleSubmit} className="space-y-4">
-  <div className="space-y-2">
-  <Label htmlFor="signin-email">Email</Label>
+ <form onSubmit={handleSubmit} className="space-y-3">
+  <div>
+  <FieldLabel htmlFor="signin-email">Email</FieldLabel>
   <Input
    id="signin-email"
    type="email"
@@ -52,58 +50,36 @@ export const SignInForm: React.FC<SignInFormProps> = ({
    inputMode="email"
    autoComplete="email"
    data-testid="sign-in-email"
+   className={settingsInputClasses}
   />
   </div>
-  <div className="space-y-2">
-  <Label htmlFor="signin-password">Password</Label>
-  <div className="relative">
-   <Input
-   id="signin-password"
-   type={showPassword ? "text" : "password"}
-   placeholder="Enter your password"
-   value={formData.password}
-   onChange={(e) =>
-    setFormData({ ...formData, password: e.target.value })
-   }
-   required
-   autoComplete="current-password"
-   data-testid="sign-in-password"
-   />
-   <Button
-   type="button"
-   variant="ghost"
-   size="sm"
-   className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-   onClick={() => setShowPassword((v) => !v)}
-   aria-label={showPassword ? "Hide password" : "Show password"}
-   >
-   {showPassword ? (
-    <EyeOff className="h-4 w-4" />
-   ) : (
-    <Eye className="h-4 w-4" />
-   )}
-   </Button>
-  </div>
-  </div>
+  <PasswordInput
+  id="sign-in-password"
+  label="Password"
+  placeholder="Enter your password"
+  value={formData.password}
+  onChange={(value) => setFormData({ ...formData, password: value })}
+  required
+  autoComplete="current-password"
+  />
 
-  <div className="flex items-center justify-between">
-  <div></div>
+  <div className="flex justify-end -mt-1">
   <Link
    to="/forgot-password"
-   className="text-sm text-sprout-cream hover:text-sprout-light dark:hover:text-sprout-pale transition-colors"
+   className="text-sm font-bold text-link hover:underline underline-offset-2 px-1"
   >
    Forgot password?
   </Link>
   </div>
 
-  <Button
+  <button
   type="submit"
-  className="w-full bg-sprout-light hover:bg-sprout-medium text-sprout-white"
+  className={settingsPrimaryButtonClasses}
   disabled={isLoading}
   data-testid="sign-in-button"
   >
   {isLoading ? "Signing in..." : "Sign In"}
-  </Button>
+  </button>
  </form>
  );
 };

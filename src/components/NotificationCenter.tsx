@@ -8,8 +8,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   Bell,
   Trash2,
@@ -50,17 +48,19 @@ const notificationIcons: Record<
   info: Info,
 };
 
-const notificationAccentColors: Record<NotificationType, string> = {
-  overdue_watering: "bg-red-500",
-  due_today: "bg-blue-500",
-  overwatering_risk: "bg-amber-500",
-  seasonal_transition: "bg-blue-500",
-  weather_alert: "bg-sky-500",
-  pattern_insight: "bg-purple-500",
-  household_invite: "bg-green-500",
-  system: "bg-gray-400",
-  success: "bg-green-500",
-  info: "bg-blue-500",
+// Icon square colours, matching the tiles on Home: terracotta for overdue, water blue for
+// watering, cream for tips and cautions, green for success
+const notificationTones: Record<NotificationType, string> = {
+  overdue_watering: "bg-sprout-warning text-sprout-dark",
+  due_today: "bg-sprout-water text-sprout-dark",
+  overwatering_risk: "bg-sprout-cream text-sprout-dark",
+  seasonal_transition: "bg-sprout-primary text-sprout-cream",
+  weather_alert: "bg-sprout-water text-sprout-dark",
+  pattern_insight: "bg-sprout-cream text-sprout-dark",
+  household_invite: "bg-sprout-primary text-sprout-cream",
+  system: "bg-field text-foreground",
+  success: "bg-sprout-success text-sprout-dark",
+  info: "bg-field text-foreground",
 };
 
 export const NotificationCenter: React.FC<NotificationCenterProps> = ({
@@ -104,35 +104,39 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
     }
   }, [dismissAll, notifications, acknowledgeBatch]);
 
+  const chip =
+    "inline-flex items-center gap-1 h-8 px-3 rounded-full text-xs font-bold transition-colors";
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-md !p-0 !gap-0 flex flex-col overflow-hidden">
-        <div className="px-6 pt-6 pb-3 pr-14 shrink-0">
-          <SheetHeader className="p-0">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Bell className="h-5 w-5" />
-                <SheetTitle>Notifications</SheetTitle>
-                {unreadCount > 0 && (
-                  <Badge
-                    variant="destructive"
-                    className="h-5 min-w-5 px-1.5 text-xs"
-                  >
-                    {unreadCount}
-                  </Badge>
-                )}
-              </div>
+      <SheetContent
+        className="w-full sm:max-w-md !p-0 !gap-0 flex flex-col overflow-hidden border-0 bg-background"
+        closeClassName="right-5 top-5 w-11 h-11 rounded-2xl bg-card opacity-100 flex items-center justify-center [&>svg]:h-5 [&>svg]:w-5 data-[state=open]:bg-card"
+      >
+        <div className="px-5 pt-6 pb-4 pr-20 shrink-0">
+          <SheetHeader className="p-0 text-left">
+            <div className="flex items-center gap-2.5">
+              <SheetTitle className="font-display text-2xl font-bold tracking-[-0.03em] text-foreground">
+                Notifications
+              </SheetTitle>
+              {unreadCount > 0 && (
+                <span className="min-w-6 h-6 px-2 rounded-full bg-sprout-warning text-sprout-dark text-xs font-bold inline-flex items-center justify-center">
+                  {unreadCount}
+                </span>
+              )}
             </div>
           </SheetHeader>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-6">
+        <div className="flex-1 overflow-y-auto px-5">
           {notifications.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <Bell className="h-12 w-12 text-muted-foreground mb-3 opacity-50" />
-              <p className="text-muted-foreground">No notifications yet</p>
+            <div className="rounded-tile bg-card flex flex-col items-center justify-center px-6 py-12 text-center">
+              <div className="w-14 h-14 rounded-2xl bg-field flex items-center justify-center mb-4">
+                <Bell className="h-7 w-7 text-muted-foreground" />
+              </div>
+              <p className="font-display text-lg font-bold text-foreground">All quiet</p>
               <p className="text-sm text-muted-foreground mt-1">
-                Notifications will appear here
+                Watering reminders and updates will show up here.
               </p>
             </div>
           ) : (
@@ -140,98 +144,106 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
               {notifications.map((notification) => {
                 const Icon =
                   notification.icon || notificationIcons[notification.type];
+                const action = notification.actions?.[0];
 
                 return (
                   <div
                     key={notification.id}
                     className={cn(
-                      "rounded-lg border transition-all overflow-hidden",
-                      !notification.read
-                        ? "bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900 shadow-sm"
-                        : "bg-background hover:bg-muted/50"
+                      "rounded-[22px] p-3.5 flex gap-3 transition-colors",
+                      notification.read ? "bg-card/60" : "bg-card"
                     )}
                   >
-                    <div className="flex">
-                      {/* Accent bar */}
+                    {/* Icon square doubles as the primary action (e.g. open the plant to water it) */}
+                    {action ? (
+                      <button
+                        type="button"
+                        className={cn(
+                          "w-11 h-11 shrink-0 rounded-[14px] flex items-center justify-center hover:scale-105 active:scale-95 transition-transform",
+                          notificationTones[notification.type]
+                        )}
+                        aria-label={action.label || `Open ${notification.title}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+
+                          // Close drawer first
+                          onOpenChange(false);
+
+                          // Then navigate
+                          setTimeout(() => {
+                            if (!action.onClick && action.plantId) {
+                              navigate(`/my-plants/${action.plantId}`);
+                            } else if (action.onClick) {
+                              action.onClick();
+                            }
+                          }, 100);
+                        }}
+                      >
+                        <Icon className="!h-5 !w-5" />
+                      </button>
+                    ) : (
                       <div
                         className={cn(
-                          "w-1 shrink-0 rounded-l-lg",
-                          notificationAccentColors[notification.type]
+                          "w-11 h-11 shrink-0 rounded-[14px] flex items-center justify-center",
+                          notificationTones[notification.type]
                         )}
-                      />
-                    {/* Content and action button */}
-                    <div className="flex-1 min-w-0 flex items-start justify-between gap-3 p-3 sm:p-4">
-                      {/* Left: Text content */}
-                      <div className="flex-1 min-w-0 space-y-3">
-                        <div>
-                          <h4 className="font-semibold text-sm">
-                            {notification.title}
-                          </h4>
-                          <p className="text-sm text-muted-foreground mt-1 pr-2">
-                            {notification.message}
-                          </p>
-                        </div>
-
-                        {/* Timestamp and action buttons */}
-                        <div className="flex flex-wrap items-center gap-1.5">
-                          <span className="text-xs text-muted-foreground whitespace-nowrap mr-auto">
-                            {formatDistanceToNow(notification.timestamp, {
-                              addSuffix: true,
-                            })}
-                          </span>
-                          <div className="flex items-center gap-1">
-                            {!notification.read && (
-                              <button
-                                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/60 transition-colors"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  markAsRead(notification.id);
-                                }}
-                              >
-                                <Eye className="h-3 w-3" />
-                                Read
-                              </button>
-                            )}
-                            <button
-                              className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-medium bg-muted text-muted-foreground hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-900/30 dark:hover:text-red-400 transition-colors"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleDismiss(notification);
-                              }}
-                            >
-                              <X className="h-3 w-3" />
-                              Dismiss
-                            </button>
-                          </div>
-                        </div>
+                      >
+                        <Icon className="!h-5 !w-5" />
                       </div>
+                    )}
 
-                      {/* Right: Action icon button (droplet for water notifications) */}
-                      {notification.actions &&
-                        notification.actions.length > 0 && (
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start gap-2">
+                        <h4
+                          className={cn(
+                            "flex-1 text-[15px] leading-snug text-foreground",
+                            notification.read ? "font-semibold" : "font-bold"
+                          )}
+                        >
+                          {notification.title}
+                        </h4>
+                        {!notification.read && (
+                          <span
+                            className="mt-1.5 w-2.5 h-2.5 shrink-0 rounded-full bg-sprout-warning"
+                            aria-label="Unread"
+                          />
+                        )}
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-0.5">
+                        {notification.message}
+                      </p>
+
+                      <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
+                        <span className="text-xs font-semibold text-muted-foreground whitespace-nowrap mr-auto">
+                          {formatDistanceToNow(notification.timestamp, {
+                            addSuffix: true,
+                          })}
+                        </span>
+                        {!notification.read && (
                           <button
-                            className="h-10 w-10 sm:h-12 sm:w-12 rounded-full shrink-0 bg-sprout-water text-white hover:opacity-90 flex items-center justify-center transition-opacity"
+                            type="button"
+                            className={cn(chip, "bg-field text-foreground hover:bg-sprout-cream hover:text-sprout-dark")}
                             onClick={(e) => {
                               e.stopPropagation();
-                              const action = notification.actions![0];
-
-                              // Close drawer first
-                              onOpenChange(false);
-
-                              // Then navigate
-                              setTimeout(() => {
-                                if (!action.onClick && action.plantId) {
-                                  navigate(`/my-plants/${action.plantId}`);
-                                } else if (action.onClick) {
-                                  action.onClick();
-                                }
-                              }, 100);
+                              markAsRead(notification.id);
                             }}
                           >
-                            <Icon className="!h-5 !w-5" />
+                            <Eye className="h-3.5 w-3.5" />
+                            Read
                           </button>
                         )}
-                    </div>
+                        <button
+                          type="button"
+                          className={cn(chip, "bg-field text-foreground hover:bg-sprout-warning hover:text-sprout-dark")}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDismiss(notification);
+                          }}
+                        >
+                          <X className="h-3.5 w-3.5" />
+                          Dismiss
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );
@@ -242,28 +254,29 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
 
         {/* Sticky footer with actions */}
         {notifications.length > 0 && (
-          <div className="shrink-0 border-t pt-4 pb-6 px-6 bg-background">
+          <div
+            className="shrink-0 px-5 pt-3 bg-background"
+            style={{ paddingBottom: "max(env(safe-area-inset-bottom), 20px)" }}
+          >
             <div className="flex gap-2">
               {unreadCount > 0 && (
-                <Button
-                  variant="outline"
-                  size="sm"
+                <button
+                  type="button"
                   onClick={markAllAsRead}
-                  className="flex-1 h-10 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 dark:hover:bg-blue-950/30 dark:hover:text-blue-300 dark:hover:border-blue-800 transition-colors"
+                  className="flex-1 h-12 rounded-[18px] bg-card text-foreground font-bold text-sm inline-flex items-center justify-center gap-1.5 hover:bg-sprout-cream hover:text-sprout-dark transition-colors"
                 >
-                  <CheckCheck className="h-4 w-4 mr-1.5" />
+                  <CheckCheck className="h-4 w-4" />
                   Mark all read
-                </Button>
+                </button>
               )}
-              <Button
-                variant="outline"
-                size="sm"
+              <button
+                type="button"
                 onClick={handleDismissAll}
-                className="flex-1 h-10 hover:bg-red-50 hover:text-red-600 hover:border-red-200 dark:hover:bg-red-950/30 dark:hover:text-red-400 dark:hover:border-red-800 transition-colors"
+                className="flex-1 h-12 rounded-[18px] bg-card text-foreground font-bold text-sm inline-flex items-center justify-center gap-1.5 hover:bg-sprout-warning hover:text-sprout-dark transition-colors"
               >
-                <Trash2 className="h-4 w-4 mr-1.5" />
+                <Trash2 className="h-4 w-4" />
                 Clear all
-              </Button>
+              </button>
             </div>
           </div>
         )}

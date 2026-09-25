@@ -181,20 +181,8 @@ export const createPlantShortcuts = (actions: {
     });
   }
 
-  // Always include Escape to close dialogs
-  shortcuts.push({
-    key: "Escape",
-    action: () => {
-      // Trigger escape key event to close any open dialogs
-      const escapeEvent = new KeyboardEvent("keydown", {
-        key: "Escape",
-        bubbles: true,
-        cancelable: true,
-      });
-      document.dispatchEvent(escapeEvent);
-    },
-    description: "Close dialog",
-  });
+  // No Escape shortcut: dialogs and sheets already close on Escape themselves. One that
+  // re-dispatched Escape was caught by this same handler and recursed until the stack overflowed.
 
   return shortcuts;
 };
