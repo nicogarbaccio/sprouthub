@@ -14,6 +14,18 @@ declare const self: ServiceWorkerGlobalScope & typeof globalThis & {
   skipWaiting(): Promise<void>;
 };
 
+// OneSignal web push runs inside this worker rather than its own. A scope holds only one
+// service worker, and OneSignal's used to replace this one on every sign-in (and this one
+// replaced it back on the next load), so the app flipped between caching and not caching
+// and reloaded itself each time. See registerServiceWorker.ts.
+// If the CDN is unreachable at install, lose push for this version rather than the whole
+// worker (and with it offline support).
+try {
+  importScripts("https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js");
+} catch (error) {
+  console.warn("[sw] OneSignal worker script failed to load", error);
+}
+
 self.skipWaiting();
 clientsClaim();
 cleanupOutdatedCaches();

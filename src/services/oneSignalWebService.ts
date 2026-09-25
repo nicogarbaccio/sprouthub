@@ -97,7 +97,8 @@ class OneSignalWebService {
                   appId: appId,
                   allowLocalhostAsSecureOrigin: true, // For development
                   serviceWorkerParam: { scope: '/' },
-                  serviceWorkerPath: '/OneSignalSDKWorker.js',
+                  // The app's own worker, which imports OneSignal's (see src/sw.ts)
+                  serviceWorkerPath: '/sw.js',
                   notifyButton: {
                     enable: false, // We'll use custom UI
                   },

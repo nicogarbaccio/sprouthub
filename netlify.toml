@@ -22,11 +22,6 @@
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
 
-[[headers]]
-  for = "/registerSW.js"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate"
-
 # Hashed assets are immutable — cache aggressively
 [[headers]]
   for = "/assets/*"

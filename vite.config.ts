@@ -54,8 +54,14 @@ export default defineConfig(({ mode }) => {
       srcDir: 'src',
       filename: 'sw.ts',
       registerType: 'autoUpdate',
+      // Registered by src/utils/registerServiceWorker.ts, which also handles updates
+      injectRegister: false,
       injectManifest: {
         minify: false,
+        // Keep index.html out of the precache: served from there, a page load gets the
+        // previous deploy's HTML (and so its code) until a second reload. Navigations go
+        // network-first instead (see sw.ts), with the cached copy only when offline.
+        globIgnores: ['**/node_modules/**/*', '**/index.html'],
       },
       manifest: {
         name: 'sprouthub - Plant Care Tracker',
