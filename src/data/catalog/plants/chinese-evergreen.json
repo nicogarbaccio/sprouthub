@@ -52,9 +52,36 @@
     "Leggy growth: Not enough light - relocate to brighter indirect light"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 14,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "medium",
+      "tolerates": [
+        "low",
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMaxF": 80,
+      "coldDamageBelowF": 60,
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 40,
@@ -72,11 +99,26 @@
       "tip": "Repot every 2-3 years or when roots begin circling the pot, moving up one pot size"
     }
   },
+  "whatsNormal": [
+    "Gets leggy with age as the stem lengthens and becomes cane-like.",
+    "Rarely flowers indoors; removing flowers and berries puts the energy back into leaves.",
+    "Tolerates dry indoor air, though leaf edges can brown in very dry or drafty spots."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Chinese Evergreen (Aglaonema modestum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/chinese-evergreen"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Aglaonema",
+      "url": "https://plants.ces.ncsu.edu/plants/aglaonema/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Aglaonema commutatum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276174&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -85,9 +127,12 @@
     "gbifKey": 2866467
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: based on ASPCA's entry for a related species (Aglaonema modestum)."
+      "Toxicity: based on ASPCA's entry for a related species (Aglaonema modestum).",
+      "Watering: NC State says let the mix dry between waterings; MOBOT says keep it consistently moist and never let it dry out. Set to \"top quarter dry\".",
+      "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
     ]
   }
 }

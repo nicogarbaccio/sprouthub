@@ -26,9 +26,10 @@
       "Vomiting",
       "Difficulty swallowing"
     ],
-    "basis": "related_species",
+    "basis": "species",
     "sourceIds": [
-      "aspca"
+      "aspca",
+      "ncsu"
     ]
   },
   "temperature": "65-80°F (18-27°C)",
@@ -53,9 +54,32 @@
     "Drooping leaves: Underwatering or needs support for climbing"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMaxF": 80,
+      "coldDamageBelowF": 50,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 50,
@@ -68,13 +92,29 @@
       ],
       "fertilizerType": "Diluted balanced fertilizer",
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
-    }
+    },
+    "growthRate": "fast"
+  },
+  "whatsNormal": [
+    "Aerial roots are how it climbs — give it a moss pole, stake or trellis.",
+    "It is a smaller relative of Monstera deliciosa; both get sold as \"Swiss cheese plant\"."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Root stem cuttings with a node in water or moist mix."
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Ceriman (Monstera deliciosa)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/ceriman"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Monstera adansonii",
+      "url": "https://plants.ces.ncsu.edu/plants/monstera-adansonii/"
     }
   ],
   "taxonomy": {
@@ -83,9 +123,13 @@
     "gbifKey": 2868136
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: based on ASPCA's entry for a related species (Monstera deliciosa)."
+      "Toxicity: NC State confirms this species is toxic to people and pets; the per-animal ratings come from ASPCA's Monstera deliciosa entry.",
+      "Only one institutional source (NC State) — MOBOT has no page for M. adansonii.",
+      "How dry to let it get isn't stated (NC State: \"moist, well-drained soil\"). Set to \"top quarter dry\", like Monstera deliciosa.",
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
     ]
   }
 }

@@ -13,12 +13,12 @@
   "category": "Succulents",
   "description": "Native to the dry regions of southwest Africa, String of Pearls is an unusual succulent featuring long, trailing stems adorned with spherical, pea-sized leaves that look exactly like strings of green beads or pearls - one of nature's most whimsical designs. Each \"pearl\" has a translucent window stripe that allows light to penetrate for photosynthesis. The delicate stems can trail 2-3 feet long, creating stunning cascading displays in hanging baskets. When happy, it produces small white flowers with a cinnamon-like fragrance. However, String of Pearls has a reputation for being finicky - the pearls drop easily when touched, it's prone to rot, and it requires specific watering and light conditions. Success requires understanding its needs, but the enchanting appearance makes it worth the effort for patient growers.",
   "toxicity": "Toxic to cats and dogs. Contains pyrrolizidine alkaloids; eating it can cause vomiting and diarrhea.",
-  "temperature": "65-80°F (18-27°C)",
+  "temperature": "70-80°F (21-27°C) in summer, 50-60°F (10-16°C) in winter",
   "humidity": "30-50% - prefers dry air",
   "careInstructions": [
     "Water only when pearls show slight wrinkling - every 10-14 days typically",
     "Water soil directly, never overhead - wet pearls rot easily",
-    "Provide bright, indirect light - some morning sun beneficial",
+    "Provide bright, indirect light - direct sun can scorch the pearls",
     "Use very well-draining succulent mix in shallow pot",
     "Handle gently - pearls detach easily when touched",
     "Propagate from stem cuttings laid on soil surface",
@@ -34,9 +34,35 @@
     "Root rot: Most common cause of death - use well-draining soil"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 21,
+      "dryness": "top_half",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
-      "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMinF": 50,
+      "idealMaxF": 80,
+      "coldDamageBelowF": 32,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "humidity": {
       "minPct": 30,
@@ -49,6 +75,18 @@
       ],
       "fertilizerType": "Diluted fertilizer",
       "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
+    },
+    "repotting": {
+      "tip": "Repot each spring. After several years plants tend to die back — take cuttings and start fresh.",
+      "everyYears": [
+        1,
+        1
+      ],
+      "soil": "Dry, sandy, cactus-type mix (or potting soil with sand or perlite)",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
     }
   },
   "toxicityDetail": {
@@ -66,11 +104,32 @@
       "ncsu"
     ]
   },
+  "whatsNormal": [
+    "Plants tend to die back after several years; cuttings are the way to renew them.",
+    "Shriveled pearls mean the watering or light is off — too much or too little water, or not enough light.",
+    "Each pearl has a translucent stripe, a \"window\" that lets light inside.",
+    "The small white flowers smell like cinnamon."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Lay 3-5 inch cuttings on the mix with a few nodes covered.",
+    "sourceIds": [
+      "ncsu",
+      "mobot"
+    ]
+  },
   "sources": [
     {
       "id": "ncsu",
       "title": "NC State Extension Plant Toolbox: Curio rowleyanus",
       "url": "https://plants.ces.ncsu.edu/plants/curio-rowleyanus/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Curio rowleyanus",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=457444&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -79,9 +138,15 @@
     "gbifKey": 3149649
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately."
+      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately.",
+      "Watering: NC State says never let it dry out completely; MOBOT says let the roots dry between waterings. Set to \"top half dry\".",
+      "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Humidity: MOBOT says it is unaffected by high humidity; our catalog says it prefers dry air (30-50%). Left unchanged.",
+      "Cold threshold is frost (32°F) — both sources only say it is frost-intolerant.",
+      "Changed: temperature now shows the summer/winter ranges both sources give; light advice now warns direct sun scorches (NC State)."
     ]
   }
 }

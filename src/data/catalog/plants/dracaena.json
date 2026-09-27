@@ -53,6 +53,28 @@
     "Spider mites: Occasionally problematic - increase humidity and treat"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 21,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "low",
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 80
@@ -68,13 +90,39 @@
       ],
       "fertilizerType": "Diluted fertilizer",
       "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
-    }
+    },
+    "growthRate": "slow"
+  },
+  "whatsNormal": [
+    "Lower leaves fall off with age, leaving diamond-shaped scars on the stems.",
+    "Leaf tips discolor from fluoride in tap water — use distilled or non-fluoridated water.",
+    "A pruned stem usually sprouts two or more new branches.",
+    "Loses leaf color in too much shade."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Cut off the leafy crown of a tall plant and root it.",
+    "sourceIds": [
+      "mobot"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Madagascar Dragon Tree (Dracaena marginata)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/madagascar-dragon-tree"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Dracaena marginata",
+      "url": "https://plants.ces.ncsu.edu/plants/dracaena-marginata/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Dracaena marginata",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=282199&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -83,6 +131,11 @@
     "gbifKey": 10818704
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Watering: NC State says let it dry between waterings (but not severely); MOBOT says keep soil uniformly moist in the growing season. Kept our \"top 2-3 inches dry\" as \"top quarter dry\".",
+      "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+    ]
   }
 }

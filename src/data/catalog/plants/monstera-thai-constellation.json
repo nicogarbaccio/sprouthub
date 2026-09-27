@@ -30,7 +30,7 @@
       "aspca"
     ]
   },
-  "temperature": "65-85°F (18-29°C)",
+  "temperature": "60-85°F (16-29°C)",
   "humidity": "50-60%",
   "careInstructions": [
     "Water when top 2-3 inches of soil are dry - typically weekly, and err on the drier side",
@@ -53,9 +53,32 @@
     "No leaf holes/splits: Normal for young plants, or needs more light as it matures"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 14,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
-      "idealMinF": 65,
-      "idealMaxF": 85
+      "idealMinF": 60,
+      "idealMaxF": 85,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 50,
@@ -68,13 +91,46 @@
       ],
       "fertilizerType": "Balanced fertilizer",
       "tip": "Fertilize monthly during the growing season with a balanced fertilizer"
+    },
+    "repotting": {
+      "tip": "Repot in spring if needed, and add a moss pole or trellis at the same time.",
+      "soil": "Peaty, soil-based potting mix",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
     }
+  },
+  "whatsNormal": [
+    "Young leaves are small and solid — splits and holes come with maturity.",
+    "Grows more slowly than an all-green Monstera because the cream patches can't photosynthesize.",
+    "Aerial roots are normal; tuck lower ones into the soil or onto a moss pole."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting",
+      "air_layering"
+    ],
+    "tip": "Take a cutting with a node, or air-layer the stem.",
+    "sourceIds": [
+      "ncsu"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Ceriman (Monstera deliciosa)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/ceriman"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Monstera deliciosa",
+      "url": "https://plants.ces.ncsu.edu/plants/monstera-deliciosa/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Monstera deliciosa",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276378&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -83,6 +139,12 @@
     "gbifKey": 2868241
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Sources cover Monstera deliciosa, not this cultivar. NC State notes variegated cultivars need more light than green ones.",
+      "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: ideal temperature 65-85°F → 60-85°F, matching Monstera deliciosa (NC State)."
+    ]
   }
 }

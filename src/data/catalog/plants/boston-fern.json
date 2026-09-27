@@ -13,14 +13,14 @@
   "category": "Ferns",
   "description": "A classic Victorian-era houseplant native to tropical regions worldwide, Boston Fern features lush, arching fronds composed of hundreds of small leaflets that create a full, fountain-like display perfect for hanging baskets or pedestals. The graceful, cascading fronds can reach 2-3 feet long, creating a dramatic tropical effect that softens any space. As one of the best natural air purifiers, it removes formaldehyde and other toxins while adding humidity to dry indoor air. However, Boston Fern has a reputation for being somewhat demanding - it requires consistent moisture, high humidity, and cool temperatures, making it more challenging than modern easy-care plants but absolutely worth the effort for its lush, timeless beauty and air-cleaning benefits.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
-  "temperature": "60-75°F (15-24°C) - prefers cooler temps",
+  "temperature": "60-70°F (16-21°C) - prefers cooler temps",
   "humidity": "50-80% - high humidity essential",
   "careInstructions": [
     "Keep soil consistently moist but never soggy - water when top feels slightly dry",
     "Provide bright, indirect light - avoid direct sun which scorches fronds",
     "Maintain high humidity with daily misting, pebble tray, or humidifier",
     "Use room temperature water - cold water shocks the plant",
-    "Fertilize every 2-4 weeks during growing season with diluted balanced fertilizer",
+    "Fertilize monthly from spring to early fall with a weak (diluted) balanced fertilizer",
     "Trim brown or dead fronds at the base to encourage new growth",
     "Keep away from heating vents and drafts",
     "Place in bathroom or kitchen where humidity is naturally higher"
@@ -34,9 +34,33 @@
     "Pale fronds: Insufficient light or nutrient deficiency"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 4,
+      "dryness": "keep_moist",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
-      "idealMaxF": 75
+      "idealMaxF": 70,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 50,
@@ -44,11 +68,14 @@
     },
     "fertilizing": {
       "weeks": [
-        2,
+        4,
         4
       ],
       "fertilizerType": "Diluted balanced fertilizer",
-      "tip": "Fertilize every 2-4 weeks during growing season with diluted balanced fertilizer"
+      "tip": "Fertilize monthly from spring to early fall with a weak (diluted) balanced fertilizer",
+      "sourceIds": [
+        "mobot"
+      ]
     }
   },
   "toxicityDetail": {
@@ -61,11 +88,26 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Rows of dark brown to black dots under the fronds are spores, not pests or disease.",
+    "Frond tips often brown in winter when indoor air is dry.",
+    "Sheds fronds if the soil dries out; cutting it back to about 2 inches lets it regenerate."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Feather Palm (Nephrolepis exaltata)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/feather-palm"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Nephrolepis exaltata",
+      "url": "https://plants.ces.ncsu.edu/plants/nephrolepis-exaltata/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Nephrolepis exaltata",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=285753&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -74,6 +116,11 @@
     "gbifKey": 2650927
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Winter watering (every 4 days) is our estimate — MOBOT says only a slight reduction; NC State says reduce because overwatering in winter causes root rot.",
+      "Changed: fertilizing every 2-4 weeks → monthly, weak (MOBOT); ideal temperature 60-75°F → 60-70°F (NC State)."
+    ]
   }
 }

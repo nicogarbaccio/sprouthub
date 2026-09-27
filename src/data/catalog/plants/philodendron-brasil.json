@@ -50,6 +50,28 @@
     "Root rot: Overwatering or poor drainage"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "low",
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 80
@@ -67,11 +89,34 @@
       "tip": "Fertilize monthly during growing season with balanced fertilizer"
     }
   },
+  "whatsNormal": [
+    "Leaves stay small on trailing stems and grow much larger when it climbs a support.",
+    "In very dim spots the stems get long and spindly."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Take stem cuttings in spring; they root easily in water.",
+    "sourceIds": [
+      "mobot"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Heartleaf Philodendron (Philodendron hederaceum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/heartleaf-philodendron"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Philodendron hederaceum",
+      "url": "https://plants.ces.ncsu.edu/plants/philodendron-hederaceum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Philodendron hederaceum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276387&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -80,6 +125,11 @@
     "gbifKey": 2871003
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Sources cover Philodendron hederaceum, not the 'Brasil' cultivar. Ideal light is set to bright indirect to keep the variegation, per our catalog.",
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+    ]
   }
 }

@@ -23,15 +23,16 @@
       "Vomiting",
       "Drowsiness"
     ],
-    "basis": "related_species",
+    "basis": "species",
     "sourceIds": [
-      "aspca"
+      "aspca",
+      "ncsu"
     ]
   },
-  "temperature": "65-80°F (18-27°C)",
+  "temperature": "65-85°F (18-29°C) - keep above 50°F",
   "humidity": "50-60%",
   "careInstructions": [
-    "Water when top 2 inches of soil are dry - keep soil consistently moist during growth",
+    "Water when the top layer of soil is dry - established plants become more drought tolerant",
     "Provide bright, indirect light with some direct sun for best growth",
     "Minimum 4-6 hours of bright light daily for flowering potential",
     "Clean large leaves regularly with damp cloth to remove dust",
@@ -51,9 +52,29 @@
     "Brown spots: Overwatering causing bacterial or fungal issues"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "morning"
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMaxF": 85,
+      "coldDamageBelowF": 50,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 50,
@@ -64,18 +85,40 @@
         4,
         4
       ],
-      "fertilizerType": "Balanced fertilizer",
-      "tip": "Fertilize monthly during growing season with balanced fertilizer"
+      "fertilizerType": "Balanced liquid fertilizer",
+      "tip": "Fertilize monthly during growing season with balanced fertilizer",
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "repotting": {
       "tip": "Repot every 2-3 years or when severely root-bound"
     }
+  },
+  "whatsNormal": [
+    "Leaves naturally tear along their veins — trim only badly ripped ones.",
+    "Takes 5 to 6 years to mature enough to flower, and many indoor plants never do."
+  ],
+  "propagation": {
+    "methods": [
+      "division",
+      "seed"
+    ],
+    "tip": "Divide clumps, or grow from seed.",
+    "sourceIds": [
+      "ncsu"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Bird of Paradise Flower (Strelitzia reginae)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/bird-paradise-flower"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Strelitzia nicolai",
+      "url": "https://plants.ces.ncsu.edu/plants/strelitzia-nicolai/"
     }
   ],
   "taxonomy": {
@@ -84,9 +127,14 @@
     "gbifKey": 2763112
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: based on ASPCA's entry for a related species (Strelitzia reginae)."
+      "Toxicity: NC State lists S. nicolai as toxic to people, dogs, cats and horses; symptoms come from ASPCA's S. reginae entry.",
+      "Only one institutional source (NC State) — MOBOT has a page for S. reginae only.",
+      "Light: NC State only says bright indirect light; tolerance of direct sun is from the original catalog and not sourced.",
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: \"keep soil consistently moist\" → water when the top layer is dry (NC State); ideal temperature up to 85°F."
     ]
   }
 }

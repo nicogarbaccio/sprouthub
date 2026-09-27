@@ -35,6 +35,25 @@
     "Leggy, sparse growth: Insufficient light - move to brighter location"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 55,
       "idealMaxF": 75
@@ -57,9 +76,25 @@
     "dogs": "non_toxic",
     "horses": "non_toxic",
     "symptoms": [],
-    "basis": "related_species",
+    "basis": "species",
     "sourceIds": [
-      "aspca"
+      "aspca",
+      "ncsu"
+    ]
+  },
+  "whatsNormal": [
+    "Rarely flowers indoors.",
+    "Gets leggy in too little light.",
+    "Baby plants (pups) pop up around the base — pot them up in spring or early summer."
+  ],
+  "propagation": {
+    "methods": [
+      "offsets",
+      "stem_cutting"
+    ],
+    "tip": "Separate pups or take stem cuttings in spring or early summer.",
+    "sourceIds": [
+      "ncsu"
     ]
   },
   "sources": [
@@ -67,6 +102,11 @@
       "id": "aspca",
       "title": "ASPCA: Aluminum Plant (Pilea cadieri)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/aluminum-plant"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Pilea peperomioides",
+      "url": "https://plants.ces.ncsu.edu/plants/pilea-peperomioides/"
     }
   ],
   "taxonomy": {
@@ -75,9 +115,12 @@
     "gbifKey": 5669632
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: based on ASPCA's entry for a related species (Pilea cadieri)."
+      "Toxicity: NC State calls this species safe for pets and children; the horse rating comes from ASPCA's entry for Pilea cadierei.",
+      "Only one institutional source (NC State) — MOBOT has no page for P. peperomioides.",
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
     ]
   }
 }
