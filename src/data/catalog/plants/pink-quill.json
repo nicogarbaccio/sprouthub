@@ -23,14 +23,15 @@
   "temperature": "60-80°F (15-27°C)",
   "humidity": "50-70%",
   "careInstructions": [
-    "Water potting mix thoroughly when top inch feels dry (usually twice weekly)",
+    "Keep the potting mix lightly moist but never soggy - let excess water drain away",
     "Mist leaves 2-3 times per week to maintain humidity",
-    "Plant in well-draining orchid bark mix or specialized bromeliad soil",
+    "Or grow it mounted like an air plant: from spring to autumn, immerse it in rainwater twice a week, drain well and let it dry",
+    "Plant in a free-draining mix of fine bark or orchid compost with grit or perlite",
     "Provide bright, filtered light - avoid direct sun which can scorch leaves",
     "Maintain moderate to high humidity for best flowering",
-    "Remove spent flowers as they fade to encourage continued blooming",
+    "The pink bract lasts for months; once it fades, cut it off - each rosette flowers only once",
     "After main bloom spike fades, plant will produce offsets (pups) before dying",
-    "Fertilize monthly during growing season with diluted balanced fertilizer"
+    "Feed monthly from spring to autumn at quarter strength - a bromeliad fertilizer, or a foliar mist of balanced feed"
   ],
   "commonProblems": [
     "Brown leaf tips: Low humidity, water quality issues, or fluoride sensitivity",
@@ -40,34 +41,134 @@
     "Yellowing leaves: Overwatering or natural die-back after flowering cycle completes"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 5,
+      "dryness": "keep_moist",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "clemson",
+        "rhs-bromeliads"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "rhs",
+        "rhs-bromeliads",
+        "clemson"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
-      "idealMaxF": 80
+      "idealMaxF": 80,
+      "coldDamageBelowF": 50,
+      "sourceIds": [
+        "rhs-bromeliads"
+      ]
     },
     "humidity": {
       "minPct": 50,
-      "maxPct": 70
+      "maxPct": 70,
+      "sourceIds": [
+        "uw"
+      ]
     },
     "fertilizing": {
       "weeks": [
         4,
         4
       ],
-      "fertilizerType": "Diluted balanced fertilizer",
-      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+      "fertilizerType": "Bromeliad fertilizer or foliar balanced feed at quarter strength",
+      "tip": "Feed monthly from spring to autumn at quarter strength - a bromeliad fertilizer, or a foliar mist of balanced feed",
+      "sourceIds": [
+        "rhs-bromeliads",
+        "clemson",
+        "uw"
+      ]
+    },
+    "repotting": {
+      "tip": "Pot it in a free-draining bromeliad mix; it needs only enough mix to hold it steady.",
+      "soil": "Fine bark or orchid compost, grit and coir in equal parts",
+      "sourceIds": [
+        "rhs-bromeliads",
+        "uw"
+      ]
     }
+  },
+  "whatsNormal": [
+    "Each rosette flowers once: the bract lasts for months, then the rosette slowly dies while pups grow around its base.",
+    "Soft-leaved air plants like this one want more moisture and less light than the silvery, hard-leaved kinds.",
+    "Its newer botanical name is Wallisia cyanea."
+  ],
+  "propagation": {
+    "methods": [
+      "offsets",
+      "seed"
+    ],
+    "tip": "Separate pups once they are at least a third the size of the parent.",
+    "sourceIds": [
+      "rhs"
+    ]
   },
   "taxonomy": {
     "acceptedName": "Tillandsia cyanea",
     "family": "Bromeliaceae",
     "gbifKey": 2694797
   },
+  "sources": [
+    {
+      "id": "rhs",
+      "title": "RHS: Tillandsia cyanea (pink quill)",
+      "url": "https://www.rhs.org.uk/plants/63998/tillandsia-cyanea/details"
+    },
+    {
+      "id": "rhs-bromeliads",
+      "title": "RHS: How to grow bromeliads",
+      "url": "https://www.rhs.org.uk/advice/profile?pid=811"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: Bromeliads",
+      "url": "https://hgic.clemson.edu/factsheet/bromeliads/"
+    },
+    {
+      "id": "uw",
+      "title": "University of Wisconsin Extension: Bromeliads",
+      "url": "https://hort.extension.wisc.edu/articles/bromeliads/"
+    }
+  ],
   "review": {
-    "status": "legacy",
+    "status": "reviewed",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\". ASPCA rates several other bromeliad genera non-toxic (Neoregelia, Guzmania, Cryptanthus) but none in Tillandsia or Wallisia, so it stays \"unknown\".",
+        "acceptedAt": "2026-09-27"
+      },
+      {
+        "type": "note",
+        "note": "Two growing methods: Clemson describes it as a terrestrial species that \"needs moist soil\" (the potted plant usually sold); RHS grows it mounted with no compost, immersed in rainwater twice a week. Care text leads with potted and offers the mounted method as an alternative.",
+        "acceptedAt": "2026-09-27"
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (5 days) is our estimate — RHS says water bromeliads more sparingly in winter.",
+        "acceptedAt": "2026-09-27"
+      },
+      {
+        "type": "source_gap",
+        "note": "Temperature, humidity and feeding come from bromeliad-wide guidance (RHS, Wisconsin, Clemson), not a page for this species.",
+        "acceptedAt": "2026-09-27"
+      },
+      {
+        "type": "changed",
+        "note": "Watering \"when the top inch is dry\" → keep lightly moist (Clemson, RHS); \"remove spent flowers to encourage continued blooming\" → each rosette flowers once (RHS); feeding now quarter strength, monthly spring to autumn.",
         "acceptedAt": "2026-09-27"
       }
     ]

@@ -50,8 +50,13 @@ describe('PlantGuide', () => {
         expect(screen.queryByText(/^In winter:/)).not.toBeInTheDocument();
     });
 
-    it('leaves out sections an unresearched plant has no data for', () => {
-        render(<PlantGuide plant={getCatalogPlant('Pink Quill')!} showPetSummary />);
+    it('leaves out sections a plant has no data for', () => {
+        const unresearched = {
+            name: 'Mystery Plant',
+            toxicity: 'Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.',
+            toxicityDetail: { cats: 'unknown', dogs: 'unknown', horses: 'unknown', symptoms: [], basis: 'none' } as const,
+        };
+        render(<PlantGuide plant={unresearched} showPetSummary />);
         expect(screen.queryByRole('heading', { name: 'Care details' })).not.toBeInTheDocument();
         expect(screen.queryByRole('heading', { name: "What's normal" })).not.toBeInTheDocument();
         expect(screen.getByRole('heading', { name: 'Pet safety' })).toBeInTheDocument();
