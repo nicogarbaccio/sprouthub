@@ -1,0 +1,57 @@
+{
+  "name": "Boston Fern",
+  "botanicalName": "Nephrolepis exaltata",
+  "otherNames": [
+    "Sword Fern",
+    "Boston Sword Fern"
+  ],
+  "imagePath": "Boston%20Fern.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Ferns",
+  "description": "A classic Victorian-era houseplant native to tropical regions worldwide, Boston Fern features lush, arching fronds composed of hundreds of small leaflets that create a full, fountain-like display perfect for hanging baskets or pedestals. The graceful, cascading fronds can reach 2-3 feet long, creating a dramatic tropical effect that softens any space. As one of the best natural air purifiers, it removes formaldehyde and other toxins while adding humidity to dry indoor air. However, Boston Fern has a reputation for being somewhat demanding - it requires consistent moisture, high humidity, and cool temperatures, making it more challenging than modern easy-care plants but absolutely worth the effort for its lush, timeless beauty and air-cleaning benefits.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "60-75°F (15-24°C) - prefers cooler temps",
+  "humidity": "50-80% - high humidity essential",
+  "careInstructions": [
+    "Keep soil consistently moist but never soggy - water when top feels slightly dry",
+    "Provide bright, indirect light - avoid direct sun which scorches fronds",
+    "Maintain high humidity with daily misting, pebble tray, or humidifier",
+    "Use room temperature water - cold water shocks the plant",
+    "Fertilize every 2-4 weeks during growing season with diluted balanced fertilizer",
+    "Trim brown or dead fronds at the base to encourage new growth",
+    "Keep away from heating vents and drafts",
+    "Place in bathroom or kitchen where humidity is naturally higher"
+  ],
+  "commonProblems": [
+    "Brown, crispy fronds: Low humidity (most common) or underwatering",
+    "Yellow fronds: Overwatering, poor drainage, or too much direct sun",
+    "Dropping leaflets: Sudden environmental changes, drafts, or low humidity",
+    "Slow or no new growth: Needs more humidity, light, or fertilizer",
+    "Brown tips: Low humidity, fluoride/chlorine in tap water, or over-fertilizing",
+    "Pale fronds: Insufficient light or nutrient deficiency"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 80
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize every 2-4 weeks during growing season with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

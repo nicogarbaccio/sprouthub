@@ -1,0 +1,57 @@
+{
+  "name": "String of Pearls",
+  "botanicalName": "Curio rowleyanus",
+  "otherNames": [
+    "String of Beads",
+    "Rosary Vine"
+  ],
+  "imagePath": "String%20of%20Pearls.jpg",
+  "wateringFrequency": "Every 10-14 days",
+  "suggestedWateringDays": 14,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Succulents",
+  "description": "Native to the dry regions of southwest Africa, String of Pearls is an unusual succulent featuring long, trailing stems adorned with spherical, pea-sized leaves that look exactly like strings of green beads or pearls - one of nature's most whimsical designs. Each \"pearl\" has a translucent window stripe that allows light to penetrate for photosynthesis. The delicate stems can trail 2-3 feet long, creating stunning cascading displays in hanging baskets. When happy, it produces small white flowers with a cinnamon-like fragrance. However, String of Pearls has a reputation for being finicky - the pearls drop easily when touched, it's prone to rot, and it requires specific watering and light conditions. Success requires understanding its needs, but the enchanting appearance makes it worth the effort for patient growers.",
+  "toxicity": "Toxic to pets if ingested - can cause vomiting and diarrhea",
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "30-50% - prefers dry air",
+  "careInstructions": [
+    "Water only when pearls show slight wrinkling - every 10-14 days typically",
+    "Water soil directly, never overhead - wet pearls rot easily",
+    "Provide bright, indirect light - some morning sun beneficial",
+    "Use very well-draining succulent mix in shallow pot",
+    "Handle gently - pearls detach easily when touched",
+    "Propagate from stem cuttings laid on soil surface",
+    "Fertilize every 2-3 months during growing season with diluted fertilizer",
+    "Bottom watering method works well for this plant"
+  ],
+  "commonProblems": [
+    "Shriveling pearls: Needs water - water when slightly wrinkled",
+    "Mushy, translucent pearls: Overwatering causing rot - reduce watering",
+    "Pearl drop: Normal when touched, or from overwatering/underwatering",
+    "Stretching with spaces between pearls: Insufficient light",
+    "Bare stems near base: Natural growth pattern - trim and replant to fill in",
+    "Root rot: Most common cause of death - use well-draining soil"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": "Diluted fertilizer",
+      "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

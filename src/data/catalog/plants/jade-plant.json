@@ -1,0 +1,75 @@
+{
+  "name": "Jade Plant",
+  "botanicalName": "Crassula ovata",
+  "otherNames": [
+    "Lucky Plant",
+    "Money Plant",
+    "Money Tree",
+    "Friendship Tree"
+  ],
+  "imagePath": "Jade%20Plant.jpg",
+  "wateringFrequency": "Every 2-3 weeks",
+  "suggestedWateringDays": 14,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Easy",
+  "category": "Succulents",
+  "description": "Native to South Africa, Jade Plant is a beloved succulent that can live for decades, becoming a cherished family heirloom passed down through generations. It features thick, woody stems and plump, glossy, oval leaves that resemble jade gemstones. With proper care, it develops into a miniature tree with a substantial trunk, growing 2-3 feet tall indoors (up to 6 feet with age). In Asian cultures, it's considered a symbol of good luck and prosperity, often given as gifts for new businesses or homes. Mature plants (10+ years) reward patient growers with clusters of small, star-shaped white or pink flowers in winter. Its tree-like form, longevity, and low-maintenance nature make it perfect for bonsai-style cultivation or as a living sculpture that improves with age.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Depression, Incoordination",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Vomiting",
+      "Depression",
+      "Incoordination"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-75°F (18-24°C) - prefers cooler winters",
+  "humidity": "30-50% - tolerates dry air",
+  "careInstructions": [
+    "Water deeply only when soil is completely dry - every 2-3 weeks",
+    "Reduce watering in winter to monthly to encourage flowering",
+    "Provide at least 4-6 hours of direct sunlight daily for compact growth",
+    "Use well-draining cactus or succulent potting mix",
+    "Prune to shape into tree form and encourage branching",
+    "Fertilize monthly during growing season with diluted balanced fertilizer",
+    "Repot every 2-3 years in spring, or keep root-bound for bonsai effect",
+    "Rotate weekly for even growth and prevent leaning toward light"
+  ],
+  "commonProblems": [
+    "Dropping leaves: Overwatering (most common), underwatering, or sudden changes",
+    "Shriveled, wrinkled leaves: Severe underwatering - water thoroughly",
+    "Soft, mushy stems/leaves: Overwatering causing rot",
+    "Leggy, stretched growth: Insufficient light - needs direct sun",
+    "No flowers: Needs cooler winter temps (50-55°F) and reduced watering",
+    "Black spots on leaves: Fungal disease from overwatering or poor air circulation"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+    },
+    "repotting": {
+      "tip": "Repot every 2-3 years in spring, or keep root-bound for bonsai effect"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

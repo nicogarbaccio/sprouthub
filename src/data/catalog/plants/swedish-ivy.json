@@ -1,0 +1,57 @@
+{
+  "name": "Swedish Ivy",
+  "botanicalName": "Plectranthus verticillatus",
+  "otherNames": [
+    "Whorled Plectranthus",
+    "Swedish Begonia"
+  ],
+  "imagePath": "Swedish%20Ivy.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Low Maintenance",
+  "description": "Despite its common name, Swedish Ivy is neither Swedish nor an ivy - it's actually a member of the mint family native to Africa and parts of Asia. This fast-growing, trailing plant features round, scalloped, glossy green leaves (or variegated white and green) on cascading stems that create lush, full growth perfect for hanging baskets or spilling over container edges. The succulent-like stems root easily at nodes, making propagation almost foolproof. Growing vigorously with minimal care, stems can reach 3-4 feet long in a single season. Swedish Ivy tolerates a wide range of conditions, bounces back quickly from neglect, and produces small white or purple flowers when happy. Its forgiving nature, rapid growth, and ease of propagation make it perfect for beginners or anyone wanting instant greenery.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "60-75°F (15-24°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top inch of soil feels dry - typically weekly",
+    "Provide bright, indirect light for best growth and fuller appearance",
+    "Pinch growing tips regularly to encourage bushier, fuller growth",
+    "Extremely easy to propagate in water - roots develop in days",
+    "Fertilize every 2-3 weeks during active growth with balanced fertilizer",
+    "Trim back leggy stems by half to rejuvenate plant",
+    "Can be moved outdoors in summer for vigorous growth",
+    "Very forgiving and resilient - bounces back from neglect"
+  ],
+  "commonProblems": [
+    "Leggy, sparse growth: Insufficient light or needs more frequent pinching",
+    "Yellow leaves: Usually overwatering or natural aging of older leaves",
+    "Dropping leaves: Underwatering, environmental stress, or cold drafts",
+    "Slow growth: Needs more light, fertilizer, or warmer temperatures",
+    "Brown edges: Low humidity or inconsistent watering",
+    "Stretching: Natural growth habit - pinch regularly to maintain fullness"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize every 2-3 weeks during active growth with balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

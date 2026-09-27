@@ -1,0 +1,61 @@
+{
+  "name": "ZZ Plant",
+  "botanicalName": "Zamioculcas zamiifolia",
+  "otherNames": [
+    "Zanzibar Gem",
+    "Zuzu Plant",
+    "Eternity Plant"
+  ],
+  "imagePath": "ZZ%20Plant.png",
+  "wateringFrequency": "Every 2-3 weeks",
+  "suggestedWateringDays": 21,
+  "lightRequirement": "Low to Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Low Maintenance",
+  "description": "Native to East Africa, the ZZ Plant is one of the most indestructible houseplants available, earning its nickname \"Eternity Plant\" for its ability to survive extreme neglect. This architectural beauty features thick, succulent-like stems with glossy, waxy leaflets arranged in graceful, feather-like fronds that grow upright from underground rhizomes. The deep green foliage has a natural shine that looks almost artificial, making it a stunning addition to modern interiors. Growing 2-3 feet tall, it thrives in a remarkable range of conditions from low light corners to bright rooms, tolerates irregular watering, and is virtually pest-free. Its slow growth means minimal maintenance, and its dramatic sculptural form provides maximum impact with minimal effort - the ultimate plant for busy people or frequent travelers.",
+  "toxicity": "Toxic to pets and humans if ingested - contains calcium oxalate crystals",
+  "temperature": "60-75°F (15-24°C)",
+  "humidity": "30-50% - tolerates dry air",
+  "careInstructions": [
+    "Water only when soil is completely dry - every 2-3 weeks typically",
+    "Thrives in low to bright indirect light - extremely adaptable",
+    "Allow soil to dry out completely between waterings to prevent rot",
+    "Use well-draining potting mix - add perlite if needed",
+    "Wipe leaves monthly with damp cloth to maintain glossy appearance",
+    "Fertilize only 2-3 times per year during growing season",
+    "Repot only when severely root-bound (every 2-3 years)",
+    "Can tolerate several weeks without water due to water-storing rhizomes"
+  ],
+  "commonProblems": [
+    "Yellow leaves: Almost always from overwatering - most common cause of death",
+    "Brown leaf tips: Natural aging or fluoride sensitivity from tap water",
+    "Stems falling over: Overwatering causing root/rhizome rot",
+    "Slow growth: Completely normal - ZZ is naturally slow-growing",
+    "Root rot: From overwatering or poor drainage - use very well-draining soil",
+    "Wrinkled stems: Severe underwatering - soak thoroughly when dry"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": null,
+      "tip": "Fertilize only 2-3 times per year during growing season"
+    },
+    "repotting": {
+      "tip": "Repot only when severely root-bound (every 2-3 years)"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

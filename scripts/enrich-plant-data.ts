@@ -1,8 +1,11 @@
 /**
  * Build-time enrichment script for plant data.
  *
- * Enriches the catalog with pet toxicity data from Plant Smart API
- * (https://plantsm.art/api/) — no API key required.
+ * Enriches the catalog JSON files (src/data/catalog/plants/*.json) in place with pet toxicity
+ * data from Plant Smart API (https://plantsm.art/api/) — no API key required.
+ *
+ * Only exact name matches are applied. Genus-only matches are reported for manual review:
+ * toxicity varies within a genus, so a genus match can attach another species' data.
  *
  * Usage:
  *   npx tsx scripts/enrich-plant-data.ts
@@ -12,27 +15,9 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { catalogEntrySchema, type CatalogEntry } from '../src/data/catalog/schema';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-
-interface CatalogPlant {
-  name: string;
-  botanicalName: string;
-  image: string;
-  wateringFrequency: string;
-  suggestedWateringDays: number;
-  lightRequirement: string;
-  careLevel: 'Easy' | 'Medium' | 'Hard';
-  category: string;
-  description?: string;
-  toxicity?: string;
-  temperature?: string;
-  humidity?: string;
-  careInstructions?: string[];
-  commonProblems?: string[];
-  isOutdoorPlant?: boolean;
-  otherNames?: string[];
-}
 
 interface PlantSmartEntry {
   name: string;
@@ -46,10 +31,7 @@ interface PlantSmartEntry {
 
 const PLANT_SMART_URL = 'https://plantsm.art/api/plants.json';
 
-const OUTPUT_PATH = path.resolve(
-  import.meta.dirname,
-  '../public/enriched-plants.json',
-);
+const CATALOG_DIR = path.resolve(import.meta.dirname, '../src/data/catalog/plants');
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -70,9 +52,9 @@ async function fetchJson<T>(url: string): Promise<T | null> {
 // ─── Plant Smart matching ────────────────────────────────────────────────────
 
 function matchPlantSmart(
-  plant: CatalogPlant,
+  plant: CatalogEntry,
   plantSmartData: PlantSmartEntry[],
-): PlantSmartEntry | undefined {
+): { entry: PlantSmartEntry; kind: 'exact' | 'genus' } | undefined {
   const ourNames = [
     plant.name.toLowerCase(),
     plant.botanicalName.toLowerCase(),
@@ -89,7 +71,7 @@ function matchPlantSmart(
     ];
     return ourNames.some((n) => psNames.some((psn) => psn === n));
   });
-  if (exact) return exact;
+  if (exact) return { entry: exact, kind: 'exact' };
 
   // Pass 2: Botanical genus match (e.g. "Monstera" matches "Monstera spp.")
   // Only match when the Plant Smart entry's scientific name starts with our genus
@@ -98,10 +80,18 @@ function matchPlantSmart(
       const psGenus = ps.name.toLowerCase().split(' ')[0];
       return psGenus === botanicalGenus;
     });
-    if (genusMatch) return genusMatch;
+    if (genusMatch) return { entry: genusMatch, kind: 'genus' };
   }
 
   return undefined;
+}
+
+function buildToxicityDetail(entry: PlantSmartEntry): CatalogEntry['toxicityDetail'] {
+  return {
+    animals: entry.animals ?? [],
+    symptoms: (entry.symptoms ?? []).map((s) => s.name).slice(0, 5),
+    source: 'plantsm.art',
+  };
 }
 
 function buildPlantSmartToxicity(entry: PlantSmartEntry): string {
@@ -123,9 +113,14 @@ function buildPlantSmartToxicity(entry: PlantSmartEntry): string {
 
 // ─── Load catalog ────────────────────────────────────────────────────────────
 
-async function loadCatalog(): Promise<CatalogPlant[]> {
-  const { plants } = await import('../src/data/plantData.js');
-  return plants as CatalogPlant[];
+function loadCatalog(): { file: string; plant: CatalogEntry }[] {
+  return fs
+    .readdirSync(CATALOG_DIR)
+    .filter((f) => f.endsWith('.json'))
+    .map((f) => {
+      const file = path.join(CATALOG_DIR, f);
+      return { file, plant: catalogEntrySchema.parse(JSON.parse(fs.readFileSync(file, 'utf-8'))) };
+    });
 }
 
 // ─── Main enrichment ────────────────────────────────────────────────────────
@@ -135,7 +130,7 @@ async function main() {
 
   // Load catalog
   console.log('Loading plant catalog...');
-  const catalog = await loadCatalog();
+  const catalog = loadCatalog();
   console.log(`Loaded ${catalog.length} plants from catalog.\n`);
 
   // Load Plant Smart data
@@ -147,20 +142,30 @@ async function main() {
   }
   console.log(`Loaded ${plantSmartData.length} entries from Plant Smart.\n`);
 
-  const enriched: CatalogPlant[] = [];
   const validationIssues: string[] = [];
-  let enrichedCount = 0;
+  const genusOnly: string[] = [];
+  let updatedCount = 0;
 
   for (let i = 0; i < catalog.length; i++) {
-    const plant = { ...catalog[i] };
+    const { file, plant } = catalog[i];
     const label = `[${i + 1}/${catalog.length}] ${plant.name}`;
 
     const psMatch = matchPlantSmart(plant, plantSmartData);
-    if (psMatch) {
-      const psToxicity = buildPlantSmartToxicity(psMatch);
-      plant.toxicity = psToxicity;
-      console.log(`${label} -> ${psToxicity}`);
-      enrichedCount++;
+    if (psMatch?.kind === 'exact') {
+      const toxicity = buildPlantSmartToxicity(psMatch.entry);
+      const toxicityDetail = buildToxicityDetail(psMatch.entry);
+      const changed =
+        plant.toxicity !== toxicity ||
+        JSON.stringify(plant.toxicityDetail) !== JSON.stringify(toxicityDetail);
+      if (changed) {
+        const updated = catalogEntrySchema.parse({ ...plant, toxicity, toxicityDetail });
+        fs.writeFileSync(file, JSON.stringify(updated, null, 2) + '\n', 'utf-8');
+        updatedCount++;
+      }
+      console.log(`${label} -> ${toxicity}${changed ? ' (updated)' : ''}`);
+    } else if (psMatch?.kind === 'genus') {
+      genusOnly.push(`${plant.name} (${plant.botanicalName}) ~ ${psMatch.entry.name}`);
+      console.log(`${label} - genus-only match (${psMatch.entry.name}), not applied`);
     } else {
       console.log(`${label} - no Plant Smart match (keeping catalog value)`);
     }
@@ -178,15 +183,15 @@ async function main() {
         }
       });
     }
-
-    enriched.push(plant);
   }
 
-  // Write output
-  console.log(`\nWriting enriched data to ${OUTPUT_PATH}...`);
-  fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });
-  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(enriched, null, 2), 'utf-8');
-  console.log(`Done. ${enriched.length} plants written (${enrichedCount} enriched).\n`);
+  console.log(`\nDone. ${updatedCount} of ${catalog.length} plants updated.\n`);
+
+  if (genusOnly.length) {
+    console.warn(`=== Genus-only matches — review toxicity by hand (${genusOnly.length}) ===`);
+    genusOnly.forEach((m) => console.warn(`  - ${m}`));
+    console.warn('');
+  }
 
   // Report validation issues
   if (validationIssues.length) {

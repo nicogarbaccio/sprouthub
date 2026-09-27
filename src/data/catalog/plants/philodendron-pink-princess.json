@@ -1,0 +1,72 @@
+{
+  "name": "Philodendron Pink Princess",
+  "botanicalName": "Philodendron erubescens 'Pink Princess'",
+  "otherNames": [
+    "Pink Princess Philodendron",
+    "PPP"
+  ],
+  "imagePath": "Philodendron%20Pink%20Princess.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Tropical Plants",
+  "description": "A highly coveted cultivar of Philodendron erubescens, Pink Princess features dark green to nearly black leaves dramatically splashed with bubblegum pink variegation that ranges from small spots to half-pink leaves. The pink is caused by a lack of chlorophyll, making each leaf unique and unpredictable. The burgundy stems add to the dramatic coloring. Growing as a climbing vine to 4-6 feet indoors, it creates a stunning, Instagram-worthy display. However, the pink variegation is unstable - plants can produce all-green or all-pink (non-viable) leaves that must be pruned. High demand and slow propagation have made it expensive. While not extremely difficult, maintaining the pink variegation requires proper light, and the plant's unpredictable nature means patience and acceptance that not every leaf will be perfectly pink.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "50-70%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - typically weekly",
+    "Provide bright, indirect light for best pink variegation",
+    "Too much light bleaches leaves, too little reduces pink",
+    "Provide moss pole or trellis to encourage climbing and larger leaves",
+    "Prune all-green stems immediately to prevent reversion",
+    "Prune all-pink (no green) leaves as they can't photosynthesize",
+    "Fertilize monthly during growing season with diluted balanced fertilizer",
+    "Maintain moderate to high humidity for best growth",
+    "Be patient - variegation is unpredictable and inconsistent"
+  ],
+  "commonProblems": [
+    "Loss of pink (reverting to green): Prune all-green growth immediately",
+    "All-pink leaves: Cannot survive without chlorophyll - prune these too",
+    "Yellow leaves: Overwatering most common, or natural aging",
+    "Brown leaf tips: Low humidity, underwatering, or fluoride sensitivity",
+    "Inconsistent variegation: Normal and expected - nature of this cultivar",
+    "Slow growth: Normal for highly variegated plants with less chlorophyll"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

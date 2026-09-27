@@ -1,0 +1,71 @@
+{
+  "name": "Begonia Rex",
+  "botanicalName": "Begonia rex-cultorum",
+  "otherNames": [
+    "Painted-Leaf Begonia",
+    "King Begonia",
+    "Rex Begonia"
+  ],
+  "imagePath": "Begonia%20Rex.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Flowering Plants",
+  "description": "A showstopping foliage plant native to the Himalayan region of India, Rex Begonia is grown primarily for its extraordinary leaves rather than its small, unremarkable flowers. Each cultivar displays a unique masterpiece of colors and patterns - swirls of silver, purple, pink, red, and green with metallic sheens, spots, or spiral patterns that look hand-painted by an artist. The textured, asymmetrical leaves can be smooth or puckered, creating living art that rivals any flowering plant. Growing 12-18 inches tall and wide, these rhizomatous begonias make dramatic statement pieces for bright, humid spaces. While they require more attention than basic houseplants, the spectacular foliage display rewards dedicated care with year-round visual interest.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Kidney Failure, Vomiting, Drooling",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Kidney Failure",
+      "Vomiting",
+      "Drooling"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-75°F (15-24°C)",
+  "humidity": "50-70%",
+  "careInstructions": [
+    "Keep soil consistently moist but never soggy - water when top inch is dry",
+    "Use well-draining potting mix rich in organic matter",
+    "Provide bright, indirect light - too much sun fades the vibrant leaf patterns",
+    "Maintain high humidity with pebble tray or humidifier - critical for health",
+    "Water soil directly, never wet the leaves to prevent powdery mildew",
+    "Fertilize every 2-3 weeks during growing season with diluted balanced fertilizer",
+    "Remove small flowers as they appear to direct energy to foliage",
+    "Rotate plant weekly for even growth and color development"
+  ],
+  "commonProblems": [
+    "Powdery mildew: Water on leaves combined with poor air circulation",
+    "Brown, crispy leaf edges: Low humidity or fluoride/chlorine in tap water",
+    "Leaf drop: Temperature fluctuations, drafts, or sudden environmental changes",
+    "Fading colors: Insufficient light - move to brighter indirect location",
+    "Root rot: Overwatering or poor drainage - reduce watering frequency",
+    "Leggy growth: Insufficient light - provide brighter conditions"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize every 2-3 weeks during growing season with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "name": "African Violet",
+  "botanicalName": "Streptocarpus ionanthus",
+  "otherNames": [
+    "Saintpaulia",
+    "Usambara Violet"
+  ],
+  "imagePath": "African%20Violet.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Flowering Plants",
+  "description": "Native to the cloud forests of Tanzania and Kenya, African Violets are beloved for their jewel-toned flowers in shades of purple, pink, blue, white, or bi-colors that bloom nearly year-round with proper care. These compact plants form rosettes of fuzzy, rounded leaves that are just as ornamental as the delicate five-petaled flowers that hover above them. Growing only 6-8 inches wide, they're perfect for small spaces, windowsills, or creating colorful collections. While they have a reputation for being fussy, modern cultivars are more forgiving, and once you understand their preferences for bottom watering and consistent conditions, they're rewarding and prolific bloomers that can flower continuously for months.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-75°F (18-24°C) - avoid temperature fluctuations",
+  "humidity": "50-60%",
+  "careInstructions": [
+    "Water from bottom by placing pot in water dish for 10-15 minutes until soil moistens",
+    "Never get water on leaves or crown - causes spotting and rot",
+    "Use room temperature water only - cold water causes leaf spots",
+    "Provide 10-12 hours of bright, indirect light daily for continuous blooming",
+    "Use African violet-specific potting mix (light, well-draining, slightly acidic)",
+    "Fertilize every 2-3 weeks with African violet fertilizer at half strength",
+    "Remove spent flowers and damaged leaves promptly to encourage more blooms",
+    "Repot annually in fresh mix - they prefer being slightly rootbound"
+  ],
+  "commonProblems": [
+    "No blooms: Insufficient light (most common), needs 10-12 hours daily",
+    "White spots on leaves: Cold water on foliage - use room temperature water only",
+    "Crown rot: Water in center of plant - always water from bottom",
+    "Brown leaf edges: Low humidity, over-fertilizing, or root-bound",
+    "Leggy growth: Insufficient light - move closer to light source",
+    "Powdery mildew: Poor air circulation and high humidity on leaves"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "African violet fertilizer at half strength",
+      "tip": "Fertilize every 2-3 weeks with African violet fertilizer at half strength"
+    },
+    "repotting": {
+      "tip": "Repot annually in fresh mix - they prefer being slightly rootbound"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

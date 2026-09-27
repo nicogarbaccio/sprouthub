@@ -1,0 +1,70 @@
+{
+  "name": "Flaming Katy",
+  "botanicalName": "Kalanchoe blossfeldiana",
+  "otherNames": [
+    "Christmas Kalanchoe",
+    "Florist Kalanchoe",
+    "Madagascar Widow's-thrill"
+  ],
+  "imagePath": "Flaming%20Katy.jpg",
+  "wateringFrequency": "Every 10-14 days",
+  "suggestedWateringDays": 10,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Easy",
+  "category": "Flowering Plants",
+  "description": "A succulent flowering plant from Madagascar, Flaming Katy produces dense clusters of small, colorful four-petaled flowers in vibrant reds, pinks, oranges, yellows, or white that can last 6-8 weeks. The flowers sit atop thick, glossy, scalloped leaves that store water, making this plant remarkably drought-tolerant and forgiving of occasional neglect. Growing 6-12 inches tall, it's a popular gift plant during holidays due to its long-lasting blooms and easy care requirements. As a succulent, it needs less water than typical flowering plants and thrives on benign neglect. With proper rest periods and bright light, kalanchoe can be encouraged to rebloom year after year, providing colorful displays multiple times annually.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Diarrhea, Cardiac Arrhythmias",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Vomiting",
+      "Diarrhea",
+      "Cardiac Arrhythmias"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-85°F (15-29°C)",
+  "humidity": "30-50%",
+  "careInstructions": [
+    "Water thoroughly only when soil is completely dry - typically every 10-14 days",
+    "Use well-draining cactus/succulent potting mix",
+    "Provide at least 6 hours of bright, direct sunlight for abundant flowering",
+    "Remove spent flower clusters by cutting stem at base",
+    "After flowering, cut back stems by half to encourage bushiness",
+    "To trigger reblooming: Give 12-14 hours of complete darkness for 6 weeks",
+    "Fertilize monthly during active growth with diluted succulent fertilizer",
+    "Allow plant to rest in cooler temps (55-60°F) during fall darkness period"
+  ],
+  "commonProblems": [
+    "No flowers after first bloom: Needs darkness treatment (12-14 hours for 6 weeks)",
+    "Root rot: Overwatering - this is a succulent that prefers dry conditions",
+    "Leggy growth after blooming: Normal - prune back by half to restore shape",
+    "Yellowing leaves: Overwatering most likely, or natural aging",
+    "Short bloom period: Natural, but cooler temps (60-65°F) extend flowering"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted succulent fertilizer",
+      "tip": "Fertilize monthly during active growth with diluted succulent fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

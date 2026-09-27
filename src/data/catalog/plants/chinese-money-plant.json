@@ -1,0 +1,58 @@
+{
+  "name": "Chinese Money Plant",
+  "botanicalName": "Pilea peperomioides",
+  "otherNames": [
+    "Pancake Plant",
+    "UFO Plant",
+    "Missionary Plant"
+  ],
+  "imagePath": "Chinese%20Money%20Plant.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Small Plants",
+  "description": "A charming plant from the Yunnan Province in southern China, Chinese Money Plant became an Instagram sensation in recent years thanks to its distinctive round, coin-shaped leaves that sit atop delicate stems like little green pancakes or UFOs. Each perfectly circular leaf can grow 2-4 inches across, creating a unique, geometric display that looks modern and whimsical. The plant grows 8-12 inches tall and readily produces babies (offsets) from the base that can be separated and shared - leading to its spread around the world through plant swaps rather than commercial trade. Easy to care for with minimal demands, it rotates its leaves toward light sources, so regular turning keeps growth symmetrical. Its quirky appearance and generous nature make it a favorite among plant collectors.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "55-75°F (13-24°C)",
+  "humidity": "40-50%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - typically weekly",
+    "Provide bright, indirect light for best growth and leaf color",
+    "Rotate plant weekly by a quarter turn to maintain symmetrical growth",
+    "Use well-draining potting mix to prevent root rot",
+    "Remove baby plants (pups) from base to encourage main plant growth",
+    "Fertilize monthly during growing season with diluted balanced fertilizer",
+    "Wipe leaves occasionally to remove dust",
+    "Prune lower leaves as they age and yellow naturally"
+  ],
+  "commonProblems": [
+    "Curling leaves: Underwatering or too much direct sun",
+    "Yellow leaves: Overwatering (most common) or natural aging of lower leaves",
+    "Leaning toward light: Natural behavior - rotate regularly for even growth",
+    "Dropping leaves: Underwatering, overwatering, or temperature stress",
+    "Brown leaf edges: Inconsistent watering or fluoride sensitivity",
+    "Leggy, sparse growth: Insufficient light - move to brighter location"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 55,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

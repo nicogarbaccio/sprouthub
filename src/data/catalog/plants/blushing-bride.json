@@ -1,0 +1,68 @@
+{
+  "name": "Blushing Bride",
+  "botanicalName": "Tillandsia ionantha",
+  "otherNames": [
+    "Sky Plant",
+    "Air Plant"
+  ],
+  "imagePath": "Blushing%20Bride.jpg",
+  "wateringFrequency": "Weekly soak or 2-3x weekly misting",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Air Plants",
+  "description": "One of the most popular and beginner-friendly air plants, this compact beauty features silvery-green spiky leaves that dramatically transform to vibrant pink or red when blooming. The stunning color change occurs as the plant prepares to flower, creating a \"blushing\" effect that lasts for weeks. Native to Mexico and Central America, it grows 2-3 inches tall and thrives in various display methods including terrariums, hanging arrangements, driftwood mounts, or decorative holders. Its small size and forgiving nature make it perfect for first-time air plant enthusiasts.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Diarrhea, Cardiac Arrhythmias",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Vomiting",
+      "Diarrhea",
+      "Cardiac Arrhythmias"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-80°F (15-27°C)",
+  "humidity": "50-60%",
+  "careInstructions": [
+    "Soak in room temperature water for 20-30 minutes weekly, OR mist thoroughly 2-3 times per week",
+    "After soaking, gently shake off excess water and place upside down to drain",
+    "Allow to dry completely within 4 hours in a well-ventilated area",
+    "Provide bright, indirect light - near an east or west-facing window is ideal",
+    "Use filtered, distilled, or rainwater when possible (tap water minerals can cause brown tips)",
+    "Fertilize monthly during growing season with diluted bromeliad or air plant fertilizer (¼ strength)",
+    "Ensure good air circulation - avoid enclosed containers without airflow"
+  ],
+  "commonProblems": [
+    "Rotting: Usually from not drying completely after watering or poor air circulation",
+    "Shriveling or curling leaves: Needs more frequent watering or higher humidity",
+    "Brown or black tips: Low humidity, over-fertilizing, or poor water quality",
+    "Not blooming: Needs more bright light or plant may be too young (takes 2-3 years to mature)",
+    "Leaves falling off: Severe dehydration or natural offsets (pups) forming"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted bromeliad or air plant fertilizer (¼ strength)",
+      "tip": "Fertilize monthly during growing season with diluted bromeliad or air plant fertilizer (¼ strength)"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

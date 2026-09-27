@@ -1,0 +1,71 @@
+{
+  "name": "Peace Lily",
+  "botanicalName": "Spathiphyllum wallisii",
+  "otherNames": [
+    "Spath",
+    "White Sails",
+    "Mauna Loa"
+  ],
+  "imagePath": "Peace%20Lily.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Low to Medium Light",
+  "careLevel": "Easy",
+  "category": "Flowering Plants",
+  "description": "One of the most popular and forgiving houseplants, the Peace Lily is celebrated for its elegant white spathes (often mistaken for flowers) that bloom throughout the year and its remarkable air-purifying qualities. Native to the tropical rainforests of Central and South America, this graceful plant features glossy, deep green leaves that arch elegantly and distinctive white \"blooms\" that emerge on tall stems. Growing 1-4 feet tall depending on variety, it's famous for dramatically drooping when thirsty, then perking up quickly after watering - making it perfect for beginners who want visual watering cues. It thrives in low to medium light where most flowering plants struggle, making it ideal for offices and north-facing rooms.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top inch of soil is dry or when leaves begin to droop slightly",
+    "Thrives in low to medium indirect light - one of few flowering plants for dim spaces",
+    "Keep soil consistently moist but not waterlogged during growing season",
+    "Wipe leaves monthly to remove dust and enhance photosynthesis",
+    "Use filtered or distilled water if possible - sensitive to fluoride and chlorine",
+    "Fertilize monthly during spring and summer with diluted balanced fertilizer",
+    "Provide higher humidity for more frequent blooming",
+    "Remove spent flowers and yellow leaves at the base"
+  ],
+  "commonProblems": [
+    "Brown leaf tips: Usually from fluoride/chlorine in tap water or low humidity",
+    "Drooping leaves: Needs water - will recover quickly after watering",
+    "Yellow leaves: Overwatering, poor drainage, or natural aging of older leaves",
+    "No blooms: Needs brighter light or may be too young (blooms when mature)",
+    "Brown spots on leaves: Fungal disease from overwatering or poor air circulation"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during spring and summer with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

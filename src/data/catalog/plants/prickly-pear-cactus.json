@@ -1,0 +1,58 @@
+{
+  "name": "Prickly Pear Cactus",
+  "botanicalName": "Opuntia microdasys",
+  "otherNames": [
+    "Bunny Ears Cactus",
+    "Polka-Dot Cactus",
+    "Angel's Wings"
+  ],
+  "imagePath": "Prickly%20Pear%20Cactus.jpg",
+  "wateringFrequency": "Every 2-3 weeks",
+  "suggestedWateringDays": 21,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Easy",
+  "category": "Succulents",
+  "description": "Native to central and northern Mexico, Opuntia microdasys is one of the most charming and distinctive cacti, featuring flat, oval pads (cladodes) that resemble bunny ears, covered in fuzzy-looking clusters of golden, reddish, or white glochids (tiny hair-like spines) arranged in polka-dot patterns. Don't be fooled by the soft appearance - these glochids are barbed and extremely irritating if they contact skin, embedding themselves deeply and causing itching for days. Growing 2-3 feet tall indoors with a branching, bushy form, mature plants produce yellow flowers and edible purple fruit (though flowering rarely occurs indoors). Despite the dangerous spines, it's easy to grow with bright light and minimal water, making it perfect for experienced cactus lovers who understand proper handling.",
+  "toxicity": "Non-toxic but has severely irritating glochids (barbed micro-spines)",
+  "temperature": "50-85°F (10-29°C)",
+  "humidity": "10-30% - prefers very dry air",
+  "careInstructions": [
+    "Water deeply when soil is completely dry - every 2-3 weeks in summer",
+    "In winter, reduce watering to monthly or less",
+    "Provide maximum direct sunlight - 6+ hours daily",
+    "Use well-draining cactus mix with added sand and perlite",
+    "ALWAYS handle with thick leather gloves, tongs, or rolled newspaper",
+    "If glochids contact skin, remove with duct tape or tweezers, not fingers",
+    "Fertilize monthly during growing season with diluted cactus fertilizer",
+    "Cool winter rest period (50-60°F) encourages flowering"
+  ],
+  "commonProblems": [
+    "Root rot: Overwatering or poor drainage - most common problem",
+    "Soft, wrinkled pads: Severe overwatering causing rot",
+    "Glochid irritation: Extremely common - always use thick gloves when handling",
+    "Yellowing pads: Overwatering, root rot, or pest infestation",
+    "Etiolation (thin new growth): Insufficient light - needs full sun",
+    "Scale or mealybugs: Remove with cotton swab and rubbing alcohol"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 50,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 10,
+      "maxPct": 30
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted cactus fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted cactus fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -15,8 +15,7 @@ import PlantCareCards from "@/components/plant-details/PlantCareCards";
 import BlogPostsSection from "@/components/blog/BlogPostsSection";
 import { useBadgeInfo } from "@/components/plant-details/usePlantStatusInfo";
 import { shouldShowOverwateringWarning } from "@/utils/plants/overwatering";
-import { plants as catalogPlants } from "@/data/plantData";
-import { useEnrichedPlant } from "@/hooks/useEnrichedPlant";
+import { getCatalogPlant } from "@/data/plantData";
 import { calculateWateringSchedule } from "@/utils/watering/schedule";
 import { getWateringStatus } from "@/utils/watering/status";
 import { getPlantFertilizationStatus } from "@/utils/plants/fertilizationAdvice";
@@ -73,18 +72,7 @@ const MyPlantDetails = () => {
   const { addJournalEntry } = useJournalEntries();
 
 
-  const staticCatalogPlant = plant
-    ? catalogPlants.find(
-        (catalogP) =>
-          catalogP.name.toLowerCase() === plant.plant_type.toLowerCase() ||
-          catalogP.botanicalName.toLowerCase() ===
-            plant.plant_type.toLowerCase(),
-      )
-    : undefined;
-
-  // Prefer enriched data when available (falls back to static catalog)
-  const enrichedCatalogPlant = useEnrichedPlant(plant?.plant_type);
-  const catalogPlant = enrichedCatalogPlant ?? staticCatalogPlant;
+  const catalogPlant = getCatalogPlant(plant?.plant_type);
 
   const { getActionableInsights, getBadgeInfo } = useBadgeInfo(pendingInsights);
 

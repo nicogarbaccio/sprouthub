@@ -1,0 +1,58 @@
+{
+  "name": "Aloe Aristata",
+  "botanicalName": "Aristaloe aristata",
+  "otherNames": [
+    "Lace Aloe",
+    "Torch Plant",
+    "Guinea-fowl Aloe"
+  ],
+  "imagePath": "Aloe%20Aristata.jpg",
+  "wateringFrequency": "Every 2-3 weeks",
+  "suggestedWateringDays": 14,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Succulents",
+  "description": "Native to South Africa, Lace Aloe is a compact, clump-forming succulent that resembles Aloe Vera but is actually in its own genus. It forms neat rosettes of dark green, lance-shaped leaves covered with distinctive white spots and bumps (tubercles) that create a textured, lacy appearance, with white \"teeth\" along the margins and soft white bristles on leaf tips. Growing only 6-8 inches tall and wide, it's perfect for small spaces and readily produces offsets, forming attractive clusters. Unlike many aloes, it blooms reliably indoors, sending up tall (12-18 inch) spikes with tubular orange or red flowers in late spring or summer - a stunning display. More compact and easier to bloom than larger aloes, it's perfect for beginners wanting an attractive, flowering succulent for bright windowsills.",
+  "toxicity": "Mildly toxic to pets if ingested",
+  "temperature": "60-80°F (15-27°C)",
+  "humidity": "30-50%",
+  "careInstructions": [
+    "Water deeply only when soil is completely dry - every 2-3 weeks",
+    "Provide bright, indirect light - can tolerate some direct morning sun",
+    "Use well-draining cactus or succulent potting mix",
+    "Allow soil to dry completely between waterings",
+    "Remove spent flower stalks after blooming by cutting at base",
+    "Separate offsets to propagate or prevent overcrowding",
+    "Fertilize every 2-3 months during growing season with diluted succulent fertilizer",
+    "Water less frequently in winter"
+  ],
+  "commonProblems": [
+    "Root rot: Overwatering - most common cause of death",
+    "Stretching (rosette opening up): Insufficient light - provide brighter conditions",
+    "Brown, shriveled leaf tips: Underwatering or low humidity",
+    "Leaves turning brown: Too much direct sun causing sunburn",
+    "No flowers: Insufficient light or too much nitrogen fertilizer",
+    "Soft, mushy leaves: Overwatering causing rot"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": "Diluted succulent fertilizer",
+      "tip": "Fertilize every 2-3 months during growing season with diluted succulent fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

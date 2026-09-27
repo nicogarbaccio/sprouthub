@@ -1,0 +1,72 @@
+{
+  "name": "Marble Queen Pothos",
+  "botanicalName": "Epipremnum aureum 'Marble Queen'",
+  "otherNames": [
+    "Variegated Pothos",
+    "Marble Pothos",
+    "Marble Queen Devil's Ivy"
+  ],
+  "imagePath": "Marble%20Queen%20Pothos.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Hanging & Trailing Plants",
+  "description": "One of the most striking pothos varieties, Marble Queen is a heavily variegated cultivar of Epipremnum aureum whose heart-shaped leaves are splashed and streaked with creamy-white and green in a marbled pattern so dense that some leaves are nearly half white. As easy and forgiving as classic Golden Pothos, it trails elegantly from shelves and hanging baskets or climbs a moss pole with aerial roots. The one key difference is light: because so much of each leaf lacks chlorophyll, Marble Queen needs brighter indirect light than the all-green types to keep its variegation crisp and to grow at a reasonable pace - in low light it grows slowly and the new leaves lose their marbling and revert toward solid green. Give it good light and consistent-but-not-soggy watering and it rewards you with cascading, painterly foliage that looks far fussier than it actually is.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-85°F (15-29°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - typically weekly",
+    "Provide medium to bright indirect light to keep variegation strong - brighter than Golden Pothos needs",
+    "Avoid harsh direct sun, which scorches the white sections",
+    "Prune regularly to maintain length and encourage fuller, bushier growth",
+    "Propagates easily in water - cut just below a node",
+    "Wipe leaves monthly to remove dust and enhance variegation",
+    "Fertilize monthly during the growing season with a diluted balanced fertilizer",
+    "Grows slower than all-green pothos - normal for a heavily variegated plant"
+  ],
+  "commonProblems": [
+    "Loss of variegation / reverting to green: Insufficient light - move to a brighter spot",
+    "Brown, crispy patches on white areas: Sunburn from direct light or low humidity",
+    "Yellow leaves: Usually overwatering - allow soil to dry more between waterings",
+    "Brown leaf tips: Fluoride or chlorine sensitivity - use filtered water",
+    "Leggy growth with sparse leaves: Not enough light",
+    "Root rot: Overwatering or poor drainage - ensure the pot has drainage holes"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during the growing season with a diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

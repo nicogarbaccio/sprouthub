@@ -1,0 +1,73 @@
+{
+  "name": "String of Bananas",
+  "botanicalName": "Senecio radicans",
+  "otherNames": [
+    "Fishhooks Senecio",
+    "Necklace Plant",
+    "Banana Vine"
+  ],
+  "imagePath": "String%20of%20Bananas.jpg",
+  "wateringFrequency": "Every 10-14 days",
+  "suggestedWateringDays": 14,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Hanging & Trailing Plants",
+  "description": "Native to South Africa, String of Bananas is a delightful succulent vine featuring plump, curved leaves that look remarkably like tiny green bananas dangling from thin stems - a whimsical relative of the popular String of Pearls but generally easier to care for. The banana-shaped leaves are actually modified for water storage, allowing the plant to tolerate drought. Stems can trail 2-3 feet long, creating cascading displays that look unique and playful in hanging baskets or spilling over container edges. In bright light, it may produce small white flowers with cinnamon-like fragrance. Fast-growing during warm months and surprisingly forgiving, it's more resilient than String of Pearls while offering similar trailing beauty with its own distinctive character.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Liver Failure, Weight Loss, Weakness, Lethargy, Yawning",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Liver Failure",
+      "Weight Loss",
+      "Weakness",
+      "Lethargy",
+      "Yawning"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "30-50% - tolerates dry air",
+  "careInstructions": [
+    "Water thoroughly only when soil is completely dry - every 10-14 days typically",
+    "Use well-draining cactus or succulent potting mix",
+    "Provide bright, indirect light - can tolerate some direct morning sun",
+    "Handle gently as leaves can detach easily when touched",
+    "Fallen leaves and stem segments can be propagated in soil",
+    "Fertilize every 4-6 weeks during growing season with diluted succulent fertilizer",
+    "Provide drainage holes and never let sit in water",
+    "Rotate pot occasionally for even growth on all sides"
+  ],
+  "commonProblems": [
+    "Overwatering: Most common cause of death - allow to dry completely between waterings",
+    "Shriveling leaves: Severe underwatering - soak thoroughly when dry",
+    "Stretching (etiolation): Insufficient light - move to brighter location",
+    "Leaf drop when touched: Natural - leaves detach easily, not a problem",
+    "Root rot: Overwatering or poor drainage - use fast-draining soil",
+    "Pests (rare): Occasionally mealybugs - treat with isopropyl alcohol"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        6
+      ],
+      "fertilizerType": "Diluted succulent fertilizer",
+      "tip": "Fertilize every 4-6 weeks during growing season with diluted succulent fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

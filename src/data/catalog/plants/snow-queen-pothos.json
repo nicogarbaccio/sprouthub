@@ -1,0 +1,71 @@
+{
+  "name": "Snow Queen Pothos",
+  "botanicalName": "Epipremnum aureum 'Snow Queen'",
+  "otherNames": [
+    "Variegated Pothos",
+    "Snow Queen Devil's Ivy"
+  ],
+  "imagePath": "Snow%20Queen%20Pothos.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Hanging & Trailing Plants",
+  "description": "Snow Queen is the whitest of the common pothos cultivars - often confused with Marble Queen, but far more heavily variegated, with leaves that can be predominantly bright white with only flecks and brushstrokes of green. The effect is luminous and frosty, hence the name. It trails and climbs exactly like other pothos, but the extreme variegation makes it a little more demanding: with so little chlorophyll, Snow Queen grows slowly, needs consistently bright indirect light to sustain itself, and is more sensitive to overwatering and scorching than green or Marble Queen pothos. Give it plenty of bright, filtered light (without harsh direct sun) and let the soil dry between waterings, and it delivers some of the most dramatic white foliage you can grow on an easy-care trailing vine.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-85°F (15-29°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - err on the drier side, as it drinks less than green pothos",
+    "Provide bright, indirect light to sustain the heavy white variegation",
+    "Avoid harsh direct sun, which easily scorches the mostly-white leaves",
+    "Prune regularly to keep growth full and encourage branching",
+    "Propagate from stem cuttings, ideally including some green leaf tissue so cuttings can photosynthesize",
+    "Wipe leaves gently to keep them clean and bright",
+    "Fertilize monthly during the growing season with a diluted balanced fertilizer",
+    "Expect slow growth - normal for such a heavily variegated plant"
+  ],
+  "commonProblems": [
+    "Brown, crispy patches on white leaves: Sunburn or low humidity - the white tissue is delicate",
+    "Reverting to greener leaves: Actually helps the plant - too-white sections can't photosynthesize",
+    "Fully white leaves that brown and die: No chlorophyll to sustain them - normal, remove as needed",
+    "Yellow leaves: Overwatering - allow more drying between waterings",
+    "Slow or stalled growth: Normal, or needs brighter light",
+    "Root rot: Overwatering or poor drainage"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during the growing season with a diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

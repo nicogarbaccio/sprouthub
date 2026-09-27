@@ -1,0 +1,58 @@
+{
+  "name": "Polka Dot Plant",
+  "botanicalName": "Hypoestes phyllostachya",
+  "otherNames": [
+    "Freckle Face",
+    "Flamingo Plant",
+    "Measles Plant"
+  ],
+  "imagePath": "Polka%20Dot%20Plant.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Colorful Foliage",
+  "description": "Native to Madagascar, Polka Dot Plant is a cheerful, compact foliage plant featuring oval leaves heavily spotted or splashed with bright pink, red, white, or rose against a green background - like someone flicked paint across each leaf. Modern cultivars have been bred for more intense spotting, with some varieties showing more color than green. Growing 1-2 feet tall, this fast-growing plant creates vibrant pops of color perfect for small spaces, desks, or terrariums. While easy to care for, it does require regular pinching to prevent legginess and maintain compact, bushy form. Polka Dot Plant brings playful, cheerful color to indoor gardens and is particularly popular for adding bright accents to dish gardens and mixed plantings.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "50-60%",
+  "careInstructions": [
+    "Keep soil consistently moist but well-draining",
+    "Water when top inch feels dry - typically twice weekly",
+    "Provide bright, indirect light for most vibrant spotting",
+    "Pinch off flower spikes as they appear to maintain foliage",
+    "Pinch growing tips every 2-3 weeks to encourage bushy, compact growth",
+    "Maintain moderate humidity - tolerates average home conditions",
+    "Fertilize every 2-3 weeks during growing season with balanced fertilizer",
+    "Propagate easily from stem cuttings"
+  ],
+  "commonProblems": [
+    "Fading spots/colors: Insufficient light - move to brighter indirect location",
+    "Leggy, sparse growth: Not enough light or inadequate pinching",
+    "Wilting: Usually needs water or higher humidity",
+    "Loss of lower leaves: Natural growth pattern or insufficient light",
+    "Flower spikes: Pinch to redirect energy to colorful foliage",
+    "Yellow leaves: Overwatering or poor drainage"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize every 2-3 weeks during growing season with balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

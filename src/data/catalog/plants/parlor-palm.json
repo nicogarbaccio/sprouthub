@@ -1,0 +1,61 @@
+{
+  "name": "Parlor Palm",
+  "botanicalName": "Chamaedorea elegans",
+  "otherNames": [
+    "Neanthe Bella Palm",
+    "Good Luck Palm",
+    "Dwarf Mountain Palm"
+  ],
+  "imagePath": "Parlor%20Palm.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Low to Medium Light",
+  "careLevel": "Easy",
+  "category": "Palms",
+  "description": "Native to the rainforests of southern Mexico and Guatemala, Parlor Palm has been a beloved houseplant since Victorian times when it graced the parlors of wealthy homes, earning its common name. This graceful, compact palm features delicate, arching fronds composed of small leaflets that bring tropical elegance without the space demands of larger palms. Growing slowly to 2-4 feet indoors (6 feet maximum), it's perfectly sized for apartments and small spaces. Unlike most palms, Parlor Palm thrives in low to medium light and tolerates typical indoor conditions remarkably well, making it one of the easiest and most forgiving palms for beginners. It's also an excellent air purifier, and occasionally produces tiny yellow flowers even indoors, adding to its charm.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "40-50%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - typically weekly",
+    "Keep soil consistently moist but never waterlogged",
+    "Thrives in low to medium indirect light - tolerates shade well",
+    "Use well-draining potting mix that retains some moisture",
+    "Fertilize every 2-3 months during growing season with diluted palm fertilizer",
+    "Mist fronds occasionally to increase humidity and remove dust",
+    "Trim only brown or dead fronds at base - never cut green growth",
+    "Repot only when severely root-bound (every 2-3 years)"
+  ],
+  "commonProblems": [
+    "Brown frond tips: Fluoride/chlorine in tap water, low humidity, or underwatering",
+    "Yellow fronds: Overwatering or poor drainage most common",
+    "Brown fronds: Natural aging of lower fronds, or severe underwatering",
+    "Spider mites: Check regularly, increase humidity, treat promptly",
+    "Slow growth: Normal - Parlor Palm is naturally slow-growing",
+    "Root rot: Overwatering or pot without drainage holes"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": "Diluted palm fertilizer",
+      "tip": "Fertilize every 2-3 months during growing season with diluted palm fertilizer"
+    },
+    "repotting": {
+      "tip": "Repot only when severely root-bound (every 2-3 years)"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "name": "Barrel Cactus",
+  "botanicalName": "Ferocactus wislizeni",
+  "otherNames": [
+    "Fishhook Barrel Cactus",
+    "Arizona Barrel Cactus",
+    "Compass Barrel Cactus"
+  ],
+  "imagePath": "Barrel%20Cactus.jpg",
+  "wateringFrequency": "Every 3-4 weeks",
+  "suggestedWateringDays": 28,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Easy",
+  "category": "Succulents",
+  "description": "Native to the Sonoran and Chihuahuan deserts of the southwestern United States and Mexico, Barrel Cactus is an iconic desert plant featuring a distinctive barrel or cylindrical shape with prominent vertical ribs covered in fierce, hooked spines that can be red, yellow, or white. In nature, these can grow to 10 feet tall, but as houseplants, they remain compact at 6-12 inches for many years. Mature specimens (20+ years) produce striking orange, red, or yellow flowers in a crown at the top in summer. The name \"Compass Cactus\" comes from their tendency to lean toward the south sun. Extremely drought-tolerant and virtually indestructible if given proper light and minimal water, they're perfect for sunny windowsills and forgetful plant owners.",
+  "toxicity": "Non-toxic but has very sharp, dangerous spines",
+  "temperature": "50-90°F (10-32°C) - very temperature tolerant",
+  "humidity": "10-30% - prefers very dry air",
+  "careInstructions": [
+    "Water deeply only when soil is completely dry - every 3-4 weeks in summer",
+    "In winter dormancy, water monthly or less (some experts say not at all)",
+    "Provide maximum direct sunlight - 6+ hours daily minimum",
+    "Use very well-draining cactus mix with added sand and perlite",
+    "Ensure pot has excellent drainage - never let sit in water",
+    "Handle with thick gloves or rolled newspaper - spines are extremely sharp",
+    "Fertilize only 1-2 times during growing season with diluted cactus fertilizer",
+    "Cool winter rest period (50-55°F) encourages flowering"
+  ],
+  "commonProblems": [
+    "Root rot: Overwatering or poor drainage - most common cause of death",
+    "Soft, mushy sections: Rot - usually fatal, cut above rot if caught early",
+    "Lack of growth: May be in natural slow growth phase, needs more light, or dormant",
+    "Etiolation (narrowing at top): Insufficient light - needs full sun",
+    "Yellowing: Overwatering, root rot, or extreme underwatering",
+    "Mealybugs or scale: Treat with isopropyl alcohol or systemic insecticide"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 50,
+      "idealMaxF": 90
+    },
+    "humidity": {
+      "minPct": 10,
+      "maxPct": 30
+    },
+    "fertilizing": {
+      "weeks": [
+        13,
+        26
+      ],
+      "fertilizerType": "Diluted cactus fertilizer",
+      "tip": "Fertilize only 1-2 times during growing season with diluted cactus fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

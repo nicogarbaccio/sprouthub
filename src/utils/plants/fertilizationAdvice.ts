@@ -6,7 +6,8 @@
  * and last fertilized date.
  */
 
-import { getEnrichedPlantSync } from '@/data/enrichedPlants';
+import { getCatalogPlant } from '@/data/plantData';
+import type { CatalogPlant } from '@/data/types';
 import { getDaysSince } from '@/utils/watering/schedule';
 import {
   getSeason,
@@ -26,7 +27,7 @@ export interface FertilizationAdvice {
   /** Fertilizer product type, e.g. "balanced fertilizer" or "succulent fertilizer" */
   fertilizerType: string | null;
   /** Where the advice came from */
-  source: 'parsed' | 'category_fallback' | 'generic_fallback';
+  source: 'catalog' | 'parsed' | 'category_fallback' | 'generic_fallback';
 }
 
 export interface FertilizationStatus {
@@ -252,6 +253,31 @@ export function parseFertilizationFromCareInstructions(
 }
 
 /**
+ * Fertilization advice for a catalog plant. Uses the structured `care.fertilizing` entry when
+ * the catalog has one, and only falls back to parsing care instructions when it doesn't.
+ */
+export function getFertilizationAdvice(
+  catalogPlant: Pick<CatalogPlant, 'care' | 'careInstructions' | 'category'> | undefined
+): FertilizationAdvice {
+  const fertilizing = catalogPlant?.care?.fertilizing;
+  if (fertilizing) {
+    return {
+      rawTip: fertilizing.tip,
+      frequencyWeeks: fertilizing.weeks,
+      frequencyLabel: fertilizing.weeks
+        ? buildFrequencyLabel(fertilizing.weeks)
+        : 'during the growing season',
+      fertilizerType: fertilizing.fertilizerType,
+      source: 'catalog',
+    };
+  }
+  return parseFertilizationFromCareInstructions(
+    catalogPlant?.careInstructions ?? [],
+    catalogPlant?.category
+  );
+}
+
+/**
  * Compute the current fertilization status for a plant.
  *
  * This is the SINGLE source of truth for "is this plant due for feeding?". The reminder
@@ -314,10 +340,10 @@ export function getFertilizationStatus(
 
 /**
  * Resolves fertilization advice and status for a plant in one step, matching it against the
- * plant catalog for care instructions.
+ * plant catalog.
  *
- * Prefer this over calling `parseFertilizationFromCareInstructions` and
- * `getFertilizationStatus` separately — it is what keeps every surface consistent.
+ * Prefer this over calling `getFertilizationAdvice` and `getFertilizationStatus` separately —
+ * it is what keeps every surface consistent.
  */
 export function getPlantFertilizationStatus(
   plant: { plant_type: string; last_fertilized_at?: string | null },
@@ -325,11 +351,7 @@ export function getPlantFertilizationStatus(
   /** See `getFertilizationStatus` — accepts a latitude, a timezone, or nothing. */
   hemisphereInput: HemisphereInput | number = {}
 ): { advice: FertilizationAdvice; status: FertilizationStatus } {
-  const catalogEntry = getEnrichedPlantSync(plant.plant_type);
-  const advice = parseFertilizationFromCareInstructions(
-    catalogEntry?.careInstructions ?? [],
-    catalogEntry?.category
-  );
+  const advice = getFertilizationAdvice(getCatalogPlant(plant.plant_type));
 
   return {
     advice,

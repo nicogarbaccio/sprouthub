@@ -1,0 +1,60 @@
+{
+  "name": "Cast Iron Plant",
+  "botanicalName": "Aspidistra elatior",
+  "otherNames": [
+    "Bar Room Plant",
+    "Iron Plant"
+  ],
+  "imagePath": "Cast%20Iron%20Plant.jpg",
+  "wateringFrequency": "Every 10-14 days",
+  "suggestedWateringDays": 10,
+  "lightRequirement": "Low to Medium Light",
+  "careLevel": "Easy",
+  "category": "Low Maintenance",
+  "description": "Native to the forests of Taiwan and Japan, Cast Iron Plant earned its common name from its legendary ability to withstand neglect, low light, temperature extremes, and poor conditions that would kill most houseplants. This Victorian-era favorite features long, lance-shaped, dark green leathery leaves (or variegated cream and green) that emerge directly from the soil on individual stems, creating an elegant, upright clump 2-3 feet tall. While extremely slow-growing (producing only 2-5 new leaves per year), it's virtually indestructible once established. Perfect for dark corners, offices with fluorescent lighting, drafty hallways, or for plant owners who frequently forget to water. It may not be exciting or fast-growing, but it's the ultimate survivor that provides dependable greenery anywhere.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "45-85°F (7-29°C) - extremely temperature tolerant",
+  "humidity": "30-50% - tolerates dry air",
+  "careInstructions": [
+    "Water when soil feels dry to touch - every 10-14 days or less",
+    "Extremely drought tolerant once established - underwatering preferred",
+    "Thrives in low to medium light where other plants fail",
+    "Can survive in near darkness but grows better with some light",
+    "Clean leaves with damp cloth monthly to remove dust",
+    "Fertilize only 2-3 times per year, if at all - too much causes problems",
+    "Repot only when severely pot-bound (every 3-5 years)",
+    "Extremely slow growth is normal and expected"
+  ],
+  "commonProblems": [
+    "Brown leaf tips: Usually from fluoride/chlorine in tap water or over-fertilizing",
+    "Brown spots on leaves: Overwatering or fungal disease",
+    "Slow or no growth: Completely normal - this plant grows very slowly",
+    "Yellow leaves: Natural aging of older leaves or overwatering",
+    "Scale insects: Occasionally problematic - treat with horticultural oil",
+    "Leaf damage: Usually from being bumped - leaves scar permanently"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 45,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": null,
+      "tip": "Fertilize only 2-3 times per year, if at all - too much causes problems"
+    },
+    "repotting": {
+      "tip": "Repot only when severely pot-bound (every 3-5 years)"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

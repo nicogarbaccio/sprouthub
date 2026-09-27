@@ -1,0 +1,71 @@
+{
+  "name": "Geranium",
+  "botanicalName": "Pelargonium x hortorum",
+  "otherNames": [
+    "Zonal Geranium",
+    "Garden Geranium"
+  ],
+  "imagePath": "Geranium.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Easy",
+  "category": "Flowering Plants",
+  "description": "A classic flowering plant native to South Africa, geraniums (technically pelargoniums) have been beloved since Victorian times for their reliable, colorful blooms and distinctive scented foliage. They produce large, rounded clusters of flowers in vibrant reds, pinks, oranges, whites, or bi-colors atop sturdy stems with circular, zoned leaves that often feature darker horseshoe-shaped markings. Growing 12-24 inches tall, geraniums are among the easiest flowering plants to maintain indoors, thriving with lots of sun and minimal fussing. Unlike many houseplants, they actually prefer to dry out slightly between waterings and bloom more profusely when slightly pot-bound. With proper light and regular deadheading, they can flower almost continuously year-round.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Loss Of Appetite, Depression, Dermatitis, Incoordination",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Vomiting",
+      "Loss Of Appetite",
+      "Depression",
+      "Dermatitis",
+      "Incoordination"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-75°F (18-24°C) during day, cooler at night",
+  "humidity": "30-50%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - prefers to dry between waterings",
+    "Provide at least 4-6 hours of direct sunlight daily for best blooming",
+    "Use well-draining potting mix - avoid moisture-retaining soils",
+    "Deadhead spent flower clusters regularly by removing entire stem",
+    "Pinch growing tips monthly to encourage bushiness and more flowers",
+    "Fertilize every 2-3 weeks during active growth with balanced fertilizer",
+    "Avoid overhead watering - water at soil level to prevent leaf diseases",
+    "Bring outdoors in summer for even more vigorous growth and flowering"
+  ],
+  "commonProblems": [
+    "Lack of flowers: Insufficient light (most common) - needs direct sun",
+    "Yellowing lower leaves: Natural aging or slight overwatering",
+    "Leggy, stretched growth: Not enough light and needs regular pinching",
+    "Leaf spots or rust: Fungal disease from wet leaves - water only soil",
+    "Edema (corky bumps on leaves): Overwatering - allow to dry more between waterings"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize every 2-3 weeks during active growth with balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

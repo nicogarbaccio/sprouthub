@@ -1,0 +1,72 @@
+{
+  "name": "Croton",
+  "botanicalName": "Codiaeum variegatum",
+  "otherNames": [
+    "Garden Croton",
+    "Variegated Croton",
+    "Joseph's Coat",
+    "Fire Croton"
+  ],
+  "imagePath": "Croton.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Medium",
+  "category": "Tropical Plants",
+  "description": "Native to Indonesia, Malaysia, and Pacific islands, Croton is one of the most colorful foliage plants available, featuring thick, leathery leaves in stunning combinations of red, orange, yellow, pink, green, and even purple - often with multiple colors swirling within a single leaf like an artist's palette. Leaf shapes vary from narrow and linear to broad and lobed. Growing 3-6 feet indoors (10+ feet outdoors), it creates a bold, tropical statement. However, the spectacular colors come with demands: Croton requires bright, direct light to maintain vibrant coloring (colors fade dramatically in shade), consistent moisture, warmth, and stable conditions. It's notoriously dramatic about changes, dropping leaves at the slightest provocation. For those who can provide bright light and consistency, it's a stunning showpiece.",
+  "toxicity": "Toxic to horses. Symptoms: Kidney Failure, Weakness, Tremors, Incoordination, Recumbency",
+  "toxicityDetail": {
+    "animals": [
+      "horses"
+    ],
+    "symptoms": [
+      "Kidney Failure",
+      "Weakness",
+      "Tremors",
+      "Incoordination",
+      "Recumbency"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-85°F (15-29°C) - prefers warmth, avoid cold",
+  "humidity": "50-70%",
+  "careInstructions": [
+    "Keep soil consistently moist but not soggy during active growth",
+    "Water when top inch feels dry - typically weekly",
+    "Provide bright, direct light (6+ hours) for vivid colors - essential",
+    "Colors fade dramatically in insufficient light - sun is critical",
+    "Maintain moderate to high humidity - mist regularly or use humidifier",
+    "Avoid cold drafts, temperature fluctuations, and moving the plant",
+    "Fertilize every 2-3 weeks during growing season with balanced fertilizer",
+    "Wipe leaves to remove dust and check for spider mites"
+  ],
+  "commonProblems": [
+    "Leaf drop: Environmental stress, moving plant, cold, drafts, or watering changes",
+    "Fading colors: Insufficient light - needs bright, direct sun",
+    "Spider mites: Very common, especially in low humidity - treat aggressively",
+    "Brown leaf tips: Low humidity, underwatering, or fluoride sensitivity",
+    "Leggy growth: Not enough light - provide maximum sun",
+    "Yellow leaves: Overwatering, underwatering, or temperature stress"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize every 2-3 weeks during growing season with balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "name": "Philodendron Brasil",
+  "botanicalName": "Philodendron hederaceum 'Brasil'",
+  "otherNames": [
+    "Brasil Philodendron",
+    "Variegated Heartleaf Philodendron"
+  ],
+  "imagePath": "Philodendron%20Brasil.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Tropical Plants",
+  "description": "A stunning variegated cultivar of the classic Heartleaf Philodendron, Brasil features heart-shaped leaves painted with vibrant chartreuse yellow or lime green splashes against dark green - like someone brushed bright paint across each leaf. This fast-growing trailing or climbing vine can reach 10-20 feet, creating lush displays cascading from hanging baskets, shelves, or climbing up moss poles. The variegation is stable but needs adequate light to maintain the bright coloring. Even easier to care for than its already-forgiving parent species, Brasil tolerates a wide range of conditions including lower light (though variegation fades). It propagates effortlessly in water, grows vigorously, and brings cheerful color without the maintenance demands of fussier variegated plants. Perfect for beginners wanting colorful, fast-growing foliage.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - typically weekly",
+    "Provide bright, indirect light to maintain vibrant yellow variegation",
+    "Can tolerate medium light but colors will fade to more green",
+    "Wipe leaves regularly to remove dust and showcase variegation",
+    "Provide moss pole or trellis for climbing, or allow to trail",
+    "Fertilize monthly during growing season with balanced fertilizer",
+    "Prune to encourage bushier growth or control length",
+    "Propagates extremely easily from stem cuttings in water"
+  ],
+  "commonProblems": [
+    "Loss of yellow variegation: Insufficient light - move to brighter location",
+    "All-green leaves: Reversion - prune completely green sections to maintain variegation",
+    "Yellow leaves: Overwatering (most common) or natural aging",
+    "Brown leaf tips: Low humidity, underwatering, or fluoride sensitivity",
+    "Leggy growth: Insufficient light or needs regular pruning",
+    "Root rot: Overwatering or poor drainage"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

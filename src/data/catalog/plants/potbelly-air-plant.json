@@ -1,0 +1,55 @@
+{
+  "name": "Potbelly Air Plant",
+  "botanicalName": "Tillandsia bulbosa",
+  "otherNames": [
+    "Bulbous Air Plant"
+  ],
+  "imagePath": "Potbelly%20Air%20Plant.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Air Plants",
+  "description": "One of the most distinctive and sculptural air plants available, Potbelly Air Plant features a bulbous, hollow base with wild, twisted tentacle-like leaves that curl and spiral in fascinating patterns. Native to the humid forests of Central and South America, from Mexico to Colombia, this species has evolved a unique bulbous structure that houses beneficial insects in nature, creating a symbiotic relationship. The twisted, ribbon-like leaves can be green to reddish-purple depending on light exposure. Growing 4-7 inches tall, it creates an alien-like, artistic presence that's perfect for mounted displays, hanging arrangements, or as a conversation-starting centerpiece. When happy, it produces tubular purple and red flowers.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "60-85°F (15-29°C)",
+  "humidity": "50-70%",
+  "careInstructions": [
+    "Soak in room temperature water for 20-30 minutes weekly",
+    "After soaking, turn completely upside down to drain - this is critical for this species",
+    "Ensure the bulbous base dries completely within 4 hours to prevent rot",
+    "Provide bright, indirect light with good air circulation",
+    "Can tolerate slightly more humidity than other Tillandsia species",
+    "Mist lightly 1-2 times between soakings if air is very dry",
+    "Use filtered, distilled, or rainwater to avoid mineral buildup",
+    "Fertilize monthly during growing season with diluted bromeliad fertilizer (¼ strength)"
+  ],
+  "commonProblems": [
+    "Base rot (soft, black bulb): Water trapped inside bulbous section - always dry upside down",
+    "Excessively curling leaves: This is a natural characteristic, not a problem",
+    "Slow growth: Normal for this species - it's a patient grower",
+    "Brown tips: Low humidity, over-fertilizing, or poor water quality",
+    "Leaves turning brown at base: May indicate rot starting - improve air circulation and drying"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted bromeliad fertilizer (¼ strength)",
+      "tip": "Fertilize monthly during growing season with diluted bromeliad fertilizer (¼ strength)"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

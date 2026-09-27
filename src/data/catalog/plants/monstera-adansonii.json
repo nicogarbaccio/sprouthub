@@ -1,0 +1,74 @@
+{
+  "name": "Monstera Adansonii",
+  "botanicalName": "Monstera adansonii",
+  "otherNames": [
+    "Swiss Cheese Vine",
+    "Adanson's Monstera",
+    "Five Holes Plant",
+    "Monkey Mask"
+  ],
+  "imagePath": "Monstera%20Adansonii.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Tropical Plants",
+  "description": "Native to Central and South American rainforests, Monstera adansonii is the delicate, vining cousin of the famous Monstera deliciosa, featuring smaller heart-shaped leaves (4-8 inches) with oblong holes and fenestrations that create intricate, lacy patterns. Unlike its upright relative, this climbing vine naturally trails or climbs with aerial roots, making it perfect for hanging baskets, trellises, or cascading from shelves. The leaves emerge solid and develop holes as they mature, creating beautiful textural interest. Fast-growing and more compact than M. deliciosa, it can quickly fill a space with lush, perforated foliage. Much easier to care for than other tropical plants, it tolerates a range of conditions while still delivering that coveted Swiss cheese leaf aesthetic. Perfect for adding vertical interest or trailing beauty without the space demands of larger Monsteras.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "50-70%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - typically weekly",
+    "Provide bright, indirect light for best growth and fenestration",
+    "Can tolerate medium light but grows slower with fewer holes",
+    "Provide moss pole or trellis for climbing, or allow to trail",
+    "Aerial roots are normal and help the plant climb",
+    "Fertilize monthly during growing season with diluted balanced fertilizer",
+    "Prune to control length or encourage bushier growth",
+    "Propagates easily from stem cuttings in water",
+    "Higher humidity encourages larger leaves with more fenestrations"
+  ],
+  "commonProblems": [
+    "Yellow leaves: Overwatering (most common) or natural aging",
+    "Brown leaf tips: Low humidity, underwatering, or fluoride sensitivity",
+    "Small leaves with few holes: Insufficient light or young plant",
+    "Leggy, sparse growth: Not enough light - move to brighter location",
+    "Root rot: Overwatering or poor drainage",
+    "Drooping leaves: Underwatering or needs support for climbing"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

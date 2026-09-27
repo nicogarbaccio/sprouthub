@@ -1,0 +1,57 @@
+{
+  "name": "Staghorn Fern",
+  "botanicalName": "Platycerium bifurcatum",
+  "otherNames": [
+    "Elkhorn Fern",
+    "Common Staghorn Fern"
+  ],
+  "imagePath": "Staghorn%20Fern.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Ferns",
+  "description": "An extraordinary epiphytic fern native to Australia, Southeast Asia, and Africa, Staghorn Fern grows naturally attached to tree trunks in tropical forests. It features two distinct types of fronds: flat, shield-shaped basal fronds that attach to surfaces and turn brown (don't remove these - they're healthy!), and large, antler-shaped fertile fronds that fork dramatically and can span 2-3 feet, resembling actual stag horns. Typically mounted on wood plaques or grown in baskets, these sculptural plants make stunning living wall art. The fuzzy, silvery-green fronds collect moisture and nutrients from the air. While more demanding than basic houseplants, Staghorns are easier than maidenhair ferns and reward proper care with dramatic growth, making impressive conversation pieces.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "60-80°F (15-27°C)",
+  "humidity": "50-70%",
+  "careInstructions": [
+    "Water by soaking entire mount in room temperature water for 10-15 minutes weekly",
+    "In summer or dry conditions, soak twice weekly",
+    "Allow to drain completely after soaking - never leave waterlogged",
+    "Provide bright, indirect light - can tolerate some early morning sun",
+    "Never remove brown shield fronds - they protect roots and absorb nutrients",
+    "Fertilize monthly during growing season by adding diluted fertilizer to soaking water",
+    "Ensure excellent air circulation to prevent rot",
+    "Mist fronds between soakings in dry conditions"
+  ],
+  "commonProblems": [
+    "Brown frond tips: Underwatering, low humidity, or over-fertilizing",
+    "Yellowing fronds: Overwatering - ensure proper drainage after soaking",
+    "Shield fronds turning brown: Normal and healthy - never remove",
+    "Pests (scale insects): Check undersides of fronds, treat with horticultural oil",
+    "Slow or no growth: Insufficient light or nutrients",
+    "Fronds drooping: Usually needs water - soak thoroughly"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted fertilizer added to the soaking water",
+      "tip": "Fertilize monthly during growing season by adding diluted fertilizer to soaking water"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

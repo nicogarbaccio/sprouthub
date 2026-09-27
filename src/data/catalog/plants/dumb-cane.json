@@ -1,0 +1,71 @@
+{
+  "name": "Dumb Cane",
+  "botanicalName": "Dieffenbachia seguine",
+  "otherNames": [
+    "Leopard Lily",
+    "Mother-in-Law Plant",
+    "Tuftroot"
+  ],
+  "imagePath": "Dumb%20Cane.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Tropical Plants",
+  "description": "Native to the tropical rainforests of Central and South America, Dieffenbachia is a popular, easy-care foliage plant featuring large, oval leaves dramatically painted with patterns of cream, white, yellow, and green - each variety with unique variegation. Growing 3-5 feet tall with a bushy, upright form, it creates a bold tropical presence. The common name \"Dumb Cane\" comes from the extremely toxic sap that causes temporary speechlessness and throat swelling if ingested - this is a serious safety concern around children and pets. Despite this danger, it's beloved for tolerating low light, irregular watering, and typical indoor conditions better than most tropical plants. Fast-growing and forgiving, it's perfect for filling spaces with lush foliage, though the toxicity requires careful placement and handling.",
+  "toxicity": "Toxic to dogs, cats. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-75°F (18-24°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - typically weekly",
+    "Tolerates medium light but grows better in bright, indirect light",
+    "Keep away from children and pets - extremely dangerous if ingested",
+    "Wear gloves when pruning - sap causes skin and eye irritation",
+    "Wipe leaves monthly to maintain variegation and remove dust",
+    "Fertilize monthly during growing season with balanced fertilizer",
+    "Prune leggy stems to encourage bushier growth - dispose of cuttings safely",
+    "Remove lower yellow leaves as part of natural growth"
+  ],
+  "commonProblems": [
+    "Yellow leaves: Overwatering (most common), cold drafts, or natural aging",
+    "Brown leaf edges: Underwatering, low humidity, or fluoride sensitivity",
+    "Loss of variegation: Insufficient light - move to brighter location",
+    "Leggy growth: Not enough light or needs pruning",
+    "Drooping leaves: Underwatering or root rot from overwatering",
+    "Spider mites: Common in dry conditions - increase humidity and treat"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

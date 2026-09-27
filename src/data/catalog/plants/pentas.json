@@ -1,0 +1,58 @@
+{
+  "name": "Pentas",
+  "botanicalName": "Pentas lanceolata",
+  "otherNames": [
+    "Egyptian Starcluster",
+    "Star Flower",
+    "Star Cluster"
+  ],
+  "imagePath": "Pentas.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Easy",
+  "category": "Flowering Plants",
+  "description": "Native to tropical Africa and Arabia, Pentas produces dense clusters of small, tubular star-shaped flowers in vibrant shades of red, pink, white, or lavender that bloom continuously from spring through fall with proper care. The clusters can contain 20-50+ individual flowers, creating colorful pompom-like displays that are magnets for butterflies and hummingbirds when placed outdoors. The lance-shaped leaves provide an attractive backdrop to the prolific blooms. Growing 1-3 feet tall, this reliable bloomer is one of the easiest flowering houseplants to maintain, asking only for bright light and regular watering in exchange for months of non-stop color. It's particularly beginner-friendly and forgiving of minor care mistakes while still rewarding with abundant flowers.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "60-75°F (15-24°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top inch of soil is dry - keep consistently moist during blooming",
+    "Provide at least 4-6 hours of direct or very bright indirect light daily",
+    "Use well-draining potting mix rich in organic matter",
+    "Deadhead spent flower clusters regularly to encourage continuous blooming",
+    "Pinch growing tips every few weeks to promote bushier growth and more flowers",
+    "Fertilize every 2-3 weeks during blooming season with balanced fertilizer",
+    "Can be moved outdoors in summer where it attracts butterflies",
+    "Prune back by one-third in late winter to rejuvenate plant"
+  ],
+  "commonProblems": [
+    "Lack of flowers: Insufficient light is most common cause - needs bright conditions",
+    "Leggy, stretched growth: Inadequate light and needs regular pinching",
+    "Wilting: Underwatering - increase watering frequency during warm weather",
+    "Aphids and whiteflies: Common pests attracted to new growth - treat promptly",
+    "Yellow leaves: Natural aging of older leaves or overwatering",
+    "Spider mites: Especially in dry indoor air - increase humidity and treat"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize every 2-3 weeks during blooming season with balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

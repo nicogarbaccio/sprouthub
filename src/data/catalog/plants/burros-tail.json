@@ -1,0 +1,59 @@
+{
+  "name": "Burro's Tail",
+  "botanicalName": "Sedum morganianum",
+  "otherNames": [
+    "Donkey's Tail",
+    "Lamb's Tail",
+    "Burrito",
+    "Horse's Tail"
+  ],
+  "imagePath": "Burros%20Tail.jpg",
+  "wateringFrequency": "Every 10-14 days",
+  "suggestedWateringDays": 14,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Easy",
+  "category": "Hanging & Trailing Plants",
+  "description": "A stunning succulent native to southern Mexico and Honduras, Burro's Tail features thick, trailing stems densely covered with plump, tear-drop shaped leaves in blue-green with a dusty, powdery coating (farina) that gives them a frosted appearance. The rope-like stems can grow 1-4 feet long, creating dramatic cascading displays that resemble actual donkey tails - though they're quite delicate and leaves drop easily when touched. Mature plants (4+ years old) may produce clusters of small pink or red flowers at stem tips in summer. While the fragile leaves require careful handling, the plant itself is remarkably drought-tolerant and low-maintenance, thriving on neglect better than constant attention. Its sculptural beauty and unique texture make it a prized specimen for hanging baskets.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-75°F (18-24°C) - can tolerate down to 40°F",
+  "humidity": "20-40% - prefers dry air",
+  "careInstructions": [
+    "Water deeply only when soil is completely dry - every 10-14 days or longer",
+    "Use very well-draining cactus or succulent potting mix",
+    "Provide bright, direct sunlight for at least 4-6 hours daily",
+    "Handle extremely carefully - leaves detach at slightest touch",
+    "Never move or rotate plant unnecessarily - causes leaf drop",
+    "Place in permanent location where it won't be disturbed",
+    "Propagate from fallen leaves or stem cuttings laid on soil",
+    "Fertilize every 2-3 months during growing season with diluted succulent fertilizer"
+  ],
+  "commonProblems": [
+    "Leaf drop: Natural when touched, bumped, or during watering - minimized with gentle care",
+    "Shriveling, wrinkled leaves: Needs water - soak thoroughly when dry",
+    "Stretching with spaces between leaves: Insufficient light - provide more direct sun",
+    "Root rot: Overwatering is fatal - allow soil to dry completely between waterings",
+    "Loss of blue color: Too much water or humidity - reduce watering",
+    "Stem rot at base: Overwatering combined with poor drainage"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 20,
+      "maxPct": 40
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": "Diluted succulent fertilizer",
+      "tip": "Fertilize every 2-3 months during growing season with diluted succulent fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

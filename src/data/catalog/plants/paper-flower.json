@@ -1,0 +1,57 @@
+{
+  "name": "Paper Flower",
+  "botanicalName": "Bougainvillea spectabilis",
+  "otherNames": [
+    "Bougainvillea",
+    "Great Bougainvillea"
+  ],
+  "imagePath": "Paper%20Flower.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Medium",
+  "category": "Flowering Plants",
+  "description": "Native to the coastal regions of Brazil, Bougainvillea is an iconic tropical plant that produces spectacular displays of papery, tissue-like bracts in vivid magenta, purple, red, orange, white, or pink that can last for months. The true flowers are actually tiny and white, tucked inside the colorful bracts that steal the show. This vigorous climbing or sprawling plant can grow 20+ feet in ideal conditions but adapts well to containers with regular pruning, maintaining 3-6 feet indoors. The stems are armed with sharp thorns (handle with care!), and the plant has a Mediterranean temperament: it thrives on sun, heat, and strategic neglect. When stressed by drought and given maximum sun, it produces the most prolific color displays, creating walls of vibrant bracts.",
+  "toxicity": "Mildly toxic to pets - can cause oral irritation and stomach upset",
+  "temperature": "65-85°F (18-29°C) - loves heat",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Allow soil to dry out between waterings - drought stress actually encourages blooming",
+    "Water thoroughly when dry, then let it dry significantly before watering again",
+    "Provide maximum direct sunlight - 6+ hours daily, more is better",
+    "Use well-draining cactus or sandy potting mix",
+    "Prune after flowering to maintain shape and control size - wear gloves!",
+    "Provide trellis or support for climbing growth habit",
+    "Fertilize monthly during growing season with low-nitrogen, high-phosphorus fertilizer",
+    "Reduce watering in winter to trigger dormancy and spring bloom cycle"
+  ],
+  "commonProblems": [
+    "Lack of color: Insufficient direct sunlight - needs maximum sun exposure",
+    "Green bracts instead of colored: Too much nitrogen fertilizer or shade",
+    "Leaf drop: Natural response to stress, environmental changes, or dormancy",
+    "Leggy growth with few flowers: Needs harder pruning and more sun",
+    "Thorns: Natural defense - always wear thick gloves when handling or pruning",
+    "Root rot: Overwatering - allow to dry significantly between waterings"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Low-nitrogen, high-phosphorus fertilizer",
+      "tip": "Fertilize monthly during growing season with low-nitrogen, high-phosphorus fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

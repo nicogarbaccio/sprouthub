@@ -1,0 +1,51 @@
+{
+  "name": "Echeveria",
+  "botanicalName": "Echeveria elegans",
+  "otherNames": [
+    "Mexican Snowball",
+    "Mexican Gem",
+    "White Mexican Rose",
+    "Mexican Hen and Chicks"
+  ],
+  "imagePath": "Echeveria.jpg",
+  "wateringFrequency": "Every 10-14 days",
+  "suggestedWateringDays": 14,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Easy",
+  "category": "Succulents",
+  "description": "Native to Mexico and Central America, Echeveria elegans is one of the most popular succulent species, forming perfect rosettes of powdery, blue-gray leaves that look like carved stone roses dusted with frost. The farina (natural powdery coating) gives it a soft, matte finish and protects it from sun damage - never wipe this off as it won't regenerate. Growing 4-6 inches wide, these symmetrical beauties produce tall flower stalks with coral-pink blooms in spring and summer. They readily produce offsets, creating clusters of rosettes perfect for dish gardens or arrangements. Echeverias are among the easiest succulents for beginners, forgiving occasional neglect while rewarding proper care with stunning, architectural perfection. With hundreds of varieties in different colors and sizes, they're highly collectible.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "30-50% - tolerates dry air",
+  "careInstructions": [
+    "Water deeply only when soil is completely dry - every 10-14 days",
+    "Use \"soak and dry\" method - water thoroughly then allow to dry completely",
+    "Never get water on leaves - causes rot and removes protective farina",
+    "Provide at least 6 hours of bright, direct light daily",
+    "Use very well-draining cactus/succulent mix with added perlite",
+    "Never touch or wipe leaves - damages powdery coating permanently",
+    "Remove spent flower stalks after blooming",
+    "Propagate from leaves or offsets"
+  ],
+  "commonProblems": [
+    "Stretching (etiolation): Insufficient light - needs full sun",
+    "Rot: Overwatering or water trapped in rosette center",
+    "Brown, crispy leaves: Sunburn from sudden sun exposure - acclimate gradually",
+    "Lower leaves shriveling: Natural as plant grows, or needs water",
+    "Powdery coating damaged: From touching - coating won't grow back",
+    "Mealybugs: Common pest - remove with isopropyl alcohol on cotton swab"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

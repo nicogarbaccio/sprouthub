@@ -1,0 +1,73 @@
+{
+  "name": "Monstera Deliciosa",
+  "botanicalName": "Monstera deliciosa",
+  "otherNames": [
+    "Swiss Cheese Plant",
+    "Split-Leaf Philodendron",
+    "Fruit Salad Plant",
+    "Ceriman"
+  ],
+  "imagePath": "Monstera%20Deliciosa.png",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Tropical Plants",
+  "description": "Native to the rainforests of Central America, Monstera deliciosa is one of the most iconic and Instagram-famous houseplants, beloved for its massive, glossy leaves with dramatic natural splits (fenestrations) and holes that create a striking Swiss cheese appearance. Young plants start with solid, heart-shaped leaves, developing the characteristic splits and holes as they mature - a fascinating transformation to witness. In nature, this climbing vine uses aerial roots to scale trees up to 70 feet, but indoors it typically reaches 6-8 feet. With proper support like a moss pole, the leaves can grow 2-3 feet across. The name \"deliciosa\" refers to the edible fruit it produces in tropical conditions (rarely indoors), which tastes like a combination of pineapple and banana. Easy to care for and fast-growing, it brings instant jungle vibes to any space.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-85°F (18-29°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top 2-3 inches of soil are dry - typically weekly",
+    "Provide medium to bright indirect light - tolerates lower light but grows slower",
+    "Provide moss pole or trellis for climbing - encourages larger, more fenestrated leaves",
+    "Wipe leaves monthly with damp cloth to remove dust",
+    "Aerial roots are normal and beneficial - don't cut them off",
+    "Fertilize monthly during growing season with balanced fertilizer",
+    "Prune to control size or shape - cut just above a node",
+    "Rotate occasionally for even growth"
+  ],
+  "commonProblems": [
+    "No leaf holes/splits: Normal for young plants, or needs more light as it matures",
+    "Yellow leaves: Overwatering (most common) or natural aging of older leaves",
+    "Brown leaf tips/edges: Low humidity, underwatering, or fluoride sensitivity",
+    "Leggy growth: Insufficient light - move to brighter location",
+    "Drooping leaves: Underwatering or needs support for climbing",
+    "Brown spots: Overwatering, root rot, or bacterial/fungal infection"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

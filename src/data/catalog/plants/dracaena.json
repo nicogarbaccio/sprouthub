@@ -1,0 +1,75 @@
+{
+  "name": "Dracaena",
+  "botanicalName": "Dracaena marginata",
+  "otherNames": [
+    "Dragon Tree",
+    "Madagascar Dragon Tree",
+    "Red-Edge Dracaena"
+  ],
+  "imagePath": "Dracaena.jpg",
+  "wateringFrequency": "Every 10 days",
+  "suggestedWateringDays": 10,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Trees & Large Plants",
+  "description": "Native to Madagascar and Mauritius, Dracaena marginata is one of the most popular and forgiving indoor trees, featuring long, narrow, arching leaves with distinctive red or pink edges that emerge from woody, gray stems in fountain-like clusters. The unique growth pattern creates a palm-like silhouette that brings tropical elegance without demanding tropical care. Growing 6-8 feet indoors (15+ feet in nature), it develops multiple stems that can be trained or pruned for various forms - single trunk, multi-trunk, or braided. As a slow-growing, low-maintenance plant, it tolerates neglect, irregular watering, and less-than-ideal light better than most trees. NASA studies show it's excellent at removing toxins from indoor air. Perfect for beginners wanting a dramatic, sculptural plant without finicky requirements.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Depression, Loss Of Appetite, Drooling, Dilated Pupils",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Vomiting",
+      "Depression",
+      "Loss Of Appetite",
+      "Drooling",
+      "Dilated Pupils"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "40-50%",
+  "careInstructions": [
+    "Water when top 2-3 inches of soil are dry - every 10-14 days typically",
+    "Allow to dry more between waterings in winter",
+    "Thrives in medium to bright indirect light - tolerates lower light",
+    "Use filtered or distilled water if possible - sensitive to fluoride",
+    "Wipe leaves occasionally to remove dust",
+    "Fertilize every 2-3 months during growing season with diluted fertilizer",
+    "Prune cane tips to control height - new shoots emerge below cuts",
+    "Remove yellowing lower leaves as part of natural growth",
+    "Very drought tolerant - underwatering better than overwatering"
+  ],
+  "commonProblems": [
+    "Brown leaf tips: Fluoride or chlorine in tap water (most common) or low humidity",
+    "Yellow leaves: Overwatering or natural aging of lower leaves",
+    "Drooping leaves: Underwatering or root rot from overwatering",
+    "Brown spots: Overwatering, bacterial leaf spot, or cold damage",
+    "Slow growth: Normal - naturally slow-growing plant",
+    "Leggy growth: Insufficient light over extended period",
+    "Spider mites: Occasionally problematic - increase humidity and treat"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": "Diluted fertilizer",
+      "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

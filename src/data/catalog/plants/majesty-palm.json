@@ -1,0 +1,57 @@
+{
+  "name": "Majesty Palm",
+  "botanicalName": "Ravenea rivularis",
+  "otherNames": [
+    "Ravenea Palm",
+    "Majestic Palm"
+  ],
+  "imagePath": "Majesty%20Palm.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Indirect to Direct Light",
+  "careLevel": "Hard",
+  "category": "Palms",
+  "description": "Native to the riverbanks of Madagascar, Majesty Palm is an elegant tropical palm that can grow to impressive heights (6-10 feet indoors, 80+ feet in nature), featuring graceful, arching fronds that bring instant vacation vibes to any space. The feathery, bright green fronds emerge from a single trunk, creating a classic palm tree silhouette that evokes tropical paradise. However, Majesty Palm has a reputation as one of the most challenging houseplants - it's frequently sold as an easy-care plant but actually requires very bright light, high humidity, consistent watering, and specific conditions that are difficult to replicate indoors. Many struggle and decline in typical home environments. Success requires dedication to meeting its demanding tropical needs, but when happy, it's a stunning focal point.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-85°F (18-29°C)",
+  "humidity": "50-60% minimum",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - keep consistently moist",
+    "Requires very bright light - 6+ hours near a bright window, some direct sun beneficial",
+    "Maintain moderate to high humidity with humidifier or frequent misting",
+    "Use well-draining potting mix that retains some moisture",
+    "Fertilize every 2-4 weeks during growing season with palm fertilizer",
+    "Mist fronds regularly to increase humidity and remove dust",
+    "Trim only brown or dead fronds - never cut green growth",
+    "Rotate weekly for even growth on all sides"
+  ],
+  "commonProblems": [
+    "Brown, crispy frond tips: Low humidity (most common), underwatering, or fluoride sensitivity",
+    "Yellow fronds: Overwatering, poor drainage, or nutrient deficiency",
+    "Brown fronds: Natural aging of lower fronds, or insufficient light",
+    "Spider mites: Very common in dry conditions - increase humidity, treat immediately",
+    "Slow/no growth: Insufficient light or nutrients - needs very bright conditions",
+    "Overall decline: Most common - conditions too far from natural tropical habitat"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        4
+      ],
+      "fertilizerType": "Palm fertilizer",
+      "tip": "Fertilize every 2-4 weeks during growing season with palm fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

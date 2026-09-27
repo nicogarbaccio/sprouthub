@@ -11,24 +11,7 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Import all plant arrays directly (same as plantData.ts)
-import { floweringPlants } from '../src/data/plants/flowering-plants';
-import { tropicalPlants } from '../src/data/plants/tropical-plants';
-import { succulents } from '../src/data/plants/succulents';
-import { hangingTrailingPlants } from '../src/data/plants/hanging-trailing';
-import { treesLargePlants } from '../src/data/plants/trees-large';
-import { otherPlants } from '../src/data/plants/other-categories';
-import { airPlants } from '../src/data/plants/air-plants';
-
-const allPlants = [
-  ...floweringPlants,
-  ...tropicalPlants,
-  ...succulents,
-  ...hangingTrailingPlants,
-  ...treesLargePlants,
-  ...otherPlants,
-  ...airPlants,
-];
+import { plants as allPlants } from '../src/data/plantData';
 
 interface PlantNameEntry {
   name: string;

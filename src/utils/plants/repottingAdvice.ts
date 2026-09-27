@@ -3,24 +3,12 @@ import type { CatalogPlant } from '@/data/types';
 export type PlantSize = 'small' | 'medium' | 'large';
 
 export interface RepottingAdvice {
-  /** Plant-specific tip extracted from catalog careInstructions, if available */
+  /** Plant-specific repotting tip from the catalog, if available */
   catalogTip: string | null;
   /** Tailored tips based on plant info and size */
   tips: string[];
   /** Light requirement from catalog, for display context */
   lightRequirement: string | null;
-}
-
-/**
- * Extract a repotting-related line from catalog careInstructions.
- * Matches any line containing "repot" (case-insensitive).
- */
-function extractCatalogRepottingTip(
-  careInstructions?: string[]
-): string | null {
-  if (!careInstructions) return null;
-  const match = careInstructions.find((line) => /repot/i.test(line));
-  return match ?? null;
 }
 
 /**
@@ -65,9 +53,7 @@ export function getRepottingAdvice(
   catalogPlant: CatalogPlant | undefined,
   size: PlantSize = 'medium'
 ): RepottingAdvice {
-  const catalogTip = extractCatalogRepottingTip(
-    catalogPlant?.careInstructions
-  );
+  const catalogTip = catalogPlant?.care?.repotting?.tip ?? null;
 
   const tips: string[] = [];
 

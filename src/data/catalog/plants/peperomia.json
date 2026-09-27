@@ -1,0 +1,58 @@
+{
+  "name": "Peperomia",
+  "botanicalName": "Peperomia obtusifolia",
+  "otherNames": [
+    "Baby Rubber Plant",
+    "American Rubber Plant",
+    "Pepper Face"
+  ],
+  "imagePath": "Peperomia.png",
+  "wateringFrequency": "Every 10 days",
+  "suggestedWateringDays": 10,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Small Plants",
+  "description": "Native to Central and South American rainforests, Peperomia obtusifolia is a compact, low-maintenance plant featuring thick, glossy, spoon-shaped leaves that resemble rubber plant foliage in miniature form. Growing only 6-12 inches tall, this petite beauty comes in varieties with solid green leaves or variegated cream and green patterns. The succulent-like leaves store water, making it quite drought-tolerant and forgiving of occasional neglect. As an epiphyte in nature, it prefers quick-draining soil and less frequent watering than typical houseplants. Peperomias are perfect for small spaces, desks, shelves, or terrariums, and their compact size and easy care make them ideal for beginners. With over 1,000 Peperomia species, collectors love building diverse collections of these charming little plants.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "40-50%",
+  "careInstructions": [
+    "Water only when soil is mostly dry - every 10-14 days typically",
+    "Thick leaves store water - underwatering is better than overwatering",
+    "Provide medium to bright indirect light for best growth",
+    "Use well-draining potting mix with perlite or orchid bark",
+    "Wipe leaves occasionally to maintain glossy appearance",
+    "Fertilize every 2-3 months during growing season with diluted fertilizer",
+    "Avoid overwatering which quickly causes root rot",
+    "Propagate easily from leaf or stem cuttings"
+  ],
+  "commonProblems": [
+    "Root rot: Overwatering is the most common cause of death",
+    "Drooping, wrinkled leaves: Underwatering - give thorough soak",
+    "Yellow leaves: Overwatering or too much direct sun",
+    "Leggy growth: Insufficient light - move to brighter location",
+    "Brown leaf tips: Inconsistent watering or low humidity",
+    "Leaf drop: Sudden temperature changes or overwatering"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": "Diluted fertilizer",
+      "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

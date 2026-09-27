@@ -1,0 +1,60 @@
+{
+  "name": "Norfolk Pine",
+  "botanicalName": "Araucaria heterophylla",
+  "otherNames": [
+    "Norfolk Island Pine",
+    "Star Pine",
+    "Living Christmas Tree"
+  ],
+  "imagePath": "Norfolk%20Pine.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Trees & Large Plants",
+  "description": "Native exclusively to Norfolk Island in the South Pacific, Norfolk Pine is not actually a pine but an ancient conifer from the Araucariaceae family. It features distinctive symmetrical tiers of soft, needle-like branches that create a perfect pyramidal Christmas tree shape - making it a popular living holiday decoration. The bright green, feathery foliage grows in horizontal whorls around the trunk, creating geometric perfection. Growing 3-6 feet indoors over many years (200+ feet in nature), it brings the charm of an evergreen tree to indoor spaces. However, it requires specific conditions to thrive: high humidity, consistent moisture, cool temperatures, and bright light. Without these, branches brown and drop from the bottom up. It's moderately challenging but rewards proper care with years of elegant, architectural beauty.",
+  "toxicity": "Mildly toxic to pets - can cause vomiting and oral irritation",
+  "temperature": "60-70°F (15-21°C) - prefers cool conditions",
+  "humidity": "50-60% minimum - high humidity essential",
+  "careInstructions": [
+    "Keep soil consistently moist but not soggy - water when top inch feels dry",
+    "Never allow soil to completely dry out - causes irreversible browning",
+    "Provide bright, indirect light - near east or west window ideal",
+    "Maintain high humidity with humidifier or frequent misting",
+    "Keep in cool room away from heating vents",
+    "Fertilize monthly during growing season with diluted balanced fertilizer",
+    "Rotate plant weekly for even growth on all sides",
+    "Never cut the top leader - destroys pyramidal shape permanently",
+    "Mist daily or use pebble tray to increase humidity"
+  ],
+  "commonProblems": [
+    "Brown, dropping lower branches: Low humidity, dry soil, or natural aging (irreversible)",
+    "Dry, crispy needles: Underwatering, low humidity, or too warm",
+    "Yellow needles: Overwatering, poor drainage, or insufficient light",
+    "Loss of bottom branches: Natural as tree ages, but accelerated by dry conditions",
+    "Leggy, sparse growth: Insufficient light - needs bright conditions",
+    "Top leader damage: Destroys symmetry - never prune the top point",
+    "Spider mites: Common in dry conditions - increase humidity and treat"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 70
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

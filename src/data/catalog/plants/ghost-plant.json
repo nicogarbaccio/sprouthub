@@ -1,0 +1,57 @@
+{
+  "name": "Ghost Plant",
+  "botanicalName": "Graptopetalum paraguayense",
+  "otherNames": [
+    "Mother-of-Pearl Plant",
+    "Sedum weinbergii"
+  ],
+  "imagePath": "Ghost%20Plant.jpg",
+  "wateringFrequency": "Every 2-3 weeks",
+  "suggestedWateringDays": 14,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Easy",
+  "category": "Succulents",
+  "description": "Native to Mexico, Ghost Plant is a stunning succulent that forms rosettes of thick, opalescent leaves in ethereal colors - silvery-blue, gray, pink, or lavender with a powdery coating (farina) that gives it a ghostly, frosted appearance. The rosettes grow on trailing or upright stems that can reach 12-18 inches, perfect for hanging baskets or spilling over container edges. With bright light and temperature stress, the leaves develop beautiful pink, purple, or yellow tones - like mother-of-pearl iridescence. It's one of the easiest and most prolific succulents, producing numerous offsets and rooting readily from dropped leaves. Small, star-shaped white or yellow flowers with red spots appear in spring. Its ethereal coloring, hardy nature, and generous propagation make it a favorite for beginners and collectors alike.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "30-50% - tolerates dry air",
+  "careInstructions": [
+    "Water deeply only when soil is completely dry - every 2-3 weeks",
+    "Provide bright, direct light for best coloration and compact growth",
+    "Morning sun with afternoon shade ideal in hot climates",
+    "Use well-draining cactus or succulent potting mix",
+    "Don't touch or wipe leaves - removes protective powdery coating",
+    "Remove offsets to propagate or allow to form clusters",
+    "Propagate easily from leaves or stem cuttings",
+    "Fertilize every 2-3 months during growing season with diluted fertilizer"
+  ],
+  "commonProblems": [
+    "Loss of opalescent color: Insufficient light - needs bright conditions",
+    "Stretching (etiolation): Not enough light - provide direct sun",
+    "Root rot: Overwatering - ensure excellent drainage",
+    "Powdery coating removed: From handling - won't regenerate on those leaves",
+    "Pest issues (mealybugs): Treat with isopropyl alcohol on cotton swab",
+    "Lower leaves shriveling: Natural as plant grows, or needs water"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": "Diluted fertilizer",
+      "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

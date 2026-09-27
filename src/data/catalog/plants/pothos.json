@@ -1,0 +1,73 @@
+{
+  "name": "Pothos",
+  "botanicalName": "Epipremnum aureum",
+  "otherNames": [
+    "Devil's Ivy",
+    "Golden Pothos",
+    "Hunter's Robe",
+    "Money Plant"
+  ],
+  "imagePath": "Pothos.png",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Low to Medium Light",
+  "careLevel": "Easy",
+  "category": "Hanging & Trailing Plants",
+  "description": "Often called the most indestructible houseplant, Pothos is native to the Solomon Islands and has become the ultimate beginner plant thanks to its incredible adaptability and forgiving nature. This vigorous trailing vine features heart-shaped leaves splashed with yellow or white variegation (or solid green in some varieties) that cascade gracefully from hanging baskets or climb up moss poles with aerial roots. The vines can grow 20-40 feet long in ideal conditions, though most indoor plants are kept trimmed to 6-10 feet. Pothos earned its nickname \"Devil's Ivy\" because it's nearly impossible to kill and stays green even in near darkness. It's also a powerful air purifier, removing toxins like formaldehyde and benzene from indoor air, making it both beautiful and functional.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-85°F (15-29°C) - extremely temperature tolerant",
+  "humidity": "30-50% (tolerates dry air)",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - typically weekly",
+    "Thrives in low to bright indirect light - one of the most adaptable plants",
+    "Can survive in fluorescent office lighting with minimal natural light",
+    "Prune regularly to maintain desired length and encourage fuller growth",
+    "Propagates incredibly easily in water - just cut below a node",
+    "Wipe leaves monthly to remove dust and enhance variegation",
+    "Fertilize monthly during growing season with diluted balanced fertilizer",
+    "Rotate plant occasionally if growing toward light source"
+  ],
+  "commonProblems": [
+    "Yellow leaves: Usually overwatering - allow soil to dry more between waterings",
+    "Brown leaf tips: Fluoride or chlorine sensitivity - use filtered water",
+    "Loss of variegation: Insufficient light - move to brighter location",
+    "Leggy growth with sparse leaves: Not enough light - provide brighter conditions",
+    "Root rot: Overwatering or poor drainage - ensure pot has drainage holes",
+    "Pests (rare): Occasionally spider mites or mealybugs - treat promptly"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

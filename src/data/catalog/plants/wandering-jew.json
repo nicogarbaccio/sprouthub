@@ -1,0 +1,69 @@
+{
+  "name": "Wandering Jew",
+  "botanicalName": "Tradescantia zebrina",
+  "otherNames": [
+    "Inch Plant",
+    "Spiderwort",
+    "Silver Inch Plant"
+  ],
+  "imagePath": "Wandering%20Jew.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Low Maintenance",
+  "description": "Native to Mexico, Central America, and South America, Tradescantia zebrina is a fast-growing trailing plant featuring stunning two-toned leaves with silver and green stripes on top and rich purple undersides that create a beautiful color contrast. The succulent-like stems trail rapidly, creating full, colorful displays in hanging baskets or spilling over container edges. Growing vigorously (several inches per week in good conditions), it can quickly fill a space with lush, colorful foliage. Extremely easy to propagate - simply stick cuttings in water or soil and they root within days. While the common name \"Wandering Jew\" is traditional, many now prefer using the botanical name Tradescantia due to cultural sensitivity. Regardless of name, this is one of the easiest and fastest-growing houseplants available.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Dermatitis",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Dermatitis"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-80°F (15-27°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Keep soil consistently moist but not soggy during active growth",
+    "Provide bright, indirect light for most vibrant coloration and purple undersides",
+    "Pinch growing tips regularly to encourage fuller, bushier growth",
+    "Propagate extremely easily in water or directly in soil",
+    "Fertilize every 2-3 weeks during growing season with balanced fertilizer",
+    "Trim back leggy stems by half to rejuvenate plant",
+    "Bright light intensifies purple coloring on leaf undersides",
+    "Very forgiving and grows vigorously with minimal care"
+  ],
+  "commonProblems": [
+    "Fading variegation and purple color: Insufficient light - move to brighter location",
+    "Leggy, sparse growth: Not enough light or needs more frequent pinching",
+    "Brown, crispy leaf tips: Low humidity or fluoride in tap water",
+    "Overgrowing container: Very vigorous grower - trim regularly or repot",
+    "Pale leaves: Needs more light or fertilizer",
+    "Yellow leaves: Usually overwatering or natural aging"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize every 2-3 weeks during growing season with balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "name": "Paddle Plant",
+  "botanicalName": "Kalanchoe luciae",
+  "otherNames": [
+    "Flapjack Plant",
+    "Desert Cabbage",
+    "Red Pancakes"
+  ],
+  "imagePath": "Paddle%20Plant.jpg",
+  "wateringFrequency": "Every 2-3 weeks",
+  "suggestedWateringDays": 14,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Easy",
+  "category": "Succulents",
+  "description": "Native to South Africa, Paddle Plant (often confused with the similar K. thyrsiflora) is a striking succulent featuring large, flat, paddle or clam-shaped leaves stacked in opposing pairs that create a dramatic architectural form. The gray-green leaves develop stunning red or crimson edges when grown in bright light and cooler temperatures - the more sun stress, the more intense the coloring. Growing 12-24 inches tall, the plant forms a rosette that reaches 12-18 inches wide. After several years, it produces a tall (2-3 feet) flower spike with yellow tubular flowers, after which the main rosette dies (monocarpic), but it produces many offsets before flowering. The combination of sculptural form and color-changing ability makes it a showstopper in succulent collections.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Diarrhea, Cardiac Arrhythmias",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Vomiting",
+      "Diarrhea",
+      "Cardiac Arrhythmias"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-85°F (15-29°C) - cooler temps enhance red coloring",
+  "humidity": "30-50% - tolerates dry air",
+  "careInstructions": [
+    "Water deeply only when soil is completely dry - every 2-3 weeks",
+    "Reduce watering in winter to monthly",
+    "Provide maximum direct sunlight for best red coloring on leaf edges",
+    "Use well-draining cactus or succulent potting mix",
+    "Cool temperatures (50-60°F) in fall/winter intensify red coloring",
+    "Remove tall flower stalk if desired to preserve plant energy (delays death)",
+    "Propagate from offsets before main plant flowers and dies",
+    "Fertilize every 2-3 months during growing season with diluted fertilizer"
+  ],
+  "commonProblems": [
+    "Green leaves with no red edges: Insufficient direct sunlight or too warm",
+    "Soft, mushy leaves: Overwatering causing rot",
+    "Stretching (leaves separating): Insufficient light - needs full sun",
+    "Plant dying after flowering: Natural lifecycle (monocarpic) - propagate offsets",
+    "Brown, crispy leaf edges: Sunburn from sudden sun exposure - acclimate gradually",
+    "Mealybugs: Common pest - treat with isopropyl alcohol"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": "Diluted fertilizer",
+      "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

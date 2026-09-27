@@ -1,0 +1,74 @@
+{
+  "name": "Flamingo Flower",
+  "botanicalName": "Anthurium andraeanum",
+  "otherNames": [
+    "Anthurium",
+    "Laceleaf",
+    "Tailflower"
+  ],
+  "imagePath": "Flamingo%20Flower.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Flowering Plants",
+  "description": "A stunning tropical plant native to Colombia and Ecuador, Flamingo Flower produces glossy, heart-shaped \"flowers\" (actually modified leaves called spathes) in vibrant reds, pinks, whites, or even purple, each lasting 6-8 weeks. The true flowers are the tiny bumps on the protruding spadix in the center. With proper care, anthuriums can bloom year-round, making them one of the longest-flowering houseplants available. The plant grows 12-18 inches tall with dark green, leathery leaves that provide a beautiful backdrop to the colorful blooms. As an epiphyte in nature, it appreciates well-draining conditions and high humidity, bringing a touch of the rainforest to indoor spaces.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "60-80%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - prefers consistent moisture",
+    "Use well-draining potting mix (orchid bark, perlite, and peat)",
+    "Provide bright, indirect light - direct sun will scorch leaves",
+    "Maintain high humidity with pebble tray, humidifier, or regular misting",
+    "Fertilize every 6-8 weeks with diluted balanced or phosphorus-rich fertilizer",
+    "Wipe leaves regularly to keep them glossy and remove dust",
+    "Repot every 2-3 years in spring using loose, well-aerated mix",
+    "Remove spent flowers by cutting at the base of the stem"
+  ],
+  "commonProblems": [
+    "Brown leaf tips/edges: Low humidity, fluoride sensitivity, or salt buildup",
+    "Yellow leaves: Overwatering, poor drainage, or too much direct sun",
+    "No blooms: Insufficient light, needs more phosphorus, or plant too young",
+    "Brown spots on flowers/leaves: Bacterial blight - improve air circulation",
+    "Root rot: Overwatering or poor drainage - ensure pot has drainage holes"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 60,
+      "maxPct": 80
+    },
+    "fertilizing": {
+      "weeks": [
+        6,
+        8
+      ],
+      "fertilizerType": "Diluted balanced or phosphorus-rich fertilizer",
+      "tip": "Fertilize every 6-8 weeks with diluted balanced or phosphorus-rich fertilizer"
+    },
+    "repotting": {
+      "tip": "Repot every 2-3 years in spring using loose, well-aerated mix"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

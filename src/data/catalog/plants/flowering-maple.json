@@ -1,0 +1,58 @@
+{
+  "name": "Flowering Maple",
+  "botanicalName": "Abutilon x hybridum",
+  "otherNames": [
+    "Chinese Lantern",
+    "Parlor Maple",
+    "Indian Mallow"
+  ],
+  "imagePath": "Flowering%20Maple.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Medium",
+  "category": "Flowering Plants",
+  "description": "Despite its common name, Flowering Maple isn't a maple at all but a member of the mallow family from Central and South America. It earned its nickname from its distinctive maple-like lobed leaves that provide an attractive backdrop to the real stars: pendulous, bell-shaped flowers in vibrant oranges, reds, pinks, yellows, or white that dangle like little lanterns from the stems. This fast-growing shrubby plant can reach 3-6 feet indoors and has the remarkable ability to bloom almost year-round with adequate light, producing flowers continuously rather than in seasonal flushes. The combination of ornamental foliage and nearly constant flowering makes it a prized specimen for bright rooms, sunrooms, or patios.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "60-75°F (15-24°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Keep soil consistently moist during growing season - water when top inch is dry",
+    "Reduce watering slightly in winter but don't allow to completely dry out",
+    "Provide at least 4-6 hours of bright light daily for continuous flowering",
+    "Use well-draining potting mix rich in organic matter",
+    "Pinch growing tips regularly to encourage bushiness and more flowering branches",
+    "Fertilize every 2-3 weeks during active growth with balanced fertilizer",
+    "Prune in late winter to maintain desired size and shape",
+    "Rotate plant weekly for even growth and flowering"
+  ],
+  "commonProblems": [
+    "Lack of flowers: Insufficient light is most common cause - needs bright conditions",
+    "Leggy, stretched growth: Not enough light combined with inadequate pinching",
+    "Yellowing leaves: Overwatering, poor drainage, or natural aging of older leaves",
+    "Whiteflies: Common pest - treat with insecticidal soap and isolate plant",
+    "Spider mites: Especially in dry conditions - increase humidity and treat promptly",
+    "Leaf drop: Sudden environmental changes, drafts, or inconsistent watering"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize every 2-3 weeks during active growth with balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

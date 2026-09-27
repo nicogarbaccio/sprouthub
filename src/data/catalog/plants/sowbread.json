@@ -1,0 +1,65 @@
+{
+  "name": "Sowbread",
+  "botanicalName": "Cyclamen persicum",
+  "otherNames": [
+    "Persian Cyclamen",
+    "Florist's Cyclamen"
+  ],
+  "imagePath": "Sowbread.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Hard",
+  "category": "Flowering Plants",
+  "description": "A stunning cool-season bloomer native to the Mediterranean, Cyclamen produces delicate, upswept butterfly-like flowers in shades of red, pink, white, or purple that appear to hover above a mound of heart-shaped, silver-marbled leaves. The elegant flowers bloom prolifically from fall through spring when most houseplants are dormant, making it a perfect winter companion. However, cyclamen has specific requirements: it's a cool-temperature plant that struggles in typical heated homes and follows a natural dormancy cycle in summer. The tuberous root (corm) sits at soil level and is prone to rot if watered incorrectly. While challenging, successfully maintaining a cyclamen through multiple bloom cycles is deeply rewarding for dedicated plant enthusiasts.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Drooling, Vomiting, Diarrhea, Seizures, Cardiac Arrhythmias",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Drooling",
+      "Vomiting",
+      "Diarrhea",
+      "Seizures",
+      "Cardiac Arrhythmias"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "50-65°F (10-18°C) - cool temps essential for blooming",
+  "humidity": "50-60%",
+  "careInstructions": [
+    "Water from bottom by setting pot in water dish until soil surface moistens",
+    "Never water the crown/corm directly - causes fatal rot",
+    "Keep in cool location away from heating vents and heat sources",
+    "Provide bright, indirect light - south-facing window in winter is ideal",
+    "Remove spent flowers by tugging sharply at base - cutting leaves stubs that rot",
+    "Remove yellowing leaves the same way",
+    "After blooming ends in late spring, reduce watering gradually",
+    "Allow summer dormancy - store in cool, dry place and barely water",
+    "Resume watering when new growth appears in late summer/early fall"
+  ],
+  "commonProblems": [
+    "Crown/corm rot: Watering the center of plant - always water from bottom",
+    "Yellowing leaves during bloom: Natural process, remove promptly",
+    "Short bloom period: Room too warm - needs consistent cool temperatures",
+    "Wilting despite moist soil: Crown rot - usually fatal",
+    "Bud blast (buds turn brown): Temperature too warm or fluctuating",
+    "No re-blooming: Didn't respect dormancy period or plant needs rest"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 50,
+      "idealMaxF": 65
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 60
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "name": "Heartleaf Philodendron",
+  "botanicalName": "Philodendron hederaceum",
+  "otherNames": [
+    "Sweetheart Plant",
+    "Philodendron Scandens",
+    "Heart-Leaf Philodendron"
+  ],
+  "imagePath": "Heartleaf%20Philodendron.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Low to Medium Light",
+  "careLevel": "Easy",
+  "category": "Hanging & Trailing Plants",
+  "description": "Native to the rainforests of Central America and the Caribbean, Heartleaf Philodendron is one of the most popular and easiest houseplants in cultivation, beloved for its glossy, heart-shaped leaves that emerge bronze-tinted and mature to deep green. This vigorous climber/trailer can grow vines 10-20 feet long indoors, making it perfect for cascading from high shelves or hanging baskets, or it can be trained to climb a moss pole or trellis. The plant adapts remarkably well to various light conditions, tolerating low light better than most houseplants while thriving in brighter spots. Its forgiving nature, rapid growth, and easy propagation make it ideal for beginners, while its lush, tropical appearance keeps it popular with experienced plant enthusiasts.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Abdominal Pain, Drooling, Diarrhea",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Vomiting",
+      "Abdominal Pain",
+      "Drooling",
+      "Diarrhea"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "40-60% (tolerates average home humidity)",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - typically weekly",
+    "Thrives in low to bright indirect light - very adaptable",
+    "Can grow in fluorescent lighting, making it perfect for offices",
+    "Wipe leaves regularly with damp cloth to remove dust and enhance shine",
+    "Propagate easily by taking stem cuttings with at least one node",
+    "Pinch growing tips regularly to encourage bushier, fuller growth",
+    "Fertilize monthly during growing season with diluted balanced fertilizer",
+    "Provide moss pole or trellis for climbing, or allow to trail"
+  ],
+  "commonProblems": [
+    "Yellowing leaves: Usually overwatering - allow soil to dry more between waterings",
+    "Brown leaf tips: Low humidity, fluoride sensitivity, or inconsistent watering",
+    "Leggy, sparse growth: Insufficient light or needs regular pruning",
+    "Small leaves: Not enough light - move to brighter location",
+    "Aphids or spider mites: Treat with insecticidal soap and isolate plant",
+    "Root rot: Overwatering or poor drainage - ensure proper pot drainage"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

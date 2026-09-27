@@ -1,0 +1,57 @@
+{
+  "name": "Orchid",
+  "botanicalName": "Phalaenopsis species",
+  "otherNames": [
+    "Moth Orchid",
+    "Phal"
+  ],
+  "imagePath": "Orchid.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Flowering Plants",
+  "description": "Native to tropical Asia and Australia, Phalaenopsis orchids are the most popular and beginner-friendly orchids for good reason: they produce spectacular sprays of large, moth-like flowers in white, pink, purple, yellow, or patterned varieties that can last 2-3 months per bloom spike. These epiphytic plants naturally grow on tree branches in humid forests, with thick, leathery leaves and exposed silvery-green aerial roots that photosynthesize and absorb moisture from the air. Growing 12-24 inches tall when in bloom, modern hybrids are remarkably adaptable to home conditions. With proper care, phalaenopsis can rebloom multiple times per year, making them one of the longest-flowering plants available and dispelling the myth that orchids are impossibly difficult.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-80°F (18-27°C) day, 10-15°F cooler at night",
+  "humidity": "50-70%",
+  "careInstructions": [
+    "Water weekly by running tepid water through pot for 30 seconds, then drain completely",
+    "Never let roots sit in water - orchids need air circulation around roots",
+    "Use clear orchid pot to monitor root health (green/silver roots are healthy)",
+    "Plant in orchid bark mix or sphagnum moss - never regular potting soil",
+    "Provide bright, indirect light - east window is ideal",
+    "Fertilize weekly with diluted orchid fertilizer (\"weakly weekly\")",
+    "After flowers fade, cut spike above second node to encourage reblooming",
+    "Maintain humidity with pebble tray - avoid misting which can cause crown rot"
+  ],
+  "commonProblems": [
+    "Crown rot (center turns black/mushy): Water trapped in center - tip plant to drain",
+    "Root rot: Overwatering, old bark breaking down, or poor drainage",
+    "Limp, wrinkled leaves: Severe dehydration or root death - increase watering",
+    "No reblooming: Insufficient light or needs temperature drop to trigger spike",
+    "Yellow leaves: Natural aging of oldest leaf, overwatering, or too much sun",
+    "Bud blast (buds turn yellow and drop): Ethylene gas from fruit, drafts, or stress"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        1,
+        1
+      ],
+      "fertilizerType": "Diluted orchid fertilizer (\"weakly weekly\")",
+      "tip": "Fertilize weekly with diluted orchid fertilizer (\"weakly weekly\")"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

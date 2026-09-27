@@ -1,0 +1,74 @@
+{
+  "name": "Hibiscus",
+  "botanicalName": "Hibiscus rosa-sinensis",
+  "otherNames": [
+    "Chinese Hibiscus",
+    "China Rose",
+    "Hawaiian Hibiscus",
+    "Rose Mallow"
+  ],
+  "imagePath": "Hibiscus.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Medium",
+  "category": "Flowering Plants",
+  "description": "A tropical showstopper native to East Asia, Chinese Hibiscus produces enormous, flamboyant flowers (4-8 inches wide) in stunning shades of red, pink, orange, yellow, white, or multi-colored varieties with prominent stamens that extend from the center. While individual blooms last only 1-2 days, healthy plants produce new flowers continuously throughout warm months, creating an ever-changing display. The glossy, dark green foliage provides an elegant backdrop even when not in bloom. This woody shrub can grow 4-10 feet indoors and adapts well to container growing. Native to warm climates, it thrives outdoors in summer and needs protection from cold, but rewards dedicated care with spectacular tropical beauty that transforms any space into a paradise.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Abdominal Pain, Drooling, Dermatitis, Difficulty Breathing, Cardiac Failure",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Abdominal Pain",
+      "Drooling",
+      "Dermatitis",
+      "Difficulty Breathing",
+      "Cardiac Failure"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-90°F (15-32°C) - warm temps encourage blooming",
+  "humidity": "50-70%",
+  "careInstructions": [
+    "Water when top inch of soil is dry - typically every 2-3 days in warm weather",
+    "Keep soil consistently moist but well-draining during growing season",
+    "Provide at least 6 hours of direct sunlight daily for abundant flowering",
+    "Use rich, well-draining potting mix with added compost",
+    "Fertilize every 2 weeks during growing season with high-potassium fertilizer",
+    "Prune in late winter to maintain shape and encourage bushier growth",
+    "Maintain high humidity with pebble tray or regular misting",
+    "Move outdoors in summer for maximum flowering and vigor"
+  ],
+  "commonProblems": [
+    "Bud drop before opening: Environmental stress, temperature fluctuations, or underwatering",
+    "No flowers: Insufficient sunlight (most common), needs minimum 6 hours direct sun",
+    "Yellow leaves with green veins: Chlorosis from alkaline soil or iron deficiency",
+    "Aphids and spider mites: Common pests - treat with insecticidal soap",
+    "Leaf drop: Sudden environmental changes, cold drafts, or inconsistent watering",
+    "Wilting despite moist soil: Root rot from overwatering or poor drainage"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 90
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        2
+      ],
+      "fertilizerType": "High-potassium fertilizer",
+      "tip": "Fertilize every 2 weeks during growing season with high-potassium fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "name": "Nerve Plant",
+  "botanicalName": "Fittonia albivenis",
+  "otherNames": [
+    "Mosaic Plant",
+    "Painted Net Leaf"
+  ],
+  "imagePath": "Nerve%20Plant.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Small Plants",
+  "description": "Native to the rainforest floors of Peru, Nerve Plant is a small, dramatic foliage plant featuring oval leaves with intricate networks of bright veins in white, pink, or red against deep green backgrounds - looking like delicate stained glass or an artist's interpretation of leaf venation. Growing only 3-6 inches tall and spreading wider, this petite plant creates a colorful groundcover effect perfect for terrariums, dish gardens, or small pots. Despite its delicate appearance, Nerve Plant is famously dramatic - it wilts immediately when thirsty, flopping over completely to signal it needs water, then perks back up within hours of watering. This \"fainting\" habit makes it an excellent choice for beginners learning to read plant signals, though it requires more attention than truly low-maintenance plants.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "50-70%",
+  "careInstructions": [
+    "Keep soil consistently moist but not soggy - water when top feels barely dry",
+    "Plant will dramatically wilt when thirsty - this is normal signaling behavior",
+    "Provide medium to bright indirect light - avoid direct sun",
+    "Maintain moderate to high humidity - thrives in terrariums",
+    "Pinch off flower spikes to encourage foliage growth",
+    "Fertilize monthly during growing season with diluted balanced fertilizer",
+    "Pinch growing tips regularly to maintain compact, bushy shape",
+    "Propagate easily from stem cuttings"
+  ],
+  "commonProblems": [
+    "Wilting/fainting: Needs water immediately - will recover quickly after watering",
+    "Leggy, sparse growth: Insufficient light or needs regular pinching",
+    "Brown, crispy leaf tips: Low humidity or fluoride in tap water",
+    "Fading vein patterns: Insufficient light - move to brighter location",
+    "Yellow leaves: Overwatering or poor drainage",
+    "Leaf drop: Temperature fluctuations or environmental stress"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

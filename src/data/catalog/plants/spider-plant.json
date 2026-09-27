@@ -1,0 +1,62 @@
+{
+  "name": "Spider Plant",
+  "botanicalName": "Chlorophytum comosum",
+  "otherNames": [
+    "Airplane Plant",
+    "Ribbon Plant",
+    "Spider Ivy",
+    "St. Bernard's Lily"
+  ],
+  "imagePath": "Spider%20Plant.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Hanging & Trailing Plants",
+  "description": "Native to coastal South Africa, Spider Plant is a classic houseplant that has graced homes since Victorian times thanks to its graceful arching foliage and fascinating reproductive habit. The plant forms fountain-like rosettes of long, slender leaves striped with white or cream, and as it matures, it sends out long stems (stolons) that dangle like spiders on silk threads, producing miniature plantlets (babies or \"spiderettes\") at the ends. These babies can be rooted easily, making spider plants one of the most shareable houseplants. Highly effective at purifying air and removing pollutants, it's also incredibly forgiving and adaptable. The combination of attractive variegated foliage, easy propagation, and air-cleaning abilities makes it perfect for beginners and a staple in plant collections.",
+  "toxicity": "Non-toxic to pets and humans (though cats may be attracted to the leaves)",
+  "temperature": "60-80°F (15-27°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top inch of soil is dry - prefers consistently moist soil",
+    "Provide bright, indirect light for best growth and variegation",
+    "Use filtered or distilled water if possible - sensitive to fluoride",
+    "Fertilize monthly during growing season with diluted balanced fertilizer",
+    "Remove brown tips with clean scissors if they develop",
+    "Propagate by planting or rooting the baby plantlets in water or soil",
+    "Repot when roots become very crowded - they like being slightly pot-bound",
+    "Trim off baby plantlets if you want fuller mother plant"
+  ],
+  "commonProblems": [
+    "Brown leaf tips: Fluoride, chlorine, or salts in tap water - use filtered water",
+    "Yellowing leaves: Overwatering or waterlogged soil - improve drainage",
+    "Pale leaves: Too much direct sun or nutrient deficiency",
+    "No baby plantlets: Plant too young or insufficient light",
+    "Root rot: Overwatering - allow top inch to dry between waterings",
+    "Drooping leaves: Underwatering - increase watering frequency"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+    },
+    "repotting": {
+      "tip": "Repot when roots become very crowded - they like being slightly pot-bound"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

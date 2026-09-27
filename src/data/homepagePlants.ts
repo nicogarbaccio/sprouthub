@@ -3,7 +3,7 @@ import { plants } from './plantData';
 
 // Curated set of popular plants to feature on the homepage, in display order. Only the names
 // live here — the full plant records (images, alternative names, watering/light/care info) are
-// sourced from the canonical catalog (src/data/plants/* via ./plantData), so there is a single
+// sourced from the canonical catalog (src/data/catalog via ./plantData), so there is a single
 // source of truth and homepage cards always match the Plant Catalog. plantData is already bundled
 // wherever this is used (PlantCatalog imports it directly), so there's no extra payload.
 const HOMEPAGE_PLANT_NAMES = [

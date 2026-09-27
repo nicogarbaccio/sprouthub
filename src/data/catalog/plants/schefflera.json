@@ -1,0 +1,73 @@
+{
+  "name": "Schefflera",
+  "botanicalName": "Schefflera actinophylla",
+  "otherNames": [
+    "Umbrella Tree",
+    "Octopus Tree",
+    "Queensland Umbrella Tree"
+  ],
+  "imagePath": "Schefflera.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Trees & Large Plants",
+  "description": "Native to the rainforests of Australia, New Guinea, and Java, Schefflera is a fast-growing, architectural plant featuring glossy, palmate leaves composed of 7-16 leaflets radiating from a central point like umbrella spokes or octopus tentacles - hence its common names. The leaves can reach 12 inches across, creating bold tropical impact. Growing rapidly to 6-8 feet indoors (40+ feet outdoors in tropical climates), it tolerates a wide range of conditions including lower light, making it one of the most adaptable large plants available. The compact dwarf variety (S. arboricola) is also popular and more manageable for smaller spaces. Easy to care for and extremely forgiving of neglect, it's perfect for beginners wanting a substantial, low-maintenance plant that fills space quickly with lush, tropical foliage.",
+  "toxicity": "Toxic to dogs, cats. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-75°F (15-24°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top 2 inches of soil are dry - typically weekly",
+    "Reduce watering in winter when growth slows",
+    "Provide bright, indirect light for best growth",
+    "Tolerates medium and even low light but grows slower",
+    "Pinch or prune growing tips to encourage bushier, fuller growth",
+    "Wipe leaves occasionally to remove dust",
+    "Fertilize monthly during growing season with balanced fertilizer",
+    "Rotate occasionally for even growth on all sides",
+    "Can grow quite large - prune to maintain desired size"
+  ],
+  "commonProblems": [
+    "Leaf drop: Overwatering (most common), sudden temperature changes, or relocation",
+    "Yellow leaves: Overwatering or natural aging of lower leaves",
+    "Brown leaf tips: Underwatering, low humidity, or fluoride sensitivity",
+    "Leggy, sparse growth: Insufficient light - move to brighter location",
+    "Spider mites or aphids: Common pests - treat with insecticidal soap",
+    "Slow growth: Insufficient light, nutrients, or normal winter dormancy",
+    "Black spots on leaves: Overwatering causing fungal or bacterial issues"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "name": "Banana Plant",
+  "botanicalName": "Musa acuminata",
+  "otherNames": [
+    "Dwarf Banana",
+    "Dwarf Cavendish",
+    "Edible Banana"
+  ],
+  "imagePath": "Banana%20Plant.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Hard",
+  "category": "Tropical Plants",
+  "description": "Native to Southeast Asia, the dwarf banana plant is a dramatic tropical specimen featuring enormous, paddle-shaped leaves that can reach 2-3 feet long and emerge from a thick pseudostem (not a true woody trunk but tightly wrapped leaf sheaths). Growing 4-6 feet indoors, it creates instant jungle drama and exotic appeal. While called \"dwarf,\" it's still substantial. With exceptional care - bright light, warmth, high humidity, consistent moisture, and heavy feeding - mature plants (3+ years) can produce small, edible bananas indoors, though flowering and fruiting are rare and challenging. The large leaves tear easily and brown at edges even with good care - this is natural. Demanding and space-consuming, it's for dedicated tropical plant enthusiasts with bright, warm spaces who want the ultimate tropical statement.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "75-85°F (24-29°C) - prefers warm conditions",
+  "humidity": "60-80% - high humidity essential",
+  "careInstructions": [
+    "Keep soil consistently moist but not waterlogged - water when top inch feels barely dry",
+    "In active growth, may need watering every 2-3 days",
+    "Provide maximum bright light - 6+ hours of direct or very bright indirect",
+    "Maintain high humidity with humidifier - essential for healthy growth",
+    "Fertilize every 1-2 weeks during growing season with high-potassium fertilizer",
+    "Remove damaged or brown leaves promptly - tearing is normal",
+    "Provide warm temperatures - cold stunts growth and causes damage",
+    "Repot annually in spring - very fast-growing and heavy feeder"
+  ],
+  "commonProblems": [
+    "Brown, torn leaf edges: Natural from large leaves - not preventable even with good care",
+    "Yellow leaves: Natural aging of older leaves, or inconsistent watering",
+    "Spider mites: Common in low humidity - increase humidity and treat immediately",
+    "Slow growth: Insufficient light, temperature, humidity, or nutrients",
+    "No fruit: Normal indoors - requires maturity, perfect conditions, and pollination",
+    "Brown spots: Overwatering, fungal disease, or cold damage"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 75,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 60,
+      "maxPct": 80
+    },
+    "fertilizing": {
+      "weeks": [
+        1,
+        2
+      ],
+      "fertilizerType": "High-potassium fertilizer",
+      "tip": "Fertilize every 1-2 weeks during growing season with high-potassium fertilizer"
+    },
+    "repotting": {
+      "tip": "Repot annually in spring - very fast-growing and heavy feeder"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

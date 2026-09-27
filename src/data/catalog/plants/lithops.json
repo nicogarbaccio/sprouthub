@@ -1,0 +1,51 @@
+{
+  "name": "Lithops",
+  "botanicalName": "Lithops species",
+  "otherNames": [
+    "Living Stones",
+    "Flowering Stones",
+    "Pebble Plants",
+    "Mimicry Plants"
+  ],
+  "imagePath": "Lithops.jpg",
+  "wateringFrequency": "Very rarely - follow growth cycle",
+  "suggestedWateringDays": 45,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Hard",
+  "category": "Succulents",
+  "description": "Native to the rocky deserts of southern Africa, Lithops are among the most unusual plants in existence - they've evolved to look exactly like small pebbles or stones as camouflage from grazing animals. Each plant consists of just two thick, fused leaves separated by a fissure from which flowers and new leaves emerge. The flat or slightly rounded tops often have intricate patterns and colors mimicking the stones in their habitat. Growing only 1-2 inches tall, they're miniature marvels of evolution. However, Lithops are notoriously difficult because they follow a specific annual cycle and require NO water during certain periods. Watering at the wrong time is fatal. They're strictly for experienced succulent growers who can resist the urge to water and understand their unique lifecycle.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-80°F (18-27°C) during growth, cooler in dormancy",
+  "humidity": "10-30% - very dry air essential",
+  "careInstructions": [
+    "CRITICAL: Follow the annual water cycle exactly - wrong timing kills the plant",
+    "Summer (dormant): NO water at all",
+    "Fall (active growth): Water sparingly every 3-4 weeks when soil completely dry",
+    "Winter (flowering): Water lightly every 3-4 weeks",
+    "Spring (splitting): NO water until old leaves completely dry and papery",
+    "Provide maximum direct sunlight - south-facing window ideal",
+    "Use extremely well-draining mineral mix (50%+ pumice/grit)",
+    "Never water during splitting period or old leaves won't dry properly"
+  ],
+  "commonProblems": [
+    "Overwatering: Most common cause of death - leads to rot and bursting",
+    "Watering during splitting: Prevents old leaves from drying, causes rot",
+    "Soft, mushy plants: Fatal overwatering - usually cannot be saved",
+    "Stretching (etiolation): Insufficient light - needs maximum sun",
+    "Not splitting: May be too young or not getting proper rest period",
+    "Bursting: Overwatering causing cells to rupture - usually fatal"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 10,
+      "maxPct": 30
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

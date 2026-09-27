@@ -1,0 +1,71 @@
+{
+  "name": "Manjula Pothos",
+  "botanicalName": "Epipremnum aureum 'Manjula'",
+  "otherNames": [
+    "HANSOTI14 Pothos",
+    "Happy Leaf Pothos"
+  ],
+  "imagePath": "Manjula%20Pothos.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Hanging & Trailing Plants",
+  "description": "A patented cultivar developed at the University of Florida, Manjula is one of the most beautiful and collectible pothos, prized for its wide, wavy, heart-shaped leaves with slightly ruffled edges and a swirling mix of green, silvery-grey, cream, and white variegation - often with speckles and patches unique to each leaf. Unlike Marble Queen's fine marbling, Manjula's variegation appears in broad, painterly sections, and its leaves tend to curl rather than lie flat, giving it a soft, sculptural look. It grows a bit more slowly and compactly than standard pothos, making it well suited to smaller hanging baskets or shelves. Care is the same easygoing pothos routine, with the usual variegated-plant caveat: it needs medium-to-bright indirect light to keep its creamy patches vivid and to avoid reverting toward green.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-85°F (15-29°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - typically weekly",
+    "Provide medium to bright indirect light to keep the cream and white variegation vivid",
+    "Avoid harsh direct sun, which scorches the pale sections",
+    "Prune to maintain shape and encourage bushier growth",
+    "Propagates easily in water or soil from stem cuttings below a node",
+    "Wipe the wavy leaves gently to remove dust",
+    "Fertilize monthly during the growing season with a diluted balanced fertilizer",
+    "Grows slower and more compact than Golden Pothos - normal for this cultivar"
+  ],
+  "commonProblems": [
+    "Loss of variegation / reverting to green: Insufficient light - move to a brighter spot",
+    "Brown, crispy patches on cream areas: Sunburn from direct light or low humidity",
+    "Yellow leaves: Usually overwatering - allow soil to dry more between waterings",
+    "Brown leaf tips: Fluoride or chlorine sensitivity - use filtered water",
+    "Leggy growth: Not enough light",
+    "Root rot: Overwatering or poor drainage"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during the growing season with a diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

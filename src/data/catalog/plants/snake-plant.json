@@ -1,0 +1,74 @@
+{
+  "name": "Snake Plant",
+  "botanicalName": "Dracaena trifasciata",
+  "otherNames": [
+    "Mother-in-Law's Tongue",
+    "Viper's Bowstring Hemp",
+    "Saint George's Sword",
+    "Sansevieria"
+  ],
+  "imagePath": "Snake%20Plant.jpg",
+  "wateringFrequency": "Every 2-3 weeks",
+  "suggestedWateringDays": 21,
+  "lightRequirement": "Low to Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Succulents",
+  "description": "Native to West Africa, Snake Plant is legendary as one of the most indestructible houseplants available, tolerating extreme neglect, low light, irregular watering, and poor conditions that would kill most plants. The architectural sword-shaped leaves grow upright in rosettes, featuring striking patterns of dark green with lighter green horizontal bands - like snake skin markings. Varieties range from compact 6-inch types to tall 4-foot specimens. The thick, succulent leaves store water, allowing it to survive weeks or even months without watering. NASA studies have shown it's one of the best air purifiers, removing toxins and uniquely producing oxygen at night. Its combination of stunning sculptural form, extreme hardiness, and air-cleaning abilities makes it the ultimate plant for beginners, busy people, low-light spaces, or anyone who's ever said \"I kill every plant I touch.\"",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Loss Of Appetite, Drooling, Dilated Pupils, Abdominal Pain, High Heart Rate",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Loss Of Appetite",
+      "Drooling",
+      "Dilated Pupils",
+      "Abdominal Pain",
+      "High Heart Rate"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "55-85°F (13-29°C) - extremely temperature tolerant",
+  "humidity": "30-50% - tolerates very dry air",
+  "careInstructions": [
+    "Water only when soil is completely dry - every 2-4 weeks typically",
+    "In winter, water even less frequently (monthly or less)",
+    "Thrives in low to bright indirect light - one of best low-light plants",
+    "Use well-draining potting mix or add sand/perlite to regular soil",
+    "Wipe leaves monthly with damp cloth to remove dust",
+    "Fertilize only 2-3 times per year during growing season",
+    "Extremely drought tolerant - underwatering far better than overwatering",
+    "Can survive in dark corners, offices, and with minimal care"
+  ],
+  "commonProblems": [
+    "Root rot: Overwatering is the only real way to kill this plant",
+    "Soft, mushy leaves: Severe overwatering and rot - usually fatal",
+    "Wrinkled, shriveled leaves: Severe underwatering - water thoroughly",
+    "Brown tips: Natural aging or fluoride sensitivity",
+    "Falling over: Overwatering causing root rot, or pot too small for height",
+    "Slow/no growth: Completely normal - Snake Plants are slow growers"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 55,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": null,
+      "tip": "Fertilize only 2-3 times per year during growing season"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "name": "Ponytail Palm",
+  "botanicalName": "Beaucarnea recurvata",
+  "otherNames": [
+    "Elephant's Foot",
+    "Bottle Palm",
+    "Nolina"
+  ],
+  "imagePath": "Ponytail%20Palm.jpg",
+  "wateringFrequency": "Every 2-3 weeks",
+  "suggestedWateringDays": 21,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Easy",
+  "category": "Palms",
+  "description": "Native to the semi-desert regions of southeastern Mexico, Ponytail Palm is actually not a palm at all but a succulent from the Asparagaceae family. This quirky plant features a dramatically swollen, bulbous trunk base (caudex) that resembles an elephant's foot, which stores water for drought tolerance. From the top emerges a crown of long, thin, arching leaves that cascade like a ponytail or fountain, giving the plant its charming common name. Growing very slowly, it can eventually reach 6-8 feet indoors (20+ feet in nature), but most remain 2-4 feet for years. Its sculptural form, extreme drought tolerance, and minimal care requirements make it perfect for forgetful plant owners, frequent travelers, and anyone wanting a striking conversation piece that thrives on benign neglect.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "60-80°F (15-27°C) - tolerates wide range",
+  "humidity": "30-50% - tolerates dry air",
+  "careInstructions": [
+    "Water deeply only when soil is completely dry - every 2-4 weeks",
+    "The swollen trunk stores water - err on side of underwatering",
+    "Provide bright, direct sunlight - 4+ hours daily ideal",
+    "Use very well-draining cactus or succulent potting mix",
+    "Fertilize only 2-3 times per year during growing season",
+    "Clean leaves occasionally by wiping or gentle shower",
+    "Repot only when severely root-bound (every 3-5 years)",
+    "Can survive weeks without water - perfect for travelers"
+  ],
+  "commonProblems": [
+    "Soft, mushy trunk: Root/trunk rot from overwatering - usually fatal",
+    "Brown leaf tips: Natural aging, fluoride sensitivity, or inconsistent watering",
+    "Yellowing leaves: Overwatering most likely, or natural shedding of old leaves",
+    "Slow growth: Completely normal - naturally very slow-growing",
+    "Leaning: Growing toward light source - rotate regularly",
+    "Pests (rare): Occasionally spider mites or mealybugs in dry conditions"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": null,
+      "tip": "Fertilize only 2-3 times per year during growing season"
+    },
+    "repotting": {
+      "tip": "Repot only when severely root-bound (every 3-5 years)"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "name": "Spanish Moss",
+  "botanicalName": "Tillandsia usneoides",
+  "otherNames": [
+    "Old Man's Beard",
+    "Grandpa's Beard"
+  ],
+  "imagePath": "Spanish%20Moss.jpg",
+  "wateringFrequency": "2-3 times per week",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Air Plants",
+  "description": "The iconic symbol of the American South, Spanish Moss creates stunning cascading displays with its silvery-gray, thread-like stems that can grow several feet long. Despite its name, it's not actually a moss but an epiphytic air plant that naturally drapes from tree branches in humid climates. Unlike other Tillandsia species, Spanish Moss has no roots and absorbs all water and nutrients through specialized scales on its stems. It's perfect for creating dramatic hanging installations, adding texture to terrariums, or crafting natural decorative accents. Native to the southeastern United States through South America, it brings an ethereal, bohemian aesthetic to any space.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Drooling, Vomiting, Diarrhea",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Drooling",
+      "Vomiting",
+      "Diarrhea"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-80°F (15-27°C)",
+  "humidity": "60-70%",
+  "careInstructions": [
+    "Mist thoroughly 2-3 times per week until water runs through the strands",
+    "Misting is preferred over soaking as it absorbs water through its surface scales",
+    "Occasionally soak in water for 10-15 minutes if very dry, then drain well",
+    "Gently shake or squeeze to remove excess water after misting or soaking",
+    "Ensure excellent air circulation - this is critical to prevent rot",
+    "Provide bright, filtered light but avoid direct sun which can scorch",
+    "Use soft water (rainwater, distilled, or filtered) to prevent mineral buildup",
+    "Fertilize every 2-3 weeks with very diluted bromeliad fertilizer during growing season"
+  ],
+  "commonProblems": [
+    "Rotting sections (turning black or slimy): Poor air circulation or staying wet too long",
+    "Drying out (becoming brittle and brown): Needs more frequent misting or higher humidity",
+    "Pests: Check for spider mites, especially in dry indoor conditions",
+    "Breaking apart: This is natural growth and propagation, not a problem",
+    "Yellowing: Too much direct sun or water quality issues"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 60,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "Very diluted bromeliad fertilizer",
+      "tip": "Fertilize every 2-3 weeks with very diluted bromeliad fertilizer during growing season"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

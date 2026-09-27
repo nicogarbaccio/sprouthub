@@ -1,0 +1,57 @@
+{
+  "name": "Calathea",
+  "botanicalName": "Calathea orbifolia",
+  "otherNames": [
+    "Round-leaved Calathea",
+    "Prayer Plant"
+  ],
+  "imagePath": "Calathea.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Hard",
+  "category": "Prayer Plants",
+  "description": "Native to the tropical rainforests of South America, Calathea orbifolia is one of the most striking members of the prayer plant family, featuring large, round leaves (up to 12 inches wide) with distinctive silvery-green stripes that look hand-painted. Like other Calatheas, it performs nyctinastic movement - the leaves rise at night and lower during the day, creating a gentle rustling sound. Growing 2-3 feet tall, it creates a bold tropical statement piece. However, Calatheas are notoriously demanding, requiring high humidity, consistent moisture, filtered water, and stable temperatures. They're sensitive to fluoride, chlorine, and mineral buildup, often rewarding even experienced plant parents with crispy edges. Despite their fussy reputation, their extraordinary foliage and living movement make them irresistible to dedicated plant enthusiasts.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-80°F (18-27°C) - no fluctuations",
+  "humidity": "60-80% - high humidity critical",
+  "careInstructions": [
+    "Water with filtered, distilled, or rainwater when top inch feels dry",
+    "Never use tap water - extremely sensitive to fluoride and chlorine",
+    "Maintain high humidity with humidifier, pebble tray, or grouping with plants",
+    "Provide medium to bright indirect light - never direct sun",
+    "Use well-draining, peat-based potting mix that retains some moisture",
+    "Fertilize monthly during growing season with diluted fertilizer at half strength",
+    "Mist regularly but ensure leaves dry before nightfall",
+    "Keep away from drafts, heating vents, and temperature fluctuations"
+  ],
+  "commonProblems": [
+    "Brown, crispy leaf edges: Tap water fluoride/chlorine (most common), low humidity, or inconsistent watering",
+    "Curling leaves: Underwatering, low humidity, or too much light",
+    "Yellow leaves: Overwatering, root rot, or too much direct light",
+    "Fading leaf patterns: Insufficient light or natural aging",
+    "Spider mites: Common in low humidity - increase humidity and treat promptly",
+    "Brown spots: Fungal disease from water sitting on leaves overnight"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 60,
+      "maxPct": 80
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted fertilizer at half strength",
+      "tip": "Fertilize monthly during growing season with diluted fertilizer at half strength"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

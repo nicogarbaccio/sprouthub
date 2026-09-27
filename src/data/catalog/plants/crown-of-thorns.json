@@ -1,0 +1,72 @@
+{
+  "name": "Crown of Thorns",
+  "botanicalName": "Euphorbia milii",
+  "otherNames": [
+    "Christ Plant",
+    "Christ Thorn"
+  ],
+  "imagePath": "Crown%20of%20Thorns.jpg",
+  "wateringFrequency": "Every 10-14 days",
+  "suggestedWateringDays": 10,
+  "lightRequirement": "Bright Direct Light",
+  "careLevel": "Easy",
+  "category": "Flowering Plants",
+  "description": "Native to Madagascar, Crown of Thorns is a succulent shrub that combines dramatic spiny stems with delicate, colorful blooms that appear year-round with proper care. The small, bright flowers (actually colored bracts) come in reds, pinks, whites, yellows, or orange and cluster at the tips of thorny branches. Despite its fierce appearance, it's one of the easiest and most reliable flowering houseplants available, tolerating neglect, dry air, and drought while blooming continuously. The thick stems store water and sport fierce thorns (the source of its biblical common name), and the plant produces a milky white sap when cut that can irritate skin. Growing 1-3 feet indoors, it's perfect for sunny windowsills where its combination of exotic flowers and sculptural form creates dramatic interest.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Vomiting, Diarrhea, Abdominal Pain, Drooling",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Vomiting",
+      "Diarrhea",
+      "Abdominal Pain",
+      "Drooling"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-85°F (18-29°C) - tolerates heat well",
+  "humidity": "30-50%",
+  "careInstructions": [
+    "Water deeply only when soil is completely dry - every 10-14 days typically",
+    "Use well-draining cactus/succulent potting mix",
+    "Provide at least 4-6 hours of direct sunlight daily for blooming",
+    "Always wear gloves when handling - thorns are sharp and sap is caustic",
+    "Deadhead spent bracts by pinching off to encourage continuous blooming",
+    "Fertilize monthly during growing season with diluted succulent fertilizer",
+    "Reduce watering in winter when growth slows",
+    "If sap contacts skin, wash immediately with soap and water"
+  ],
+  "commonProblems": [
+    "Lack of flowers: Insufficient direct sunlight - needs bright light to bloom",
+    "Leaf drop: Natural response to underwatering or stress - not usually harmful",
+    "Skin irritation: Contact with milky sap - always wear gloves when pruning",
+    "Root rot: Overwatering in cool conditions - reduce watering frequency",
+    "Leggy, sparse growth: Insufficient light - provide more direct sun",
+    "Yellow leaves: Overwatering most likely, or natural aging of lower leaves"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted succulent fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted succulent fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

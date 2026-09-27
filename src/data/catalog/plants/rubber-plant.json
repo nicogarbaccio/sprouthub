@@ -1,0 +1,75 @@
+{
+  "name": "Rubber Plant",
+  "botanicalName": "Ficus elastica",
+  "otherNames": [
+    "Rubber Fig",
+    "Rubber Tree",
+    "India Rubber Plant"
+  ],
+  "imagePath": "Rubber%20Plant.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Trees & Large Plants",
+  "description": "Native to the tropical regions of India and Southeast Asia, Rubber Plant is a bold, architectural beauty featuring large, glossy, oval leaves in deep burgundy-black, variegated cream and green, or classic dark green that can grow 8-12 inches long. Much easier and more forgiving than its finicky cousin the Fiddle Leaf Fig, Rubber Plant tolerates a wider range of conditions while still making a dramatic statement. Growing 6-10 feet indoors (100+ feet in nature), it develops a thick trunk and can be pruned to encourage branching or maintained as a single-stem tree. The plant earned its name from the milky white latex sap that was historically used to make rubber. Fast-growing and adaptable, it's perfect for filling large spaces with bold tropical presence without the extreme maintenance demands of other statement plants.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Diarrhea",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Vomiting",
+      "Diarrhea"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-80°F (15-27°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top 2-3 inches of soil are dry - typically weekly",
+    "Allow to dry more between waterings in winter",
+    "Provide bright, indirect light for best growth and color",
+    "Tolerates medium light but grows slower",
+    "Wipe leaves every 1-2 weeks with damp cloth for glossy appearance",
+    "Prune top growth to encourage branching - new shoots emerge below cut",
+    "Fertilize monthly during growing season with balanced fertilizer",
+    "Rotate occasionally for even growth",
+    "Repot every 2-3 years or when roots emerge from drainage holes"
+  ],
+  "commonProblems": [
+    "Yellow leaves: Overwatering (most common) or natural shedding of lower leaves",
+    "Leaf drop: Temperature fluctuations, overwatering, or moving the plant",
+    "Brown leaf edges: Underwatering, low humidity, or fluoride sensitivity",
+    "Leggy growth: Insufficient light - move to brighter location",
+    "Small new leaves: Needs more light or fertilizer",
+    "Milky sap dripping: Normal when leaves are damaged - can stain surfaces",
+    "Brown spots: Overwatering, root rot, or bacterial leaf spot"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with balanced fertilizer"
+    },
+    "repotting": {
+      "tip": "Repot every 2-3 years or when roots emerge from drainage holes"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

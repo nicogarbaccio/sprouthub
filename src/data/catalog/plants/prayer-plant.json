@@ -1,0 +1,58 @@
+{
+  "name": "Prayer Plant",
+  "botanicalName": "Maranta leuconeura",
+  "otherNames": [
+    "Rabbit Tracks",
+    "Herringbone Plant",
+    "Red Prayer Plant"
+  ],
+  "imagePath": "Prayer%20Plant.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Prayer Plants",
+  "description": "Native to the Brazilian rainforest floor, Prayer Plant is named for its fascinating nyctinastic movement - the leaves fold upward at night like hands in prayer, then open again at sunrise, creating gentle rustling sounds. The stunning foliage features emerald green leaves with distinctive dark green or chocolate brown spots arranged along the midrib (resembling rabbit tracks) and striking red veins, all on burgundy undersides. Growing 6-12 inches tall and spreading wider, it creates a low, spreading mound perfect for hanging baskets or tabletops. While not as demanding as Calatheas, Prayer Plants still require consistent moisture, humidity, and filtered water to prevent the crispy edges they're prone to. Their living movement and extraordinary foliage patterns make them captivating additions despite moderate care needs.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "50-60% minimum",
+  "careInstructions": [
+    "Water when top inch of soil feels dry with filtered, distilled, or rainwater",
+    "Keep soil consistently moist but never soggy",
+    "Avoid tap water if possible - sensitive to fluoride and chlorine",
+    "Provide medium to bright indirect light - never direct sun",
+    "Maintain moderate to high humidity with pebble tray or humidifier",
+    "Fertilize every 2 weeks during growing season with half-strength fertilizer",
+    "Trim brown leaf edges with clean scissors if they develop",
+    "Propagate by division when repotting in spring"
+  ],
+  "commonProblems": [
+    "Brown, crispy leaf edges: Tap water fluoride/chlorine, low humidity, or inconsistent watering",
+    "Curling leaves: Underwatering, low humidity, or too much light",
+    "Yellow leaves: Overwatering or poor drainage",
+    "Fading leaf patterns: Insufficient light or too much direct sun",
+    "Spider mites: Common in low humidity - increase humidity and treat",
+    "Leggy growth: Insufficient light - move to brighter location"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        2
+      ],
+      "fertilizerType": "Half-strength fertilizer",
+      "tip": "Fertilize every 2 weeks during growing season with half-strength fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

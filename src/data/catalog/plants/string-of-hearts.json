@@ -1,0 +1,59 @@
+{
+  "name": "String of Hearts",
+  "botanicalName": "Ceropegia woodii",
+  "otherNames": [
+    "Rosary Vine",
+    "Chain of Hearts",
+    "Hearts-on-a-String",
+    "Sweetheart Vine"
+  ],
+  "imagePath": "String%20of%20Hearts.jpg",
+  "wateringFrequency": "Every 10-14 days",
+  "suggestedWateringDays": 14,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Hanging & Trailing Plants",
+  "description": "A delicate succulent vine native to South Africa, String of Hearts produces cascading strands adorned with pairs of tiny heart-shaped leaves in dusty blue-green with silver variegation and purple undersides - like a romantic garland of valentine hearts. The thin, purple stems can trail 6-12 feet long, creating an ethereal, romantic display perfect for hanging baskets or shelves. The plant develops small tubers along the vines and at the base that store water, making it remarkably drought-tolerant. In proper conditions, it produces small, tubular purple flowers that add to its charm. Fast-growing and easy to propagate, it can quickly fill a hanging basket with its delicate trailing foliage that seems to float on air.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "60-80°F (15-27°C)",
+  "humidity": "30-50% - tolerates dry air",
+  "careInstructions": [
+    "Water thoroughly only when soil is completely dry - every 10-14 days",
+    "Use well-draining succulent or cactus potting mix",
+    "Provide bright, indirect light for best color and compact growth",
+    "Some direct morning sun enhances purple coloring on leaf undersides",
+    "Fertilize monthly during growing season with diluted succulent fertilizer",
+    "Propagate easily from stem cuttings or by planting the aerial tubers",
+    "Trim long vines to encourage fuller growth at the base",
+    "Can tolerate some neglect - perfect for frequent travelers"
+  ],
+  "commonProblems": [
+    "Root rot: Overwatering is most common cause of death - allow to dry completely",
+    "Pale, washed-out leaves: Insufficient light - move to brighter location",
+    "Sparse, stretched growth: Not enough light - provide brighter conditions",
+    "Shriveled leaves: Severe underwatering - increase watering frequency slightly",
+    "Yellowing leaves: Overwatering - reduce watering and check drainage",
+    "Bare stems at base: Natural growth pattern - trim and replant to fill in"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted succulent fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted succulent fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

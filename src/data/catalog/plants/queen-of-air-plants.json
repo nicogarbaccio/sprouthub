@@ -1,0 +1,55 @@
+{
+  "name": "Queen of Air Plants",
+  "botanicalName": "Tillandsia xerographica",
+  "otherNames": [
+    "Xeros"
+  ],
+  "imagePath": "Queen%20of%20Air%20Plants.jpg",
+  "wateringFrequency": "Every 10-14 days",
+  "suggestedWateringDays": 10,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Air Plants",
+  "description": "Aptly named the \"Queen of Air Plants,\" Tillandsia xerographica is one of the most striking and sought-after air plant species available. This dramatic specimen forms a large, silvery-white rosette of thick, curling leaves that can grow 10-12 inches wide (or larger with age). Native to the dry forests of Mexico, Guatemala, and El Salvador, it has evolved to be extremely drought-tolerant, making it one of the easiest air plants to care for. Its sculptural form makes it a stunning standalone centerpiece, perfect for coffee tables, shelves, or mounted displays. The silvery trichomes covering its leaves give it a frosted appearance that catches light beautifully.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "50-90°F (10-32°C) - very temperature tolerant",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Soak in room temperature water for 1-2 hours every 10-14 days",
+    "After soaking, turn completely upside down and gently shake to remove water",
+    "Allow to dry thoroughly in a well-ventilated area - this may take 3-4 hours",
+    "Never let water pool in the center rosette as this causes rot",
+    "Provide bright, indirect light - can tolerate more light than most air plants",
+    "Very drought tolerant once established; better to underwater than overwater",
+    "Use filtered, rainwater, or distilled water to prevent mineral spots on leaves",
+    "Fertilize sparingly (every 2-3 months) with diluted air plant fertilizer"
+  ],
+  "commonProblems": [
+    "Center rot (black, mushy core): Water trapped in the rosette - always dry upside down",
+    "Dry, brittle leaves: Needs more humidity, longer soaking, or more frequent watering",
+    "Slow growth: This is normal - xerographica is a slow-growing species",
+    "Brown tips: Usually from low humidity or tap water minerals",
+    "Lower leaves dying: Natural as plant matures and grows new leaves from center"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 50,
+      "idealMaxF": 90
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": "Diluted air plant fertilizer",
+      "tip": "Fertilize sparingly (every 2-3 months) with diluted air plant fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

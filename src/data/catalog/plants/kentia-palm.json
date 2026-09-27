@@ -1,0 +1,59 @@
+{
+  "name": "Kentia Palm",
+  "botanicalName": "Howea forsteriana",
+  "otherNames": [
+    "Thatch Palm",
+    "Paradise Palm",
+    "Sentry Palm"
+  ],
+  "imagePath": "Kentia%20Palm.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Low to Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Tropical Plants",
+  "description": "Native exclusively to Lord Howe Island off the coast of Australia, Kentia Palm is the ultimate elegant, low-maintenance palm featuring gracefully arching, dark green fronds that create a refined tropical ambiance. Growing slowly to 6-10 feet indoors (60 feet in nature), it develops a slender trunk with a feathery crown of pinnate leaves. Unlike most palms, Kentia tolerates low light remarkably well - it was a Victorian parlor favorite for this very reason. It also handles dry air, irregular watering, and typical indoor conditions with grace. Slow-growing means low-maintenance and minimal pruning. Its tolerance, elegance, and air-purifying qualities make it the gold standard for indoor palms and a favorite for offices, hotels, and homes seeking sophisticated tropical beauty without demanding care.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-75°F (18-24°C)",
+  "humidity": "40-50%",
+  "careInstructions": [
+    "Water when top 2 inches of soil are dry - typically weekly",
+    "Allow to dry slightly more between waterings in winter",
+    "Thrives in low to bright indirect light - extremely adaptable",
+    "Avoid direct sun which can scorch fronds",
+    "Clean fronds monthly with damp cloth to remove dust",
+    "Fertilize every 2-3 months during growing season with palm fertilizer",
+    "Trim only brown or dead fronds - never cut green growth",
+    "Very slow-growing - patience required but minimal pruning needed",
+    "Rotate occasionally for even growth on all sides"
+  ],
+  "commonProblems": [
+    "Brown frond tips: Fluoride or salt buildup (most common), underwatering, or low humidity",
+    "Yellow fronds: Overwatering, poor drainage, or natural aging of lower fronds",
+    "Brown spots on fronds: Overwatering, fungal disease, or cold damage",
+    "Spider mites or scale: Occasionally problematic - treat promptly",
+    "Slow or no growth: Completely normal - Kentia Palms are naturally slow-growing",
+    "Lower fronds dying: Natural aging - trim at base when completely brown"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": "Palm fertilizer",
+      "tip": "Fertilize every 2-3 months during growing season with palm fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

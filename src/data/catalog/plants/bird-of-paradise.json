@@ -1,0 +1,77 @@
+{
+  "name": "Bird of Paradise",
+  "botanicalName": "Strelitzia nicolai",
+  "otherNames": [
+    "White Bird of Paradise",
+    "Giant Bird of Paradise",
+    "Wild Banana"
+  ],
+  "imagePath": "Bird%20of%20Paradise.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect to Direct Light",
+  "careLevel": "Medium",
+  "category": "Tropical Plants",
+  "description": "Native to South Africa, Strelitzia nicolai is a dramatic, architectural plant featuring enormous, paddle-shaped leaves on tall stems that create a bold tropical statement. The leaves are similar to banana leaves and can reach 5-6 feet long, giving any space an instant resort-like atmosphere. Growing 6-10 feet indoors (20-30 feet outdoors), it develops a palm-like appearance despite not being a palm. The name comes from the distinctive white and blue flowers that resemble a bird's head (though flowering is rare indoors, requiring years of maturity, bright light, and proper conditions). While not as difficult as its reputation suggests, Bird of Paradise needs space, bright light, and consistent care. It's naturally prone to split leaves - this is not damage but an adaptation to withstand wind, adding to its exotic character.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Nausea, Vomiting, Lethargy, Drowsiness",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Nausea",
+      "Vomiting",
+      "Lethargy",
+      "Drowsiness"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "50-60%",
+  "careInstructions": [
+    "Water when top 2 inches of soil are dry - keep soil consistently moist during growth",
+    "Provide bright, indirect light with some direct sun for best growth",
+    "Minimum 4-6 hours of bright light daily for flowering potential",
+    "Clean large leaves regularly with damp cloth to remove dust",
+    "Fertilize monthly during growing season with balanced fertilizer",
+    "Leaf splits are natural and not a problem - don't remove",
+    "Rotate occasionally for even growth on all sides",
+    "Requires ample space - not suitable for small rooms",
+    "Repot every 2-3 years or when severely root-bound"
+  ],
+  "commonProblems": [
+    "Split, torn leaves: Natural wind adaptation, not damage - perfectly normal",
+    "Brown, crispy leaf edges: Underwatering, low humidity, or fluoride sensitivity",
+    "Yellow leaves: Overwatering, poor drainage, or natural aging",
+    "Curling leaves: Underwatering or low humidity",
+    "No flowers: Normal indoors - requires maturity (5+ years), intense light, and crowded roots",
+    "Slow growth: Insufficient light or nutrients",
+    "Brown spots: Overwatering causing bacterial or fungal issues"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with balanced fertilizer"
+    },
+    "repotting": {
+      "tip": "Repot every 2-3 years or when severely root-bound"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

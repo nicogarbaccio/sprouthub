@@ -9,7 +9,6 @@ import PlantCareCards from "@/components/plant-details/PlantCareCards";
 import BlogPostsSection from "@/components/blog/BlogPostsSection";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { plants } from "@/data/plantData";
-import { useEnrichedPlant } from "@/hooks/useEnrichedPlant";
 
 const PlantDetails = () => {
   const { plantName } = useParams();
@@ -18,15 +17,11 @@ const PlantDetails = () => {
   const { user } = useAuth();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
-  // Find the plant in the static catalog by matching the URL slug
-  const staticPlant = plants.find(
+  // Find the plant in the catalog by matching the URL slug
+  const plant = plants.find(
     (p) =>
       p.name.toLowerCase().replace(/\s+/g, "-") === plantName?.toLowerCase()
   );
-
-  // Load enriched data (falls back to static catalog)
-  const enrichedPlant = useEnrichedPlant(staticPlant?.name);
-  const plant = enrichedPlant ?? staticPlant;
 
   const handleAddToCollection = () => {
     if (plant) {

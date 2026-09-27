@@ -1,0 +1,74 @@
+{
+  "name": "African Mask",
+  "botanicalName": "Alocasia x amazonica",
+  "otherNames": [
+    "Alocasia Polly",
+    "Amazonian Elephant's Ear",
+    "Elephant Ear"
+  ],
+  "imagePath": "African%20Mask.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Hard",
+  "category": "Tropical Plants",
+  "description": "A hybrid Alocasia (not actually from the Amazon despite the name), African Mask is one of the most striking foliage plants available, featuring dramatic arrow-shaped leaves in deep green with bold white or silvery veining and purple undersides. The glossy, almost plastic-looking leaves emerge tightly rolled and unfurl to reveal their stunning patterns - like living art painted with a brush. Growing 1-2 feet tall, it's compact but makes a huge visual impact. However, Alocasias are notoriously finicky and challenging, earning their \"hard\" reputation honestly. They demand high humidity, consistent moisture, bright indirect light, and stable conditions. They're prone to dormancy in winter (losing all leaves), sensitive to changes, and attractive to spider mites. Only for dedicated plant parents willing to meet their exacting tropical needs.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-80°F (18-27°C) - no fluctuations",
+  "humidity": "60-80% - high humidity essential",
+  "careInstructions": [
+    "Keep soil consistently moist but never soggy - water when top inch feels barely dry",
+    "Use distilled or filtered water - very sensitive to tap water chemicals",
+    "Provide bright, indirect light - avoid direct sun which scorches leaves",
+    "Maintain high humidity with humidifier - essential for survival",
+    "Keep away from drafts, AC vents, and heating vents",
+    "Fertilize every 2-3 weeks during active growth with diluted fertilizer",
+    "May go dormant in winter (lose all leaves) - reduce watering but don't stop",
+    "Resume normal care when new growth emerges from dormancy",
+    "Wipe leaves gently to remove dust and check for spider mites"
+  ],
+  "commonProblems": [
+    "Spider mites: Most common pest - increase humidity, treat immediately",
+    "Brown, crispy leaf edges: Low humidity (most common), underwatering, or tap water",
+    "Yellow leaves: Overwatering, root rot, or dormancy approaching",
+    "Drooping leaves: Underwatering, low humidity, or root rot",
+    "Dormancy (losing all leaves): Natural winter response or stress - keep bulb alive",
+    "No new growth after dormancy: Bulb may have rotted - check for firmness",
+    "Curling leaves: Underwatering or low humidity"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 60,
+      "maxPct": 80
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "Diluted fertilizer",
+      "tip": "Fertilize every 2-3 weeks during active growth with diluted fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

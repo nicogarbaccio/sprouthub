@@ -1,0 +1,57 @@
+{
+  "name": "Bird's Nest Fern",
+  "botanicalName": "Asplenium nidus",
+  "otherNames": [
+    "Crow's Nest Fern",
+    "Nest Fern"
+  ],
+  "imagePath": "Birds%20Nest%20Fern.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Ferns",
+  "description": "Native to the tropical regions of Asia, Australia, and East Africa, Bird's Nest Fern is an epiphytic fern that grows in tree crevices in nature. Unlike typical lacy ferns, it features glossy, undivided fronds that are bright apple-green and ripple-edged, emerging from a central rosette that resembles a bird's nest (hence the name). The fronds grow upward and outward, creating a dramatic shuttlecock shape that can reach 3-5 feet across in ideal conditions. New fronds unfurl from the fuzzy brown center and are extremely delicate when young. Much easier to care for than most ferns, Bird's Nest Fern tolerates lower humidity and is more forgiving of care mistakes, making it perfect for beginners wanting the tropical look of ferns without the extreme demands. Excellent for bathrooms where humidity is naturally higher.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "60-80°F (15-27°C)",
+  "humidity": "50-70%",
+  "careInstructions": [
+    "Water around the base and edges only - never pour water into the central crown",
+    "Keep soil consistently moist but not waterlogged",
+    "Provide medium to bright indirect light - tolerates lower light than most ferns",
+    "Use well-draining potting mix that retains some moisture",
+    "Never touch or handle new emerging fronds - they tear easily and won't recover",
+    "Wipe mature leaves gently with damp cloth to remove dust",
+    "Fertilize monthly during growing season with diluted liquid fertilizer",
+    "Keep away from cold drafts and heating vents"
+  ],
+  "commonProblems": [
+    "Crown rot: Water poured into center of plant - always water around edges",
+    "Brown leaf tips: Low humidity, fluoride in tap water, or inconsistent watering",
+    "Yellowing fronds: Natural aging of outer fronds, or overwatering",
+    "Torn or damaged fronds: Touching new growth before it hardens - leaves scar permanently",
+    "Brown spots: Bacterial or fungal disease from water on fronds",
+    "Slow growth: Insufficient light or nutrients"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted liquid fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted liquid fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

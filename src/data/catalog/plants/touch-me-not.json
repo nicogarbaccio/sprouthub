@@ -1,0 +1,58 @@
+{
+  "name": "Touch-Me-Not",
+  "botanicalName": "Impatiens walleriana",
+  "otherNames": [
+    "Busy Lizzie",
+    "Patience Plant",
+    "Sultana"
+  ],
+  "imagePath": "Touch%20Me%20Not.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Flowering Plants",
+  "description": "Native to East Africa, Impatiens are beloved for their ability to bloom continuously in lower light conditions where most flowering plants fail. The common name \"Touch-Me-Not\" refers to the explosive seed pods that burst open when touched when mature. These cheerful plants produce abundant five-petaled flowers in vivid shades of pink, red, orange, white, purple, or bi-colors against bright green succulent stems and leaves. Growing 6-18 inches tall depending on variety, they create mounding, colorful displays perfect for brightening shady spots. While technically perennials in their native habitat, they're often grown as annuals but can be maintained indoors as long-term houseplants with proper attention to their high water and humidity needs.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-75°F (18-24°C)",
+  "humidity": "50-70%",
+  "careInstructions": [
+    "Keep soil consistently moist but not waterlogged - water when top feels dry",
+    "Provide bright, filtered light - avoid direct sun which scorches leaves",
+    "Maintain moderate to high humidity with pebble tray or regular misting",
+    "Deadhead spent flowers regularly to encourage continuous blooming",
+    "Pinch growing tips every few weeks to encourage bushiness and more flowers",
+    "Fertilize every 2-3 weeks during blooming with diluted balanced fertilizer",
+    "Water more frequently in warm weather or low humidity",
+    "Ensure good air circulation to prevent fungal diseases"
+  ],
+  "commonProblems": [
+    "Wilting: Most common issue - needs water immediately or higher humidity",
+    "Fungal diseases (downy mildew, root rot): Overwatering, poor air circulation, or wet leaves",
+    "Leggy, stretched growth: Insufficient light or needs regular pinching",
+    "Dropping buds: Sudden environmental changes, stress, or temperature fluctuations",
+    "Spider mites: Common in dry conditions - increase humidity and mist regularly",
+    "Stem rot at soil line: Overwatering combined with poor drainage"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize every 2-3 weeks during blooming with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

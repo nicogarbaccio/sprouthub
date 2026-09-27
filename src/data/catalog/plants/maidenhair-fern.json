@@ -1,0 +1,57 @@
+{
+  "name": "Maidenhair Fern",
+  "botanicalName": "Adiantum raddianum",
+  "otherNames": [
+    "Venus Hair Fern",
+    "Delta Maidenhair"
+  ],
+  "imagePath": "Maidenhair%20Fern.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Hard",
+  "category": "Ferns",
+  "description": "Native to tropical regions of the Americas, Maidenhair Fern is considered the most delicate and elegant of all ferns, featuring impossibly fine, lacy fronds composed of tiny fan-shaped leaflets on glossy black stems that look like human hair - hence its poetic name. The ethereal, feathery foliage creates a cloud-like appearance that seems to float in space. Growing 12-18 inches tall and wide, it brings an air of Victorian romance and delicate beauty unmatched by other houseplants. However, Maidenhair Fern is notoriously difficult, with a reputation for being the \"drama queen\" of the plant world. It requires consistently moist (never wet or dry) soil, high humidity, filtered water, and stable conditions, rewarding even slight neglect with instant brown crispy fronds. Only for dedicated plant enthusiasts willing to meet its exacting demands.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "60-75°F (15-24°C) - prefers cool conditions",
+  "humidity": "60-80% - high humidity essential",
+  "careInstructions": [
+    "Keep soil consistently moist but never soggy - check daily",
+    "Use distilled, filtered, or rainwater only - very sensitive to chemicals",
+    "Never allow soil to completely dry out - will crisp immediately",
+    "Provide bright, indirect light - avoid direct sun completely",
+    "Maintain high humidity with humidifier, pebble tray, or terrarium",
+    "Mist regularly but ensure fronds dry before nightfall",
+    "Fertilize monthly during growing season with diluted fertilizer at quarter strength",
+    "Keep away from heating vents, drafts, and temperature fluctuations"
+  ],
+  "commonProblems": [
+    "Brown, crispy fronds: Soil dried out (most common), low humidity, or tap water chemicals",
+    "Yellowing fronds: Overwatering, poor drainage, or too much light",
+    "Dropping leaflets: Sudden environmental changes, drafts, or inconsistent moisture",
+    "Entire plant dying: Let soil dry out or humidity dropped - very unforgiving",
+    "Slow or no growth: Insufficient humidity, light, or nutrients",
+    "Brown tips: Fluoride/chlorine in water or over-fertilizing"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 75
+    },
+    "humidity": {
+      "minPct": 60,
+      "maxPct": 80
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted fertilizer at quarter strength",
+      "tip": "Fertilize monthly during growing season with diluted fertilizer at quarter strength"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

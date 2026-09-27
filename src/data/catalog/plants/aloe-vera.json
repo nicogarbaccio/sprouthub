@@ -1,0 +1,72 @@
+{
+  "name": "Aloe Vera",
+  "botanicalName": "Aloe barbadensis miller",
+  "otherNames": [
+    "True Aloe",
+    "Medicinal Aloe",
+    "Burn Plant",
+    "First Aid Plant"
+  ],
+  "imagePath": "Aloe%20Vera.jpg",
+  "wateringFrequency": "Every 2-3 weeks",
+  "suggestedWateringDays": 14,
+  "lightRequirement": "Bright Indirect to Direct Light",
+  "careLevel": "Easy",
+  "category": "Succulents",
+  "description": "Native to the Arabian Peninsula but now cultivated worldwide, Aloe Vera is a medicinal succulent prized for over 6,000 years for the soothing gel inside its thick, fleshy leaves that treats burns, cuts, and skin irritations. The plant forms rosettes of upright, lance-shaped, gray-green leaves with serrated edges, growing 12-24 inches tall and producing numerous offsets (pups) that create clusters. Mature plants send up tall spikes with tubular yellow or orange flowers. The leaves are plump and filled with clear gel that's 96% water, making the plant remarkably drought-tolerant. Beyond its medicinal benefits, Aloe Vera is an easy-care houseplant that thrives on neglect, making it perfect for beginners who want both ornamental beauty and practical first-aid benefits literally at their fingertips.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Lethargy, Diarrhea",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Vomiting",
+      "Lethargy",
+      "Diarrhea"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "55-80°F (13-27°C)",
+  "humidity": "30-50% - tolerates dry air",
+  "careInstructions": [
+    "Water deeply only when soil is completely dry - every 2-3 weeks",
+    "In winter, reduce watering to monthly or less",
+    "Provide bright, indirect light or some direct sun (morning sun ideal)",
+    "Use well-draining cactus or succulent potting mix",
+    "Ensure pot has drainage holes - sitting in water causes fatal rot",
+    "Harvest gel from outer leaves by cutting at base, let cut seal before using",
+    "Remove pups (baby plants) to propagate or prevent overcrowding",
+    "Fertilize only 2-3 times per year with diluted succulent fertilizer"
+  ],
+  "commonProblems": [
+    "Soft, mushy leaves: Overwatering causing rot - reduce watering immediately",
+    "Brown or black leaves: Severe overwatering and rot, cold damage, or sunburn",
+    "Thin, curling leaves: Underwatering - increase watering frequency slightly",
+    "Leaves turning brown/red: Too much direct sun - move to filtered light",
+    "Falling over/drooping: Insufficient light or overwatering",
+    "Root rot: Most common cause of death - ensure excellent drainage"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 55,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": "Diluted succulent fertilizer",
+      "tip": "Fertilize only 2-3 times per year with diluted succulent fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "name": "Arrowhead Plant",
+  "botanicalName": "Syngonium podophyllum",
+  "otherNames": [
+    "Goosefoot Plant",
+    "Nephthytis",
+    "African Evergreen"
+  ],
+  "imagePath": "Arrowhead%20Plant.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Low Maintenance",
+  "description": "Native to the tropical rainforests of Central and South America, Arrowhead Plant is a versatile, easy-care plant that undergoes a fascinating transformation as it matures. Young plants produce arrow-shaped leaves in various colors - green, white, pink, or burgundy, often with striking variegation. As the plant ages, leaves become more deeply lobed and vine-like, and the plant transitions from bushy to climbing. Most growers keep them pruned for compact, bushy growth, but they can be trained up moss poles to display mature foliage. Growing 3-6 feet indoors depending on training method, Syngonium adapts well to typical home conditions and comes in dozens of stunning varieties, making it popular with collectors seeking colorful, low-maintenance plants.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-80°F (15-27°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - typically weekly",
+    "Provide medium to bright indirect light - tolerates lower light",
+    "Prune regularly to maintain bushy, compact shape",
+    "Provide moss pole or trellis if you want climbing growth with mature leaves",
+    "Fertilize monthly during growing season with balanced fertilizer",
+    "Propagate easily from stem cuttings",
+    "Wipe leaves occasionally to remove dust",
+    "More light intensifies variegation in colorful varieties"
+  ],
+  "commonProblems": [
+    "Yellow leaves: Usually overwatering - allow to dry more between waterings",
+    "Brown leaf tips: Low humidity, fluoride sensitivity, or inconsistent watering",
+    "Leggy growth: Insufficient light or needs regular pruning",
+    "Loss of variegation: Insufficient light - move to brighter location",
+    "Drooping leaves: Underwatering - increase watering frequency",
+    "Spider mites or aphids: Treat with insecticidal soap"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

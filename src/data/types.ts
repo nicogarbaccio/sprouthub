@@ -1,6 +1,10 @@
+import type { PlantCare, ToxicityDetail, CatalogEntry } from './catalog/schema';
+
 /**
  * Catalog plant type representing plant species information
  * Used for the plant catalog and plant details pages
+ *
+ * Source data lives in src/data/catalog/plants/*.json (see catalog/schema.ts).
  */
 export interface CatalogPlant {
   name: string;
@@ -19,6 +23,10 @@ export interface CatalogPlant {
   commonProblems?: string[];
   isOutdoorPlant?: boolean; // Added for weather-based rain delay feature
   otherNames?: string[];
+  /** Structured care values for app logic; prefer these over parsing the prose fields */
+  care?: PlantCare;
+  toxicityDetail?: ToxicityDetail;
+  review?: CatalogEntry['review'];
 }
 
 /**

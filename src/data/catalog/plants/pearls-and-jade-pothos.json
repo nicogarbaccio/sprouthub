@@ -1,0 +1,71 @@
+{
+  "name": "Pearls and Jade Pothos",
+  "botanicalName": "Epipremnum aureum 'Pearls and Jade'",
+  "otherNames": [
+    "Pearls & Jade Pothos",
+    "NJOY-related Pothos"
+  ],
+  "imagePath": "Pearls%20and%20Jade%20Pothos.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Hanging & Trailing Plants",
+  "description": "A patented sport of Marble Queen developed at the University of Florida, Pearls and Jade is a compact, small-leaved pothos with a distinctive variegation pattern: green centers surrounded by irregular margins of white and grey-green, often with fine speckling and patches that push in from the leaf edges rather than streaking through the middle. The leaves are smaller than most pothos (2-4 inches), and the plant stays notably compact and slow-growing, making it ideal for small pots, shelves, and tight spaces. Because the variegation includes a lot of white and grey, it needs bright indirect light to look its best and grows more slowly than green pothos. Otherwise it shares the same forgiving, near-indestructible pothos temperament that makes the whole family so beginner-friendly.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "60-85°F (15-29°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - typically weekly, and slightly less as it grows slowly",
+    "Provide medium to bright indirect light to keep variegation crisp",
+    "Avoid harsh direct sun, which scorches the white margins",
+    "Prune to maintain its compact shape and encourage fullness",
+    "Propagates easily from stem cuttings below a node",
+    "Wipe the small leaves gently to keep them clean",
+    "Fertilize monthly during the growing season with a diluted balanced fertilizer",
+    "Expect slow, compact growth - normal for this cultivar"
+  ],
+  "commonProblems": [
+    "Loss of variegation / reverting to green: Insufficient light - move to a brighter spot",
+    "Brown speckles or crispy white margins: Sunburn from direct light or low humidity",
+    "Yellow leaves: Usually overwatering - allow soil to dry more between waterings",
+    "Brown leaf tips: Fluoride or chlorine sensitivity - use filtered water",
+    "Very slow growth: Normal for this compact cultivar, or needs brighter light",
+    "Root rot: Overwatering or poor drainage"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during the growing season with a diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "name": "Pink Quill",
+  "botanicalName": "Tillandsia cyanea",
+  "otherNames": [
+    "Blue-flowered Torch",
+    "Fan Flower"
+  ],
+  "imagePath": "Pink%20Quill.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Medium",
+  "category": "Air Plants",
+  "description": "A unique member of the Tillandsia family, Pink Quill is actually a terrestrial bromeliad that prefers to grow potted rather than mounted like typical air plants. Native to Ecuador, it produces one of the most spectacular flowering displays in the bromeliad world: a large, flattened pink paddle-shaped bract that can last for months, with vibrant purple-blue flowers emerging sequentially along its edges. The plant forms an attractive rosette of narrow, arching green leaves that can reach 10-12 inches tall. Unlike true epiphytic air plants, Pink Quill thrives best when planted in a well-draining orchid or bark mix, making it an excellent choice for those who prefer traditional potted plants with extraordinary blooms.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "60-80°F (15-27°C)",
+  "humidity": "50-70%",
+  "careInstructions": [
+    "Water potting mix thoroughly when top inch feels dry (usually twice weekly)",
+    "Mist leaves 2-3 times per week to maintain humidity",
+    "Plant in well-draining orchid bark mix or specialized bromeliad soil",
+    "Provide bright, filtered light - avoid direct sun which can scorch leaves",
+    "Maintain moderate to high humidity for best flowering",
+    "Remove spent flowers as they fade to encourage continued blooming",
+    "After main bloom spike fades, plant will produce offsets (pups) before dying",
+    "Fertilize monthly during growing season with diluted balanced fertilizer"
+  ],
+  "commonProblems": [
+    "Brown leaf tips: Low humidity, water quality issues, or fluoride sensitivity",
+    "Fading flower spike: Natural after several months of blooming",
+    "Root rot: Overwatering or poorly draining potting mix",
+    "No blooming: Insufficient bright light, plant too young, or needs maturity (2-3 years)",
+    "Yellowing leaves: Overwatering or natural die-back after flowering cycle completes"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 70
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

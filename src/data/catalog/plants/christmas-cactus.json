@@ -1,0 +1,57 @@
+{
+  "name": "Christmas Cactus",
+  "botanicalName": "Schlumbergera x buckleyi",
+  "otherNames": [
+    "Holiday Cactus",
+    "Thanksgiving Cactus",
+    "Crab Cactus"
+  ],
+  "imagePath": "Christmas%20Cactus.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Flowering Plants",
+  "description": "A long-lived Brazilian rainforest cactus that can be passed down through generations, Christmas Cactus produces cascades of tubular flowers in pink, red, white, orange, or purple at the ends of its segmented, leaf-like stems during winter months. Unlike desert cacti, this epiphyte naturally grows on trees in humid forests and requires more water and less sun. The flat, jointed stems create an attractive trailing or arching form that looks beautiful in hanging baskets or on pedestals. With proper care including a rest period and cool fall temperatures, it reliably blooms during the holidays and can live for 20-30 years or more, becoming a cherished family heirloom that grows more spectacular with age.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "60-70°F (15-21°C) - cooler temps trigger blooming",
+  "humidity": "50-60%",
+  "careInstructions": [
+    "Water when top inch of soil is dry - more frequently than desert cacti",
+    "Use well-draining cactus mix with added perlite or orchid bark",
+    "Provide bright, indirect light - avoid direct sun which causes red-tinged stems",
+    "To trigger blooming: Give 12-14 hours of darkness and 50-55°F temps for 6 weeks in fall",
+    "Reduce watering slightly during fall rest period (October-November)",
+    "Resume normal watering when buds form",
+    "Fertilize monthly spring through summer with diluted balanced fertilizer",
+    "Avoid moving plant once buds form - causes bud drop"
+  ],
+  "commonProblems": [
+    "Bud drop: Plant moved after bud formation, temperature fluctuations, or inconsistent watering",
+    "No blooms: Needs fall rest period with longer darkness and cooler temps",
+    "Limp, shriveled stems: Underwatering or root rot from overwatering",
+    "Red or purple stem edges: Too much direct sun - move to shadier spot",
+    "Stem segments falling off: Normal propagation method or severe stress"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 60,
+      "idealMaxF": 70
+    },
+    "humidity": {
+      "minPct": 50,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly spring through summer with diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

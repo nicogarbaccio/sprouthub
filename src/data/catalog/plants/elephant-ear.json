@@ -1,0 +1,74 @@
+{
+  "name": "Elephant Ear",
+  "botanicalName": "Alocasia macrorrhiza",
+  "otherNames": [
+    "Giant Taro",
+    "Giant Alocasia",
+    "Giant Elephant's Ear"
+  ],
+  "imagePath": "Elephant%20Ear.jpg",
+  "wateringFrequency": "Twice weekly",
+  "suggestedWateringDays": 3,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Hard",
+  "category": "Tropical Plants",
+  "description": "Native to Southeast Asia and the Pacific, Alocasia macrorrhiza is the largest Alocasia species, producing absolutely enormous, glossy arrow-shaped leaves that can grow 3-6 feet long - truly earning the \"elephant ear\" name. The massive leaves emerge from thick stems in an upright, architectural form that commands attention and creates instant tropical drama. Growing 6-8 feet tall indoors (15+ feet outdoors), it needs substantial space. Like other Alocasias, it's notoriously challenging, demanding high humidity, consistent moisture, bright light, and stable conditions. It may go dormant in winter, losing all leaves and retreating to its corm. The giant leaves make a spectacular statement but require serious commitment to tropical conditions, space, and the acceptance that perfection is difficult with such massive, delicate foliage.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-80°F (18-27°C) - no fluctuations",
+  "humidity": "60-80% - high humidity essential",
+  "careInstructions": [
+    "Keep soil consistently moist but not waterlogged during active growth",
+    "Use filtered or distilled water - sensitive to tap water chemicals",
+    "Provide bright, indirect light - never direct sun which scorches",
+    "Maintain high humidity with humidifier - absolutely essential",
+    "Clean large leaves regularly with damp cloth",
+    "Fertilize every 2-3 weeks during active growth with diluted fertilizer",
+    "May go dormant in winter (lose all leaves) - reduce but don't stop watering",
+    "Resume normal care when new growth emerges in spring",
+    "Provide ample space - leaves are enormous"
+  ],
+  "commonProblems": [
+    "Brown, crispy leaf edges: Low humidity (most common), underwatering, or tap water",
+    "Yellow leaves: Overwatering, root rot, or approaching dormancy",
+    "Drooping leaves: Underwatering, low humidity, or root issues",
+    "Spider mites: Common in low humidity - increase humidity immediately and treat",
+    "Winter dormancy (losing all leaves): Natural response - keep corm alive with minimal water",
+    "No growth after dormancy: Corm may have rotted - should be firm",
+    "Torn or damaged leaves: Natural with such large leaves - minimize handling"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 60,
+      "maxPct": 80
+    },
+    "fertilizing": {
+      "weeks": [
+        2,
+        3
+      ],
+      "fertilizerType": "Diluted fertilizer",
+      "tip": "Fertilize every 2-3 weeks during active growth with diluted fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

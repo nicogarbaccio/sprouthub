@@ -30,7 +30,7 @@ import { format } from "date-fns";
 import type { UserPlant } from "@/hooks/useUserPlants";
 import type { CatalogPlant } from "@/data/types";
 import {
-  parseFertilizationFromCareInstructions,
+  getFertilizationAdvice,
   getFertilizationStatus,
   getPlantFertilizationStatus,
 } from "@/utils/plants/fertilizationAdvice";
@@ -121,10 +121,7 @@ const FertilizationCard = ({
   // Prefer the catalog entry already resolved by the page; fall back to the shared
   // lookup so this card can never disagree with the banner or the room cards.
   const advice = catalogPlant
-    ? parseFertilizationFromCareInstructions(
-        catalogPlant.careInstructions ?? [],
-        catalogPlant.category
-      )
+    ? getFertilizationAdvice(catalogPlant)
     : getPlantFertilizationStatus(plant).advice;
 
   const status = getFertilizationStatus(plant, advice);

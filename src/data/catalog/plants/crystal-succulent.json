@@ -1,0 +1,58 @@
+{
+  "name": "Crystal Succulent",
+  "botanicalName": "Haworthia cooperi",
+  "otherNames": [
+    "Cooper's Haworthia",
+    "Window Haworthia",
+    "Pussy Foot"
+  ],
+  "imagePath": "Crystal%20Succulent.jpg",
+  "wateringFrequency": "Every 2-3 weeks",
+  "suggestedWateringDays": 14,
+  "lightRequirement": "Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Succulents",
+  "description": "Native to South Africa, Haworthia cooperi is one of the most fascinating and jewel-like succulents available, featuring clusters of plump, translucent leaves that look like tiny glass beads, crystals, or water droplets arranged in tight rosettes. The leaf tips have transparent \"windows\" that allow light to penetrate deep into the leaf interior - an adaptation for growing partially buried in sandy soil in nature. Growing only 2-3 inches tall and forming clumps as it produces offsets, this miniature succulent is perfect for small pots, terrariums, or succulent arrangements. When backlit, the translucent leaves glow like precious gems. Easier to care for than most Haworthias and tolerant of lower light than many succulents, it's perfect for collectors wanting something truly unique.",
+  "toxicity": "Non-toxic to pets and humans",
+  "temperature": "65-80°F (18-27°C)",
+  "humidity": "30-50%",
+  "careInstructions": [
+    "Water when soil is completely dry - every 2-3 weeks typically",
+    "Provide bright, indirect light - avoid intense direct sun which can burn",
+    "Use well-draining succulent mix with added pumice or perlite",
+    "Can tolerate lower light than most succulents",
+    "Fertilize every 2-3 months during growing season with diluted fertilizer",
+    "Remove offsets to propagate or prevent overcrowding",
+    "Keep away from cold drafts and freezing temperatures",
+    "Water less frequently in winter dormancy period"
+  ],
+  "commonProblems": [
+    "Shriveling leaves: Needs water - increase watering frequency slightly",
+    "Turning brown or red: Too much direct sun - move to filtered light",
+    "Stretching: Insufficient light - provide brighter conditions",
+    "Root rot: Overwatering - ensure excellent drainage",
+    "Leaves losing translucency: Natural aging or too much direct sun",
+    "Mealybugs: Occasional pest - treat with isopropyl alcohol"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 80
+    },
+    "humidity": {
+      "minPct": 30,
+      "maxPct": 50
+    },
+    "fertilizing": {
+      "weeks": [
+        9,
+        13
+      ],
+      "fertilizerType": "Diluted fertilizer",
+      "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "name": "Satin Pothos",
+  "botanicalName": "Scindapsus pictus",
+  "otherNames": [
+    "Silver Pothos",
+    "Silver Vine",
+    "Silver Satin Pothos",
+    "Satin Pothos"
+  ],
+  "imagePath": "Satin%20Pothos.jpg",
+  "wateringFrequency": "Weekly",
+  "suggestedWateringDays": 7,
+  "lightRequirement": "Medium to Bright Indirect Light",
+  "careLevel": "Easy",
+  "category": "Hanging & Trailing Plants",
+  "description": "Despite its common name, Satin Pothos is not a true pothos at all but a member of the Scindapsus genus - though it is grown and loved just like one. Its thick, heart-shaped leaves have a soft, matte, almost velvety texture and are dusted with shimmering silvery-grey spots and margins over deep green, giving the whole plant a satin sheen that catches the light beautifully. A naturally trailing and climbing vine, it looks stunning cascading from a shelf or hanging basket, and its variegation is naturally stable (silver markings, not chlorophyll-free white patches), so it holds its look reliably. Easy-going and forgiving, it tolerates a range of conditions but shows its best silvery contrast in medium-to-bright indirect light. Slightly slower-growing and more drought-tolerant than Golden Pothos, it is an excellent, elegant choice for beginners who want a trailing plant with more texture and shimmer.",
+  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicityDetail": {
+    "animals": [
+      "dogs",
+      "cats",
+      "horses"
+    ],
+    "symptoms": [
+      "Oral Irritation",
+      "Drooling",
+      "Vomiting",
+      "Difficulty Swallowing"
+    ],
+    "source": "plantsm.art"
+  },
+  "temperature": "65-85°F (18-29°C)",
+  "humidity": "40-60%",
+  "careInstructions": [
+    "Water when top 1-2 inches of soil are dry - drought-tolerant, so err on the drier side",
+    "Provide medium to bright indirect light for the strongest silver variegation",
+    "Avoid harsh direct sun, which fades and scorches the leaves",
+    "Let it trail from a hanging basket or climb a small trellis or moss pole",
+    "Prune to encourage fuller, bushier growth",
+    "Propagates easily in water or soil from stem cuttings below a node",
+    "Wipe leaves gently to preserve the matte, silvery finish",
+    "Fertilize monthly during the growing season with a diluted balanced fertilizer"
+  ],
+  "commonProblems": [
+    "Faded or dull silver markings: Too little light - move to a brighter spot",
+    "Yellow leaves: Overwatering - allow more drying between waterings",
+    "Brown, crispy leaf edges: Underwatering, low humidity, or sun scorch",
+    "Curling leaves: Underwatering or low humidity",
+    "Leggy growth with widely spaced leaves: Insufficient light",
+    "Root rot: Overwatering or poor drainage"
+  ],
+  "care": {
+    "temperature": {
+      "idealMinF": 65,
+      "idealMaxF": 85
+    },
+    "humidity": {
+      "minPct": 40,
+      "maxPct": 60
+    },
+    "fertilizing": {
+      "weeks": [
+        4,
+        4
+      ],
+      "fertilizerType": "Diluted balanced fertilizer",
+      "tip": "Fertilize monthly during the growing season with a diluted balanced fertilizer"
+    }
+  },
+  "review": {
+    "status": "legacy"
+  }
+}
