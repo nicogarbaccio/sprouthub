@@ -27,7 +27,8 @@
     ],
     "basis": "species",
     "sourceIds": [
-      "aspca"
+      "aspca",
+      "ncsu"
     ]
   },
   "temperature": "65-75°F (18-24°C)",
@@ -51,6 +52,27 @@
     "Spider mites: Common in dry conditions - increase humidity and treat"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 75
@@ -68,11 +90,36 @@
       "tip": "Fertilize monthly during growing season with balanced fertilizer"
     }
   },
+  "whatsNormal": [
+    "Lower leaves fall off as it grows, revealing a bare, cane-like stem.",
+    "Rarely flowers indoors."
+  ],
+  "propagation": {
+    "methods": [
+      "division",
+      "stem_cutting"
+    ],
+    "tip": "Divide the plant or root stem cuttings — wear gloves, the sap irritates skin.",
+    "sourceIds": [
+      "ncsu",
+      "mobot"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Charming Dieffenbachia (Dieffenbachia amoena)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/charming-dieffenbachia"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Dieffenbachia seguine",
+      "url": "https://plants.ces.ncsu.edu/plants/dieffenbachia-seguine/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Dieffenbachia seguine",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276553&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -81,6 +128,10 @@
     "gbifKey": 2869345
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+    ]
   }
 }

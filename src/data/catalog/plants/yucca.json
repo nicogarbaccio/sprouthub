@@ -22,9 +22,10 @@
       "Vomiting (cats and dogs)",
       "Liver disease and skin irritation (horses)"
     ],
-    "basis": "genus",
+    "basis": "species",
     "sourceIds": [
-      "aspca"
+      "aspca",
+      "ncsu"
     ]
   },
   "temperature": "50-90°F (10-32°C) - extremely temperature tolerant",
@@ -50,9 +51,34 @@
     "Pests (rare): Occasionally scale or mealybugs - treat promptly"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 28,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 50,
-      "idealMaxF": 90
+      "idealMaxF": 90,
+      "coldDamageBelowF": 50,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 30,
@@ -65,13 +91,47 @@
       ],
       "fertilizerType": null,
       "tip": "Fertilize only 2-3 times per year during growing season"
+    },
+    "repotting": {
+      "tip": "Use a very gritty mix — about 1 part potting mix to 3 parts perlite or sand.",
+      "soil": "1 part potting mix to 3 parts perlite or sand",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     }
+  },
+  "whatsNormal": [
+    "Unlike most yuccas, this one is spineless — the leaf tips are soft.",
+    "Container plants rarely flower.",
+    "The pot size limits how big it grows."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting",
+      "offsets",
+      "seed"
+    ],
+    "tip": "Root cane cuttings, or separate the suckers at the base.",
+    "sourceIds": [
+      "ncsu"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Yucca (Yucca spp.)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/yucca"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Yucca gigantea",
+      "url": "https://plants.ces.ncsu.edu/plants/yucca-gigantea/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Yucca elephantipes",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=282249&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -80,9 +140,11 @@
     "gbifKey": 2775716
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Yucca spp.), not a page for this species."
+      "Toxicity: NC State lists Y. gigantea leaves and roots as toxic to people, cats, dogs and horses; symptoms come from ASPCA's Yucca entry.",
+      "Winter watering (28 days) matches our original catalog; MOBOT says reduce to the minimum and keep the soil dry."
     ]
   }
 }

@@ -9,23 +9,23 @@
   "imagePath": "Norfolk%20Pine.jpg",
   "wateringFrequency": "Twice weekly",
   "suggestedWateringDays": 3,
-  "lightRequirement": "Bright Indirect Light",
+  "lightRequirement": "Bright Indirect to Direct Light",
   "careLevel": "Medium",
   "category": "Trees & Large Plants",
   "description": "Native exclusively to Norfolk Island in the South Pacific, Norfolk Pine is not actually a pine but an ancient conifer from the Araucariaceae family. It features distinctive symmetrical tiers of soft, needle-like branches that create a perfect pyramidal Christmas tree shape - making it a popular living holiday decoration. The bright green, feathery foliage grows in horizontal whorls around the trunk, creating geometric perfection. Growing 3-6 feet indoors over many years (200+ feet in nature), it brings the charm of an evergreen tree to indoor spaces. However, it requires specific conditions to thrive: high humidity, consistent moisture, cool temperatures, and bright light. Without these, branches brown and drop from the bottom up. It's moderately challenging but rewards proper care with years of elegant, architectural beauty.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
-  "temperature": "60-70°F (15-21°C) - prefers cool conditions",
-  "humidity": "50-60% minimum - high humidity essential",
+  "temperature": "55-65°F (13-18°C) - prefers a cool room",
+  "humidity": "40-60% - adapts to average indoor air",
   "careInstructions": [
-    "Keep soil consistently moist but not soggy - water when top inch feels dry",
-    "Never allow soil to completely dry out - causes irreversible browning",
-    "Provide bright, indirect light - near east or west window ideal",
-    "Maintain high humidity with humidifier or frequent misting",
+    "Water regularly from spring to fall, but don't let the soil get too wet or too dry",
+    "Water sparingly in winter",
+    "Provide bright light - full sun keeps it compact and symmetrical",
+    "Adapts to warm, dry indoor air - mist it in heated rooms in winter",
     "Keep in cool room away from heating vents",
-    "Fertilize monthly during growing season with diluted balanced fertilizer",
+    "Fertilize every 1-2 weeks from spring through fall with a dilute liquid fertilizer",
     "Rotate plant weekly for even growth on all sides",
     "Never cut the top leader - destroys pyramidal shape permanently",
-    "Mist daily or use pebble tray to increase humidity"
+    "Give it light afternoon shade if the needles start to yellow"
   ],
   "commonProblems": [
     "Brown, dropping lower branches: Low humidity, dry soil, or natural aging (irreversible)",
@@ -37,22 +37,60 @@
     "Spider mites: Common in dry conditions - increase humidity and treat"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 7,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
-      "idealMinF": 60,
-      "idealMaxF": 70
+      "idealMinF": 55,
+      "idealMaxF": 65,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "humidity": {
-      "minPct": 50,
+      "minPct": 40,
       "maxPct": 60
     },
     "fertilizing": {
       "weeks": [
-        4,
-        4
+        1,
+        2
       ],
-      "fertilizerType": "Diluted balanced fertilizer",
-      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
-    }
+      "fertilizerType": "Dilute liquid fertilizer",
+      "tip": "Fertilize every 1-2 weeks from spring through fall with a dilute liquid fertilizer",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "repotting": {
+      "tip": "Repot into a fertile, porous, slightly acidic mix.",
+      "soil": "Fertile, porous, sandy, peaty, slightly acidic mix",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "growthRate": "slow"
   },
   "toxicityDetail": {
     "cats": "non_toxic",
@@ -64,11 +102,26 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "In very low light it can look fine for 2-3 years, then drop needles and lower branches.",
+    "Yellow tints on the needles mean too much afternoon sun.",
+    "Grows slowly."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Australian Pine (Araucaria heterophylla)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/australian-pine"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Araucaria heterophylla",
+      "url": "https://plants.ces.ncsu.edu/plants/araucaria-heterophylla/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Araucaria heterophylla",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276635&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -77,6 +130,12 @@
     "gbifKey": 2684969
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Humidity numbers (40-60%) are ours; both sources say it adapts to the warm, dry air of most homes.",
+      "Winter watering (7 days) is our estimate — NC State says water sparingly in winter.",
+      "Changed: \"high humidity essential\" and \"mist daily\" removed (both sources: adapts to dry indoor air); light now \"Bright Indirect to Direct\" (full sun best, per both); fertilizing monthly → every 1-2 weeks; temperature 60-70°F → 55-65°F."
+    ]
   }
 }

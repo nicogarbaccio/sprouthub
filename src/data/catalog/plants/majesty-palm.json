@@ -8,7 +8,7 @@
   "imagePath": "Majesty%20Palm.jpg",
   "wateringFrequency": "Twice weekly",
   "suggestedWateringDays": 3,
-  "lightRequirement": "Bright Indirect to Direct Light",
+  "lightRequirement": "Bright Indirect Light",
   "careLevel": "Hard",
   "category": "Palms",
   "description": "Native to the riverbanks of Madagascar, Majesty Palm is an elegant tropical palm that can grow to impressive heights (6-10 feet indoors, 80+ feet in nature), featuring graceful, arching fronds that bring instant vacation vibes to any space. The feathery, bright green fronds emerge from a single trunk, creating a classic palm tree silhouette that evokes tropical paradise. However, Majesty Palm has a reputation as one of the most challenging houseplants - it's frequently sold as an easy-care plant but actually requires very bright light, high humidity, consistent watering, and specific conditions that are difficult to replicate indoors. Many struggle and decline in typical home environments. Success requires dedication to meeting its demanding tropical needs, but when happy, it's a stunning focal point.",
@@ -17,7 +17,7 @@
   "humidity": "50-60% minimum",
   "careInstructions": [
     "Water when top 1-2 inches of soil are dry - keep consistently moist",
-    "Requires very bright light - 6+ hours near a bright window, some direct sun beneficial",
+    "Needs bright, indirect light - direct sun scorches the fronds",
     "Maintain moderate to high humidity with humidifier or frequent misting",
     "Use well-draining potting mix that retains some moisture",
     "Fertilize every 2-4 weeks during growing season with palm fertilizer",
@@ -34,9 +34,30 @@
     "Overall decline: Most common - conditions too far from natural tropical habitat"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 5,
+      "dryness": "keep_moist",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 85
+      "idealMaxF": 85,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 50,
@@ -61,11 +82,30 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Usually sold as three or more plants in one pot — you can divide them into separate pots.",
+    "Grows much more slowly indoors than in the wild, and can be hard to keep happy indoors.",
+    "Yellow fronds can mean too little light, too little or too much water, dry air, or a nutrient shortage."
+  ],
+  "propagation": {
+    "methods": [
+      "division"
+    ],
+    "tip": "Separate the individual plants in a multi-plant pot.",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Majesty Palm (Ravenea rivularis)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/majesty-palm"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Ravenea rivularis",
+      "url": "https://plants.ces.ncsu.edu/plants/ravenea-rivularis/"
     }
   ],
   "taxonomy": {
@@ -74,6 +114,12 @@
     "gbifKey": 2739031
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Only one institutional source (NC State) — MOBOT has no page for this species.",
+      "Winter watering interval (5 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: light was \"Bright Indirect to Direct Light\" with \"some direct sun beneficial\" — NC State says direct sun scorches it."
+    ]
   }
 }

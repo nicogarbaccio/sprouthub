@@ -50,6 +50,14 @@
     "Powdery mildew: Poor air circulation - improve ventilation"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 5,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 50,
       "idealMaxF": 70
@@ -67,11 +75,35 @@
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     }
   },
+  "whatsNormal": [
+    "Indoors it stays in its climbing form with lobed leaves. The shrubby adult form, with toxic blue-black berries, only develops on old outdoor plants.",
+    "Don't plant it outdoors: English ivy is invasive in much of the US, smothers trees and is very hard to remove."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Stems root wherever a node touches the soil — pin one down or root a cutting.",
+    "sourceIds": [
+      "mobot",
+      "ncsu"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Branching Ivy (Hedera helix)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/branching-ivy"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Hedera helix",
+      "url": "https://plants.ces.ncsu.edu/plants/hedera-helix/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Hedera helix",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276595&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -80,6 +112,11 @@
     "gbifKey": 8351737
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Both sources focus on English ivy as an outdoor ground cover; indoor light, temperature and humidity values are from the original catalog.",
+      "Winter watering interval (5 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+    ]
   }
 }

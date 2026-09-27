@@ -9,7 +9,7 @@
   "imagePath": "Parlor%20Palm.jpg",
   "wateringFrequency": "Weekly",
   "suggestedWateringDays": 7,
-  "lightRequirement": "Low to Medium Light",
+  "lightRequirement": "Low to Bright Indirect Light",
   "careLevel": "Easy",
   "category": "Palms",
   "description": "Native to the rainforests of southern Mexico and Guatemala, Parlor Palm has been a beloved houseplant since Victorian times when it graced the parlors of wealthy homes, earning its common name. This graceful, compact palm features delicate, arching fronds composed of small leaflets that bring tropical elegance without the space demands of larger palms. Growing slowly to 2-4 feet indoors (6 feet maximum), it's perfectly sized for apartments and small spaces. Unlike most palms, Parlor Palm thrives in low to medium light and tolerates typical indoor conditions remarkably well, making it one of the easiest and most forgiving palms for beginners. It's also an excellent air purifier, and occasionally produces tiny yellow flowers even indoors, adding to its charm.",
@@ -21,10 +21,10 @@
     "Keep soil consistently moist but never waterlogged",
     "Thrives in low to medium indirect light - tolerates shade well",
     "Use well-draining potting mix that retains some moisture",
-    "Fertilize every 2-3 months during growing season with diluted palm fertilizer",
+    "Fertilize monthly during the growing season with diluted palm fertilizer - none in winter",
     "Mist fronds occasionally to increase humidity and remove dust",
     "Trim only brown or dead fronds at base - never cut green growth",
-    "Repot only when severely root-bound (every 2-3 years)"
+    "Repot only when needed - about every other year"
   ],
   "commonProblems": [
     "Brown frond tips: Fluoride/chlorine in tap water, low humidity, or underwatering",
@@ -35,6 +35,28 @@
     "Root rot: Overwatering or pot without drainage holes"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "low",
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 80
@@ -45,14 +67,27 @@
     },
     "fertilizing": {
       "weeks": [
-        9,
-        13
+        4,
+        4
       ],
       "fertilizerType": "Diluted palm fertilizer",
-      "tip": "Fertilize every 2-3 months during growing season with diluted palm fertilizer"
+      "tip": "Fertilize monthly during the growing season with diluted palm fertilizer - none in winter",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
     },
     "repotting": {
-      "tip": "Repot only when severely root-bound (every 2-3 years)"
+      "tip": "Repot only when needed - about every other year",
+      "everyYears": [
+        2,
+        2
+      ],
+      "soil": "Humus-rich, peaty, soil-based potting mix",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     }
   },
   "toxicityDetail": {
@@ -65,11 +100,27 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Often sold as several plants per pot; over time some stems get crowded out and die.",
+    "Handles dry air and dim light better than most palms.",
+    "Only remove whole fronds or stems — it doesn't need other pruning.",
+    "Rarely fruits indoors; if it does, the fruit pulp can irritate skin."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Bamboo Palm (Chamaedorea elegans)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/bamboo-palm"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Chamaedorea elegans",
+      "url": "https://plants.ces.ncsu.edu/plants/chamaedorea-elegans/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Chamaedorea elegans",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276650&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -78,6 +129,12 @@
     "gbifKey": 2734661
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Watering: NC State says let the soil dry slightly; MOBOT says keep it uniformly moist. Set to \"top quarter dry\".",
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: fertilizing every 2-3 months → monthly, none in winter (MOBOT); repotting every 2-3 years → about every other year (NC State); light shown as \"Low to Bright Indirect Light\"."
+    ]
   }
 }

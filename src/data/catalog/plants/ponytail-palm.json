@@ -35,9 +35,34 @@
     "Pests (rare): Occasionally spider mites or mealybugs in dry conditions"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 42,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
-      "idealMaxF": 80
+      "idealMaxF": 80,
+      "coldDamageBelowF": 50,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 30,
@@ -52,8 +77,14 @@
       "tip": "Fertilize only 2-3 times per year during growing season"
     },
     "repotting": {
-      "tip": "Repot only when severely root-bound (every 3-5 years)"
-    }
+      "tip": "Repot only when severely root-bound (every 3-5 years)",
+      "soil": "Sharply drained cactus and succulent mix, in a relatively small pot",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "growthRate": "slow"
   },
   "toxicityDetail": {
     "cats": "non_toxic",
@@ -65,11 +96,27 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "The swollen base (caudex) stores water, which is why it copes with drought.",
+    "Brown leaf tips can be clipped off, and fading leaves peeled away.",
+    "Handles dry, heated winter air well.",
+    "Rarely flowers indoors."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Bottle Palm (Beaucarnea recurvata)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/bottle-palm"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Beaucarnea recurvata",
+      "url": "https://plants.ces.ncsu.edu/plants/beaucarnea-recurvata/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Beaucarnea recurvata",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=282253&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -78,6 +125,11 @@
     "gbifKey": 2768035
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Winter watering (42 days) is our estimate — NC State says greatly reduce watering in winter.",
+      "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+    ]
   }
 }

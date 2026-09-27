@@ -51,6 +51,26 @@
     "Spider mites or aphids: Treat with insecticidal soap"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 80
@@ -66,13 +86,37 @@
       ],
       "fertilizerType": "Balanced fertilizer",
       "tip": "Fertilize monthly during growing season with balanced fertilizer"
+    },
+    "repotting": {
+      "tip": "Repot every few years; trimming the roots keeps it a manageable size.",
+      "soil": "Soil-based potting mix",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     }
   },
+  "whatsNormal": [
+    "Leaves change shape as it matures — from arrowheads to lobed leaves, and eventually leaves split into 5-11 leaflets if it climbs.",
+    "To keep the arrowhead leaves and a bushy shape, cut off stems as they start to vine.",
+    "Direct sun burns or bleaches the leaves.",
+    "Rarely flowers indoors."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Arrow-Head Vine (Syngonium podophyllum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/arrow-head-vine"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Syngonium podophyllum",
+      "url": "https://plants.ces.ncsu.edu/plants/syngonium-podophyllum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Syngonium podophyllum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276453&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -81,6 +125,11 @@
     "gbifKey": 2867866
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "How dry to let it get isn't stated (MOBOT: \"water regularly\"). Kept our \"top 1-2 inches dry\" as \"top quarter dry\".",
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+    ]
   }
 }

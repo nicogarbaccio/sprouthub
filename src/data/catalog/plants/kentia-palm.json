@@ -22,7 +22,7 @@
     "Thrives in low to bright indirect light - extremely adaptable",
     "Avoid direct sun which can scorch fronds",
     "Clean fronds monthly with damp cloth to remove dust",
-    "Fertilize every 2-3 months during growing season with palm fertilizer",
+    "Fertilize infrequently during the growing season - a slow-release fertilizer is ideal",
     "Trim only brown or dead fronds - never cut green growth",
     "Very slow-growing - patience required but minimal pruning needed",
     "Rotate occasionally for even growth on all sides"
@@ -36,6 +36,26 @@
     "Lower fronds dying: Natural aging - trim at base when completely brown"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "medium",
+      "tolerates": [
+        "low",
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 75
@@ -49,9 +69,13 @@
         9,
         13
       ],
-      "fertilizerType": "Palm fertilizer",
-      "tip": "Fertilize every 2-3 months during growing season with palm fertilizer"
-    }
+      "fertilizerType": "Slow-release (encapsulated) houseplant fertilizer",
+      "tip": "Fertilize infrequently during the growing season - a slow-release fertilizer is ideal",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "growthRate": "slow"
   },
   "toxicityDetail": {
     "cats": "non_toxic",
@@ -63,11 +87,22 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Grows slowly.",
+    "Often sold as several plants in one pot. It doesn't sucker — each stem is its own plant, and single plants grow faster.",
+    "Copes with low light, dust, central heating and neglect better than most palms.",
+    "Dead tips on the leaflets of older fronds are a sign of potassium deficiency."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Forster Sentry Palm (Howea forsteriana)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/forster-sentry-palm"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Howea forsteriana",
+      "url": "https://plants.ces.ncsu.edu/plants/howea-forsteriana/"
     }
   ],
   "taxonomy": {
@@ -76,6 +111,13 @@
     "gbifKey": 7857942
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Only one institutional source (NC State) — MOBOT has no page for this species.",
+      "Watering: NC State says use a mix that doesn't dry out; our catalog says let the top 2 inches dry. Set to \"top quarter dry\".",
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: fertilizer guidance now says infrequent, slow-release (NC State). The 2-3 month interval is from the original catalog."
+    ]
   }
 }
