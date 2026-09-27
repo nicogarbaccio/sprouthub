@@ -25,9 +25,10 @@
       "Vomiting",
       "Difficulty swallowing"
     ],
-    "basis": "related_species",
+    "basis": "species",
     "sourceIds": [
-      "aspca"
+      "aspca",
+      "ncsu"
     ]
   },
   "temperature": "65-80°F (18-27°C)",
@@ -37,7 +38,7 @@
     "Use well-draining potting mix (orchid bark, perlite, and peat)",
     "Provide bright, indirect light - direct sun will scorch leaves",
     "Maintain high humidity with pebble tray, humidifier, or regular misting",
-    "Fertilize every 6-8 weeks with diluted balanced or phosphorus-rich fertilizer",
+    "Fertilize weekly during the growing season with a diluted liquid fertilizer",
     "Wipe leaves regularly to keep them glossy and remove dust",
     "Repot every 2-3 years in spring using loose, well-aerated mix",
     "Remove spent flowers by cutting at the base of the stem"
@@ -50,31 +51,96 @@
     "Root rot: Overwatering or poor drainage - ensure pot has drainage holes"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 7,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMaxF": 80,
+      "coldDamageBelowF": 60,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "humidity": {
       "minPct": 60,
-      "maxPct": 80
+      "maxPct": 80,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "fertilizing": {
       "weeks": [
-        6,
-        8
+        1,
+        1
       ],
-      "fertilizerType": "Diluted balanced or phosphorus-rich fertilizer",
-      "tip": "Fertilize every 6-8 weeks with diluted balanced or phosphorus-rich fertilizer"
+      "fertilizerType": "Diluted liquid fertilizer",
+      "tip": "Fertilize weekly during the growing season with a diluted liquid fertilizer",
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "repotting": {
-      "tip": "Repot every 2-3 years in spring using loose, well-aerated mix"
+      "tip": "Repot every 2-3 years in spring using loose, well-aerated mix",
+      "everyYears": [
+        2,
+        3
+      ],
+      "soil": "Well-drained, peaty potting mix",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     }
+  },
+  "whatsNormal": [
+    "The glossy red \"flower\" is a spathe; the true flowers are tiny, on the spike in its center.",
+    "Blooms can appear year-round in good conditions and last a long time.",
+    "Too much shade stops it blooming."
+  ],
+  "propagation": {
+    "methods": [
+      "division",
+      "stem_cutting"
+    ],
+    "tip": "Divide the clump when repotting in spring.",
+    "sourceIds": [
+      "ncsu"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Flamingo Flower (Anthurium scherzeranum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/flamingo-flower"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Anthurium andraeanum",
+      "url": "https://plants.ces.ncsu.edu/plants/anthurium-andraeanum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Anthurium andraeanum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276219&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -83,9 +149,12 @@
     "gbifKey": 2872695
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's entry for a related species (Anthurium scherzeranum)."
+      "Toxicity: NC State says A. andraeanum is toxic to pets and people; symptoms come from ASPCA's A. scherzerianum entry.",
+      "Watering: NC State says water when the top inch is dry; MOBOT says never let it dry out and water the same year-round (no winter rest). Winter interval kept at 7 days.",
+      "Changed: fertilizing every 6-8 weeks → weekly, diluted (NC State only; MOBOT doesn't say)."
     ]
   }
 }

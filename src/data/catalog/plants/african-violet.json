@@ -13,14 +13,14 @@
   "category": "Flowering Plants",
   "description": "Native to the cloud forests of Tanzania and Kenya, African Violets are beloved for their jewel-toned flowers in shades of purple, pink, blue, white, or bi-colors that bloom nearly year-round with proper care. These compact plants form rosettes of fuzzy, rounded leaves that are just as ornamental as the delicate five-petaled flowers that hover above them. Growing only 6-8 inches wide, they're perfect for small spaces, windowsills, or creating colorful collections. While they have a reputation for being fussy, modern cultivars are more forgiving, and once you understand their preferences for bottom watering and consistent conditions, they're rewarding and prolific bloomers that can flower continuously for months.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
-  "temperature": "65-75°F (18-24°C) - avoid temperature fluctuations",
+  "temperature": "60-80°F (16-27°C) - nights below 60°F stunt growth",
   "humidity": "50-60%",
   "careInstructions": [
     "Water from bottom by placing pot in water dish for 10-15 minutes until soil moistens",
     "Never get water on leaves or crown - causes spotting and rot",
     "Use room temperature water only - cold water causes leaf spots",
     "Provide 10-12 hours of bright, indirect light daily for continuous blooming",
-    "Use African violet-specific potting mix (light, well-draining, slightly acidic)",
+    "Use a light, porous mix - e.g. 2-3 parts peat moss (or coir), 2 parts vermiculite, 1 part perlite, with lime to offset the peat's acidity",
     "Fertilize every 2-3 weeks with African violet fertilizer at half strength",
     "Remove spent flowers and damaged leaves promptly to encourage more blooms",
     "Repot annually in fresh mix - they prefer being slightly rootbound"
@@ -34,9 +34,35 @@
     "Powdery mildew: Poor air circulation and high humidity on leaves"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 7,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
-      "idealMinF": 65,
-      "idealMaxF": 75
+      "idealMinF": 60,
+      "idealMaxF": 80,
+      "coldDamageBelowF": 60,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "humidity": {
       "minPct": 50,
@@ -51,7 +77,12 @@
       "tip": "Fertilize every 2-3 weeks with African violet fertilizer at half strength"
     },
     "repotting": {
-      "tip": "Repot annually in fresh mix - they prefer being slightly rootbound"
+      "tip": "Repot annually in fresh mix - they prefer being slightly rootbound",
+      "soil": "2-3 parts peat moss or coir, 2 parts vermiculite, 1 part perlite; set the crown just above the soil",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     }
   },
   "toxicityDetail": {
@@ -64,11 +95,27 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Flowers almost continuously when it's happy.",
+    "Water on the leaves leaves pale spots or rings — keep the foliage dry.",
+    "A cold night (below 60°F) stunts it, and it is slow to recover.",
+    "North or east windows suit it in summer; a sunnier window is better in winter."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: African Violet (Saintpaulia spp.)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/african-violet"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Streptocarpus ionanthus",
+      "url": "https://plants.ces.ncsu.edu/plants/streptocarpus-ionanthus/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Saintpaulia ionantha",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=280890&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -77,9 +124,15 @@
     "gbifKey": 6710927
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Saintpaulia spp.), not a page for this species."
+      "Toxicity: based on ASPCA's genus-wide entry (Saintpaulia spp.), not a page for this species.",
+      "Watering: NC State says let the surface dry between waterings; MOBOT says keep the soil moist at all times. Set to \"top quarter dry\".",
+      "Humidity: NC State says it needs high humidity and dislikes dry air; MOBOT says it adjusts well to dry home air. Kept our 50-60%.",
+      "Repotting: only the soil mix is sourced; \"repot annually\" is from the original catalog.",
+      "Winter watering (7 days) is our estimate — neither source mentions a winter rest.",
+      "Changed: ideal temperature 65-75°F → 60-80°F (both sources)."
     ]
   }
 }

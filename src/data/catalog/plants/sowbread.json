@@ -50,6 +50,26 @@
     "No re-blooming: Didn't respect dormancy period or plant needs rest"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 3,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 50,
       "idealMaxF": 65
@@ -59,11 +79,36 @@
       "maxPct": 60
     }
   },
+  "whatsNormal": [
+    "It goes dormant in summer: the leaves yellow and drop. That is normal — keep the tuber barely moist and it regrows in fall.",
+    "Blooms from early winter to spring in cool (around 65°F) rooms.",
+    "Low light gives weak plants with smaller, paler blooms."
+  ],
+  "propagation": {
+    "methods": [
+      "seed",
+      "division"
+    ],
+    "tip": "Grow from fresh seed; dividing the tuber is possible but it rots easily.",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Cyclamen (Cyclamen spp)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/cyclamen"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Cyclamen persicum",
+      "url": "https://plants.ces.ncsu.edu/plants/cyclamen-persicum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Cyclamen persicum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=285595&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -72,9 +117,11 @@
     "gbifKey": 3169317
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Cyclamen spp), not a page for this species."
+      "Toxicity: based on ASPCA's genus-wide entry (Cyclamen spp), not a page for this species.",
+      "Seasons are reversed: cyclamen grows and blooms in winter and is dormant in summer, the opposite of sprouthub's growing/dormant model. The winter interval is set to its normal 3 days; summer reminders will be too frequent. Needs the same \"no water this season\" follow-up as Lithops."
     ]
   }
 }

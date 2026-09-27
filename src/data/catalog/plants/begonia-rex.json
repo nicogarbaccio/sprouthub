@@ -28,15 +28,15 @@
       "aspca"
     ]
   },
-  "temperature": "60-75°F (15-24°C)",
-  "humidity": "50-70%",
+  "temperature": "60-70°F (16-21°C) - about 70°F by day, 60°F at night",
+  "humidity": "50-80% - high humidity is essential",
   "careInstructions": [
-    "Keep soil consistently moist but never soggy - water when top inch is dry",
+    "Let the soil surface get almost dry between waterings - check with a finger",
     "Use well-draining potting mix rich in organic matter",
     "Provide bright, indirect light - too much sun fades the vibrant leaf patterns",
     "Maintain high humidity with pebble tray or humidifier - critical for health",
     "Water soil directly, never wet the leaves to prevent powdery mildew",
-    "Fertilize every 2-3 weeks during growing season with diluted balanced fertilizer",
+    "From spring, fertilize every two weeks at quarter strength with a balanced fertilizer; taper off in fall and stop in winter",
     "Remove small flowers as they appear to direct energy to foliage",
     "Rotate plant weekly for even growth and color development"
   ],
@@ -49,28 +49,96 @@
     "Leggy growth: Insufficient light - provide brighter conditions"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 14,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
-      "idealMaxF": 75
+      "idealMaxF": 70,
+      "coldDamageBelowF": 55,
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 50,
-      "maxPct": 70
+      "maxPct": 80,
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
     },
     "fertilizing": {
       "weeks": [
         2,
-        3
+        2
       ],
-      "fertilizerType": "Diluted balanced fertilizer",
-      "tip": "Fertilize every 2-3 weeks during growing season with diluted balanced fertilizer"
+      "fertilizerType": "Balanced fertilizer at quarter strength",
+      "tip": "From spring, fertilize every two weeks at quarter strength with a balanced fertilizer; taper off in fall and stop in winter",
+      "sourceIds": [
+        "mobot"
+      ]
+    },
+    "repotting": {
+      "tip": "Use a shallow pot and a porous mix.",
+      "soil": "Porous, organically rich mix, slightly acidic",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
     }
+  },
+  "whatsNormal": [
+    "Many rex begonias go dormant in fall or winter and drop some or all of their leaves. Water sparingly until new leaves appear in spring.",
+    "Rex begonias are grown for their leaves and aren't easy-care plants — humidity and careful watering matter most.",
+    "A rhizome that grows long and bare can be cut back; it regrows and the cutting can be rooted."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting",
+      "leaf_cutting",
+      "division"
+    ],
+    "tip": "Root a piece of rhizome or a leaf, or divide the plant.",
+    "sourceIds": [
+      "mobot",
+      "ncsu"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Begonia (Begonia spp.)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/begonia"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Begonia",
+      "url": "https://plants.ces.ncsu.edu/plants/begonia/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Begonia rex-cultorum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=242218&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -79,9 +147,14 @@
     "gbifKey": 4930983
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Begonia spp.), not a page for this species."
+      "Toxicity: based on ASPCA's genus-wide entry (Begonia spp.), not a page for this species.",
+      "Humidity: MOBOT says more than 50%; NC State says rex begonias need more than 75%. Range set to 50-80%.",
+      "NC State's page covers the whole Begonia genus.",
+      "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: temperature 60-75°F → 60-70°F; fertilizing every 2-3 weeks → every 2 weeks at quarter strength from spring, stopping in winter (MOBOT)."
     ]
   }
 }

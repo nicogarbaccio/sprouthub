@@ -48,6 +48,27 @@
     "Edema (corky bumps on leaves): Overwatering - allow to dry more between waterings"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 14,
+      "dryness": "top_half",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 75
@@ -65,11 +86,36 @@
       "tip": "Fertilize every 2-3 weeks during active growth with balanced fertilizer"
     }
   },
+  "whatsNormal": [
+    "Gets leggy and blooms poorly in too little light.",
+    "Over winter, keep it in a bright, cool window with less water — or let it go dormant in a cool, dark spot, watering only when it wilts, for stronger blooms next season."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting",
+      "seed"
+    ],
+    "tip": "Take stem cuttings in late summer to overwinter.",
+    "sourceIds": [
+      "ncsu",
+      "mobot"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Geranium (Pelargonium species)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/geranium"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Pelargonium × hortorum",
+      "url": "https://plants.ces.ncsu.edu/plants/pelargonium-hortorum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Pelargonium × hortorum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=263626&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -78,9 +124,12 @@
     "gbifKey": 2891604
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Pelargonium species), not a page for this species."
+      "Toxicity: based on ASPCA's genus-wide entry (Pelargonium species), not a page for this species.",
+      "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited.",
+      "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
     ]
   }
 }

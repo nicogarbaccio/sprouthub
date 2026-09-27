@@ -17,12 +17,12 @@
   "temperature": "60-75°F (15-24°C)",
   "humidity": "40-60%",
   "careInstructions": [
-    "Water when top inch of soil is dry - keep consistently moist during blooming",
+    "Water regularly, letting the soil dry somewhat between waterings",
     "Provide at least 4-6 hours of direct or very bright indirect light daily",
     "Use well-draining potting mix rich in organic matter",
     "Deadhead spent flower clusters regularly to encourage continuous blooming",
     "Pinch growing tips every few weeks to promote bushier growth and more flowers",
-    "Fertilize every 2-3 weeks during blooming season with balanced fertilizer",
+    "Fertilize monthly during the growing season with a balanced fertilizer",
     "Can be moved outdoors in summer where it attracts butterflies",
     "Prune back by one-third in late winter to rejuvenate plant"
   ],
@@ -35,6 +35,27 @@
     "Spider mites: Especially in dry indoor air - increase humidity and treat"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 7,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 75
@@ -45,11 +66,14 @@
     },
     "fertilizing": {
       "weeks": [
-        2,
-        3
+        4,
+        4
       ],
       "fertilizerType": "Balanced fertilizer",
-      "tip": "Fertilize every 2-3 weeks during blooming season with balanced fertilizer"
+      "tip": "Fertilize monthly during the growing season with a balanced fertilizer",
+      "sourceIds": [
+        "mobot"
+      ]
     }
   },
   "toxicityDetail": {
@@ -59,15 +83,46 @@
     "symptoms": [],
     "basis": "none"
   },
+  "whatsNormal": [
+    "Outdoors the flowers draw hummingbirds, butterflies and other pollinators.",
+    "Best overwintered in a bright, cool spot (50-59°F) with less water."
+  ],
+  "propagation": {
+    "methods": [
+      "seed",
+      "stem_cutting"
+    ],
+    "tip": "Take cuttings in late summer to overwinter, or start seed indoors in late winter.",
+    "sourceIds": [
+      "ncsu",
+      "mobot"
+    ]
+  },
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Pentas lanceolata",
+      "url": "https://plants.ces.ncsu.edu/plants/pentas-lanceolata/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Pentas lanceolata",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=286726&isprofile=1"
+    }
+  ],
   "taxonomy": {
     "acceptedName": "Pentas lanceolata",
     "family": "Rubiaceae",
     "gbifKey": 2908986
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
+      "Humidity: both sources say it needs high humidity when kept as a houseplant; our catalog says 40-60%. Left unchanged.",
+      "Winter watering (7 days) is our estimate — MOBOT says reduce watering over winter.",
+      "Changed: \"keep consistently moist\" → let the soil dry somewhat between waterings; fertilizing every 2-3 weeks → monthly (MOBOT)."
     ]
   }
 }

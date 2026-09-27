@@ -16,14 +16,14 @@
   "temperature": "65-85°F (18-29°C) - loves heat",
   "humidity": "40-60%",
   "careInstructions": [
-    "Allow soil to dry out between waterings - drought stress actually encourages blooming",
-    "Water thoroughly when dry, then let it dry significantly before watering again",
+    "Water deeply, then let the soil dry out between waterings",
+    "Water freely in summer and sparingly in winter",
     "Provide maximum direct sunlight - 6+ hours daily, more is better",
-    "Use well-draining cactus or sandy potting mix",
+    "Use a well-drained, slightly acidic, organically rich mix",
     "Prune after flowering to maintain shape and control size - wear gloves!",
     "Provide trellis or support for climbing growth habit",
-    "Fertilize monthly during growing season with low-nitrogen, high-phosphorus fertilizer",
-    "Reduce watering in winter to trigger dormancy and spring bloom cycle"
+    "Fertilize every two weeks during the growing season, and stop in winter",
+    "Give it a cool winter rest - it drops most of its leaves, which it needs in order to flower. Move it somewhere warm and bright from March"
   ],
   "commonProblems": [
     "Lack of color: Insufficient direct sunlight - needs maximum sun exposure",
@@ -34,6 +34,25 @@
     "Root rot: Overwatering - allow to dry significantly between waterings"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 21,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 85
@@ -44,11 +63,14 @@
     },
     "fertilizing": {
       "weeks": [
-        4,
-        4
+        2,
+        2
       ],
       "fertilizerType": "Low-nitrogen, high-phosphorus fertilizer",
-      "tip": "Fertilize monthly during growing season with low-nitrogen, high-phosphorus fertilizer"
+      "tip": "Fertilize every two weeks during the growing season, and stop in winter",
+      "sourceIds": [
+        "mobot"
+      ]
     }
   },
   "toxicityDetail": {
@@ -58,15 +80,36 @@
     "symptoms": [],
     "basis": "none"
   },
+  "whatsNormal": [
+    "Drops most of its leaves during the cool winter rest — it needs that rest to flower.",
+    "The bright \"petals\" are bracts; the true flowers are small and white to yellow.",
+    "Sharp thorns — keep it out of busy walkways."
+  ],
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Bougainvillea spectabilis",
+      "url": "https://plants.ces.ncsu.edu/plants/bougainvillea-spectabilis/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Bougainvillea",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=264583&isprofile=1"
+    }
+  ],
   "taxonomy": {
     "acceptedName": "Bougainvillea spectabilis",
     "family": "Nyctaginaceae",
     "gbifKey": 7167078
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\". The University of California lists bougainvillea thorns as a skin irritant for people."
+      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\". The University of California lists bougainvillea thorns as a skin irritant for people.",
+      "Low-nitrogen, high-phosphorus fertilizer type is from the original catalog; MOBOT only gives the every-two-weeks timing.",
+      "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: removed \"drought stress encourages blooming\" and the cactus-mix advice (both sources: rich, well-drained soil, water freely in summer); fertilizing monthly → every two weeks; added the cool winter rest it needs to flower (MOBOT)."
     ]
   }
 }

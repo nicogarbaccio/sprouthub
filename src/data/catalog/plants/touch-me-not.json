@@ -35,6 +35,27 @@
     "Stem rot at soil line: Overwatering combined with poor drainage"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 5,
+      "dryness": "keep_moist",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 75
@@ -62,11 +83,37 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Wilts in hot, dry spells and needs extra water then.",
+    "Gets leggy by late summer — trim off the top third to refresh it.",
+    "Ripe seed pods burst open at a touch, which is where the name comes from."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting",
+      "seed"
+    ],
+    "tip": "Root cuttings in late summer or fall to overwinter.",
+    "sourceIds": [
+      "ncsu",
+      "mobot"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Buzzy Lizzie (Impatiens spp.)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/buzzy-lizzie"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Impatiens walleriana",
+      "url": "https://plants.ces.ncsu.edu/plants/impatiens-walleriana/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Impatiens walleriana",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=263721&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -75,9 +122,12 @@
     "gbifKey": 2891772
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Impatiens spp.), not a page for this species."
+      "Toxicity: based on ASPCA's genus-wide entry (Impatiens spp.), not a page for this species.",
+      "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited.",
+      "Winter watering (5 days) is our estimate — MOBOT says reduce watering for the winter rest."
     ]
   }
 }

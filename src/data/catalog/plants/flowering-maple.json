@@ -35,6 +35,27 @@
     "Leaf drop: Sudden environmental changes, drafts, or inconsistent watering"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 5,
+      "dryness": "keep_moist",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 75
@@ -59,16 +80,44 @@
     "symptoms": [],
     "basis": "none"
   },
+  "whatsNormal": [
+    "Stems are naturally weak — pinch young plants for sturdier, bushier growth.",
+    "Leaves may wilt in hot afternoon sun.",
+    "Blooms throughout the growing season; indoors it does best with plenty of direct sun and cool temperatures."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Take tip cuttings in late summer to overwinter indoors.",
+    "sourceIds": [
+      "mobot"
+    ]
+  },
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Abutilon",
+      "url": "https://plants.ces.ncsu.edu/plants/abutilon/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Abutilon × hybridum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=291793&isprofile=1"
+    }
+  ],
   "taxonomy": {
     "acceptedName": "Abutilon hybridum",
     "family": "Malvaceae",
     "gbifKey": 3938295
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "GBIF marks \"Abutilon hybridum\" as a doubtful name — confirm the accepted name for this hybrid.",
-      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
+      "Both sources describe hybrid flowering maples generally, not a single species.",
+      "Winter watering interval (5 days) is our estimate — the sources only say to reduce watering from fall to late winter."
     ]
   }
 }

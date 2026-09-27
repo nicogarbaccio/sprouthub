@@ -9,7 +9,7 @@
   "imagePath": "Flaming%20Katy.jpg",
   "wateringFrequency": "Every 10-14 days",
   "suggestedWateringDays": 10,
-  "lightRequirement": "Bright Direct Light",
+  "lightRequirement": "Bright Indirect to Direct Light",
   "careLevel": "Easy",
   "category": "Flowering Plants",
   "description": "A succulent flowering plant from Madagascar, Flaming Katy produces dense clusters of small, colorful four-petaled flowers in vibrant reds, pinks, oranges, yellows, or white that can last 6-8 weeks. The flowers sit atop thick, glossy, scalloped leaves that store water, making this plant remarkably drought-tolerant and forgiving of occasional neglect. Growing 6-12 inches tall, it's a popular gift plant during holidays due to its long-lasting blooms and easy care requirements. As a succulent, it needs less water than typical flowering plants and thrives on benign neglect. With proper rest periods and bright light, kalanchoe can be encouraged to rebloom year after year, providing colorful displays multiple times annually.",
@@ -23,9 +23,10 @@
       "Diarrhea",
       "Abnormal heart rhythm (rare)"
     ],
-    "basis": "genus",
+    "basis": "species",
     "sourceIds": [
-      "aspca"
+      "aspca",
+      "ncsu"
     ]
   },
   "temperature": "60-85°F (15-29°C)",
@@ -33,12 +34,12 @@
   "careInstructions": [
     "Water thoroughly only when soil is completely dry - typically every 10-14 days",
     "Use well-draining cactus/succulent potting mix",
-    "Provide at least 6 hours of bright, direct sunlight for abundant flowering",
+    "Give it 6-8 hours of bright light daily - some direct sun is fine, but shade it from hot afternoon sun",
     "Remove spent flower clusters by cutting stem at base",
     "After flowering, cut back stems by half to encourage bushiness",
-    "To trigger reblooming: Give 12-14 hours of complete darkness for 6 weeks",
-    "Fertilize monthly during active growth with diluted succulent fertilizer",
-    "Allow plant to rest in cooler temps (55-60°F) during fall darkness period"
+    "To trigger reblooming: give it 14 hours of complete darkness each night for at least 6 weeks in fall or winter",
+    "Fertilize monthly during active growth with a balanced or higher-phosphorus fertilizer; feed less while triggering blooms",
+    "Keep it around 70°F by day and 60°F at night while triggering blooms - too cold or too hot can stop flowering"
   ],
   "commonProblems": [
     "No flowers after first bloom: Needs darkness treatment (12-14 hours for 6 weeks)",
@@ -48,9 +49,34 @@
     "Short bloom period: Natural, but cooler temps (60-65°F) extend flowering"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 14,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
-      "idealMaxF": 85
+      "idealMaxF": 85,
+      "coldDamageBelowF": 45,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 30,
@@ -61,15 +87,44 @@
         4,
         4
       ],
-      "fertilizerType": "Diluted succulent fertilizer",
-      "tip": "Fertilize monthly during active growth with diluted succulent fertilizer"
+      "fertilizerType": "Balanced or higher-phosphorus fertilizer",
+      "tip": "Fertilize monthly during active growth with a balanced or higher-phosphorus fertilizer; feed less while triggering blooms",
+      "sourceIds": [
+        "mobot"
+      ]
     }
+  },
+  "whatsNormal": [
+    "If it won't rebloom, it isn't getting long enough dark nights — even room lights can interrupt them.",
+    "Blooms about four months after its six weeks of long nights, and the flowers last for weeks.",
+    "Tiny plantlets sometimes form along the leaf edges — they can be potted up."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting",
+      "leaf_cutting"
+    ],
+    "tip": "Root stem or leaf cuttings, or pot up plantlets from the leaf edges.",
+    "sourceIds": [
+      "ncsu",
+      "mobot"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Kalanchoe (Kalanchoe spp)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/kalanchoe"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Kalanchoe blossfeldiana",
+      "url": "https://plants.ces.ncsu.edu/plants/kalanchoe-blossfeldiana/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Kalanchoe blossfeldiana",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=279373&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -78,9 +133,13 @@
     "gbifKey": 2985944
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Kalanchoe spp), not a page for this species."
+      "Toxicity: NC State says K. blossfeldiana is toxic to children, dogs and cats; symptoms come from ASPCA's Kalanchoe entry. Horses aren't rated.",
+      "Monthly fertilizing is from the original catalog; MOBOT only specifies the fertilizer type.",
+      "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: bloom trigger 12-14 → 14 hours of darkness, at 70°F days / 60°F nights (both sources); light now \"Bright Indirect to Direct\" with afternoon shade (NC State)."
     ]
   }
 }
