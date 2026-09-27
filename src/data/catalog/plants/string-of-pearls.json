@@ -147,20 +147,23 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately."
+        "note": "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Cold threshold is frost (32°F) — both sources only say it is frost-intolerant."
+        "note": "Cold threshold is frost (32°F) — both sources only say it is frost-intolerant.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

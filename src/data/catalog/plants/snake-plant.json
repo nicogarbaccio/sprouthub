@@ -116,6 +116,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Dracaena trifasciata",
+    "family": "Asparagaceae",
+    "gbifKey": 11041822
+  },
   "sources": [
     {
       "id": "ncsu",
@@ -133,18 +138,14 @@
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/golden-birds-nest"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Dracaena trifasciata",
-    "family": "Asparagaceae",
-    "gbifKey": 11041822
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "estimate",
-        "note": "Winter watering: NC State says every one to two months; 42 days is a midpoint."
+        "note": "Winter watering: NC State says every one to two months; 42 days is a midpoint.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

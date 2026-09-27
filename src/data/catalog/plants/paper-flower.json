@@ -103,20 +103,23 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\". The University of California lists bougainvillea thorns as a skin irritant for people."
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\". The University of California lists bougainvillea thorns as a skin irritant for people.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Low-nitrogen, high-phosphorus fertilizer type is from the original catalog; MOBOT only gives the every-two-weeks timing."
+        "note": "Low-nitrogen, high-phosphorus fertilizer type is from the original catalog; MOBOT only gives the every-two-weeks timing.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

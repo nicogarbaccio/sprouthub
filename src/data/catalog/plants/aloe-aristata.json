@@ -105,20 +105,23 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\". ASPCA lists true aloes (Aloe vera) as toxic; this plant is now in a separate genus (Aristaloe)."
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\". ASPCA lists true aloes (Aloe vera) as toxic; this plant is now in a separate genus (Aristaloe).",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Only one source (MOBOT) — NC State has no page for it."
+        "note": "Only one source (MOBOT) — NC State has no page for it.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

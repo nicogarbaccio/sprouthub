@@ -101,6 +101,11 @@
     "Rarely flowers or fruits indoors.",
     "Drops leaves when watering swings between too much and too little, and gets brown spots near heating or cooling vents."
   ],
+  "taxonomy": {
+    "acceptedName": "Ficus lyrata",
+    "family": "Moraceae",
+    "gbifKey": 5361899
+  },
   "sources": [
     {
       "id": "ncsu",
@@ -118,26 +123,24 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=282753&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Ficus lyrata",
-    "family": "Moraceae",
-    "gbifKey": 5361899
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: ratings from ASPCA's Ficus entry; symptoms and severity from NC State's Ficus lyrata page."
+        "note": "Toxicity: ratings from ASPCA's Ficus entry; symptoms and severity from NC State's Ficus lyrata page.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "How dry to let it get isn't stated — sources only say \"water regularly, avoid overwatering\". Set to \"top quarter dry\"."
+        "note": "How dry to let it get isn't stated — sources only say \"water regularly, avoid overwatering\". Set to \"top quarter dry\".",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

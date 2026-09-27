@@ -140,20 +140,23 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's genus-wide entry (Saintpaulia spp.), not a page for this species."
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Saintpaulia spp.), not a page for this species.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Repotting: only the soil mix is sourced; \"repot annually\" is from the original catalog."
+        "note": "Repotting: only the soil mix is sourced; \"repot annually\" is from the original catalog.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering (7 days) is our estimate — neither source mentions a winter rest."
+        "note": "Winter watering (7 days) is our estimate — neither source mentions a winter rest.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

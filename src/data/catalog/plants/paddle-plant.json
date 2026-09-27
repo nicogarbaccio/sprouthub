@@ -105,6 +105,11 @@
       "uw"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Kalanchoe luciae",
+    "family": "Crassulaceae",
+    "gbifKey": 7334254
+  },
   "sources": [
     {
       "id": "aspca",
@@ -117,30 +122,29 @@
       "url": "https://hort.extension.wisc.edu/articles/flapjacks-kalanchoe-spp/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Kalanchoe luciae",
-    "family": "Crassulaceae",
-    "gbifKey": 7334254
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's genus-wide entry (Kalanchoe spp), not a page for this species."
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Kalanchoe spp), not a page for this species.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Only one source (Wisconsin), covering both flapjack species (K. luciae and K. thyrsiflora)."
+        "note": "Only one source (Wisconsin), covering both flapjack species (K. luciae and K. thyrsiflora).",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "note",
-        "note": "Cold threshold 32°F: Wisconsin says the leaves are damaged at about 30°F."
+        "note": "Cold threshold 32°F: Wisconsin says the leaves are damaged at about 30°F.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Our care text's advice to cut the flower stalk to delay the rosette dying isn't in the source."
+        "note": "Our care text's advice to cut the flower stalk to delay the rosette dying isn't in the source.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

@@ -120,16 +120,18 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering (7 days) is our estimate — MOBOT says reduce watering over winter."
+        "note": "Winter watering (7 days) is our estimate — MOBOT says reduce watering over winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",
@@ -138,7 +140,8 @@
       },
       {
         "type": "estimate",
-        "note": "Humidity — both sources say it needs high humidity as a houseplant; our catalog said 40-60%. The 50-70% numbers are our estimate of \"high\"."
+        "note": "Humidity — both sources say it needs high humidity as a houseplant; our catalog said 40-60%. The 50-70% numbers are our estimate of \"high\".",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

@@ -151,16 +151,18 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: NC State says Schlumbergera × buckleyi is non-toxic and safe with pets and children; the horse rating comes from ASPCA's S. bridgesii entry."
+        "note": "Toxicity: NC State says Schlumbergera × buckleyi is non-toxic and safe with pets and children; the horse rating comes from ASPCA's S. bridgesii entry.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

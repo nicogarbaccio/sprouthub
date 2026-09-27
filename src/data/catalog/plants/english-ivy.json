@@ -89,6 +89,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Hedera helix",
+    "family": "Araliaceae",
+    "gbifKey": 8351737
+  },
   "sources": [
     {
       "id": "aspca",
@@ -106,22 +111,19 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276595&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Hedera helix",
-    "family": "Araliaceae",
-    "gbifKey": 8351737
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "source_gap",
-        "note": "Both sources focus on English ivy as an outdoor ground cover; indoor light, temperature and humidity values are from the original catalog."
+        "note": "Both sources focus on English ivy as an outdoor ground cover; indoor light, temperature and humidity values are from the original catalog.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (5 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (5 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

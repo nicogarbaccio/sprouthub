@@ -117,6 +117,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Yucca gigantea",
+    "family": "Asparagaceae",
+    "gbifKey": 2775716
+  },
   "sources": [
     {
       "id": "aspca",
@@ -134,22 +139,19 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=282249&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Yucca gigantea",
-    "family": "Asparagaceae",
-    "gbifKey": 2775716
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: NC State lists Y. gigantea leaves and roots as toxic to people, cats, dogs and horses; symptoms come from ASPCA's Yucca entry."
+        "note": "Toxicity: NC State lists Y. gigantea leaves and roots as toxic to people, cats, dogs and horses; symptoms come from ASPCA's Yucca entry.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering (28 days) matches our original catalog; MOBOT says reduce to the minimum and keep the soil dry."
+        "note": "Winter watering (28 days) matches our original catalog; MOBOT says reduce to the minimum and keep the soil dry.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

@@ -116,6 +116,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Alocasia mortfontanensis",
+    "family": "Araceae",
+    "gbifKey": 5532250
+  },
   "sources": [
     {
       "id": "aspca",
@@ -133,22 +138,19 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=259315&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Alocasia mortfontanensis",
-    "family": "Araceae",
-    "gbifKey": 5532250
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: NC State says all parts of this hybrid are toxic; per-animal ratings and symptoms come from ASPCA's Alocasia entry."
+        "note": "Toxicity: NC State says all parts of this hybrid are toxic; per-animal ratings and symptoms come from ASPCA's Alocasia entry.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering (7 days) is our estimate — both sources say reduce watering in winter."
+        "note": "Winter watering (7 days) is our estimate — both sources say reduce watering in winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

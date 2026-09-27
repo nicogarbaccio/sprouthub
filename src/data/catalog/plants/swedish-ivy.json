@@ -125,12 +125,13 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: ASPCA's Swedish Ivy entry uses Plectranthus australis, the name this plant is sold under (MOBOT notes it is a misapplied name for P. verticillatus), so it covers this plant."
+        "note": "Toxicity: ASPCA's Swedish Ivy entry uses Plectranthus australis, the name this plant is sold under (MOBOT notes it is a misapplied name for P. verticillatus), so it covers this plant.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "disagreement",
@@ -139,7 +140,8 @@
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

@@ -134,12 +134,13 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's genus-wide entry (Phalaenopsis sp.), not a page for this species."
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Phalaenopsis sp.), not a page for this species.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

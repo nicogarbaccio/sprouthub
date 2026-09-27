@@ -136,7 +136,7 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
@@ -146,7 +146,8 @@
       },
       {
         "type": "estimate",
-        "note": "Winter watering stays at every 3 days — MOBOT says water regularly but moderately year-round, and NC State recommends twice a week."
+        "note": "Winter watering stays at every 3 days — MOBOT says water regularly but moderately year-round, and NC State recommends twice a week.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

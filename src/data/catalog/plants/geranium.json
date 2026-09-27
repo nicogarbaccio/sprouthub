@@ -101,6 +101,11 @@
       "mobot"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Pelargonium hortorum",
+    "family": "Geraniaceae",
+    "gbifKey": 2891604
+  },
   "sources": [
     {
       "id": "aspca",
@@ -118,26 +123,24 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=263626&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Pelargonium hortorum",
-    "family": "Geraniaceae",
-    "gbifKey": 2891604
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's genus-wide entry (Pelargonium species), not a page for this species."
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Pelargonium species), not a page for this species.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited."
+        "note": "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

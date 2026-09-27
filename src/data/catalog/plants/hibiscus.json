@@ -112,6 +112,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Hibiscus rosa-sinensis",
+    "family": "Malvaceae",
+    "gbifKey": 3152559
+  },
   "sources": [
     {
       "id": "mobot",
@@ -134,26 +139,24 @@
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/hibiscus"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Hibiscus rosa-sinensis",
-    "family": "Malvaceae",
-    "gbifKey": 3152559
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "source_gap",
-        "note": "No source gives a cold-damage temperature, so weather alerts have no threshold for this plant. MOBOT/TAMU say to overwinter at 55–60°F."
+        "note": "No source gives a cold-damage temperature, so weather alerts have no threshold for this plant. MOBOT/TAMU say to overwinter at 55–60°F.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (7 days) is our estimate — MOBOT says \"reduced watering\" at 60°F."
+        "note": "Winter watering interval (7 days) is our estimate — MOBOT says \"reduced watering\" at 60°F.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "toxicity",
-        "note": "Toxicity: ASPCA's hibiscus pages cover Hibiscus syriacus, not rosa-sinensis; no source lists H. rosa-sinensis as toxic. The previous entry showed tulip data from Plant Smart."
+        "note": "Toxicity: ASPCA's hibiscus pages cover Hibiscus syriacus, not rosa-sinensis; no source lists H. rosa-sinensis as toxic. The previous entry showed tulip data from Plant Smart.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

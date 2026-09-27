@@ -14,6 +14,17 @@
   "category": "Small Plants",
   "description": "A charming plant from the Yunnan Province in southern China, Chinese Money Plant became an Instagram sensation in recent years thanks to its distinctive round, coin-shaped leaves that sit atop delicate stems like little green pancakes or UFOs. Each perfectly circular leaf can grow 2-4 inches across, creating a unique, geometric display that looks modern and whimsical. The plant grows 8-12 inches tall and readily produces babies (offsets) from the base that can be separated and shared - leading to its spread around the world through plant swaps rather than commercial trade. Easy to care for with minimal demands, it rotates its leaves toward light sources, so regular turning keeps growth symmetrical. Its quirky appearance and generous nature make it a favorite among plant collectors.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca",
+      "ncsu"
+    ]
+  },
   "temperature": "55-75°F (13-24°C)",
   "humidity": "40-50%",
   "careInstructions": [
@@ -71,17 +82,6 @@
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "species",
-    "sourceIds": [
-      "aspca",
-      "ncsu"
-    ]
-  },
   "whatsNormal": [
     "Rarely flowers indoors.",
     "Gets leggy in too little light.",
@@ -97,6 +97,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Pilea peperomioides",
+    "family": "Urticaceae",
+    "gbifKey": 5669632
+  },
   "sources": [
     {
       "id": "aspca",
@@ -109,26 +114,24 @@
       "url": "https://plants.ces.ncsu.edu/plants/pilea-peperomioides/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Pilea peperomioides",
-    "family": "Urticaceae",
-    "gbifKey": 5669632
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: NC State calls this species safe for pets and children; the horse rating comes from ASPCA's entry for Pilea cadierei."
+        "note": "Toxicity: NC State calls this species safe for pets and children; the horse rating comes from ASPCA's entry for Pilea cadierei.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Only one institutional source (NC State) — MOBOT has no page for P. peperomioides."
+        "note": "Only one institutional source (NC State) — MOBOT has no page for P. peperomioides.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

@@ -12,6 +12,13 @@
   "category": "Air Plants",
   "description": "One of the most distinctive and sculptural air plants available, Potbelly Air Plant features a bulbous, hollow base with wild, twisted tentacle-like leaves that curl and spiral in fascinating patterns. Native to the humid forests of Central and South America, from Mexico to Colombia, this species has evolved a unique bulbous structure that houses beneficial insects in nature, creating a symbiotic relationship. The twisted, ribbon-like leaves can be green to reddish-purple depending on light exposure. Growing 4-7 inches tall, it creates an alien-like, artistic presence that's perfect for mounted displays, hanging arrangements, or as a conversation-starting centerpiece. When happy, it produces tubular purple and red flowers.",
   "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
+  "toxicityDetail": {
+    "cats": "unknown",
+    "dogs": "unknown",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "none"
+  },
   "temperature": "60-85°F (15-29°C)",
   "humidity": "50-70%",
   "careInstructions": [
@@ -72,17 +79,15 @@
       ]
     }
   },
-  "toxicityDetail": {
-    "cats": "unknown",
-    "dogs": "unknown",
-    "horses": "unknown",
-    "symptoms": [],
-    "basis": "none"
-  },
   "whatsNormal": [
     "Curled or rolled leaves, dull color and brown tips mean it is thirsty.",
     "After flowering the parent plant slowly declines while its pups take over."
   ],
+  "taxonomy": {
+    "acceptedName": "Tillandsia bulbosa",
+    "family": "Bromeliaceae",
+    "gbifKey": 2695645
+  },
   "sources": [
     {
       "id": "uf",
@@ -95,26 +100,24 @@
       "url": "https://hgic.clemson.edu/factsheet/air-plants/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Tillandsia bulbosa",
-    "family": "Bromeliaceae",
-    "gbifKey": 2695645
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "UF/IFAS and Clemson cover air plants (Tillandsia) as a group, not this species. No source covers T. bulbosa specifically."
+        "note": "UF/IFAS and Clemson cover air plants (Tillandsia) as a group, not this species. No source covers T. bulbosa specifically.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering (10 days) is our estimate — the sources give weekly watering with no winter change."
+        "note": "Winter watering (10 days) is our estimate — the sources give weekly watering with no winter change.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

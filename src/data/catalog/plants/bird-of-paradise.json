@@ -127,24 +127,28 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: NC State lists S. nicolai as toxic to people, dogs, cats and horses; symptoms come from ASPCA's S. reginae entry."
+        "note": "Toxicity: NC State lists S. nicolai as toxic to people, dogs, cats and horses; symptoms come from ASPCA's S. reginae entry.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Only one institutional source (NC State) — MOBOT has a page for S. reginae only."
+        "note": "Only one institutional source (NC State) — MOBOT has a page for S. reginae only.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Light: NC State only says bright indirect light; tolerance of direct sun is from the original catalog and not sourced."
+        "note": "Light: NC State only says bright indirect light; tolerance of direct sun is from the original catalog and not sourced.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

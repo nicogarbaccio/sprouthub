@@ -116,12 +116,13 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "estimate",
-        "note": "Winter watering (every 4 days) is our estimate — MOBOT says only a slight reduction; NC State says reduce because overwatering in winter causes root rot."
+        "note": "Winter watering (every 4 days) is our estimate — MOBOT says only a slight reduction; NC State says reduce because overwatering in winter causes root rot.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

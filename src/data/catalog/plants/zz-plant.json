@@ -138,12 +138,13 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately."
+        "note": "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",
@@ -152,11 +153,13 @@
       },
       {
         "type": "note",
-        "note": "Cold threshold 60°F is the sources' \"bring it indoors\" temperature for plants summered outside, not a damage point."
+        "note": "Cold threshold 60°F is the sources' \"bring it indoors\" temperature for plants summered outside, not a damage point.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

@@ -114,20 +114,23 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's genus-wide entry (Opuntia species), not a page for this species."
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Opuntia species), not a page for this species.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Only one institutional source (NC State) — MOBOT has no page for this plant."
+        "note": "Only one institutional source (NC State) — MOBOT has no page for this plant.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering (30 days) matches our original catalog; NC State says \"very little water\" in winter."
+        "note": "Winter watering (30 days) matches our original catalog; NC State says \"very little water\" in winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

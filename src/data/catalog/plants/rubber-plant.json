@@ -103,6 +103,11 @@
     "Cut leaves and stems drip milky sap.",
     "It likes to stay put — moving it, cold drafts or overwatering can make it drop leaves."
   ],
+  "taxonomy": {
+    "acceptedName": "Ficus elastica",
+    "family": "Moraceae",
+    "gbifKey": 7835333
+  },
   "sources": [
     {
       "id": "aspca",
@@ -120,26 +125,24 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=291685&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Ficus elastica",
-    "family": "Moraceae",
-    "gbifKey": 7835333
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's genus-wide entry (Ficus sp.), not a page for this species."
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Ficus sp.), not a page for this species.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

@@ -147,7 +147,8 @@
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: Wisconsin Extension says Lithops are non-toxic to humans and pets; ASPCA lists Lithops naureeniae as non-toxic to cats, dogs and horses."
+        "note": "Toxicity: Wisconsin Extension says Lithops are non-toxic to humans and pets; ASPCA lists Lithops naureeniae as non-toxic to cats, dogs and horses.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "app_gap",
@@ -155,7 +156,8 @@
       },
       {
         "type": "estimate",
-        "note": "Fertilizer interval (13-26 weeks) is our estimate — Wisconsin only says \"sparingly\"."
+        "note": "Fertilizer interval (13-26 weeks) is our estimate — Wisconsin only says \"sparingly\".",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

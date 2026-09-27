@@ -13,6 +13,13 @@
   "category": "Ferns",
   "description": "Native to tropical regions of the Americas, Maidenhair Fern is considered the most delicate and elegant of all ferns, featuring impossibly fine, lacy fronds composed of tiny fan-shaped leaflets on glossy black stems that look like human hair - hence its poetic name. The ethereal, feathery foliage creates a cloud-like appearance that seems to float in space. Growing 12-18 inches tall and wide, it brings an air of Victorian romance and delicate beauty unmatched by other houseplants. However, Maidenhair Fern is notoriously difficult, with a reputation for being the \"drama queen\" of the plant world. It requires consistently moist (never wet or dry) soil, high humidity, filtered water, and stable conditions, rewarding even slight neglect with instant brown crispy fronds. Only for dedicated plant enthusiasts willing to meet its exacting demands.",
   "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
+  "toxicityDetail": {
+    "cats": "unknown",
+    "dogs": "unknown",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "none"
+  },
   "temperature": "60-75°F (15-24°C) - prefers cool conditions",
   "humidity": "60-80% - high humidity essential",
   "careInstructions": [
@@ -76,19 +83,17 @@
       "tip": "Fertilize monthly during growing season with diluted fertilizer at quarter strength"
     }
   },
-  "toxicityDetail": {
-    "cats": "unknown",
-    "dogs": "unknown",
-    "horses": "unknown",
-    "symptoms": [],
-    "basis": "none"
-  },
   "whatsNormal": [
     "Fronds die back quickly if the soil dries out even once — remove browned fronds right away.",
     "Often happiest in a bathroom or terrarium, where humidity is higher.",
     "Water beads off the leaves; the genus name means \"unwetted\".",
     "Loses vigor in too much shade as well as in direct sun."
   ],
+  "taxonomy": {
+    "acceptedName": "Adiantum raddianum",
+    "family": "Pteridaceae",
+    "gbifKey": 2651826
+  },
   "sources": [
     {
       "id": "ncsu",
@@ -101,22 +106,19 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=285805&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Adiantum raddianum",
-    "family": "Pteridaceae",
-    "gbifKey": 2651826
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering (5 days) is our estimate — MOBOT says it sometimes benefits from a winter rest, but the roots must never dry out."
+        "note": "Winter watering (5 days) is our estimate — MOBOT says it sometimes benefits from a winter rest, but the roots must never dry out.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

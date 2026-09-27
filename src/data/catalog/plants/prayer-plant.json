@@ -131,16 +131,18 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's entry for a related species (Calathea insignis)."
+        "note": "Toxicity: based on ASPCA's entry for a related species (Calathea insignis).",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering (7 days) is our estimate — NC State says let the soil dry out in winter; MOBOT says reduce soil moisture."
+        "note": "Winter watering (7 days) is our estimate — NC State says let the soil dry out in winter; MOBOT says reduce soil moisture.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

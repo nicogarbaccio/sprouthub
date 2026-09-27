@@ -116,6 +116,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Caladium bicolor",
+    "family": "Araceae",
+    "gbifKey": 2868390
+  },
   "sources": [
     {
       "id": "aspca",
@@ -133,11 +138,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276330&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Caladium bicolor",
-    "family": "Araceae",
-    "gbifKey": 2868390
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -148,7 +148,8 @@
       },
       {
         "type": "source_gap",
-        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

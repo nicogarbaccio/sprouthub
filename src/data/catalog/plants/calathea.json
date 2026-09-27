@@ -139,16 +139,18 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "estimate",
-        "note": "Winter watering interval (6 days) is our estimate — RHS says to let the surface dry before rewetting in winter."
+        "note": "Winter watering interval (6 days) is our estimate — RHS says to let the surface dry before rewetting in winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "note",
-        "note": "Growth rate: NC State says \"rapid\"; many growers find orbifolia moderate. Kept the source value."
+        "note": "Growth rate: NC State says \"rapid\"; many growers find orbifolia moderate. Kept the source value.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",
@@ -157,7 +159,8 @@
       },
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's genus-wide entry (Calathea spp.), not a page for this species."
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Calathea spp.), not a page for this species.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

@@ -102,6 +102,11 @@
     "Direct sun burns or bleaches the leaves.",
     "Rarely flowers indoors."
   ],
+  "taxonomy": {
+    "acceptedName": "Syngonium podophyllum",
+    "family": "Araceae",
+    "gbifKey": 2867866
+  },
   "sources": [
     {
       "id": "aspca",
@@ -119,22 +124,19 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276453&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Syngonium podophyllum",
-    "family": "Araceae",
-    "gbifKey": 2867866
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "source_gap",
-        "note": "How dry to let it get isn't stated (MOBOT: \"water regularly\"). Kept our \"top 1-2 inches dry\" as \"top quarter dry\"."
+        "note": "How dry to let it get isn't stated (MOBOT: \"water regularly\"). Kept our \"top 1-2 inches dry\" as \"top quarter dry\".",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

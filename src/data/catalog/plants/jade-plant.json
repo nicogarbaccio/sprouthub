@@ -110,6 +110,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Crassula ovata",
+    "family": "Crassulaceae",
+    "gbifKey": 5362063
+  },
   "sources": [
     {
       "id": "aspca",
@@ -127,22 +132,19 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=279445&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Crassula ovata",
-    "family": "Crassulaceae",
-    "gbifKey": 5362063
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "estimate",
-        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

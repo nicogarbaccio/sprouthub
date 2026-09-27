@@ -121,6 +121,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Monstera deliciosa",
+    "family": "Araceae",
+    "gbifKey": 2868241
+  },
   "sources": [
     {
       "id": "ncsu",
@@ -138,22 +143,19 @@
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/ceriman"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Monstera deliciosa",
-    "family": "Araceae",
-    "gbifKey": 2868241
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "estimate",
-        "note": "Winter watering interval (14 days) is our estimate — MOBOT only says to reduce watering from fall to late winter."
+        "note": "Winter watering interval (14 days) is our estimate — MOBOT only says to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Humidity — NC State says it prefers high humidity and MOBOT a humid location; our catalog said 40-60%. The 50-70% numbers are our estimate of \"high\"."
+        "note": "Humidity — NC State says it prefers high humidity and MOBOT a humid location; our catalog said 40-60%. The 50-70% numbers are our estimate of \"high\".",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

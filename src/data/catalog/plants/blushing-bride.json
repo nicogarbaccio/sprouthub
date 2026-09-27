@@ -94,6 +94,11 @@
     ],
     "tip": "Separate the pups once they are a third the size of the parent."
   },
+  "taxonomy": {
+    "acceptedName": "Tillandsia ionantha",
+    "family": "Bromeliaceae",
+    "gbifKey": 2695006
+  },
   "sources": [
     {
       "id": "ncsu",
@@ -111,22 +116,19 @@
       "url": "https://hgic.clemson.edu/factsheet/air-plants/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Tillandsia ionantha",
-    "family": "Bromeliaceae",
-    "gbifKey": 2695006
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering (10 days) is our estimate — the sources give weekly watering with no winter change."
+        "note": "Winter watering (10 days) is our estimate — the sources give weekly watering with no winter change.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

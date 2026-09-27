@@ -13,6 +13,16 @@
   "category": "Succulents",
   "description": "Native to Mexico, Ghost Plant is a stunning succulent that forms rosettes of thick, opalescent leaves in ethereal colors - silvery-blue, gray, pink, or lavender with a powdery coating (farina) that gives it a ghostly, frosted appearance. The rosettes grow on trailing or upright stems that can reach 12-18 inches, perfect for hanging baskets or spilling over container edges. With bright light and temperature stress, the leaves develop beautiful pink, purple, or yellow tones - like mother-of-pearl iridescence. It's one of the easiest and most prolific succulents, producing numerous offsets and rooting readily from dropped leaves. Small, star-shaped white or yellow flowers with red spots appear in spring. Its ethereal coloring, hardy nature, and generous propagation make it a favorite for beginners and collectors alike.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "65-80°F (18-27°C)",
   "humidity": "30-50% - tolerates dry air",
   "careInstructions": [
@@ -72,16 +82,6 @@
       "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "species",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "Leaves drop off naturally — that is how it spreads, and fallen leaves root.",
     "Leaves turn pinkish in hot, dry sun and bluish in partial shade.",
@@ -100,6 +100,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Graptopetalum paraguayense",
+    "family": "Crassulaceae",
+    "gbifKey": 7334731
+  },
   "sources": [
     {
       "id": "aspca",
@@ -117,18 +122,14 @@
       "url": "https://gardeningsolutions.ifas.ufl.edu/plants/ornamentals/ghost-plant/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Graptopetalum paraguayense",
-    "family": "Crassulaceae",
-    "gbifKey": 7334731
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "estimate",
-        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

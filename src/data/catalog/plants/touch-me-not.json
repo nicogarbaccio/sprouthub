@@ -14,6 +14,16 @@
   "category": "Flowering Plants",
   "description": "Native to East Africa, Impatiens are beloved for their ability to bloom continuously in lower light conditions where most flowering plants fail. The common name \"Touch-Me-Not\" refers to the explosive seed pods that burst open when touched when mature. These cheerful plants produce abundant five-petaled flowers in vivid shades of pink, red, orange, white, purple, or bi-colors against bright green succulent stems and leaves. Growing 6-18 inches tall depending on variety, they create mounding, colorful displays perfect for brightening shady spots. While technically perennials in their native habitat, they're often grown as annuals but can be maintained indoors as long-term houseplants with proper attention to their high water and humidity needs.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "65-75°F (18-24°C)",
   "humidity": "50-70%",
   "careInstructions": [
@@ -73,16 +83,6 @@
       "tip": "Fertilize every 2-3 weeks during blooming with diluted balanced fertilizer"
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "genus",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "Wilts in hot, dry spells and needs extra water then.",
     "Gets leggy by late summer — trim off the top third to refresh it.",
@@ -98,6 +98,11 @@
       "ncsu",
       "mobot"
     ]
+  },
+  "taxonomy": {
+    "acceptedName": "Impatiens walleriana",
+    "family": "Balsaminaceae",
+    "gbifKey": 2891772
   },
   "sources": [
     {
@@ -116,26 +121,24 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=263721&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Impatiens walleriana",
-    "family": "Balsaminaceae",
-    "gbifKey": 2891772
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's genus-wide entry (Impatiens spp.), not a page for this species."
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Impatiens spp.), not a page for this species.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited."
+        "note": "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering (5 days) is our estimate — MOBOT says reduce watering for the winter rest."
+        "note": "Winter watering (5 days) is our estimate — MOBOT says reduce watering for the winter rest.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

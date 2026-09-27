@@ -133,20 +133,23 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: NC State says K. blossfeldiana is toxic to children, dogs and cats; symptoms come from ASPCA's Kalanchoe entry. Horses aren't rated."
+        "note": "Toxicity: NC State says K. blossfeldiana is toxic to children, dogs and cats; symptoms come from ASPCA's Kalanchoe entry. Horses aren't rated.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Monthly fertilizing is from the original catalog; MOBOT only specifies the fertilizer type."
+        "note": "Monthly fertilizing is from the original catalog; MOBOT only specifies the fertilizer type.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

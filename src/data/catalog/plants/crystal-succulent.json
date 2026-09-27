@@ -14,6 +14,16 @@
   "category": "Succulents",
   "description": "Native to South Africa, Haworthia cooperi is one of the most fascinating and jewel-like succulents available, featuring clusters of plump, translucent leaves that look like tiny glass beads, crystals, or water droplets arranged in tight rosettes. The leaf tips have transparent \"windows\" that allow light to penetrate deep into the leaf interior - an adaptation for growing partially buried in sandy soil in nature. Growing only 2-3 inches tall and forming clumps as it produces offsets, this miniature succulent is perfect for small pots, terrariums, or succulent arrangements. When backlit, the translucent leaves glow like precious gems. Easier to care for than most Haworthias and tolerant of lower light than many succulents, it's perfect for collectors wanting something truly unique.",
   "toxicity": "Non-toxic to cats and dogs.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "65-80°F (18-27°C)",
   "humidity": "30-50%",
   "careInstructions": [
@@ -72,20 +82,15 @@
       "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "unknown",
-    "symptoms": [],
-    "basis": "genus",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "The clear leaf tips are \"windows\" that let light into the leaf.",
     "Frost-sensitive — keep it indoors in cold weather."
   ],
+  "taxonomy": {
+    "acceptedName": "Haworthia cooperi",
+    "family": "Asphodelaceae",
+    "gbifKey": 2780103
+  },
   "sources": [
     {
       "id": "aspca",
@@ -98,26 +103,24 @@
       "url": "https://plants.ces.ncsu.edu/plants/haworthia/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Haworthia cooperi",
-    "family": "Asphodelaceae",
-    "gbifKey": 2780103
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's genus-wide entry (Haworthia species), not a page for this species."
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Haworthia species), not a page for this species.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "NC State's page covers the whole genus, not this species. MOBOT has no page for it."
+        "note": "NC State's page covers the whole genus, not this species. MOBOT has no page for it.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

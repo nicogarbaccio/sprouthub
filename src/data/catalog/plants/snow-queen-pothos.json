@@ -141,16 +141,18 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "source_gap",
-        "note": "Sources cover Epipremnum aureum, not the 'Snow Queen' cultivar. The brighter light for variegation follows NC State and Clemson's notes on variegated pothos."
+        "note": "Sources cover Epipremnum aureum, not the 'Snow Queen' cultivar. The brighter light for variegation follows NC State and Clemson's notes on variegated pothos.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

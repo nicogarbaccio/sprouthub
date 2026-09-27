@@ -105,6 +105,11 @@
       "mobot"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Dieffenbachia seguine",
+    "family": "Araceae",
+    "gbifKey": 2869345
+  },
   "sources": [
     {
       "id": "aspca",
@@ -122,18 +127,14 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276553&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Dieffenbachia seguine",
-    "family": "Araceae",
-    "gbifKey": 2869345
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "estimate",
-        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

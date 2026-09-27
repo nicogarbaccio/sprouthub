@@ -13,6 +13,13 @@
   "category": "Air Plants",
   "description": "A unique member of the Tillandsia family, Pink Quill is actually a terrestrial bromeliad that prefers to grow potted rather than mounted like typical air plants. Native to Ecuador, it produces one of the most spectacular flowering displays in the bromeliad world: a large, flattened pink paddle-shaped bract that can last for months, with vibrant purple-blue flowers emerging sequentially along its edges. The plant forms an attractive rosette of narrow, arching green leaves that can reach 10-12 inches tall. Unlike true epiphytic air plants, Pink Quill thrives best when planted in a well-draining orchid or bark mix, making it an excellent choice for those who prefer traditional potted plants with extraordinary blooms.",
   "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
+  "toxicityDetail": {
+    "cats": "unknown",
+    "dogs": "unknown",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "none"
+  },
   "temperature": "60-80°F (15-27°C)",
   "humidity": "50-70%",
   "careInstructions": [
@@ -50,13 +57,6 @@
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     }
   },
-  "toxicityDetail": {
-    "cats": "unknown",
-    "dogs": "unknown",
-    "horses": "unknown",
-    "symptoms": [],
-    "basis": "none"
-  },
   "taxonomy": {
     "acceptedName": "Tillandsia cyanea",
     "family": "Bromeliaceae",
@@ -67,7 +67,8 @@
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

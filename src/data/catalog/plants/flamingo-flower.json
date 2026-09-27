@@ -152,12 +152,13 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: NC State says A. andraeanum is toxic to pets and people; symptoms come from ASPCA's A. scherzerianum entry."
+        "note": "Toxicity: NC State says A. andraeanum is toxic to pets and people; symptoms come from ASPCA's A. scherzerianum entry.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

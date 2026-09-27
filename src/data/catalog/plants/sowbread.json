@@ -94,6 +94,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Cyclamen persicum",
+    "family": "Primulaceae",
+    "gbifKey": 3169317
+  },
   "sources": [
     {
       "id": "aspca",
@@ -111,18 +116,14 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=285595&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Cyclamen persicum",
-    "family": "Primulaceae",
-    "gbifKey": 3169317
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's genus-wide entry (Cyclamen spp), not a page for this species."
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Cyclamen spp), not a page for this species.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "app_gap",

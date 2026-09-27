@@ -116,20 +116,23 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's entry for a related species (Philodendron hederaceum)."
+        "note": "Toxicity: based on ASPCA's entry for a related species (Philodendron hederaceum).",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Only one source (NC State), and it covers Philodendron erubescens, not the 'Pink Princess' cultivar. MOBOT has no page for it."
+        "note": "Only one source (NC State), and it covers Philodendron erubescens, not the 'Pink Princess' cultivar. MOBOT has no page for it.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",

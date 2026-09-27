@@ -103,6 +103,11 @@
     "It likes to stay put — moving it, cold drafts or overwatering can make it drop leaves.",
     "Tineke is a variegated rubber plant with green, cream and pale-yellow leaves; the pale parts need brighter light than an all-green plant."
   ],
+  "taxonomy": {
+    "acceptedName": "Ficus elastica",
+    "family": "Moraceae",
+    "gbifKey": 7835333
+  },
   "sources": [
     {
       "id": "aspca",
@@ -120,30 +125,29 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=291685&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Ficus elastica",
-    "family": "Moraceae",
-    "gbifKey": 7835333
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's genus-wide entry (Ficus sp.), not a page for this species."
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Ficus sp.), not a page for this species.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Sources cover Ficus elastica; NC State lists 'Tineke' as one of its cultivars. The brighter light for variegation is from our catalog."
+        "note": "Sources cover Ficus elastica; NC State lists 'Tineke' as one of its cultivars. The brighter light for variegation is from our catalog.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

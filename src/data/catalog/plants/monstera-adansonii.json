@@ -105,6 +105,11 @@
     ],
     "tip": "Root stem cuttings with a node in water or moist mix."
   },
+  "taxonomy": {
+    "acceptedName": "Monstera adansonii",
+    "family": "Araceae",
+    "gbifKey": 2868136
+  },
   "sources": [
     {
       "id": "aspca",
@@ -117,30 +122,29 @@
       "url": "https://plants.ces.ncsu.edu/plants/monstera-adansonii/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Monstera adansonii",
-    "family": "Araceae",
-    "gbifKey": 2868136
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: NC State confirms this species is toxic to people and pets; the per-animal ratings come from ASPCA's Monstera deliciosa entry."
+        "note": "Toxicity: NC State confirms this species is toxic to people and pets; the per-animal ratings come from ASPCA's Monstera deliciosa entry.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Only one institutional source (NC State) — MOBOT has no page for M. adansonii."
+        "note": "Only one institutional source (NC State) — MOBOT has no page for M. adansonii.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "How dry to let it get isn't stated (NC State: \"moist, well-drained soil\"). Set to \"top quarter dry\", like Monstera deliciosa."
+        "note": "How dry to let it get isn't stated (NC State: \"moist, well-drained soil\"). Set to \"top quarter dry\", like Monstera deliciosa.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

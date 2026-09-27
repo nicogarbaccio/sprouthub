@@ -102,6 +102,11 @@
       "mobot"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Philodendron hederaceum",
+    "family": "Araceae",
+    "gbifKey": 2871003
+  },
   "sources": [
     {
       "id": "aspca",
@@ -119,22 +124,19 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276387&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Philodendron hederaceum",
-    "family": "Araceae",
-    "gbifKey": 2871003
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "source_gap",
-        "note": "Sources cover Philodendron hederaceum, not the 'Brasil' cultivar. Ideal light is set to bright indirect to keep the variegation, per our catalog."
+        "note": "Sources cover Philodendron hederaceum, not the 'Brasil' cultivar. Ideal light is set to bright indirect to keep the variegation, per our catalog.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

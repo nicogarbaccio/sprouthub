@@ -14,6 +14,13 @@
   "category": "Succulents",
   "description": "Native to the Sonoran and Chihuahuan deserts of the southwestern United States and Mexico, Barrel Cactus is an iconic desert plant featuring a distinctive barrel or cylindrical shape with prominent vertical ribs covered in fierce, hooked spines that can be red, yellow, or white. In nature, these can grow to 10 feet tall, but as houseplants, they remain compact at 6-12 inches for many years. Mature specimens (20+ years) produce striking orange, red, or yellow flowers in a crown at the top in summer. The name \"Compass Cactus\" comes from their tendency to lean toward the south sun. Extremely drought-tolerant and virtually indestructible if given proper light and minimal water, they're perfect for sunny windowsills and forgetful plant owners.",
   "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
+  "toxicityDetail": {
+    "cats": "unknown",
+    "dogs": "unknown",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "none"
+  },
   "temperature": "50-90°F (10-32°C) - very temperature tolerant",
   "humidity": "10-30% - prefers very dry air",
   "careInstructions": [
@@ -80,17 +87,15 @@
       ]
     }
   },
-  "toxicityDetail": {
-    "cats": "unknown",
-    "dogs": "unknown",
-    "horses": "unknown",
-    "symptoms": [],
-    "basis": "none"
-  },
   "whatsNormal": [
     "Won't flower without enough sun (or with too few nutrients).",
     "Brown or mushy patches on the stem come from overwatering or poor drainage."
   ],
+  "taxonomy": {
+    "acceptedName": "Ferocactus wislizeni",
+    "family": "Cactaceae",
+    "gbifKey": 3084153
+  },
   "sources": [
     {
       "id": "ncsu",
@@ -98,26 +103,24 @@
       "url": "https://plants.ces.ncsu.edu/plants/ferocactus/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Ferocactus wislizeni",
-    "family": "Cactaceae",
-    "gbifKey": 3084153
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "NC State's page covers the whole genus, not this species. MOBOT has no page for it."
+        "note": "NC State's page covers the whole genus, not this species. MOBOT has no page for it.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
-        "note": "Winter watering (42 days) is our estimate — NC State says water even less in fall and winter."
+        "note": "Winter watering (42 days) is our estimate — NC State says water even less in fall and winter.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

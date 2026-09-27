@@ -14,6 +14,16 @@
   "category": "Palms",
   "description": "Native to the semi-desert regions of southeastern Mexico, Ponytail Palm is actually not a palm at all but a succulent from the Asparagaceae family. This quirky plant features a dramatically swollen, bulbous trunk base (caudex) that resembles an elephant's foot, which stores water for drought tolerance. From the top emerges a crown of long, thin, arching leaves that cascade like a ponytail or fountain, giving the plant its charming common name. Growing very slowly, it can eventually reach 6-8 feet indoors (20+ feet in nature), but most remain 2-4 feet for years. Its sculptural form, extreme drought tolerance, and minimal care requirements make it perfect for forgetful plant owners, frequent travelers, and anyone wanting a striking conversation piece that thrives on benign neglect.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "60-80°F (15-27°C) - tolerates wide range",
   "humidity": "30-50% - tolerates dry air",
   "careInstructions": [
@@ -86,22 +96,17 @@
     },
     "growthRate": "slow"
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "species",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "The swollen base (caudex) stores water, which is why it copes with drought.",
     "Brown leaf tips can be clipped off, and fading leaves peeled away.",
     "Handles dry, heated winter air well.",
     "Rarely flowers indoors."
   ],
+  "taxonomy": {
+    "acceptedName": "Beaucarnea recurvata",
+    "family": "Asparagaceae",
+    "gbifKey": 2768035
+  },
   "sources": [
     {
       "id": "aspca",
@@ -119,22 +124,19 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=282253&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Beaucarnea recurvata",
-    "family": "Asparagaceae",
-    "gbifKey": 2768035
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "estimate",
-        "note": "Winter watering (42 days) is our estimate — NC State says greatly reduce watering in winter."
+        "note": "Winter watering (42 days) is our estimate — NC State says greatly reduce watering in winter.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",
-        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

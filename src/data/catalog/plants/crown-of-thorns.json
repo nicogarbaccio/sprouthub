@@ -116,6 +116,11 @@
       "mobot"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Euphorbia milii",
+    "family": "Euphorbiaceae",
+    "gbifKey": 3067157
+  },
   "sources": [
     {
       "id": "mobot",
@@ -133,22 +138,19 @@
       "url": "https://plantsm.art/plant/euphorbia-spp/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Euphorbia milii",
-    "family": "Euphorbiaceae",
-    "gbifKey": 3067157
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-26",
     "flags": [
       {
         "type": "estimate",
-        "note": "Winter watering interval (21 days) is our estimate — MOBOT warns wet winter soil can be fatal."
+        "note": "Winter watering interval (21 days) is our estimate — MOBOT warns wet winter soil can be fatal.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "toxicity",
-        "note": "Toxicity: no ASPCA page for E. milii. Per-animal ratings come from Plant Smart's Euphorbia entry, which names Crown-of-Thorns; symptoms and \"low\" severity from NC State. The previous entry showed Poinsettia data."
+        "note": "Toxicity: no ASPCA page for E. milii. Per-animal ratings come from Plant Smart's Euphorbia entry, which names Crown-of-Thorns; symptoms and \"low\" severity from NC State. The previous entry showed Poinsettia data.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

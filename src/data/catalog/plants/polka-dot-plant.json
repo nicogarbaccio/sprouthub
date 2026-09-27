@@ -14,6 +14,16 @@
   "category": "Colorful Foliage",
   "description": "Native to Madagascar, Polka Dot Plant is a cheerful, compact foliage plant featuring oval leaves heavily spotted or splashed with bright pink, red, white, or rose against a green background - like someone flicked paint across each leaf. Modern cultivars have been bred for more intense spotting, with some varieties showing more color than green. Growing 1-2 feet tall, this fast-growing plant creates vibrant pops of color perfect for small spaces, desks, or terrariums. While easy to care for, it does require regular pinching to prevent legginess and maintain compact, bushy form. Polka Dot Plant brings playful, cheerful color to indoor gardens and is particularly popular for adding bright accents to dish gardens and mixed plantings.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "65-80°F (18-27°C)",
   "humidity": "50-60%",
   "careInstructions": [
@@ -64,16 +74,6 @@
       "tip": "Fertilize every 2-3 weeks during growing season with balanced fertilizer"
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "species",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "Too much direct sun makes the leaves crinkle and curl; too little fades the spots and makes it leggy.",
     "The small lilac flowers are usually cut off so the plant puts its energy into leaves.",
@@ -88,6 +88,11 @@
     "sourceIds": [
       "ncsu"
     ]
+  },
+  "taxonomy": {
+    "acceptedName": "Hypoestes phyllostachya",
+    "family": "Acanthaceae",
+    "gbifKey": 3173196
   },
   "sources": [
     {
@@ -106,18 +111,14 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=275332&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Hypoestes phyllostachya",
-    "family": "Acanthaceae",
-    "gbifKey": 3173196
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "source_gap",
-        "note": "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited. Watering values are still from the original catalog."
+        "note": "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited. Watering values are still from the original catalog.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }
