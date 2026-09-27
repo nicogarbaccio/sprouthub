@@ -35,6 +35,18 @@
     "Yellow leaves: Overwatering or poor drainage"
   ],
   "care": {
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 80
@@ -62,11 +74,36 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Too much direct sun makes the leaves crinkle and curl; too little fades the spots and makes it leggy.",
+    "The small lilac flowers are usually cut off so the plant puts its energy into leaves.",
+    "Seedlings' first leaves are plain green — the spots appear on the first true leaves."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting",
+      "seed"
+    ],
+    "tip": "Root stem cuttings in water in a bright spot.",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Baby’s Tears (Hypoestes phyllostachya)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/babys-tears"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Hypoestes phyllostachya",
+      "url": "https://plants.ces.ncsu.edu/plants/hypoestes-phyllostachya/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Hypoestes phyllostachya",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=275332&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -75,6 +112,13 @@
     "gbifKey": 3173196
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-27",
+    "flags": [
+      {
+        "type": "source_gap",
+        "note": "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited. Watering values are still from the original catalog."
+      }
+    ]
   }
 }

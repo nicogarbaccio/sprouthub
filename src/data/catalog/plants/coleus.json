@@ -34,6 +34,27 @@
     "Mealybugs or aphids: Common pests - treat with insecticidal soap"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 5,
+      "dryness": "keep_moist",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 75
@@ -66,11 +87,37 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Wilts in too much sun and gets leggy in too much shade.",
+    "Flower spikes are usually pinched off — they pull energy from the leaves and spoil the shape.",
+    "Cuttings root easily in a glass of water."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting",
+      "seed"
+    ],
+    "tip": "Root cuttings in water or potting mix.",
+    "sourceIds": [
+      "ncsu",
+      "mobot"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Coleus (Coleus ampoinicus)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/coleus"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Coleus scutellarioides",
+      "url": "https://plants.ces.ncsu.edu/plants/coleus-scutellarioides/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Plectranthus scutellarioides",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=361370&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -79,11 +126,20 @@
     "gbifKey": 5341492
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: based on ASPCA's entry for a related species (Coleus ampoinicus)."
+      },
+      {
+        "type": "source_gap",
+        "note": "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (5 days) is our estimate — the sources only say to reduce watering from fall to late winter."
       }
     ]
   }

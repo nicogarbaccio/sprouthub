@@ -34,13 +34,42 @@
     "Leaf drop: Temperature fluctuations or environmental stress"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 3,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMaxF": 80,
+      "coldDamageBelowF": 55,
+      "sourceIds": [
+        "mobot"
+      ]
     },
     "humidity": {
       "minPct": 50,
-      "maxPct": 70
+      "maxPct": 70,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -49,6 +78,14 @@
       ],
       "fertilizerType": "Diluted balanced fertilizer",
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+    },
+    "repotting": {
+      "tip": "Its roots are shallow, so a small pot is enough.",
+      "soil": "Well-drained, peaty or soil-based potting mix",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     }
   },
   "toxicityDetail": {
@@ -61,11 +98,36 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Wilts dramatically when thirsty, then perks up within hours of watering.",
+    "Leaves shrivel and drop in dry air, drafts or direct sun.",
+    "Grows well under fluorescent lights.",
+    "Creeping stems root where they touch the soil."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Root stem cuttings.",
+    "sourceIds": [
+      "mobot"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Nerve Plant (Fittonia verschaffeltii)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/nerve-plant"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Fittonia albivenis",
+      "url": "https://plants.ces.ncsu.edu/plants/fittonia-albivenis/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Fittonia albivenis",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=263705&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -74,6 +136,17 @@
     "gbifKey": 5574508
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-27",
+    "flags": [
+      {
+        "type": "disagreement",
+        "note": "Humidity — NC State says medium, MOBOT says high. Kept the 50-70% range, which covers both."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering stays at every 3 days — MOBOT says water regularly but moderately year-round, and NC State recommends twice a week."
+      }
+    ]
   }
 }

@@ -32,9 +32,9 @@
   "temperature": "60-85°F (15-29°C) - prefers warmth, avoid cold",
   "humidity": "50-70%",
   "careInstructions": [
-    "Keep soil consistently moist but not soggy during active growth",
+    "Keep the soil moist but not wet during active growth - it drops leaves if kept too wet or too dry",
     "Water when top inch feels dry - typically weekly",
-    "Provide bright, direct light (6+ hours) for vivid colors - essential",
+    "Give it bright light with some direct sun for vivid colors",
     "Colors fade dramatically in insufficient light - sun is critical",
     "Maintain moderate to high humidity - mist regularly or use humidifier",
     "Avoid cold drafts, temperature fluctuations, and moving the plant",
@@ -50,13 +50,43 @@
     "Yellow leaves: Overwatering, underwatering, or temperature stress"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 14,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "mobot",
+        "ncsu",
+        "uw"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
-      "idealMaxF": 85
+      "idealMaxF": 85,
+      "coldDamageBelowF": 50,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 50,
-      "maxPct": 70
+      "maxPct": 70,
+      "sourceIds": [
+        "mobot",
+        "uw"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -67,11 +97,32 @@
       "tip": "Fertilize every 2-3 weeks during growing season with balanced fertilizer"
     }
   },
+  "whatsNormal": [
+    "Drops its lower leaves in too much shade.",
+    "Leaf size, shape and color vary widely between cultivars.",
+    "Cut stems ooze a sap that irritates skin and permanently stains fabric."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Root stem cuttings — wear gloves, the sap irritates skin."
+  },
   "sources": [
     {
       "id": "ncsu",
       "title": "NC State Extension Plant Toolbox: Codiaeum variegatum",
       "url": "https://plants.ces.ncsu.edu/plants/codiaeum-variegatum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Codiaeum variegatum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=280233&isprofile=1"
+    },
+    {
+      "id": "uw",
+      "title": "University of Wisconsin Extension: Croton",
+      "url": "https://hort.extension.wisc.edu/articles/croton-codiaeum-variegatum/"
     }
   ],
   "taxonomy": {
@@ -80,11 +131,20 @@
     "gbifKey": 3071476
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately."
+      },
+      {
+        "type": "disagreement",
+        "note": "Humidity — resolved by majority: MOBOT (high) and Wisconsin (moderate to high) vs NC State (low to medium). Kept 50-70%."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
       }
     ]
   }

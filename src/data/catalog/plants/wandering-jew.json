@@ -26,10 +26,10 @@
       "aspca"
     ]
   },
-  "temperature": "60-80°F (15-27°C)",
+  "temperature": "65-75°F (18-24°C)",
   "humidity": "40-60%",
   "careInstructions": [
-    "Keep soil consistently moist but not soggy during active growth",
+    "Water regularly, but let the soil dry out between waterings - and water less in winter",
     "Provide bright, indirect light for most vibrant coloration and purple undersides",
     "Pinch growing tips regularly to encourage fuller, bushier growth",
     "Propagate extremely easily in water or directly in soil",
@@ -47,13 +47,43 @@
     "Yellow leaves: Usually overwatering or natural aging"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 14,
+      "dryness": "top_half",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "uw",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot",
+        "uw"
+      ]
+    },
     "temperature": {
-      "idealMinF": 60,
-      "idealMaxF": 80
+      "idealMinF": 65,
+      "idealMaxF": 75,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 40,
-      "maxPct": 60
+      "maxPct": 60,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -64,11 +94,43 @@
       "tip": "Fertilize every 2-3 weeks during growing season with balanced fertilizer"
     }
   },
+  "whatsNormal": [
+    "In low light the stems drop their lower leaves and the colors fade.",
+    "Sun deepens the color, but very strong sun can wash it out.",
+    "The sap can irritate skin.",
+    "Stems root wherever a node touches soil; it can be cut back hard in early spring."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Use trimmed leggy stems as cuttings.",
+    "sourceIds": [
+      "ncsu",
+      "mobot",
+      "uw"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Inch Plant (Tradescantia flumeninsis)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/inch-plant"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Tradescantia zebrina",
+      "url": "https://plants.ces.ncsu.edu/plants/tradescantia-zebrina/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Tradescantia zebrina",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=279286&isprofile=1"
+    },
+    {
+      "id": "uw",
+      "title": "University of Wisconsin Extension: Tradescantia zebrina",
+      "url": "https://hort.extension.wisc.edu/articles/tradescantia-zebrina/"
     }
   ],
   "taxonomy": {
@@ -77,11 +139,24 @@
     "gbifKey": 2765359
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: based on ASPCA's entry for a related species (Tradescantia flumeninsis)."
+      },
+      {
+        "type": "disagreement",
+        "note": "Watering — resolved by majority: NC State and Wisconsin say let the soil dry out between waterings; MOBOT says keep it consistently moist. Set to \"top half dry\"."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Watering \"keep consistently moist\" → let the soil dry between waterings; ideal temperature 60-80°F → 65-75°F (NC State)."
       }
     ]
   }

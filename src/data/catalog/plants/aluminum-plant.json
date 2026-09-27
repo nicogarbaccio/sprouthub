@@ -14,11 +14,11 @@
   "description": "Native to the rainforests of Vietnam and China, Aluminum Plant is a compact, bushy foliage plant featuring distinctive quilted leaves with striking metallic silver patches between green veins - resembling brushed aluminum or watermelon rind patterns. Growing 8-12 inches tall, this charming Pilea creates a mounding, spreading form perfect for small pots, terrariums, or as part of mixed plantings. The silvery variegation is actually air pockets beneath the leaf surface that reflect light, creating the metallic appearance. Fast-growing and easy to propagate, it rewards minimal care with attractive foliage and tolerates typical indoor conditions well. Regular pinching keeps it compact and bushy rather than leggy, making it a delightful low-maintenance addition to any plant collection.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "60-75°F (15-24°C)",
-  "humidity": "40-60%",
+  "humidity": "50-70% - likes high humidity",
   "careInstructions": [
     "Water when top inch of soil feels dry - typically weekly",
     "Provide bright, indirect light for best silver coloration",
-    "Use well-draining potting mix",
+    "Use a peaty, soil-based potting mix",
     "Pinch growing tips regularly every few weeks to encourage bushiness",
     "Fertilize monthly during growing season with diluted balanced fertilizer",
     "Rotate plant occasionally for even growth",
@@ -34,13 +34,38 @@
     "Stretching toward light: Natural - rotate regularly and provide brighter conditions"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 75
     },
     "humidity": {
-      "minPct": 40,
-      "maxPct": 60
+      "minPct": 50,
+      "maxPct": 70,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -61,11 +86,35 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "The best-looking leaves are on young plants — many growers root cuttings each spring and replace the old plant.",
+    "Rarely flowers indoors."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Root stem-tip cuttings in spring or summer.",
+    "sourceIds": [
+      "mobot",
+      "ncsu"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Aluminum Plant (Pilea cadieri)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/aluminum-plant"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Pilea cadierei",
+      "url": "https://plants.ces.ncsu.edu/plants/pilea-cadierei/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Pilea cadierei",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=287430&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -74,6 +123,21 @@
     "gbifKey": 5671157
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-27",
+    "flags": [
+      {
+        "type": "estimate",
+        "note": "Humidity — both sources say it does best in high humidity; our catalog said 40-60%. The 50-70% numbers are our estimate of \"high\"."
+      },
+      {
+        "type": "source_gap",
+        "note": "How dry to let it get isn't stated (both: \"water moderately\"). Kept our \"top inch dry\" as \"top quarter dry\"."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      }
+    ]
   }
 }

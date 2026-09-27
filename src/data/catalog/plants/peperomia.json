@@ -9,13 +9,13 @@
   "imagePath": "Peperomia.png",
   "wateringFrequency": "Every 10 days",
   "suggestedWateringDays": 10,
-  "lightRequirement": "Medium to Bright Indirect Light",
+  "lightRequirement": "Low to Bright Indirect Light",
   "careLevel": "Easy",
   "category": "Small Plants",
   "description": "Native to Central and South American rainforests, Peperomia obtusifolia is a compact, low-maintenance plant featuring thick, glossy, spoon-shaped leaves that resemble rubber plant foliage in miniature form. Growing only 6-12 inches tall, this petite beauty comes in varieties with solid green leaves or variegated cream and green patterns. The succulent-like leaves store water, making it quite drought-tolerant and forgiving of occasional neglect. As an epiphyte in nature, it prefers quick-draining soil and less frequent watering than typical houseplants. Peperomias are perfect for small spaces, desks, shelves, or terrariums, and their compact size and easy care make them ideal for beginners. With over 1,000 Peperomia species, collectors love building diverse collections of these charming little plants.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "65-80°F (18-27°C)",
-  "humidity": "40-50%",
+  "humidity": "40-60% - a humidifier helps in dry winters",
   "careInstructions": [
     "Water only when soil is mostly dry - every 10-14 days typically",
     "Thick leaves store water - underwatering is better than overwatering",
@@ -35,13 +35,41 @@
     "Leaf drop: Sudden temperature changes or overwatering"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 14,
+      "dryness": "top_half",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot",
+        "clemson"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "low",
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 80
     },
     "humidity": {
       "minPct": 40,
-      "maxPct": 50
+      "maxPct": 60,
+      "sourceIds": [
+        "ncsu",
+        "mobot",
+        "clemson"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -62,11 +90,41 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Copes with low light for months, especially all-green types.",
+    "Yellowing leaves usually mean overwatering; overwatered plants also drop leaves.",
+    "Leaf stems are often tinged pink or red."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting",
+      "leaf_cutting"
+    ],
+    "tip": "Root stem or leaf cuttings.",
+    "sourceIds": [
+      "mobot"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: American Rubber Plant (Peperomia obtusifolia)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/american-rubber-plant"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Peperomia obtusifolia",
+      "url": "https://plants.ces.ncsu.edu/plants/peperomia-obtusifolia/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Peperomia obtusifolia",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=285088&isprofile=1"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: Peperomia",
+      "url": "https://hgic.clemson.edu/factsheet/peperomia-peperomia-spp-indoor-plant-care-and-growing-guide/"
     }
   ],
   "taxonomy": {
@@ -75,6 +133,21 @@
     "gbifKey": 3086423
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-27",
+    "flags": [
+      {
+        "type": "disagreement",
+        "note": "Humidity — NC State says medium to low; MOBOT says high in summer; Clemson says a humidifier helps in dry winters. Shown as 40-60% to cover them."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Light \"Medium to Bright Indirect\" → \"Low to Bright Indirect\" (NC State: tolerates low light for months); humidity 40-50% → 40-60%."
+      }
+    ]
   }
 }
