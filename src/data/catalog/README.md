@@ -39,6 +39,10 @@ failure" warning, and "Air Plant" gave a Tillandsia a Kalanchoe's heart symptoms
   or `none`. Anything weaker than `species` gets a review flag naming the entry used.
 - **No institutional source → "Pet safety unknown".** Don't call a plant non-toxic because
   blogs do.
+- **Spines and thorns are a separate risk.** Ratings only cover poisoning. For cacti and other
+  spiny or thorny plants, add a sentence to the `toxicity` summary telling owners to keep pets
+  away (e.g. "Its hooked spines can still injure a curious pet, so keep it out of reach"), even
+  when the plant is non-toxic.
 
 ## Care
 
