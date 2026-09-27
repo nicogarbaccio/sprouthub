@@ -33,7 +33,7 @@
   "temperature": "65-80°F (18-27°C)",
   "humidity": "30-50% - tolerates dry air",
   "careInstructions": [
-    "Water thoroughly only when soil is completely dry - every 10-14 days typically",
+    "Water thoroughly when the top half of the soil is dry - every 10-14 days typically",
     "Use well-draining cactus or succulent potting mix",
     "Provide bright, indirect light - can tolerate some direct morning sun",
     "Handle gently as leaves can detach easily when touched",
@@ -51,6 +51,24 @@
     "Pests (rare): Occasionally mealybugs - treat with isopropyl alcohol"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 21,
+      "dryness": "top_half",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 80
@@ -66,7 +84,23 @@
       ],
       "fertilizerType": "Diluted succulent fertilizer",
       "tip": "Fertilize every 4-6 weeks during growing season with diluted succulent fertilizer"
-    }
+    },
+    "growthRate": "fast"
+  },
+  "whatsNormal": [
+    "Brown or reddish leaves usually mean sunburn.",
+    "Each \"banana\" has a translucent stripe, a \"window\" that lets light inside.",
+    "Grows fast — prune in spring or summer to keep it full."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting",
+      "seed"
+    ],
+    "tip": "Stem cuttings are the quickest way to start new plants.",
+    "sourceIds": [
+      "ncsu"
+    ]
   },
   "sources": [
     {
@@ -81,9 +115,13 @@
     "gbifKey": 3107396
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately (it names pets and livestock)."
+      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately (it names pets and livestock).",
+      "Only one institutional source (NC State) — MOBOT has no page for this plant.",
+      "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: water when the top half is dry, not when completely dry (NC State)."
     ]
   }
 }

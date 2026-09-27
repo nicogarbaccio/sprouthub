@@ -14,15 +14,15 @@
   "category": "Flowering Plants",
   "description": "A long-lived Brazilian rainforest cactus that can be passed down through generations, Christmas Cactus produces cascades of tubular flowers in pink, red, white, orange, or purple at the ends of its segmented, leaf-like stems during winter months. Unlike desert cacti, this epiphyte naturally grows on trees in humid forests and requires more water and less sun. The flat, jointed stems create an attractive trailing or arching form that looks beautiful in hanging baskets or on pedestals. With proper care including a rest period and cool fall temperatures, it reliably blooms during the holidays and can live for 20-30 years or more, becoming a cherished family heirloom that grows more spectacular with age.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
-  "temperature": "60-70°F (15-21°C) - cooler temps trigger blooming",
+  "temperature": "70-80°F (21-27°C) while growing; cool 55-65°F nights in fall set flower buds",
   "humidity": "50-60%",
   "careInstructions": [
     "Water when top inch of soil is dry - more frequently than desert cacti",
-    "Use well-draining cactus mix with added perlite or orchid bark",
-    "Provide bright, indirect light - avoid direct sun which causes red-tinged stems",
-    "To trigger blooming: Give 12-14 hours of darkness and 50-55°F temps for 6 weeks in fall",
-    "Reduce watering slightly during fall rest period (October-November)",
-    "Resume normal watering when buds form",
+    "Use a well-drained, peat-rich mix - e.g. 1 part potting soil, 2 parts peat moss, 1 part perlite or sharp sand",
+    "Provide bright, indirect light - a few hours of morning sun is fine, but full sun bleaches the stems",
+    "To trigger blooming, from mid-September give it 13 hours of total darkness each night and 55-65°F nights for 6-8 weeks (nights of 45-55°F set buds even without the darkness)",
+    "Water a little less from late August through September, then resume normal watering once flower buds start to swell",
+    "Reduce watering again after it finishes flowering",
     "Fertilize monthly spring through summer with diluted balanced fertilizer",
     "Avoid moving plant once buds form - causes bud drop"
   ],
@@ -34,9 +34,37 @@
     "Stem segments falling off: Normal propagation method or severe stress"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot",
+        "uw"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot",
+        "uw"
+      ]
+    },
     "temperature": {
-      "idealMinF": 60,
-      "idealMaxF": 70
+      "idealMinF": 70,
+      "idealMaxF": 80,
+      "coldDamageBelowF": 55,
+      "sourceIds": [
+        "ncsu",
+        "mobot",
+        "uw"
+      ]
     },
     "humidity": {
       "minPct": 50,
@@ -48,7 +76,23 @@
         4
       ],
       "fertilizerType": "Diluted balanced fertilizer",
-      "tip": "Fertilize monthly spring through summer with diluted balanced fertilizer"
+      "tip": "Fertilize monthly spring through summer with diluted balanced fertilizer",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "repotting": {
+      "tip": "Repot at least every 4-5 years into fresh mix — old peat-based mix breaks down and suffocates the roots.",
+      "everyYears": [
+        4,
+        5
+      ],
+      "soil": "1 part potting soil, 2 parts peat moss, 1 part perlite or sharp sand",
+      "sourceIds": [
+        "uw",
+        "mobot"
+      ]
     }
   },
   "toxicityDetail": {
@@ -56,9 +100,27 @@
     "dogs": "non_toxic",
     "horses": "non_toxic",
     "symptoms": [],
-    "basis": "related_species",
+    "basis": "species",
     "sourceIds": [
-      "aspca"
+      "aspca",
+      "ncsu"
+    ]
+  },
+  "whatsNormal": [
+    "Buds drop after moving the plant, drafts, temperature swings (especially above 90°F) or uneven watering — leave it in place once buds form.",
+    "If it won't bloom, lamps at night in autumn are the usual cause — it needs long, dark nights.",
+    "Blooms around Christmas; Thanksgiving cacti, with pointed stem segments, bloom a few weeks earlier.",
+    "Can live for decades — some are passed down through families."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Let cuttings of 1-3 stem segments dry for 2-3 days, then root them in well-drained mix.",
+    "sourceIds": [
+      "uw",
+      "ncsu",
+      "mobot"
     ]
   },
   "sources": [
@@ -66,6 +128,21 @@
       "id": "aspca",
       "title": "ASPCA: Christmas Cactus (Schlumbergera bridgesii)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/christmas-cactus"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Schlumbergera × buckleyi",
+      "url": "https://plants.ces.ncsu.edu/plants/schlumbergera-x-buckleyi/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Schlumbergera × buckleyi",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=253152&isprofile=1"
+    },
+    {
+      "id": "uw",
+      "title": "University of Wisconsin Extension: Holiday Cactus",
+      "url": "https://hort.extension.wisc.edu/articles/holiday-cactus/"
     }
   ],
   "taxonomy": {
@@ -74,9 +151,13 @@
     "gbifKey": 5620162
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's entry for a related species (Schlumbergera bridgesii)."
+      "Toxicity: NC State says Schlumbergera × buckleyi is non-toxic and safe with pets and children; the horse rating comes from ASPCA's S. bridgesii entry.",
+      "Watering timing differs: NC State and Wisconsin reduce watering in late summer/September and after flowering; MOBOT says reduce from late winter to spring. Used NC State/Wisconsin.",
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: ideal temperature 60-70°F → 70-80°F while growing; bloom-trigger instructions, soil mix and light guidance now follow all three sources."
     ]
   }
 }

@@ -19,11 +19,11 @@
   "humidity": "10-30% - very dry air essential",
   "careInstructions": [
     "CRITICAL: Follow the annual water cycle exactly - wrong timing kills the plant",
-    "Summer (dormant): NO water at all",
-    "Fall (active growth): Water sparingly every 3-4 weeks when soil completely dry",
-    "Winter (flowering): Water lightly every 3-4 weeks",
-    "Spring (splitting): NO water until old leaves completely dry and papery",
-    "Provide maximum direct sunlight - south-facing window ideal",
+    "Late spring to early summer: water when the soil is completely dry",
+    "Mid-summer (dormant): stop watering - if it shrivels badly, just moisten the top half-inch of soil",
+    "Late summer to fall (growing and flowering): water about every 2 weeks, letting the soil dry completely in between",
+    "Winter to early spring: no water at all, until the old leaves have dried to papery husks",
+    "Give it 4-5 hours of direct morning sun with some afternoon shade - a south or unobstructed east window",
     "Use extremely well-draining mineral mix (50%+ pumice/grit)",
     "Never water during splitting period or old leaves won't dry properly"
   ],
@@ -36,23 +36,87 @@
     "Bursting: Overwatering causing cells to rupture - usually fatal"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 90,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "uw"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "direct"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "uw"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMaxF": 80,
+      "coldDamageBelowF": 40,
+      "sourceIds": [
+        "ncsu",
+        "uw"
+      ]
     },
     "humidity": {
       "minPct": 10,
       "maxPct": 30
-    }
+    },
+    "fertilizing": {
+      "weeks": [
+        13,
+        26
+      ],
+      "fertilizerType": "Low-nitrogen, high-potassium fertilizer",
+      "tip": "Fertilize sparingly with a low-nitrogen, high-potassium fertilizer",
+      "sourceIds": [
+        "uw"
+      ]
+    },
+    "repotting": {
+      "tip": "Use a pot 3-5 inches deep — the roots are extensive. It can stay in the same pot for 10-20 years.",
+      "soil": "Cactus mix, or potting mix with sharp sand, perlite or grit",
+      "sourceIds": [
+        "uw",
+        "ncsu"
+      ]
+    },
+    "growthRate": "slow"
   },
   "toxicityDetail": {
     "cats": "non_toxic",
     "dogs": "non_toxic",
     "horses": "non_toxic",
     "symptoms": [],
-    "basis": "related_species",
+    "basis": "genus",
     "sourceIds": [
-      "aspca"
+      "aspca",
+      "uw"
+    ]
+  },
+  "whatsNormal": [
+    "Each year a new pair of leaves grows from the central slit while the old pair shrivels to a papery husk.",
+    "Flowers in fall and early winter from the slit between the leaves; the flowers open on sunny afternoons.",
+    "Shrinking and shriveling during summer dormancy is normal.",
+    "Stretching, leaning or turning greenish means it needs more light — increase it gradually to avoid sunburn.",
+    "Can live 40-50 years."
+  ],
+  "propagation": {
+    "methods": [
+      "division",
+      "seed"
+    ],
+    "tip": "Divide multi-headed plants, or grow from seed in summer.",
+    "sourceIds": [
+      "uw",
+      "ncsu"
     ]
   },
   "sources": [
@@ -60,6 +124,16 @@
       "id": "aspca",
       "title": "ASPCA: Living Stones (Lithops naureeniae)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/living-stones"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Lithops",
+      "url": "https://plants.ces.ncsu.edu/plants/lithops/"
+    },
+    {
+      "id": "uw",
+      "title": "University of Wisconsin Extension: Living Stones, Lithops",
+      "url": "https://hort.extension.wisc.edu/articles/living-stones-lithops/"
     }
   ],
   "taxonomy": {
@@ -68,9 +142,13 @@
     "gbifKey": 3231652
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's entry for a related species (Lithops naureeniae)."
+      "Toxicity: Wisconsin Extension says Lithops are non-toxic to humans and pets; ASPCA lists Lithops naureeniae as non-toxic to cats, dogs and horses.",
+      "Watering cycle: sprouthub's schedule model can't express \"no water at all\" for winter to early spring. Set the dormant-season interval to 90 days as the closest fit; Lithops may need special handling in the app.",
+      "Fertilizer interval (13-26 weeks) is our estimate — Wisconsin only says \"sparingly\".",
+      "Changed: the old guide said to water every 3-4 weeks in winter; both sources say no water from winter to early spring. Added the late-spring watering window, every-2-weeks fall watering, and morning-sun-plus-afternoon-shade light."
     ]
   }
 }

@@ -35,6 +35,26 @@
     "Mealybugs: Occasional pest - treat with isopropyl alcohol"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 28,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 80
@@ -62,11 +82,20 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "The clear leaf tips are \"windows\" that let light into the leaf.",
+    "Frost-sensitive — keep it indoors in cold weather."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Haworthia (Haworthia species)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/haworthia"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Haworthia",
+      "url": "https://plants.ces.ncsu.edu/plants/haworthia/"
     }
   ],
   "taxonomy": {
@@ -75,9 +104,12 @@
     "gbifKey": 2780103
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Haworthia species), not a page for this species."
+      "Toxicity: based on ASPCA's genus-wide entry (Haworthia species), not a page for this species.",
+      "NC State's page covers the whole genus, not this species. MOBOT has no page for it.",
+      "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
     ]
   }
 }

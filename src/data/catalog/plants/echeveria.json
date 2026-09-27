@@ -36,6 +36,25 @@
     "Mealybugs: Common pest - remove with isopropyl alcohol on cotton swab"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 28,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 80
@@ -55,11 +74,30 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Sends up flower stalks from late winter into summer."
+  ],
+  "propagation": {
+    "methods": [
+      "leaf_cutting",
+      "offsets",
+      "division"
+    ],
+    "tip": "Root single leaves, or separate the offsets (\"pups\").",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Chickens and Hens (Echeveria elegans)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/chickens-and-hens"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Echeveria elegans",
+      "url": "https://plants.ces.ncsu.edu/plants/echeveria-elegans/"
     }
   ],
   "taxonomy": {
@@ -68,6 +106,11 @@
     "gbifKey": 8315197
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-27",
+    "flags": [
+      "Only one institutional source (NC State) — MOBOT has no page for this plant. Its page is brief, so most care values are still from the original catalog.",
+      "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+    ]
   }
 }

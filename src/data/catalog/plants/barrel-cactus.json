@@ -35,6 +35,24 @@
     "Mealybugs or scale: Treat with isopropyl alcohol or systemic insecticide"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 42,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 50,
       "idealMaxF": 90
@@ -48,8 +66,18 @@
         13,
         26
       ],
-      "fertilizerType": "Diluted cactus fertilizer",
-      "tip": "Fertilize only 1-2 times during growing season with diluted cactus fertilizer"
+      "fertilizerType": "Cactus or succulent fertilizer",
+      "tip": "Fertilize only 1-2 times during growing season with diluted cactus fertilizer",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "repotting": {
+      "tip": "Use a terracotta pot — it's porous and wicks away excess moisture.",
+      "soil": "Cactus or succulent mix",
+      "sourceIds": [
+        "ncsu"
+      ]
     }
   },
   "toxicityDetail": {
@@ -59,15 +87,29 @@
     "symptoms": [],
     "basis": "none"
   },
+  "whatsNormal": [
+    "Won't flower without enough sun (or with too few nutrients).",
+    "Brown or mushy patches on the stem come from overwatering or poor drainage."
+  ],
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Ferocactus",
+      "url": "https://plants.ces.ncsu.edu/plants/ferocactus/"
+    }
+  ],
   "taxonomy": {
     "acceptedName": "Ferocactus wislizeni",
     "family": "Cactaceae",
     "gbifKey": 3084153
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
+      "NC State's page covers the whole genus, not this species. MOBOT has no page for it.",
+      "Winter watering (42 days) is our estimate — NC State says water even less in fall and winter."
     ]
   }
 }

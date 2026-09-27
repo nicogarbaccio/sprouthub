@@ -36,6 +36,24 @@
     "Bare stems at base: Natural growth pattern - trim and replant to fill in"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 21,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 80
@@ -51,6 +69,13 @@
       ],
       "fertilizerType": "Diluted succulent fertilizer",
       "tip": "Fertilize monthly during growing season with diluted succulent fertilizer"
+    },
+    "repotting": {
+      "tip": "It likes to be crowded — repot only when necessary.",
+      "soil": "Well-drained, sandy potting mix",
+      "sourceIds": [
+        "ncsu"
+      ]
     }
   },
   "toxicityDetail": {
@@ -60,15 +85,40 @@
     "symptoms": [],
     "basis": "none"
   },
+  "whatsNormal": [
+    "Bead-like tubers form along the vines; where they touch soil they root into new plants.",
+    "Long gaps between leaves mean it needs more light.",
+    "It rests in winter and needs even less water then."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Root stem cuttings, or lay the vine's tubers on moist mix.",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Ceropegia woodii",
+      "url": "https://plants.ces.ncsu.edu/plants/ceropegia-woodii/"
+    }
+  ],
   "taxonomy": {
     "acceptedName": "Ceropegia woodii",
     "family": "Apocynaceae",
     "gbifKey": 3572767
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
+      "Only one institutional source (NC State) — MOBOT has no page for this plant.",
+      "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Light: NC State warns too much sun scorches the leaves; the note that morning sun deepens the purple undersides is from the original catalog."
     ]
   }
 }

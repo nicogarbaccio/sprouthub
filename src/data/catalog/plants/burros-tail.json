@@ -25,7 +25,7 @@
     "Never move or rotate plant unnecessarily - causes leaf drop",
     "Place in permanent location where it won't be disturbed",
     "Propagate from fallen leaves or stem cuttings laid on soil",
-    "Fertilize every 2-3 months during growing season with diluted succulent fertilizer"
+    "Fertilize lightly only once or twice during the growing season"
   ],
   "commonProblems": [
     "Leaf drop: Natural when touched, bumped, or during watering - minimized with gentle care",
@@ -36,9 +36,35 @@
     "Stem rot at base: Overwatering combined with poor drainage"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 30,
+      "dryness": "top_half",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "uw",
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "uw",
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 75
+      "idealMaxF": 75,
+      "coldDamageBelowF": 40,
+      "sourceIds": [
+        "uw",
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 20,
@@ -46,11 +72,22 @@
     },
     "fertilizing": {
       "weeks": [
-        9,
-        13
+        13,
+        26
       ],
       "fertilizerType": "Diluted succulent fertilizer",
-      "tip": "Fertilize every 2-3 months during growing season with diluted succulent fertilizer"
+      "tip": "Fertilize lightly only once or twice during the growing season",
+      "sourceIds": [
+        "uw",
+        "ncsu"
+      ]
+    },
+    "repotting": {
+      "tip": "Repot in spring only once it completely fills its pot — it likes being pot-bound. Wait about a week before watering.",
+      "soil": "Cactus mix, or potting mix with plenty of perlite or pumice (not sand)",
+      "sourceIds": [
+        "uw"
+      ]
     }
   },
   "toxicityDetail": {
@@ -63,11 +100,39 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "The silvery-blue coating rubs off where the leaves are handled.",
+    "Leaves drop at the slightest bump — pot up fallen leaves and they'll root.",
+    "Rarely blooms indoors; stems need to be at least 10 inches long, and cool 50-60°F winters help.",
+    "Too little light spaces the leaves out; too much bleaches them yellowish.",
+    "Can live for decades."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting",
+      "leaf_cutting"
+    ],
+    "tip": "Let stem cuttings dry a day or two before planting; single leaves root too, but more slowly.",
+    "sourceIds": [
+      "uw",
+      "ncsu"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Burro's Tail (Sedum morganianum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/burros-tail"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Sedum morganianum",
+      "url": "https://plants.ces.ncsu.edu/plants/sedum-morganianum/"
+    },
+    {
+      "id": "uw",
+      "title": "University of Wisconsin Extension: Burro's Tail",
+      "url": "https://hort.extension.wisc.edu/articles/burros-tail-sedum-morganianum/"
     }
   ],
   "taxonomy": {
@@ -76,6 +141,10 @@
     "gbifKey": 5690408
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-27",
+    "flags": [
+      "Changed: fertilizing every 2-3 months → once or twice a growing season (Wisconsin, NC State)."
+    ]
   }
 }

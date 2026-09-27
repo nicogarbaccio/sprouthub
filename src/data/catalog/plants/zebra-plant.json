@@ -13,7 +13,7 @@
   "category": "Succulents",
   "description": "Native to South Africa, Zebra Plant is one of the most popular small succulents, forming compact rosettes of thick, dark green, triangular leaves dramatically striped with raised white horizontal bands - like a zebra's stripes. Growing only 4-6 inches tall, it's perfect for small pots, desks, windowsills, or succulent arrangements. It readily produces offsets (pups), creating clusters of rosettes that can fill a pot. Unlike many succulents, Zebra Plant tolerates lower light and is more forgiving of watering mistakes, making it ideal for beginners. Mature plants send up thin stalks with small tubular white flowers, though these are insignificant compared to the striking foliage. Its compact size, distinctive appearance, and easy care have made it a staple in succulent collections worldwide.",
   "toxicity": "Non-toxic to cats and dogs.",
-  "temperature": "65-80°F (18-27°C)",
+  "temperature": "60-80°F (16-27°C) - keep above 50°F",
   "humidity": "30-50%",
   "careInstructions": [
     "Water when soil is dry to touch - every 2-3 weeks typically",
@@ -34,9 +34,32 @@
     "Slow or no growth: Normal - Haworthias are naturally slow-growing"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 28,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
-      "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMinF": 60,
+      "idealMaxF": 80,
+      "coldDamageBelowF": 50,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 30,
@@ -49,16 +72,33 @@
       ],
       "fertilizerType": "Diluted succulent fertilizer",
       "tip": "Fertilize every 2-3 months during growing season with diluted succulent fertilizer"
-    }
+    },
+    "growthRate": "slow"
   },
   "toxicityDetail": {
     "cats": "non_toxic",
     "dogs": "non_toxic",
     "horses": "unknown",
     "symptoms": [],
-    "basis": "genus",
+    "basis": "species",
     "sourceIds": [
-      "aspca"
+      "aspca",
+      "ncsu"
+    ]
+  },
+  "whatsNormal": [
+    "Grows slowly and can live up to 50 years.",
+    "The white stripes fade in too little light; direct sun can scorch the leaves.",
+    "Often sold as the rarer Haworthiopsis fasciata — H. attenuata has bumps on both sides of the leaf."
+  ],
+  "propagation": {
+    "methods": [
+      "offsets",
+      "leaf_cutting"
+    ],
+    "tip": "Separate the pups from the parent plant.",
+    "sourceIds": [
+      "ncsu"
     ]
   },
   "sources": [
@@ -66,6 +106,11 @@
       "id": "aspca",
       "title": "ASPCA: Haworthia (Haworthia species)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/haworthia"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Haworthiopsis attenuata",
+      "url": "https://plants.ces.ncsu.edu/plants/haworthiopsis-attenuata/"
     }
   ],
   "taxonomy": {
@@ -74,9 +119,13 @@
     "gbifKey": 9388529
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Haworthia species), not a page for this species."
+      "Toxicity: NC State says Haworthiopsis attenuata is non-toxic to pets and humans. Horses aren't rated.",
+      "Only one institutional source (NC State) — MOBOT has no page for this plant.",
+      "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: ideal temperature 65-80°F → 60-80°F (NC State)."
     ]
   }
 }

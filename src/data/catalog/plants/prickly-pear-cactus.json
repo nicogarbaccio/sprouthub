@@ -24,7 +24,7 @@
     "ALWAYS handle with thick leather gloves, tongs, or rolled newspaper",
     "If glochids contact skin, remove with duct tape or tweezers, not fingers",
     "Fertilize monthly during growing season with diluted cactus fertilizer",
-    "Cool winter rest period (50-60°F) encourages flowering"
+    "Give it a cool winter rest (50-65°F) with very little water"
   ],
   "commonProblems": [
     "Root rot: Overwatering or poor drainage - most common problem",
@@ -35,6 +35,25 @@
     "Scale or mealybugs: Remove with cotton swab and rubbing alcohol"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 30,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 50,
       "idealMaxF": 85
@@ -50,7 +69,8 @@
       ],
       "fertilizerType": "Diluted cactus fertilizer",
       "tip": "Fertilize monthly during growing season with diluted cactus fertilizer"
-    }
+    },
+    "growthRate": "slow"
   },
   "toxicityDetail": {
     "cats": "non_toxic",
@@ -62,11 +82,30 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "It has no true spines — the fuzzy dots are glochids, tiny barbed bristles that come off at the slightest touch.",
+    "New pads grow in pairs, like bunny ears.",
+    "Rarely blooms indoors."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Break off a pad in spring and root it in well-drained mix.",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Tree Cactus (Opuntia species)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/tree-cactus"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Opuntia microdasys",
+      "url": "https://plants.ces.ncsu.edu/plants/opuntia-microdasys/"
     }
   ],
   "taxonomy": {
@@ -75,9 +114,13 @@
     "gbifKey": 7283961
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Opuntia species), not a page for this species."
+      "Toxicity: based on ASPCA's genus-wide entry (Opuntia species), not a page for this species.",
+      "Only one institutional source (NC State) — MOBOT has no page for this plant.",
+      "Winter watering (30 days) matches our original catalog; NC State says \"very little water\" in winter.",
+      "Changed: winter rest temperature 50-60°F → 50-65°F (NC State)."
     ]
   }
 }
