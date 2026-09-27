@@ -23,6 +23,7 @@ This is a plant care tracking application built with:
 - Environment variables are stored in `.env` and `.env.local` (both gitignored)
 - Supabase configuration is in `supabase/config.toml`
 - Test credentials are available in `.env` for Playwright tests
+- **Plant catalog**: any plant added to or changed in `src/data/catalog/` must follow the research process in [src/data/catalog/README.md](../src/data/catalog/README.md) — sourced care data, pet safety matched by scientific name, and review flags for anything uncertain
 
 ## UI Components & Patterns
 
