@@ -38,7 +38,7 @@ const PLANT_DATA_SOURCES = [
   {
     name: "ASPCA Animal Poison Control Center",
     url: "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants",
-    use: "pet safety for cats, dogs and horses",
+    use: "pet safety for cats and dogs",
   },
   {
     name: "GBIF",

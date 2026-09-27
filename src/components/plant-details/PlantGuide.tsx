@@ -155,10 +155,10 @@ const SEVERITY_TEXT = { mild: "Usually mild", moderate: "Can be moderate", sever
 function PetSafety({ plant, showSummary }: { plant: GuidePlant; showSummary: boolean }) {
   const detail = plant.toxicityDetail;
   if (!detail) return null;
+  // Horse ratings stay in the catalog data but aren't shown; few users keep horses
   const animals = [
     ["Cats", detail.cats],
     ["Dogs", detail.dogs],
-    ["Horses", detail.horses],
   ] as const;
   const isToxic = animals.some(([, rating]) => rating === "toxic");
 
@@ -168,7 +168,7 @@ function PetSafety({ plant, showSummary }: { plant: GuidePlant; showSummary: boo
         Pet safety
       </CardHeading>
       {showSummary && plant.toxicity && <p className="text-[15px] text-foreground leading-snug mt-3">{plant.toxicity}</p>}
-      <ul className="grid grid-cols-3 gap-2 mt-4" aria-label="Pet safety by animal">
+      <ul className="grid grid-cols-2 gap-2 mt-4" aria-label="Pet safety by animal">
         {animals.map(([animal, rating]) => (
           <li key={animal} className={cn("rounded-[18px] px-3 py-2.5 text-center", RATING_CLASSES[rating])}>
             <span className="block text-[13px] font-semibold">{animal}</span>

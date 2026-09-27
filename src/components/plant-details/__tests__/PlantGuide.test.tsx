@@ -40,7 +40,8 @@ describe('PlantGuide', () => {
 
         const pets = screen.getByRole('list', { name: 'Pet safety by animal' });
         expect(within(pets).getByText('Cats').nextSibling).toHaveTextContent('Toxic');
-        expect(within(pets).getByText('Horses').nextSibling).toHaveTextContent('Unknown');
+        expect(within(pets).getByText('Dogs').nextSibling).toHaveTextContent('Toxic');
+        expect(within(pets).queryByText('Horses')).not.toBeInTheDocument();
         expect(screen.getByRole('link', { name: '(888) 426-4435' })).toHaveAttribute('href', 'tel:+18884264435');
     });
 
