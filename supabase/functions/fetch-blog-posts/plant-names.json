@@ -156,6 +156,16 @@
     ]
   },
   {
+    "name": "Monstera Thai Constellation",
+    "botanicalName": "Monstera deliciosa 'Thai Constellation'",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Variegated Monstera",
+      "Thai Constellation Monstera",
+      "Variegated Swiss Cheese Plant"
+    ]
+  },
+  {
     "name": "Bird of Paradise",
     "botanicalName": "Strelitzia nicolai",
     "category": "Tropical Plants",
@@ -409,6 +419,54 @@
     ]
   },
   {
+    "name": "Marble Queen Pothos",
+    "botanicalName": "Epipremnum aureum 'Marble Queen'",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Variegated Pothos",
+      "Marble Pothos",
+      "Marble Queen Devil's Ivy"
+    ]
+  },
+  {
+    "name": "Snow Queen Pothos",
+    "botanicalName": "Epipremnum aureum 'Snow Queen'",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Variegated Pothos",
+      "Snow Queen Devil's Ivy"
+    ]
+  },
+  {
+    "name": "Manjula Pothos",
+    "botanicalName": "Epipremnum aureum 'Manjula'",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "HANSOTI14 Pothos",
+      "Happy Leaf Pothos"
+    ]
+  },
+  {
+    "name": "Pearls and Jade Pothos",
+    "botanicalName": "Epipremnum aureum 'Pearls and Jade'",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Pearls & Jade Pothos",
+      "NJOY-related Pothos"
+    ]
+  },
+  {
+    "name": "Satin Pothos",
+    "botanicalName": "Scindapsus pictus",
+    "category": "Hanging & Trailing Plants",
+    "otherNames": [
+      "Silver Pothos",
+      "Silver Vine",
+      "Silver Satin Pothos",
+      "Satin Pothos"
+    ]
+  },
+  {
     "name": "Spider Plant",
     "botanicalName": "Chlorophytum comosum",
     "category": "Hanging & Trailing Plants",
@@ -488,6 +546,16 @@
       "Rubber Fig",
       "Rubber Tree",
       "India Rubber Plant"
+    ]
+  },
+  {
+    "name": "Ficus Elastica Tineke",
+    "botanicalName": "Ficus elastica 'Tineke'",
+    "category": "Trees & Large Plants",
+    "otherNames": [
+      "Variegated Rubber Plant",
+      "Variegated Rubber Tree",
+      "Tineke Rubber Plant"
     ]
   },
   {
@@ -730,6 +798,16 @@
     ]
   },
   {
+    "name": "Chinese Evergreen",
+    "botanicalName": "Aglaonema commutatum",
+    "category": "Tropical Plants",
+    "otherNames": [
+      "Aglaonema",
+      "Philippine Evergreen",
+      "Poison Dart Plant"
+    ]
+  },
+  {
     "name": "Blushing Bride",
     "botanicalName": "Tillandsia ionantha",
     "category": "Air Plants",
@@ -802,16 +880,6 @@
     ]
   },
   {
-    "name": "Satin Pothos",
-    "botanicalName": "Scindapsus pictus",
-    "category": "Hanging & Trailing Plants",
-    "otherNames": [
-      "Silver Pothos",
-      "Silk Pothos",
-      "Silver Philodendron"
-    ]
-  },
-  {
     "name": "Mini Monstera",
     "botanicalName": "Rhaphidophora tetrasperma",
     "category": "Tropical Plants",
@@ -819,16 +887,6 @@
       "Rhaphidophora",
       "Monstera Minima",
       "Philodendron Ginny"
-    ]
-  },
-  {
-    "name": "Chinese Evergreen",
-    "botanicalName": "Aglaonema commutatum",
-    "category": "Low Maintenance",
-    "otherNames": [
-      "Aglaonema",
-      "Philippine Evergreen",
-      "Poison Dart Plant"
     ]
   },
   {
