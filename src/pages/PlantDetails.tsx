@@ -7,6 +7,7 @@ import PlantInfoSection from "@/components/plant-details/PlantInfoSection";
 import PlantCareGrid from "@/components/plant-details/PlantCareGrid";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
 import PlantSourcesCard from "@/components/plant-details/PlantSourcesCard";
+import PlantGuide from "@/components/plant-details/PlantGuide";
 import BlogPostsSection from "@/components/blog/BlogPostsSection";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { plants } from "@/data/plantData";
@@ -116,6 +117,12 @@ const PlantDetails = () => {
           <CascadingContainer delay={225}>
             <div className="px-4 md:px-0">
               <PlantCareCards careInstructions={careInstructions} commonProblems={commonProblems} />
+            </div>
+          </CascadingContainer>
+
+          <CascadingContainer delay={245}>
+            <div className="px-4 md:px-0">
+              <PlantGuide plant={plant} />
             </div>
           </CascadingContainer>
 
