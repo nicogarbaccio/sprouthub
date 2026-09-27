@@ -2,7 +2,8 @@ import { Logo } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 import { CascadingContainer } from "@/components/ui/cascading-container";
 import { useAuth } from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Droplets,
   Brain,
@@ -15,11 +16,57 @@ import {
   Sun,
   Users,
   LogIn,
+  BookOpen,
 } from "lucide-react";
+
+const PLANT_DATA_SOURCES = [
+  {
+    name: "NC State Extension Plant Toolbox",
+    url: "https://plants.ces.ncsu.edu/",
+    use: "watering, light, temperature, soil and propagation",
+  },
+  {
+    name: "Missouri Botanical Garden Plant Finder",
+    url: "https://plantfinder.mobot.org/",
+    use: "watering, light, temperature, soil and propagation",
+  },
+  {
+    name: "Royal Horticultural Society and other university extension services",
+    url: "https://www.rhs.org.uk/",
+    use: "plants the first two don't cover",
+  },
+  {
+    name: "ASPCA Animal Poison Control Center",
+    url: "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants",
+    use: "pet safety for cats, dogs and horses",
+  },
+  {
+    name: "GBIF",
+    url: "https://www.gbif.org/",
+    use: "current scientific names, so every plant is matched to the right entries",
+  },
+];
+
+const PLANT_DATA_CALCULATIONS = [
+  'Winter watering intervals, when sources only say "water less in winter"',
+  "A middle-ground value when trusted sources disagree",
+  "Suggested changes to your watering schedule, based on the season, your local weather and your own watering history",
+  "Fertilizing reminders, timed from each plant's recommended feeding interval and the growing season",
+];
 
 const About = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { hash } = useLocation();
+
+  // Plant pages link to /about#plant-data; the router doesn't scroll to anchors on its own
+  useEffect(() => {
+    if (hash !== "#plant-data") return;
+    const frame = requestAnimationFrame(() =>
+      document.getElementById("plant-data")?.scrollIntoView({ block: "start" })
+    );
+    return () => cancelAnimationFrame(frame);
+  }, [hash]);
 
   const features = [
     {
@@ -159,6 +206,58 @@ const About = () => {
               </section>
             ))}
           </div>
+        </CascadingContainer>
+
+        {/* Plant data sources */}
+        <CascadingContainer delay={150}>
+          <section id="plant-data" className="rounded-tile bg-card p-6 md:p-8 scroll-mt-6">
+            <h2 className="flex items-center gap-2.5 font-display text-2xl font-bold tracking-[-0.03em] text-foreground">
+              <BookOpen className="w-6 h-6 shrink-0" />
+              Where our plant info comes from
+            </h2>
+            <div className="space-y-4 mt-3 text-[15px] leading-relaxed text-muted-foreground max-w-3xl">
+              <p>
+                Plant info in sprouthub is a mix of guidance from trusted horticultural and veterinary sources and
+                calculations we derive from them. Each plant's page lists the sources it uses.
+              </p>
+              <div>
+                <h3 className="text-[17px] font-bold text-foreground">Trusted sources</h3>
+                <ul className="mt-2 space-y-1.5">
+                  {PLANT_DATA_SOURCES.map((source) => (
+                    <li key={source.name}>
+                      <a
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-foreground underline underline-offset-2"
+                      >
+                        {source.name}
+                      </a>{" "}
+                      — {source.use}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-[17px] font-bold text-foreground">What sprouthub calculates</h3>
+                <ul className="mt-2 space-y-1.5 list-disc pl-5">
+                  {PLANT_DATA_CALCULATIONS.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <p>
+                Pet safety is matched by scientific name, never by common name, since common names are shared by
+                unrelated plants. When no trusted source rates a plant, we say "Pet safety unknown" rather than guess.
+                We're still working through the catalog, and plants we haven't finished researching say so on their
+                page.
+              </p>
+              <p className="rounded-card bg-sprout-cream text-sprout-dark p-4 font-medium">
+                This is general care guidance, not veterinary or medical advice. If a pet eats a plant, call your vet
+                or the ASPCA Animal Poison Control Center at (888) 426-4435.
+              </p>
+            </div>
+          </section>
         </CascadingContainer>
 
         {/* Features */}

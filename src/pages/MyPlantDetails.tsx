@@ -12,6 +12,7 @@ import RepottingGuideCard from "@/components/plant-details/RepottingGuideCard";
 import FertilizationCard from "@/components/plant-details/FertilizationCard";
 import PlantDetailDialogs from "@/components/plant-details/PlantDetailDialogs";
 import PlantCareCards from "@/components/plant-details/PlantCareCards";
+import PlantSourcesCard from "@/components/plant-details/PlantSourcesCard";
 import BlogPostsSection from "@/components/blog/BlogPostsSection";
 import { useBadgeInfo } from "@/components/plant-details/usePlantStatusInfo";
 import { shouldShowOverwateringWarning } from "@/utils/plants/overwatering";
@@ -312,6 +313,12 @@ const MyPlantDetails = () => {
               />
             </div>
           </CascadingContainer>
+
+          {catalogPlant && (
+            <CascadingContainer delay={190} duration={200}>
+              <PlantSourcesCard plant={catalogPlant} />
+            </CascadingContainer>
+          )}
 
           <CascadingContainer delay={200} duration={200}>
             <BlogPostsSection plantName={catalogPlant?.name || plant.plant_type} />
