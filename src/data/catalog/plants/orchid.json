@@ -13,15 +13,15 @@
   "category": "Flowering Plants",
   "description": "Native to tropical Asia and Australia, Phalaenopsis orchids are the most popular and beginner-friendly orchids for good reason: they produce spectacular sprays of large, moth-like flowers in white, pink, purple, yellow, or patterned varieties that can last 2-3 months per bloom spike. These epiphytic plants naturally grow on tree branches in humid forests, with thick, leathery leaves and exposed silvery-green aerial roots that photosynthesize and absorb moisture from the air. Growing 12-24 inches tall when in bloom, modern hybrids are remarkably adaptable to home conditions. With proper care, phalaenopsis can rebloom multiple times per year, making them one of the longest-flowering plants available and dispelling the myth that orchids are impossibly difficult.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
-  "temperature": "65-80°F (18-27°C) day, 10-15°F cooler at night",
-  "humidity": "50-70%",
+  "temperature": "60-85°F (16-29°C) - 72-85°F by day; a 55°F night in fall starts new flower spikes",
+  "humidity": "50-60%",
   "careInstructions": [
     "Water weekly by running tepid water through pot for 30 seconds, then drain completely",
     "Never let roots sit in water - orchids need air circulation around roots",
     "Use clear orchid pot to monitor root health (green/silver roots are healthy)",
     "Plant in orchid bark mix or sphagnum moss - never regular potting soil",
     "Provide bright, indirect light - east window is ideal",
-    "Fertilize weekly with diluted orchid fertilizer (\"weakly weekly\")",
+    "Fertilize weekly at one-quarter strength (or every two weeks at half strength) with a balanced fertilizer",
     "After flowers fade, cut spike above second node to encourage reblooming",
     "Maintain humidity with pebble tray - avoid misting which can cause crown rot"
   ],
@@ -34,21 +34,65 @@
     "Bud blast (buds turn yellow and drop): Ethylene gas from fruit, drafts, or stress"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 7,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
-      "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMinF": 60,
+      "idealMaxF": 85,
+      "coldDamageBelowF": 55,
+      "sourceIds": [
+        "mobot"
+      ]
     },
     "humidity": {
       "minPct": 50,
-      "maxPct": 70
+      "maxPct": 60,
+      "sourceIds": [
+        "mobot"
+      ]
     },
     "fertilizing": {
       "weeks": [
         1,
         1
       ],
-      "fertilizerType": "Diluted orchid fertilizer (\"weakly weekly\")",
-      "tip": "Fertilize weekly with diluted orchid fertilizer (\"weakly weekly\")"
+      "fertilizerType": "Balanced fertilizer at one-quarter strength",
+      "tip": "Fertilize weekly at one-quarter strength (or every two weeks at half strength) with a balanced fertilizer",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "repotting": {
+      "tip": "Repot about every two years, after the blooms fade or as new leaves appear.",
+      "everyYears": [
+        2,
+        2
+      ],
+      "soil": "Coarse fir bark or orchid bark mix — never regular potting soil",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     }
   },
   "toxicityDetail": {
@@ -61,11 +105,27 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Flowers last four months or more, then the plant rests before blooming again about once a year.",
+    "Silvery-green roots growing out of the pot are normal — orchid roots photosynthesize.",
+    "A week of cooler nights (around 55°F) in autumn helps it start a new flower spike.",
+    "Orchids dyed blue or pink will rebloom white."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Phalaenopsis Orchid (Phalaenopsis sp.)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/phalaenopsis-orchid"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Phalaenopsis",
+      "url": "https://plants.ces.ncsu.edu/plants/phalaenopsis/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Phalaenopsis",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=264608&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -74,9 +134,13 @@
     "gbifKey": 2804680
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Phalaenopsis sp.), not a page for this species."
+      "Toxicity: based on ASPCA's genus-wide entry (Phalaenopsis sp.), not a page for this species.",
+      "Where to cut a spent flower spike differs: NC State says just above the first node below the faded flowers; MOBOT says to a one-inch stub; our care text says above the second node. Left our text unchanged.",
+      "Our care text says to avoid misting; MOBOT suggests misting in the morning but warns never to let water sit in the crown. Left unchanged.",
+      "Changed: humidity 50-70% → 50-60%; temperature range and fertilizer strength updated (MOBOT, NC State)."
     ]
   }
 }

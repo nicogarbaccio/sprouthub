@@ -10,12 +10,12 @@
   "imagePath": "Spider%20Plant.jpg",
   "wateringFrequency": "Weekly",
   "suggestedWateringDays": 7,
-  "lightRequirement": "Bright Indirect Light",
+  "lightRequirement": "Low to Bright Indirect Light",
   "careLevel": "Easy",
   "category": "Hanging & Trailing Plants",
   "description": "Native to coastal South Africa, Spider Plant is a classic houseplant that has graced homes since Victorian times thanks to its graceful arching foliage and fascinating reproductive habit. The plant forms fountain-like rosettes of long, slender leaves striped with white or cream, and as it matures, it sends out long stems (stolons) that dangle like spiders on silk threads, producing miniature plantlets (babies or \"spiderettes\") at the ends. These babies can be rooted easily, making spider plants one of the most shareable houseplants. Highly effective at purifying air and removing pollutants, it's also incredibly forgiving and adaptable. The combination of attractive variegated foliage, easy propagation, and air-cleaning abilities makes it perfect for beginners and a staple in plant collections.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
-  "temperature": "60-80°F (15-27°C)",
+  "temperature": "55-70°F (13-21°C) - keep above 45°F",
   "humidity": "40-60%",
   "careInstructions": [
     "Water when top inch of soil is dry - prefers consistently moist soil",
@@ -24,7 +24,7 @@
     "Fertilize monthly during growing season with diluted balanced fertilizer",
     "Remove brown tips with clean scissors if they develop",
     "Propagate by planting or rooting the baby plantlets in water or soil",
-    "Repot when roots become very crowded - they like being slightly pot-bound",
+    "Divide and repot before the thick roots crack the pot - they like being slightly pot-bound",
     "Trim off baby plantlets if you want fuller mother plant"
   ],
   "commonProblems": [
@@ -36,9 +36,36 @@
     "Drooping leaves: Underwatering - increase watering frequency"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "medium",
+      "tolerates": [
+        "low",
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
-      "idealMinF": 60,
-      "idealMaxF": 80
+      "idealMinF": 55,
+      "idealMaxF": 70,
+      "coldDamageBelowF": 45,
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 40,
@@ -53,7 +80,10 @@
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     },
     "repotting": {
-      "tip": "Repot when roots become very crowded - they like being slightly pot-bound"
+      "tip": "Divide and repot before the thick roots crack the pot - they like being slightly pot-bound",
+      "sourceIds": [
+        "mobot"
+      ]
     }
   },
   "toxicityDetail": {
@@ -66,11 +96,37 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Brown leaf tips are very common — MOBOT notes they happen \"unless conditions are perfect\". Trim them off.",
+    "Babies (plantlets) form after about three weeks of long nights — less than 12 hours of light a day.",
+    "Heavy feeding means fewer babies; the thick roots store plenty of food."
+  ],
+  "propagation": {
+    "methods": [
+      "offsets",
+      "division"
+    ],
+    "tip": "Root the baby plantlets, or divide the clump when repotting.",
+    "sourceIds": [
+      "ncsu",
+      "mobot"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Anthericum Comosum (Chlorophytum comosum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/anthericum-comosum"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Chlorophytum comosum",
+      "url": "https://plants.ces.ncsu.edu/plants/chlorophytum-comosum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Chlorophytum comosum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=281868&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -79,6 +135,11 @@
     "gbifKey": 2774846
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Changed: ideal temperature 60-80°F → 55-70°F (MOBOT); light shown as \"Low to Bright Indirect Light\" (NC State: prefers medium light, tolerates deep shade, no direct sun).",
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+    ]
   }
 }

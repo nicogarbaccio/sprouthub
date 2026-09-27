@@ -54,9 +54,34 @@
     "Leggy growth: Insufficient light - needs bright conditions"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 14,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
-      "idealMaxF": 75
+      "idealMaxF": 75,
+      "coldDamageBelowF": 55,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 40,
@@ -71,6 +96,11 @@
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     }
   },
+  "whatsNormal": [
+    "Cut stems ooze a milky sap that can irritate skin — wear gloves when pruning.",
+    "Rarely flowers or fruits indoors.",
+    "Drops leaves when watering swings between too much and too little, and gets brown spots near heating or cooling vents."
+  ],
   "sources": [
     {
       "id": "ncsu",
@@ -81,6 +111,11 @@
       "id": "aspca",
       "title": "ASPCA: Weeping Fig (Ficus sp.)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/weeping-fig"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Ficus lyrata",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=282753&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -89,9 +124,12 @@
     "gbifKey": 5361899
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: ratings from ASPCA's Ficus entry; symptoms and severity from NC State's Ficus lyrata page."
+      "Toxicity: ratings from ASPCA's Ficus entry; symptoms and severity from NC State's Ficus lyrata page.",
+      "How dry to let it get isn't stated — sources only say \"water regularly, avoid overwatering\". Set to \"top quarter dry\".",
+      "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
     ]
   }
 }

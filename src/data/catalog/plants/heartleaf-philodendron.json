@@ -9,7 +9,7 @@
   "imagePath": "Heartleaf%20Philodendron.jpg",
   "wateringFrequency": "Weekly",
   "suggestedWateringDays": 7,
-  "lightRequirement": "Low to Medium Light",
+  "lightRequirement": "Low to Bright Indirect Light",
   "careLevel": "Easy",
   "category": "Hanging & Trailing Plants",
   "description": "Native to the rainforests of Central America and the Caribbean, Heartleaf Philodendron is one of the most popular and easiest houseplants in cultivation, beloved for its glossy, heart-shaped leaves that emerge bronze-tinted and mature to deep green. This vigorous climber/trailer can grow vines 10-20 feet long indoors, making it perfect for cascading from high shelves or hanging baskets, or it can be trained to climb a moss pole or trellis. The plant adapts remarkably well to various light conditions, tolerating low light better than most houseplants while thriving in brighter spots. Its forgiving nature, rapid growth, and easy propagation make it ideal for beginners, while its lush, tropical appearance keeps it popular with experienced plant enthusiasts.",
@@ -51,6 +51,28 @@
     "Root rot: Overwatering or poor drainage - ensure proper pot drainage"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "medium",
+      "tolerates": [
+        "low",
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 80
@@ -68,11 +90,35 @@
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     }
   },
+  "whatsNormal": [
+    "Leaves stay about 4 inches on trailing stems but can reach 12 inches on a mature, climbing plant.",
+    "New leaves may open with a bronze tinge.",
+    "In very dim spots the stems get long and spindly — move it somewhere brighter."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Take stem cuttings in spring.",
+    "sourceIds": [
+      "mobot"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Heartleaf Philodendron (Philodendron hederaceum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/heartleaf-philodendron"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Philodendron hederaceum",
+      "url": "https://plants.ces.ncsu.edu/plants/philodendron-hederaceum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Philodendron hederaceum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276387&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -81,6 +127,11 @@
     "gbifKey": 2871003
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: light shown as \"Low to Bright Indirect Light\" (MOBOT: bright indirect; NC State: medium, tolerates low)."
+    ]
   }
 }

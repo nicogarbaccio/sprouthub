@@ -7,8 +7,8 @@
     "Eternity Plant"
   ],
   "imagePath": "ZZ%20Plant.png",
-  "wateringFrequency": "Every 2-3 weeks",
-  "suggestedWateringDays": 21,
+  "wateringFrequency": "Every 2 weeks",
+  "suggestedWateringDays": 14,
   "lightRequirement": "Low to Bright Indirect Light",
   "careLevel": "Easy",
   "category": "Low Maintenance",
@@ -17,12 +17,12 @@
   "temperature": "60-75°F (15-24°C)",
   "humidity": "30-50% - tolerates dry air",
   "careInstructions": [
-    "Water only when soil is completely dry - every 2-3 weeks typically",
+    "Water only when soil is completely dry - about twice a month in summer and once a month in winter",
     "Thrives in low to bright indirect light - extremely adaptable",
     "Allow soil to dry out completely between waterings to prevent rot",
     "Use well-draining potting mix - add perlite if needed",
     "Wipe leaves monthly with damp cloth to maintain glossy appearance",
-    "Fertilize only 2-3 times per year during growing season",
+    "Fertilize only once or twice a year with a balanced liquid houseplant fertilizer",
     "Repot only when severely root-bound (every 2-3 years)",
     "Can tolerate several weeks without water due to water-storing rhizomes"
   ],
@@ -35,9 +35,36 @@
     "Wrinkled stems: Severe underwatering - soak thoroughly when dry"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 30,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "low",
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
-      "idealMaxF": 75
+      "idealMaxF": 75,
+      "coldDamageBelowF": 60,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "humidity": {
       "minPct": 30,
@@ -45,15 +72,23 @@
     },
     "fertilizing": {
       "weeks": [
-        9,
-        13
+        13,
+        26
       ],
-      "fertilizerType": null,
-      "tip": "Fertilize only 2-3 times per year during growing season"
+      "fertilizerType": "Balanced liquid houseplant fertilizer",
+      "tip": "Fertilize only once or twice a year with a balanced liquid houseplant fertilizer",
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "repotting": {
-      "tip": "Repot only when severely root-bound (every 2-3 years)"
-    }
+      "tip": "Repot only when severely root-bound (every 2-3 years)",
+      "soil": "Well-drained potting soil — treat it like a succulent",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "growthRate": "slow"
   },
   "toxicityDetail": {
     "cats": "toxic",
@@ -69,11 +104,32 @@
       "ncsu"
     ]
   },
+  "whatsNormal": [
+    "Grows slowly — just a few new stems a year is normal.",
+    "Thick underground rhizomes store water, so it can go weeks between waterings.",
+    "Grows even under fluorescent office light, though it does best in bright indirect light."
+  ],
+  "propagation": {
+    "methods": [
+      "division",
+      "leaf_cutting"
+    ],
+    "tip": "Divide the rhizomes when repotting, or root individual leaflets.",
+    "sourceIds": [
+      "ncsu",
+      "mobot"
+    ]
+  },
   "sources": [
     {
       "id": "ncsu",
       "title": "NC State Extension Plant Toolbox: Zamioculcas zamiifolia",
       "url": "https://plants.ces.ncsu.edu/plants/zamioculcas-zamiifolia/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Zamioculcas zamiifolia",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276468&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -82,9 +138,13 @@
     "gbifKey": 2869014
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately."
+      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately.",
+      "Changed: summer watering from every 21 days to every 14 (NC State: twice monthly, only when completely dry); fertilizing from 2-3 to 1-2 times a year.",
+      "Cold threshold 60°F is the sources' \"bring it indoors\" temperature for plants summered outside, not a damage point.",
+      "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
     ]
   }
 }

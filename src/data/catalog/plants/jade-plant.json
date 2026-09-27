@@ -50,6 +50,27 @@
     "Black spots on leaves: Fungal disease from overwatering or poor air circulation"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 28,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 75
@@ -67,14 +88,43 @@
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     },
     "repotting": {
-      "tip": "Repot every 2-3 years in spring, or keep root-bound for bonsai effect"
+      "tip": "Repot every 2-3 years in spring, or keep root-bound for bonsai effect",
+      "soil": "Well-drained, loamy potting mix",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     }
+  },
+  "whatsNormal": [
+    "Leaves can pick up red edges in strong sun — that is normal, not damage.",
+    "Rarely flowers indoors.",
+    "Takes a winter rest — it needs much less water from fall to late winter."
+  ],
+  "propagation": {
+    "methods": [
+      "leaf_cutting"
+    ],
+    "tip": "Root a single leaf in dry, well-drained mix.",
+    "sourceIds": [
+      "ncsu"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Chinese Jade (Crassula arborescens)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/chinese-jade"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Crassula ovata",
+      "url": "https://plants.ces.ncsu.edu/plants/crassula-ovata/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Crassula ovata",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=279445&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -83,6 +133,11 @@
     "gbifKey": 5362063
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+    ]
   }
 }

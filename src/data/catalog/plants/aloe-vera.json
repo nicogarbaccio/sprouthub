@@ -34,7 +34,7 @@
   "careInstructions": [
     "Water deeply only when soil is completely dry - every 2-3 weeks",
     "In winter, reduce watering to monthly or less",
-    "Provide bright, indirect light or some direct sun (morning sun ideal)",
+    "Give it as much light as possible - full sun is best, and it needs bright light to flower",
     "Use well-draining cactus or succulent potting mix",
     "Ensure pot has drainage holes - sitting in water causes fatal rot",
     "Harvest gel from outer leaves by cutting at base, let cut seal before using",
@@ -50,9 +50,34 @@
     "Root rot: Most common cause of death - ensure excellent drainage"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 30,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 55,
-      "idealMaxF": 80
+      "idealMaxF": 80,
+      "coldDamageBelowF": 50,
+      "sourceIds": [
+        "mobot"
+      ]
     },
     "humidity": {
       "minPct": 30,
@@ -65,13 +90,46 @@
       ],
       "fertilizerType": "Diluted succulent fertilizer",
       "tip": "Fertilize only 2-3 times per year with diluted succulent fertilizer"
+    },
+    "repotting": {
+      "tip": "Use a clay pot with several drainage holes and a sandy, fast-draining mix.",
+      "soil": "Sandy, well-drained succulent mix",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     }
+  },
+  "whatsNormal": [
+    "Only flowers once it is at least three years old and gets plenty of sun — many indoor plants never bloom.",
+    "Pups (offsets) around the base are normal — pot them up separately.",
+    "Tolerates dry indoor air."
+  ],
+  "propagation": {
+    "methods": [
+      "offsets"
+    ],
+    "tip": "Separate the pups that grow around the base of mature plants.",
+    "sourceIds": [
+      "mobot",
+      "ncsu"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Aloe (Aloe vera)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/aloe"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Aloe vera",
+      "url": "https://plants.ces.ncsu.edu/plants/aloe-vera/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Aloe vera",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=282195&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -80,6 +138,12 @@
     "gbifKey": 2777724
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Winter watering (30 days) is our estimate — MOBOT says reduce watering \"to the minimum\" in winter.",
+      "Cold threshold 50°F is MOBOT's \"bring it indoors\" night temperature; it tolerates 40°F minimum indoors in winter.",
+      "Changed: light guidance now says full sun is best (both sources), instead of bright indirect with some morning sun."
+    ]
   }
 }

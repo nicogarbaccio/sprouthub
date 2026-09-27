@@ -10,7 +10,7 @@
   "imagePath": "Pothos.png",
   "wateringFrequency": "Weekly",
   "suggestedWateringDays": 7,
-  "lightRequirement": "Low to Medium Light",
+  "lightRequirement": "Low to Bright Indirect Light",
   "careLevel": "Easy",
   "category": "Hanging & Trailing Plants",
   "description": "Often called the most indestructible houseplant, Pothos is native to the Solomon Islands and has become the ultimate beginner plant thanks to its incredible adaptability and forgiving nature. This vigorous trailing vine features heart-shaped leaves splashed with yellow or white variegation (or solid green in some varieties) that cascade gracefully from hanging baskets or climb up moss poles with aerial roots. The vines can grow 20-40 feet long in ideal conditions, though most indoor plants are kept trimmed to 6-10 feet. Pothos earned its nickname \"Devil's Ivy\" because it's nearly impossible to kill and stays green even in near darkness. It's also a powerful air purifier, removing toxins like formaldehyde and benzene from indoor air, making it both beautiful and functional.",
@@ -40,7 +40,7 @@
     "Prune regularly to maintain desired length and encourage fuller growth",
     "Propagates incredibly easily in water - just cut below a node",
     "Wipe leaves monthly to remove dust and enhance variegation",
-    "Fertilize monthly during growing season with diluted balanced fertilizer",
+    "Fertilize every other month during spring and summer with diluted balanced fertilizer - skip winter",
     "Rotate plant occasionally if growing toward light source"
   ],
   "commonProblems": [
@@ -52,6 +52,28 @@
     "Pests (rare): Occasionally spider mites or mealybugs - treat promptly"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "low",
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 85
@@ -62,18 +84,46 @@
     },
     "fertilizing": {
       "weeks": [
-        4,
-        4
+        8,
+        9
       ],
       "fertilizerType": "Diluted balanced fertilizer",
-      "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
+      "tip": "Fertilize every other month during spring and summer with diluted balanced fertilizer - skip winter",
+      "sourceIds": [
+        "ncsu"
+      ]
     }
+  },
+  "whatsNormal": [
+    "Older leaves yellow and drop over time, so leaves bunch toward the ends of the vines — prune stems back to keep it full.",
+    "Indoors it keeps small, heart-shaped juvenile leaves. Given something to climb and good light, it can grow much larger leaves.",
+    "Losing variegation usually means it needs more light."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Cut below a node and root it in water — pothos roots very easily.",
+    "sourceIds": [
+      "ncsu",
+      "mobot"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Devils Ivy (Epipremnum aureum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/devils-ivy"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Epipremnum aureum",
+      "url": "https://plants.ces.ncsu.edu/plants/epipremnum-aureum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Epipremnum aureum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276360&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -82,6 +132,12 @@
     "gbifKey": 2868323
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Watering: NC State says let the mix dry between waterings; MOBOT says keep it consistently moist in the growing season. Set to \"top quarter dry\" as the middle ground.",
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: light shown as \"Low to Bright Indirect Light\" (both sources prefer bright indirect); fertilizing from monthly to every other month (NC State)."
+    ]
   }
 }

@@ -9,7 +9,7 @@
   "imagePath": "Peace%20Lily.jpg",
   "wateringFrequency": "Weekly",
   "suggestedWateringDays": 7,
-  "lightRequirement": "Low to Medium Light",
+  "lightRequirement": "Low to Bright Indirect Light",
   "careLevel": "Easy",
   "category": "Flowering Plants",
   "description": "One of the most popular and forgiving houseplants, the Peace Lily is celebrated for its elegant white spathes (often mistaken for flowers) that bloom throughout the year and its remarkable air-purifying qualities. Native to the tropical rainforests of Central and South America, this graceful plant features glossy, deep green leaves that arch elegantly and distinctive white \"blooms\" that emerge on tall stems. Growing 1-4 feet tall depending on variety, it's famous for dramatically drooping when thirsty, then perking up quickly after watering - making it perfect for beginners who want visual watering cues. It thrives in low to medium light where most flowering plants struggle, making it ideal for offices and north-facing rooms.",
@@ -30,15 +30,15 @@
       "aspca"
     ]
   },
-  "temperature": "65-80°F (18-27°C)",
+  "temperature": "68-85°F (20-29°C) - no more than a 10°F drop at night",
   "humidity": "40-60%",
   "careInstructions": [
     "Water when top inch of soil is dry or when leaves begin to droop slightly",
     "Thrives in low to medium indirect light - one of few flowering plants for dim spaces",
-    "Keep soil consistently moist but not waterlogged during growing season",
+    "Keep soil evenly moist but not soggy - let the surface dry between waterings, but don't let it wilt",
     "Wipe leaves monthly to remove dust and enhance photosynthesis",
     "Use filtered or distilled water if possible - sensitive to fluoride and chlorine",
-    "Fertilize monthly during spring and summer with diluted balanced fertilizer",
+    "Fertilize monthly during spring and summer at one-quarter strength, and flush the soil between feedings",
     "Provide higher humidity for more frequent blooming",
     "Remove spent flowers and yellow leaves at the base"
   ],
@@ -50,9 +50,36 @@
     "Brown spots on leaves: Fungal disease from overwatering or poor air circulation"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "low",
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
     "temperature": {
-      "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMinF": 68,
+      "idealMaxF": 85,
+      "coldDamageBelowF": 40,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "humidity": {
       "minPct": 40,
@@ -63,15 +90,42 @@
         4,
         4
       ],
-      "fertilizerType": "Diluted balanced fertilizer",
-      "tip": "Fertilize monthly during spring and summer with diluted balanced fertilizer"
+      "fertilizerType": "Balanced fertilizer at one-quarter strength",
+      "tip": "Fertilize monthly during spring and summer at one-quarter strength, and flush the soil between feedings",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "repotting": {
+      "tip": "Keep it slightly pot-bound and repot only when needed, in February or March.",
+      "soil": "Potting mix high in organic matter",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     }
   },
+  "whatsNormal": [
+    "White blooms turn pale green after about 10 days and stay attractive for another month or so.",
+    "Growth slows a lot when it sits between 40 and 60°F — keep it away from cold drafts.",
+    "Brown leaf tips come from too much sun, underwatering, low humidity or fertilizer build-up."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Peace Lily (Spathiphyllum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/peace-lily"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Spathiphyllum",
+      "url": "https://plants.ces.ncsu.edu/plants/spathiphyllum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Spathiphyllum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=264610&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -80,9 +134,13 @@
     "gbifKey": 2869680
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Spathiphyllum), not a page for this species."
+      "Toxicity: based on ASPCA's genus-wide entry (Spathiphyllum), not a page for this species.",
+      "Fertilizer frequency (monthly) is unsourced; both sources only specify one-quarter strength.",
+      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
+      "Changed: ideal temperature 65-80°F → 68-85°F; light shown as \"Low to Bright Indirect Light\" (MOBOT: prefers bright filtered light, copes with low)."
     ]
   }
 }
