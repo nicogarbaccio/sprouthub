@@ -73,7 +73,7 @@ const About = () => {
       icon: <Droplets className="w-5 h-5" />,
       title: "Smart Watering",
       description:
-        "AI-powered watering schedules that adapt to weather, season, and your plant's unique needs. Never overwater or underwater again.",
+        "Watering schedules that adapt to the weather, the season, and each plant's researched care needs. Never overwater or underwater again.",
       iconClasses: "bg-sprout-water text-sprout-dark",
     },
     {
