@@ -17,8 +17,8 @@
   "temperature": "65-75°F (18-24°C)",
   "humidity": "40-50%",
   "careInstructions": [
-    "Water when top 2 inches of soil are dry - typically weekly",
-    "Allow to dry slightly more between waterings in winter",
+    "Water thoroughly when the soil surface dries - don't let the mix dry out in summer",
+    "In winter, water only when the potting mix is dry",
     "Thrives in low to bright indirect light - extremely adaptable",
     "Avoid direct sun which can scorch fronds",
     "Clean fronds monthly with damp cloth to remove dust",
@@ -41,7 +41,8 @@
       "dryness": "top_quarter",
       "overwaterSensitivity": "medium",
       "sourceIds": [
-        "ncsu"
+        "ncsu",
+        "clemson"
       ]
     },
     "light": {
@@ -103,6 +104,11 @@
       "id": "ncsu",
       "title": "NC State Extension Plant Toolbox: Howea forsteriana",
       "url": "https://plants.ces.ncsu.edu/plants/howea-forsteriana/"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: Indoor Palms",
+      "url": "https://hgic.clemson.edu/factsheet/indoor-palms/"
     }
   ],
   "taxonomy": {
@@ -114,10 +120,22 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Only one institutional source (NC State) — MOBOT has no page for this species.",
-      "Watering: NC State says use a mix that doesn't dry out; our catalog says let the top 2 inches dry. Set to \"top quarter dry\".",
-      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Changed: fertilizer guidance now says infrequent, slow-release (NC State). The 2-3 month interval is from the original catalog."
+      {
+        "type": "source_gap",
+        "note": "Only one institutional source (NC State) — MOBOT has no page for this species."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: fertilizer guidance now says infrequent, slow-release (NC State). The 2-3 month interval is from the original catalog."
+      },
+      {
+        "type": "changed",
+        "note": "Watering — our catalog said let the top 2 inches dry; NC State says don't let the mix dry out, and Clemson says water when the surface dries (summer) and when the mix is dry (winter). Care text now follows the sources."
+      }
     ]
   }
 }

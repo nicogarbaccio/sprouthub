@@ -144,7 +144,10 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Changed: fertilizing every 2-3 months → once or twice a growing season (Wisconsin, NC State)."
+      {
+        "type": "changed",
+        "note": "Changed: fertilizing every 2-3 months → once or twice a growing season (Wisconsin, NC State)."
+      }
     ]
   }
 }

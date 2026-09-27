@@ -142,8 +142,14 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Winter watering interval (21 days) is our estimate — MOBOT warns wet winter soil can be fatal.",
-      "Toxicity: no ASPCA page for E. milii. Per-animal ratings come from Plant Smart's Euphorbia entry, which names Crown-of-Thorns; symptoms and \"low\" severity from NC State. The previous entry showed Poinsettia data."
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (21 days) is our estimate — MOBOT warns wet winter soil can be fatal."
+      },
+      {
+        "type": "toxicity",
+        "note": "Toxicity: no ASPCA page for E. milii. Per-animal ratings come from Plant Smart's Euphorbia entry, which names Crown-of-Thorns; symptoms and \"low\" severity from NC State. The previous entry showed Poinsettia data."
+      }
     ]
   }
 }

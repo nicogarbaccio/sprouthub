@@ -130,11 +130,26 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: NC State lists S. nicolai as toxic to people, dogs, cats and horses; symptoms come from ASPCA's S. reginae entry.",
-      "Only one institutional source (NC State) — MOBOT has a page for S. reginae only.",
-      "Light: NC State only says bright indirect light; tolerance of direct sun is from the original catalog and not sourced.",
-      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Changed: \"keep soil consistently moist\" → water when the top layer is dry (NC State); ideal temperature up to 85°F."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: NC State lists S. nicolai as toxic to people, dogs, cats and horses; symptoms come from ASPCA's S. reginae entry."
+      },
+      {
+        "type": "source_gap",
+        "note": "Only one institutional source (NC State) — MOBOT has a page for S. reginae only."
+      },
+      {
+        "type": "source_gap",
+        "note": "Light: NC State only says bright indirect light; tolerance of direct sun is from the original catalog and not sourced."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: \"keep soil consistently moist\" → water when the top layer is dry (NC State); ideal temperature up to 85°F."
+      }
     ]
   }
 }

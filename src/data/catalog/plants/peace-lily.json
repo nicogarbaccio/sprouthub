@@ -137,10 +137,22 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Spathiphyllum), not a page for this species.",
-      "Fertilizer frequency (monthly) is unsourced; both sources only specify one-quarter strength.",
-      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Changed: ideal temperature 65-80°F → 68-85°F; light shown as \"Low to Bright Indirect Light\" (MOBOT: prefers bright filtered light, copes with low)."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Spathiphyllum), not a page for this species."
+      },
+      {
+        "type": "source_gap",
+        "note": "Fertilizer frequency (monthly) is unsourced; both sources only specify one-quarter strength."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: ideal temperature 65-80°F → 68-85°F; light shown as \"Low to Bright Indirect Light\" (MOBOT: prefers bright filtered light, copes with low)."
+      }
     ]
   }
 }

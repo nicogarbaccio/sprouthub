@@ -117,10 +117,22 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Opuntia species), not a page for this species.",
-      "Only one institutional source (NC State) — MOBOT has no page for this plant.",
-      "Winter watering (30 days) matches our original catalog; NC State says \"very little water\" in winter.",
-      "Changed: winter rest temperature 50-60°F → 50-65°F (NC State)."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Opuntia species), not a page for this species."
+      },
+      {
+        "type": "source_gap",
+        "note": "Only one institutional source (NC State) — MOBOT has no page for this plant."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (30 days) matches our original catalog; NC State says \"very little water\" in winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: winter rest temperature 50-60°F → 50-65°F (NC State)."
+      }
     ]
   }
 }

@@ -14,7 +14,7 @@
   "description": "Native to the dry regions of southwest Africa, String of Pearls is an unusual succulent featuring long, trailing stems adorned with spherical, pea-sized leaves that look exactly like strings of green beads or pearls - one of nature's most whimsical designs. Each \"pearl\" has a translucent window stripe that allows light to penetrate for photosynthesis. The delicate stems can trail 2-3 feet long, creating stunning cascading displays in hanging baskets. When happy, it produces small white flowers with a cinnamon-like fragrance. However, String of Pearls has a reputation for being finicky - the pearls drop easily when touched, it's prone to rot, and it requires specific watering and light conditions. Success requires understanding its needs, but the enchanting appearance makes it worth the effort for patient growers.",
   "toxicity": "Toxic to cats and dogs. Contains pyrrolizidine alkaloids; eating it can cause vomiting and diarrhea.",
   "temperature": "70-80°F (21-27°C) in summer, 50-60°F (10-16°C) in winter",
-  "humidity": "30-50% - prefers dry air",
+  "humidity": "30-60% - average home humidity is fine",
   "careInstructions": [
     "Water only when pearls show slight wrinkling - every 10-14 days typically",
     "Water soil directly, never overhead - wet pearls rot easily",
@@ -36,11 +36,12 @@
   "care": {
     "watering": {
       "dormantSeasonDays": 21,
-      "dryness": "top_half",
+      "dryness": "fully_dry",
       "overwaterSensitivity": "high",
       "sourceIds": [
-        "ncsu",
-        "mobot"
+        "mobot",
+        "uw",
+        "ncsu"
       ]
     },
     "light": {
@@ -66,7 +67,10 @@
     },
     "humidity": {
       "minPct": 30,
-      "maxPct": 50
+      "maxPct": 60,
+      "sourceIds": [
+        "mobot"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -130,6 +134,11 @@
       "id": "mobot",
       "title": "Missouri Botanical Garden Plant Finder: Curio rowleyanus",
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=457444&isprofile=1"
+    },
+    {
+      "id": "uw",
+      "title": "University of Wisconsin Extension: String of Pearls",
+      "url": "https://hort.extension.wisc.edu/articles/string-of-pearls-senecio-rowleyanus/"
     }
   ],
   "taxonomy": {
@@ -141,12 +150,30 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately.",
-      "Watering: NC State says never let it dry out completely; MOBOT says let the roots dry between waterings. Set to \"top half dry\".",
-      "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Humidity: MOBOT says it is unaffected by high humidity; our catalog says it prefers dry air (30-50%). Left unchanged.",
-      "Cold threshold is frost (32°F) — both sources only say it is frost-intolerant.",
-      "Changed: temperature now shows the summer/winter ranges both sources give; light advice now warns direct sun scorches (NC State)."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "estimate",
+        "note": "Cold threshold is frost (32°F) — both sources only say it is frost-intolerant."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: temperature now shows the summer/winter ranges both sources give; light advice now warns direct sun scorches (NC State)."
+      },
+      {
+        "type": "disagreement",
+        "note": "Watering — resolved by majority: MOBOT and Wisconsin say let it dry out completely between waterings; NC State says never let it dry out completely. Set to \"fully dry\"."
+      },
+      {
+        "type": "changed",
+        "note": "Humidity — our catalog said it prefers dry air (30-50%); MOBOT says it is unaffected by high humidity. Now 30-60%, \"average home humidity is fine\"."
+      }
     ]
   }
 }

@@ -117,9 +117,18 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Only one institutional source (NC State) — MOBOT has no page for this species.",
-      "Winter watering interval (5 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Changed: light was \"Bright Indirect to Direct Light\" with \"some direct sun beneficial\" — NC State says direct sun scorches it."
+      {
+        "type": "source_gap",
+        "note": "Only one institutional source (NC State) — MOBOT has no page for this species."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (5 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: light was \"Bright Indirect to Direct Light\" with \"some direct sun beneficial\" — NC State says direct sun scorches it."
+      }
     ]
   }
 }

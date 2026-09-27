@@ -143,8 +143,14 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: NC State lists Y. gigantea leaves and roots as toxic to people, cats, dogs and horses; symptoms come from ASPCA's Yucca entry.",
-      "Winter watering (28 days) matches our original catalog; MOBOT says reduce to the minimum and keep the soil dry."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: NC State lists Y. gigantea leaves and roots as toxic to people, cats, dogs and horses; symptoms come from ASPCA's Yucca entry."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (28 days) matches our original catalog; MOBOT says reduce to the minimum and keep the soil dry."
+      }
     ]
   }
 }

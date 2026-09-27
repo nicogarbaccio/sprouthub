@@ -79,7 +79,10 @@
   "review": {
     "status": "legacy",
     "flags": [
-      "Toxicity: based on ASPCA's entry for a related species (Tradescantia flumeninsis)."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's entry for a related species (Tradescantia flumeninsis)."
+      }
     ]
   }
 }

@@ -118,10 +118,22 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately (it names pets and livestock).",
-      "Only one institutional source (NC State) — MOBOT has no page for this plant.",
-      "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Changed: water when the top half is dry, not when completely dry (NC State)."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately (it names pets and livestock)."
+      },
+      {
+        "type": "source_gap",
+        "note": "Only one institutional source (NC State) — MOBOT has no page for this plant."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: water when the top half is dry, not when completely dry (NC State)."
+      }
     ]
   }
 }

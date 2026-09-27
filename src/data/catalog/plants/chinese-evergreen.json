@@ -58,6 +58,7 @@
       "overwaterSensitivity": "medium",
       "sourceIds": [
         "ncsu",
+        "clemson",
         "mobot"
       ]
     },
@@ -119,6 +120,11 @@
       "id": "mobot",
       "title": "Missouri Botanical Garden Plant Finder: Aglaonema commutatum",
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276174&isprofile=1"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: Chinese Evergreen",
+      "url": "https://hgic.clemson.edu/factsheet/chinese-evergreen-aglaonema-care-cultivation-growing-guide/"
     }
   ],
   "taxonomy": {
@@ -130,9 +136,18 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: based on ASPCA's entry for a related species (Aglaonema modestum).",
-      "Watering: NC State says let the mix dry between waterings; MOBOT says keep it consistently moist and never let it dry out. Set to \"top quarter dry\".",
-      "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's entry for a related species (Aglaonema modestum)."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "disagreement",
+        "note": "Watering — resolved by majority: NC State says let it dry between waterings and Clemson says water when the top 1-2 inches are dry; MOBOT says never let it dry out. Set to \"top quarter dry\"."
+      }
     ]
   }
 }

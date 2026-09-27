@@ -81,7 +81,10 @@
   "review": {
     "status": "legacy",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Kalanchoe spp), not a page for this species."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Kalanchoe spp), not a page for this species."
+      }
     ]
   }
 }

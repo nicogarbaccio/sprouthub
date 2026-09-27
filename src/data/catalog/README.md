@@ -17,8 +17,7 @@ plant APIs.
 3. **Rate pet safety** (see below).
 4. **Research care** (see below).
 5. **Mark it for review.** Set `review.status` to `draft` with today's `researchedAt`, and
-   list anything uncertain in `review.flags`. A person moves it to `reviewed` after checking
-   the flags against the cited sources.
+   record anything a reviewer should check in `review.flags` (see below).
 6. **Check it.** `npm test` (schema, source ids, pet-safety text) and `npm run check-toxicity`.
 
 ## Pet safety
@@ -45,11 +44,12 @@ failure" warning, and "Air Plant" gave a Tillandsia a Kalanchoe's heart symptoms
 
 - **Sources:** NC State Extension Plant Toolbox and Missouri Botanical Garden Plant Finder
   (`https://plantfinder.mobot.org/PlantFinderProfileResults.aspx?basic=<name>`) for every
-  plant; RHS or other university extension pages when those two don't cover the species.
-  List each in `sources` and cite them from each section's `sourceIds`.
+  plant; RHS, University of Wisconsin Extension, Clemson HGIC or other university extension
+  pages when those two don't cover the species, or to break a tie. List each in `sources` and
+  cite them from each section's `sourceIds`.
 - **Only cite a source for what it says.** If a section mixes sourced and original values,
   flag which parts aren't sourced.
-- **Sources disagree:** pick a middle-ground or more cautious value and flag the disagreement.
+- **Sources disagree:** follow [the tiebreakers](#when-sources-disagree) and flag it.
 - **Sources are vague** (e.g. "water less in winter"): fill in our own estimate and flag it
   as an estimate.
 - **Keep the prose in step.** When a researched value changes a fact, update the matching
@@ -58,3 +58,44 @@ failure" warning, and "Air Plant" gave a Tillandsia a Kalanchoe's heart symptoms
 - **`lightRequirement` must be an existing value** — it feeds the catalog's light filter.
 - **`suggestedWateringDays` only affects plants added after the change** — existing users'
   schedules don't move.
+
+## When sources disagree
+
+Apply these in order and stop at the first that settles it. Record the result as a
+`disagreement` flag saying which rule decided it.
+
+1. **Our original catalog text never beats a source.** It's a fallback for things no source
+   covers.
+2. **The more specific source wins:** a species page over a genus page; indoor or houseplant
+   guidance over outdoor or bedding-plant guidance.
+3. **A number beats a vague phrase** — "water when the top inch is dry" over "keep moist".
+4. **Still tied: add a third source** (Wisconsin, Clemson, RHS, UF/IFAS) and go with the
+   majority. Missouri Botanical Garden often says "keep evenly moist" where others say
+   "let it dry slightly", so watering ties are common.
+5. **Still tied: take the lower-risk option.** Watering leans drier — every source names
+   overwatering and root rot as the main killer, and an underwatered plant recovers where a
+   rotted one usually doesn't. Cold limits take the higher (safer) temperature. Humidity is
+   shown as a range covering both sources.
+
+Tell users only when the disagreement changes what they'd do and the rules can't settle it.
+Then the care text says so plainly — e.g. the orchid's "Experts differ on the spent flower
+spike: …" line. A small numeric difference is just shown as a range.
+
+## Review flags
+
+Each flag is `{ "type", "note" }`:
+
+| Type | Use for |
+|---|---|
+| `disagreement` | Sources conflict; the note says which rule resolved it |
+| `estimate` | A value we derived because sources are vague (e.g. winter watering intervals) |
+| `source_gap` | Thin coverage: one source, a genus-level page, or values still from the original catalog |
+| `changed` | A value that differs from what the app showed before research |
+| `toxicity` | How the pet-safety rating was reached |
+| `app_gap` | Care sprouthub can't represent yet (e.g. Lithops' "no water this season") |
+| `note` | Anything else worth a reviewer's attention |
+
+`npm run catalog-flags` lists open flags across the catalog, grouped by type
+(`-- --type=disagreement` or `-- --plant=<slug>` to narrow it). After checking a plant's
+flags against its sources, set its `review.status` to `reviewed`; reviewed plants drop out of
+the report.

@@ -14,7 +14,7 @@
   "description": "Native to the cloud forests of Tanzania and Kenya, African Violets are beloved for their jewel-toned flowers in shades of purple, pink, blue, white, or bi-colors that bloom nearly year-round with proper care. These compact plants form rosettes of fuzzy, rounded leaves that are just as ornamental as the delicate five-petaled flowers that hover above them. Growing only 6-8 inches wide, they're perfect for small spaces, windowsills, or creating colorful collections. While they have a reputation for being fussy, modern cultivars are more forgiving, and once you understand their preferences for bottom watering and consistent conditions, they're rewarding and prolific bloomers that can flower continuously for months.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "60-80°F (16-27°C) - nights below 60°F stunt growth",
-  "humidity": "50-60%",
+  "humidity": "40-60% - copes with average home air; more humidity helps",
   "careInstructions": [
     "Water from bottom by placing pot in water dish for 10-15 minutes until soil moistens",
     "Never get water on leaves or crown - causes spotting and rot",
@@ -40,6 +40,8 @@
       "overwaterSensitivity": "high",
       "sourceIds": [
         "ncsu",
+        "uw",
+        "clemson",
         "mobot"
       ]
     },
@@ -65,8 +67,12 @@
       ]
     },
     "humidity": {
-      "minPct": 50,
-      "maxPct": 60
+      "minPct": 40,
+      "maxPct": 60,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -116,6 +122,16 @@
       "id": "mobot",
       "title": "Missouri Botanical Garden Plant Finder: Saintpaulia ionantha",
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=280890&isprofile=1"
+    },
+    {
+      "id": "uw",
+      "title": "University of Wisconsin Extension: African Violets",
+      "url": "https://hort.extension.wisc.edu/articles/african-violets/"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: African Violet",
+      "url": "https://hgic.clemson.edu/factsheet/african-violet/"
     }
   ],
   "taxonomy": {
@@ -127,12 +143,30 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Saintpaulia spp.), not a page for this species.",
-      "Watering: NC State says let the surface dry between waterings; MOBOT says keep the soil moist at all times. Set to \"top quarter dry\".",
-      "Humidity: NC State says it needs high humidity and dislikes dry air; MOBOT says it adjusts well to dry home air. Kept our 50-60%.",
-      "Repotting: only the soil mix is sourced; \"repot annually\" is from the original catalog.",
-      "Winter watering (7 days) is our estimate — neither source mentions a winter rest.",
-      "Changed: ideal temperature 65-75°F → 60-80°F (both sources)."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Saintpaulia spp.), not a page for this species."
+      },
+      {
+        "type": "source_gap",
+        "note": "Repotting: only the soil mix is sourced; \"repot annually\" is from the original catalog."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (7 days) is our estimate — neither source mentions a winter rest."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: ideal temperature 65-75°F → 60-80°F (both sources)."
+      },
+      {
+        "type": "disagreement",
+        "note": "Watering — resolved by majority: NC State and Wisconsin say let the surface dry slightly between waterings, and Clemson names overwatering as the most common problem; MOBOT says keep it moist. Set to \"top quarter dry\"."
+      },
+      {
+        "type": "disagreement",
+        "note": "Humidity — no third source: NC State says it needs high humidity; MOBOT says it adjusts to dry home air. Shown as a 40-60% range covering both."
+      }
     ]
   }
 }

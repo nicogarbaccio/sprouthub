@@ -119,8 +119,14 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Winter watering (every 4 days) is our estimate — MOBOT says only a slight reduction; NC State says reduce because overwatering in winter causes root rot.",
-      "Changed: fertilizing every 2-4 weeks → monthly, weak (MOBOT); ideal temperature 60-75°F → 60-70°F (NC State)."
+      {
+        "type": "estimate",
+        "note": "Winter watering (every 4 days) is our estimate — MOBOT says only a slight reduction; NC State says reduce because overwatering in winter causes root rot."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: fertilizing every 2-4 weeks → monthly, weak (MOBOT); ideal temperature 60-75°F → 60-70°F (NC State)."
+      }
     ]
   }
 }

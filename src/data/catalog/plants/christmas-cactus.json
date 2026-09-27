@@ -154,10 +154,22 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: NC State says Schlumbergera × buckleyi is non-toxic and safe with pets and children; the horse rating comes from ASPCA's S. bridgesii entry.",
-      "Watering timing differs: NC State and Wisconsin reduce watering in late summer/September and after flowering; MOBOT says reduce from late winter to spring. Used NC State/Wisconsin.",
-      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Changed: ideal temperature 60-70°F → 70-80°F while growing; bloom-trigger instructions, soil mix and light guidance now follow all three sources."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: NC State says Schlumbergera × buckleyi is non-toxic and safe with pets and children; the horse rating comes from ASPCA's S. bridgesii entry."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: ideal temperature 60-70°F → 70-80°F while growing; bloom-trigger instructions, soil mix and light guidance now follow all three sources."
+      },
+      {
+        "type": "disagreement",
+        "note": "Watering timing — resolved by majority: NC State and Wisconsin cut back in late summer/September and again after flowering; MOBOT cuts back from late winter to spring. Set to the NC State/Wisconsin timing."
+      }
     ]
   }
 }

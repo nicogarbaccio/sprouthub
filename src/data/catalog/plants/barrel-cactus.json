@@ -107,9 +107,18 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
-      "NC State's page covers the whole genus, not this species. MOBOT has no page for it.",
-      "Winter watering (42 days) is our estimate — NC State says water even less in fall and winter."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      },
+      {
+        "type": "source_gap",
+        "note": "NC State's page covers the whole genus, not this species. MOBOT has no page for it."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (42 days) is our estimate — NC State says water even less in fall and winter."
+      }
     ]
   }
 }

@@ -32,7 +32,7 @@
     ]
   },
   "temperature": "60-85°F (16-29°C)",
-  "humidity": "40-60%",
+  "humidity": "50-70% - prefers high humidity",
   "careInstructions": [
     "Water when top 2-3 inches of soil are dry - typically weekly",
     "Provide medium to bright indirect light - tolerates lower light but grows slower",
@@ -81,8 +81,12 @@
       ]
     },
     "humidity": {
-      "minPct": 40,
-      "maxPct": 60
+      "minPct": 50,
+      "maxPct": 70,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -143,8 +147,14 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Winter watering interval (14 days) is our estimate — MOBOT only says to reduce watering from fall to late winter.",
-      "Humidity range 40-60% is unsourced; NC State says it prefers high humidity."
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (14 days) is our estimate — MOBOT only says to reduce watering from fall to late winter."
+      },
+      {
+        "type": "estimate",
+        "note": "Humidity — NC State says it prefers high humidity and MOBOT a humid location; our catalog said 40-60%. The 50-70% numbers are our estimate of \"high\"."
+      }
     ]
   }
 }

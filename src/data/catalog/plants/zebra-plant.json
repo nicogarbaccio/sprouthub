@@ -122,10 +122,22 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: NC State says Haworthiopsis attenuata is non-toxic to pets and humans. Horses aren't rated.",
-      "Only one institutional source (NC State) — MOBOT has no page for this plant.",
-      "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Changed: ideal temperature 65-80°F → 60-80°F (NC State)."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: NC State says Haworthiopsis attenuata is non-toxic to pets and humans. Horses aren't rated."
+      },
+      {
+        "type": "source_gap",
+        "note": "Only one institutional source (NC State) — MOBOT has no page for this plant."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: ideal temperature 65-80°F → 60-80°F (NC State)."
+      }
     ]
   }
 }

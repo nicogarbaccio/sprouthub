@@ -118,9 +118,18 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: NC State calls this species safe for pets and children; the horse rating comes from ASPCA's entry for Pilea cadierei.",
-      "Only one institutional source (NC State) — MOBOT has no page for P. peperomioides.",
-      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: NC State calls this species safe for pets and children; the horse rating comes from ASPCA's entry for Pilea cadierei."
+      },
+      {
+        "type": "source_gap",
+        "note": "Only one institutional source (NC State) — MOBOT has no page for P. peperomioides."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      }
     ]
   }
 }

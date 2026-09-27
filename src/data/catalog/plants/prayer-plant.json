@@ -134,9 +134,18 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: based on ASPCA's entry for a related species (Calathea insignis).",
-      "Winter watering (7 days) is our estimate — NC State says let the soil dry out in winter; MOBOT says reduce soil moisture.",
-      "Changed: fertilizing every 2 weeks → monthly (MOBOT). Half strength is from the original catalog."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's entry for a related species (Calathea insignis)."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (7 days) is our estimate — NC State says let the soil dry out in winter; MOBOT says reduce soil moisture."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: fertilizing every 2 weeks → monthly (MOBOT). Half strength is from the original catalog."
+      }
     ]
   }
 }

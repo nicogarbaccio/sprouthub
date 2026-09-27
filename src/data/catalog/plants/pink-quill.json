@@ -65,7 +65,10 @@
   "review": {
     "status": "legacy",
     "flags": [
-      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      }
     ]
   }
 }

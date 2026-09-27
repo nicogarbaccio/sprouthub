@@ -143,6 +143,20 @@ export const taxonomySchema = z.object({
   gbifKey: z.number().int().positive(),
 });
 
+export const reviewFlagSchema = z.object({
+  /**
+   * disagreement — sources conflict; the note says how it was resolved
+   * estimate     — a value we derived because sources are vague
+   * source_gap   — thin coverage: one source, genus-level, or values still from the original catalog
+   * changed      — a value that differs from what the app showed before research
+   * toxicity     — how the pet-safety rating was reached
+   * app_gap      — care sprouthub can't represent yet (e.g. "no water this season")
+   * note         — anything else worth a reviewer's attention
+   */
+  type: z.enum(['disagreement', 'estimate', 'source_gap', 'changed', 'toxicity', 'app_gap', 'note']),
+  note: z.string().min(1),
+});
+
 export const reviewSchema = z.object({
   /**
    * legacy   — hand-written before sourcing was tracked
@@ -152,8 +166,8 @@ export const reviewSchema = z.object({
   status: z.enum(['legacy', 'draft', 'reviewed']),
   /** Date the entry was last researched against its sources (YYYY-MM-DD) */
   researchedAt: z.iso.date().optional(),
-  /** Open questions for the reviewer: conflicting sources, low confidence, etc. */
-  flags: z.array(z.string().min(1)).optional(),
+  /** Notes for the reviewer. `npm run catalog-flags` lists them across the catalog. */
+  flags: z.array(reviewFlagSchema).optional(),
 });
 
 export const catalogEntrySchema = z
@@ -226,3 +240,4 @@ export type ToxicityDetail = z.infer<typeof toxicityDetailSchema>;
 export type PetRating = z.infer<typeof petRating>;
 export type LightLevel = z.infer<typeof lightLevelSchema>;
 export type CatalogSource = z.infer<typeof sourceSchema>;
+export type ReviewFlag = z.infer<typeof reviewFlagSchema>;

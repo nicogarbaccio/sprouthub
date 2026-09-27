@@ -58,6 +58,8 @@
       "overwaterSensitivity": "medium",
       "sourceIds": [
         "ncsu",
+        "uw",
+        "clemson",
         "mobot"
       ]
     },
@@ -124,6 +126,16 @@
       "id": "mobot",
       "title": "Missouri Botanical Garden Plant Finder: Epipremnum aureum",
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276360&isprofile=1"
+    },
+    {
+      "id": "uw",
+      "title": "University of Wisconsin Extension: Pothos",
+      "url": "https://hort.extension.wisc.edu/articles/pothos-epipremmum-aureum/"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: Pothos",
+      "url": "https://hgic.clemson.edu/factsheet/how-to-grow-pothos-indoors-epipremnum-spp-care-cultivars-and-common-problems/"
     }
   ],
   "taxonomy": {
@@ -135,9 +147,18 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Watering: NC State says let the mix dry between waterings; MOBOT says keep it consistently moist in the growing season. Set to \"top quarter dry\" as the middle ground.",
-      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Changed: light shown as \"Low to Bright Indirect Light\" (both sources prefer bright indirect); fertilizing from monthly to every other month (NC State)."
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: light shown as \"Low to Bright Indirect Light\" (both sources prefer bright indirect); fertilizing from monthly to every other month (NC State)."
+      },
+      {
+        "type": "disagreement",
+        "note": "Watering — resolved by majority: NC State, Wisconsin and Clemson say let it dry slightly between waterings; MOBOT says keep it consistently moist. Set to \"top quarter dry\"."
+      }
     ]
   }
 }

@@ -125,9 +125,18 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Impatiens spp.), not a page for this species.",
-      "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited.",
-      "Winter watering (5 days) is our estimate — MOBOT says reduce watering for the winter rest."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Impatiens spp.), not a page for this species."
+      },
+      {
+        "type": "source_gap",
+        "note": "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (5 days) is our estimate — MOBOT says reduce watering for the winter rest."
+      }
     ]
   }
 }

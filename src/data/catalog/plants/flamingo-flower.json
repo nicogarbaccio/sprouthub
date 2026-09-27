@@ -57,6 +57,7 @@
       "overwaterSensitivity": "medium",
       "sourceIds": [
         "ncsu",
+        "clemson",
         "mobot"
       ]
     },
@@ -141,6 +142,11 @@
       "id": "mobot",
       "title": "Missouri Botanical Garden Plant Finder: Anthurium andraeanum",
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276219&isprofile=1"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: Anthurium",
+      "url": "https://hgic.clemson.edu/anthurium-easy-houseplants-that-offer-long-lasting-color/"
     }
   ],
   "taxonomy": {
@@ -152,9 +158,18 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: NC State says A. andraeanum is toxic to pets and people; symptoms come from ASPCA's A. scherzerianum entry.",
-      "Watering: NC State says water when the top inch is dry; MOBOT says never let it dry out and water the same year-round (no winter rest). Winter interval kept at 7 days.",
-      "Changed: fertilizing every 6-8 weeks → weekly, diluted (NC State only; MOBOT doesn't say)."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: NC State says A. andraeanum is toxic to pets and people; symptoms come from ASPCA's A. scherzerianum entry."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: fertilizing every 6-8 weeks → weekly, diluted (NC State only; MOBOT doesn't say)."
+      },
+      {
+        "type": "disagreement",
+        "note": "Watering — resolved by majority: NC State and Clemson say let it dry slightly (top inch) between waterings; MOBOT says never let it dry out. Set to \"top quarter dry\", with the winter interval kept at 7 days."
+      }
     ]
   }
 }

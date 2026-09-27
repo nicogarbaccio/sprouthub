@@ -150,11 +150,26 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Begonia spp.), not a page for this species.",
-      "Humidity: MOBOT says more than 50%; NC State says rex begonias need more than 75%. Range set to 50-80%.",
-      "NC State's page covers the whole Begonia genus.",
-      "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Changed: temperature 60-75°F → 60-70°F; fertilizing every 2-3 weeks → every 2 weeks at quarter strength from spring, stopping in winter (MOBOT)."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Begonia spp.), not a page for this species."
+      },
+      {
+        "type": "source_gap",
+        "note": "NC State's page covers the whole Begonia genus."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: temperature 60-75°F → 60-70°F; fertilizing every 2-3 weeks → every 2 weeks at quarter strength from spring, stopping in winter (MOBOT)."
+      },
+      {
+        "type": "disagreement",
+        "note": "Humidity — MOBOT says more than 50%; NC State says rex begonias need more than 75%. Shown as a 50-80% range covering both."
+      }
     ]
   }
 }

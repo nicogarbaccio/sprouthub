@@ -141,10 +141,22 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately.",
-      "Changed: summer watering from every 21 days to every 14 (NC State: twice monthly, only when completely dry); fertilizing from 2-3 to 1-2 times a year.",
-      "Cold threshold 60°F is the sources' \"bring it indoors\" temperature for plants summered outside, not a damage point.",
-      "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: summer watering from every 21 days to every 14 (NC State: twice monthly, only when completely dry); fertilizing from 2-3 to 1-2 times a year."
+      },
+      {
+        "type": "note",
+        "note": "Cold threshold 60°F is the sources' \"bring it indoors\" temperature for plants summered outside, not a damage point."
+      },
+      {
+        "type": "source_gap",
+        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+      }
     ]
   }
 }

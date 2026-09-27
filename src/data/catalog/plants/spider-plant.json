@@ -138,8 +138,14 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Changed: ideal temperature 60-80°F → 55-70°F (MOBOT); light shown as \"Low to Bright Indirect Light\" (NC State: prefers medium light, tolerates deep shade, no direct sun).",
-      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      {
+        "type": "changed",
+        "note": "Changed: ideal temperature 60-80°F → 55-70°F (MOBOT); light shown as \"Low to Bright Indirect Light\" (NC State: prefers medium light, tolerates deep shade, no direct sun)."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      }
     ]
   }
 }

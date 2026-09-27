@@ -41,6 +41,7 @@
       "overwaterSensitivity": "medium",
       "sourceIds": [
         "ncsu",
+        "clemson",
         "mobot"
       ]
     },
@@ -121,6 +122,11 @@
       "id": "mobot",
       "title": "Missouri Botanical Garden Plant Finder: Chamaedorea elegans",
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276650&isprofile=1"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: Indoor Palms",
+      "url": "https://hgic.clemson.edu/factsheet/indoor-palms/"
     }
   ],
   "taxonomy": {
@@ -132,9 +138,18 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Watering: NC State says let the soil dry slightly; MOBOT says keep it uniformly moist. Set to \"top quarter dry\".",
-      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Changed: fertilizing every 2-3 months → monthly, none in winter (MOBOT); repotting every 2-3 years → about every other year (NC State); light shown as \"Low to Bright Indirect Light\"."
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: fertilizing every 2-3 months → monthly, none in winter (MOBOT); repotting every 2-3 years → about every other year (NC State); light shown as \"Low to Bright Indirect Light\"."
+      },
+      {
+        "type": "disagreement",
+        "note": "Watering — resolved by majority: NC State says let it dry slightly and Clemson says water when the surface dries; MOBOT says keep it uniformly moist. Set to \"top quarter dry\"."
+      }
     ]
   }
 }

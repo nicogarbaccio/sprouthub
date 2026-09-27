@@ -127,9 +127,18 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Pelargonium species), not a page for this species.",
-      "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited.",
-      "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Pelargonium species), not a page for this species."
+      },
+      {
+        "type": "source_gap",
+        "note": "Both sources mainly describe growing it outdoors as a bedding or patio plant; indoor guidance is limited."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      }
     ]
   }
 }

@@ -15,7 +15,7 @@
   "description": "Native to tropical Africa and Arabia, Pentas produces dense clusters of small, tubular star-shaped flowers in vibrant shades of red, pink, white, or lavender that bloom continuously from spring through fall with proper care. The clusters can contain 20-50+ individual flowers, creating colorful pompom-like displays that are magnets for butterflies and hummingbirds when placed outdoors. The lance-shaped leaves provide an attractive backdrop to the prolific blooms. Growing 1-3 feet tall, this reliable bloomer is one of the easiest flowering houseplants to maintain, asking only for bright light and regular watering in exchange for months of non-stop color. It's particularly beginner-friendly and forgiving of minor care mistakes while still rewarding with abundant flowers.",
   "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
   "temperature": "60-75°F (15-24°C)",
-  "humidity": "40-60%",
+  "humidity": "50-70% - likes high humidity when grown indoors",
   "careInstructions": [
     "Water regularly, letting the soil dry somewhat between waterings",
     "Provide at least 4-6 hours of direct or very bright indirect light daily",
@@ -61,8 +61,12 @@
       "idealMaxF": 75
     },
     "humidity": {
-      "minPct": 40,
-      "maxPct": 60
+      "minPct": 50,
+      "maxPct": 70,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -119,10 +123,22 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
-      "Humidity: both sources say it needs high humidity when kept as a houseplant; our catalog says 40-60%. Left unchanged.",
-      "Winter watering (7 days) is our estimate — MOBOT says reduce watering over winter.",
-      "Changed: \"keep consistently moist\" → let the soil dry somewhat between waterings; fertilizing every 2-3 weeks → monthly (MOBOT)."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (7 days) is our estimate — MOBOT says reduce watering over winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: \"keep consistently moist\" → let the soil dry somewhat between waterings; fertilizing every 2-3 weeks → monthly (MOBOT)."
+      },
+      {
+        "type": "estimate",
+        "note": "Humidity — both sources say it needs high humidity as a houseplant; our catalog said 40-60%. The 50-70% numbers are our estimate of \"high\"."
+      }
     ]
   }
 }

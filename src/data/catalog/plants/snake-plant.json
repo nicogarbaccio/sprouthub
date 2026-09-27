@@ -142,7 +142,10 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Winter watering: NC State says every one to two months; 42 days is a midpoint."
+      {
+        "type": "estimate",
+        "note": "Winter watering: NC State says every one to two months; 42 days is a midpoint."
+      }
     ]
   }
 }

@@ -16,6 +16,7 @@
     "cleanup:households:dry-run": "tsx scripts/cleanup-test-households.ts --dry-run",
     "test": "vitest",
     "check-toxicity": "tsx --tsconfig tsconfig.app.json scripts/check-plant-toxicity.ts",
+    "catalog-flags": "tsx --tsconfig tsconfig.app.json scripts/catalog-flags.ts",
     "generate:icons": "node scripts/generate-app-icons.mjs"
   },
   "dependencies": {

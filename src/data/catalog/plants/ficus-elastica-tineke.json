@@ -82,7 +82,10 @@
   "review": {
     "status": "legacy",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Ficus sp.), not a page for this species."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Ficus sp.), not a page for this species."
+      }
     ]
   }
 }

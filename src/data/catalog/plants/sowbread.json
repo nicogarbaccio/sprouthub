@@ -120,8 +120,14 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Cyclamen spp), not a page for this species.",
-      "Seasons are reversed: cyclamen grows and blooms in winter and is dormant in summer, the opposite of sprouthub's growing/dormant model. The winter interval is set to its normal 3 days; summer reminders will be too frequent. Needs the same \"no water this season\" follow-up as Lithops."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Cyclamen spp), not a page for this species."
+      },
+      {
+        "type": "app_gap",
+        "note": "Seasons are reversed: cyclamen grows and blooms in winter and is dormant in summer, the opposite of sprouthub's growing/dormant model. The winter interval is set to its normal 3 days; summer reminders will be too frequent. Needs the same \"no water this season\" follow-up as Lithops."
+      }
     ]
   }
 }

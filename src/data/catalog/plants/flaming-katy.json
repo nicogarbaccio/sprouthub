@@ -136,10 +136,22 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: NC State says K. blossfeldiana is toxic to children, dogs and cats; symptoms come from ASPCA's Kalanchoe entry. Horses aren't rated.",
-      "Monthly fertilizing is from the original catalog; MOBOT only specifies the fertilizer type.",
-      "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Changed: bloom trigger 12-14 → 14 hours of darkness, at 70°F days / 60°F nights (both sources); light now \"Bright Indirect to Direct\" with afternoon shade (NC State)."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: NC State says K. blossfeldiana is toxic to children, dogs and cats; symptoms come from ASPCA's Kalanchoe entry. Horses aren't rated."
+      },
+      {
+        "type": "source_gap",
+        "note": "Monthly fertilizing is from the original catalog; MOBOT only specifies the fertilizer type."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: bloom trigger 12-14 → 14 hours of darkness, at 70°F days / 60°F nights (both sources); light now \"Bright Indirect to Direct\" with afternoon shade (NC State)."
+      }
     ]
   }
 }

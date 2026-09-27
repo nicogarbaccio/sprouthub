@@ -141,9 +141,18 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Winter watering (30 days) is our estimate — MOBOT says reduce watering \"to the minimum\" in winter.",
-      "Cold threshold 50°F is MOBOT's \"bring it indoors\" night temperature; it tolerates 40°F minimum indoors in winter.",
-      "Changed: light guidance now says full sun is best (both sources), instead of bright indirect with some morning sun."
+      {
+        "type": "estimate",
+        "note": "Winter watering (30 days) is our estimate — MOBOT says reduce watering \"to the minimum\" in winter."
+      },
+      {
+        "type": "note",
+        "note": "Cold threshold 50°F is MOBOT's \"bring it indoors\" night temperature; it tolerates 40°F minimum indoors in winter."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: light guidance now says full sun is best (both sources), instead of bright indirect with some morning sun."
+      }
     ]
   }
 }

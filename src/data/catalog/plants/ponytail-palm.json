@@ -128,8 +128,14 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Winter watering (42 days) is our estimate — NC State says greatly reduce watering in winter.",
-      "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+      {
+        "type": "estimate",
+        "note": "Winter watering (42 days) is our estimate — NC State says greatly reduce watering in winter."
+      },
+      {
+        "type": "source_gap",
+        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+      }
     ]
   }
 }

@@ -59,6 +59,7 @@
       "overwaterSensitivity": "medium",
       "sourceIds": [
         "ncsu",
+        "clemson",
         "mobot"
       ]
     },
@@ -123,6 +124,11 @@
       "id": "mobot",
       "title": "Missouri Botanical Garden Plant Finder: Dracaena marginata",
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=282199&isprofile=1"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: Dracaena",
+      "url": "https://hgic.clemson.edu/factsheet/dracaena/"
     }
   ],
   "taxonomy": {
@@ -134,8 +140,14 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Watering: NC State says let it dry between waterings (but not severely); MOBOT says keep soil uniformly moist in the growing season. Kept our \"top 2-3 inches dry\" as \"top quarter dry\".",
-      "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "disagreement",
+        "note": "Watering — resolved by majority: NC State and Clemson say let it dry slightly between waterings; MOBOT says keep it uniformly moist. Set to \"top quarter dry\"."
+      }
     ]
   }
 }

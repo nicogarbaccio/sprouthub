@@ -115,9 +115,18 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
-      "Both sources describe hybrid flowering maples generally, not a single species.",
-      "Winter watering interval (5 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      },
+      {
+        "type": "source_gap",
+        "note": "Both sources describe hybrid flowering maples generally, not a single species."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (5 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      }
     ]
   }
 }

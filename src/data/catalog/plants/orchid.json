@@ -22,8 +22,8 @@
     "Plant in orchid bark mix or sphagnum moss - never regular potting soil",
     "Provide bright, indirect light - east window is ideal",
     "Fertilize weekly at one-quarter strength (or every two weeks at half strength) with a balanced fertilizer",
-    "After flowers fade, cut spike above second node to encourage reblooming",
-    "Maintain humidity with pebble tray - avoid misting which can cause crown rot"
+    "Experts differ on the spent flower spike: cut just above a node below the faded flowers and it may branch and rebloom (NC State), or cut it to a 1-inch stub to let the plant rest (Missouri Botanical Garden)",
+    "Keep humidity up with a pebble tray; if you mist, do it in the morning and never let water sit in the crown"
   ],
   "commonProblems": [
     "Crown rot (center turns black/mushy): Water trapped in center - tip plant to drain",
@@ -137,10 +137,22 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Phalaenopsis sp.), not a page for this species.",
-      "Where to cut a spent flower spike differs: NC State says just above the first node below the faded flowers; MOBOT says to a one-inch stub; our care text says above the second node. Left our text unchanged.",
-      "Our care text says to avoid misting; MOBOT suggests misting in the morning but warns never to let water sit in the crown. Left unchanged.",
-      "Changed: humidity 50-70% → 50-60%; temperature range and fertilizer strength updated (MOBOT, NC State)."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Phalaenopsis sp.), not a page for this species."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: humidity 50-70% → 50-60%; temperature range and fertilizer strength updated (MOBOT, NC State)."
+      },
+      {
+        "type": "disagreement",
+        "note": "Flower spike — NC State and MOBOT give different, equally valid methods with different results, so the care text now presents both as \"Experts differ\"."
+      },
+      {
+        "type": "changed",
+        "note": "Misting — our care text said avoid misting; MOBOT suggests morning misting but never letting water sit in the crown. Care text now follows MOBOT."
+      }
     ]
   }
 }

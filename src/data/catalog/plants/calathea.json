@@ -142,10 +142,22 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Winter watering interval (6 days) is our estimate — RHS says to let the surface dry before rewetting in winter.",
-      "Growth rate: NC State says \"rapid\"; many growers find orbifolia moderate. Kept the source value.",
-      "Ideal temperature narrowed from 65-80°F to 65-75°F (NC State); RHS gives a 61°F minimum.",
-      "Toxicity: based on ASPCA's genus-wide entry (Calathea spp.), not a page for this species."
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (6 days) is our estimate — RHS says to let the surface dry before rewetting in winter."
+      },
+      {
+        "type": "note",
+        "note": "Growth rate: NC State says \"rapid\"; many growers find orbifolia moderate. Kept the source value."
+      },
+      {
+        "type": "changed",
+        "note": "Ideal temperature narrowed from 65-80°F to 65-75°F (NC State); RHS gives a 61°F minimum."
+      },
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Calathea spp.), not a page for this species."
+      }
     ]
   }
 }

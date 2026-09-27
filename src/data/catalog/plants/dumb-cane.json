@@ -131,7 +131,10 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      }
     ]
   }
 }

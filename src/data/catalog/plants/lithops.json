@@ -145,10 +145,22 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: Wisconsin Extension says Lithops are non-toxic to humans and pets; ASPCA lists Lithops naureeniae as non-toxic to cats, dogs and horses.",
-      "Watering cycle: sprouthub's schedule model can't express \"no water at all\" for winter to early spring. Set the dormant-season interval to 90 days as the closest fit; Lithops may need special handling in the app.",
-      "Fertilizer interval (13-26 weeks) is our estimate — Wisconsin only says \"sparingly\".",
-      "Changed: the old guide said to water every 3-4 weeks in winter; both sources say no water from winter to early spring. Added the late-spring watering window, every-2-weeks fall watering, and morning-sun-plus-afternoon-shade light."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: Wisconsin Extension says Lithops are non-toxic to humans and pets; ASPCA lists Lithops naureeniae as non-toxic to cats, dogs and horses."
+      },
+      {
+        "type": "app_gap",
+        "note": "Watering cycle: sprouthub's schedule model can't express \"no water at all\" for winter to early spring. Set the dormant-season interval to 90 days as the closest fit; Lithops may need special handling in the app."
+      },
+      {
+        "type": "estimate",
+        "note": "Fertilizer interval (13-26 weeks) is our estimate — Wisconsin only says \"sparingly\"."
+      },
+      {
+        "type": "changed",
+        "note": "Changed: the old guide said to water every 3-4 weeks in winter; both sources say no water from winter to early spring. Added the late-spring watering window, every-2-weeks fall watering, and morning-sun-plus-afternoon-shade light."
+      }
     ]
   }
 }

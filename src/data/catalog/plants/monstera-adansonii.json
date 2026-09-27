@@ -126,10 +126,22 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Toxicity: NC State confirms this species is toxic to people and pets; the per-animal ratings come from ASPCA's Monstera deliciosa entry.",
-      "Only one institutional source (NC State) — MOBOT has no page for M. adansonii.",
-      "How dry to let it get isn't stated (NC State: \"moist, well-drained soil\"). Set to \"top quarter dry\", like Monstera deliciosa.",
-      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: NC State confirms this species is toxic to people and pets; the per-animal ratings come from ASPCA's Monstera deliciosa entry."
+      },
+      {
+        "type": "source_gap",
+        "note": "Only one institutional source (NC State) — MOBOT has no page for M. adansonii."
+      },
+      {
+        "type": "source_gap",
+        "note": "How dry to let it get isn't stated (NC State: \"moist, well-drained soil\"). Set to \"top quarter dry\", like Monstera deliciosa."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      }
     ]
   }
 }

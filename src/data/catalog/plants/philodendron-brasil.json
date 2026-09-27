@@ -128,8 +128,14 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Sources cover Philodendron hederaceum, not the 'Brasil' cultivar. Ideal light is set to bright indirect to keep the variegation, per our catalog.",
-      "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      {
+        "type": "source_gap",
+        "note": "Sources cover Philodendron hederaceum, not the 'Brasil' cultivar. Ideal light is set to bright indirect to keep the variegation, per our catalog."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      }
     ]
   }
 }

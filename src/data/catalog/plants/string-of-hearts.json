@@ -115,10 +115,22 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\".",
-      "Only one institutional source (NC State) — MOBOT has no page for this plant.",
-      "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Light: NC State warns too much sun scorches the leaves; the note that morning sun deepens the purple undersides is from the original catalog."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      },
+      {
+        "type": "source_gap",
+        "note": "Only one institutional source (NC State) — MOBOT has no page for this plant."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (21 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "source_gap",
+        "note": "Light: NC State warns too much sun scorches the leaves; the note that morning sun deepens the purple undersides is from the original catalog."
+      }
     ]
   }
 }

@@ -136,8 +136,14 @@
     "status": "draft",
     "researchedAt": "2026-09-26",
     "flags": [
-      "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter.",
-      "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "source_gap",
+        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+      }
     ]
   }
 }

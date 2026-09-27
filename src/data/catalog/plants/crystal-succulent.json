@@ -107,9 +107,18 @@
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
-      "Toxicity: based on ASPCA's genus-wide entry (Haworthia species), not a page for this species.",
-      "NC State's page covers the whole genus, not this species. MOBOT has no page for it.",
-      "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: based on ASPCA's genus-wide entry (Haworthia species), not a page for this species."
+      },
+      {
+        "type": "source_gap",
+        "note": "NC State's page covers the whole genus, not this species. MOBOT has no page for it."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      }
     ]
   }
 }

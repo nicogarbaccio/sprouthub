@@ -82,7 +82,10 @@
   "review": {
     "status": "legacy",
     "flags": [
-      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately."
+      {
+        "type": "toxicity",
+        "note": "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately."
+      }
     ]
   }
 }
