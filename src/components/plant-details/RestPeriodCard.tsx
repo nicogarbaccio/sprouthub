@@ -67,7 +67,7 @@ const RestPeriodCard = ({
       {restUntil ? (
         <>
           <p className="text-sm text-muted-foreground mt-2">
-            {plantName} won't show as due until then. Water it sooner if the care notes above call for it.
+            {plantName} won't show as due until then. Water it sooner if its care notes call for it.
           </p>
           <button type="button" className={`${secondaryButton} mt-4`} disabled={busy} onClick={() => run(onResume)}>
             Resume watering reminders
