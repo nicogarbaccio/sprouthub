@@ -49,9 +49,32 @@
     "Mealybugs: Common pest - treat with isopropyl alcohol"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 30,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "uw"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "uw"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
-      "idealMaxF": 85
+      "idealMaxF": 85,
+      "coldDamageBelowF": 32,
+      "sourceIds": [
+        "uw"
+      ]
     },
     "humidity": {
       "minPct": 30,
@@ -66,11 +89,32 @@
       "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
     }
   },
+  "whatsNormal": [
+    "Each rosette dies after it flowers (it is monocarpic), but it usually leaves offsets behind.",
+    "The red leaf edges only develop in bright light.",
+    "Blooms in late winter to early spring when it gets enough light."
+  ],
+  "propagation": {
+    "methods": [
+      "offsets",
+      "leaf_cutting",
+      "seed"
+    ],
+    "tip": "Pot up the offsets after flowering, or root single leaves.",
+    "sourceIds": [
+      "uw"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Kalanchoe (Kalanchoe spp)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/kalanchoe"
+    },
+    {
+      "id": "uw",
+      "title": "University of Wisconsin Extension: Flapjacks, Kalanchoe spp.",
+      "url": "https://hort.extension.wisc.edu/articles/flapjacks-kalanchoe-spp/"
     }
   ],
   "taxonomy": {
@@ -79,11 +123,24 @@
     "gbifKey": 7334254
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: based on ASPCA's genus-wide entry (Kalanchoe spp), not a page for this species."
+      },
+      {
+        "type": "source_gap",
+        "note": "Only one source (Wisconsin), covering both flapjack species (K. luciae and K. thyrsiflora)."
+      },
+      {
+        "type": "note",
+        "note": "Cold threshold 32°F: Wisconsin says the leaves are damaged at about 30°F."
+      },
+      {
+        "type": "source_gap",
+        "note": "Our care text's advice to cut the flower stalk to delay the rosette dying isn't in the source."
       }
     ]
   }

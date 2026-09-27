@@ -34,6 +34,27 @@
     "Lower leaves shriveling: Natural as plant grows, or needs water"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 28,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "uf",
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "ncsu",
+        "uf"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
       "idealMaxF": 80
@@ -61,11 +82,39 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "Leaves drop off naturally — that is how it spreads, and fallen leaves root.",
+    "Leaves turn pinkish in hot, dry sun and bluish in partial shade.",
+    "Stems keep lengthening and eventually trail over the pot edge.",
+    "Dropping lots of leaves at once can mean overwatering."
+  ],
+  "propagation": {
+    "methods": [
+      "leaf_cutting",
+      "stem_cutting",
+      "division"
+    ],
+    "tip": "Let a fallen leaf callus over before setting it on the mix.",
+    "sourceIds": [
+      "uf",
+      "ncsu"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Ghost Plant (Sedum weinbergii)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/ghost-plant"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Graptopetalum paraguayense",
+      "url": "https://plants.ces.ncsu.edu/plants/graptopetalum-paraguayense/"
+    },
+    {
+      "id": "uf",
+      "title": "UF/IFAS Gardening Solutions: Ghost Plant",
+      "url": "https://gardeningsolutions.ifas.ufl.edu/plants/ornamentals/ghost-plant/"
     }
   ],
   "taxonomy": {
@@ -74,6 +123,13 @@
     "gbifKey": 7334731
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-27",
+    "flags": [
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      }
+    ]
   }
 }

@@ -34,6 +34,27 @@
     "Fronds drooping: Usually needs water - soak thoroughly"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 80
@@ -49,6 +70,14 @@
       ],
       "fertilizerType": "Diluted fertilizer added to the soaking water",
       "tip": "Fertilize monthly during growing season by adding diluted fertilizer to soaking water"
+    },
+    "repotting": {
+      "tip": "Mount it on a board or slab of bark with sphagnum around the crown, or pot it in an orchid or sphagnum mix.",
+      "soil": "Epiphytic orchid or sphagnum moss mix",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     }
   },
   "toxicityDetail": {
@@ -61,11 +90,37 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "The flat shield fronds at the base turn brown with age — leave them; they protect the roots.",
+    "The antler-shaped fronds are covered in a gray felt.",
+    "It forms pups from its rhizomes and becomes a colony; large plants can be divided.",
+    "Black spots can appear if humidity is too high."
+  ],
+  "propagation": {
+    "methods": [
+      "division",
+      "offsets"
+    ],
+    "tip": "Divide large plants or separate pups.",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Common Staghorn Fern (Platycerium bifurcatum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/common-staghorn-fern"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Platycerium bifurcatum",
+      "url": "https://plants.ces.ncsu.edu/plants/platycerium-bifurcatum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Platycerium bifurcatum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=291406&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -74,6 +129,17 @@
     "gbifKey": 7126767
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-27",
+    "flags": [
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "source_gap",
+        "note": "Weekly 10-15 minute soaks are from the original catalog; the sources say water the crown regularly (roots dry slightly, never completely) and immerse the root ball occasionally."
+      }
+    ]
   }
 }

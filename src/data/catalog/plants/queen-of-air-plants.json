@@ -15,14 +15,14 @@
   "temperature": "50-90°F (10-32°C) - very temperature tolerant",
   "humidity": "40-60%",
   "careInstructions": [
-    "Soak in room temperature water for 1-2 hours every 10-14 days",
+    "Soak in room-temperature water for about 15 minutes every 1-2 weeks, and about monthly in winter",
     "After soaking, turn completely upside down and gently shake to remove water",
     "Allow to dry thoroughly in a well-ventilated area - this may take 3-4 hours",
     "Never let water pool in the center rosette as this causes rot",
     "Provide bright, indirect light - can tolerate more light than most air plants",
     "Very drought tolerant once established; better to underwater than overwater",
     "Use filtered, rainwater, or distilled water to prevent mineral spots on leaves",
-    "Fertilize sparingly (every 2-3 months) with diluted air plant fertilizer"
+    "Add liquid fertilizer at half strength or less to the soaking water once or twice a month"
   ],
   "commonProblems": [
     "Center rot (black, mushy core): Water trapped in the rosette - always dry upside down",
@@ -32,6 +32,25 @@
     "Lower leaves dying: Natural as plant matures and grows new leaves from center"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 30,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 50,
       "idealMaxF": 90
@@ -42,11 +61,14 @@
     },
     "fertilizing": {
       "weeks": [
-        9,
-        13
+        2,
+        4
       ],
-      "fertilizerType": "Diluted air plant fertilizer",
-      "tip": "Fertilize sparingly (every 2-3 months) with diluted air plant fertilizer"
+      "fertilizerType": "Liquid fertilizer at half strength or less",
+      "tip": "Add liquid fertilizer at half strength or less to the soaking water once or twice a month",
+      "sourceIds": [
+        "ncsu"
+      ]
     }
   },
   "toxicityDetail": {
@@ -56,17 +78,44 @@
     "symptoms": [],
     "basis": "none"
   },
+  "whatsNormal": [
+    "Blooms only once in its life, on a tall, long-lasting spike, and only when conditions are right.",
+    "Heating and air conditioning dry the air — it may need more frequent soaks.",
+    "After flowering the parent plant slowly declines while its pups take over."
+  ],
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Tillandsia xerographica",
+      "url": "https://plants.ces.ncsu.edu/plants/tillandsia-xerographica/"
+    },
+    {
+      "id": "uf",
+      "title": "UF/IFAS Gardening Solutions: Air Plants (Tillandsia)",
+      "url": "https://gardeningsolutions.ifas.ufl.edu/plants/houseplants/air-plants/"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: Air Plants",
+      "url": "https://hgic.clemson.edu/factsheet/air-plants/"
+    }
+  ],
   "taxonomy": {
     "acceptedName": "Tillandsia xerographica",
     "family": "Bromeliaceae",
     "gbifKey": 2695364
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      },
+      {
+        "type": "changed",
+        "note": "Soaking 1-2 hours every 10-14 days → about 15 minutes every 1-2 weeks, monthly in winter; fertilizing every 2-3 months → once or twice a month at half strength (NC State species page)."
       }
     ]
   }

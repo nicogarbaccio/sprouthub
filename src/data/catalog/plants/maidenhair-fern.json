@@ -34,13 +34,38 @@
     "Brown tips: Fluoride/chlorine in water or over-fertilizing"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 5,
+      "dryness": "keep_moist",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 75
     },
     "humidity": {
       "minPct": 60,
-      "maxPct": 80
+      "maxPct": 80,
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -58,17 +83,40 @@
     "symptoms": [],
     "basis": "none"
   },
+  "whatsNormal": [
+    "Fronds die back quickly if the soil dries out even once — remove browned fronds right away.",
+    "Often happiest in a bathroom or terrarium, where humidity is higher.",
+    "Water beads off the leaves; the genus name means \"unwetted\".",
+    "Loses vigor in too much shade as well as in direct sun."
+  ],
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Adiantum raddianum",
+      "url": "https://plants.ces.ncsu.edu/plants/adiantum-raddianum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Adiantum raddianum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=285805&isprofile=1"
+    }
+  ],
   "taxonomy": {
     "acceptedName": "Adiantum raddianum",
     "family": "Pteridaceae",
     "gbifKey": 2651826
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (5 days) is our estimate — MOBOT says it sometimes benefits from a winter rest, but the roots must never dry out."
       }
     ]
   }

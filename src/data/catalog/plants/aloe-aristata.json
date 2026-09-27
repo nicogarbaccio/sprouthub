@@ -9,7 +9,7 @@
   "imagePath": "Aloe%20Aristata.jpg",
   "wateringFrequency": "Every 2-3 weeks",
   "suggestedWateringDays": 14,
-  "lightRequirement": "Bright Indirect Light",
+  "lightRequirement": "Bright Indirect to Direct Light",
   "careLevel": "Easy",
   "category": "Succulents",
   "description": "Native to South Africa, Lace Aloe is a compact, clump-forming succulent that resembles Aloe Vera but is actually in its own genus. It forms neat rosettes of dark green, lance-shaped leaves covered with distinctive white spots and bumps (tubercles) that create a textured, lacy appearance, with white \"teeth\" along the margins and soft white bristles on leaf tips. Growing only 6-8 inches tall and wide, it's perfect for small spaces and readily produces offsets, forming attractive clusters. Unlike many aloes, it blooms reliably indoors, sending up tall (12-18 inch) spikes with tubular orange or red flowers in late spring or summer - a stunning display. More compact and easier to bloom than larger aloes, it's perfect for beginners wanting an attractive, flowering succulent for bright windowsills.",
@@ -18,8 +18,8 @@
   "humidity": "30-50%",
   "careInstructions": [
     "Water deeply only when soil is completely dry - every 2-3 weeks",
-    "Provide bright, indirect light - can tolerate some direct morning sun",
-    "Use well-draining cactus or succulent potting mix",
+    "Give it as much bright light as possible - a sunny window is best",
+    "Use a very well-draining cactus or succulent mix, and water the soil, not the rosette",
     "Allow soil to dry completely between waterings",
     "Remove spent flower stalks after blooming by cutting at base",
     "Separate offsets to propagate or prevent overcrowding",
@@ -35,6 +35,25 @@
     "Soft, mushy leaves: Overwatering causing rot"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 28,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 80
@@ -59,17 +78,51 @@
     "symptoms": [],
     "basis": "none"
   },
+  "whatsNormal": [
+    "The small white spots and fine white hairs along the leaf edges are normal.",
+    "Forms clumps of many rosettes, and sends up coral-orange flowers on tall stalks in summer.",
+    "Water poured into the rosette can cause rot."
+  ],
+  "propagation": {
+    "methods": [
+      "offsets"
+    ],
+    "tip": "Separate offsets from the clump.",
+    "sourceIds": [
+      "mobot"
+    ]
+  },
+  "sources": [
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Aloe aristata",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=371193&isprofile=1"
+    }
+  ],
   "taxonomy": {
     "acceptedName": "Aristaloe aristata",
     "family": "Asphodelaceae",
     "gbifKey": 9505138
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\". ASPCA lists true aloes (Aloe vera) as toxic; this plant is now in a separate genus (Aristaloe)."
+      },
+      {
+        "type": "source_gap",
+        "note": "Only one source (MOBOT) — NC State has no page for it."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Light \"Bright Indirect\" → \"Bright Indirect to Direct\" (MOBOT: as much bright light as possible indoors)."
       }
     ]
   }

@@ -32,6 +32,26 @@
     "Leaves turning brown at base: May indicate rot starting - improve air circulation and drying"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "uf",
+        "clemson"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "uf",
+        "clemson"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 85
@@ -46,7 +66,10 @@
         4
       ],
       "fertilizerType": "Diluted bromeliad fertilizer (¼ strength)",
-      "tip": "Fertilize monthly during growing season with diluted bromeliad fertilizer (¼ strength)"
+      "tip": "Fertilize monthly during growing season with diluted bromeliad fertilizer (¼ strength)",
+      "sourceIds": [
+        "clemson"
+      ]
     }
   },
   "toxicityDetail": {
@@ -56,17 +79,42 @@
     "symptoms": [],
     "basis": "none"
   },
+  "whatsNormal": [
+    "Curled or rolled leaves, dull color and brown tips mean it is thirsty.",
+    "After flowering the parent plant slowly declines while its pups take over."
+  ],
+  "sources": [
+    {
+      "id": "uf",
+      "title": "UF/IFAS Gardening Solutions: Air Plants (Tillandsia)",
+      "url": "https://gardeningsolutions.ifas.ufl.edu/plants/houseplants/air-plants/"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: Air Plants",
+      "url": "https://hgic.clemson.edu/factsheet/air-plants/"
+    }
+  ],
   "taxonomy": {
     "acceptedName": "Tillandsia bulbosa",
     "family": "Bromeliaceae",
     "gbifKey": 2695645
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      },
+      {
+        "type": "source_gap",
+        "note": "UF/IFAS and Clemson cover air plants (Tillandsia) as a group, not this species. No source covers T. bulbosa specifically."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (10 days) is our estimate — the sources give weekly watering with no winter change."
       }
     ]
   }

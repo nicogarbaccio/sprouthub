@@ -23,9 +23,10 @@
       "Depression",
       "Incoordination"
     ],
-    "basis": "related_species",
+    "basis": "species",
     "sourceIds": [
-      "aspca"
+      "aspca",
+      "ncsu"
     ]
   },
   "temperature": "65-80°F (18-27°C)",
@@ -49,9 +50,32 @@
     "Lower leaves drying: Natural as plant grows taller"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 28,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMaxF": 80,
+      "coldDamageBelowF": 32,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 30,
@@ -64,13 +88,35 @@
       ],
       "fertilizerType": "Diluted fertilizer",
       "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
-    }
+    },
+    "growthRate": "fast"
+  },
+  "whatsNormal": [
+    "Starts upright, then the stems trail — good for hanging baskets.",
+    "Leaves shrivel when it needs water; too much direct sun can sunburn them.",
+    "Best color comes with plenty of sun."
+  ],
+  "propagation": {
+    "methods": [
+      "division",
+      "offsets",
+      "leaf_cutting"
+    ],
+    "tip": "Divide the clump, separate offsets, or root leaves.",
+    "sourceIds": [
+      "ncsu"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Jade Plant (Crassula argentea)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/jade-plant"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Crassula perforata",
+      "url": "https://plants.ces.ncsu.edu/plants/crassula-perforata/"
     }
   ],
   "taxonomy": {
@@ -79,11 +125,20 @@
     "gbifKey": 7642067
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's entry for a related species (Crassula argentea)."
+        "note": "Toxicity: NC State says Crassula perforata is toxic to cats, dogs, horses and humans, and the sap can irritate skin; symptoms come from ASPCA's jade plant entry."
+      },
+      {
+        "type": "source_gap",
+        "note": "Only one source (NC State) — MOBOT has no page for it."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (28 days) is our estimate — the sources only say to reduce watering from fall to late winter."
       }
     ]
   }

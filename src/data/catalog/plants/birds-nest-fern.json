@@ -13,7 +13,7 @@
   "category": "Ferns",
   "description": "Native to the tropical regions of Asia, Australia, and East Africa, Bird's Nest Fern is an epiphytic fern that grows in tree crevices in nature. Unlike typical lacy ferns, it features glossy, undivided fronds that are bright apple-green and ripple-edged, emerging from a central rosette that resembles a bird's nest (hence the name). The fronds grow upward and outward, creating a dramatic shuttlecock shape that can reach 3-5 feet across in ideal conditions. New fronds unfurl from the fuzzy brown center and are extremely delicate when young. Much easier to care for than most ferns, Bird's Nest Fern tolerates lower humidity and is more forgiving of care mistakes, making it perfect for beginners wanting the tropical look of ferns without the extreme demands. Excellent for bathrooms where humidity is naturally higher.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
-  "temperature": "60-80°F (15-27°C)",
+  "temperature": "60-70°F (16-21°C) - keep above 55°F",
   "humidity": "50-70%",
   "careInstructions": [
     "Water around the base and edges only - never pour water into the central crown",
@@ -34,13 +34,43 @@
     "Slow growth: Insufficient light or nutrients"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 7,
+      "dryness": "keep_moist",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
-      "idealMaxF": 80
+      "idealMaxF": 70,
+      "coldDamageBelowF": 55,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "humidity": {
       "minPct": 50,
-      "maxPct": 70
+      "maxPct": 70,
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -48,8 +78,12 @@
         4
       ],
       "fertilizerType": "Diluted liquid fertilizer",
-      "tip": "Fertilize monthly during growing season with diluted liquid fertilizer"
-    }
+      "tip": "Fertilize monthly during growing season with diluted liquid fertilizer",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "growthRate": "slow"
   },
   "toxicityDetail": {
     "cats": "non_toxic",
@@ -61,11 +95,27 @@
       "aspca"
     ]
   },
+  "whatsNormal": [
+    "The vase-shaped center collects fallen debris — in the wild that is how it feeds itself.",
+    "Dark lines in a herringbone pattern under the fronds are spores, not pests.",
+    "Too much sun turns the fronds yellow.",
+    "Grows slowly."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Hen and Chickens Fern (Asplenium bulbiferum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/hen-and-chickens-fern"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Asplenium nidus",
+      "url": "https://plants.ces.ncsu.edu/plants/asplenium-nidus/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Asplenium nidus",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=285707&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -74,11 +124,24 @@
     "gbifKey": 2650676
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: based on ASPCA's entry for a related species (Asplenium bulbiferum)."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (7 days) is our estimate — neither source mentions a winter rest; MOBOT says keep the soil uniformly moist."
+      },
+      {
+        "type": "disagreement",
+        "note": "Cold limit — NC State says it won't survive below 40°F; MOBOT gives a 55°F indoor minimum. Used the safer 55°F."
+      },
+      {
+        "type": "changed",
+        "note": "Ideal temperature 60-80°F → 60-70°F (both sources)."
       }
     ]
   }

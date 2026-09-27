@@ -40,6 +40,27 @@
     "Yellowing: Too much direct sun or water quality issues"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 5,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 80
@@ -54,20 +75,58 @@
         3
       ],
       "fertilizerType": "Very diluted bromeliad fertilizer",
-      "tip": "Fertilize every 2-3 weeks with very diluted bromeliad fertilizer during growing season"
+      "tip": "Fertilize every 2-3 weeks with very diluted bromeliad fertilizer during growing season",
+      "sourceIds": [
+        "ncsu"
+      ]
     }
   },
+  "whatsNormal": [
+    "It has no roots — the gray scales on its stems and leaves take in water and nutrients.",
+    "Needs humid, clean air; it struggles in polluted or very dry rooms.",
+    "Rarely flowers indoors, and the small green flowers are easy to miss."
+  ],
+  "propagation": {
+    "methods": [
+      "division"
+    ],
+    "tip": "Tear off a piece and drape it over a support.",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Tillandsia usneoides",
+      "url": "https://plants.ces.ncsu.edu/plants/tillandsia-usneoides/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Tillandsia usneoides",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=278149&isprofile=1"
+    }
+  ],
   "taxonomy": {
     "acceptedName": "Tillandsia usneoides",
     "family": "Bromeliaceae",
     "gbifKey": 2695149
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      },
+      {
+        "type": "source_gap",
+        "note": "Misting 2-3 times a week is from the original catalog; NC State says water occasionally indoors, letting it dry between waterings, and MOBOT says spray as needed."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (5 days) is our estimate."
       }
     ]
   }

@@ -39,6 +39,28 @@
     "Leaves falling off: Severe dehydration or natural offsets (pups) forming"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "uf",
+        "clemson"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "uf",
+        "clemson"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 80
@@ -53,20 +75,58 @@
         4
       ],
       "fertilizerType": "Diluted bromeliad or air plant fertilizer (¼ strength)",
-      "tip": "Fertilize monthly during growing season with diluted bromeliad or air plant fertilizer (¼ strength)"
+      "tip": "Fertilize monthly during growing season with diluted bromeliad or air plant fertilizer (¼ strength)",
+      "sourceIds": [
+        "clemson",
+        "ncsu"
+      ]
     }
   },
+  "whatsNormal": [
+    "The top leaves turn bright red just before it blooms.",
+    "Curled or rolled leaves, dull color and brown tips mean it is thirsty.",
+    "After flowering the parent plant slowly declines while its pups take over.",
+    "Grows into a clump of pups over the years — separate them for new plants."
+  ],
+  "propagation": {
+    "methods": [
+      "offsets"
+    ],
+    "tip": "Separate the pups once they are a third the size of the parent."
+  },
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Tillandsia ionantha",
+      "url": "https://plants.ces.ncsu.edu/plants/tillandsia-ionantha/"
+    },
+    {
+      "id": "uf",
+      "title": "UF/IFAS Gardening Solutions: Air Plants (Tillandsia)",
+      "url": "https://gardeningsolutions.ifas.ufl.edu/plants/houseplants/air-plants/"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: Air Plants",
+      "url": "https://hgic.clemson.edu/factsheet/air-plants/"
+    }
+  ],
   "taxonomy": {
     "acceptedName": "Tillandsia ionantha",
     "family": "Bromeliaceae",
     "gbifKey": 2695006
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (10 days) is our estimate — the sources give weekly watering with no winter change."
       }
     ]
   }
