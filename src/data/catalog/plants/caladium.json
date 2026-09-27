@@ -13,20 +13,22 @@
   "careLevel": "Medium",
   "category": "Colorful Foliage",
   "description": "Native to the tropical forests of South America, Caladium produces some of the most spectacular foliage in the plant world - large, paper-thin, heart or arrow-shaped leaves in stunning combinations of pink, red, white, and green with intricate veining and patterns that look hand-painted. Each leaf is a unique work of art growing 6-12 inches long on slender stems. The plant grows 12-24 inches tall from underground tubers. However, Caladiums are seasonal plants that follow a natural dormancy cycle - they grow actively in warm months, then die back in fall/winter, requiring a rest period where the tubers are stored dry. While not difficult during active growth, this dormancy requirement and sensitivity to cold make them more involved than evergreen houseplants. Their breathtaking beauty makes them worth the seasonal commitment.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "70-85°F (21-29°C) - prefers warm conditions",
   "humidity": "50-70%",
@@ -68,6 +70,18 @@
     "repotting": {
       "tip": "Repot tubers in spring when new growth begins"
     }
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Caladium (Caladium hortulanum)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/caladium"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Caladium bicolor",
+    "family": "Araceae",
+    "gbifKey": 2868390
   },
   "review": {
     "status": "legacy"

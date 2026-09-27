@@ -13,19 +13,20 @@
   "careLevel": "Easy",
   "category": "Succulents",
   "description": "Native to South Africa, Paddle Plant (often confused with the similar K. thyrsiflora) is a striking succulent featuring large, flat, paddle or clam-shaped leaves stacked in opposing pairs that create a dramatic architectural form. The gray-green leaves develop stunning red or crimson edges when grown in bright light and cooler temperatures - the more sun stress, the more intense the coloring. Growing 12-24 inches tall, the plant forms a rosette that reaches 12-18 inches wide. After several years, it produces a tall (2-3 feet) flower spike with yellow tubular flowers, after which the main rosette dies (monocarpic), but it produces many offsets before flowering. The combination of sculptural form and color-changing ability makes it a showstopper in succulent collections.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Diarrhea, Cardiac Arrhythmias",
+  "toxicity": "Toxic to cats and dogs. Can cause vomiting and diarrhea, and rarely an abnormal heart rhythm.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "unknown",
     "symptoms": [
       "Vomiting",
       "Diarrhea",
-      "Cardiac Arrhythmias"
+      "Abnormal heart rhythm (rare)"
     ],
-    "source": "plantsm.art"
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "60-85°F (15-29°C) - cooler temps enhance red coloring",
   "humidity": "30-50% - tolerates dry air",
@@ -65,7 +66,22 @@
       "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Kalanchoe (Kalanchoe spp)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/kalanchoe"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Kalanchoe luciae",
+    "family": "Crassulaceae",
+    "gbifKey": 7334254
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Kalanchoe spp), not a page for this species."
+    ]
   }
 }

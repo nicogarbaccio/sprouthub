@@ -11,7 +11,7 @@
   "careLevel": "Easy",
   "category": "Air Plants",
   "description": "Aptly named the \"Queen of Air Plants,\" Tillandsia xerographica is one of the most striking and sought-after air plant species available. This dramatic specimen forms a large, silvery-white rosette of thick, curling leaves that can grow 10-12 inches wide (or larger with age). Native to the dry forests of Mexico, Guatemala, and El Salvador, it has evolved to be extremely drought-tolerant, making it one of the easiest air plants to care for. Its sculptural form makes it a stunning standalone centerpiece, perfect for coffee tables, shelves, or mounted displays. The silvery trichomes covering its leaves give it a frosted appearance that catches light beautifully.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
   "temperature": "50-90°F (10-32°C) - very temperature tolerant",
   "humidity": "40-60%",
   "careInstructions": [
@@ -49,7 +49,22 @@
       "tip": "Fertilize sparingly (every 2-3 months) with diluted air plant fertilizer"
     }
   },
+  "toxicityDetail": {
+    "cats": "unknown",
+    "dogs": "unknown",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "none"
+  },
+  "taxonomy": {
+    "acceptedName": "Tillandsia xerographica",
+    "family": "Bromeliaceae",
+    "gbifKey": 2695364
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+    ]
   }
 }

@@ -13,7 +13,7 @@
   "careLevel": "Easy",
   "category": "Flowering Plants",
   "description": "A long-lived Brazilian rainforest cactus that can be passed down through generations, Christmas Cactus produces cascades of tubular flowers in pink, red, white, orange, or purple at the ends of its segmented, leaf-like stems during winter months. Unlike desert cacti, this epiphyte naturally grows on trees in humid forests and requires more water and less sun. The flat, jointed stems create an attractive trailing or arching form that looks beautiful in hanging baskets or on pedestals. With proper care including a rest period and cool fall temperatures, it reliably blooms during the holidays and can live for 20-30 years or more, becoming a cherished family heirloom that grows more spectacular with age.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "60-70°F (15-21°C) - cooler temps trigger blooming",
   "humidity": "50-60%",
   "careInstructions": [
@@ -51,7 +51,32 @@
       "tip": "Fertilize monthly spring through summer with diluted balanced fertilizer"
     }
   },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "related_species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Christmas Cactus (Schlumbergera bridgesii)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/christmas-cactus"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Schlumbergera buckleyi",
+    "family": "Cactaceae",
+    "gbifKey": 5620162
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's entry for a related species (Schlumbergera bridgesii)."
+    ]
   }
 }

@@ -13,20 +13,22 @@
   "careLevel": "Easy",
   "category": "Low Maintenance",
   "description": "Native to the tropical rainforests of Central and South America, Arrowhead Plant is a versatile, easy-care plant that undergoes a fascinating transformation as it matures. Young plants produce arrow-shaped leaves in various colors - green, white, pink, or burgundy, often with striking variegation. As the plant ages, leaves become more deeply lobed and vine-like, and the plant transitions from bushy to climbing. Most growers keep them pruned for compact, bushy growth, but they can be trained up moss poles to display mature foliage. Growing 3-6 feet indoors depending on training method, Syngonium adapts well to typical home conditions and comes in dozens of stunning varieties, making it popular with collectors seeking colorful, low-maintenance plants.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "60-80°F (15-27°C)",
   "humidity": "40-60%",
@@ -65,6 +67,18 @@
       "fertilizerType": "Balanced fertilizer",
       "tip": "Fertilize monthly during growing season with balanced fertilizer"
     }
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Arrow-Head Vine (Syngonium podophyllum)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/arrow-head-vine"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Syngonium podophyllum",
+    "family": "Araceae",
+    "gbifKey": 2867866
   },
   "review": {
     "status": "legacy"

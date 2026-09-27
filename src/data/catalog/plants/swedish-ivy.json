@@ -12,7 +12,7 @@
   "careLevel": "Easy",
   "category": "Low Maintenance",
   "description": "Despite its common name, Swedish Ivy is neither Swedish nor an ivy - it's actually a member of the mint family native to Africa and parts of Asia. This fast-growing, trailing plant features round, scalloped, glossy green leaves (or variegated white and green) on cascading stems that create lush, full growth perfect for hanging baskets or spilling over container edges. The succulent-like stems root easily at nodes, making propagation almost foolproof. Growing vigorously with minimal care, stems can reach 3-4 feet long in a single season. Swedish Ivy tolerates a wide range of conditions, bounces back quickly from neglect, and produces small white or purple flowers when happy. Its forgiving nature, rapid growth, and ease of propagation make it perfect for beginners or anyone wanting instant greenery.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "60-75°F (15-24°C)",
   "humidity": "40-60%",
   "careInstructions": [
@@ -51,7 +51,32 @@
       "tip": "Fertilize every 2-3 weeks during active growth with balanced fertilizer"
     }
   },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "related_species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Swedish Ivy (Plectranthus australis)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/swedish-ivy"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Plectranthus verticillatus",
+    "family": "Lamiaceae",
+    "gbifKey": 2926638
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's entry for a related species (Plectranthus australis)."
+    ]
   }
 }

@@ -12,21 +12,21 @@
   "careLevel": "Easy",
   "category": "Flowering Plants",
   "description": "A classic flowering plant native to South Africa, geraniums (technically pelargoniums) have been beloved since Victorian times for their reliable, colorful blooms and distinctive scented foliage. They produce large, rounded clusters of flowers in vibrant reds, pinks, oranges, whites, or bi-colors atop sturdy stems with circular, zoned leaves that often feature darker horseshoe-shaped markings. Growing 12-24 inches tall, geraniums are among the easiest flowering plants to maintain indoors, thriving with lots of sun and minimal fussing. Unlike many houseplants, they actually prefer to dry out slightly between waterings and bloom more profusely when slightly pot-bound. With proper light and regular deadheading, they can flower almost continuously year-round.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Loss Of Appetite, Depression, Dermatitis, Incoordination",
+  "toxicity": "Toxic to cats, dogs and horses. Can cause vomiting, loss of appetite, depression and skin irritation.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
       "Vomiting",
-      "Loss Of Appetite",
+      "Loss of appetite",
       "Depression",
-      "Dermatitis",
-      "Incoordination"
+      "Skin irritation"
     ],
-    "source": "plantsm.art"
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "65-75°F (18-24°C) during day, cooler at night",
   "humidity": "30-50%",
@@ -65,7 +65,22 @@
       "tip": "Fertilize every 2-3 weeks during active growth with balanced fertilizer"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Geranium (Pelargonium species)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/geranium"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Pelargonium hortorum",
+    "family": "Geraniaceae",
+    "gbifKey": 2891604
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Pelargonium species), not a page for this species."
+    ]
   }
 }

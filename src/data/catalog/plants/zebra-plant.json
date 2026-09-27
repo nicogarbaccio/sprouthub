@@ -12,7 +12,7 @@
   "careLevel": "Easy",
   "category": "Succulents",
   "description": "Native to South Africa, Zebra Plant is one of the most popular small succulents, forming compact rosettes of thick, dark green, triangular leaves dramatically striped with raised white horizontal bands - like a zebra's stripes. Growing only 4-6 inches tall, it's perfect for small pots, desks, windowsills, or succulent arrangements. It readily produces offsets (pups), creating clusters of rosettes that can fill a pot. Unlike many succulents, Zebra Plant tolerates lower light and is more forgiving of watering mistakes, making it ideal for beginners. Mature plants send up thin stalks with small tubular white flowers, though these are insignificant compared to the striking foliage. Its compact size, distinctive appearance, and easy care have made it a staple in succulent collections worldwide.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats and dogs.",
   "temperature": "65-80°F (18-27°C)",
   "humidity": "30-50%",
   "careInstructions": [
@@ -51,7 +51,32 @@
       "tip": "Fertilize every 2-3 months during growing season with diluted succulent fertilizer"
     }
   },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Haworthia (Haworthia species)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/haworthia"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Haworthiopsis attenuata",
+    "family": "Asphodelaceae",
+    "gbifKey": 9388529
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Haworthia species), not a page for this species."
+    ]
   }
 }

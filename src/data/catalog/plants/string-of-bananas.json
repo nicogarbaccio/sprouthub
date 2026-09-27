@@ -13,21 +13,22 @@
   "careLevel": "Easy",
   "category": "Hanging & Trailing Plants",
   "description": "Native to South Africa, String of Bananas is a delightful succulent vine featuring plump, curved leaves that look remarkably like tiny green bananas dangling from thin stems - a whimsical relative of the popular String of Pearls but generally easier to care for. The banana-shaped leaves are actually modified for water storage, allowing the plant to tolerate drought. Stems can trail 2-3 feet long, creating cascading displays that look unique and playful in hanging baskets or spilling over container edges. In bright light, it may produce small white flowers with cinnamon-like fragrance. Fast-growing during warm months and surprisingly forgiving, it's more resilient than String of Pearls while offering similar trailing beauty with its own distinctive character.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Liver Failure, Weight Loss, Weakness, Lethargy, Yawning",
+  "toxicity": "Toxic to cats, dogs and horses. Contains pyrrolizidine alkaloids; eating it can cause nausea and vomiting.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Liver Failure",
-      "Weight Loss",
-      "Weakness",
-      "Lethargy",
-      "Yawning"
+      "Loss of appetite",
+      "Nausea",
+      "Vomiting",
+      "Skin irritation from the sap"
     ],
-    "source": "plantsm.art"
+    "severity": "mild",
+    "basis": "species",
+    "sourceIds": [
+      "ncsu"
+    ]
   },
   "temperature": "65-80°F (18-27°C)",
   "humidity": "30-50% - tolerates dry air",
@@ -67,7 +68,22 @@
       "tip": "Fertilize every 4-6 weeks during growing season with diluted succulent fertilizer"
     }
   },
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Curio radicans",
+      "url": "https://plants.ces.ncsu.edu/plants/curio-radicans/"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Curio radicans",
+    "family": "Asteraceae",
+    "gbifKey": 3107396
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately (it names pets and livestock)."
+    ]
   }
 }

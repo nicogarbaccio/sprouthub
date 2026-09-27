@@ -12,19 +12,13 @@
   "careLevel": "Easy",
   "category": "Air Plants",
   "description": "One of the most popular and beginner-friendly air plants, this compact beauty features silvery-green spiky leaves that dramatically transform to vibrant pink or red when blooming. The stunning color change occurs as the plant prepares to flower, creating a \"blushing\" effect that lasts for weeks. Native to Mexico and Central America, it grows 2-3 inches tall and thrives in various display methods including terrariums, hanging arrangements, driftwood mounts, or decorative holders. Its small size and forgiving nature make it perfect for first-time air plant enthusiasts.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Diarrhea, Cardiac Arrhythmias",
+  "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
-    "symptoms": [
-      "Vomiting",
-      "Diarrhea",
-      "Cardiac Arrhythmias"
-    ],
-    "source": "plantsm.art"
+    "cats": "unknown",
+    "dogs": "unknown",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "none"
   },
   "temperature": "60-80°F (15-27°C)",
   "humidity": "50-60%",
@@ -62,7 +56,15 @@
       "tip": "Fertilize monthly during growing season with diluted bromeliad or air plant fertilizer (¼ strength)"
     }
   },
+  "taxonomy": {
+    "acceptedName": "Tillandsia ionantha",
+    "family": "Bromeliaceae",
+    "gbifKey": 2695006
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+    ]
   }
 }

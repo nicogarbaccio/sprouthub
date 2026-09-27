@@ -12,7 +12,7 @@
   "careLevel": "Medium",
   "category": "Small Plants",
   "description": "Native to the rainforest floors of Peru, Nerve Plant is a small, dramatic foliage plant featuring oval leaves with intricate networks of bright veins in white, pink, or red against deep green backgrounds - looking like delicate stained glass or an artist's interpretation of leaf venation. Growing only 3-6 inches tall and spreading wider, this petite plant creates a colorful groundcover effect perfect for terrariums, dish gardens, or small pots. Despite its delicate appearance, Nerve Plant is famously dramatic - it wilts immediately when thirsty, flopping over completely to signal it needs water, then perks back up within hours of watering. This \"fainting\" habit makes it an excellent choice for beginners learning to read plant signals, though it requires more attention than truly low-maintenance plants.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "65-80°F (18-27°C)",
   "humidity": "50-70%",
   "careInstructions": [
@@ -50,6 +50,28 @@
       "fertilizerType": "Diluted balanced fertilizer",
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     }
+  },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Nerve Plant (Fittonia verschaffeltii)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/nerve-plant"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Fittonia albivenis",
+    "family": "Acanthaceae",
+    "gbifKey": 5574508
   },
   "review": {
     "status": "legacy"

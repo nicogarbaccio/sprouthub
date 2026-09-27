@@ -13,20 +13,20 @@
   "careLevel": "Medium",
   "category": "Tropical Plants",
   "description": "Native to South Africa, Strelitzia nicolai is a dramatic, architectural plant featuring enormous, paddle-shaped leaves on tall stems that create a bold tropical statement. The leaves are similar to banana leaves and can reach 5-6 feet long, giving any space an instant resort-like atmosphere. Growing 6-10 feet indoors (20-30 feet outdoors), it develops a palm-like appearance despite not being a palm. The name comes from the distinctive white and blue flowers that resemble a bird's head (though flowering is rare indoors, requiring years of maturity, bright light, and proper conditions). While not as difficult as its reputation suggests, Bird of Paradise needs space, bright light, and consistent care. It's naturally prone to split leaves - this is not damage but an adaptation to withstand wind, adding to its exotic character.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Nausea, Vomiting, Lethargy, Drowsiness",
+  "toxicity": "Toxic to cats, dogs and horses. Mainly the fruit and seeds cause mild nausea, vomiting and drowsiness.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Nausea",
+      "Mild nausea",
       "Vomiting",
-      "Lethargy",
       "Drowsiness"
     ],
-    "source": "plantsm.art"
+    "basis": "related_species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "65-80°F (18-27°C)",
   "humidity": "50-60%",
@@ -71,7 +71,22 @@
       "tip": "Repot every 2-3 years or when severely root-bound"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Bird of Paradise Flower (Strelitzia reginae)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/bird-paradise-flower"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Strelitzia nicolai",
+    "family": "Strelitziaceae",
+    "gbifKey": 2763112
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's entry for a related species (Strelitzia reginae)."
+    ]
   }
 }

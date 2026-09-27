@@ -12,7 +12,7 @@
   "careLevel": "Medium",
   "category": "Ferns",
   "description": "A classic Victorian-era houseplant native to tropical regions worldwide, Boston Fern features lush, arching fronds composed of hundreds of small leaflets that create a full, fountain-like display perfect for hanging baskets or pedestals. The graceful, cascading fronds can reach 2-3 feet long, creating a dramatic tropical effect that softens any space. As one of the best natural air purifiers, it removes formaldehyde and other toxins while adding humidity to dry indoor air. However, Boston Fern has a reputation for being somewhat demanding - it requires consistent moisture, high humidity, and cool temperatures, making it more challenging than modern easy-care plants but absolutely worth the effort for its lush, timeless beauty and air-cleaning benefits.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "60-75°F (15-24°C) - prefers cooler temps",
   "humidity": "50-80% - high humidity essential",
   "careInstructions": [
@@ -50,6 +50,28 @@
       "fertilizerType": "Diluted balanced fertilizer",
       "tip": "Fertilize every 2-4 weeks during growing season with diluted balanced fertilizer"
     }
+  },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Feather Palm (Nephrolepis exaltata)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/feather-palm"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Nephrolepis exaltata",
+    "family": "Nephrolepidaceae",
+    "gbifKey": 2650927
   },
   "review": {
     "status": "legacy"

@@ -13,17 +13,18 @@
   "careLevel": "Easy",
   "category": "Low Maintenance",
   "description": "Native to Mexico, Central America, and South America, Tradescantia zebrina is a fast-growing trailing plant featuring stunning two-toned leaves with silver and green stripes on top and rich purple undersides that create a beautiful color contrast. The succulent-like stems trail rapidly, creating full, colorful displays in hanging baskets or spilling over container edges. Growing vigorously (several inches per week in good conditions), it can quickly fill a space with lush, colorful foliage. Extremely easy to propagate - simply stick cuttings in water or soil and they root within days. While the common name \"Wandering Jew\" is traditional, many now prefer using the botanical name Tradescantia due to cultural sensitivity. Regardless of name, this is one of the easiest and fastest-growing houseplants available.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Dermatitis",
+  "toxicity": "Toxic to cats, dogs and horses. The sap can irritate skin.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Dermatitis"
+      "Skin irritation (dermatitis)"
     ],
-    "source": "plantsm.art"
+    "basis": "related_species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "60-80°F (15-27°C)",
   "humidity": "40-60%",
@@ -63,7 +64,22 @@
       "tip": "Fertilize every 2-3 weeks during growing season with balanced fertilizer"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Inch Plant (Tradescantia flumeninsis)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/inch-plant"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Tradescantia zebrina",
+    "family": "Commelinaceae",
+    "gbifKey": 2765359
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's entry for a related species (Tradescantia flumeninsis)."
+    ]
   }
 }

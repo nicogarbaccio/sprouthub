@@ -13,7 +13,7 @@
   "careLevel": "Easy",
   "category": "Small Plants",
   "description": "Native to Central and South American rainforests, Peperomia obtusifolia is a compact, low-maintenance plant featuring thick, glossy, spoon-shaped leaves that resemble rubber plant foliage in miniature form. Growing only 6-12 inches tall, this petite beauty comes in varieties with solid green leaves or variegated cream and green patterns. The succulent-like leaves store water, making it quite drought-tolerant and forgiving of occasional neglect. As an epiphyte in nature, it prefers quick-draining soil and less frequent watering than typical houseplants. Peperomias are perfect for small spaces, desks, shelves, or terrariums, and their compact size and easy care make them ideal for beginners. With over 1,000 Peperomia species, collectors love building diverse collections of these charming little plants.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "65-80°F (18-27°C)",
   "humidity": "40-50%",
   "careInstructions": [
@@ -51,6 +51,28 @@
       "fertilizerType": "Diluted fertilizer",
       "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
     }
+  },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: American Rubber Plant (Peperomia obtusifolia)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/american-rubber-plant"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Peperomia obtusifolia",
+    "family": "Piperaceae",
+    "gbifKey": 3086423
   },
   "review": {
     "status": "legacy"

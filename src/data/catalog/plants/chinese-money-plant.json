@@ -13,7 +13,7 @@
   "careLevel": "Easy",
   "category": "Small Plants",
   "description": "A charming plant from the Yunnan Province in southern China, Chinese Money Plant became an Instagram sensation in recent years thanks to its distinctive round, coin-shaped leaves that sit atop delicate stems like little green pancakes or UFOs. Each perfectly circular leaf can grow 2-4 inches across, creating a unique, geometric display that looks modern and whimsical. The plant grows 8-12 inches tall and readily produces babies (offsets) from the base that can be separated and shared - leading to its spread around the world through plant swaps rather than commercial trade. Easy to care for with minimal demands, it rotates its leaves toward light sources, so regular turning keeps growth symmetrical. Its quirky appearance and generous nature make it a favorite among plant collectors.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "55-75°F (13-24°C)",
   "humidity": "40-50%",
   "careInstructions": [
@@ -52,7 +52,32 @@
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     }
   },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "related_species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Aluminum Plant (Pilea cadieri)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/aluminum-plant"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Pilea peperomioides",
+    "family": "Urticaceae",
+    "gbifKey": 5669632
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's entry for a related species (Pilea cadieri)."
+    ]
   }
 }

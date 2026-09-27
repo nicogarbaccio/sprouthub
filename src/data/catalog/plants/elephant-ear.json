@@ -13,20 +13,22 @@
   "careLevel": "Hard",
   "category": "Tropical Plants",
   "description": "Native to Southeast Asia and the Pacific, Alocasia macrorrhiza is the largest Alocasia species, producing absolutely enormous, glossy arrow-shaped leaves that can grow 3-6 feet long - truly earning the \"elephant ear\" name. The massive leaves emerge from thick stems in an upright, architectural form that commands attention and creates instant tropical drama. Growing 6-8 feet tall indoors (15+ feet outdoors), it needs substantial space. Like other Alocasias, it's notoriously challenging, demanding high humidity, consistent moisture, bright light, and stable conditions. It may go dormant in winter, losing all leaves and retreating to its corm. The giant leaves make a spectacular statement but require serious commitment to tropical conditions, space, and the acceptance that perfection is difficult with such massive, delicate foliage.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "65-80°F (18-27°C) - no fluctuations",
   "humidity": "60-80% - high humidity essential",
@@ -68,7 +70,22 @@
       "tip": "Fertilize every 2-3 weeks during active growth with diluted fertilizer"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Alocasia (Alocasia spp.)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/alocasia"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Alocasia macrorrhizos",
+    "family": "Araceae",
+    "gbifKey": 5329904
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Alocasia spp.), not a page for this species."
+    ]
   }
 }

@@ -13,7 +13,7 @@
   "careLevel": "Easy",
   "category": "Flowering Plants",
   "description": "Native to tropical Africa and Arabia, Pentas produces dense clusters of small, tubular star-shaped flowers in vibrant shades of red, pink, white, or lavender that bloom continuously from spring through fall with proper care. The clusters can contain 20-50+ individual flowers, creating colorful pompom-like displays that are magnets for butterflies and hummingbirds when placed outdoors. The lance-shaped leaves provide an attractive backdrop to the prolific blooms. Growing 1-3 feet tall, this reliable bloomer is one of the easiest flowering houseplants to maintain, asking only for bright light and regular watering in exchange for months of non-stop color. It's particularly beginner-friendly and forgiving of minor care mistakes while still rewarding with abundant flowers.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
   "temperature": "60-75°F (15-24°C)",
   "humidity": "40-60%",
   "careInstructions": [
@@ -52,7 +52,22 @@
       "tip": "Fertilize every 2-3 weeks during blooming season with balanced fertilizer"
     }
   },
+  "toxicityDetail": {
+    "cats": "unknown",
+    "dogs": "unknown",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "none"
+  },
+  "taxonomy": {
+    "acceptedName": "Pentas lanceolata",
+    "family": "Rubiaceae",
+    "gbifKey": 2908986
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+    ]
   }
 }

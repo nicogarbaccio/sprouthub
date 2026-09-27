@@ -13,20 +13,22 @@
   "careLevel": "Medium",
   "category": "Flowering Plants",
   "description": "A stunning tropical plant native to Colombia and Ecuador, Flamingo Flower produces glossy, heart-shaped \"flowers\" (actually modified leaves called spathes) in vibrant reds, pinks, whites, or even purple, each lasting 6-8 weeks. The true flowers are the tiny bumps on the protruding spadix in the center. With proper care, anthuriums can bloom year-round, making them one of the longest-flowering houseplants available. The plant grows 12-18 inches tall with dark green, leathery leaves that provide a beautiful backdrop to the colorful blooms. As an epiphyte in nature, it appreciates well-draining conditions and high humidity, bringing a touch of the rainforest to indoor spaces.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "related_species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "65-80°F (18-27°C)",
   "humidity": "60-80%",
@@ -68,7 +70,22 @@
       "tip": "Repot every 2-3 years in spring using loose, well-aerated mix"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Flamingo Flower (Anthurium scherzeranum)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/flamingo-flower"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Anthurium andraeanum",
+    "family": "Araceae",
+    "gbifKey": 2872695
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's entry for a related species (Anthurium scherzeranum)."
+    ]
   }
 }

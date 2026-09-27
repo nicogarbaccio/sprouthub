@@ -13,20 +13,22 @@
   "careLevel": "Hard",
   "category": "Tropical Plants",
   "description": "A hybrid Alocasia (not actually from the Amazon despite the name), African Mask is one of the most striking foliage plants available, featuring dramatic arrow-shaped leaves in deep green with bold white or silvery veining and purple undersides. The glossy, almost plastic-looking leaves emerge tightly rolled and unfurl to reveal their stunning patterns - like living art painted with a brush. Growing 1-2 feet tall, it's compact but makes a huge visual impact. However, Alocasias are notoriously finicky and challenging, earning their \"hard\" reputation honestly. They demand high humidity, consistent moisture, bright indirect light, and stable conditions. They're prone to dormancy in winter (losing all leaves), sensitive to changes, and attractive to spider mites. Only for dedicated plant parents willing to meet their exacting tropical needs.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "65-80°F (18-27°C) - no fluctuations",
   "humidity": "60-80% - high humidity essential",
@@ -68,7 +70,22 @@
       "tip": "Fertilize every 2-3 weeks during active growth with diluted fertilizer"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Alocasia (Alocasia spp.)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/alocasia"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Alocasia mortfontanensis",
+    "family": "Araceae",
+    "gbifKey": 5532250
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Alocasia spp.), not a page for this species."
+    ]
   }
 }

@@ -13,7 +13,7 @@
   "careLevel": "Medium",
   "category": "Flowering Plants",
   "description": "Native to East Africa, Impatiens are beloved for their ability to bloom continuously in lower light conditions where most flowering plants fail. The common name \"Touch-Me-Not\" refers to the explosive seed pods that burst open when touched when mature. These cheerful plants produce abundant five-petaled flowers in vivid shades of pink, red, orange, white, purple, or bi-colors against bright green succulent stems and leaves. Growing 6-18 inches tall depending on variety, they create mounding, colorful displays perfect for brightening shady spots. While technically perennials in their native habitat, they're often grown as annuals but can be maintained indoors as long-term houseplants with proper attention to their high water and humidity needs.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "65-75°F (18-24°C)",
   "humidity": "50-70%",
   "careInstructions": [
@@ -52,7 +52,32 @@
       "tip": "Fertilize every 2-3 weeks during blooming with diluted balanced fertilizer"
     }
   },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Buzzy Lizzie (Impatiens spp.)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/buzzy-lizzie"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Impatiens walleriana",
+    "family": "Balsaminaceae",
+    "gbifKey": 2891772
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Impatiens spp.), not a page for this species."
+    ]
   }
 }

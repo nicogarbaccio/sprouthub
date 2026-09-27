@@ -12,7 +12,7 @@
   "careLevel": "Medium",
   "category": "Flowering Plants",
   "description": "Native to tropical Asia and Australia, Phalaenopsis orchids are the most popular and beginner-friendly orchids for good reason: they produce spectacular sprays of large, moth-like flowers in white, pink, purple, yellow, or patterned varieties that can last 2-3 months per bloom spike. These epiphytic plants naturally grow on tree branches in humid forests, with thick, leathery leaves and exposed silvery-green aerial roots that photosynthesize and absorb moisture from the air. Growing 12-24 inches tall when in bloom, modern hybrids are remarkably adaptable to home conditions. With proper care, phalaenopsis can rebloom multiple times per year, making them one of the longest-flowering plants available and dispelling the myth that orchids are impossibly difficult.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "65-80°F (18-27°C) day, 10-15°F cooler at night",
   "humidity": "50-70%",
   "careInstructions": [
@@ -51,7 +51,32 @@
       "tip": "Fertilize weekly with diluted orchid fertilizer (\"weakly weekly\")"
     }
   },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Phalaenopsis Orchid (Phalaenopsis sp.)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/phalaenopsis-orchid"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Phalaenopsis",
+    "family": "Orchidaceae",
+    "gbifKey": 2804680
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Phalaenopsis sp.), not a page for this species."
+    ]
   }
 }

@@ -14,19 +14,20 @@
   "careLevel": "Easy",
   "category": "Succulents",
   "description": "Native to South Africa, Jade Plant is a beloved succulent that can live for decades, becoming a cherished family heirloom passed down through generations. It features thick, woody stems and plump, glossy, oval leaves that resemble jade gemstones. With proper care, it develops into a miniature tree with a substantial trunk, growing 2-3 feet tall indoors (up to 6 feet with age). In Asian cultures, it's considered a symbol of good luck and prosperity, often given as gifts for new businesses or homes. Mature plants (10+ years) reward patient growers with clusters of small, star-shaped white or pink flowers in winter. Its tree-like form, longevity, and low-maintenance nature make it perfect for bonsai-style cultivation or as a living sculpture that improves with age.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Depression, Incoordination",
+  "toxicity": "Toxic to cats, dogs and horses. Can cause vomiting, and incoordination in cats.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
       "Vomiting",
-      "Depression",
-      "Incoordination"
+      "Incoordination (\"drunk\" walking) in cats",
+      "Tremors (rare)"
     ],
-    "source": "plantsm.art"
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "65-75°F (18-24°C) - prefers cooler winters",
   "humidity": "30-50% - tolerates dry air",
@@ -68,6 +69,18 @@
     "repotting": {
       "tip": "Repot every 2-3 years in spring, or keep root-bound for bonsai effect"
     }
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Chinese Jade (Crassula arborescens)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/chinese-jade"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Crassula ovata",
+    "family": "Crassulaceae",
+    "gbifKey": 5362063
   },
   "review": {
     "status": "legacy"

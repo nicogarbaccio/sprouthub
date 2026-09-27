@@ -14,20 +14,22 @@
   "careLevel": "Easy",
   "category": "Tropical Plants",
   "description": "Native to Central and South American rainforests, Monstera adansonii is the delicate, vining cousin of the famous Monstera deliciosa, featuring smaller heart-shaped leaves (4-8 inches) with oblong holes and fenestrations that create intricate, lacy patterns. Unlike its upright relative, this climbing vine naturally trails or climbs with aerial roots, making it perfect for hanging baskets, trellises, or cascading from shelves. The leaves emerge solid and develop holes as they mature, creating beautiful textural interest. Fast-growing and more compact than M. deliciosa, it can quickly fill a space with lush, perforated foliage. Much easier to care for than other tropical plants, it tolerates a range of conditions while still delivering that coveted Swiss cheese leaf aesthetic. Perfect for adding vertical interest or trailing beauty without the space demands of larger Monsteras.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "related_species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "65-80°F (18-27°C)",
   "humidity": "50-70%",
@@ -68,7 +70,22 @@
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Ceriman (Monstera deliciosa)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/ceriman"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Monstera adansonii",
+    "family": "Araceae",
+    "gbifKey": 2868136
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's entry for a related species (Monstera deliciosa)."
+    ]
   }
 }

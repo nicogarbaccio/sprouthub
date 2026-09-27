@@ -12,21 +12,21 @@
   "careLevel": "Hard",
   "category": "Flowering Plants",
   "description": "A stunning cool-season bloomer native to the Mediterranean, Cyclamen produces delicate, upswept butterfly-like flowers in shades of red, pink, white, or purple that appear to hover above a mound of heart-shaped, silver-marbled leaves. The elegant flowers bloom prolifically from fall through spring when most houseplants are dormant, making it a perfect winter companion. However, cyclamen has specific requirements: it's a cool-temperature plant that struggles in typical heated homes and follows a natural dormancy cycle in summer. The tuberous root (corm) sits at soil level and is prone to rot if watered incorrectly. While challenging, successfully maintaining a cyclamen through multiple bloom cycles is deeply rewarding for dedicated plant enthusiasts.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Drooling, Vomiting, Diarrhea, Seizures, Cardiac Arrhythmias",
+  "toxicity": "Toxic to cats, dogs and horses. Causes drooling, vomiting and diarrhea; eating a lot of the tuber can affect the heart.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
       "Drooling",
       "Vomiting",
       "Diarrhea",
-      "Seizures",
-      "Cardiac Arrhythmias"
+      "Heart rhythm problems or seizures after eating large amounts of the tuber"
     ],
-    "source": "plantsm.art"
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "50-65°F (10-18°C) - cool temps essential for blooming",
   "humidity": "50-60%",
@@ -59,7 +59,22 @@
       "maxPct": 60
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Cyclamen (Cyclamen spp)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/cyclamen"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Cyclamen persicum",
+    "family": "Primulaceae",
+    "gbifKey": 3169317
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Cyclamen spp), not a page for this species."
+    ]
   }
 }

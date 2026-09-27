@@ -34,6 +34,18 @@ describe('catalog data', () => {
         expect(new Set(names).size).toBe(names.length);
     });
 
+    it.each(plants.map((p) => [p.name, p] as const))(
+        '%s shows pet safety that matches its per-animal ratings',
+        (_name, plant) => {
+            const detail = plant.toxicityDetail!;
+            const ratings = [detail.cats, detail.dogs, detail.horses];
+            if (ratings.includes('toxic')) expect(plant.toxicity).toMatch(/^Toxic to /);
+            else if (ratings.includes('non_toxic')) expect(plant.toxicity).toMatch(/^Non-toxic to /);
+            else expect(plant.toxicity).toMatch(/^Pet safety unknown/);
+            if (detail.basis !== 'none') expect(detail.sourceIds?.length).toBeGreaterThan(0);
+        }
+    );
+
     it('resolves image paths to full URLs', () => {
         expect(getCatalogPlant('Monstera Deliciosa')?.image).toMatch(
             /^https:\/\/.+\/plant-images\/Monstera%20Deliciosa\.png$/
@@ -89,6 +101,6 @@ describe('getRepottingAdvice', () => {
     });
 
     it('has no tip for plants without one', () => {
-        expect(getRepottingAdvice('Mona', getCatalogPlant('Monstera Deliciosa')).catalogTip).toBeNull();
+        expect(getRepottingAdvice('Potty', getCatalogPlant('Pothos')).catalogTip).toBeNull();
     });
 });

@@ -26,6 +26,10 @@ export interface CatalogPlant {
   /** Structured care values for app logic; prefer these over parsing the prose fields */
   care?: PlantCare;
   toxicityDetail?: ToxicityDetail;
+  whatsNormal?: CatalogEntry['whatsNormal'];
+  propagation?: CatalogEntry['propagation'];
+  taxonomy?: CatalogEntry['taxonomy'];
+  sources?: CatalogEntry['sources'];
   review?: CatalogEntry['review'];
 }
 

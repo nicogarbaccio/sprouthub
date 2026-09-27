@@ -14,19 +14,20 @@
   "careLevel": "Medium",
   "category": "Tropical Plants",
   "description": "Native to Indonesia, Malaysia, and Pacific islands, Croton is one of the most colorful foliage plants available, featuring thick, leathery leaves in stunning combinations of red, orange, yellow, pink, green, and even purple - often with multiple colors swirling within a single leaf like an artist's palette. Leaf shapes vary from narrow and linear to broad and lobed. Growing 3-6 feet indoors (10+ feet outdoors), it creates a bold, tropical statement. However, the spectacular colors come with demands: Croton requires bright, direct light to maintain vibrant coloring (colors fade dramatically in shade), consistent moisture, warmth, and stable conditions. It's notoriously dramatic about changes, dropping leaves at the slightest provocation. For those who can provide bright light and consistency, it's a stunning showpiece.",
-  "toxicity": "Toxic to horses. Symptoms: Kidney Failure, Weakness, Tremors, Incoordination, Recumbency",
+  "toxicity": "Toxic to cats and dogs. The sap irritates skin, and eating large amounts upsets the stomach.",
   "toxicityDetail": {
-    "animals": [
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "unknown",
     "symptoms": [
-      "Kidney Failure",
-      "Weakness",
-      "Tremors",
-      "Incoordination",
-      "Recumbency"
+      "Mouth and stomach irritation if large amounts are eaten",
+      "Skin irritation from the sap"
     ],
-    "source": "plantsm.art"
+    "severity": "mild",
+    "basis": "species",
+    "sourceIds": [
+      "ncsu"
+    ]
   },
   "temperature": "60-85°F (15-29°C) - prefers warmth, avoid cold",
   "humidity": "50-70%",
@@ -66,7 +67,22 @@
       "tip": "Fertilize every 2-3 weeks during growing season with balanced fertilizer"
     }
   },
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Codiaeum variegatum",
+      "url": "https://plants.ces.ncsu.edu/plants/codiaeum-variegatum/"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Codiaeum variegatum",
+    "family": "Euphorbiaceae",
+    "gbifKey": 3071476
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately."
+    ]
   }
 }

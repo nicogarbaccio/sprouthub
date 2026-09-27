@@ -13,20 +13,19 @@
   "careLevel": "Easy",
   "category": "Trees & Large Plants",
   "description": "Native to Mexico and Central America, Yucca elephantipes (nicknamed \"Spineless Yucca\" because it lacks the sharp leaf tips of other yucca species) is a bold, architectural plant featuring rosettes of long, sword-shaped, leathery leaves emerging from thick, woody canes that resemble elephant legs. The dramatic upright form with spiky foliage creates instant southwestern or modern aesthetic appeal. Growing 5-8 feet indoors (30+ feet outdoors), it typically has multiple canes of varying heights topped with leaf clusters, creating a sculptural, tree-like presence. Extremely drought-tolerant and low-maintenance, it thrives on neglect and bright light, making it perfect for sunny windows, forgetful plant owners, and anyone wanting bold architectural presence with minimal effort. One of the toughest, most forgiving large houseplants available.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Liver Damage, Dermatitis, Liver Failure",
+  "toxicity": "Toxic to cats, dogs and horses. Contains saponins; causes vomiting in cats and dogs.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Vomiting",
-      "Liver Damage",
-      "Dermatitis",
-      "Liver Failure"
+      "Vomiting (cats and dogs)",
+      "Liver disease and skin irritation (horses)"
     ],
-    "source": "plantsm.art"
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "50-90°F (10-32°C) - extremely temperature tolerant",
   "humidity": "30-50% - tolerates very dry air",
@@ -68,7 +67,22 @@
       "tip": "Fertilize only 2-3 times per year during growing season"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Yucca (Yucca spp.)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/yucca"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Yucca gigantea",
+    "family": "Asparagaceae",
+    "gbifKey": 2775716
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Yucca spp.), not a page for this species."
+    ]
   }
 }

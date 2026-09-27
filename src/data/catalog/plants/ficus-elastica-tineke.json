@@ -13,20 +13,16 @@
   "careLevel": "Medium",
   "category": "Trees & Large Plants",
   "description": "A stunning variegated cultivar of the classic Ficus elastica, Tineke turns the bold, glossy leaves of the Rubber Plant into living artwork, each large oval leaf marbled in shades of deep green, sage, and creamy-white, with new growth and midribs often blushed a soft pink that unfurls from rosy-red sheaths. Growing 4-8 feet indoors, it delivers the same architectural, statement-tree presence as the standard Rubber Plant but with far more color and light. Because the cream and white areas lack chlorophyll, Tineke needs noticeably brighter (indirect) light than its all-green cousin to keep its variegation vivid - too little light and the leaves fade toward plain green and grow leggy. Slightly more particular about light and consistent watering than the ordinary Rubber Plant but still very approachable, Tineke is an excellent way to add a large, colorful, variegated focal point without the fussiness of a Fiddle Leaf Fig.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Dermatitis, Vomiting, Diarrhea, Abdominal Pain",
+  "toxicity": "Toxic to cats, dogs and horses. The milky sap contains irritants (ficin and psoralen).",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
-    "symptoms": [
-      "Dermatitis",
-      "Vomiting",
-      "Diarrhea",
-      "Abdominal Pain"
-    ],
-    "source": "plantsm.art"
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
+    "symptoms": [],
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "60-80°F (15-27°C)",
   "humidity": "40-60%",
@@ -71,7 +67,22 @@
       "tip": "Repot every 2-3 years or when roots emerge from the drainage holes"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Weeping Fig (Ficus sp.)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/weeping-fig"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Ficus elastica",
+    "family": "Moraceae",
+    "gbifKey": 7835333
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Ficus sp.), not a page for this species."
+    ]
   }
 }

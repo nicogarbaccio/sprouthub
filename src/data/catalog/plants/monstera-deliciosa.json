@@ -14,22 +14,24 @@
   "careLevel": "Easy",
   "category": "Tropical Plants",
   "description": "Native to the rainforests of Central America, Monstera deliciosa is one of the most iconic and Instagram-famous houseplants, beloved for its massive, glossy leaves with dramatic natural splits (fenestrations) and holes that create a striking Swiss cheese appearance. Young plants start with solid, heart-shaped leaves, developing the characteristic splits and holes as they mature - a fascinating transformation to witness. In nature, this climbing vine uses aerial roots to scale trees up to 70 feet, but indoors it typically reaches 6-8 feet. With proper support like a moss pole, the leaves can grow 2-3 feet across. The name \"deliciosa\" refers to the edible fruit it produces in tropical conditions (rarely indoors), which tastes like a combination of pineapple and banana. Easy to care for and fast-growing, it brings instant jungle vibes to any space.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
-  "temperature": "65-85°F (18-29°C)",
+  "temperature": "60-85°F (16-29°C)",
   "humidity": "40-60%",
   "careInstructions": [
     "Water when top 2-3 inches of soil are dry - typically weekly",
@@ -50,9 +52,33 @@
     "Brown spots: Overwatering, root rot, or bacterial/fungal infection"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 14,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
     "temperature": {
-      "idealMinF": 65,
-      "idealMaxF": 85
+      "idealMinF": 60,
+      "idealMaxF": 85,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 40,
@@ -65,9 +91,60 @@
       ],
       "fertilizerType": "Balanced fertilizer",
       "tip": "Fertilize monthly during growing season with balanced fertilizer"
+    },
+    "repotting": {
+      "tip": "Repot in spring, moving up one pot size, and add a moss pole or trellis at the same time.",
+      "soil": "Peaty, soil-based potting mix with good drainage",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
+    "growthRate": "fast"
+  },
+  "whatsNormal": [
+    "Young leaves are small and solid — the splits and holes only appear as the plant matures.",
+    "Long aerial roots are normal. Tuck lower ones into the soil or guide them onto a moss pole; upper ones can be trimmed.",
+    "Without a pole or trellis it grows sideways rather than up."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting",
+      "air_layering"
+    ],
+    "tip": "Take a cutting with at least one node (ideally with an aerial root) and root it in water or moist mix.",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Monstera deliciosa",
+      "url": "https://plants.ces.ncsu.edu/plants/monstera-deliciosa/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Monstera deliciosa",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?kempercode=b605"
+    },
+    {
+      "id": "aspca",
+      "title": "ASPCA: Ceriman (Monstera deliciosa)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/ceriman"
     }
+  ],
+  "taxonomy": {
+    "acceptedName": "Monstera deliciosa",
+    "family": "Araceae",
+    "gbifKey": 2868241
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Winter watering interval (14 days) is our estimate — MOBOT only says to reduce watering from fall to late winter.",
+      "Humidity range 40-60% is unsourced; NC State says it prefers high humidity."
+    ]
   }
 }

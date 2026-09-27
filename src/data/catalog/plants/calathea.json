@@ -12,8 +12,8 @@
   "careLevel": "Hard",
   "category": "Prayer Plants",
   "description": "Native to the tropical rainforests of South America, Calathea orbifolia is one of the most striking members of the prayer plant family, featuring large, round leaves (up to 12 inches wide) with distinctive silvery-green stripes that look hand-painted. Like other Calatheas, it performs nyctinastic movement - the leaves rise at night and lower during the day, creating a gentle rustling sound. Growing 2-3 feet tall, it creates a bold tropical statement piece. However, Calatheas are notoriously demanding, requiring high humidity, consistent moisture, filtered water, and stable temperatures. They're sensitive to fluoride, chlorine, and mineral buildup, often rewarding even experienced plant parents with crispy edges. Despite their fussy reputation, their extraordinary foliage and living movement make them irresistible to dedicated plant enthusiasts.",
-  "toxicity": "Non-toxic to pets and humans",
-  "temperature": "65-80°F (18-27°C) - no fluctuations",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
+  "temperature": "65-75°F (18-24°C) - no drafts or sudden changes",
   "humidity": "60-80% - high humidity critical",
   "careInstructions": [
     "Water with filtered, distilled, or rainwater when top inch feels dry",
@@ -34,13 +34,42 @@
     "Brown spots: Fungal disease from water sitting on leaves overnight"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 6,
+      "dryness": "keep_moist",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "rhs"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "rhs",
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMaxF": 75,
+      "coldDamageBelowF": 61,
+      "sourceIds": [
+        "ncsu",
+        "rhs"
+      ]
     },
     "humidity": {
       "minPct": 60,
-      "maxPct": 80
+      "maxPct": 80,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -48,10 +77,75 @@
         4
       ],
       "fertilizerType": "Diluted fertilizer at half strength",
-      "tip": "Fertilize monthly during growing season with diluted fertilizer at half strength"
+      "tip": "Fertilize monthly during growing season with diluted fertilizer at half strength",
+      "sourceIds": [
+        "rhs"
+      ]
+    },
+    "repotting": {
+      "tip": "Repot every few years in spring; this is also the time to divide it.",
+      "soil": "Free-draining but moisture-retentive, slightly acidic, peat-free mix",
+      "sourceIds": [
+        "rhs",
+        "ncsu"
+      ]
+    },
+    "growthRate": "fast"
+  },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "whatsNormal": [
+    "Leaves fold upward at night and open again in the morning — this \"praying\" movement is normal.",
+    "Leaves curl when the plant is thirsty or the air is too dry; they flatten again once fixed."
+  ],
+  "propagation": {
+    "methods": [
+      "division"
+    ],
+    "tip": "Divide in spring into sections that each have several leaves, and keep them warm, humid and moist until they grow.",
+    "sourceIds": [
+      "rhs",
+      "ncsu"
+    ]
+  },
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Goeppertia orbifolia",
+      "url": "https://plants.ces.ncsu.edu/plants/goeppertia-orbifolia/"
+    },
+    {
+      "id": "rhs",
+      "title": "RHS: How to grow calatheas",
+      "url": "https://www.rhs.org.uk/plants/calathea/growing-guide"
+    },
+    {
+      "id": "aspca",
+      "title": "ASPCA: Calathea (Calathea spp.)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/calathea"
     }
+  ],
+  "taxonomy": {
+    "acceptedName": "Goeppertia orbifolia",
+    "family": "Marantaceae",
+    "gbifKey": 7476815
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Winter watering interval (6 days) is our estimate — RHS says to let the surface dry before rewetting in winter.",
+      "Growth rate: NC State says \"rapid\"; many growers find orbifolia moderate. Kept the source value.",
+      "Ideal temperature narrowed from 65-80°F to 65-75°F (NC State); RHS gives a 61°F minimum.",
+      "Toxicity: based on ASPCA's genus-wide entry (Calathea spp.), not a page for this species."
+    ]
   }
 }

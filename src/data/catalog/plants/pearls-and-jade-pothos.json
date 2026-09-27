@@ -12,20 +12,22 @@
   "careLevel": "Medium",
   "category": "Hanging & Trailing Plants",
   "description": "A patented sport of Marble Queen developed at the University of Florida, Pearls and Jade is a compact, small-leaved pothos with a distinctive variegation pattern: green centers surrounded by irregular margins of white and grey-green, often with fine speckling and patches that push in from the leaf edges rather than streaking through the middle. The leaves are smaller than most pothos (2-4 inches), and the plant stays notably compact and slow-growing, making it ideal for small pots, shelves, and tight spaces. Because the variegation includes a lot of white and grey, it needs bright indirect light to look its best and grows more slowly than green pothos. Otherwise it shares the same forgiving, near-indestructible pothos temperament that makes the whole family so beginner-friendly.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "60-85°F (15-29°C)",
   "humidity": "40-60%",
@@ -64,6 +66,18 @@
       "fertilizerType": "Diluted balanced fertilizer",
       "tip": "Fertilize monthly during the growing season with a diluted balanced fertilizer"
     }
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Devils Ivy (Epipremnum aureum)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/devils-ivy"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Epipremnum aureum",
+    "family": "Araceae",
+    "gbifKey": 2868323
   },
   "review": {
     "status": "legacy"

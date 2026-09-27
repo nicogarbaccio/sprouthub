@@ -13,7 +13,7 @@
   "careLevel": "Easy",
   "category": "Tropical Plants",
   "description": "Native exclusively to Lord Howe Island off the coast of Australia, Kentia Palm is the ultimate elegant, low-maintenance palm featuring gracefully arching, dark green fronds that create a refined tropical ambiance. Growing slowly to 6-10 feet indoors (60 feet in nature), it develops a slender trunk with a feathery crown of pinnate leaves. Unlike most palms, Kentia tolerates low light remarkably well - it was a Victorian parlor favorite for this very reason. It also handles dry air, irregular watering, and typical indoor conditions with grace. Slow-growing means low-maintenance and minimal pruning. Its tolerance, elegance, and air-purifying qualities make it the gold standard for indoor palms and a favorite for offices, hotels, and homes seeking sophisticated tropical beauty without demanding care.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "65-75°F (18-24°C)",
   "humidity": "40-50%",
   "careInstructions": [
@@ -52,6 +52,28 @@
       "fertilizerType": "Palm fertilizer",
       "tip": "Fertilize every 2-3 months during growing season with palm fertilizer"
     }
+  },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Forster Sentry Palm (Howea forsteriana)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/forster-sentry-palm"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Howea forsteriana",
+    "family": "Arecaceae",
+    "gbifKey": 7857942
   },
   "review": {
     "status": "legacy"

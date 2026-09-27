@@ -14,7 +14,7 @@
   "careLevel": "Hard",
   "category": "Succulents",
   "description": "Native to the rocky deserts of southern Africa, Lithops are among the most unusual plants in existence - they've evolved to look exactly like small pebbles or stones as camouflage from grazing animals. Each plant consists of just two thick, fused leaves separated by a fissure from which flowers and new leaves emerge. The flat or slightly rounded tops often have intricate patterns and colors mimicking the stones in their habitat. Growing only 1-2 inches tall, they're miniature marvels of evolution. However, Lithops are notoriously difficult because they follow a specific annual cycle and require NO water during certain periods. Watering at the wrong time is fatal. They're strictly for experienced succulent growers who can resist the urge to water and understand their unique lifecycle.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "65-80°F (18-27°C) during growth, cooler in dormancy",
   "humidity": "10-30% - very dry air essential",
   "careInstructions": [
@@ -45,7 +45,32 @@
       "maxPct": 30
     }
   },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "related_species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Living Stones (Lithops naureeniae)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/living-stones"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Lithops",
+    "family": "Aizoaceae",
+    "gbifKey": 3231652
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's entry for a related species (Lithops naureeniae)."
+    ]
   }
 }

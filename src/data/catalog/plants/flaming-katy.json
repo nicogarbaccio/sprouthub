@@ -13,19 +13,20 @@
   "careLevel": "Easy",
   "category": "Flowering Plants",
   "description": "A succulent flowering plant from Madagascar, Flaming Katy produces dense clusters of small, colorful four-petaled flowers in vibrant reds, pinks, oranges, yellows, or white that can last 6-8 weeks. The flowers sit atop thick, glossy, scalloped leaves that store water, making this plant remarkably drought-tolerant and forgiving of occasional neglect. Growing 6-12 inches tall, it's a popular gift plant during holidays due to its long-lasting blooms and easy care requirements. As a succulent, it needs less water than typical flowering plants and thrives on benign neglect. With proper rest periods and bright light, kalanchoe can be encouraged to rebloom year after year, providing colorful displays multiple times annually.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Diarrhea, Cardiac Arrhythmias",
+  "toxicity": "Toxic to cats and dogs. Can cause vomiting and diarrhea, and rarely an abnormal heart rhythm.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "unknown",
     "symptoms": [
       "Vomiting",
       "Diarrhea",
-      "Cardiac Arrhythmias"
+      "Abnormal heart rhythm (rare)"
     ],
-    "source": "plantsm.art"
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "60-85°F (15-29°C)",
   "humidity": "30-50%",
@@ -64,7 +65,22 @@
       "tip": "Fertilize monthly during active growth with diluted succulent fertilizer"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Kalanchoe (Kalanchoe spp)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/kalanchoe"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Kalanchoe blossfeldiana",
+    "family": "Crassulaceae",
+    "gbifKey": 2985944
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Kalanchoe spp), not a page for this species."
+    ]
   }
 }

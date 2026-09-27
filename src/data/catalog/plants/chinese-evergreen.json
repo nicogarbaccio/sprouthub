@@ -13,20 +13,22 @@
   "careLevel": "Easy",
   "category": "Tropical Plants",
   "description": "Native to the tropical and subtropical forests of Southeast Asia, the Chinese Evergreen is one of the most durable and beginner-friendly houseplants available. Prized for its beautifully patterned foliage, modern cultivars come in a stunning range of colors including silver, pink, red, and cream variegation on broad, lance-shaped leaves. Growing 1-3 feet tall and wide, it thrives in low to medium light conditions that would challenge most other houseplants, making it perfect for offices, bedrooms, and dimly lit corners. Aglaonema has been cultivated as a houseplant for centuries in Asia and is considered a symbol of good luck. Its slow to moderate growth rate and tolerance of inconsistent watering make it an ideal choice for beginners or anyone looking for a low-maintenance plant with high visual impact.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "related_species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "65-80°F (18-27°C) - sensitive to cold drafts and temperatures below 60°F",
   "humidity": "40-60% - tolerates average household humidity but prefers moderate levels",
@@ -70,7 +72,22 @@
       "tip": "Repot every 2-3 years or when roots begin circling the pot, moving up one pot size"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Chinese Evergreen (Aglaonema modestum)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/chinese-evergreen"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Aglaonema commutatum",
+    "family": "Araceae",
+    "gbifKey": 2866467
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's entry for a related species (Aglaonema modestum)."
+    ]
   }
 }

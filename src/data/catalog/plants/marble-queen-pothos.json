@@ -13,20 +13,22 @@
   "careLevel": "Easy",
   "category": "Hanging & Trailing Plants",
   "description": "One of the most striking pothos varieties, Marble Queen is a heavily variegated cultivar of Epipremnum aureum whose heart-shaped leaves are splashed and streaked with creamy-white and green in a marbled pattern so dense that some leaves are nearly half white. As easy and forgiving as classic Golden Pothos, it trails elegantly from shelves and hanging baskets or climbs a moss pole with aerial roots. The one key difference is light: because so much of each leaf lacks chlorophyll, Marble Queen needs brighter indirect light than the all-green types to keep its variegation crisp and to grow at a reasonable pace - in low light it grows slowly and the new leaves lose their marbling and revert toward solid green. Give it good light and consistent-but-not-soggy watering and it rewards you with cascading, painterly foliage that looks far fussier than it actually is.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "60-85°F (15-29°C)",
   "humidity": "40-60%",
@@ -65,6 +67,18 @@
       "fertilizerType": "Diluted balanced fertilizer",
       "tip": "Fertilize monthly during the growing season with a diluted balanced fertilizer"
     }
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Devils Ivy (Epipremnum aureum)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/devils-ivy"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Epipremnum aureum",
+    "family": "Araceae",
+    "gbifKey": 2868323
   },
   "review": {
     "status": "legacy"

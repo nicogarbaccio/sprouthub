@@ -12,7 +12,7 @@
   "careLevel": "Medium",
   "category": "Ferns",
   "description": "An extraordinary epiphytic fern native to Australia, Southeast Asia, and Africa, Staghorn Fern grows naturally attached to tree trunks in tropical forests. It features two distinct types of fronds: flat, shield-shaped basal fronds that attach to surfaces and turn brown (don't remove these - they're healthy!), and large, antler-shaped fertile fronds that fork dramatically and can span 2-3 feet, resembling actual stag horns. Typically mounted on wood plaques or grown in baskets, these sculptural plants make stunning living wall art. The fuzzy, silvery-green fronds collect moisture and nutrients from the air. While more demanding than basic houseplants, Staghorns are easier than maidenhair ferns and reward proper care with dramatic growth, making impressive conversation pieces.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "60-80°F (15-27°C)",
   "humidity": "50-70%",
   "careInstructions": [
@@ -50,6 +50,28 @@
       "fertilizerType": "Diluted fertilizer added to the soaking water",
       "tip": "Fertilize monthly during growing season by adding diluted fertilizer to soaking water"
     }
+  },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Common Staghorn Fern (Platycerium bifurcatum)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/common-staghorn-fern"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Platycerium bifurcatum",
+    "family": "Polypodiaceae",
+    "gbifKey": 7126767
   },
   "review": {
     "status": "legacy"

@@ -12,19 +12,13 @@
   "careLevel": "Medium",
   "category": "Air Plants",
   "description": "The iconic symbol of the American South, Spanish Moss creates stunning cascading displays with its silvery-gray, thread-like stems that can grow several feet long. Despite its name, it's not actually a moss but an epiphytic air plant that naturally drapes from tree branches in humid climates. Unlike other Tillandsia species, Spanish Moss has no roots and absorbs all water and nutrients through specialized scales on its stems. It's perfect for creating dramatic hanging installations, adding texture to terrariums, or crafting natural decorative accents. Native to the southeastern United States through South America, it brings an ethereal, bohemian aesthetic to any space.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Drooling, Vomiting, Diarrhea",
+  "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
-    "symptoms": [
-      "Drooling",
-      "Vomiting",
-      "Diarrhea"
-    ],
-    "source": "plantsm.art"
+    "cats": "unknown",
+    "dogs": "unknown",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "none"
   },
   "temperature": "60-80°F (15-27°C)",
   "humidity": "60-70%",
@@ -63,7 +57,15 @@
       "tip": "Fertilize every 2-3 weeks with very diluted bromeliad fertilizer during growing season"
     }
   },
+  "taxonomy": {
+    "acceptedName": "Tillandsia usneoides",
+    "family": "Bromeliaceae",
+    "gbifKey": 2695149
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+    ]
   }
 }

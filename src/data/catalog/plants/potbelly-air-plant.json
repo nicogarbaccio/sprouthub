@@ -11,7 +11,7 @@
   "careLevel": "Medium",
   "category": "Air Plants",
   "description": "One of the most distinctive and sculptural air plants available, Potbelly Air Plant features a bulbous, hollow base with wild, twisted tentacle-like leaves that curl and spiral in fascinating patterns. Native to the humid forests of Central and South America, from Mexico to Colombia, this species has evolved a unique bulbous structure that houses beneficial insects in nature, creating a symbiotic relationship. The twisted, ribbon-like leaves can be green to reddish-purple depending on light exposure. Growing 4-7 inches tall, it creates an alien-like, artistic presence that's perfect for mounted displays, hanging arrangements, or as a conversation-starting centerpiece. When happy, it produces tubular purple and red flowers.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
   "temperature": "60-85°F (15-29°C)",
   "humidity": "50-70%",
   "careInstructions": [
@@ -49,7 +49,22 @@
       "tip": "Fertilize monthly during growing season with diluted bromeliad fertilizer (¼ strength)"
     }
   },
+  "toxicityDetail": {
+    "cats": "unknown",
+    "dogs": "unknown",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "none"
+  },
+  "taxonomy": {
+    "acceptedName": "Tillandsia bulbosa",
+    "family": "Bromeliaceae",
+    "gbifKey": 2695645
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+    ]
   }
 }

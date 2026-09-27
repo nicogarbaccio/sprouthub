@@ -14,21 +14,16 @@
   "careLevel": "Medium",
   "category": "Flowering Plants",
   "description": "A tropical showstopper native to East Asia, Chinese Hibiscus produces enormous, flamboyant flowers (4-8 inches wide) in stunning shades of red, pink, orange, yellow, white, or multi-colored varieties with prominent stamens that extend from the center. While individual blooms last only 1-2 days, healthy plants produce new flowers continuously throughout warm months, creating an ever-changing display. The glossy, dark green foliage provides an elegant backdrop even when not in bloom. This woody shrub can grow 4-10 feet indoors and adapts well to container growing. Native to warm climates, it thrives outdoors in summer and needs protection from cold, but rewards dedicated care with spectacular tropical beauty that transforms any space into a paradise.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Abdominal Pain, Drooling, Dermatitis, Difficulty Breathing, Cardiac Failure",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
-    "symptoms": [
-      "Abdominal Pain",
-      "Drooling",
-      "Dermatitis",
-      "Difficulty Breathing",
-      "Cardiac Failure"
-    ],
-    "source": "plantsm.art"
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "related_species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "60-90°F (15-32°C) - warm temps encourage blooming",
   "humidity": "50-70%",
@@ -51,9 +46,34 @@
     "Wilting despite moist soil: Root rot from overwatering or poor drainage"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 7,
+      "dryness": "keep_moist",
+      "overwaterSensitivity": "low",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "direct",
+      "tolerates": [
+        "bright_indirect",
+        "direct"
+      ],
+      "directSun": "full",
+      "sourceIds": [
+        "tamu",
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
-      "idealMaxF": 90
+      "idealMaxF": 90,
+      "sourceIds": [
+        "mobot",
+        "tamu"
+      ]
     },
     "humidity": {
       "minPct": 50,
@@ -66,9 +86,66 @@
       ],
       "fertilizerType": "High-potassium fertilizer",
       "tip": "Fertilize every 2 weeks during growing season with high-potassium fertilizer"
+    },
+    "repotting": {
+      "tip": "Grow in a large container and prune stems back by about half in early spring to keep it compact — flowers form on new growth.",
+      "soil": "Moist, organically rich, well-drained potting mix",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
+    "growthRate": "moderate"
+  },
+  "whatsNormal": [
+    "Each flower lasts only a day — a steady stream of new buds is what matters.",
+    "Buds may drop after the plant is moved or when temperature or light changes. Keep it in one spot and it recovers.",
+    "Rests over winter: keep it around 55–60°F with less water and little or no fertilizer."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Root 3–4 inch tip cuttings in spring.",
+    "sourceIds": [
+      "tamu",
+      "ncsu"
+    ]
+  },
+  "sources": [
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Hibiscus rosa-sinensis",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?kempercode=b557"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Hibiscus rosa-sinensis",
+      "url": "https://plants.ces.ncsu.edu/plants/hibiscus-rosa-sinensis/"
+    },
+    {
+      "id": "tamu",
+      "title": "Texas A&M AgriLife: Hibiscus or China Rose",
+      "url": "https://aggie-horticulture.tamu.edu/ornamental/a-reference-guide-to-plant-care-handling-and-merchandising/selected-foliage-flowering-plants/flowering-plants/hibiscus-or-china-rose/"
+    },
+    {
+      "id": "aspca",
+      "title": "ASPCA: Hibiscus (Hibiscus syriacus)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/hibiscus"
     }
+  ],
+  "taxonomy": {
+    "acceptedName": "Hibiscus rosa-sinensis",
+    "family": "Malvaceae",
+    "gbifKey": 3152559
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "No source gives a cold-damage temperature, so weather alerts have no threshold for this plant. MOBOT/TAMU say to overwinter at 55–60°F.",
+      "Winter watering interval (7 days) is our estimate — MOBOT says \"reduced watering\" at 60°F.",
+      "Toxicity: ASPCA's hibiscus pages cover Hibiscus syriacus, not rosa-sinensis; no source lists H. rosa-sinensis as toxic. The previous entry showed tulip data from Plant Smart."
+    ]
   }
 }

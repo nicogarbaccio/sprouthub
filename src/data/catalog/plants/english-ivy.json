@@ -13,20 +13,21 @@
   "careLevel": "Medium",
   "category": "Hanging & Trailing Plants",
   "description": "A timeless classic from Europe, North Africa, and Western Asia, English Ivy has adorned buildings and homes for centuries with its elegant, lobed leaves that come in various sizes and variegation patterns from deep green to cream and white. This versatile plant can trail gracefully from hanging baskets, climb up trellises with clinging aerial roots, or be trained into topiary shapes. The vines can grow several feet long indoors, creating lush, sophisticated displays. While beautiful, English Ivy is more demanding than other trailing plants, requiring cooler temperatures, higher humidity, and vigilant pest management. When its needs are met, it rewards with dense, classical beauty and excellent air-purifying qualities, particularly effective at removing airborne mold spores.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Abdominal Pain, Drooling, Diarrhea",
+  "toxicity": "Toxic to cats, dogs and horses. The leaves can cause vomiting, abdominal pain, drooling and diarrhea.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
       "Vomiting",
-      "Abdominal Pain",
+      "Abdominal pain",
       "Drooling",
       "Diarrhea"
     ],
-    "source": "plantsm.art"
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "50-70°F (10-21°C) - prefers cool conditions",
   "humidity": "50-70% - higher humidity is critical",
@@ -65,6 +66,18 @@
       "fertilizerType": "Diluted balanced fertilizer",
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     }
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Branching Ivy (Hedera helix)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/branching-ivy"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Hedera helix",
+    "family": "Araliaceae",
+    "gbifKey": 8351737
   },
   "review": {
     "status": "legacy"

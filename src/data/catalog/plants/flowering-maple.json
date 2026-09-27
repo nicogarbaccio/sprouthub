@@ -13,7 +13,7 @@
   "careLevel": "Medium",
   "category": "Flowering Plants",
   "description": "Despite its common name, Flowering Maple isn't a maple at all but a member of the mallow family from Central and South America. It earned its nickname from its distinctive maple-like lobed leaves that provide an attractive backdrop to the real stars: pendulous, bell-shaped flowers in vibrant oranges, reds, pinks, yellows, or white that dangle like little lanterns from the stems. This fast-growing shrubby plant can reach 3-6 feet indoors and has the remarkable ability to bloom almost year-round with adequate light, producing flowers continuously rather than in seasonal flushes. The combination of ornamental foliage and nearly constant flowering makes it a prized specimen for bright rooms, sunrooms, or patios.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
   "temperature": "60-75°F (15-24°C)",
   "humidity": "40-60%",
   "careInstructions": [
@@ -52,7 +52,23 @@
       "tip": "Fertilize every 2-3 weeks during active growth with balanced fertilizer"
     }
   },
+  "toxicityDetail": {
+    "cats": "unknown",
+    "dogs": "unknown",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "none"
+  },
+  "taxonomy": {
+    "acceptedName": "Abutilon hybridum",
+    "family": "Malvaceae",
+    "gbifKey": 3938295
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "GBIF marks \"Abutilon hybridum\" as a doubtful name — confirm the accepted name for this hybrid.",
+      "Toxicity: no pet rating from ASPCA, NC State or the University of California — shown as \"unknown\"."
+    ]
   }
 }

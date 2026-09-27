@@ -13,20 +13,22 @@
   "careLevel": "Easy",
   "category": "Flowering Plants",
   "description": "One of the most popular and forgiving houseplants, the Peace Lily is celebrated for its elegant white spathes (often mistaken for flowers) that bloom throughout the year and its remarkable air-purifying qualities. Native to the tropical rainforests of Central and South America, this graceful plant features glossy, deep green leaves that arch elegantly and distinctive white \"blooms\" that emerge on tall stems. Growing 1-4 feet tall depending on variety, it's famous for dramatically drooping when thirsty, then perking up quickly after watering - making it perfect for beginners who want visual watering cues. It thrives in low to medium light where most flowering plants struggle, making it ideal for offices and north-facing rooms.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats and dogs. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "unknown",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "65-80°F (18-27°C)",
   "humidity": "40-60%",
@@ -65,7 +67,22 @@
       "tip": "Fertilize monthly during spring and summer with diluted balanced fertilizer"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Peace Lily (Spathiphyllum)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/peace-lily"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Spathiphyllum wallisii",
+    "family": "Araceae",
+    "gbifKey": 2869680
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Spathiphyllum), not a page for this species."
+    ]
   }
 }

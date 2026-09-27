@@ -13,7 +13,7 @@
   "careLevel": "Easy",
   "category": "Low Maintenance",
   "description": "Native to East Africa, the ZZ Plant is one of the most indestructible houseplants available, earning its nickname \"Eternity Plant\" for its ability to survive extreme neglect. This architectural beauty features thick, succulent-like stems with glossy, waxy leaflets arranged in graceful, feather-like fronds that grow upright from underground rhizomes. The deep green foliage has a natural shine that looks almost artificial, making it a stunning addition to modern interiors. Growing 2-3 feet tall, it thrives in a remarkable range of conditions from low light corners to bright rooms, tolerates irregular watering, and is virtually pest-free. Its slow growth means minimal maintenance, and its dramatic sculptural form provides maximum impact with minimal effort - the ultimate plant for busy people or frequent travelers.",
-  "toxicity": "Toxic to pets and humans if ingested - contains calcium oxalate crystals",
+  "toxicity": "Toxic to cats and dogs. Contains calcium oxalate; eating a lot of the leaves can cause vomiting and diarrhea.",
   "temperature": "60-75°F (15-24°C)",
   "humidity": "30-50% - tolerates dry air",
   "careInstructions": [
@@ -55,7 +55,36 @@
       "tip": "Repot only when severely root-bound (every 2-3 years)"
     }
   },
+  "toxicityDetail": {
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "unknown",
+    "symptoms": [
+      "Vomiting",
+      "Diarrhea"
+    ],
+    "severity": "moderate",
+    "basis": "species",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Zamioculcas zamiifolia",
+      "url": "https://plants.ces.ncsu.edu/plants/zamioculcas-zamiifolia/"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Zamioculcas zamiifolia",
+    "family": "Araceae",
+    "gbifKey": 2869014
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: not on the ASPCA lists. NC State describes it as toxic but doesn't rate cats, dogs and horses separately."
+    ]
   }
 }

@@ -13,7 +13,7 @@
   "careLevel": "Easy",
   "category": "Colorful Foliage",
   "description": "Native to Madagascar, Polka Dot Plant is a cheerful, compact foliage plant featuring oval leaves heavily spotted or splashed with bright pink, red, white, or rose against a green background - like someone flicked paint across each leaf. Modern cultivars have been bred for more intense spotting, with some varieties showing more color than green. Growing 1-2 feet tall, this fast-growing plant creates vibrant pops of color perfect for small spaces, desks, or terrariums. While easy to care for, it does require regular pinching to prevent legginess and maintain compact, bushy form. Polka Dot Plant brings playful, cheerful color to indoor gardens and is particularly popular for adding bright accents to dish gardens and mixed plantings.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "65-80°F (18-27°C)",
   "humidity": "50-60%",
   "careInstructions": [
@@ -51,6 +51,28 @@
       "fertilizerType": "Balanced fertilizer",
       "tip": "Fertilize every 2-3 weeks during growing season with balanced fertilizer"
     }
+  },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Baby’s Tears (Hypoestes phyllostachya)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/babys-tears"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Hypoestes phyllostachya",
+    "family": "Acanthaceae",
+    "gbifKey": 3173196
   },
   "review": {
     "status": "legacy"

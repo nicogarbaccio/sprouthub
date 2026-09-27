@@ -14,21 +14,20 @@
   "careLevel": "Easy",
   "category": "Succulents",
   "description": "Native to West Africa, Snake Plant is legendary as one of the most indestructible houseplants available, tolerating extreme neglect, low light, irregular watering, and poor conditions that would kill most plants. The architectural sword-shaped leaves grow upright in rosettes, featuring striking patterns of dark green with lighter green horizontal bands - like snake skin markings. Varieties range from compact 6-inch types to tall 4-foot specimens. The thick, succulent leaves store water, allowing it to survive weeks or even months without watering. NASA studies have shown it's one of the best air purifiers, removing toxins and uniquely producing oxygen at night. Its combination of stunning sculptural form, extreme hardiness, and air-cleaning abilities makes it the ultimate plant for beginners, busy people, low-light spaces, or anyone who's ever said \"I kill every plant I touch.\"",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Loss Of Appetite, Drooling, Dilated Pupils, Abdominal Pain, High Heart Rate",
+  "toxicity": "Toxic to cats, dogs and horses. Contains saponins; eating it can cause nausea, vomiting and diarrhea.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Loss Of Appetite",
-      "Drooling",
-      "Dilated Pupils",
-      "Abdominal Pain",
-      "High Heart Rate"
+      "Nausea",
+      "Vomiting",
+      "Diarrhea"
     ],
-    "source": "plantsm.art"
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "55-85°F (13-29°C) - extremely temperature tolerant",
   "humidity": "30-50% - tolerates very dry air",
@@ -51,9 +50,35 @@
     "Slow/no growth: Completely normal - Snake Plants are slow growers"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 42,
+      "dryness": "fully_dry",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "low",
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 55,
-      "idealMaxF": 85
+      "idealMaxF": 85,
+      "coldDamageBelowF": 50,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 30,
@@ -66,9 +91,58 @@
       ],
       "fertilizerType": null,
       "tip": "Fertilize only 2-3 times per year during growing season"
+    },
+    "repotting": {
+      "tip": "Use a clay pot that is wider than it is tall so the tall leaves don't tip it over.",
+      "soil": "Well-draining potting mix",
+      "sourceIds": [
+        "mobot"
+      ]
+    },
+    "growthRate": "moderate"
+  },
+  "whatsNormal": [
+    "Barely drinks in winter — watering once every one to two months is enough.",
+    "Rarely flowers indoors."
+  ],
+  "propagation": {
+    "methods": [
+      "division",
+      "leaf_cutting"
+    ],
+    "tip": "Divide offsets from the main clump when repotting, or root leaf sections in moist mix.",
+    "sourceIds": [
+      "mobot",
+      "ncsu"
+    ]
+  },
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Dracaena trifasciata",
+      "url": "https://plants.ces.ncsu.edu/plants/dracaena-trifasciata/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Dracaena trifasciata",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?kempercode=b617"
+    },
+    {
+      "id": "aspca",
+      "title": "ASPCA: Golden Birds Nest (Sansevieria trifasciata)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/golden-birds-nest"
     }
+  ],
+  "taxonomy": {
+    "acceptedName": "Dracaena trifasciata",
+    "family": "Asparagaceae",
+    "gbifKey": 11041822
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-26",
+    "flags": [
+      "Winter watering: NC State says every one to two months; 42 days is a midpoint."
+    ]
   }
 }

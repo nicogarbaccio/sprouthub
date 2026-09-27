@@ -13,7 +13,7 @@
   "careLevel": "Medium",
   "category": "Prayer Plants",
   "description": "Native to the Brazilian rainforest floor, Prayer Plant is named for its fascinating nyctinastic movement - the leaves fold upward at night like hands in prayer, then open again at sunrise, creating gentle rustling sounds. The stunning foliage features emerald green leaves with distinctive dark green or chocolate brown spots arranged along the midrib (resembling rabbit tracks) and striking red veins, all on burgundy undersides. Growing 6-12 inches tall and spreading wider, it creates a low, spreading mound perfect for hanging baskets or tabletops. While not as demanding as Calatheas, Prayer Plants still require consistent moisture, humidity, and filtered water to prevent the crispy edges they're prone to. Their living movement and extraordinary foliage patterns make them captivating additions despite moderate care needs.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "65-80°F (18-27°C)",
   "humidity": "50-60% minimum",
   "careInstructions": [
@@ -52,7 +52,32 @@
       "tip": "Fertilize every 2 weeks during growing season with half-strength fertilizer"
     }
   },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "related_species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Prayer Plant (Calathea insignis)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/prayer-plant"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Maranta leuconeura",
+    "family": "Marantaceae",
+    "gbifKey": 2761337
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's entry for a related species (Calathea insignis)."
+    ]
   }
 }

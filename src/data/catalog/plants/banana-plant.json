@@ -13,7 +13,7 @@
   "careLevel": "Hard",
   "category": "Tropical Plants",
   "description": "Native to Southeast Asia, the dwarf banana plant is a dramatic tropical specimen featuring enormous, paddle-shaped leaves that can reach 2-3 feet long and emerge from a thick pseudostem (not a true woody trunk but tightly wrapped leaf sheaths). Growing 4-6 feet indoors, it creates instant jungle drama and exotic appeal. While called \"dwarf,\" it's still substantial. With exceptional care - bright light, warmth, high humidity, consistent moisture, and heavy feeding - mature plants (3+ years) can produce small, edible bananas indoors, though flowering and fruiting are rare and challenging. The large leaves tear easily and brown at edges even with good care - this is natural. Demanding and space-consuming, it's for dedicated tropical plant enthusiasts with bright, warm spaces who want the ultimate tropical statement.",
-  "toxicity": "Non-toxic to pets and humans",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "75-85°F (24-29°C) - prefers warm conditions",
   "humidity": "60-80% - high humidity essential",
   "careInstructions": [
@@ -54,6 +54,28 @@
     "repotting": {
       "tip": "Repot annually in spring - very fast-growing and heavy feeder"
     }
+  },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Banana (Musa acuminata)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/banana"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Musa acuminata",
+    "family": "Musaceae",
+    "gbifKey": 2762680
   },
   "review": {
     "status": "legacy"

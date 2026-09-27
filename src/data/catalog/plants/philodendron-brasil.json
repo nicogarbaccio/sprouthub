@@ -12,20 +12,22 @@
   "careLevel": "Easy",
   "category": "Tropical Plants",
   "description": "A stunning variegated cultivar of the classic Heartleaf Philodendron, Brasil features heart-shaped leaves painted with vibrant chartreuse yellow or lime green splashes against dark green - like someone brushed bright paint across each leaf. This fast-growing trailing or climbing vine can reach 10-20 feet, creating lush displays cascading from hanging baskets, shelves, or climbing up moss poles. The variegation is stable but needs adequate light to maintain the bright coloring. Even easier to care for than its already-forgiving parent species, Brasil tolerates a wide range of conditions including lower light (though variegation fades). It propagates effortlessly in water, grows vigorously, and brings cheerful color without the maintenance demands of fussier variegated plants. Perfect for beginners wanting colorful, fast-growing foliage.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "65-80°F (18-27°C)",
   "humidity": "40-60%",
@@ -64,6 +66,18 @@
       "fertilizerType": "Balanced fertilizer",
       "tip": "Fertilize monthly during growing season with balanced fertilizer"
     }
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Heartleaf Philodendron (Philodendron hederaceum)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/heartleaf-philodendron"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Philodendron hederaceum",
+    "family": "Araceae",
+    "gbifKey": 2871003
   },
   "review": {
     "status": "legacy"

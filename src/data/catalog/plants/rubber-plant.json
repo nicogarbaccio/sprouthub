@@ -13,18 +13,16 @@
   "careLevel": "Easy",
   "category": "Trees & Large Plants",
   "description": "Native to the tropical regions of India and Southeast Asia, Rubber Plant is a bold, architectural beauty featuring large, glossy, oval leaves in deep burgundy-black, variegated cream and green, or classic dark green that can grow 8-12 inches long. Much easier and more forgiving than its finicky cousin the Fiddle Leaf Fig, Rubber Plant tolerates a wider range of conditions while still making a dramatic statement. Growing 6-10 feet indoors (100+ feet in nature), it develops a thick trunk and can be pruned to encourage branching or maintained as a single-stem tree. The plant earned its name from the milky white latex sap that was historically used to make rubber. Fast-growing and adaptable, it's perfect for filling large spaces with bold tropical presence without the extreme maintenance demands of other statement plants.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Vomiting, Diarrhea",
+  "toxicity": "Toxic to cats, dogs and horses. The milky sap contains irritants (ficin and psoralen).",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
-    "symptoms": [
-      "Vomiting",
-      "Diarrhea"
-    ],
-    "source": "plantsm.art"
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
+    "symptoms": [],
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "60-80°F (15-27°C)",
   "humidity": "40-60%",
@@ -69,7 +67,22 @@
       "tip": "Repot every 2-3 years or when roots emerge from drainage holes"
     }
   },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Weeping Fig (Ficus sp.)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/weeping-fig"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Ficus elastica",
+    "family": "Moraceae",
+    "gbifKey": 7835333
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Ficus sp.), not a page for this species."
+    ]
   }
 }

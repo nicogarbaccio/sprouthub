@@ -13,19 +13,22 @@
   "careLevel": "Easy",
   "category": "Trees & Large Plants",
   "description": "Native to the rainforests of Australia, New Guinea, and Java, Schefflera is a fast-growing, architectural plant featuring glossy, palmate leaves composed of 7-16 leaflets radiating from a central point like umbrella spokes or octopus tentacles - hence its common names. The leaves can reach 12 inches across, creating bold tropical impact. Growing rapidly to 6-8 feet indoors (40+ feet outdoors in tropical climates), it tolerates a wide range of conditions including lower light, making it one of the most adaptable large plants available. The compact dwarf variety (S. arboricola) is also popular and more manageable for smaller spaces. Easy to care for and extremely forgiving of neglect, it's perfect for beginners wanting a substantial, low-maintenance plant that fills space quickly with lush, tropical foliage.",
-  "toxicity": "Toxic to dogs, cats. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "60-75°F (15-24°C)",
   "humidity": "40-60%",
@@ -66,6 +69,18 @@
       "fertilizerType": "Balanced fertilizer",
       "tip": "Fertilize monthly during growing season with balanced fertilizer"
     }
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Australian Ivy Palm (Brassaia actinophylla)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/australian-ivy-palm"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Heptapleurum actinophyllum",
+    "family": "Araliaceae",
+    "gbifKey": 11008739
   },
   "review": {
     "status": "legacy"

@@ -12,20 +12,22 @@
   "careLevel": "Medium",
   "category": "Hanging & Trailing Plants",
   "description": "Snow Queen is the whitest of the common pothos cultivars - often confused with Marble Queen, but far more heavily variegated, with leaves that can be predominantly bright white with only flecks and brushstrokes of green. The effect is luminous and frosty, hence the name. It trails and climbs exactly like other pothos, but the extreme variegation makes it a little more demanding: with so little chlorophyll, Snow Queen grows slowly, needs consistently bright indirect light to sustain itself, and is more sensitive to overwatering and scorching than green or Marble Queen pothos. Give it plenty of bright, filtered light (without harsh direct sun) and let the soil dry between waterings, and it delivers some of the most dramatic white foliage you can grow on an easy-care trailing vine.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Oral Irritation, Drooling, Vomiting, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Oral Irritation",
-      "Drooling",
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
       "Vomiting",
-      "Difficulty Swallowing"
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
   },
   "temperature": "60-85°F (15-29°C)",
   "humidity": "40-60%",
@@ -64,6 +66,18 @@
       "fertilizerType": "Diluted balanced fertilizer",
       "tip": "Fertilize monthly during the growing season with a diluted balanced fertilizer"
     }
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Devils Ivy (Epipremnum aureum)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/devils-ivy"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Epipremnum aureum",
+    "family": "Araceae",
+    "gbifKey": 2868323
   },
   "review": {
     "status": "legacy"

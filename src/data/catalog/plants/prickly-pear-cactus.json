@@ -13,7 +13,7 @@
   "careLevel": "Easy",
   "category": "Succulents",
   "description": "Native to central and northern Mexico, Opuntia microdasys is one of the most charming and distinctive cacti, featuring flat, oval pads (cladodes) that resemble bunny ears, covered in fuzzy-looking clusters of golden, reddish, or white glochids (tiny hair-like spines) arranged in polka-dot patterns. Don't be fooled by the soft appearance - these glochids are barbed and extremely irritating if they contact skin, embedding themselves deeply and causing itching for days. Growing 2-3 feet tall indoors with a branching, bushy form, mature plants produce yellow flowers and edible purple fruit (though flowering rarely occurs indoors). Despite the dangerous spines, it's easy to grow with bright light and minimal water, making it perfect for experienced cactus lovers who understand proper handling.",
-  "toxicity": "Non-toxic but has severely irritating glochids (barbed micro-spines)",
+  "toxicity": "Non-toxic to cats, dogs and horses.",
   "temperature": "50-85°F (10-29°C)",
   "humidity": "10-30% - prefers very dry air",
   "careInstructions": [
@@ -52,7 +52,32 @@
       "tip": "Fertilize monthly during growing season with diluted cactus fertilizer"
     }
   },
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
+  "sources": [
+    {
+      "id": "aspca",
+      "title": "ASPCA: Tree Cactus (Opuntia species)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/tree-cactus"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Opuntia microdasys",
+    "family": "Cactaceae",
+    "gbifKey": 7283961
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: based on ASPCA's genus-wide entry (Opuntia species), not a page for this species."
+    ]
   }
 }

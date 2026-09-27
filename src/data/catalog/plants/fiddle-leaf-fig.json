@@ -12,21 +12,24 @@
   "careLevel": "Hard",
   "category": "Trees & Large Plants",
   "description": "Native to the lowland rainforests of West Africa, Fiddle Leaf Fig has become the \"it plant\" of interior design, gracing magazine covers and Instagram feeds with its dramatic, sculptural presence. This stunning tree features enormous, violin-shaped leaves (up to 18 inches long) with prominent veining that creates bold texture and tropical elegance. Growing 6-10 feet indoors (up to 50 feet in nature), it makes a powerful architectural statement as a floor plant or tree-form specimen. However, its celebrity status comes with a notorious reputation for being finicky - it's extremely sensitive to changes in watering, light, temperature, and location, often responding with dramatic leaf drop or brown spots. Fiddle Leaf Figs demand consistency and attention, making them a challenge even for experienced plant parents. Success requires understanding its specific needs and maintaining unwavering routine.",
-  "toxicity": "Toxic to dogs, cats, horses. Symptoms: Weak Pulse, High Heart Rate, Oral Irritation, Drooling, Difficulty Swallowing",
+  "toxicity": "Toxic to cats, dogs and horses. Chewing it causes mouth pain and swelling, drooling, vomiting and difficulty swallowing.",
   "toxicityDetail": {
-    "animals": [
-      "dogs",
-      "cats",
-      "horses"
-    ],
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "toxic",
     "symptoms": [
-      "Weak Pulse",
-      "High Heart Rate",
-      "Oral Irritation",
-      "Drooling",
-      "Difficulty Swallowing"
+      "Oral irritation",
+      "Pain and swelling of the mouth, tongue and lips",
+      "Excessive drooling",
+      "Vomiting",
+      "Difficulty swallowing"
     ],
-    "source": "plantsm.art"
+    "severity": "mild",
+    "basis": "species",
+    "sourceIds": [
+      "aspca",
+      "ncsu"
+    ]
   },
   "temperature": "60-75°F (15-24°C) - no fluctuations",
   "humidity": "40-60%",
@@ -68,7 +71,27 @@
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     }
   },
+  "sources": [
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Ficus lyrata",
+      "url": "https://plants.ces.ncsu.edu/plants/ficus-lyrata/"
+    },
+    {
+      "id": "aspca",
+      "title": "ASPCA: Weeping Fig (Ficus sp.)",
+      "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/weeping-fig"
+    }
+  ],
+  "taxonomy": {
+    "acceptedName": "Ficus lyrata",
+    "family": "Moraceae",
+    "gbifKey": 5361899
+  },
   "review": {
-    "status": "legacy"
+    "status": "legacy",
+    "flags": [
+      "Toxicity: ratings from ASPCA's Ficus entry; symptoms and severity from NC State's Ficus lyrata page."
+    ]
   }
 }
