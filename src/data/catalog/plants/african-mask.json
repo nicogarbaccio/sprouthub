@@ -25,9 +25,10 @@
       "Vomiting",
       "Difficulty swallowing"
     ],
-    "basis": "genus",
+    "basis": "species",
     "sourceIds": [
-      "aspca"
+      "aspca",
+      "ncsu"
     ]
   },
   "temperature": "65-80°F (18-27°C) - no fluctuations",
@@ -53,13 +54,43 @@
     "Curling leaves: Underwatering or low humidity"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 7,
+      "dryness": "keep_moist",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMaxF": 80,
+      "coldDamageBelowF": 60,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "humidity": {
       "minPct": 60,
-      "maxPct": 80
+      "maxPct": 80,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -70,11 +101,36 @@
       "tip": "Fertilize every 2-3 weeks during active growth with diluted fertilizer"
     }
   },
+  "whatsNormal": [
+    "Rarely flowers indoors.",
+    "Growth slows over winter; water less, but keep it warm (above 60°F) and humid.",
+    "Direct sun burns and pales the leaves."
+  ],
+  "propagation": {
+    "methods": [
+      "division",
+      "offsets"
+    ],
+    "tip": "Separate offsets from the rhizome when repotting.",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Alocasia (Alocasia spp.)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/alocasia"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Alocasia × mortfontanensis",
+      "url": "https://plants.ces.ncsu.edu/plants/alocasia-x-amazonica/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Alocasia × amazonica",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=259315&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -83,11 +139,16 @@
     "gbifKey": 5532250
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
-        "note": "Toxicity: based on ASPCA's genus-wide entry (Alocasia spp.), not a page for this species."
+        "note": "Toxicity: NC State says all parts of this hybrid are toxic; per-animal ratings and symptoms come from ASPCA's Alocasia entry."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering (7 days) is our estimate — both sources say reduce watering in winter."
       }
     ]
   }

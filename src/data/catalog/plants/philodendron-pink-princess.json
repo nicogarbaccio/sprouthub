@@ -29,7 +29,7 @@
       "aspca"
     ]
   },
-  "temperature": "65-80°F (18-27°C)",
+  "temperature": "65-85°F (18-29°C) - protect from cold drafts",
   "humidity": "50-70%",
   "careInstructions": [
     "Water when top 1-2 inches of soil are dry - typically weekly",
@@ -51,13 +51,38 @@
     "Slow growth: Normal for highly variegated plants with less chlorophyll"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 80
+      "idealMaxF": 85,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 50,
-      "maxPct": 70
+      "maxPct": 70,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "fertilizing": {
       "weeks": [
@@ -68,11 +93,21 @@
       "tip": "Fertilize monthly during growing season with diluted balanced fertilizer"
     }
   },
+  "whatsNormal": [
+    "Leaf shape and coloring vary from plant to plant, and the pink variegation is unpredictable.",
+    "The leaf undersides and stems naturally have a reddish \"blush\".",
+    "Water at the base — wet leaves invite leaf spot."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Heartleaf Philodendron (Philodendron hederaceum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/heartleaf-philodendron"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Philodendron erubescens",
+      "url": "https://plants.ces.ncsu.edu/plants/philodendron-erubescens/"
     }
   ],
   "taxonomy": {
@@ -81,11 +116,24 @@
     "gbifKey": 2871297
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: based on ASPCA's entry for a related species (Philodendron hederaceum)."
+      },
+      {
+        "type": "source_gap",
+        "note": "Only one source (NC State), and it covers Philodendron erubescens, not the 'Pink Princess' cultivar. MOBOT has no page for it."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Ideal temperature 65-80°F → 65-85°F (NC State)."
       }
     ]
   }

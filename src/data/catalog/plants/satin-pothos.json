@@ -34,14 +34,14 @@
   "temperature": "65-85°F (18-29°C)",
   "humidity": "40-60%",
   "careInstructions": [
-    "Water when top 1-2 inches of soil are dry - drought-tolerant, so err on the drier side",
+    "Keep the soil moist but well drained during the growing season, and water less in winter - yellow leaves mean too much water, curling leaves too little",
     "Provide medium to bright indirect light for the strongest silver variegation",
     "Avoid harsh direct sun, which fades and scorches the leaves",
     "Let it trail from a hanging basket or climb a small trellis or moss pole",
     "Prune to encourage fuller, bushier growth",
     "Propagates easily in water or soil from stem cuttings below a node",
     "Wipe leaves gently to preserve the matte, silvery finish",
-    "Fertilize monthly during the growing season with a diluted balanced fertilizer"
+    "Fertilize monthly during the growing season, and cut back in winter"
   ],
   "commonProblems": [
     "Faded or dull silver markings: Too little light - move to a brighter spot",
@@ -52,9 +52,35 @@
     "Root rot: Overwatering or poor drainage"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "keep_moist",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "avoid",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 65,
-      "idealMaxF": 85
+      "idealMaxF": 85,
+      "coldDamageBelowF": 60,
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
     },
     "humidity": {
       "minPct": 40,
@@ -66,14 +92,43 @@
         4
       ],
       "fertilizerType": "Diluted balanced fertilizer",
-      "tip": "Fertilize monthly during the growing season with a diluted balanced fertilizer"
-    }
+      "tip": "Fertilize monthly during the growing season, and cut back in winter",
+      "sourceIds": [
+        "mobot"
+      ]
+    },
+    "growthRate": "slow"
+  },
+  "whatsNormal": [
+    "Grows slowly.",
+    "Yellow leaves usually mean too much water; curling leaves mean too little.",
+    "Indoors it keeps its oval juvenile leaves; lobed adult leaves appear on mature climbing plants."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Root 4-inch stem cuttings in spring or early summer.",
+    "sourceIds": [
+      "mobot",
+      "ncsu"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Satin Pothos (Scindapsus pictus)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/satin-pothos"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Scindapsus pictus",
+      "url": "https://plants.ces.ncsu.edu/plants/scindapsus-pictus/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Scindapsus pictus 'Argyraeus'",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=297512&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -82,6 +137,17 @@
     "gbifKey": 2873745
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-27",
+    "flags": [
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Watering — our catalog said it is drought-tolerant and to err on the drier side; both sources say keep it moist (MOBOT: consistently moist in the growing season). Care text now follows the sources."
+      }
+    ]
   }
 }

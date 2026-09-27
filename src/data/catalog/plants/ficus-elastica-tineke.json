@@ -47,9 +47,34 @@
     "Leggy growth with widely spaced leaves: Insufficient light"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 14,
+      "dryness": "top_half",
+      "overwaterSensitivity": "high",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
-      "idealMaxF": 80
+      "idealMaxF": 80,
+      "coldDamageBelowF": 55,
+      "sourceIds": [
+        "ncsu"
+      ]
     },
     "humidity": {
       "minPct": 40,
@@ -64,14 +89,35 @@
       "tip": "Fertilize monthly during the growing season with a balanced fertilizer"
     },
     "repotting": {
-      "tip": "Repot every 2-3 years or when roots emerge from the drainage holes"
+      "tip": "Repot every 2-3 years or when roots emerge from the drainage holes",
+      "soil": "Soil-based potting mix",
+      "sourceIds": [
+        "mobot",
+        "ncsu"
+      ]
     }
   },
+  "whatsNormal": [
+    "A few bottom leaves turning yellow and dropping is normal.",
+    "Cut leaves and stems drip milky sap.",
+    "It likes to stay put — moving it, cold drafts or overwatering can make it drop leaves.",
+    "Tineke is a variegated rubber plant with green, cream and pale-yellow leaves; the pale parts need brighter light than an all-green plant."
+  ],
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Weeping Fig (Ficus sp.)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/weeping-fig"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Ficus elastica",
+      "url": "https://plants.ces.ncsu.edu/plants/ficus-elastica/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Ficus elastica",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=291685&isprofile=1"
     }
   ],
   "taxonomy": {
@@ -80,11 +126,24 @@
     "gbifKey": 7835333
   },
   "review": {
-    "status": "legacy",
+    "status": "draft",
+    "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "toxicity",
         "note": "Toxicity: based on ASPCA's genus-wide entry (Ficus sp.), not a page for this species."
+      },
+      {
+        "type": "source_gap",
+        "note": "Sources cover Ficus elastica; NC State lists 'Tineke' as one of its cultivars. The brighter light for variegation is from our catalog."
+      },
+      {
+        "type": "source_gap",
+        "note": "Repotting: only the soil advice is sourced; the repotting tip itself is from the original catalog."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (14 days) is our estimate — the sources only say to reduce watering from fall to late winter."
       }
     ]
   }

@@ -25,6 +25,12 @@ const TYPE_LABELS: Record<(typeof TYPE_ORDER)[number], string> = {
   note: 'Other notes',
 };
 
+// Exit quietly when piped into something that closes early, like `head`
+process.stdout.on('error', (err: NodeJS.ErrnoException) => {
+  if (err.code === 'EPIPE') process.exit(0);
+  throw err;
+});
+
 function arg(name: string): string | undefined {
   return process.argv.find((a) => a.startsWith(`--${name}=`))?.split('=')[1];
 }

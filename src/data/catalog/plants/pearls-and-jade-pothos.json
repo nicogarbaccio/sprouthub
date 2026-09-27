@@ -38,7 +38,7 @@
     "Prune to maintain its compact shape and encourage fullness",
     "Propagates easily from stem cuttings below a node",
     "Wipe the small leaves gently to keep them clean",
-    "Fertilize monthly during the growing season with a diluted balanced fertilizer",
+    "Fertilize every other month during spring and summer with diluted balanced fertilizer - skip winter",
     "Expect slow, compact growth - normal for this cultivar"
   ],
   "commonProblems": [
@@ -50,6 +50,30 @@
     "Root rot: Overwatering or poor drainage"
   ],
   "care": {
+    "watering": {
+      "dormantSeasonDays": 10,
+      "dryness": "top_quarter",
+      "overwaterSensitivity": "medium",
+      "sourceIds": [
+        "ncsu",
+        "uw",
+        "clemson",
+        "mobot"
+      ]
+    },
+    "light": {
+      "ideal": "bright_indirect",
+      "tolerates": [
+        "medium",
+        "bright_indirect"
+      ],
+      "directSun": "morning",
+      "sourceIds": [
+        "ncsu",
+        "clemson",
+        "mobot"
+      ]
+    },
     "temperature": {
       "idealMinF": 60,
       "idealMaxF": 85
@@ -60,18 +84,55 @@
     },
     "fertilizing": {
       "weeks": [
-        4,
-        4
+        8,
+        9
       ],
       "fertilizerType": "Diluted balanced fertilizer",
-      "tip": "Fertilize monthly during the growing season with a diluted balanced fertilizer"
+      "tip": "Fertilize every other month during spring and summer with diluted balanced fertilizer - skip winter",
+      "sourceIds": [
+        "ncsu"
+      ]
     }
+  },
+  "whatsNormal": [
+    "Variegated pothos grow more slowly than all-green ones and need brighter light to keep their color — in low light the pale patches shrink.",
+    "Older leaves yellow and drop over time, so leaves bunch toward the ends of the vines — prune stems back to keep it full."
+  ],
+  "propagation": {
+    "methods": [
+      "stem_cutting"
+    ],
+    "tip": "Cut below a node and root it in water or moist mix.",
+    "sourceIds": [
+      "ncsu",
+      "mobot"
+    ]
   },
   "sources": [
     {
       "id": "aspca",
       "title": "ASPCA: Devils Ivy (Epipremnum aureum)",
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/devils-ivy"
+    },
+    {
+      "id": "ncsu",
+      "title": "NC State Extension Plant Toolbox: Epipremnum aureum",
+      "url": "https://plants.ces.ncsu.edu/plants/epipremnum-aureum/"
+    },
+    {
+      "id": "mobot",
+      "title": "Missouri Botanical Garden Plant Finder: Epipremnum aureum",
+      "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276360&isprofile=1"
+    },
+    {
+      "id": "uw",
+      "title": "University of Wisconsin Extension: Pothos",
+      "url": "https://hort.extension.wisc.edu/articles/pothos-epipremmum-aureum/"
+    },
+    {
+      "id": "clemson",
+      "title": "Clemson Cooperative Extension HGIC: Pothos",
+      "url": "https://hgic.clemson.edu/factsheet/how-to-grow-pothos-indoors-epipremnum-spp-care-cultivars-and-common-problems/"
     }
   ],
   "taxonomy": {
@@ -80,6 +141,21 @@
     "gbifKey": 2868323
   },
   "review": {
-    "status": "legacy"
+    "status": "draft",
+    "researchedAt": "2026-09-27",
+    "flags": [
+      {
+        "type": "source_gap",
+        "note": "Sources cover Epipremnum aureum, not the 'Pearls and Jade' cultivar. The brighter light for variegation follows NC State and Clemson's notes on variegated pothos."
+      },
+      {
+        "type": "estimate",
+        "note": "Winter watering interval (10 days) is our estimate — the sources only say to reduce watering from fall to late winter."
+      },
+      {
+        "type": "changed",
+        "note": "Fertilizing monthly → every other month, matching the Pothos research (NC State, Wisconsin)."
+      }
+    ]
   }
 }
