@@ -1,9 +1,9 @@
 /**
- * Lists the review flags across the plant catalog, grouped by type, so they can be worked
- * through and plants marked `reviewed`.
+ * Lists open review flags across the plant catalog, grouped by type, so they can be worked
+ * through. Accept them with `npm run catalog-accept`.
  *
  * Usage:
- *   npm run catalog-flags                      # every flag on plants not yet reviewed
+ *   npm run catalog-flags                      # every open flag
  *   npm run catalog-flags -- --type=disagreement
  *   npm run catalog-flags -- --plant=orchid    # one plant, by file name
  */
@@ -59,13 +59,17 @@ console.log(
   `${plants.length} plants — ${['reviewed', 'draft', 'legacy'].map((s) => `${statusCounts[s] ?? 0} ${s}`).join(', ')}\n`
 );
 
-// Reviewed plants have been checked already; a single-plant lookup shows everything.
-const open = plants.filter(({ entry }) => plantFilter || entry.review.status !== 'reviewed');
+const allFlags = plants.flatMap(({ entry }) => entry.review.flags ?? []);
+const acceptedCount = allFlags.filter((f) => f.acceptedAt).length;
+console.log(`${allFlags.length - acceptedCount} open flags, ${acceptedCount} accepted\n`);
 
+// Accepted flags are done; a single-plant lookup still shows them, marked.
 for (const type of TYPE_ORDER) {
   if (typeFilter && type !== typeFilter) continue;
-  const rows = open.flatMap(({ entry }) =>
-    (entry.review.flags ?? []).filter((f) => f.type === type).map((f) => `  - ${entry.name}: ${f.note}`)
+  const rows = plants.flatMap(({ entry }) =>
+    (entry.review.flags ?? [])
+      .filter((f) => f.type === type && (plantFilter || !f.acceptedAt))
+      .map((f) => `  - ${entry.name}: ${f.note}${f.acceptedAt ? ` [accepted ${f.acceptedAt}]` : ''}`)
   );
   if (!rows.length) continue;
   console.log(`== ${TYPE_LABELS[type]} (${rows.length}) ==`);

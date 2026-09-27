@@ -146,7 +146,7 @@
       },
       {
         "type": "disagreement",
-        "note": "Watering — resolved by majority: NC State says let it dry between waterings and Clemson says water when the top 1-2 inches are dry; MOBOT says never let it dry out. Set to \"top quarter dry\"."
+        "note": "Watering — resolved by specificity (rule 3): NC State says let the medium dry between waterings; MOBOT says never let it dry out; Clemson says \"keep the soil constantly moist but not too wet\" and water when the top 1-2 inches are dry. Clemson's rule is the most specific and fits both, so set to \"top quarter dry\"."
       }
     ]
   }

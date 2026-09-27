@@ -155,6 +155,8 @@ export const reviewFlagSchema = z.object({
    */
   type: z.enum(['disagreement', 'estimate', 'source_gap', 'changed', 'toxicity', 'app_gap', 'note']),
   note: z.string().min(1),
+  /** Set when a reviewer has checked this flag and accepted how it was handled (YYYY-MM-DD) */
+  acceptedAt: z.iso.date().optional(),
 });
 
 export const reviewSchema = z.object({
@@ -200,6 +202,9 @@ export const catalogEntrySchema = z
   })
   .strict()
   .superRefine((entry, ctx) => {
+    if (entry.review.status === 'reviewed' && entry.review.flags?.some((f) => !f.acceptedAt)) {
+      ctx.addIssue({ code: 'custom', message: 'a reviewed plant cannot have open flags', path: ['review', 'status'] });
+    }
     const known = new Set(entry.sources?.map((s) => s.id));
     if (known.size !== (entry.sources?.length ?? 0)) {
       ctx.addIssue({ code: 'custom', message: 'duplicate source id', path: ['sources'] });

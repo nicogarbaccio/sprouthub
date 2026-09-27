@@ -22,6 +22,15 @@ describe('catalog data', () => {
         expect(result.success ? [] : result.error.issues).toEqual([]);
     });
 
+    it('rejects a reviewed plant that still has open flags', () => {
+        const entry = structuredClone(Object.values(plantFiles)[0]) as object;
+        const flag: { type: string; note: string; acceptedAt?: string } = { type: 'note', note: 'Still open' };
+        const withReview = { ...entry, review: { status: 'reviewed', flags: [flag] } };
+        expect(catalogEntrySchema.safeParse(withReview).success).toBe(false);
+        flag.acceptedAt = '2026-09-27';
+        expect(catalogEntrySchema.safeParse(withReview).success).toBe(true);
+    });
+
     it('lists every plant file in the index exactly once', () => {
         const indexed = new Set(catalogJson);
         expect(indexed.size).toBe(catalogJson.length);

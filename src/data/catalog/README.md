@@ -96,6 +96,10 @@ Each flag is `{ "type", "note" }`:
 | `note` | Anything else worth a reviewer's attention |
 
 `npm run catalog-flags` lists open flags across the catalog, grouped by type
-(`-- --type=disagreement` or `-- --plant=<slug>` to narrow it). After checking a plant's
-flags against its sources, set its `review.status` to `reviewed`; reviewed plants drop out of
-the report.
+(`-- --type=disagreement` or `-- --plant=<slug>` to narrow it).
+
+After checking a flag against the cited sources, accept it with
+`npm run catalog-accept -- <slug>` (optionally `--type=<type>` or `--match=<text>`). That
+stamps `acceptedAt` on the flag and removes it from the report. When a plant has no open
+flags left it becomes `reviewed`; the tests fail if a `reviewed` plant still has open flags.
+If a flag's handling is wrong, fix the data instead and update or replace the flag.

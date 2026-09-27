@@ -148,7 +148,7 @@
       },
       {
         "type": "disagreement",
-        "note": "Watering — resolved by majority: NC State says let it dry slightly and Clemson says water when the surface dries; MOBOT says keep it uniformly moist. Set to \"top quarter dry\"."
+        "note": "Watering — resolved by specificity (rule 3): NC State says let the soil dry slightly; MOBOT says keep it uniformly moist; Clemson says palms \"need to be kept moist\" and should never dry out, but to \"water thoroughly when the surface of the soil dries\". Clemson's rule is the most specific and fits both, so set to \"top quarter dry\"."
       }
     ]
   }

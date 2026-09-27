@@ -17,6 +17,7 @@
     "test": "vitest",
     "check-toxicity": "tsx --tsconfig tsconfig.app.json scripts/check-plant-toxicity.ts",
     "catalog-flags": "tsx --tsconfig tsconfig.app.json scripts/catalog-flags.ts",
+    "catalog-accept": "tsx --tsconfig tsconfig.app.json scripts/catalog-accept.ts",
     "generate:icons": "node scripts/generate-app-icons.mjs"
   },
   "dependencies": {
