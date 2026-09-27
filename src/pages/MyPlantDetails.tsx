@@ -26,6 +26,11 @@ import { useJournalEntries } from "@/hooks/useJournalEntries";
 import { useManualNotifications } from "@/hooks/usePlantNotifications";
 import { useRainDelay } from "@/hooks/useRainDelay";
 import { RainDelayNotification } from "@/components/RainDelayNotification";
+import RestPeriodCard from "@/components/plant-details/RestPeriodCard";
+import RestPauseDialog from "@/components/plant-details/RestPauseDialog";
+import { useRestSuggestions } from "@/hooks/useRestSuggestions";
+import { getActiveRestPeriod } from "@/utils/watering/restPeriod";
+import { resolveHemisphereFromEnvironment } from "@/utils/season";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 
 const MyPlantDetails = () => {
@@ -41,6 +46,7 @@ const MyPlantDetails = () => {
     deletePlant,
     fetchPlants,
     logFertilization,
+    setWateringPause,
   } = useUserPlants();
 
   const { notifyWateringSuccess } = useManualNotifications();
@@ -48,6 +54,10 @@ const MyPlantDetails = () => {
   // Rain delay advice for this plant, resolved through the same shared hook the Dashboard and
   // notification center use, so all three agree.
   const { rainDelayByPlantId } = useRainDelay(plants);
+
+  // Rest-period pause suggestions, shared with the dashboard banner so the two agree
+  const { suggestions: restSuggestions, keepReminders } = useRestSuggestions(plants);
+  const [showRestPauseDialog, setShowRestPauseDialog] = useState(false);
 
   const [showWaterConfirmation, setShowWaterConfirmation] = useState(false);
   const [showPostponeConfirmation, setShowPostponeConfirmation] =
@@ -189,6 +199,11 @@ const MyPlantDetails = () => {
 
   const rainDelay = rainDelayByPlantId[plant.id];
   const wateringCalc = calculateWateringSchedule(plant);
+  const restPeriod = getActiveRestPeriod(
+    catalogPlant?.care?.watering?.restPeriods,
+    resolveHemisphereFromEnvironment().hemisphere
+  );
+  const restSuggestion = restSuggestions.find((s) => s.plant.id === plant.id);
   const { daysUntilWatering, isOverdue, isPostponed } = wateringCalc;
   const isDueToday = daysUntilWatering === 0 && !isPostponed;
   const canPostpone =
@@ -224,6 +239,9 @@ const MyPlantDetails = () => {
                   onViewHistory={() => setShowHistoryDialog(true)}
                   onEditClick={() => setShowEditDialog(true)}
                   onDeleteClick={() => setShowDeleteConfirmation(true)}
+                  isResting={wateringCalc.isResting}
+                  onPauseClick={() => setShowRestPauseDialog(true)}
+                  onResumeClick={() => setWateringPause(plant.id, null)}
                 />
               }
             />
@@ -245,6 +263,23 @@ const MyPlantDetails = () => {
                   onPostpone={(days) =>
                     postponeWatering(plant.id, days, "Rain expected")
                   }
+                />
+              </div>
+            </CascadingContainer>
+          )}
+
+          {/* Rest period: offer to pause watering reminders, or show the pause in effect */}
+          {(wateringCalc.isResting || restSuggestion) && (
+            <CascadingContainer delay={45} duration={200}>
+              <div className="px-4 md:px-0 pt-4">
+                <RestPeriodCard
+                  plantName={plant.nickname}
+                  period={restPeriod}
+                  restUntil={wateringCalc.restUntil}
+                  showSuggestion={Boolean(restSuggestion)}
+                  onPause={(until) => setWateringPause(plant.id, until)}
+                  onResume={() => setWateringPause(plant.id, null)}
+                  onKeepReminders={() => restSuggestion && keepReminders(restSuggestion)}
                 />
               </div>
             </CascadingContainer>
@@ -333,6 +368,13 @@ const MyPlantDetails = () => {
           </div>
         </div>
       </main>
+
+      <RestPauseDialog
+        open={showRestPauseDialog}
+        onOpenChange={setShowRestPauseDialog}
+        plantName={plant.nickname}
+        onPause={(until) => setWateringPause(plant.id, until)}
+      />
 
       <PlantDetailDialogs
         plant={plant}

@@ -52,6 +52,8 @@ export interface HouseholdPlant {
   postponement_notes?: string;
   last_postponement_date?: string;
   postponement_count?: number;
+  // YYYY-MM-DD; while in the future, watering reminders are paused for a rest period
+  watering_paused_until?: string | null;
   // Household info (populated via join)
   household?: {
     name: string;

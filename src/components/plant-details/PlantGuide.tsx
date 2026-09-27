@@ -12,6 +12,7 @@ import {
   petRatingText,
   propagationMethodText,
   repotIntervalText,
+  restPeriodsText,
   toleratedLightText,
   winterWateringText,
 } from "@/utils/plants/careText";
@@ -64,7 +65,10 @@ function CareDetails({ plant }: { plant: GuidePlant }) {
         {watering && (
           <DetailRow icon={<Droplets className={icon} />} label="Watering">
             <p>{drynessText(watering.dryness)}</p>
-            <p className="text-muted-foreground">In winter: {winterWateringText(watering.dormantSeasonDays).toLowerCase()}</p>
+            {!watering.restPeriods?.some((p) => p.season === "winter") && (
+              <p className="text-muted-foreground">In winter: {winterWateringText(watering.dormantSeasonDays).toLowerCase()}</p>
+            )}
+            {watering.restPeriods && <p className="text-muted-foreground">{restPeriodsText(watering.restPeriods)}</p>}
           </DetailRow>
         )}
         {watering && (

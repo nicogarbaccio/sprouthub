@@ -65,9 +65,15 @@ export const growthRateText = (rate: NonNullable<PlantCare['growthRate']>) => GR
 export const propagationMethodText = (method: PropagationMethod) => PROPAGATION[method];
 export const petRatingText = (rating: PetRating) => PET_RATING[rating];
 
-/** "Every 14 days or so" — winter intervals are often our own estimate, so they stay approximate */
-export const winterWateringText = (days: number) =>
-  days >= 60 ? 'Barely at all — see the care instructions' : `About every ${days} days`;
+/** "About every 14 days" — winter intervals are often our own estimate, so they stay approximate */
+export const winterWateringText = (days: number) => `About every ${days} days`;
+
+/** "Rests in winter and summer" for species with no-water rest periods */
+export function restPeriodsText(restPeriods: NonNullable<Watering['restPeriods']>): string {
+  const seasons = restPeriods.map((p) => p.season);
+  const list = seasons.length === 1 ? seasons[0] : `${seasons.slice(0, -1).join(', ')} and ${seasons[seasons.length - 1]}`;
+  return `Rests in ${list} — little or no water then`;
+}
 
 export const idealLightText = (light: Light) => capitalize(LIGHT[light.ideal]);
 

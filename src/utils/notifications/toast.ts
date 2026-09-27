@@ -152,6 +152,18 @@ export const profileToast = {
 /**
  * General utility toasts
  */
+export const restToast = {
+ paused: (plantName: string, untilLabel: string) =>
+ toast.success(`Watering reminders paused`, {
+  description: `${plantName} is resting until ${untilLabel}`,
+ }),
+
+ resumed: (plantName: string) =>
+ toast.success(`Watering reminders resumed`, {
+  description: `${plantName} is back on its watering schedule`,
+ }),
+};
+
 export const utilityToast = {
  saved: (item: string) =>
  toast.success(`Saved`, {

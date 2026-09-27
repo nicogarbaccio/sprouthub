@@ -12,6 +12,8 @@ import {
   History,
   Clock,
   MoreHorizontal,
+  Moon,
+  Bell,
 } from "lucide-react";
 
 interface PlantActionsMenuProps {
@@ -22,6 +24,10 @@ interface PlantActionsMenuProps {
   onViewHistory: () => void;
   onEditClick: () => void;
   onDeleteClick: () => void;
+  /** True while watering reminders are paused for a rest period */
+  isResting: boolean;
+  onPauseClick: () => void;
+  onResumeClick: () => void;
 }
 
 const PlantActionsMenu = ({
@@ -32,6 +38,9 @@ const PlantActionsMenu = ({
   onViewHistory,
   onEditClick,
   onDeleteClick,
+  isResting,
+  onPauseClick,
+  onResumeClick,
 }: PlantActionsMenuProps) => {
   return (
     <DropdownMenu>
@@ -57,6 +66,18 @@ const PlantActionsMenu = ({
           >
             <Clock className="w-4 h-4 mr-2" />
             Push to Tomorrow
+          </DropdownMenuItem>
+        )}
+
+        {isResting ? (
+          <DropdownMenuItem onClick={onResumeClick} className="cursor-pointer">
+            <Bell className="w-4 h-4 mr-2" />
+            Resume watering reminders
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem onClick={onPauseClick} className="cursor-pointer">
+            <Moon className="w-4 h-4 mr-2" />
+            Pause watering reminders
           </DropdownMenuItem>
         )}
 

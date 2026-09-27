@@ -12,6 +12,7 @@ import { getDaysSince } from '@/utils/watering/schedule';
 
 export type WateringStatusTone =
     | 'unknown'
+    | 'resting'
     | 'postponed'
     | 'overdue'
     | 'due'
@@ -41,6 +42,7 @@ const JUST_WATERED_HOURS = 12;
 
 const TONE_CLASSES: Record<WateringStatusTone, string> = {
     unknown: 'bg-neutral-500 text-white border-neutral-500',
+    resting: 'bg-sprout-light text-white border-sprout-light',
     postponed: 'bg-sprout-water text-white border-sprout-water',
     overdue: 'bg-red-500 text-white border-red-500',
     due: 'bg-orange-500 text-white border-orange-500',
@@ -50,6 +52,7 @@ const TONE_CLASSES: Record<WateringStatusTone, string> = {
 
 const BENTO_TONE_CLASSES: Record<WateringStatusTone, string> = {
     unknown: 'bg-sprout-cream text-sprout-dark',
+    resting: 'bg-field text-foreground',
     postponed: 'bg-card text-foreground',
     overdue: 'bg-sprout-warning text-sprout-dark',
     due: 'bg-sprout-water text-sprout-dark',
@@ -83,7 +86,12 @@ export function getWateringStatus(
     lastWateredDate?: string | null,
     now: Date = new Date()
 ): WateringStatus {
-    const { daysUntilWatering, isOverdue, isPostponed, hasUnknownWateringDate } = calc;
+    const { daysUntilWatering, isOverdue, isPostponed, hasUnknownWateringDate, isResting, restUntil } = calc;
+
+    if (isResting && restUntil) {
+        const until = restUntil.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+        return status(`Resting until ${until}`, 'resting');
+    }
 
     if (hasUnknownWateringDate || daysUntilWatering === null) {
         return status('Unknown schedule', 'unknown');

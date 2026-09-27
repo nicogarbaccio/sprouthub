@@ -1,6 +1,7 @@
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { utilityToast, wateringToast, plantToast, fertilizationToast } from '@/utils/notifications/toast';
+import { utilityToast, wateringToast, plantToast, fertilizationToast, restToast } from '@/utils/notifications/toast';
+import { parseDateOnly } from '@/utils/watering/schedule';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { handleApiError } from '@/utils/errorHandling';
 import { WATERING_RECORD_TYPE } from '@/utils/watering/notesPrefixes';
@@ -382,6 +383,46 @@ export const usePlantActions = ({
     }
   };
 
+  /**
+   * Pauses watering reminders until a date (YYYY-MM-DD) for a rest period, or resumes them
+   * with `null`. While paused the plant is never due or overdue; see calculateWateringSchedule.
+   */
+  const setWateringPause = async (plantId: string, until: string | null) => {
+    const tracker = trackOperation(HOOK_NAME, 'setWateringPause');
+    const plantName = plants.find(p => p.id === plantId)?.nickname || 'Plant';
+
+    // Optimistic, so the status and banners update immediately
+    setPlants(prev => prev.map(p => (p.id === plantId ? { ...p, watering_paused_until: until } : p)));
+
+    try {
+      const { error } = await supabase
+        .from('user_plants')
+        .update({ watering_paused_until: until, updated_at: new Date().toISOString() })
+        .eq('id', plantId);
+
+      if (error) throw error;
+
+      const untilDate = parseDateOnly(until);
+      if (untilDate) {
+        restToast.paused(
+          plantName,
+          untilDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', timeZone: 'UTC' })
+        );
+      } else {
+        restToast.resumed(plantName);
+      }
+
+      await fetchPlants();
+      tracker.complete({ plantId, paused: Boolean(until) });
+      return true;
+    } catch (error) {
+      tracker.fail(error);
+      handleApiError(error, until ? 'Failed to pause watering reminders' : 'Failed to resume watering reminders', toast);
+      await fetchPlants();
+      return false;
+    }
+  };
+
   const deletePlant = async (plantId: string) => {
     const tracker = trackOperation(HOOK_NAME, 'deletePlant');
 
@@ -417,5 +458,6 @@ export const usePlantActions = ({
     deletePlant,
     checkOverwatering,
     logFertilization,
+    setWateringPause,
   };
 };

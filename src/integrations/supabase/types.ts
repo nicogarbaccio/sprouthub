@@ -714,6 +714,7 @@ export type Database = {
           suggested_watering_days: number | null
           updated_at: string
           user_id: string
+          watering_paused_until: string | null
         }
         Insert: {
           alternative_names?: string[] | null
@@ -731,6 +732,7 @@ export type Database = {
           suggested_watering_days?: number | null
           updated_at?: string
           user_id: string
+          watering_paused_until?: string | null
         }
         Update: {
           alternative_names?: string[] | null
@@ -748,6 +750,7 @@ export type Database = {
           suggested_watering_days?: number | null
           updated_at?: string
           user_id?: string
+          watering_paused_until?: string | null
         }
         Relationships: [
           {
@@ -875,6 +878,7 @@ export type Database = {
           suggested_watering_days: number | null
           updated_at: string | null
           user_id: string | null
+          watering_paused_until: string | null
         }
         Relationships: [
           {

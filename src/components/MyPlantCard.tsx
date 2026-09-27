@@ -38,6 +38,8 @@ interface MyPlantCardProps {
   daysUntilWatering: number | null;
   hasUnknownWateringDate: boolean;
   isPostponed?: boolean;
+  /** Set while watering reminders are paused for a rest period */
+  restUntil?: Date;
   suggestedWateringDays?: number;
   householdName?: string;
   householdId?: string;
@@ -70,6 +72,7 @@ const MyPlantCard = ({
   daysUntilWatering,
   hasUnknownWateringDate,
   isPostponed,
+  restUntil,
   suggestedWateringDays = 7,
   householdName,
   householdId,
@@ -127,7 +130,7 @@ const MyPlantCard = ({
   );
 
   const badgeInfo = getBadgeInfo(hasPendingSuggestions, visiblePendingInsights);
-  const statusText = getStatusText(hasUnknownWateringDate, isOverdue, isPostponed, daysUntilWatering, lastWateredDate);
+  const statusText = getStatusText(hasUnknownWateringDate, isOverdue, isPostponed, daysUntilWatering, lastWateredDate, restUntil);
 
   const handleWaterClick = () => {
     setShowWaterConfirmation(true);
@@ -250,6 +253,8 @@ const MyPlantCard = ({
       isOverdue,
       isPostponed: Boolean(isPostponed),
       daysUntilWatering,
+      isResting: Boolean(restUntil),
+      restUntil,
     },
     lastWateredDate
   );

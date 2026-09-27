@@ -51,6 +51,16 @@
       "dormantSeasonDays": 90,
       "dryness": "fully_dry",
       "overwaterSensitivity": "high",
+      "restPeriods": [
+        {
+          "season": "winter",
+          "note": "No water from winter to early spring. Before watering again, wait until the old leaves have dried to papery husks."
+        },
+        {
+          "season": "summer",
+          "note": "Dormant in mid-summer, so stop watering. If it shrivels badly, just moisten the top half-inch of soil."
+        }
+      ],
       "sourceIds": [
         "ncsu",
         "uw"
@@ -142,7 +152,7 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
@@ -152,7 +162,8 @@
       },
       {
         "type": "app_gap",
-        "note": "Watering cycle: sprouthub's schedule model can't express \"no water at all\" for winter to early spring. Set the dormant-season interval to 90 days as the closest fit; Lithops may need special handling in the app."
+        "note": "Watering cycle: sprouthub's schedule model can't express \"no water at all\" for winter to early spring. Set the dormant-season interval to 90 days as the closest fit; Lithops may need special handling in the app. Resolved: care.watering.restPeriods now lists the rest seasons, and the app offers to pause watering reminders until each rest ends (watering_paused_until).",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",

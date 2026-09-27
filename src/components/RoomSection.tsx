@@ -155,6 +155,7 @@ const RoomSection = ({
                 daysUntilWatering={wateringCalc.daysUntilWatering}
                 hasUnknownWateringDate={wateringCalc.hasUnknownWateringDate}
                 isPostponed={wateringCalc.isPostponed}
+                restUntil={wateringCalc.restUntil}
                 suggestedWateringDays={plant.suggested_watering_days || 7}
                 householdName={plant.household?.name}
                 householdId={plant.household_id}

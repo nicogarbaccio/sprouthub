@@ -16,6 +16,7 @@ interface UserPlant {
   last_watered_at: string | null;
   suggested_watering_days: number;
   household_id: string | null;
+  watering_paused_until: string | null;
 }
 
 interface Profile {
@@ -168,7 +169,7 @@ Deno.serve(async (req: Request) => {
         // Get user's plants with watering info
         const { data: plants, error: plantsError } = await supabase
           .from('plants_with_watering_info')
-          .select('id, user_id, nickname, plant_type, last_watered_at, suggested_watering_days, household_id')
+          .select('id, user_id, nickname, plant_type, last_watered_at, suggested_watering_days, household_id, watering_paused_until')
           .eq('user_id', profile.id);
 
         if (plantsError) {
@@ -218,6 +219,8 @@ Deno.serve(async (req: Request) => {
               latest_watering: plant.last_watered_at,
               suggested_watering_days: plant.suggested_watering_days,
               postponement_date: activePostponement?.watered_at ?? null,
+              // Paused for a rest period: never due or overdue until the pause ends.
+              watering_paused_until: plant.watering_paused_until,
             },
             // Resolve calendar days in the user's timezone. The edge runtime is UTC, so
             // without this every user west of UTC would be told their plant is due a day
@@ -227,7 +230,7 @@ Deno.serve(async (req: Request) => {
 
           // A plant with no watering history has no derivable due date. The UI shows
           // "Unknown schedule" for these, so pushing "overdue" would be wrong.
-          if (schedule.hasUnknownWateringDate || schedule.isPostponed) continue;
+          if (schedule.hasUnknownWateringDate || schedule.isPostponed || schedule.isResting) continue;
 
           if (schedule.isOverdue) {
             overduePlants.push(plant);

@@ -55,6 +55,12 @@
       "dormantSeasonDays": 90,
       "dryness": "keep_moist",
       "overwaterSensitivity": "medium",
+      "restPeriods": [
+        {
+          "season": "winter",
+          "note": "The leaves die back in fall. Store the tuber dry (not below 45°F) and replant it in spring."
+        }
+      ],
       "sourceIds": [
         "ncsu",
         "mobot"
@@ -139,12 +145,13 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "app_gap",
-        "note": "Winter dormancy: the leaves die back and the tuber is stored dry, so it needs no water at all over winter — sprouthub's model can't express that. The dormant-season interval is a 90-day placeholder, like Lithops."
+        "note": "Winter dormancy: the leaves die back and the tuber is stored dry, so it needs no water at all over winter — sprouthub's model can't express that. The dormant-season interval is a 90-day placeholder, like Lithops. Resolved: care.watering.restPeriods now lists the rest seasons, and the app offers to pause watering reminders until each rest ends (watering_paused_until).",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "source_gap",

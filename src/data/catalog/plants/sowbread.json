@@ -54,6 +54,12 @@
       "dormantSeasonDays": 3,
       "dryness": "top_quarter",
       "overwaterSensitivity": "high",
+      "restPeriods": [
+        {
+          "season": "summer",
+          "note": "Dormant in summer: the leaves yellow and drop. Keep the tuber barely moist and resume regular watering when new growth appears in fall."
+        }
+      ],
       "sourceIds": [
         "ncsu",
         "mobot"
@@ -117,7 +123,7 @@
     }
   ],
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
@@ -127,7 +133,8 @@
       },
       {
         "type": "app_gap",
-        "note": "Seasons are reversed: cyclamen grows and blooms in winter and is dormant in summer, the opposite of sprouthub's growing/dormant model. The winter interval is set to its normal 3 days; summer reminders will be too frequent. Needs the same \"no water this season\" follow-up as Lithops."
+        "note": "Seasons are reversed: cyclamen grows and blooms in winter and is dormant in summer, the opposite of sprouthub's growing/dormant model. The winter interval is set to its normal 3 days; summer reminders will be too frequent. Needs the same \"no water this season\" follow-up as Lithops. Resolved: care.watering.restPeriods now lists the rest seasons, and the app offers to pause watering reminders until each rest ends (watering_paused_until).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

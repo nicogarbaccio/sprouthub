@@ -42,6 +42,8 @@ export interface UserPlant {
   postponement_notes?: string;
   last_postponement_date?: string;
   postponement_count?: number;
+  // YYYY-MM-DD; while in the future, watering reminders are paused for a rest period
+  watering_paused_until?: string | null;
   // Fertilization tracking — derived from the newest fertilization_records row.
   last_fertilized_at?: string | null;
   last_fertilization_notes?: string | null;
@@ -227,6 +229,7 @@ export const useUserPlants = () => {
     deletePlant,
     checkOverwatering,
     logFertilization,
+    setWateringPause,
   } = usePlantActions({ plants, setPlants, fetchPlants, user });
 
   return {
@@ -241,5 +244,6 @@ export const useUserPlants = () => {
     deletePlant,
     checkOverwatering,
     logFertilization,
+    setWateringPause,
   };
 };

@@ -37,6 +37,15 @@ export const wateringCareSchema = z.object({
   dryness: z.enum(['keep_moist', 'top_quarter', 'top_half', 'fully_dry']),
   /** How quickly too much water causes rot */
   overwaterSensitivity: z.enum(['low', 'medium', 'high']),
+  /**
+   * Seasons when the plant should get no regular watering (e.g. Lithops in winter). The app
+   * offers to pause reminders until the season ends. dormantSeasonDays still applies to
+   * winter when winter isn't a rest period.
+   */
+  restPeriods: z
+    .array(z.object({ season: z.enum(['spring', 'summer', 'fall', 'winter']), note: z.string().min(1) }))
+    .min(1)
+    .optional(),
   sourceIds,
 });
 

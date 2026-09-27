@@ -36,6 +36,11 @@ export interface PlantWateringInfo {
     postponement_notes?: string | null;
     last_postponement_date?: string | null;
     postponement_count?: number | null;
+    /**
+     * YYYY-MM-DD. While in the future, watering reminders are paused for a rest period (e.g.
+     * a Lithops' dry winter) and the plant is next due on this date.
+     */
+    watering_paused_until?: string | null;
 }
 
 export interface WateringCalculation {
@@ -54,6 +59,10 @@ export interface WateringCalculation {
     isOverdue: boolean;
     /** True when the plant has never been watered, so no schedule can be derived. */
     hasUnknownWateringDate: boolean;
+    /** True while watering reminders are paused for a rest period. */
+    isResting: boolean;
+    /** When a rest pause ends, if one is in effect. */
+    restUntil?: Date;
     /** The date the plant is (or was) next due, accounting for postponement. */
     effectiveDueDate?: Date;
     /** The last real watering timestamp this calculation was based on. */
@@ -133,6 +142,20 @@ export function getWateringIntervalDays(plant: PlantWateringInfo): number {
     return typeof days === 'number' && days > 0 ? days : DEFAULT_WATERING_DAYS;
 }
 
+/**
+ * Parses a YYYY-MM-DD date, as `watering_paused_until` is stored. Anchored at noon UTC so the
+ * calendar day is the same in every timezone within ±12 hours.
+ *
+ * Lives here rather than in restPeriod.ts because the push-notification edge function imports
+ * this file directly under Deno, so it must stay free of imports.
+ */
+export function parseDateOnly(value: string | null | undefined): Date | null {
+    const match = value?.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!match) return null;
+    const [, y, m, d] = match.map(Number);
+    return new Date(Date.UTC(y, m - 1, d, 12));
+}
+
 function addDays(date: Date, days: number): Date {
     const result = new Date(date);
     result.setDate(result.getDate() + days);
@@ -144,6 +167,7 @@ const UNKNOWN_SCHEDULE: WateringCalculation = {
     isPostponed: false,
     isOverdue: false,
     hasUnknownWateringDate: true,
+    isResting: false,
 };
 
 /**
@@ -161,12 +185,16 @@ export function calculateWateringSchedule(
 ): WateringCalculation {
     const now = options.now ?? new Date();
     const { timeZone } = options;
+    const pauseEnd = parseDateOnly(plant.watering_paused_until);
+    const daysUntilPauseEnds = pauseEnd ? getDaysBetweenCalendarDays(now, pauseEnd, timeZone) : null;
 
     // No watering history: nothing can be inferred. Callers must handle this explicitly.
-    if (!plant.latest_watering) return UNKNOWN_SCHEDULE;
-
-    const lastWatered = new Date(plant.latest_watering);
-    if (Number.isNaN(lastWatered.getTime())) return UNKNOWN_SCHEDULE;
+    const lastWatered = plant.latest_watering ? new Date(plant.latest_watering) : null;
+    if (!lastWatered || Number.isNaN(lastWatered.getTime())) {
+        return daysUntilPauseEnds !== null && daysUntilPauseEnds > 0
+            ? { ...UNKNOWN_SCHEDULE, isResting: true, restUntil: pauseEnd! }
+            : UNKNOWN_SCHEDULE;
+    }
 
     const intervalDays = getWateringIntervalDays(plant);
 
@@ -189,6 +217,21 @@ export function calculateWateringSchedule(
         effectiveDueDate = addDays(lastWatered, intervalDays);
     }
 
+    // A rest pause works like a postponement: it moves the due date to the day the rest ends.
+    // Once that day passes the plant follows normal due/overdue rules, counted from the end of
+    // the rest rather than from the last watering months ago. A pause that ended before the
+    // last watering is stale and ignored.
+    if (
+        pauseEnd &&
+        daysUntilPauseEnds !== null &&
+        getDaysBetweenCalendarDays(lastWatered, pauseEnd, timeZone) > 0 &&
+        daysUntilPauseEnds > daysUntilWatering
+    ) {
+        daysUntilWatering = daysUntilPauseEnds;
+        effectiveDueDate = pauseEnd;
+    }
+    const isResting = pauseEnd !== null && daysUntilPauseEnds !== null && daysUntilPauseEnds > 0;
+
     return {
         daysUntilWatering,
         // Only a *future* postponement counts as postponed. Once it lapses the plant follows
@@ -196,6 +239,8 @@ export function calculateWateringSchedule(
         isPostponed: hasValidPostponement && daysUntilWatering > 0,
         isOverdue: daysUntilWatering < 0,
         hasUnknownWateringDate: false,
+        isResting,
+        restUntil: isResting ? pauseEnd! : undefined,
         effectiveDueDate,
         effectiveLastWatering: plant.latest_watering,
     };

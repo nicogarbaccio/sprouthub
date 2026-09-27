@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { render, screen, within } from '@testing-library/react';
 import PlantGuide from '../PlantGuide';
 import { getCatalogPlant } from '@/data/plantData';
-import { toleratedLightText, repotIntervalText, winterWateringText } from '@/utils/plants/careText';
+import { toleratedLightText, repotIntervalText, restPeriodsText, winterWateringText } from '@/utils/plants/careText';
 
 describe('careText', () => {
     it('describes the range of tolerated light', () => {
@@ -18,9 +18,14 @@ describe('careText', () => {
         expect(repotIntervalText([2, 3])).toBe('Every 2-3 years');
     });
 
-    it('keeps winter intervals approximate, and flags the no-water placeholders', () => {
+    it('keeps winter intervals approximate', () => {
         expect(winterWateringText(14)).toBe('About every 14 days');
-        expect(winterWateringText(90)).toMatch(/^Barely at all/);
+    });
+
+    it('lists rest periods', () => {
+        expect(restPeriodsText([{ season: 'winter', note: '' }, { season: 'summer', note: '' }])).toBe(
+            'Rests in winter and summer — little or no water then'
+        );
     });
 });
 
@@ -37,6 +42,12 @@ describe('PlantGuide', () => {
         expect(within(pets).getByText('Cats').nextSibling).toHaveTextContent('Toxic');
         expect(within(pets).getByText('Horses').nextSibling).toHaveTextContent('Unknown');
         expect(screen.getByRole('link', { name: '(888) 426-4435' })).toHaveAttribute('href', 'tel:+18884264435');
+    });
+
+    it('shows rest periods instead of a winter interval for resting species', () => {
+        render(<PlantGuide plant={getCatalogPlant('Lithops')!} />);
+        expect(screen.getByText('Rests in winter and summer — little or no water then')).toBeInTheDocument();
+        expect(screen.queryByText(/^In winter:/)).not.toBeInTheDocument();
     });
 
     it('leaves out sections an unresearched plant has no data for', () => {

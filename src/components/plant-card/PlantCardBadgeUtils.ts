@@ -125,7 +125,8 @@ export function getStatusColor(
   isOverdue: boolean,
   isPostponed: boolean | undefined,
   daysUntilWatering: number | null,
-  lastWateredDate?: string
+  lastWateredDate?: string,
+  restUntil?: Date
 ) {
   return getWateringStatus(
     {
@@ -133,6 +134,8 @@ export function getStatusColor(
       isOverdue,
       isPostponed: Boolean(isPostponed),
       daysUntilWatering,
+      isResting: Boolean(restUntil),
+      restUntil,
     },
     lastWateredDate
   ).colorClasses;
@@ -146,7 +149,8 @@ export function getStatusText(
   isOverdue: boolean,
   isPostponed: boolean | undefined,
   daysUntilWatering: number | null,
-  lastWateredDate?: string
+  lastWateredDate?: string,
+  restUntil?: Date
 ) {
   return getWateringStatus(
     {
@@ -154,6 +158,8 @@ export function getStatusText(
       isOverdue,
       isPostponed: Boolean(isPostponed),
       daysUntilWatering,
+      isResting: Boolean(restUntil),
+      restUntil,
     },
     lastWateredDate
   ).text;

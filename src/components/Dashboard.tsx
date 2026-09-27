@@ -32,6 +32,8 @@ import { SeasonalReviewBanner } from "./SeasonalReviewBanner";
 import { CalendarSeasonalBanner } from "./CalendarSeasonalBanner";
 import { FertilizationBanner } from "./FertilizationBanner";
 import { useFertilizationBanner } from "@/hooks/useFertilizationBanner";
+import { RestPeriodBanner } from "./RestPeriodBanner";
+import { useRestSuggestions } from "@/hooks/useRestSuggestions";
 import { SmartSuggestionsBanner } from "./SmartSuggestionsBanner";
 import { shouldShowOverwateringWarning } from "@/utils/plants/overwatering";
 import { useBulkPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
@@ -54,6 +56,7 @@ const Dashboard = () => {
     fetchPlants,
     updatePlantSchedule,
     logFertilization,
+    setWateringPause,
   } = useUserPlants();
   const { profileData } = useProfileData();
   const { preferences, hasPreferences: hasLoadedPreferences, loadPreferences } = useSmartWateringPreferences();
@@ -191,6 +194,11 @@ const Dashboard = () => {
     // Latitude when location is granted; otherwise hemisphere is inferred from the browser
     // timezone, which on the client is a better signal than the stored profile timezone.
   } = useFertilizationBanner(plants, {
+    latitude: location.location?.latitude,
+  });
+
+  // Plants entering a rest period (e.g. a Lithops' dry winter): offer to pause their reminders
+  const { suggestions: restSuggestions, keepReminders } = useRestSuggestions(plants, {
     latitude: location.location?.latitude,
   });
 
@@ -683,6 +691,17 @@ const Dashboard = () => {
               onLogFertilization={logFertilization}
               onDismiss={dismissFertilizationBanner}
               onSnooze={snoozeFertilizationBanner}
+            />
+          </CascadingContainer>
+        )}
+
+        {/* Rest Period Banner */}
+        {restSuggestions.length > 0 && (
+          <CascadingContainer delay={85}>
+            <RestPeriodBanner
+              suggestions={restSuggestions}
+              onPause={setWateringPause}
+              onKeepReminders={keepReminders}
             />
           </CascadingContainer>
         )}
