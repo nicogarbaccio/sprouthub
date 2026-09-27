@@ -33,10 +33,14 @@
       content="https://res.cloudinary.com/dojdglovh/image/upload/v1749047653/ChatGPT_Image_Jun_4_2025_10_31_01_AM_b4iog6.png"
     />
 
-    <!-- Favicon -->
-    <link rel="icon" href="/sprouthub-logo-white.svg" type="image/svg+xml" />
-    <!-- iOS home screen icon; regenerate with `npm run generate:icons` -->
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- Favicon: the white logo. Browsers with SVG favicon support use the SVG; the rest
+         (Safari, some mobile browsers) use favicon.ico, the white logo on forest green so it
+         shows on light tab bars too. Bump ?v= when an icon changes: browsers cache favicons
+         for a long time. Regenerate the PNGs and .ico with `npm run generate:icons`. -->
+    <link rel="icon" href="/favicon.ico?v=2" sizes="48x48" />
+    <link rel="icon" href="/sprouthub-logo-white.svg?v=2" type="image/svg+xml" />
+    <!-- iOS home screen and tab icon -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
