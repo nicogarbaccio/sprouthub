@@ -104,6 +104,11 @@
       "mobot"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Philodendron hederaceum",
+    "family": "Araceae",
+    "gbifKey": 2871003
+  },
   "sources": [
     {
       "id": "aspca",
@@ -121,11 +126,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276387&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Philodendron hederaceum",
-    "family": "Araceae",
-    "gbifKey": 2871003
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -136,7 +136,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: light shown as \"Low to Bright Indirect Light\" (MOBOT: bright indirect; NC State: medium, tolerates low)."
+        "note": "Changed: light shown as \"Low to Bright Indirect Light\" (MOBOT: bright indirect; NC State: medium, tolerates low).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

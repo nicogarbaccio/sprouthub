@@ -38,7 +38,7 @@
     "Use well-draining potting mix (orchid bark, perlite, and peat)",
     "Provide bright, indirect light - direct sun will scorch leaves",
     "Maintain high humidity with pebble tray, humidifier, or regular misting",
-    "Fertilize weekly during the growing season with a diluted liquid fertilizer",
+    "Fertilize every 2-4 weeks during the growing season with a diluted liquid fertilizer",
     "Wipe leaves regularly to keep them glossy and remove dust",
     "Repot every 2-3 years in spring using loose, well-aerated mix",
     "Remove spent flowers by cutting at the base of the stem"
@@ -90,14 +90,11 @@
     },
     "fertilizing": {
       "weeks": [
-        1,
-        1
+        2,
+        4
       ],
       "fertilizerType": "Diluted liquid fertilizer",
-      "tip": "Fertilize weekly during the growing season with a diluted liquid fertilizer",
-      "sourceIds": [
-        "ncsu"
-      ]
+      "tip": "Fertilize every 2-4 weeks during the growing season with a diluted liquid fertilizer"
     },
     "repotting": {
       "tip": "Repot every 2-3 years in spring using loose, well-aerated mix",
@@ -127,6 +124,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Anthurium andraeanum",
+    "family": "Araceae",
+    "gbifKey": 2872695
+  },
   "sources": [
     {
       "id": "aspca",
@@ -149,11 +151,6 @@
       "url": "https://hgic.clemson.edu/anthurium-easy-houseplants-that-offer-long-lasting-color/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Anthurium andraeanum",
-    "family": "Araceae",
-    "gbifKey": 2872695
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -164,11 +161,18 @@
       },
       {
         "type": "changed",
-        "note": "Changed: fertilizing every 6-8 weeks → weekly, diluted (NC State only; MOBOT doesn't say)."
+        "note": "Fertilizing every 6-8 weeks → every 2-4 weeks, diluted.",
+        "acceptedAt": "2026-09-27"
+      },
+      {
+        "type": "estimate",
+        "note": "Fertilizing every 2-4 weeks is a conservative estimate chosen in review: NC State recommends weekly liquid feeding, and MOBOT gives no frequency.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "disagreement",
-        "note": "Watering — resolved by majority: NC State and Clemson say let it dry slightly (top inch) between waterings; MOBOT says never let it dry out. Set to \"top quarter dry\", with the winter interval kept at 7 days."
+        "note": "Watering — resolved by majority: NC State and Clemson say let it dry slightly (top inch) between waterings; MOBOT says never let it dry out. Set to \"top quarter dry\", with the winter interval kept at 7 days.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

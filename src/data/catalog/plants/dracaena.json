@@ -109,6 +109,11 @@
       "mobot"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Dracaena marginata",
+    "family": "Asparagaceae",
+    "gbifKey": 10818704
+  },
   "sources": [
     {
       "id": "aspca",
@@ -131,11 +136,6 @@
       "url": "https://hgic.clemson.edu/factsheet/dracaena/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Dracaena marginata",
-    "family": "Asparagaceae",
-    "gbifKey": 10818704
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -146,7 +146,8 @@
       },
       {
         "type": "disagreement",
-        "note": "Watering — resolved by majority: NC State and Clemson say let it dry slightly between waterings; MOBOT says keep it uniformly moist. Set to \"top quarter dry\"."
+        "note": "Watering — resolved by majority: NC State and Clemson say let it dry slightly between waterings; MOBOT says keep it uniformly moist. Set to \"top quarter dry\".",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

@@ -124,6 +124,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Begonia rex-cultorum",
+    "family": "Begoniaceae",
+    "gbifKey": 4930983
+  },
   "sources": [
     {
       "id": "aspca",
@@ -141,11 +146,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=242218&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Begonia rex-cultorum",
-    "family": "Begoniaceae",
-    "gbifKey": 4930983
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -164,11 +164,13 @@
       },
       {
         "type": "changed",
-        "note": "Changed: temperature 60-75°F → 60-70°F; fertilizing every 2-3 weeks → every 2 weeks at quarter strength from spring, stopping in winter (MOBOT)."
+        "note": "Changed: temperature 60-75°F → 60-70°F; fertilizing every 2-3 weeks → every 2 weeks at quarter strength from spring, stopping in winter (MOBOT).",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "disagreement",
-        "note": "Humidity — MOBOT says more than 50%; NC State says rex begonias need more than 75%. Shown as a 50-80% range covering both."
+        "note": "Humidity — MOBOT says more than 50%; NC State says rex begonias need more than 75%. Shown as a 50-80% range covering both.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

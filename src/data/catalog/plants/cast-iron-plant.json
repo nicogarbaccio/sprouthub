@@ -13,6 +13,16 @@
   "category": "Low Maintenance",
   "description": "Native to the forests of Taiwan and Japan, Cast Iron Plant earned its common name from its legendary ability to withstand neglect, low light, temperature extremes, and poor conditions that would kill most houseplants. This Victorian-era favorite features long, lance-shaped, dark green leathery leaves (or variegated cream and green) that emerge directly from the soil on individual stems, creating an elegant, upright clump 2-3 feet tall. While extremely slow-growing (producing only 2-5 new leaves per year), it's virtually indestructible once established. Perfect for dark corners, offices with fluorescent lighting, drafty hallways, or for plant owners who frequently forget to water. It may not be exciting or fast-growing, but it's the ultimate survivor that provides dependable greenery anywhere.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "50-85°F (10-29°C) - keep above 50°F in winter",
   "humidity": "30-50% - tolerates dry air",
   "careInstructions": [
@@ -80,21 +90,16 @@
       "tip": "Repot only when severely pot-bound (every 3-5 years)"
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "species",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "Takes low light, dry air, a wide range of temperatures and irregular watering — hence the name.",
     "Direct sun bleaches the leaves.",
     "Rarely flowers indoors; when it does, the small purple flowers sit at soil level."
   ],
+  "taxonomy": {
+    "acceptedName": "Aspidistra elatior",
+    "family": "Asparagaceae",
+    "gbifKey": 2769937
+  },
   "sources": [
     {
       "id": "aspca",
@@ -112,11 +117,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=282290&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Aspidistra elatior",
-    "family": "Asparagaceae",
-    "gbifKey": 2769937
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -127,7 +127,8 @@
       },
       {
         "type": "changed",
-        "note": "Light \"Low to Medium\" → \"Low to Bright Indirect\" (MOBOT: best in bright indirect light, tolerates full shade); winter minimum 45°F → 50°F (MOBOT)."
+        "note": "Light \"Low to Medium\" → \"Low to Bright Indirect\" (MOBOT: best in bright indirect light, tolerates full shade); winter minimum 45°F → 50°F (MOBOT).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

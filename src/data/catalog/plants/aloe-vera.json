@@ -115,6 +115,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Aloe vera",
+    "family": "Asphodelaceae",
+    "gbifKey": 2777724
+  },
   "sources": [
     {
       "id": "aspca",
@@ -132,11 +137,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=282195&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Aloe vera",
-    "family": "Asphodelaceae",
-    "gbifKey": 2777724
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -151,7 +151,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: light guidance now says full sun is best (both sources), instead of bright indirect with some morning sun."
+        "note": "Changed: light guidance now says full sun is best (both sources), instead of bright indirect with some morning sun.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

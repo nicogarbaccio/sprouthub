@@ -13,6 +13,17 @@
   "category": "Succulents",
   "description": "Native to South Africa, Zebra Plant is one of the most popular small succulents, forming compact rosettes of thick, dark green, triangular leaves dramatically striped with raised white horizontal bands - like a zebra's stripes. Growing only 4-6 inches tall, it's perfect for small pots, desks, windowsills, or succulent arrangements. It readily produces offsets (pups), creating clusters of rosettes that can fill a pot. Unlike many succulents, Zebra Plant tolerates lower light and is more forgiving of watering mistakes, making it ideal for beginners. Mature plants send up thin stalks with small tubular white flowers, though these are insignificant compared to the striking foliage. Its compact size, distinctive appearance, and easy care have made it a staple in succulent collections worldwide.",
   "toxicity": "Non-toxic to cats and dogs.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca",
+      "ncsu"
+    ]
+  },
   "temperature": "60-80°F (16-27°C) - keep above 50°F",
   "humidity": "30-50%",
   "careInstructions": [
@@ -75,17 +86,6 @@
     },
     "growthRate": "slow"
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "unknown",
-    "symptoms": [],
-    "basis": "species",
-    "sourceIds": [
-      "aspca",
-      "ncsu"
-    ]
-  },
   "whatsNormal": [
     "Grows slowly and can live up to 50 years.",
     "The white stripes fade in too little light; direct sun can scorch the leaves.",
@@ -101,6 +101,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Haworthiopsis attenuata",
+    "family": "Asphodelaceae",
+    "gbifKey": 9388529
+  },
   "sources": [
     {
       "id": "aspca",
@@ -113,11 +118,6 @@
       "url": "https://plants.ces.ncsu.edu/plants/haworthiopsis-attenuata/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Haworthiopsis attenuata",
-    "family": "Asphodelaceae",
-    "gbifKey": 9388529
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -136,7 +136,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: ideal temperature 65-80°F → 60-80°F (NC State)."
+        "note": "Changed: ideal temperature 65-80°F → 60-80°F (NC State).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

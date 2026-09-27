@@ -15,6 +15,17 @@
   "category": "Succulents",
   "description": "Native to the rocky deserts of southern Africa, Lithops are among the most unusual plants in existence - they've evolved to look exactly like small pebbles or stones as camouflage from grazing animals. Each plant consists of just two thick, fused leaves separated by a fissure from which flowers and new leaves emerge. The flat or slightly rounded tops often have intricate patterns and colors mimicking the stones in their habitat. Growing only 1-2 inches tall, they're miniature marvels of evolution. However, Lithops are notoriously difficult because they follow a specific annual cycle and require NO water during certain periods. Watering at the wrong time is fatal. They're strictly for experienced succulent growers who can resist the urge to water and understand their unique lifecycle.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "genus",
+    "sourceIds": [
+      "aspca",
+      "uw"
+    ]
+  },
   "temperature": "65-80°F (18-27°C) during growth, cooler in dormancy",
   "humidity": "10-30% - very dry air essential",
   "careInstructions": [
@@ -90,17 +101,6 @@
     },
     "growthRate": "slow"
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "genus",
-    "sourceIds": [
-      "aspca",
-      "uw"
-    ]
-  },
   "whatsNormal": [
     "Each year a new pair of leaves grows from the central slit while the old pair shrivels to a papery husk.",
     "Flowers in fall and early winter from the slit between the leaves; the flowers open on sunny afternoons.",
@@ -119,6 +119,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Lithops",
+    "family": "Aizoaceae",
+    "gbifKey": 3231652
+  },
   "sources": [
     {
       "id": "aspca",
@@ -136,11 +141,6 @@
       "url": "https://hort.extension.wisc.edu/articles/living-stones-lithops/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Lithops",
-    "family": "Aizoaceae",
-    "gbifKey": 3231652
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -159,7 +159,13 @@
       },
       {
         "type": "changed",
-        "note": "Changed: the old guide said to water every 3-4 weeks in winter; both sources say no water from winter to early spring. Added the late-spring watering window, every-2-weeks fall watering, and morning-sun-plus-afternoon-shade light."
+        "note": "Watering — the old guide said to water every 3-4 weeks in winter; both sources say no water from winter to early spring. Added the late-spring watering window and every-2-weeks fall watering.",
+        "acceptedAt": "2026-09-27"
+      },
+      {
+        "type": "changed",
+        "note": "Light — the old guide said maximum direct sun; both sources say 4-5 hours of morning sun with afternoon shade.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

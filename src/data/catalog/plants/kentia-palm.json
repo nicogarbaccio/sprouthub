@@ -14,6 +14,16 @@
   "category": "Tropical Plants",
   "description": "Native exclusively to Lord Howe Island off the coast of Australia, Kentia Palm is the ultimate elegant, low-maintenance palm featuring gracefully arching, dark green fronds that create a refined tropical ambiance. Growing slowly to 6-10 feet indoors (60 feet in nature), it develops a slender trunk with a feathery crown of pinnate leaves. Unlike most palms, Kentia tolerates low light remarkably well - it was a Victorian parlor favorite for this very reason. It also handles dry air, irregular watering, and typical indoor conditions with grace. Slow-growing means low-maintenance and minimal pruning. Its tolerance, elegance, and air-purifying qualities make it the gold standard for indoor palms and a favorite for offices, hotels, and homes seeking sophisticated tropical beauty without demanding care.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "65-75°F (18-24°C)",
   "humidity": "40-50%",
   "careInstructions": [
@@ -78,22 +88,17 @@
     },
     "growthRate": "slow"
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "species",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "Grows slowly.",
     "Often sold as several plants in one pot. It doesn't sucker — each stem is its own plant, and single plants grow faster.",
     "Copes with low light, dust, central heating and neglect better than most palms.",
     "Dead tips on the leaflets of older fronds are a sign of potassium deficiency."
   ],
+  "taxonomy": {
+    "acceptedName": "Howea forsteriana",
+    "family": "Arecaceae",
+    "gbifKey": 7857942
+  },
   "sources": [
     {
       "id": "aspca",
@@ -111,11 +116,6 @@
       "url": "https://hgic.clemson.edu/factsheet/indoor-palms/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Howea forsteriana",
-    "family": "Arecaceae",
-    "gbifKey": 7857942
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -130,11 +130,13 @@
       },
       {
         "type": "changed",
-        "note": "Changed: fertilizer guidance now says infrequent, slow-release (NC State). The 2-3 month interval is from the original catalog."
+        "note": "Changed: fertilizer guidance now says infrequent, slow-release (NC State). The 2-3 month interval is from the original catalog.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",
-        "note": "Watering — our catalog said let the top 2 inches dry; NC State says use a mix that doesn't dry out, and Clemson says water kentia palms \"abundantly during the summer\" but only when the mix is dry in winter. Care text now follows the sources."
+        "note": "Watering — our catalog said let the top 2 inches dry; NC State says use a mix that doesn't dry out, and Clemson says water kentia palms \"abundantly during the summer\" but only when the mix is dry in winter. Care text now follows the sources.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

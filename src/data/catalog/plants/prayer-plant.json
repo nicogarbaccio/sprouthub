@@ -14,6 +14,16 @@
   "category": "Prayer Plants",
   "description": "Native to the Brazilian rainforest floor, Prayer Plant is named for its fascinating nyctinastic movement - the leaves fold upward at night like hands in prayer, then open again at sunrise, creating gentle rustling sounds. The stunning foliage features emerald green leaves with distinctive dark green or chocolate brown spots arranged along the midrib (resembling rabbit tracks) and striking red veins, all on burgundy undersides. Growing 6-12 inches tall and spreading wider, it creates a low, spreading mound perfect for hanging baskets or tabletops. While not as demanding as Calatheas, Prayer Plants still require consistent moisture, humidity, and filtered water to prevent the crispy edges they're prone to. Their living movement and extraordinary foliage patterns make them captivating additions despite moderate care needs.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "related_species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "65-80°F (18-27°C)",
   "humidity": "50-60% minimum",
   "careInstructions": [
@@ -81,16 +91,6 @@
       ]
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "related_species",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "Leaves lie flat by day and fold upright at night like praying hands.",
     "New leaves unfurl from a rolled tube.",
@@ -107,6 +107,11 @@
       "ncsu",
       "mobot"
     ]
+  },
+  "taxonomy": {
+    "acceptedName": "Maranta leuconeura",
+    "family": "Marantaceae",
+    "gbifKey": 2761337
   },
   "sources": [
     {
@@ -125,11 +130,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=292048&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Maranta leuconeura",
-    "family": "Marantaceae",
-    "gbifKey": 2761337
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -144,7 +144,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: fertilizing every 2 weeks → monthly (MOBOT). Half strength is from the original catalog."
+        "note": "Changed: fertilizing every 2 weeks → monthly (MOBOT). Half strength is from the original catalog.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

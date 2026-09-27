@@ -116,6 +116,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Monstera deliciosa",
+    "family": "Araceae",
+    "gbifKey": 2868241
+  },
   "sources": [
     {
       "id": "aspca",
@@ -133,11 +138,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276378&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Monstera deliciosa",
-    "family": "Araceae",
-    "gbifKey": 2868241
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -152,7 +152,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: ideal temperature 65-85°F → 60-85°F, matching Monstera deliciosa (NC State)."
+        "note": "Changed: ideal temperature 65-85°F → 60-85°F, matching Monstera deliciosa (NC State).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

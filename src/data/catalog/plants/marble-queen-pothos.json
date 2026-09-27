@@ -109,6 +109,11 @@
       "mobot"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Epipremnum aureum",
+    "family": "Araceae",
+    "gbifKey": 2868323
+  },
   "sources": [
     {
       "id": "aspca",
@@ -136,11 +141,6 @@
       "url": "https://hgic.clemson.edu/factsheet/how-to-grow-pothos-indoors-epipremnum-spp-care-cultivars-and-common-problems/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Epipremnum aureum",
-    "family": "Araceae",
-    "gbifKey": 2868323
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -155,7 +155,8 @@
       },
       {
         "type": "changed",
-        "note": "Fertilizing monthly → every other month, matching the Pothos research (NC State, Wisconsin)."
+        "note": "Fertilizing monthly → every other month, matching the Pothos research (NC State, Wisconsin).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

@@ -13,6 +13,16 @@
   "category": "Palms",
   "description": "Native to the riverbanks of Madagascar, Majesty Palm is an elegant tropical palm that can grow to impressive heights (6-10 feet indoors, 80+ feet in nature), featuring graceful, arching fronds that bring instant vacation vibes to any space. The feathery, bright green fronds emerge from a single trunk, creating a classic palm tree silhouette that evokes tropical paradise. However, Majesty Palm has a reputation as one of the most challenging houseplants - it's frequently sold as an easy-care plant but actually requires very bright light, high humidity, consistent watering, and specific conditions that are difficult to replicate indoors. Many struggle and decline in typical home environments. Success requires dedication to meeting its demanding tropical needs, but when happy, it's a stunning focal point.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "65-85°F (18-29°C)",
   "humidity": "50-60% minimum",
   "careInstructions": [
@@ -72,16 +82,6 @@
       "tip": "Fertilize every 2-4 weeks during growing season with palm fertilizer"
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "species",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "Usually sold as three or more plants in one pot — you can divide them into separate pots.",
     "Grows much more slowly indoors than in the wild, and can be hard to keep happy indoors.",
@@ -96,6 +96,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Ravenea rivularis",
+    "family": "Arecaceae",
+    "gbifKey": 2739031
+  },
   "sources": [
     {
       "id": "aspca",
@@ -108,11 +113,6 @@
       "url": "https://plants.ces.ncsu.edu/plants/ravenea-rivularis/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Ravenea rivularis",
-    "family": "Arecaceae",
-    "gbifKey": 2739031
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -127,7 +127,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: light was \"Bright Indirect to Direct Light\" with \"some direct sun beneficial\" — NC State says direct sun scorches it."
+        "note": "Changed: light was \"Bright Indirect to Direct Light\" with \"some direct sun beneficial\" — NC State says direct sun scorches it.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

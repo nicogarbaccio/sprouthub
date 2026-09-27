@@ -105,6 +105,11 @@
     "Rarely flowers indoors; removing flowers and berries puts the energy back into leaves.",
     "Tolerates dry indoor air, though leaf edges can brown in very dry or drafty spots."
   ],
+  "taxonomy": {
+    "acceptedName": "Aglaonema commutatum",
+    "family": "Araceae",
+    "gbifKey": 2866467
+  },
   "sources": [
     {
       "id": "aspca",
@@ -127,11 +132,6 @@
       "url": "https://hgic.clemson.edu/factsheet/chinese-evergreen-aglaonema-care-cultivation-growing-guide/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Aglaonema commutatum",
-    "family": "Araceae",
-    "gbifKey": 2866467
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -146,7 +146,8 @@
       },
       {
         "type": "disagreement",
-        "note": "Watering — resolved by specificity (rule 3): NC State says let the medium dry between waterings; MOBOT says never let it dry out; Clemson says \"keep the soil constantly moist but not too wet\" and water when the top 1-2 inches are dry. Clemson's rule is the most specific and fits both, so set to \"top quarter dry\"."
+        "note": "Watering — resolved by specificity (rule 3): NC State says let the medium dry between waterings; MOBOT says never let it dry out; Clemson says \"keep the soil constantly moist but not too wet\" and water when the top 1-2 inches are dry. Clemson's rule is the most specific and fits both, so set to \"top quarter dry\".",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

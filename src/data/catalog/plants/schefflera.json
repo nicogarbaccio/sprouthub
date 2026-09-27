@@ -113,6 +113,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Heptapleurum actinophyllum",
+    "family": "Araliaceae",
+    "gbifKey": 11008739
+  },
   "sources": [
     {
       "id": "aspca",
@@ -130,11 +135,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=470926&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Heptapleurum actinophyllum",
-    "family": "Araliaceae",
-    "gbifKey": 11008739
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -145,7 +145,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: ideal temperature 60-75°F → 65-90°F, keep above 60°F (NC State)."
+        "note": "Changed: ideal temperature 60-75°F → 65-90°F, keep above 60°F (NC State).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

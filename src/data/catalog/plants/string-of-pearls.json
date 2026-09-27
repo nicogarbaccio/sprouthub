@@ -13,6 +13,21 @@
   "category": "Succulents",
   "description": "Native to the dry regions of southwest Africa, String of Pearls is an unusual succulent featuring long, trailing stems adorned with spherical, pea-sized leaves that look exactly like strings of green beads or pearls - one of nature's most whimsical designs. Each \"pearl\" has a translucent window stripe that allows light to penetrate for photosynthesis. The delicate stems can trail 2-3 feet long, creating stunning cascading displays in hanging baskets. When happy, it produces small white flowers with a cinnamon-like fragrance. However, String of Pearls has a reputation for being finicky - the pearls drop easily when touched, it's prone to rot, and it requires specific watering and light conditions. Success requires understanding its needs, but the enchanting appearance makes it worth the effort for patient growers.",
   "toxicity": "Toxic to cats and dogs. Contains pyrrolizidine alkaloids; eating it can cause vomiting and diarrhea.",
+  "toxicityDetail": {
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "unknown",
+    "symptoms": [
+      "Vomiting",
+      "Diarrhea",
+      "Skin irritation from the sap"
+    ],
+    "severity": "mild",
+    "basis": "species",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
   "temperature": "70-80°F (21-27°C) in summer, 50-60°F (10-16°C) in winter",
   "humidity": "30-60% - average home humidity is fine",
   "careInstructions": [
@@ -93,21 +108,6 @@
       ]
     }
   },
-  "toxicityDetail": {
-    "cats": "toxic",
-    "dogs": "toxic",
-    "horses": "unknown",
-    "symptoms": [
-      "Vomiting",
-      "Diarrhea",
-      "Skin irritation from the sap"
-    ],
-    "severity": "mild",
-    "basis": "species",
-    "sourceIds": [
-      "ncsu"
-    ]
-  },
   "whatsNormal": [
     "Plants tend to die back after several years; cuttings are the way to renew them.",
     "Shriveled pearls mean the watering or light is off — too much or too little water, or not enough light.",
@@ -123,6 +123,11 @@
       "ncsu",
       "mobot"
     ]
+  },
+  "taxonomy": {
+    "acceptedName": "Curio rowleyanus",
+    "family": "Asteraceae",
+    "gbifKey": 3149649
   },
   "sources": [
     {
@@ -141,11 +146,6 @@
       "url": "https://hort.extension.wisc.edu/articles/string-of-pearls-senecio-rowleyanus/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Curio rowleyanus",
-    "family": "Asteraceae",
-    "gbifKey": 3149649
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -164,15 +164,18 @@
       },
       {
         "type": "changed",
-        "note": "Changed: temperature now shows the summer/winter ranges both sources give; light advice now warns direct sun scorches (NC State)."
+        "note": "Changed: temperature now shows the summer/winter ranges both sources give; light advice now warns direct sun scorches (NC State).",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "disagreement",
-        "note": "Watering — resolved by majority: MOBOT and Wisconsin say let it dry out completely between waterings; NC State says never let it dry out completely. Set to \"fully dry\"."
+        "note": "Watering — resolved by majority: MOBOT and Wisconsin say let it dry out completely between waterings; NC State says never let it dry out completely. Set to \"fully dry\".",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",
-        "note": "Humidity — our catalog said it prefers dry air (30-50%); MOBOT says it is unaffected by high humidity. Now 30-60%, \"average home humidity is fine\"."
+        "note": "Humidity — our catalog said it prefers dry air (30-50%); MOBOT says it is unaffected by high humidity. Now 30-60%, \"average home humidity is fine\".",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

@@ -15,6 +15,16 @@
   "category": "Hanging & Trailing Plants",
   "description": "A stunning succulent native to southern Mexico and Honduras, Burro's Tail features thick, trailing stems densely covered with plump, tear-drop shaped leaves in blue-green with a dusty, powdery coating (farina) that gives them a frosted appearance. The rope-like stems can grow 1-4 feet long, creating dramatic cascading displays that resemble actual donkey tails - though they're quite delicate and leaves drop easily when touched. Mature plants (4+ years old) may produce clusters of small pink or red flowers at stem tips in summer. While the fragile leaves require careful handling, the plant itself is remarkably drought-tolerant and low-maintenance, thriving on neglect better than constant attention. Its sculptural beauty and unique texture make it a prized specimen for hanging baskets.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "65-75°F (18-24°C) - can tolerate down to 40°F",
   "humidity": "20-40% - prefers dry air",
   "careInstructions": [
@@ -90,16 +100,6 @@
       ]
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "species",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "The silvery-blue coating rubs off where the leaves are handled.",
     "Leaves drop at the slightest bump — pot up fallen leaves and they'll root.",
@@ -118,6 +118,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Sedum morganianum",
+    "family": "Crassulaceae",
+    "gbifKey": 5690408
+  },
   "sources": [
     {
       "id": "aspca",
@@ -135,18 +140,14 @@
       "url": "https://hort.extension.wisc.edu/articles/burros-tail-sedum-morganianum/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Sedum morganianum",
-    "family": "Crassulaceae",
-    "gbifKey": 5690408
-  },
   "review": {
-    "status": "draft",
+    "status": "reviewed",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "changed",
-        "note": "Changed: fertilizing every 2-3 months → once or twice a growing season (Wisconsin, NC State)."
+        "note": "Changed: fertilizing every 2-3 months → once or twice a growing season (Wisconsin, NC State).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

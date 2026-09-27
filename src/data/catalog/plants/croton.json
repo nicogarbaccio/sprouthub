@@ -108,6 +108,11 @@
     ],
     "tip": "Root stem cuttings — wear gloves, the sap irritates skin."
   },
+  "taxonomy": {
+    "acceptedName": "Codiaeum variegatum",
+    "family": "Euphorbiaceae",
+    "gbifKey": 3071476
+  },
   "sources": [
     {
       "id": "ncsu",
@@ -125,11 +130,6 @@
       "url": "https://hort.extension.wisc.edu/articles/croton-codiaeum-variegatum/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Codiaeum variegatum",
-    "family": "Euphorbiaceae",
-    "gbifKey": 3071476
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -140,7 +140,8 @@
       },
       {
         "type": "disagreement",
-        "note": "Humidity — resolved by majority: MOBOT (high) and Wisconsin (moderate to high) vs NC State (low to medium). Kept 50-70%."
+        "note": "Humidity — resolved by majority: MOBOT (high) and Wisconsin (moderate to high) vs NC State (low to medium). Kept 50-70%.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",

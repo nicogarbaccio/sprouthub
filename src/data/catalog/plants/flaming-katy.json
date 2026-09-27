@@ -110,6 +110,11 @@
       "mobot"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Kalanchoe blossfeldiana",
+    "family": "Crassulaceae",
+    "gbifKey": 2985944
+  },
   "sources": [
     {
       "id": "aspca",
@@ -127,11 +132,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=279373&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Kalanchoe blossfeldiana",
-    "family": "Crassulaceae",
-    "gbifKey": 2985944
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -150,7 +150,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: bloom trigger 12-14 → 14 hours of darkness, at 70°F days / 60°F nights (both sources); light now \"Bright Indirect to Direct\" with afternoon shade (NC State)."
+        "note": "Changed: bloom trigger 12-14 → 14 hours of darkness, at 70°F days / 60°F nights (both sources); light now \"Bright Indirect to Direct\" with afternoon shade (NC State).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

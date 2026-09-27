@@ -111,6 +111,11 @@
       "uw"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Tradescantia zebrina",
+    "family": "Commelinaceae",
+    "gbifKey": 2765359
+  },
   "sources": [
     {
       "id": "aspca",
@@ -133,11 +138,6 @@
       "url": "https://hort.extension.wisc.edu/articles/tradescantia-zebrina/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Tradescantia zebrina",
-    "family": "Commelinaceae",
-    "gbifKey": 2765359
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -148,7 +148,8 @@
       },
       {
         "type": "disagreement",
-        "note": "Watering — resolved by majority: NC State and Wisconsin say let the soil dry out between waterings; MOBOT says keep it consistently moist. Set to \"top half dry\"."
+        "note": "Watering — resolved by majority: NC State and Wisconsin say let the soil dry out between waterings; MOBOT says keep it consistently moist. Set to \"top half dry\".",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
@@ -156,7 +157,13 @@
       },
       {
         "type": "changed",
-        "note": "Watering \"keep consistently moist\" → let the soil dry between waterings; ideal temperature 60-80°F → 65-75°F (NC State)."
+        "note": "Watering — \"keep consistently moist\" → let the soil dry between waterings.",
+        "acceptedAt": "2026-09-27"
+      },
+      {
+        "type": "changed",
+        "note": "Temperature — ideal 60-80°F → 65-75°F (NC State).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

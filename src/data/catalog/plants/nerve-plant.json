@@ -13,6 +13,16 @@
   "category": "Small Plants",
   "description": "Native to the rainforest floors of Peru, Nerve Plant is a small, dramatic foliage plant featuring oval leaves with intricate networks of bright veins in white, pink, or red against deep green backgrounds - looking like delicate stained glass or an artist's interpretation of leaf venation. Growing only 3-6 inches tall and spreading wider, this petite plant creates a colorful groundcover effect perfect for terrariums, dish gardens, or small pots. Despite its delicate appearance, Nerve Plant is famously dramatic - it wilts immediately when thirsty, flopping over completely to signal it needs water, then perks back up within hours of watering. This \"fainting\" habit makes it an excellent choice for beginners learning to read plant signals, though it requires more attention than truly low-maintenance plants.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "65-80°F (18-27°C)",
   "humidity": "50-70%",
   "careInstructions": [
@@ -88,16 +98,6 @@
       ]
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "species",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "Wilts dramatically when thirsty, then perks up within hours of watering.",
     "Leaves shrivel and drop in dry air, drafts or direct sun.",
@@ -112,6 +112,11 @@
     "sourceIds": [
       "mobot"
     ]
+  },
+  "taxonomy": {
+    "acceptedName": "Fittonia albivenis",
+    "family": "Acanthaceae",
+    "gbifKey": 5574508
   },
   "sources": [
     {
@@ -130,18 +135,14 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=263705&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Fittonia albivenis",
-    "family": "Acanthaceae",
-    "gbifKey": 5574508
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "disagreement",
-        "note": "Humidity — NC State says medium, MOBOT says high. Kept the 50-70% range, which covers both."
+        "note": "Humidity — NC State says medium, MOBOT says high. Kept the 50-70% range, which covers both.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",

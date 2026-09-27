@@ -13,6 +13,16 @@
   "category": "Ferns",
   "description": "A classic Victorian-era houseplant native to tropical regions worldwide, Boston Fern features lush, arching fronds composed of hundreds of small leaflets that create a full, fountain-like display perfect for hanging baskets or pedestals. The graceful, cascading fronds can reach 2-3 feet long, creating a dramatic tropical effect that softens any space. As one of the best natural air purifiers, it removes formaldehyde and other toxins while adding humidity to dry indoor air. However, Boston Fern has a reputation for being somewhat demanding - it requires consistent moisture, high humidity, and cool temperatures, making it more challenging than modern easy-care plants but absolutely worth the effort for its lush, timeless beauty and air-cleaning benefits.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "60-70°F (16-21°C) - prefers cooler temps",
   "humidity": "50-80% - high humidity essential",
   "careInstructions": [
@@ -78,21 +88,16 @@
       ]
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "species",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "Rows of dark brown to black dots under the fronds are spores, not pests or disease.",
     "Frond tips often brown in winter when indoor air is dry.",
     "Sheds fronds if the soil dries out; cutting it back to about 2 inches lets it regenerate."
   ],
+  "taxonomy": {
+    "acceptedName": "Nephrolepis exaltata",
+    "family": "Nephrolepidaceae",
+    "gbifKey": 2650927
+  },
   "sources": [
     {
       "id": "aspca",
@@ -110,11 +115,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=285753&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Nephrolepis exaltata",
-    "family": "Nephrolepidaceae",
-    "gbifKey": 2650927
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -125,7 +125,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: fertilizing every 2-4 weeks → monthly, weak (MOBOT); ideal temperature 60-75°F → 60-70°F (NC State)."
+        "note": "Changed: fertilizing every 2-4 weeks → monthly, weak (MOBOT); ideal temperature 60-75°F → 60-70°F (NC State).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

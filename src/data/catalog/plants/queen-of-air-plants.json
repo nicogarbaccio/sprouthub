@@ -12,6 +12,13 @@
   "category": "Air Plants",
   "description": "Aptly named the \"Queen of Air Plants,\" Tillandsia xerographica is one of the most striking and sought-after air plant species available. This dramatic specimen forms a large, silvery-white rosette of thick, curling leaves that can grow 10-12 inches wide (or larger with age). Native to the dry forests of Mexico, Guatemala, and El Salvador, it has evolved to be extremely drought-tolerant, making it one of the easiest air plants to care for. Its sculptural form makes it a stunning standalone centerpiece, perfect for coffee tables, shelves, or mounted displays. The silvery trichomes covering its leaves give it a frosted appearance that catches light beautifully.",
   "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
+  "toxicityDetail": {
+    "cats": "unknown",
+    "dogs": "unknown",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "none"
+  },
   "temperature": "50-90°F (10-32°C) - very temperature tolerant",
   "humidity": "40-60%",
   "careInstructions": [
@@ -71,18 +78,16 @@
       ]
     }
   },
-  "toxicityDetail": {
-    "cats": "unknown",
-    "dogs": "unknown",
-    "horses": "unknown",
-    "symptoms": [],
-    "basis": "none"
-  },
   "whatsNormal": [
     "Blooms only once in its life, on a tall, long-lasting spike, and only when conditions are right.",
     "Heating and air conditioning dry the air — it may need more frequent soaks.",
     "After flowering the parent plant slowly declines while its pups take over."
   ],
+  "taxonomy": {
+    "acceptedName": "Tillandsia xerographica",
+    "family": "Bromeliaceae",
+    "gbifKey": 2695364
+  },
   "sources": [
     {
       "id": "ncsu",
@@ -100,11 +105,6 @@
       "url": "https://hgic.clemson.edu/factsheet/air-plants/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Tillandsia xerographica",
-    "family": "Bromeliaceae",
-    "gbifKey": 2695364
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -115,7 +115,8 @@
       },
       {
         "type": "changed",
-        "note": "Soaking 1-2 hours every 10-14 days → about 15 minutes every 1-2 weeks, monthly in winter; fertilizing every 2-3 months → once or twice a month at half strength (NC State species page)."
+        "note": "Soaking 1-2 hours every 10-14 days → about 15 minutes every 1-2 weeks, monthly in winter; fertilizing every 2-3 months → once or twice a month at half strength (NC State species page).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

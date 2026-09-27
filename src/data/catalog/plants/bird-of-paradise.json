@@ -109,6 +109,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Strelitzia nicolai",
+    "family": "Strelitziaceae",
+    "gbifKey": 2763112
+  },
   "sources": [
     {
       "id": "aspca",
@@ -121,11 +126,6 @@
       "url": "https://plants.ces.ncsu.edu/plants/strelitzia-nicolai/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Strelitzia nicolai",
-    "family": "Strelitziaceae",
-    "gbifKey": 2763112
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -148,7 +148,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: \"keep soil consistently moist\" → water when the top layer is dry (NC State); ideal temperature up to 85°F."
+        "note": "Changed: \"keep soil consistently moist\" → water when the top layer is dry (NC State); ideal temperature up to 85°F.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

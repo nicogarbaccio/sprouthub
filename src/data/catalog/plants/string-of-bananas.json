@@ -102,6 +102,11 @@
       "ncsu"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Curio radicans",
+    "family": "Asteraceae",
+    "gbifKey": 3107396
+  },
   "sources": [
     {
       "id": "ncsu",
@@ -109,11 +114,6 @@
       "url": "https://plants.ces.ncsu.edu/plants/curio-radicans/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Curio radicans",
-    "family": "Asteraceae",
-    "gbifKey": 3107396
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -132,7 +132,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: water when the top half is dry, not when completely dry (NC State)."
+        "note": "Changed: water when the top half is dry, not when completely dry (NC State).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

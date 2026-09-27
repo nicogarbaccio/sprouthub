@@ -98,6 +98,11 @@
     "The leaf undersides and stems naturally have a reddish \"blush\".",
     "Water at the base — wet leaves invite leaf spot."
   ],
+  "taxonomy": {
+    "acceptedName": "Philodendron erubescens",
+    "family": "Araceae",
+    "gbifKey": 2871297
+  },
   "sources": [
     {
       "id": "aspca",
@@ -110,11 +115,6 @@
       "url": "https://plants.ces.ncsu.edu/plants/philodendron-erubescens/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Philodendron erubescens",
-    "family": "Araceae",
-    "gbifKey": 2871297
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -133,7 +133,8 @@
       },
       {
         "type": "changed",
-        "note": "Ideal temperature 65-80°F → 65-85°F (NC State)."
+        "note": "Ideal temperature 65-80°F → 65-85°F (NC State).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

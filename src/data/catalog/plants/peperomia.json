@@ -14,6 +14,16 @@
   "category": "Small Plants",
   "description": "Native to Central and South American rainforests, Peperomia obtusifolia is a compact, low-maintenance plant featuring thick, glossy, spoon-shaped leaves that resemble rubber plant foliage in miniature form. Growing only 6-12 inches tall, this petite beauty comes in varieties with solid green leaves or variegated cream and green patterns. The succulent-like leaves store water, making it quite drought-tolerant and forgiving of occasional neglect. As an epiphyte in nature, it prefers quick-draining soil and less frequent watering than typical houseplants. Peperomias are perfect for small spaces, desks, shelves, or terrariums, and their compact size and easy care make them ideal for beginners. With over 1,000 Peperomia species, collectors love building diverse collections of these charming little plants.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "species",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "65-80°F (18-27°C)",
   "humidity": "40-60% - a humidifier helps in dry winters",
   "careInstructions": [
@@ -80,16 +90,6 @@
       "tip": "Fertilize every 2-3 months during growing season with diluted fertilizer"
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "species",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "Copes with low light for months, especially all-green types.",
     "Yellowing leaves usually mean overwatering; overwatered plants also drop leaves.",
@@ -104,6 +104,11 @@
     "sourceIds": [
       "mobot"
     ]
+  },
+  "taxonomy": {
+    "acceptedName": "Peperomia obtusifolia",
+    "family": "Piperaceae",
+    "gbifKey": 3086423
   },
   "sources": [
     {
@@ -127,18 +132,14 @@
       "url": "https://hgic.clemson.edu/factsheet/peperomia-peperomia-spp-indoor-plant-care-and-growing-guide/"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Peperomia obtusifolia",
-    "family": "Piperaceae",
-    "gbifKey": 3086423
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
     "flags": [
       {
         "type": "disagreement",
-        "note": "Humidity — NC State says medium to low; MOBOT says high in summer; Clemson says a humidifier helps in dry winters. Shown as 40-60% to cover them."
+        "note": "Humidity — NC State says medium to low; MOBOT says high in summer; Clemson says a humidifier helps in dry winters. Shown as 40-60% to cover them.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "estimate",
@@ -146,7 +147,8 @@
       },
       {
         "type": "changed",
-        "note": "Light \"Medium to Bright Indirect\" → \"Low to Bright Indirect\" (NC State: tolerates low light for months); humidity 40-50% → 40-60%."
+        "note": "Light \"Medium to Bright Indirect\" → \"Low to Bright Indirect\" (NC State: tolerates low light for months); humidity 40-50% → 40-60%.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

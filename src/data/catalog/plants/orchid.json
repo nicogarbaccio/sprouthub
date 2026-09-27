@@ -13,6 +13,16 @@
   "category": "Flowering Plants",
   "description": "Native to tropical Asia and Australia, Phalaenopsis orchids are the most popular and beginner-friendly orchids for good reason: they produce spectacular sprays of large, moth-like flowers in white, pink, purple, yellow, or patterned varieties that can last 2-3 months per bloom spike. These epiphytic plants naturally grow on tree branches in humid forests, with thick, leathery leaves and exposed silvery-green aerial roots that photosynthesize and absorb moisture from the air. Growing 12-24 inches tall when in bloom, modern hybrids are remarkably adaptable to home conditions. With proper care, phalaenopsis can rebloom multiple times per year, making them one of the longest-flowering plants available and dispelling the myth that orchids are impossibly difficult.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "60-85°F (16-29°C) - 72-85°F by day; a 55°F night in fall starts new flower spikes",
   "humidity": "50-60%",
   "careInstructions": [
@@ -95,22 +105,17 @@
       ]
     }
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "genus",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "Flowers last four months or more, then the plant rests before blooming again about once a year.",
     "Silvery-green roots growing out of the pot are normal — orchid roots photosynthesize.",
     "A week of cooler nights (around 55°F) in autumn helps it start a new flower spike.",
     "Orchids dyed blue or pink will rebloom white."
   ],
+  "taxonomy": {
+    "acceptedName": "Phalaenopsis",
+    "family": "Orchidaceae",
+    "gbifKey": 2804680
+  },
   "sources": [
     {
       "id": "aspca",
@@ -128,11 +133,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=264608&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Phalaenopsis",
-    "family": "Orchidaceae",
-    "gbifKey": 2804680
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -143,15 +143,18 @@
       },
       {
         "type": "changed",
-        "note": "Changed: humidity 50-70% → 50-60%; temperature range and fertilizer strength updated (MOBOT, NC State)."
+        "note": "Changed: humidity 50-70% → 50-60%; temperature range and fertilizer strength updated (MOBOT, NC State).",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "disagreement",
-        "note": "Flower spike — NC State and MOBOT give different, equally valid methods with different results, so the care text now presents both as \"Experts differ\"."
+        "note": "Flower spike — NC State and MOBOT give different, equally valid methods with different results, so the care text now presents both as \"Experts differ\".",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "changed",
-        "note": "Misting — our care text said avoid misting; MOBOT suggests morning misting but never letting water sit in the crown. Care text now follows MOBOT."
+        "note": "Misting — our care text said avoid misting; MOBOT suggests morning misting but never letting water sit in the crown. Care text now follows MOBOT.",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

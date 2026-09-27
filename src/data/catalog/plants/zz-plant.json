@@ -14,6 +14,20 @@
   "category": "Low Maintenance",
   "description": "Native to East Africa, the ZZ Plant is one of the most indestructible houseplants available, earning its nickname \"Eternity Plant\" for its ability to survive extreme neglect. This architectural beauty features thick, succulent-like stems with glossy, waxy leaflets arranged in graceful, feather-like fronds that grow upright from underground rhizomes. The deep green foliage has a natural shine that looks almost artificial, making it a stunning addition to modern interiors. Growing 2-3 feet tall, it thrives in a remarkable range of conditions from low light corners to bright rooms, tolerates irregular watering, and is virtually pest-free. Its slow growth means minimal maintenance, and its dramatic sculptural form provides maximum impact with minimal effort - the ultimate plant for busy people or frequent travelers.",
   "toxicity": "Toxic to cats and dogs. Contains calcium oxalate; eating a lot of the leaves can cause vomiting and diarrhea.",
+  "toxicityDetail": {
+    "cats": "toxic",
+    "dogs": "toxic",
+    "horses": "unknown",
+    "symptoms": [
+      "Vomiting",
+      "Diarrhea"
+    ],
+    "severity": "moderate",
+    "basis": "species",
+    "sourceIds": [
+      "ncsu"
+    ]
+  },
   "temperature": "60-75°F (15-24°C)",
   "humidity": "30-50% - tolerates dry air",
   "careInstructions": [
@@ -90,20 +104,6 @@
     },
     "growthRate": "slow"
   },
-  "toxicityDetail": {
-    "cats": "toxic",
-    "dogs": "toxic",
-    "horses": "unknown",
-    "symptoms": [
-      "Vomiting",
-      "Diarrhea"
-    ],
-    "severity": "moderate",
-    "basis": "species",
-    "sourceIds": [
-      "ncsu"
-    ]
-  },
   "whatsNormal": [
     "Grows slowly — just a few new stems a year is normal.",
     "Thick underground rhizomes store water, so it can go weeks between waterings.",
@@ -120,6 +120,11 @@
       "mobot"
     ]
   },
+  "taxonomy": {
+    "acceptedName": "Zamioculcas zamiifolia",
+    "family": "Araceae",
+    "gbifKey": 2869014
+  },
   "sources": [
     {
       "id": "ncsu",
@@ -132,11 +137,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=276468&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Zamioculcas zamiifolia",
-    "family": "Araceae",
-    "gbifKey": 2869014
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -147,7 +147,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: summer watering from every 21 days to every 14 (NC State: twice monthly, only when completely dry); fertilizing from 2-3 to 1-2 times a year."
+        "note": "Changed: summer watering from every 21 days to every 14 (NC State: twice monthly, only when completely dry); fertilizing from 2-3 to 1-2 times a year.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "note",

@@ -111,6 +111,11 @@
     "Growth slows a lot when it sits between 40 and 60°F — keep it away from cold drafts.",
     "Brown leaf tips come from too much sun, underwatering, low humidity or fertilizer build-up."
   ],
+  "taxonomy": {
+    "acceptedName": "Spathiphyllum wallisii",
+    "family": "Araceae",
+    "gbifKey": 2869680
+  },
   "sources": [
     {
       "id": "aspca",
@@ -128,11 +133,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=264610&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Spathiphyllum wallisii",
-    "family": "Araceae",
-    "gbifKey": 2869680
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -151,7 +151,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: ideal temperature 65-80°F → 68-85°F; light shown as \"Low to Bright Indirect Light\" (MOBOT: prefers bright filtered light, copes with low)."
+        "note": "Changed: ideal temperature 65-80°F → 68-85°F; light shown as \"Low to Bright Indirect Light\" (MOBOT: prefers bright filtered light, copes with low).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }

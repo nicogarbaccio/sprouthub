@@ -13,6 +13,16 @@
   "category": "Prayer Plants",
   "description": "Native to the tropical rainforests of South America, Calathea orbifolia is one of the most striking members of the prayer plant family, featuring large, round leaves (up to 12 inches wide) with distinctive silvery-green stripes that look hand-painted. Like other Calatheas, it performs nyctinastic movement - the leaves rise at night and lower during the day, creating a gentle rustling sound. Growing 2-3 feet tall, it creates a bold tropical statement piece. However, Calatheas are notoriously demanding, requiring high humidity, consistent moisture, filtered water, and stable temperatures. They're sensitive to fluoride, chlorine, and mineral buildup, often rewarding even experienced plant parents with crispy edges. Despite their fussy reputation, their extraordinary foliage and living movement make them irresistible to dedicated plant enthusiasts.",
   "toxicity": "Non-toxic to cats, dogs and horses.",
+  "toxicityDetail": {
+    "cats": "non_toxic",
+    "dogs": "non_toxic",
+    "horses": "non_toxic",
+    "symptoms": [],
+    "basis": "genus",
+    "sourceIds": [
+      "aspca"
+    ]
+  },
   "temperature": "65-75°F (18-24°C) - no drafts or sudden changes",
   "humidity": "60-80% - high humidity critical",
   "careInstructions": [
@@ -92,16 +102,6 @@
     },
     "growthRate": "fast"
   },
-  "toxicityDetail": {
-    "cats": "non_toxic",
-    "dogs": "non_toxic",
-    "horses": "non_toxic",
-    "symptoms": [],
-    "basis": "genus",
-    "sourceIds": [
-      "aspca"
-    ]
-  },
   "whatsNormal": [
     "Leaves fold upward at night and open again in the morning — this \"praying\" movement is normal.",
     "Leaves curl when the plant is thirsty or the air is too dry; they flatten again once fixed."
@@ -115,6 +115,11 @@
       "rhs",
       "ncsu"
     ]
+  },
+  "taxonomy": {
+    "acceptedName": "Goeppertia orbifolia",
+    "family": "Marantaceae",
+    "gbifKey": 7476815
   },
   "sources": [
     {
@@ -133,11 +138,6 @@
       "url": "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/calathea"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Goeppertia orbifolia",
-    "family": "Marantaceae",
-    "gbifKey": 7476815
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-26",
@@ -152,7 +152,8 @@
       },
       {
         "type": "changed",
-        "note": "Ideal temperature narrowed from 65-80°F to 65-75°F (NC State); RHS gives a 61°F minimum."
+        "note": "Ideal temperature narrowed from 65-80°F to 65-75°F (NC State); RHS gives a 61°F minimum.",
+        "acceptedAt": "2026-09-27"
       },
       {
         "type": "toxicity",

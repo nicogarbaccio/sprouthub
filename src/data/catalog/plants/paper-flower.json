@@ -13,6 +13,13 @@
   "category": "Flowering Plants",
   "description": "Native to the coastal regions of Brazil, Bougainvillea is an iconic tropical plant that produces spectacular displays of papery, tissue-like bracts in vivid magenta, purple, red, orange, white, or pink that can last for months. The true flowers are actually tiny and white, tucked inside the colorful bracts that steal the show. This vigorous climbing or sprawling plant can grow 20+ feet in ideal conditions but adapts well to containers with regular pruning, maintaining 3-6 feet indoors. The stems are armed with sharp thorns (handle with care!), and the plant has a Mediterranean temperament: it thrives on sun, heat, and strategic neglect. When stressed by drought and given maximum sun, it produces the most prolific color displays, creating walls of vibrant bracts.",
   "toxicity": "Pet safety unknown — not listed by the ASPCA, and we found no reports of it being toxic.",
+  "toxicityDetail": {
+    "cats": "unknown",
+    "dogs": "unknown",
+    "horses": "unknown",
+    "symptoms": [],
+    "basis": "none"
+  },
   "temperature": "65-85°F (18-29°C) - loves heat",
   "humidity": "40-60%",
   "careInstructions": [
@@ -73,18 +80,16 @@
       ]
     }
   },
-  "toxicityDetail": {
-    "cats": "unknown",
-    "dogs": "unknown",
-    "horses": "unknown",
-    "symptoms": [],
-    "basis": "none"
-  },
   "whatsNormal": [
     "Drops most of its leaves during the cool winter rest — it needs that rest to flower.",
     "The bright \"petals\" are bracts; the true flowers are small and white to yellow.",
     "Sharp thorns — keep it out of busy walkways."
   ],
+  "taxonomy": {
+    "acceptedName": "Bougainvillea spectabilis",
+    "family": "Nyctaginaceae",
+    "gbifKey": 7167078
+  },
   "sources": [
     {
       "id": "ncsu",
@@ -97,11 +102,6 @@
       "url": "https://plantfinder.mobot.org/PlantFinderDetails.aspx?taxonid=264583&isprofile=1"
     }
   ],
-  "taxonomy": {
-    "acceptedName": "Bougainvillea spectabilis",
-    "family": "Nyctaginaceae",
-    "gbifKey": 7167078
-  },
   "review": {
     "status": "draft",
     "researchedAt": "2026-09-27",
@@ -120,7 +120,8 @@
       },
       {
         "type": "changed",
-        "note": "Changed: removed \"drought stress encourages blooming\" and the cactus-mix advice (both sources: rich, well-drained soil, water freely in summer); fertilizing monthly → every two weeks; added the cool winter rest it needs to flower (MOBOT)."
+        "note": "Changed: removed \"drought stress encourages blooming\" and the cactus-mix advice (both sources: rich, well-drained soil, water freely in summer); fertilizing monthly → every two weeks; added the cool winter rest it needs to flower (MOBOT).",
+        "acceptedAt": "2026-09-27"
       }
     ]
   }
