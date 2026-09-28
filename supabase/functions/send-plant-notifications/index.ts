@@ -166,10 +166,11 @@ Deno.serve(async (req: Request) => {
           continue;
         }
 
-        // Get user's plants with watering info
-        const { data: plants, error: plantsError } = await supabase
-          .from('plants_with_watering_info')
-          .select('id, user_id, nickname, plant_type, last_watered_at, suggested_watering_days, household_id, watering_paused_until')
+        // Read user_plants directly, not plants_with_watering_info: that view filters on
+        // auth.uid(), which is null for this service-role client, so it returns no rows.
+        const { data: plantRows, error: plantsError } = await supabase
+          .from('user_plants')
+          .select('id, user_id, nickname, plant_type, suggested_watering_days, household_id, watering_paused_until')
           .eq('user_id', profile.id);
 
         if (plantsError) {
@@ -177,10 +178,36 @@ Deno.serve(async (req: Request) => {
           continue;
         }
 
-        if (!plants || plants.length === 0) {
+        if (!plantRows || plantRows.length === 0) {
           console.log(`User ${profile.id} has no plants, skipping`);
           continue;
         }
+
+        // Latest real watering per plant, matching the view's last_watered_at
+        // (excludes postponements and future-dated records).
+        const nowIso = new Date().toISOString();
+        const lastWaterings = await Promise.all(
+          plantRows.map(p =>
+            supabase
+              .from('watering_records')
+              .select('watered_at')
+              .eq('plant_id', p.id)
+              .neq('record_type', 'postponement')
+              .lte('watered_at', nowIso)
+              .order('watered_at', { ascending: false })
+              .limit(1)
+          )
+        );
+        const wateringError = lastWaterings.find(r => r.error)?.error;
+        if (wateringError) {
+          console.error(`Error fetching watering history for user ${profile.id}:`, wateringError);
+          continue;
+        }
+
+        const plants: UserPlant[] = plantRows.map((p, i) => ({
+          ...p,
+          last_watered_at: lastWaterings[i].data?.[0]?.watered_at ?? null,
+        }));
 
         // Load postponements. Without these the job would push "overdue" reminders for
         // plants the user has explicitly deferred, contradicting the UI.
