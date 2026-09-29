@@ -35,7 +35,7 @@ const ArticleRow = ({
         </Link>
       )}
     </div>
-    <div className="flex gap-2.5 overflow-x-auto scrollbar-none snap-x snap-mandatory -mx-4 px-4 mt-3 lg:mx-0 lg:px-0 lg:grid lg:grid-cols-4 lg:gap-3.5 lg:overflow-visible">
+    <div className="flex gap-2.5 overflow-x-auto scrollbar-none snap-x snap-mandatory scroll-px-4 -mx-4 px-4 mt-3 lg:mx-0 lg:px-0 lg:scroll-px-0 lg:grid lg:grid-cols-4 lg:gap-3.5 lg:overflow-visible">
       {posts.slice(0, limit).map((post, i) => (
         <div key={post.id} className="flex-none w-[200px] sm:w-[240px] lg:w-auto snap-start">
           <BlogPostCard

@@ -312,14 +312,6 @@
     padding-bottom: var(--safe-area-bottom);
   }
 
-  /* Enhanced tap targets for mobile */
-  @media (hover: none) {
-    button, a, [role="button"] {
-      min-height: 44px;
-      min-width: 44px;
-    }
-  }
-
   /* iOS-style blur backdrop */
   .ios-blur-backdrop {
     backdrop-filter: blur(20px) saturate(180%);

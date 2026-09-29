@@ -105,7 +105,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
   }, [dismissAll, notifications, acknowledgeBatch]);
 
   const chip =
-    "inline-flex items-center gap-1 h-8 px-3 rounded-full text-xs font-bold transition-colors";
+    "inline-flex items-center gap-1 h-7 px-2.5 rounded-full text-xs font-bold transition-colors";
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -212,13 +212,13 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                       <p className="text-sm text-muted-foreground mt-0.5">
                         {notification.message}
                       </p>
+                      <p className="text-xs font-semibold text-muted-foreground mt-1">
+                        {formatDistanceToNow(notification.timestamp, {
+                          addSuffix: true,
+                        })}
+                      </p>
 
-                      <div className="flex flex-wrap items-center gap-1.5 mt-2.5">
-                        <span className="text-xs font-semibold text-muted-foreground whitespace-nowrap mr-auto">
-                          {formatDistanceToNow(notification.timestamp, {
-                            addSuffix: true,
-                          })}
-                        </span>
+                      <div className="flex items-center gap-1.5 mt-2">
                         {!notification.read && (
                           <button
                             type="button"

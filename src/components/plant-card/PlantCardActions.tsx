@@ -55,10 +55,10 @@ export function PlantCardActions({
         <DropdownMenuTrigger asChild>
           <button
             type="button"
-            className="w-10 h-10 rounded-[14px] bg-field text-foreground flex items-center justify-center hover:bg-sprout-cream hover:text-sprout-dark transition-colors"
+            className="w-8 h-8 rounded-xl bg-field text-foreground flex items-center justify-center hover:bg-sprout-cream hover:text-sprout-dark transition-colors"
             aria-label="Plant actions menu"
           >
-            <MoreHorizontal className="w-5 h-5" />
+            <MoreHorizontal className="w-[18px] h-[18px]" />
           </button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">

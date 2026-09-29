@@ -598,7 +598,7 @@ const Dashboard = () => {
     <LoadingTransition loading={isLoading} skeleton={<DashboardSkeleton />}>
     <div
       data-testid="dashboard"
-      className="pt-3.5 pb-32 lg:pt-7 lg:pb-10 bg-background"
+      className="pt-3.5 pb-28 lg:pt-7 lg:pb-10 bg-background"
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <HomeHeader
@@ -841,7 +841,7 @@ const Dashboard = () => {
         {/* Articles For Your Plants */}
         {myPlantNames.length > 0 && (
           <CascadingContainer delay={400}>
-            <div className="mb-8">
+            <div className="lg:mb-8">
               <MyPlantsBlogSection plantNames={myPlantNames} />
             </div>
           </CascadingContainer>
