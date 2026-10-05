@@ -64,7 +64,21 @@ export function resolvePostponementDate(days: number, now: Date = new Date()): D
 }
 
 /**
- * Whether the plant already has a pending (future-dated) postponement.
+ * The earliest instant a postponement must land on to still be pending: the start of tomorrow.
+ *
+ * Due status is decided by calendar day, so a postponement landing today (at 9 AM) has already
+ * lapsed even if that instant hasn't passed yet. Comparing against `now` instead would block
+ * re-postponing a plant shown as due all morning.
+ */
+export function getPendingPostponementCutoff(now: Date = new Date()): Date {
+    const cutoff = new Date(now);
+    cutoff.setDate(cutoff.getDate() + 1);
+    cutoff.setHours(0, 0, 0, 0);
+    return cutoff;
+}
+
+/**
+ * Whether the plant already has a pending postponement (one landing tomorrow or later).
  *
  * Postponing twice would stack deferrals the user never asked for, so this is checked first.
  */
@@ -74,7 +88,7 @@ async function hasPendingPostponement(plantId: string): Promise<boolean> {
         .select('id')
         .eq('plant_id', plantId)
         .eq('record_type', WATERING_RECORD_TYPE.postponement)
-        .gt('watered_at', new Date().toISOString())
+        .gte('watered_at', getPendingPostponementCutoff().toISOString())
         .limit(1);
 
     if (error) throw error;

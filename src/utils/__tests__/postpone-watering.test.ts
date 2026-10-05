@@ -9,6 +9,7 @@ import { describe, it, expect } from 'vitest';
 import {
     resolvePostponementDate,
     buildPostponementNotes,
+    getPendingPostponementCutoff,
 } from '../watering/postponeWatering';
 import { POSTPONEMENT_PREFIX } from '../watering/notesPrefixes';
 
@@ -82,5 +83,33 @@ describe('buildPostponementNotes', () => {
         // The prefix is retained alongside record_type for human readability and for any client
         // that predates the column.
         expect(buildPostponementNotes('Rain expected').startsWith(POSTPONEMENT_PREFIX)).toBe(true);
+    });
+});
+
+describe('getPendingPostponementCutoff', () => {
+    it('is the start of tomorrow', () => {
+        const cutoff = getPendingPostponementCutoff(NOW);
+
+        expect(cutoff.getDate()).toBe(16);
+        expect(cutoff.getHours()).toBe(0);
+        expect(cutoff.getMinutes()).toBe(0);
+    });
+
+    it('treats a postponement landing later today as lapsed', () => {
+        // Regression: postponed yesterday to today at 9 AM, then re-postponed at 7 AM today. The
+        // plant shows as due, so the earlier postponement must not block a new one.
+        const morning = new Date('2026-06-15T07:00:00');
+        const landsToday = resolvePostponementDate(1, new Date('2026-06-14T18:00:00'));
+
+        expect(landsToday.getTime()).toBeGreaterThan(morning.getTime());
+        expect(landsToday.getTime()).toBeLessThan(getPendingPostponementCutoff(morning).getTime());
+    });
+
+    it('treats a postponement landing tomorrow as pending', () => {
+        const landsTomorrow = resolvePostponementDate(1, NOW);
+
+        expect(landsTomorrow.getTime()).toBeGreaterThanOrEqual(
+            getPendingPostponementCutoff(NOW).getTime()
+        );
     });
 });
