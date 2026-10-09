@@ -14,6 +14,7 @@ import {
   Sun,
 } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
+import { WateredBurst } from "@/components/ui/watered-burst";
 import { cn } from "@/lib/utils";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 import { getPlantImageUrl } from "@/utils/plants/images";
@@ -23,6 +24,7 @@ import { celsiusToFahrenheit } from "@/utils/weather/temperature";
 import { weatherMoodService, type WeatherMood } from "@/services/weatherMoodService";
 import type { WeatherData } from "@/services/weatherTypes";
 import type { UserPlant } from "@/hooks/useUserPlants";
+import { useJustWateredIds } from "@/hooks/useJustWatered";
 
 const plantImage = (plant: UserPlant) =>
   getPlantImageUrl(plant.image, plant.plant_type, PLANT_FALLBACK_IMAGE);
@@ -603,7 +605,11 @@ interface UpNextListProps {
  * One list of what needs water, grouped by day: Today (only when something is due, with a
  * water button per plant), Tomorrow, and Later this week.
  */
-export function UpNextList({ today, upcoming, onQuickWater, limit = 8 }: UpNextListProps) {
+export function UpNextList({ today: dueToday, upcoming: dueLater, onQuickWater, limit = 8 }: UpNextListProps) {
+  const justWateredIds = useJustWateredIds();
+  const today = useHeldWateredRows(dueToday, justWateredIds);
+  // A held plant's new due date can land it in the week too; it only belongs under Today for now
+  const upcoming = dueLater.filter((plant) => !justWateredIds.has(plant.id));
   const week = upcoming.slice(0, Math.max(0, limit - today.length));
   const daysUntil = (plant: UserPlant) => calculateWateringSchedule(plant).daysUntilWatering ?? 0;
   const tomorrow = week.filter((plant) => daysUntil(plant) === 1);
@@ -653,6 +659,7 @@ export function UpNextList({ today, upcoming, onQuickWater, limit = 8 }: UpNextL
                     key={plant.id}
                     plant={plant}
                     onQuickWater={group.label === "Today" ? onQuickWater : undefined}
+                    watered={justWateredIds.has(plant.id)}
                   />
                 ))}
               </div>
@@ -664,13 +671,38 @@ export function UpNextList({ today, upcoming, onQuickWater, limit = 8 }: UpNextL
   );
 }
 
+/**
+ * Watering a plant takes it off Today on the same render, which would unmount its row before
+ * the Watered! animation could play. Holds just-watered plants at their last position until it
+ * ends, as they were before watering so the row doesn't change underneath the badge.
+ */
+function useHeldWateredRows(today: UserPlant[], justWateredIds: ReadonlySet<string>) {
+  const lastShown = useRef(today);
+
+  const shown = [...today];
+  lastShown.current.forEach((plant, index) => {
+    if (justWateredIds.has(plant.id) && !today.some((p) => p.id === plant.id)) {
+      shown.splice(Math.min(index, shown.length), 0, plant);
+    }
+  });
+
+  useEffect(() => {
+    lastShown.current = shown;
+  });
+
+  return shown;
+}
+
 function UpNextRow({
   plant,
   onQuickWater,
+  watered = false,
 }: {
   plant: UserPlant;
   /** Only today's plants get a water button */
   onQuickWater?: (plantId: string, plantName: string) => void;
+  /** Plays the Watered! animation, then fades the row out of the list */
+  watered?: boolean;
 }) {
   const calc = calculateWateringSchedule(plant);
   const days = calc.daysUntilWatering ?? 0;
@@ -693,7 +725,10 @@ function UpNextRow({
   return (
     <div
       data-testid={`task-item-${plant.id}`}
-      className="flex items-center gap-3 p-2.5 rounded-[22px] bg-card"
+      className={cn(
+        "relative flex items-center gap-3 p-2.5 rounded-[22px] bg-card",
+        watered && "watered-leave"
+      )}
     >
       <Link to={`/my-plants/${plant.id}`} className="flex items-center gap-3 flex-1 min-w-0">
         <div className="w-12 h-12 shrink-0 rounded-2xl overflow-hidden bg-field">
@@ -716,6 +751,7 @@ function UpNextRow({
         <button
           type="button"
           onClick={() => onQuickWater(plant.id, plant.nickname)}
+          disabled={watered}
           className={cn(
             "shrink-0 w-11 h-11 rounded-2xl text-sprout-dark flex items-center justify-center active:scale-95 transition-transform",
             calc.isOverdue ? "bg-sprout-warning" : "bg-sprout-water"
@@ -726,6 +762,7 @@ function UpNextRow({
           <Droplets className="w-5 h-5" strokeWidth={2.2} />
         </button>
       )}
+      {watered && <WateredBurst compact />}
     </div>
   );
 }

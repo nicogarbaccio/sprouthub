@@ -8,6 +8,8 @@ import {
   Sun,
 } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
+import { WateredBurst } from "@/components/ui/watered-burst";
+import { useJustWatered } from "@/hooks/useJustWatered";
 import { cn } from "@/lib/utils";
 import { getRoomLabel } from "@/utils/rooms";
 import type { UserPlant } from "@/hooks/useUserPlants";
@@ -153,6 +155,7 @@ export function PlantCareTiles({
 }: PlantCareTilesProps) {
   const schedule = plant.suggested_watering_days || 7;
   const justWatered = status.text === "Watered today";
+  const playWateredBurst = useJustWatered(plant.id);
   const waterTone = justWatered
     ? "bg-sprout-success text-sprout-dark"
     : calc.isOverdue
@@ -174,11 +177,15 @@ export function PlantCareTiles({
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 md:gap-3.5 px-4 md:px-0 pt-[18px]">
       {/* Watering */}
-      <div className={cn("col-span-2 md:col-span-4 rounded-tile p-[18px] md:p-6 flex items-center gap-3.5", waterTone)}>
+      <div className={cn("relative col-span-2 md:col-span-4 rounded-tile p-[18px] md:p-6 flex items-center gap-3.5", waterTone)}>
         <div className="flex-1 min-w-0">
           <div className="text-xs font-bold tracking-[0.8px] uppercase opacity-90">Watering</div>
           <div
-            className="font-display text-2xl md:text-[28px] font-bold tracking-[-0.03em] mt-1"
+            key={status.text}
+            className={cn(
+              "font-display text-2xl md:text-[28px] font-bold tracking-[-0.03em] mt-1",
+              playWateredBurst && "watered-pop origin-left"
+            )}
             data-testid="plant-watering-status"
           >
             {status.text}
@@ -196,6 +203,8 @@ export function PlantCareTiles({
           <Droplets className="w-5 h-5" />
           Water
         </button>
+
+        {playWateredBurst && <WateredBurst />}
       </div>
 
       <InfoTile

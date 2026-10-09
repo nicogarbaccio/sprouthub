@@ -24,6 +24,8 @@ import { getWateringStatus } from "@/utils/watering/status";
 import { PlantCardActions } from "@/components/plant-card/PlantCardActions";
 import { PlantCardDialogs } from "@/components/plant-card/PlantCardDialogs";
 import { ImageExpandButton } from "@/components/ui/image-expand-button";
+import { WateredBurst } from "@/components/ui/watered-burst";
+import { useJustWatered } from "@/hooks/useJustWatered";
 
 interface MyPlantCardProps {
   id: string;
@@ -99,6 +101,7 @@ const MyPlantCard = ({
 
   const patternAnalysisTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isSelected = isPlantSelected(id);
+  const justWatered = useJustWatered(id);
 
   const { analyzeQuick } = useQuickPatternAnalysis();
   const { insights: pendingInsights } = useWateringPatternAnalysis({
@@ -313,7 +316,14 @@ const MyPlantCard = ({
                 {overwatering?.level === "high" ? "Possible overwatering" : "Watch watering"}
               </span>
             ) : (
-              <span className={cn("px-2.5 py-[5px] rounded-full text-xs font-bold truncate", status.bentoClasses)}>
+              <span
+                key={statusText}
+                className={cn(
+                  "px-2.5 py-[5px] rounded-full text-xs font-bold truncate",
+                  status.bentoClasses,
+                  justWatered && "watered-pop"
+                )}
+              >
                 {isPostponed && <Clock className="w-3 h-3 inline mr-1 -mt-0.5" />}
                 {statusText}
               </span>
@@ -338,6 +348,8 @@ const MyPlantCard = ({
           {!isSelectionMode && (
             <ImageExpandButton onExpand={() => setShowFullscreenImage(true)} />
           )}
+
+          {justWatered && <WateredBurst />}
         </div>
 
         {/* Name, type and the actions menu */}

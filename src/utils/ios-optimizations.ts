@@ -1,5 +1,5 @@
 import { Capacitor } from '@capacitor/core';
-import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 
 /**
  * iOS-specific optimization utilities
@@ -176,4 +176,17 @@ export function getSafeAreaInsets() {
     top: getComputedStyle(root).getPropertyValue('--safe-area-top') || '0px',
     bottom: getComputedStyle(root).getPropertyValue('--safe-area-bottom') || '0px',
   };
+}
+
+/**
+ * Provide the success notification haptic (the double tap iOS uses for a completed action)
+ */
+export async function successHaptic() {
+  if (!isNative()) return;
+
+  try {
+    await Haptics.notification({ type: NotificationType.Success });
+  } catch (e) {
+    console.debug('Haptics not supported', e);
+  }
 }

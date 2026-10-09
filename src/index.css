@@ -211,6 +211,85 @@
     }
   }
 
+  /* Watered! confirmation: a drop falls onto the plant, splashes into a ring, and a badge
+     pops up. 1.6s end to end, matching JUST_WATERED_MS in useJustWatered. */
+  .watered-overlay {
+    animation: watered-overlay 1.6s ease-out forwards;
+  }
+
+  .watered-drop {
+    animation: watered-drop 0.45s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+  }
+
+  .watered-ring {
+    animation: watered-ring 0.7s ease-out 0.4s both;
+  }
+
+  .watered-badge {
+    animation: watered-badge 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
+  }
+
+  /* A watered row on the dashboard holds through the badge, then fades out of the list */
+  .watered-leave {
+    animation: watered-leave 0.3s ease-in 1.3s forwards;
+  }
+
+  /* The status pill pops as it flips to the new due date */
+  .watered-pop {
+    animation: watered-badge 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+  }
+
+  @keyframes watered-overlay {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes watered-drop {
+    0% { opacity: 0; transform: translateY(-140%) scale(0.8); }
+    30% { opacity: 1; }
+    85% { opacity: 1; transform: translateY(0) scale(1, 1.1); }
+    100% { opacity: 0; transform: translateY(0) scale(1.5, 0.4); }
+  }
+
+  @keyframes watered-ring {
+    0% { opacity: 0; transform: scale(0.2); }
+    1% { opacity: 0.9; }
+    100% { opacity: 0; transform: scale(3.2); }
+  }
+
+  @keyframes watered-badge {
+    0% { opacity: 0; transform: scale(0.6); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes watered-leave {
+    to { opacity: 0; transform: scale(0.96); }
+  }
+
+  /* Without motion: no drop or splash, just the badge appearing and fading */
+  @media (prefers-reduced-motion: reduce) {
+    .watered-drop,
+    .watered-ring {
+      display: none;
+    }
+
+    .watered-badge,
+    .watered-pop {
+      animation: none;
+    }
+
+    .watered-leave {
+      animation-name: fadeOut;
+      transform: none;
+    }
+  }
+
+  @keyframes fadeOut {
+    to { opacity: 0; }
+  }
+
   /* Horizontal chip and card rows scroll without a visible scrollbar */
   .scrollbar-none {
     scrollbar-width: none;

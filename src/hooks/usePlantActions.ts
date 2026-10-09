@@ -1,12 +1,13 @@
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { utilityToast, wateringToast, plantToast, fertilizationToast, restToast } from '@/utils/notifications/toast';
+import { utilityToast, plantToast, fertilizationToast, restToast } from '@/utils/notifications/toast';
 import { parseDateOnly } from '@/utils/watering/schedule';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { handleApiError } from '@/utils/errorHandling';
 import { WATERING_RECORD_TYPE } from '@/utils/watering/notesPrefixes';
 import { postponePlantWatering } from '@/utils/watering/postponeWatering';
 import type { UserPlant } from '@/hooks/useUserPlants';
+import { markJustWatered } from '@/hooks/useJustWatered';
 
 const HOOK_NAME = 'usePlantActions';
 
@@ -115,7 +116,7 @@ export const usePlantActions = ({
     const tracker = trackOperation(HOOK_NAME, 'waterPlant');
 
     try {
-      // Get plant name for toast notification before updating
+      // Get plant name for the journal entry before updating
       const plant = plants.find(p => p.id === plantId);
       const plantName = plant?.nickname || 'Plant';
 
@@ -134,6 +135,8 @@ export const usePlantActions = ({
             : p
         )
       );
+      // Confirm on the plant itself; a failed save surfaces through the error toast below
+      markJustWatered(plantId);
 
       // Reset postponement_count — the user has now watered, so the streak of
       // "plant didn't need water" decisions is resolved.
@@ -194,8 +197,6 @@ export const usePlantActions = ({
           mood: null,
           entry_date: wateringDate,
         });
-
-      wateringToast.recorded(plantName);
 
       // Check overwatering risk for this plant and notify if needed
       await checkOverwatering(plantId);
