@@ -24,7 +24,7 @@ import { useProfileData } from "@/contexts/ProfileDataContext";
 import { useSeasonalDetection } from "@/hooks/useSeasonalDetection";
 import { useSeasonalSuggestions } from "@/hooks/useSeasonalSuggestions";
 import { useWeatherData } from "@/hooks/useWeatherData";
-import { useLocation } from "@/hooks/useLocation";
+import { useWeatherLocation } from "@/hooks/useWeatherLocation";
 import { useSmartWateringPreferences } from "@/hooks/useSmartWateringPreferences";
 import { useCalendarSeasonalNotification } from "@/hooks/useCalendarSeasonalNotification";
 import { useRainDelayFromWeather } from "@/hooks/useRainDelay";
@@ -60,12 +60,15 @@ const Dashboard = () => {
   } = useUserPlants();
   const { profileData } = useProfileData();
   const { preferences, hasPreferences: hasLoadedPreferences, loadPreferences } = useSmartWateringPreferences();
-  const location = useLocation({
-    autoRequest: false, // Don't auto-request, only fetch if user has weather enabled
+  // The one place weather may ask for the device's location, and only while none is saved
+  const location = useWeatherLocation({
+    enabled: !!preferences?.use_weather_data,
+    manualLocation: preferences?.manual_location,
+    canPrompt: true,
   });
   const weather = useWeatherData({
     location: location.location,
-    autoFetch: !!preferences?.use_weather_data && !!location.location,
+    autoFetch: !!location.location,
   });
   const navigate = useNavigate();
   const { notifyWateringSuccess, notifyBulkWatering } = useManualNotifications();
@@ -80,20 +83,12 @@ const Dashboard = () => {
       newParams.delete('refresh');
       setSearchParams(newParams, { replace: true });
 
-      // Reload preferences which will trigger location request via separate effect
+      // Reload preferences so weather picks up the location chosen during onboarding
       if (loadPreferences) {
         loadPreferences();
       }
     }
   }, [searchParams, setSearchParams, loadPreferences]);
-
-  // Request location when weather is enabled in preferences
-  useEffect(() => {
-    if (preferences?.use_weather_data && !location.location && location.requestLocation) {
-      hookLogger.info(COMPONENT_NAME, 'Weather enabled, requesting location');
-      location.requestLocation();
-    }
-  }, [preferences?.use_weather_data, location.location]);
 
   useEffect(() => {
     if (location.error) {

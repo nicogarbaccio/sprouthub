@@ -7,12 +7,12 @@
  * reported the same plants as plainly overdue.
  *
  * Weather requests are cached in `weatherService` for an hour, so mounting this in more than
- * one component does not multiply API calls. Location is requested with `autoRequest: false`
- * so mounting it can never trigger an unexpected permission prompt.
+ * one component does not multiply API calls. It uses the saved or manual location and never
+ * asks for the device's location itself, so mounting it can't trigger a permission prompt.
  */
 
 import { useMemo } from 'react';
-import { useLocation } from '@/hooks/useLocation';
+import { useWeatherLocation } from '@/hooks/useWeatherLocation';
 import { useWeatherData } from '@/hooks/useWeatherData';
 import { useSmartWateringPreferences } from '@/hooks/useSmartWateringPreferences';
 import {
@@ -34,13 +34,15 @@ export function useRainDelay<T extends RainDelayPlant & { id: string }>(
     plants: T[]
 ): UseRainDelayReturn {
     const { preferences } = useSmartWateringPreferences();
-    const location = useLocation({ autoRequest: false });
-
     const weatherEnabled = Boolean(preferences?.use_weather_data);
+    const location = useWeatherLocation({
+        enabled: weatherEnabled,
+        manualLocation: preferences?.manual_location,
+    });
 
     const weather = useWeatherData({
         location: location.location,
-        autoFetch: weatherEnabled && !!location.location,
+        autoFetch: !!location.location,
     });
 
     const isEnabled = weatherEnabled && !!weather.weatherData;
