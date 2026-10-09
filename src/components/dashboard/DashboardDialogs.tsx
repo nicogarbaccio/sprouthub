@@ -240,7 +240,7 @@ export function DashboardDialogs({
             <AlertDialogAction
               data-testid="bulk-water-confirm-button"
               onClick={onBulkWater}
-              className="flex-[1.3] h-[60px] rounded-[22px] bg-sprout-dark text-sprout-cream font-bold text-base gap-2 shadow-[inset_0_0_0_2px_#dfc490] hover:bg-sprout-water hover:text-sprout-dark hover:shadow-none focus-visible:bg-sprout-water focus-visible:text-sprout-dark transition-colors"
+              className="flex-[1.3] h-[60px] rounded-[22px] bg-sprout-water text-sprout-dark font-bold text-base gap-2 hover:bg-sprout-water/90 transition-colors"
             >
               <Droplets className="w-5 h-5" />
               {bulkCopy.action}
