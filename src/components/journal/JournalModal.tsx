@@ -49,6 +49,8 @@ interface JournalModalProps {
   plantId: string;
   plantNickname: string;
   prefetch?: boolean;
+  /** Open straight on the new-entry form instead of the list */
+  startWithForm?: boolean;
 }
 
 export const JournalModal = ({
@@ -57,6 +59,7 @@ export const JournalModal = ({
   plantId,
   plantNickname,
   prefetch = false,
+  startWithForm = false,
 }: JournalModalProps) => {
   const [showForm, setShowForm] = useState(false);
   const [editingEntry, setEditingEntry] = useState<JournalEntry | null>(null);
@@ -100,13 +103,15 @@ export const JournalModal = ({
     }
   }, [isOpen, prefetch, plantId, loadJournalEntries, loadWateringRecords, hasLoadedInitially]);
 
-  // Reset state when modal closes
+  // Reset state when modal closes; open on the form when asked to
   React.useEffect(() => {
     if (!isOpen) {
       setShowForm(false);
       setEditingEntry(null);
+    } else if (startWithForm) {
+      setShowForm(true);
     }
-  }, [isOpen]);
+  }, [isOpen, startWithForm]);
 
   const handleFormSuccess = async () => {
     await loadJournalEntries(plantId);

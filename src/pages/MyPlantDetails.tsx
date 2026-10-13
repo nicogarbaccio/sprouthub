@@ -23,6 +23,7 @@ import { getWateringStatus } from "@/utils/watering/status";
 import { getPlantFertilizationStatus } from "@/utils/plants/fertilizationAdvice";
 import { useWateringPatternAnalysis } from "@/hooks/useWateringPatternAnalysis";
 import { useJournalEntries } from "@/hooks/useJournalEntries";
+import { usePlantJournalPreview } from "@/hooks/usePlantJournalPreview";
 import { useManualNotifications } from "@/hooks/usePlantNotifications";
 import { useRainDelay } from "@/hooks/useRainDelay";
 import { RainDelayNotification } from "@/components/RainDelayNotification";
@@ -67,7 +68,8 @@ const MyPlantDetails = () => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showFullscreenImage, setShowFullscreenImage] = useState(false);
   const [showSuggestionsDialog, setShowSuggestionsDialog] = useState(false);
-  const [showJournal, setShowJournal] = useState(false);
+  // Which view the journal opens on, or null when closed
+  const [journalView, setJournalView] = useState<"list" | "form" | null>(null);
   const [showRepotting, setShowRepotting] = useState(false);
 
   const plant = useMemo(
@@ -82,6 +84,7 @@ const MyPlantDetails = () => {
   });
 
   const { addJournalEntry } = useJournalEntries();
+  const { data: journalPreview, refetch: refetchJournalPreview } = usePlantJournalPreview(plant?.id);
 
 
   const catalogPlant = getCatalogPlant(plant?.plant_type);
@@ -304,7 +307,9 @@ const MyPlantDetails = () => {
               }
               onSmartTipsClick={() => setShowSuggestionsDialog(true)}
               onHistoryClick={() => setShowHistoryDialog(true)}
-              onJournalClick={() => setShowJournal(true)}
+              journal={journalPreview}
+              onJournalClick={() => setJournalView("list")}
+              onNewJournalEntry={() => setJournalView("form")}
             />
           </CascadingContainer>
 
@@ -322,7 +327,10 @@ const MyPlantDetails = () => {
               plant={plant}
               catalogPlant={catalogPlant}
               onLogFertilization={async (date?: Date) => { await logFertilization(plant.id, date); }}
-              onAddJournalEntry={async (title, content) => { await addJournalEntry(plant.id, title, content, null, []); }}
+              onAddJournalEntry={async (title, content) => {
+                await addJournalEntry(plant.id, title, content, null, []);
+                refetchJournalPreview();
+              }}
             />
           </CascadingContainer>
 
@@ -394,8 +402,12 @@ const MyPlantDetails = () => {
         onPlantDataChange={() => fetchPlants()}
         showFullscreenImage={showFullscreenImage}
         onFullscreenImageClose={() => setShowFullscreenImage(false)}
-        showJournal={showJournal}
-        onJournalClose={() => setShowJournal(false)}
+        showJournal={journalView !== null}
+        journalStartsWithForm={journalView === "form"}
+        onJournalClose={() => {
+          setJournalView(null);
+          refetchJournalPreview();
+        }}
         showRepotting={showRepotting}
         onRepottingClose={() => setShowRepotting(false)}
         showSuggestionsDialog={showSuggestionsDialog}

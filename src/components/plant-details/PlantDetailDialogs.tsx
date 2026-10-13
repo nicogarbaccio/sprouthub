@@ -61,6 +61,7 @@ interface PlantDetailDialogsProps {
 
   // Journal
   showJournal: boolean;
+  journalStartsWithForm?: boolean;
   onJournalClose: () => void;
 
   // Repotting
@@ -105,6 +106,7 @@ const PlantDetailDialogs = ({
   showFullscreenImage,
   onFullscreenImageClose,
   showJournal,
+  journalStartsWithForm,
   onJournalClose,
   showRepotting,
   onRepottingClose,
@@ -163,6 +165,7 @@ const PlantDetailDialogs = ({
         onClose={onJournalClose}
         plantId={plant.id}
         plantNickname={plant.nickname}
+        startWithForm={journalStartsWithForm}
       />
 
       <RepottingDialog

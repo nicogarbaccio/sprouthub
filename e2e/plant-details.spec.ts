@@ -40,7 +40,8 @@ test.describe('Plant Details Page', () => {
   });
 
   test('should display journal, repotting and fertilization entry points', async ({ page }) => {
-    await expect(page.getByRole('button', { name: /Plant Journal/ })).toBeVisible();
+    await expect(page.getByTestId('plant-journal-tile')).toBeVisible();
+    await expect(page.getByTestId('plant-journal-new-entry')).toBeVisible();
     await expect(page.getByRole('button', { name: /Repotting Guide/ })).toBeVisible();
     await expect(page.getByRole('button', { name: /Fertilization/ })).toBeVisible();
   });

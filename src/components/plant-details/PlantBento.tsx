@@ -5,6 +5,7 @@ import {
   ChevronLeft,
   Droplets,
   Lightbulb,
+  Plus,
   Sun,
 } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
@@ -19,6 +20,7 @@ import type { WateringStatus } from "@/utils/watering/status";
 import type { OverwateringRisk } from "@/utils/plants/overwatering";
 import type { WateringPatternAnalysis } from "@/types/wateringPatternTypes";
 import type { FertilizationAdvice, FertilizationStatus } from "@/utils/plants/fertilizationAdvice";
+import type { JournalPreview } from "@/hooks/usePlantJournalPreview";
 import type { BadgeInfo } from "./usePlantStatusInfo";
 
 /* ─── Hero ────────────────────────────────────────────────────────────────── */
@@ -123,11 +125,14 @@ interface PlantCareTilesProps {
   fertilization: { advice: FertilizationAdvice; status: FertilizationStatus };
   analysis: WateringPatternAnalysis | null;
   smartTips: BadgeInfo | null;
+  /** Undefined while loading */
+  journal?: JournalPreview;
   onWaterClick: () => void;
   onFertilizeClick: () => void;
   onSmartTipsClick: () => void;
   onHistoryClick: () => void;
   onJournalClick: () => void;
+  onNewJournalEntry: () => void;
 }
 
 const PATTERN_COPY: Record<WateringPatternAnalysis["pattern"], string> = {
@@ -147,22 +152,29 @@ export function PlantCareTiles({
   fertilization,
   analysis,
   smartTips,
+  journal,
   onWaterClick,
   onFertilizeClick,
   onSmartTipsClick,
   onHistoryClick,
   onJournalClick,
+  onNewJournalEntry,
 }: PlantCareTilesProps) {
   const schedule = plant.suggested_watering_days || 7;
   const justWatered = status.text === "Watered today";
   const playWateredBurst = useJustWatered(plant.id);
+  const tileIsWaterBlue = !justWatered && !calc.isOverdue && status.tone === "due";
   const waterTone = justWatered
     ? "bg-sprout-success text-sprout-dark"
     : calc.isOverdue
       ? "bg-sprout-warning text-sprout-dark"
-      : status.tone === "due"
+      : tileIsWaterBlue
         ? "bg-sprout-water text-sprout-dark"
         : "bg-card text-foreground";
+  // Water blue like the other water buttons, inverted when the tile itself is already blue
+  const waterButtonTone = tileIsWaterBlue
+    ? "bg-sprout-dark text-sprout-water hover:bg-sprout-dark/85"
+    : "bg-sprout-water text-sprout-dark hover:brightness-110";
 
   const lastWatered = plant.latest_watering
     ? `last ${format(new Date(plant.latest_watering), "MMM d")}`
@@ -197,7 +209,10 @@ export function PlantCareTiles({
         <button
           type="button"
           onClick={onWaterClick}
-          className="shrink-0 h-[60px] px-5 rounded-[22px] bg-sprout-dark text-sprout-cream flex items-center gap-2 font-bold text-[15px] active:scale-95 transition-transform"
+          className={cn(
+            "shrink-0 h-[60px] px-5 rounded-[22px] flex items-center gap-2 font-bold text-[15px] shadow-sm transition-[background-color,filter,transform,box-shadow] hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sprout-dark focus-visible:ring-offset-2",
+            waterButtonTone
+          )}
           data-testid="plant-water-button"
         >
           <Droplets className="w-5 h-5" />
@@ -276,21 +291,106 @@ export function PlantCareTiles({
         )}
       </div>
 
-      {/* Journal */}
-      <button
-        type="button"
-        onClick={onJournalClick}
-        className="col-span-2 rounded-card bg-card p-[18px] flex gap-3.5 items-start text-left"
-      >
-        <div className="w-11 h-11 shrink-0 rounded-[14px] bg-field text-foreground flex items-center justify-center">
+      <JournalTile
+        plantName={plant.nickname}
+        journal={journal}
+        onOpen={onJournalClick}
+        onNewEntry={onNewJournalEntry}
+      />
+    </div>
+  );
+}
+
+/* ─── Journal ─────────────────────────────────────────────────────────────── */
+
+function JournalTile({
+  plantName,
+  journal,
+  onOpen,
+  onNewEntry,
+}: {
+  plantName: string;
+  journal?: JournalPreview;
+  onOpen: () => void;
+  onNewEntry: () => void;
+}) {
+  const latestNote = journal?.latestNote ?? null;
+  const noteCount = journal?.noteCount ?? 0;
+  const photos = journal?.photos ?? [];
+
+  return (
+    <div
+      className="col-span-2 rounded-card bg-sprout-cream text-sprout-dark p-[18px] md:p-5 flex flex-col gap-4"
+      data-testid="plant-journal-tile"
+    >
+      <div className="flex items-center gap-3">
+        <div className="w-11 h-11 shrink-0 rounded-[14px] bg-sprout-dark text-sprout-cream flex items-center justify-center">
           <BookOpen className="w-5 h-5" />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-[13px] font-bold text-muted-foreground">Plant Journal</div>
-          <div className="text-[15px] font-semibold mt-0.5 leading-snug text-foreground">
-            Notes, photos and how {plant.nickname} is doing.
+          <div className="text-xs font-bold tracking-[0.8px] uppercase">Plant journal</div>
+          <div className="text-[13px] font-semibold opacity-75">
+            {noteCount > 0 ? `${noteCount} ${noteCount === 1 ? "note" : "notes"}` : "No notes yet"}
           </div>
         </div>
+        {journal?.hasEntries && (
+          <button
+            type="button"
+            onClick={onOpen}
+            className="text-sm font-bold rounded-full px-3 py-1.5 hover:bg-sprout-dark/10 transition-colors"
+          >
+            Open
+          </button>
+        )}
+      </div>
+
+      {latestNote ? (
+        <button type="button" onClick={onOpen} className="group text-left -mt-1">
+          <div className="flex items-baseline justify-between gap-3">
+            <div className="font-display text-xl font-bold tracking-[-0.02em] truncate group-hover:underline underline-offset-4 decoration-2">
+              {latestNote.title || "Untitled note"}
+            </div>
+            {latestNote.entry_date && (
+              <div className="shrink-0 text-xs font-bold opacity-70">
+                {format(new Date(latestNote.entry_date), "MMM d")}
+              </div>
+            )}
+          </div>
+          {latestNote.content && (
+            <p className="text-[15px] leading-relaxed mt-1 line-clamp-2 text-pretty">{latestNote.content}</p>
+          )}
+        </button>
+      ) : (
+        <div className="-mt-1">
+          <div className="font-display text-xl font-bold tracking-[-0.02em]">Start {plantName}'s story</div>
+          <p className="text-[15px] leading-relaxed mt-1 opacity-80 text-pretty">
+            Note new leaves, a repot or a pest scare, and add photos to watch it grow.
+          </p>
+        </div>
+      )}
+
+      {photos.length > 0 && (
+        <button type="button" onClick={onOpen} className="flex gap-2" aria-label="Open journal photos">
+          {photos.map((url) => (
+            <img
+              key={url}
+              src={url}
+              alt=""
+              loading="lazy"
+              className="w-16 h-16 md:w-20 md:h-20 rounded-[14px] object-cover bg-sprout-dark/10"
+            />
+          ))}
+        </button>
+      )}
+
+      <button
+        type="button"
+        onClick={onNewEntry}
+        className="self-start h-12 px-4 rounded-[18px] bg-sprout-dark text-sprout-cream inline-flex items-center gap-2 font-bold text-[15px] transition-[background-color,transform] hover:bg-sprout-dark/90 active:scale-95"
+        data-testid="plant-journal-new-entry"
+      >
+        <Plus className="w-[18px] h-[18px]" strokeWidth={2.5} />
+        {noteCount > 0 ? "New entry" : "Write the first note"}
       </button>
     </div>
   );
