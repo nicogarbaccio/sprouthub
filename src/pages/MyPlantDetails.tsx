@@ -84,7 +84,11 @@ const MyPlantDetails = () => {
   });
 
   const { addJournalEntry } = useJournalEntries();
-  const { data: journalPreview, refetch: refetchJournalPreview } = usePlantJournalPreview(plant?.id);
+  // Watering and fertilizing each add a journal entry, so the preview refetches when either changes
+  const { data: journalPreview, refetch: refetchJournalPreview } = usePlantJournalPreview(plant?.id, [
+    plant?.latest_watering,
+    plant?.last_fertilized_at,
+  ]);
 
 
   const catalogPlant = getCatalogPlant(plant?.plant_type);

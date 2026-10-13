@@ -19,17 +19,15 @@ describe('summarizeJournal', () => {
       entry({ title: 'Fertilization note' }),
     ]);
 
-    expect(summary.noteCount).toBe(2);
+    expect(summary.entryCount).toBe(4);
     expect(summary.latestNote?.title).toBe('New leaf unfurling');
-    expect(summary.hasEntries).toBe(true);
   });
 
   it('has no notes when the journal only holds the automatic log', () => {
     const summary = summarizeJournal([entry({ title: 'Watered' })]);
 
-    expect(summary.noteCount).toBe(0);
+    expect(summary.entryCount).toBe(1);
     expect(summary.latestNote).toBeNull();
-    expect(summary.hasEntries).toBe(true);
   });
 
   it('takes the three newest photos across entries', () => {

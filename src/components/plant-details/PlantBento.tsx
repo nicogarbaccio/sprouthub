@@ -315,7 +315,7 @@ function JournalTile({
   onNewEntry: () => void;
 }) {
   const latestNote = journal?.latestNote ?? null;
-  const noteCount = journal?.noteCount ?? 0;
+  const entryCount = journal?.entryCount ?? 0;
   const photos = journal?.photos ?? [];
 
   return (
@@ -330,10 +330,10 @@ function JournalTile({
         <div className="flex-1 min-w-0">
           <div className="text-xs font-bold tracking-[0.8px] uppercase">Plant journal</div>
           <div className="text-[13px] font-semibold opacity-75">
-            {noteCount > 0 ? `${noteCount} ${noteCount === 1 ? "note" : "notes"}` : "No notes yet"}
+            {entryCount > 0 ? `${entryCount} ${entryCount === 1 ? "entry" : "entries"}` : "No entries yet"}
           </div>
         </div>
-        {journal?.hasEntries && (
+        {entryCount > 0 && (
           <button
             type="button"
             onClick={onOpen}
@@ -360,6 +360,15 @@ function JournalTile({
             <p className="text-[15px] leading-relaxed mt-1 line-clamp-2 text-pretty">{latestNote.content}</p>
           )}
         </button>
+      ) : entryCount > 0 ? (
+        // Only the automatic watering/fertilizing log so far
+        <div className="-mt-1">
+          <div className="font-display text-xl font-bold tracking-[-0.02em]">Add your own notes</div>
+          <p className="text-[15px] leading-relaxed mt-1 opacity-80 text-pretty">
+            Waterings and feedings are logged here for you. Jot down new leaves, a repot or a pest
+            scare, and add photos to watch {plantName} grow.
+          </p>
+        </div>
       ) : (
         <div className="-mt-1">
           <div className="font-display text-xl font-bold tracking-[-0.02em]">Start {plantName}'s story</div>
@@ -390,7 +399,7 @@ function JournalTile({
         data-testid="plant-journal-new-entry"
       >
         <Plus className="w-[18px] h-[18px]" strokeWidth={2.5} />
-        {noteCount > 0 ? "New entry" : "Write the first note"}
+        {latestNote ? "New entry" : entryCount > 0 ? "Add a note" : "Write the first note"}
       </button>
     </div>
   );
