@@ -6,6 +6,7 @@ import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { handleApiError } from '@/utils/errorHandling';
 import { WATERING_RECORD_TYPE } from '@/utils/watering/notesPrefixes';
 import { postponePlantWatering } from '@/utils/watering/postponeWatering';
+import { isDuplicateWatering } from '@/utils/watering/recentWatering';
 import type { UserPlant } from '@/hooks/useUserPlants';
 import { markJustWatered } from '@/hooks/useJustWatered';
 
@@ -137,6 +138,13 @@ export const usePlantActions = ({
       );
       // Confirm on the plant itself; a failed save surfaces through the error toast below
       markJustWatered(plantId);
+
+      if (await isDuplicateWatering(plantId, new Date(wateringDate))) {
+        utilityToast.info('Already Watered', `${plantName}'s watering is already logged.`);
+        await fetchPlants();
+        tracker.complete({ plantId, duplicate: true });
+        return false;
+      }
 
       // Reset postponement_count — the user has now watered, so the streak of
       // "plant didn't need water" decisions is resolved.

@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
@@ -9,8 +9,10 @@ import { useUserHouseholdMemberships } from '@/hooks/useUserHouseholdMemberships
 import { usePostponementData } from '@/hooks/usePostponementData';
 import { selectActivePostponement } from '@/utils/watering/postponement';
 import { postponePlantWatering } from '@/utils/watering/postponeWatering';
+import { isDuplicateWatering } from '@/utils/watering/recentWatering';
 import { WATERING_RECORD_TYPE } from '@/utils/watering/notesPrefixes';
-import { useOverwateringAnalysis } from '@/hooks/useOverwateringAnalysis';
+import { fetchOverwateringRisks, indexOverwateringRisks } from '@/utils/plants/fetchOverwateringRisks';
+import type { OverwateringRisk } from '@/utils/plants/overwatering';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { handleApiError, getErrorMessage } from '@/utils/errorHandling';
 import { deduplicateByKey, getUniqueValues } from '@/utils/arrayUtils';
@@ -64,6 +66,8 @@ export interface HouseholdPlant {
   };
   // Whether current user owns this plant
   is_owned_by_user: boolean;
+  // Computed with the plant list so every caller of this hook sees the same risk.
+  overwatering_risk?: OverwateringRisk;
 }
 
 const HOOK_NAME = 'useHouseholdPlants';
@@ -76,11 +80,6 @@ export const useHouseholdPlants = () => {
   // Use custom hooks
   const { fetchMemberships } = useUserHouseholdMemberships();
   const { fetchPostponementsGrouped } = usePostponementData();
-  const {
-    overwateringByPlantId,
-    computeRisks,
-    isComputing: isComputingRisks,
-  } = useOverwateringAnalysis();
 
   /**
    * Fetches all plants (personal + household)
@@ -257,9 +256,12 @@ export const useHouseholdPlants = () => {
       try {
         const plantsData = await fetchAllPlants();
         const enrichedPlants = await enrichPlantsWithData(plantsData);
-        await computeRisks(enrichedPlants);
+        const risks = await fetchOverwateringRisks(enrichedPlants);
         mainTracker.complete({ plantCount: enrichedPlants.length });
-        return enrichedPlants;
+        return enrichedPlants.map(plant => ({
+          ...plant,
+          overwatering_risk: risks[plant.id],
+        }));
       } catch (error) {
         mainTracker.fail(error);
         hookLogger.error(HOOK_NAME, 'Failed to fetch plants', error);
@@ -274,7 +276,9 @@ export const useHouseholdPlants = () => {
     enabled: !!user,
   });
 
-  const loading = queryLoading || isComputingRisks;
+  const loading = queryLoading;
+
+  const overwateringByPlantId = useMemo(() => indexOverwateringRisks(plants), [plants]);
 
   const fetchPlants = useCallback(async () => {
     await refetch();
@@ -410,6 +414,12 @@ export const useHouseholdPlants = () => {
     const tracker = trackOperation(HOOK_NAME, 'addWateringRecord');
 
     try {
+      if (await isDuplicateWatering(plantId, new Date())) {
+        utilityToast.info('Already Watered', "This plant's watering is already logged.");
+        tracker.complete({ plantId, duplicate: true });
+        return;
+      }
+
       const { error } = await supabase.from('watering_records').insert({
         plant_id: plantId,
         watered_at: new Date().toISOString(),
@@ -477,7 +487,7 @@ export const useHouseholdPlants = () => {
 
   return {
     plants,
-    loading: loading || isComputingRisks,
+    loading,
     overwateringByPlantId,
     addPlant,
     updatePlant,

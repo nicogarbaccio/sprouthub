@@ -1,5 +1,5 @@
 
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
@@ -7,7 +7,8 @@ import { useAuth } from '@/contexts/AuthContext';
 import { utilityToast } from '@/utils/notifications/toast';
 import { usePostponementData } from '@/hooks/usePostponementData';
 import { selectActivePostponement } from '@/utils/watering/postponement';
-import { useOverwateringAnalysis } from '@/hooks/useOverwateringAnalysis';
+import { fetchOverwateringRisks, indexOverwateringRisks } from '@/utils/plants/fetchOverwateringRisks';
+import type { OverwateringRisk } from '@/utils/plants/overwatering';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
 import { getUniqueValues } from '@/utils/arrayUtils';
 import { usePlantActions } from '@/hooks/usePlantActions';
@@ -51,6 +52,8 @@ export interface UserPlant {
   household?: {
     name: string;
   };
+  // Computed with the plant list so every caller of this hook sees the same risk.
+  overwatering_risk?: OverwateringRisk;
 }
 
 const HOOK_NAME = 'useUserPlants';
@@ -62,10 +65,6 @@ export const useUserPlants = () => {
 
   // Use custom hooks
   const { fetchPostponementsGrouped } = usePostponementData();
-  const {
-    overwateringByPlantId,
-    computeRisks,
-  } = useOverwateringAnalysis();
 
   /**
    * Fetches user's personal plants from database
@@ -183,9 +182,12 @@ export const useUserPlants = () => {
       try {
         const plantsData = await fetchUserPlants();
         const enrichedPlants = await enrichPlantsWithData(plantsData);
-        await computeRisks(enrichedPlants);
+        const risks = await fetchOverwateringRisks(enrichedPlants);
         mainTracker.complete({ plantCount: enrichedPlants.length });
-        return enrichedPlants;
+        return enrichedPlants.map(plant => ({
+          ...plant,
+          overwatering_risk: risks[plant.id],
+        }));
       } catch (error) {
         mainTracker.fail(error);
         hookLogger.error(HOOK_NAME, 'Failed to fetch plants', error);
@@ -196,9 +198,10 @@ export const useUserPlants = () => {
     enabled: !!user,
   });
 
-  // Only use queryLoading (no cached data yet) for the main loading flag.
-  // Risk computation happens after plants are already visible, so it
-  // shouldn't keep the skeleton up.
+  const overwateringByPlantId = useMemo(() => indexOverwateringRisks(plants), [plants]);
+
+  // Only use queryLoading (no cached data yet) for the main loading flag, so
+  // background refetches don't bring the skeleton back.
   const loading = authLoading || queryLoading;
 
   // Wrapper to match the old fetchPlants() interface used by usePlantActions

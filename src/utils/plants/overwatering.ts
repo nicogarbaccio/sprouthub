@@ -11,6 +11,27 @@ export interface OverwateringRisk {
 export interface WateringRecordLike {
     watered_at: string;
     notes?: string | null;
+    record_type?: string | null;
+}
+
+/**
+ * Waterings logged closer together than this are one watering recorded twice (a repeated tap,
+ * or "already watered" on top of a real one). Counting both yields a ~0-day interval, which
+ * reads as severe overwatering.
+ */
+export const DUPLICATE_WATERING_WINDOW_MS = 60 * 60 * 1000;
+
+/** Collapses ascending-sorted dates that fall within the duplicate window of the previous kept date. */
+function collapseDuplicateWaterings(sortedDates: Date[]): Date[] {
+    const kept: Date[] = [];
+    for (const date of sortedDates) {
+        const previous = kept[kept.length - 1];
+        if (previous && date.getTime() - previous.getTime() < DUPLICATE_WATERING_WINDOW_MS) {
+            continue;
+        }
+        kept.push(date);
+    }
+    return kept;
 }
 
 export function computeOverwateringRisk(params: {
@@ -25,10 +46,12 @@ export function computeOverwateringRisk(params: {
     const windowDays = Math.min(Math.max(suggestedDaysRaw, 2), 30);
     const windowStart = new Date(now.getTime() - windowDays * 24 * 60 * 60 * 1000);
 
-    const recentDates = excludePostponements(params.records)
-        .map((record) => new Date(record.watered_at))
-        .filter((date) => date <= now && date >= windowStart)
-        .sort((a, b) => a.getTime() - b.getTime());
+    const recentDates = collapseDuplicateWaterings(
+        excludePostponements(params.records)
+            .map((record) => new Date(record.watered_at))
+            .filter((date) => date <= now && date >= windowStart)
+            .sort((a, b) => a.getTime() - b.getTime())
+    );
 
     const count = recentDates.length;
 

@@ -222,6 +222,40 @@ describe('overwatering', () => {
       expect(result.level).toBe('high');
       expect(result.count).toBe(4);
     });
+
+    it('treats waterings logged seconds apart as a single watering', () => {
+      // One watering saved twice, 4 seconds apart, on a 6-day schedule
+      const result = computeOverwateringRisk({
+        records: [
+          { watered_at: '2025-01-12T01:08:30Z', record_type: 'watering' },
+          { watered_at: '2025-01-12T01:08:34Z', record_type: 'watering' },
+        ],
+        suggestedDays: 6,
+        now,
+      });
+
+      expect(result.level).toBe('none');
+      expect(result.count).toBe(1);
+      expect(result.avgIntervalDays).toBeUndefined();
+    });
+
+    it('collapses a duplicate without hiding real frequent watering', () => {
+      // Real waterings every 2 days on a 7-day schedule, one of them logged twice
+      const result = computeOverwateringRisk({
+        records: [
+          { watered_at: '2025-01-09T10:00:00Z' },
+          { watered_at: '2025-01-11T10:00:00Z' },
+          { watered_at: '2025-01-11T10:20:00Z' },
+          { watered_at: '2025-01-13T10:00:00Z' },
+        ],
+        suggestedDays: 7,
+        now,
+      });
+
+      expect(result.level).toBe('high');
+      expect(result.count).toBe(3);
+      expect(result.avgIntervalDays).toBe(2);
+    });
   });
 
   describe('shouldShowOverwateringWarning', () => {
