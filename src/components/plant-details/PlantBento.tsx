@@ -3,6 +3,7 @@ import {
   AlertTriangle,
   BookOpen,
   ChevronLeft,
+  Clock,
   Droplets,
   Lightbulb,
   Plus,
@@ -128,6 +129,8 @@ interface PlantCareTilesProps {
   /** Undefined while loading */
   journal?: JournalPreview;
   onWaterClick: () => void;
+  /** Shown next to Water only when given; the page passes it while the plant is due today */
+  onPostponeClick?: () => void;
   onFertilizeClick: () => void;
   onSmartTipsClick: () => void;
   onHistoryClick: () => void;
@@ -154,6 +157,7 @@ export function PlantCareTiles({
   smartTips,
   journal,
   onWaterClick,
+  onPostponeClick,
   onFertilizeClick,
   onSmartTipsClick,
   onHistoryClick,
@@ -189,7 +193,7 @@ export function PlantCareTiles({
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 md:gap-3.5 px-4 md:px-0 pt-[18px]">
       {/* Watering */}
-      <div className={cn("relative col-span-2 md:col-span-4 rounded-tile p-[18px] md:p-6 flex items-center gap-3.5", waterTone)}>
+      <div className={cn("relative col-span-2 md:col-span-4 rounded-tile p-[18px] md:p-6 flex flex-wrap sm:flex-nowrap items-center gap-3.5", waterTone)}>
         <div className="flex-1 min-w-0">
           <div className="text-xs font-bold tracking-[0.8px] uppercase opacity-90">Watering</div>
           <div
@@ -206,18 +210,36 @@ export function PlantCareTiles({
             Every {schedule} {schedule === 1 ? "day" : "days"} · {lastWatered}
           </div>
         </div>
-        <button
-          type="button"
-          onClick={onWaterClick}
-          className={cn(
-            "shrink-0 h-[60px] px-5 rounded-[22px] flex items-center gap-2 font-bold text-[15px] shadow-sm transition-[background-color,filter,transform,box-shadow] hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sprout-dark focus-visible:ring-offset-2",
-            waterButtonTone
+        {/* With two buttons, the pair drops below the status on phones and splits the width */}
+        <div className={cn("flex gap-2 shrink-0", onPostponeClick && "w-full sm:w-auto")}>
+          {onPostponeClick && (
+            <button
+              type="button"
+              onClick={onPostponeClick}
+              className="flex-1 sm:flex-none h-[60px] px-4 sm:px-5 rounded-[22px] flex items-center justify-center gap-2 font-bold text-[15px] whitespace-nowrap border-2 border-sprout-dark/30 transition-[background-color,transform] hover:bg-sprout-dark/10 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sprout-dark focus-visible:ring-offset-2"
+              data-testid="plant-postpone-button"
+            >
+              <Clock className="w-5 h-5 shrink-0" />
+              {/* "Push to" drops on the narrowest phones so the label stays on one line */}
+              <span>
+                <span className="max-[379px]:hidden">Push to tomorrow</span>
+                <span className="min-[380px]:hidden">Tomorrow</span>
+              </span>
+            </button>
           )}
-          data-testid="plant-water-button"
-        >
-          <Droplets className="w-5 h-5" />
-          Water
-        </button>
+          <button
+            type="button"
+            onClick={onWaterClick}
+            className={cn(
+              "shrink-0 h-[60px] px-5 rounded-[22px] flex items-center justify-center gap-2 font-bold text-[15px] shadow-sm transition-[background-color,filter,transform,box-shadow] hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sprout-dark focus-visible:ring-offset-2",
+              waterButtonTone
+            )}
+            data-testid="plant-water-button"
+          >
+            <Droplets className="w-5 h-5" />
+            Water
+          </button>
+        </div>
 
         {playWateredBurst && <WateredBurst />}
       </div>

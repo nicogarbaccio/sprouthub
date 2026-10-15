@@ -304,6 +304,11 @@ const MyPlantDetails = () => {
               analysis={analysis}
               smartTips={getBadgeInfo()}
               onWaterClick={() => setShowWaterConfirmation(true)}
+              onPostponeClick={
+                isDueToday && plant.latest_watering
+                  ? () => setShowPostponeConfirmation(true)
+                  : undefined
+              }
               onFertilizeClick={() =>
                 document
                   .getElementById("fertilization-card")
