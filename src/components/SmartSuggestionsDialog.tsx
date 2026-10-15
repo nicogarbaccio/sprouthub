@@ -79,8 +79,8 @@ export function SmartSuggestionsDialog({
   );
 
   // Count insights that carry a concrete schedule change to apply. When there
-  // are none, "Apply All" has nothing to apply and instead acknowledges the
-  // advisory insights, so the button is labelled accordingly.
+  // are none, the footer collapses to a single "Got it" that acknowledges the
+  // advisory insights.
   const applicableSuggestions = activePlantSuggestions.reduce(
     (sum, plant) =>
       sum +
@@ -256,26 +256,34 @@ export function SmartSuggestionsDialog({
                 </section>
               ))}
 
-              <div className="flex gap-2 pt-1">
-                <button type="button" onClick={onDismissAllSuggestions} className={cn(sheetSecondaryButtonClasses, "flex-1")}>
-                  Dismiss All
-                </button>
+              {hasApplicableSuggestions ? (
+                <div className="flex gap-2 pt-1">
+                  <button type="button" onClick={onDismissAllSuggestions} className={cn(sheetSecondaryButtonClasses, "flex-1")}>
+                    Dismiss All
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleApplyAll}
+                    disabled={isApplyingAll}
+                    className={cn(sheetPrimaryButtonClasses, "flex-[1.4]")}
+                  >
+                    <CheckCircle2 className="w-5 h-5" />
+                    {isApplyingAll ? "Applying..." : "Apply All"}
+                  </button>
+                </div>
+              ) : (
+                // Advice only: nothing to apply, so dismissing and acknowledging would be the
+                // same action. One button marks it as read.
                 <button
                   type="button"
                   onClick={handleApplyAll}
-                  disabled={isApplyingAll || totalSuggestions === 0}
-                  className={cn(sheetPrimaryButtonClasses, "flex-[1.4]")}
+                  disabled={isApplyingAll}
+                  className={cn(sheetPrimaryButtonClasses, "mt-1")}
                 >
                   <CheckCircle2 className="w-5 h-5" />
-                  {isApplyingAll
-                    ? hasApplicableSuggestions
-                      ? "Applying..."
-                      : "Acknowledging..."
-                    : hasApplicableSuggestions
-                      ? "Apply All"
-                      : "Acknowledge All"}
+                  Got it
                 </button>
-              </div>
+              )}
             </>
           )}
         </div>

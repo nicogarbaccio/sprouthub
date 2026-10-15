@@ -473,13 +473,12 @@ const Dashboard = () => {
     dismissMultipleSuggestions(allPlantIds, "user_dismissed");
   };
 
-  const handleSnoozeSuggestions = (_weeks: number) => {
-    // For now, just dismiss suggestions with snooze tracking
-    // In a real implementation, you could implement time-based snoozing
+  // A snooze is a dismissal that expires after the chosen weeks instead of the default 30 days
+  const handleSnoozeSuggestions = (weeks: number) => {
     const allPlantIds = activePlantsWithSuggestions.map(
       (plant) => plant.plantId
     );
-    dismissMultipleSuggestions(allPlantIds, "user_dismissed");
+    dismissMultipleSuggestions(allPlantIds, "user_dismissed", weeks * 7);
   };
 
   const handleApplyAllSuggestions = async () => {

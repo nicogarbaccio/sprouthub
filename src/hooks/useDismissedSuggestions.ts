@@ -111,9 +111,13 @@ export const useDismissedSuggestions = () => {
     [dismissedPlantIds, userId]
   );
 
-  // Dismiss multiple suggestions
+  // Dismiss multiple suggestions. `expiresInDays` shortens the dismissal into a snooze.
   const dismissSuggestions = useCallback(
-    async (plantIds: string[], reason: DismissedSuggestion['reason'] = 'user_dismissed') => {
+    async (
+      plantIds: string[],
+      reason: DismissedSuggestion['reason'] = 'user_dismissed',
+      expiresInDays: number = EXPIRY_DAYS
+    ) => {
       const newDismissedSet = new Set([...dismissedPlantIds, ...plantIds]);
       setDismissedPlantIds(newDismissedSet);
 
@@ -124,7 +128,7 @@ export const useDismissedSuggestions = () => {
 
       try {
         const now = new Date();
-        const expiresAt = new Date(now.getTime() + EXPIRY_DAYS * 24 * 60 * 60 * 1000);
+        const expiresAt = new Date(now.getTime() + expiresInDays * 24 * 60 * 60 * 1000);
 
         const dismissals = plantIds.map((plantId) => ({
           user_id: userId,
