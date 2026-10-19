@@ -110,7 +110,7 @@ const Auth = () => {
 
  return (
  <AuthShell description="Your personal plant care assistant">
-  <Tabs defaultValue="signin" className="w-full">
+  <Tabs defaultValue={searchParams.get("mode") === "sign-up" ? "signup" : "signin"} className="w-full">
   <TabsList className="grid w-full grid-cols-2 gap-0 p-1 rounded-full bg-field">
    <TabsTrigger data-testid="sign-in-trigger" value="signin" className={tabClasses}>
    Sign In

@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import HeroSection from "@/components/HeroSection";
-import FeaturesSection from "@/components/FeaturesSection";
-import PlantCatalog from "@/components/PlantCatalog";
+import LandingPage from "@/components/landing/LandingPage";
 import Dashboard from "@/components/Dashboard";
 
 import ErrorBoundary from "@/components/ErrorBoundary";
@@ -86,9 +84,7 @@ const Index = () => {
       ) : (
         // Marketing view for non-signed-in users with smooth fade-in
         <div className="animate-fade-in">
-          <HeroSection />
-          <FeaturesSection />
-          <PlantCatalog isHomepage={true} />
+          <LandingPage />
         </div>
       )}
     </div>

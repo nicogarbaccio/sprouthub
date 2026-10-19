@@ -26,7 +26,7 @@ const Footer: React.FC = () => (
       </nav>
 
       <p className="text-xs text-white/70 shrink-0">
-        © 2025 sprouthub. Made with <span className="text-red-500">♥</span> for plant lovers.
+        © {new Date().getFullYear()} sprouthub. Made with <span className="text-red-500">♥</span> for plant lovers.
       </p>
     </div>
   </footer>
