@@ -149,6 +149,37 @@ export class WateringPatternAnalyzer {
   }
 
   /**
+   * A longer schedule to offer alongside a significant postponement pattern: the current schedule
+   * plus the average delay, so the advice to "adjust your schedule" comes with a change to apply.
+   *
+   * Only called when the pattern is significant (3+ postponements averaging 2+ days past due),
+   * and withheld if any watering was logged with the plant looking stressed, matching the veto on
+   * every other "water less often" suggestion.
+   */
+  private postponementScheduleSuggestion(
+    analysis: WateringPatternAnalysis
+  ): ScheduleAdjustmentSuggestion | undefined {
+    const context = analysis.postponementContext;
+    if (!context || context.averageDelayDays <= 0) return undefined;
+    if ((analysis.healthObservationContext?.stressedCount ?? 0) > 0) return undefined;
+
+    const currentSchedule = analysis.currentSchedule;
+    const suggestedSchedule = Math.min(30, Math.max(2, Math.round(currentSchedule + context.averageDelayDays)));
+    if (suggestedSchedule <= currentSchedule) return undefined;
+
+    return {
+      currentSchedule,
+      suggestedSchedule,
+      adjustmentType: 'increase',
+      confidence: analysis.confidence,
+      reasoning: [
+        `You've held off ${context.count} times, about ${context.averageDelayDays.toFixed(1)} days past due on average`,
+      ],
+      potentialBenefits: this.getPotentialBenefits('increase', analysis.pattern),
+    };
+  }
+
+  /**
    * Generate pattern insights for UI display
    */
   public generateInsights(analysis: WateringPatternAnalysis): PatternInsight[] {
@@ -231,6 +262,7 @@ export class WateringPatternAnalyzer {
           (avgDelay > 0 ? ` (average ${avgDelay.toFixed(1)} days past due date)` : '') +
           '. If you\'re checking the soil each time and finding it still moist, consider adjusting your schedule.',
         actionable: isSignificant,
+        suggestion: isSignificant ? this.postponementScheduleSuggestion(analysis) : undefined,
       });
     }
 
