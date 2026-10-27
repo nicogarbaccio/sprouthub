@@ -22,7 +22,7 @@ import {
   WateringPatternAnalysis
 } from '@/types/wateringPatternTypes';
 import { capitalize, cn } from '@/lib/utils';
-import WateringInsightLearnMore from './WateringInsightLearnMore';
+import WateringInsightLearnMore, { hasLearnMoreContent } from './WateringInsightLearnMore';
 import { useDismissedInsights } from '@/hooks/useDismissedInsights';
 
 interface PatternTipsContentProps {
@@ -153,6 +153,17 @@ const PatternTipsContent = ({
                       </p>
                     )}
 
+                    {/* e.g. frequent postponements: a change to apply, plus the background on why */}
+                    {hasLearnMoreContent(insight.type) && (
+                      <button
+                        type="button"
+                        onClick={() => setLearnMoreInsight(insight)}
+                        className="text-[13px] font-bold text-link hover:underline underline-offset-4 mt-1.5 px-1"
+                      >
+                        Learn more
+                      </button>
+                    )}
+
                     <div className="flex gap-2 mt-3">
                       <button type="button" onClick={() => handleDismissInsight(insight, index)} className={cn(smallSecondary, 'flex-1')}>
                         Not Now
@@ -164,15 +175,18 @@ const PatternTipsContent = ({
                   </>
                 )}
 
-                {/* Non-schedule actionable insights */}
+                {/* Non-schedule actionable insights. Learn More only when there's an article for this
+                    type: the dialog renders nothing otherwise, which made the button a dead tap. */}
                 {!insight.suggestion && insight.actionable && (
                   <div className="flex gap-2 mt-3">
                     <button type="button" onClick={() => handleDismissInsight(insight, index)} className={cn(smallSecondary, 'flex-1')}>
                       Dismiss
                     </button>
-                    <button type="button" onClick={() => setLearnMoreInsight(insight)} className={cn(smallPrimary, 'flex-[1.4]')}>
-                      Learn More
-                    </button>
+                    {hasLearnMoreContent(insight.type) && (
+                      <button type="button" onClick={() => setLearnMoreInsight(insight)} className={cn(smallPrimary, 'flex-[1.4]')}>
+                        Learn More
+                      </button>
+                    )}
                   </div>
                 )}
               </div>

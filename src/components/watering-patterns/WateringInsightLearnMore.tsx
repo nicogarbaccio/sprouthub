@@ -39,6 +39,204 @@ interface WateringInsightLearnMoreProps {
   plantName?: string;
 }
 
+/**
+ * The Learn More article for an insight type, or null when there isn't one.
+ *
+ * Callers must check this before offering a Learn More button: the dialog renders nothing for a
+ * type without content, so the button would silently do nothing.
+ */
+export function getLearnMoreContent(type: PatternInsight["type"], plantName = "your plant") {
+  switch (type) {
+    case "underwatering_risk":
+      return {
+        icon: TrendingDown,
+        iconClasses: "bg-sprout-cream text-sprout-dark",
+        title: "Understanding Underwatering",
+        sections: [
+          {
+            title: "What This Means",
+            icon: AlertTriangle,
+            content: `Based on your watering pattern, you're consistently watering ${plantName} later than the recommended schedule. While plants can tolerate some flexibility, regularly waiting too long between waterings can stress the plant and affect its health.`,
+          },
+          {
+            title: "Signs to Watch For",
+            icon: Eye,
+            items: [
+              "Drooping or wilting leaves, especially at the tips",
+              "Soil pulling away from the edges of the pot",
+              "Dry, crispy, or browning leaf edges",
+              "Slower growth than usual",
+              "Leaves feeling thin or papery to the touch",
+              "Soil that's completely dry several inches down",
+            ],
+          },
+          {
+            title: "What You Can Do",
+            icon: Lightbulb,
+            items: [
+              "Set calendar reminders for your watering schedule",
+              "Check soil moisture before the scheduled date if you notice drooping",
+              "Consider adjusting your schedule to better match your routine",
+              "Use a moisture meter for more accurate timing",
+              "Group plants with similar needs for easier care",
+            ],
+          },
+          {
+            title: "Pro Tips",
+            icon: CheckCircle2,
+            items: [
+              "Morning watering is usually best, allowing excess to evaporate during the day",
+              "Water thoroughly until it drains from the bottom",
+              'The "finger test" - stick your finger 1-2 inches into the soil to check moisture',
+              "Different seasons may require schedule adjustments",
+            ],
+          },
+        ],
+      };
+
+    case "overwatering_risk":
+      return {
+        icon: TrendingUp,
+        iconClasses: "bg-sprout-warning text-sprout-dark",
+        title: "Understanding Overwatering",
+        sections: [
+          {
+            title: "What This Means",
+            icon: AlertTriangle,
+            content: `You're watering ${plantName} more frequently than recommended. Overwatering is one of the most common causes of plant health issues. Most plants need their soil to partially dry out between waterings to allow roots to breathe.`,
+          },
+          {
+            title: "Signs to Watch For",
+            icon: Eye,
+            items: [
+              "Yellow leaves, especially lower/older ones",
+              "Wilting despite wet soil",
+              "Soft, mushy stems or base",
+              "Fungus gnats hovering around the soil",
+              "Moldy or musty smell from the soil",
+              "Root rot (black, mushy roots)",
+              "Edema (water blisters on leaves)",
+            ],
+          },
+          {
+            title: "What You Can Do",
+            icon: Lightbulb,
+            items: [
+              "Let the soil dry more between waterings",
+              "Check soil moisture before watering - if it's still damp, wait",
+              "Ensure your pot has drainage holes",
+              "Consider if your pot size is appropriate for the plant",
+              "Reduce watering frequency, especially in winter",
+              "Improve air circulation around the plant",
+            ],
+          },
+          {
+            title: "Pro Tips",
+            icon: CheckCircle2,
+            items: [
+              "When in doubt, it's safer to underwater than overwater",
+              "Weight test - lift the pot when dry vs. wet to learn the difference",
+              "Use well-draining soil appropriate for your plant type",
+              "Water less frequently in cooler months when growth slows",
+              "Bottom watering can help prevent overwatering",
+            ],
+          },
+        ],
+      };
+
+    case "consistency_improvement":
+      return {
+        icon: Calendar,
+        iconClasses: "bg-sprout-water text-sprout-dark",
+        title: "Improving Watering Consistency",
+        sections: [
+          {
+            title: "Why Consistency Matters",
+            icon: AlertTriangle,
+            content: `${plantName} is experiencing irregular watering intervals. While plants are resilient, consistent care helps them establish healthy growth patterns and reduces stress. Irregular watering can confuse the plant's natural cycles.`,
+          },
+          {
+            title: "Benefits of Consistent Care",
+            icon: CheckCircle2,
+            items: [
+              "Healthier, more predictable growth",
+              "Easier to spot problems early",
+              "Less plant stress and shock",
+              "Better root development",
+              "More reliable blooming for flowering plants",
+              "Easier to establish a care routine",
+            ],
+          },
+          {
+            title: "Tips for Building Consistency",
+            icon: Lightbulb,
+            items: [
+              "Set recurring calendar reminders on your phone",
+              "Pick a specific day of the week for each plant",
+              "Use the sprouthub schedule notifications",
+              "Create a simple watering checklist",
+              "Link watering to an existing routine (like Sunday mornings)",
+              "Keep a watering log to track patterns",
+            ],
+          },
+          {
+            title: "Making It Sustainable",
+            icon: Clock,
+            items: [
+              "Choose a schedule that realistically fits your lifestyle",
+              "It's okay to adjust schedules seasonally",
+              "Group plants with similar needs together",
+              "Consider self-watering pots if you travel often",
+              "Start with a flexible buffer - aim for a 1-2 day window",
+            ],
+          },
+        ],
+      };
+
+    case "postponement_pattern":
+      return {
+        icon: Clock,
+        iconClasses: "bg-sprout-cream text-sprout-dark",
+        title: "Understanding Frequent Postponements",
+        sections: [
+          {
+            title: "What This Means",
+            icon: AlertTriangle,
+            content: `You've pushed back watering ${plantName} several times recently. If you postponed because the soil was still moist, that's a sign its schedule is shorter than it needs to be right now.`,
+          },
+          {
+            title: "Signs the Schedule Is Too Short",
+            icon: Eye,
+            items: [
+              "The soil is still damp an inch or two down when watering is due",
+              "The pot feels heavy when you lift it",
+              "Lower leaves are yellowing even though you water on time",
+              "Growth has slowed, as it usually does in autumn and winter",
+            ],
+          },
+          {
+            title: "What You Can Do",
+            icon: Lightbulb,
+            items: [
+              "Check the soil before each watering rather than going by the date alone",
+              "If it's usually still moist, lengthen the schedule by a few days with Edit on the plant's page",
+              "Expect most plants to need less water in cooler, darker months",
+              "If you postponed because you were away, not because the soil was moist, you can dismiss this tip",
+            ],
+          },
+        ],
+      };
+
+    default:
+      return null;
+  }
+}
+
+/** Whether `getLearnMoreContent` has an article for this insight type */
+export function hasLearnMoreContent(type: PatternInsight["type"]): boolean {
+  return getLearnMoreContent(type) !== null;
+}
+
 const WateringInsightLearnMore = ({
   isOpen,
   onClose,
@@ -47,160 +245,7 @@ const WateringInsightLearnMore = ({
 }: WateringInsightLearnMoreProps) => {
   if (!insight) return null;
 
-  const getInsightContent = () => {
-    switch (insight.type) {
-      case "underwatering_risk":
-        return {
-          icon: TrendingDown,
-          iconClasses: "bg-sprout-cream text-sprout-dark",
-          title: "Understanding Underwatering",
-          sections: [
-            {
-              title: "What This Means",
-              icon: AlertTriangle,
-              content: `Based on your watering pattern, you're consistently watering ${plantName} later than the recommended schedule. While plants can tolerate some flexibility, regularly waiting too long between waterings can stress the plant and affect its health.`,
-            },
-            {
-              title: "Signs to Watch For",
-              icon: Eye,
-              items: [
-                "Drooping or wilting leaves, especially at the tips",
-                "Soil pulling away from the edges of the pot",
-                "Dry, crispy, or browning leaf edges",
-                "Slower growth than usual",
-                "Leaves feeling thin or papery to the touch",
-                "Soil that's completely dry several inches down",
-              ],
-            },
-            {
-              title: "What You Can Do",
-              icon: Lightbulb,
-              items: [
-                "Set calendar reminders for your watering schedule",
-                "Check soil moisture before the scheduled date if you notice drooping",
-                "Consider adjusting your schedule to better match your routine",
-                "Use a moisture meter for more accurate timing",
-                "Group plants with similar needs for easier care",
-              ],
-            },
-            {
-              title: "Pro Tips",
-              icon: CheckCircle2,
-              items: [
-                "Morning watering is usually best, allowing excess to evaporate during the day",
-                "Water thoroughly until it drains from the bottom",
-                'The "finger test" - stick your finger 1-2 inches into the soil to check moisture',
-                "Different seasons may require schedule adjustments",
-              ],
-            },
-          ],
-        };
-
-      case "overwatering_risk":
-        return {
-          icon: TrendingUp,
-          iconClasses: "bg-sprout-warning text-sprout-dark",
-          title: "Understanding Overwatering",
-          sections: [
-            {
-              title: "What This Means",
-              icon: AlertTriangle,
-              content: `You're watering ${plantName} more frequently than recommended. Overwatering is one of the most common causes of plant health issues. Most plants need their soil to partially dry out between waterings to allow roots to breathe.`,
-            },
-            {
-              title: "Signs to Watch For",
-              icon: Eye,
-              items: [
-                "Yellow leaves, especially lower/older ones",
-                "Wilting despite wet soil",
-                "Soft, mushy stems or base",
-                "Fungus gnats hovering around the soil",
-                "Moldy or musty smell from the soil",
-                "Root rot (black, mushy roots)",
-                "Edema (water blisters on leaves)",
-              ],
-            },
-            {
-              title: "What You Can Do",
-              icon: Lightbulb,
-              items: [
-                "Let the soil dry more between waterings",
-                "Check soil moisture before watering - if it's still damp, wait",
-                "Ensure your pot has drainage holes",
-                "Consider if your pot size is appropriate for the plant",
-                "Reduce watering frequency, especially in winter",
-                "Improve air circulation around the plant",
-              ],
-            },
-            {
-              title: "Pro Tips",
-              icon: CheckCircle2,
-              items: [
-                "When in doubt, it's safer to underwater than overwater",
-                "Weight test - lift the pot when dry vs. wet to learn the difference",
-                "Use well-draining soil appropriate for your plant type",
-                "Water less frequently in cooler months when growth slows",
-                "Bottom watering can help prevent overwatering",
-              ],
-            },
-          ],
-        };
-
-      case "consistency_improvement":
-        return {
-          icon: Calendar,
-          iconClasses: "bg-sprout-water text-sprout-dark",
-          title: "Improving Watering Consistency",
-          sections: [
-            {
-              title: "Why Consistency Matters",
-              icon: AlertTriangle,
-              content: `${plantName} is experiencing irregular watering intervals. While plants are resilient, consistent care helps them establish healthy growth patterns and reduces stress. Irregular watering can confuse the plant's natural cycles.`,
-            },
-            {
-              title: "Benefits of Consistent Care",
-              icon: CheckCircle2,
-              items: [
-                "Healthier, more predictable growth",
-                "Easier to spot problems early",
-                "Less plant stress and shock",
-                "Better root development",
-                "More reliable blooming for flowering plants",
-                "Easier to establish a care routine",
-              ],
-            },
-            {
-              title: "Tips for Building Consistency",
-              icon: Lightbulb,
-              items: [
-                "Set recurring calendar reminders on your phone",
-                "Pick a specific day of the week for each plant",
-                "Use the sprouthub schedule notifications",
-                "Create a simple watering checklist",
-                "Link watering to an existing routine (like Sunday mornings)",
-                "Keep a watering log to track patterns",
-              ],
-            },
-            {
-              title: "Making It Sustainable",
-              icon: Clock,
-              items: [
-                "Choose a schedule that realistically fits your lifestyle",
-                "It's okay to adjust schedules seasonally",
-                "Group plants with similar needs together",
-                "Consider self-watering pots if you travel often",
-                "Start with a flexible buffer - aim for a 1-2 day window",
-              ],
-            },
-          ],
-        };
-
-      default:
-        return null;
-    }
-  };
-
-  const content = getInsightContent();
+  const content = getLearnMoreContent(insight.type, plantName);
   if (!content) return null;
 
   const Icon = content.icon;

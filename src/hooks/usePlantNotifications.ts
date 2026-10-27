@@ -21,10 +21,25 @@ export function usePlantNotifications(
   enabled: boolean = true,
   rainDelayByPlantId: Record<string, RainDelayAdvice> = {}
 ) {
-  const { addNotification, notifications } = useNotifications();
+  const { addNotification, notifications, dismissNotification } = useNotifications();
   const { preferences } = useNotificationPreferences();
   const { isLoaded, getAcknowledgedIds } = useNotificationAcknowledgements();
   const lastNotificationCheck = useRef<Date | null>(null);
+
+  // Drop watering reminders for plants that no longer exist. They're regenerated from plant data,
+  // but a plant deleted mid-session otherwise keeps its reminder until the next reload, and its
+  // icon button leads to a missing plant page.
+  useEffect(() => {
+    if (!enabled) return;
+    const plantIds = new Set(plants.map(plant => plant.id));
+    notifications
+      .filter(n =>
+        (n.type === 'overdue_watering' || n.type === 'due_today') &&
+        n.metadata?.plantId &&
+        !plantIds.has(n.metadata.plantId)
+      )
+      .forEach(n => dismissNotification(n.id));
+  }, [plants, notifications, enabled, dismissNotification]);
 
   useEffect(() => {
     try {

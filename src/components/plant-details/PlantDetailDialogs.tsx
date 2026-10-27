@@ -71,6 +71,7 @@ interface PlantDetailDialogsProps {
   // Pattern suggestions
   showSuggestionsDialog: boolean;
   onSuggestionsClose: () => void;
+  onApplySuggestion: (insight: PatternInsight) => Promise<void>;
   analysis: WateringPatternAnalysis | null;
   actionableInsights: PatternInsight[];
 
@@ -112,6 +113,7 @@ const PlantDetailDialogs = ({
   onRepottingClose,
   showSuggestionsDialog,
   onSuggestionsClose,
+  onApplySuggestion,
   analysis,
   actionableInsights,
   showPostponeConfirmation,
@@ -183,6 +185,7 @@ const PlantDetailDialogs = ({
         plantId={plant.id}
         analysis={analysis}
         insights={actionableInsights}
+        onAcceptSuggestion={onApplySuggestion}
       />
 
       <PostponeConfirmationDialog

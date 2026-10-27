@@ -48,6 +48,7 @@ const MyPlantDetails = () => {
     fetchPlants,
     logFertilization,
     setWateringPause,
+    updatePlantSchedule,
   } = useUserPlants();
 
   const { notifyWateringSuccess } = useManualNotifications();
@@ -78,7 +79,7 @@ const MyPlantDetails = () => {
   );
   const overwatering = plant ? overwateringByPlantId[plant.id] : undefined;
 
-  const { insights: pendingInsights, analysis } = useWateringPatternAnalysis({
+  const { insights: pendingInsights, analysis, refreshAnalysis } = useWateringPatternAnalysis({
     plantId: plant?.id,
     autoRefresh: false,
   });
@@ -421,6 +422,13 @@ const MyPlantDetails = () => {
         onRepottingClose={() => setShowRepotting(false)}
         showSuggestionsDialog={showSuggestionsDialog}
         onSuggestionsClose={() => setShowSuggestionsDialog(false)}
+        onApplySuggestion={async (insight) => {
+          if (!insight.suggestion) return;
+          if (await updatePlantSchedule(plant.id, insight.suggestion.suggestedSchedule)) {
+            // Re-run against the new schedule so the applied tip doesn't linger
+            refreshAnalysis();
+          }
+        }}
         analysis={analysis}
         actionableInsights={getActionableInsights()}
         showPostponeConfirmation={showPostponeConfirmation}
