@@ -25,6 +25,7 @@ jobs:
               --max-time 180 \
               --connect-timeout 10 \
               "https://ufhjudswppdqupjbqbwm.supabase.co/functions/v1/fetch-blog-posts" \
+              -H "apikey: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
               -H "Authorization: Bearer ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}" \
               -H "Content-Type: application/json")
 
