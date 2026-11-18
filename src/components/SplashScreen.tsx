@@ -14,8 +14,7 @@ const isMobile = () =>
 
 /** Longest the splash stays up when nothing reports ready */
 const SHOW_MS = 1200;
-/** Shortest, so a fast load doesn't flash the logo */
-const MIN_SHOW_MS = 500;
+/** Fading out as soon as the page is ready; the fade itself keeps a fast load from flashing */
 const FADE_OUT_MS = 250;
 
 const READY_EVENT = "sprouthub:app-ready";
@@ -42,19 +41,13 @@ export const SplashScreen = () => {
 
   useEffect(() => {
     if (phase === "visible") {
-      const shownAt = performance.now();
-      let minTimer: ReturnType<typeof setTimeout> | undefined;
       const fade = () => setPhase("fading");
-      const onReady = () => {
-        minTimer = setTimeout(fade, Math.max(0, MIN_SHOW_MS - (performance.now() - shownAt)));
-      };
       const maxTimer = setTimeout(fade, SHOW_MS);
-      if (appReady) onReady();
-      else window.addEventListener(READY_EVENT, onReady, { once: true });
+      if (appReady) fade();
+      else window.addEventListener(READY_EVENT, fade, { once: true });
       return () => {
         clearTimeout(maxTimer);
-        clearTimeout(minTimer);
-        window.removeEventListener(READY_EVENT, onReady);
+        window.removeEventListener(READY_EVENT, fade);
       };
     }
     if (phase === "fading") {
