@@ -169,21 +169,19 @@ test.describe('Settings Page', () => {
     await page.getByRole('tab', { name: 'Preferences' }).click();
 
     const saveButton = page.getByRole('button', { name: 'Save Preferences' });
-
-    // Save button should be disabled initially
+    const temperature = page.getByRole('radiogroup', { name: 'Default Temperature' });
+    // The form shows defaults until the saved preferences arrive
+    await expect(page.getByTestId('watering-preferences-card')).toHaveAttribute('aria-busy', 'false', { timeout: 10000 });
     await expect(saveButton).toBeDisabled();
 
-    // Determine which temperature option is currently active and click the other
-    const coolOption = page.getByText(/^Cool \(/);
-    const warmOption = page.getByText(/^Warm \(/);
+    // Pick whichever of Cool/Warm isn't the saved value, so the click is a real change
+    const cool = temperature.getByRole('radio', { name: /^Cool/ });
+    const target = (await cool.getAttribute('aria-checked')) === 'true'
+      ? temperature.getByRole('radio', { name: /^Warm/ })
+      : cool;
+    await target.click();
 
-    await coolOption.click();
-    if (await saveButton.isDisabled()) {
-      // Cool was already selected, click Warm instead
-      await warmOption.click();
-    }
-
-    // Save button must now be enabled — a state change definitely occurred
+    await expect(target).toBeChecked();
     await expect(saveButton).toBeEnabled();
   });
 
@@ -196,32 +194,26 @@ test.describe('Settings Page', () => {
     await page.getByRole('tab', { name: 'Preferences' }).click();
 
     const saveButton = page.getByRole('button', { name: 'Save Preferences' });
+    const humidity = page.getByRole('radiogroup', { name: 'Default Humidity Level' });
+    // The form shows defaults until the saved preferences arrive
+    await expect(page.getByTestId('watering-preferences-card')).toHaveAttribute('aria-busy', 'false', { timeout: 10000 });
 
-    // Wait for preferences to fully load — button is disabled when there are no unsaved changes
-    await expect(saveButton).toBeDisabled({ timeout: 10000 });
+    // Pick whichever of Dry/Humid isn't the saved value, so there's a real change to save
+    const dryIsSaved = (await humidity.getByRole('radio', { name: /^Dry/ }).getAttribute('aria-checked')) === 'true';
+    const targetName = dryIsSaved ? /^Humid/ : /^Dry/;
+    await humidity.getByRole('radio', { name: targetName }).click();
 
-    // Wait for humidity options to be interactive
-    const dryOption = page.getByText(/^Dry \(/);
-    await expect(dryOption).toBeVisible({ timeout: 5000 });
-
-    const humidOption = page.getByText(/^Humid \(/);
-
-    await dryOption.click();
-    if (await saveButton.isDisabled()) {
-      await humidOption.click();
-    }
-
-    // Save must be enabled now
     await expect(saveButton).toBeEnabled();
-    await saveButton.click({ force: true });
-
-    // Wait for save to complete — button becomes disabled again
+    await saveButton.click();
+    // Saved: no unsaved changes left
     await expect(saveButton).toBeDisabled({ timeout: 10000 });
 
-    // Reload and verify save button is disabled (no unsaved changes)
+    // The choice comes back from the server after a reload
     await page.reload();
-    await expect(page.getByRole('heading', { name: 'Settings' })).toBeVisible({ timeout: 15000 });
     await page.getByRole('tab', { name: 'Preferences' }).click();
+    await expect(page.getByTestId('watering-preferences-card')).toHaveAttribute('aria-busy', 'false', { timeout: 10000 });
+    const reloaded = page.getByRole('radiogroup', { name: 'Default Humidity Level' });
+    await expect(reloaded.getByRole('radio', { name: targetName })).toBeChecked({ timeout: 10000 });
     await expect(page.getByRole('button', { name: 'Save Preferences' })).toBeDisabled();
   });
 
@@ -296,55 +288,36 @@ test.describe('Settings Page', () => {
     await expect(page.getByRole('switch', { name: 'Pattern Analysis' })).toBeVisible();
   });
 
+  // Notification preferences live in localStorage, so every test starts from the defaults (all on)
   test('should disable sub-toggles when master notification is off', async ({ page }) => {
     await page.getByRole('tab', { name: 'Notifications' }).click();
 
     const masterToggle = page.getByRole('switch', { name: 'Enable Notifications' });
-    const wasEnabled = await masterToggle.isChecked();
+    const overdueToggle = page.getByRole('switch', { name: 'Overdue Watering' });
+    await expect(masterToggle).toBeChecked();
+    await expect(overdueToggle).toBeEnabled();
 
-    // If currently enabled, disable it and check sub-toggles
-    if (wasEnabled) {
-      await masterToggle.click();
-      await expect(masterToggle).not.toBeChecked();
+    await masterToggle.click();
+    await expect(masterToggle).not.toBeChecked();
+    await expect(overdueToggle).toBeDisabled();
 
-      // Sub-toggles should be disabled or hidden
-      const overdueToggle = page.getByRole('switch', { name: 'Overdue Watering' });
-      const isDisabled = await overdueToggle.isDisabled().catch(() => false);
-      const isHidden = !(await overdueToggle.isVisible().catch(() => false));
-      expect(isDisabled || isHidden).toBeTruthy();
-
-      // Re-enable to restore
-      await masterToggle.click();
-    } else {
-      // Enable it first
-      await masterToggle.click();
-      await expect(masterToggle).toBeChecked();
-
-      // Sub-toggles should now be interactive
-      const overdueToggle = page.getByRole('switch', { name: 'Overdue Watering' });
-      await expect(overdueToggle).toBeVisible();
-
-      // Toggle back
-      await masterToggle.click();
-    }
+    await masterToggle.click();
+    await expect(masterToggle).toBeChecked();
+    await expect(overdueToggle).toBeEnabled();
   });
 
-  test('should toggle a notification preference', async ({ page }) => {
+  test('should toggle a notification preference and keep it after reload', async ({ page }) => {
     await page.getByRole('tab', { name: 'Notifications' }).click();
 
     const overdueToggle = page.getByRole('switch', { name: 'Overdue Watering' });
-    const wasChecked = await overdueToggle.isChecked();
+    await expect(overdueToggle).toBeChecked();
 
     await overdueToggle.click();
-    // State should have flipped
-    if (wasChecked) {
-      await expect(overdueToggle).not.toBeChecked();
-    } else {
-      await expect(overdueToggle).toBeChecked();
-    }
+    await expect(overdueToggle).not.toBeChecked();
 
-    // Toggle back to restore original state
-    await overdueToggle.click();
+    await page.reload();
+    await page.getByRole('tab', { name: 'Notifications' }).click();
+    await expect(page.getByRole('switch', { name: 'Overdue Watering' })).not.toBeChecked();
   });
 
   // ── Appearance Tab ─────────────────────────────────────────────────

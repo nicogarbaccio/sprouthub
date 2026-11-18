@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { deleteTestHouseholds } from './helpers';
+import { TEST_HOUSEHOLD_NAME, SEED_PLANTS } from './fixtures';
 
 // Reuse authenticated state from the setup project
 test.use({ storageState: 'e2e/.auth/user.json' });
@@ -37,9 +38,9 @@ test.describe('Household Management Page', () => {
     // Navigate to households list, then click Manage on the main household (with plants)
     await page.goto('/households');
     await expect(page.getByRole('heading', { name: 'Households' })).toBeVisible({ timeout: 15000 });
-    // Click the Manage link within the card that contains "Willa's House" (the main household with plants)
+    // The seeded household, which has a plant in it
     const mainHousehold = page.getByTestId('household-card').filter({
-      has: page.getByRole('heading', { name: "Willa's House", level: 3 })
+      has: page.getByRole('heading', { name: TEST_HOUSEHOLD_NAME, level: 3 })
     });
     await mainHousehold.getByRole('link', { name: 'Manage' }).click();
     await expect(page).toHaveURL(/\/households\/[\w-]+/, { timeout: 10000 });
@@ -61,8 +62,8 @@ test.describe('Household Management Page', () => {
   test('should display household plants', async ({ page }) => {
     await expect(page.getByRole('heading', { name: /Household Plants/ })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Add Plant' })).toBeVisible();
-    // At least one plant listed — plants have aria-label "View details for <name>"
-    await expect(page.locator('[aria-label^="View details for"]').first()).toBeVisible();
+    // The seeded household plant is listed (plants have aria-label "View details for <name>")
+    await expect(page.getByLabel(`View details for ${SEED_PLANTS.household.nickname}`)).toBeVisible();
   });
 
   test('should display settings sidebar', async ({ page }) => {

@@ -15,31 +15,7 @@ function findUnsavedCard(page: import('@playwright/test').Page) {
 }
 
 test.describe.serial('Saved Articles', () => {
-  // Clean up any leftover saved articles from previous test runs
-  test.beforeAll(async ({ browser }) => {
-    const page = await browser.newPage({
-      storageState: 'e2e/.auth/user.json',
-    });
-    await page.goto('/my-articles');
-    await expect(page.getByTestId('my-articles-page')).toBeVisible({ timeout: 15000 });
-
-    // Wait for cards or empty state to appear
-    await page.waitForSelector('[data-testid="blog-post-card"], [class*="flex-col items-center"]', { timeout: 10000 }).catch(() => { });
-
-    // Unsave all articles if any exist
-    const unsaveButtons = page.getByLabel('Unsave article');
-    let count = await unsaveButtons.count();
-    while (count > 0) {
-      await unsaveButtons.first().click();
-      // Use .first() to avoid strict mode violation when multiple toasts stack
-      await expect(getToast(page, 'Article removed from saved').first()).toBeVisible({ timeout: 10000 });
-      // Wait for the card to be removed
-      await expect(page.getByLabel('Unsave article')).toHaveCount(count - 1, { timeout: 10000 }).catch(() => { });
-      count = await unsaveButtons.count();
-    }
-
-    await page.close();
-  });
+  // seed.setup.ts clears the account's saved articles before every run
 
   test('should save an article and see it on My Articles', async ({ page }) => {
     // Navigate to Discover and wait for cards to load

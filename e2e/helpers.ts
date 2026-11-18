@@ -44,7 +44,7 @@ export async function signUpAndReachOnboarding(page: Page, params: SignUpParams)
 const supabaseUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL || "https://ufhjudswppdqupjbqbwm.supabase.co";
 const supabaseServiceKey = process.env.VITE_SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-const getSupabaseAdmin = () => {
+export const getSupabaseAdmin = () => {
   if (!supabaseUrl || !supabaseServiceKey) {
     console.warn('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY.');
     return null;
@@ -58,6 +58,25 @@ const getSupabaseAdmin = () => {
   });
 };
 
+/**
+ * An auth user's id by email. listUsers is paginated (50 per page by default), so walk the
+ * pages: checking only the first one silently missed newer users once the project grew,
+ * which is how throwaway sign-up users leaked.
+ */
+export const findAuthUserId = async (
+  supabase: NonNullable<ReturnType<typeof getSupabaseAdmin>>,
+  email: string
+): Promise<string | null> => {
+  for (let page = 1; ; page++) {
+    const { data, error } = await supabase.auth.admin.listUsers({ page, perPage: 1000 });
+    if (error) throw error;
+    const users: { id: string; email?: string }[] = data.users;
+    const match = users.find((u) => u.email?.toLowerCase() === email.toLowerCase());
+    if (match) return match.id;
+    if (users.length < 1000) return null;
+  }
+};
+
 export const deleteUserByEmail = async (email: string) => {
   const supabase = getSupabaseAdmin();
   if (!supabase) {
@@ -65,22 +84,12 @@ export const deleteUserByEmail = async (email: string) => {
     return;
   }
 
-  const { data, error } = await supabase.auth.admin.listUsers();
+  const userId = await findAuthUserId(supabase, email);
+  if (!userId) return;
 
-  if (error) {
-    console.error('Error listing users:', error);
-    return;
-  }
-
-  const user = data.users.find((u) => u.email === email);
-  if (user) {
-    const { error: deleteError } = await supabase.auth.admin.deleteUser(user.id);
-    if (deleteError) {
-      console.error('Error deleting user:', deleteError);
-    } else {
-      console.log(`Deleted test user: ${email}`);
-    }
-  }
+  const { error: deleteError } = await supabase.auth.admin.deleteUser(userId);
+  if (deleteError) throw deleteError;
+  console.log(`Deleted test user: ${email}`);
 };
 
 /**
@@ -210,115 +219,34 @@ export const deleteAllHiddenForUser = async (userEmail: string) => {
   }
 };
 
-export interface FertilizationSnapshot {
-  id: string;
-  last_fertilized_date: string | null;
-}
-
 /**
- * Save current last_fertilized_date values for all of a user's plants.
- * Returns a snapshot that can be passed to restoreFertilizationDates().
- */
-export const saveFertilizationDates = async (userEmail: string): Promise<FertilizationSnapshot[]> => {
-  const supabase = getSupabaseAdmin();
-  if (!supabase) {
-    console.warn('Skipping fertilization date save - no admin client available.');
-    return [];
-  }
-
-  try {
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('id')
-      .eq('email', userEmail)
-      .single();
-
-    if (profileError || !profile) {
-      console.warn(`User profile not found for email: ${userEmail}`, profileError);
-      return [];
-    }
-
-    const { data: plants, error } = await supabase
-      .from('user_plants')
-      .select('id, last_fertilized_date')
-      .eq('user_id', profile.id);
-
-    if (error) {
-      console.error('Error saving fertilization dates:', error);
-      return [];
-    }
-
-    const snapshot = (plants ?? []).map((p) => ({
-      id: p.id as string,
-      last_fertilized_date: (p.last_fertilized_date as string | null),
-    }));
-    console.log(`Saved fertilization dates for ${snapshot.length} plant(s)`);
-    return snapshot;
-  } catch (error) {
-    console.error('Unexpected error saving fertilization dates:', error);
-    return [];
-  }
-};
-
-/**
- * Restore last_fertilized_date values from a previously saved snapshot.
- */
-export const restoreFertilizationDates = async (snapshot: FertilizationSnapshot[]): Promise<void> => {
-  const supabase = getSupabaseAdmin();
-  if (!supabase || snapshot.length === 0) return;
-
-  try {
-    for (const plant of snapshot) {
-      await supabase
-        .from('user_plants')
-        .update({ last_fertilized_date: plant.last_fertilized_date })
-        .eq('id', plant.id);
-    }
-    console.log(`Restored fertilization dates for ${snapshot.length} plant(s)`);
-  } catch (error) {
-    console.error('Unexpected error restoring fertilization dates:', error);
-  }
-};
-
-/**
- * Reset last_fertilized_date to null for all of a user's plants (test cleanup).
- * This ensures the fertilization banner will reappear.
- * WARNING: Always call saveFertilizationDates() first and restoreFertilizationDates() after.
- * @param userEmail - Email of the user
+ * Make every one of a user's plants "never fertilized" again, so the fertilization banner
+ * lists them all. Throws on failure: a silent no-op here only shows up later as a confusing
+ * banner assertion.
  */
 export const resetFertilizationDates = async (userEmail: string) => {
   const supabase = getSupabaseAdmin();
-  if (!supabase) {
-    console.warn('Skipping fertilization date reset - no admin client available.');
-    return;
-  }
+  if (!supabase) throw new Error('resetFertilizationDates needs the service role key');
 
-  try {
-    const { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('id')
-      .eq('email', userEmail)
-      .single();
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('email', userEmail)
+    .single();
+  if (profileError || !profile) throw profileError ?? new Error(`No profile for ${userEmail}`);
 
-    if (profileError || !profile) {
-      console.warn(`User profile not found for email: ${userEmail}`, profileError);
-      return;
-    }
+  // Last-fertilized dates come from fertilization_records (via plants_with_watering_info)
+  const { data: plants, error: plantsError } = await supabase
+    .from('user_plants')
+    .select('id')
+    .eq('user_id', profile.id);
+  if (plantsError) throw plantsError;
 
-    const { data: updated, error: updateError } = await supabase
-      .from('user_plants')
-      .update({ last_fertilized_date: null })
-      .eq('user_id', profile.id)
-      .select();
-
-    if (updateError) {
-      console.error('Error resetting fertilization dates:', updateError);
-    } else if (updated && updated.length > 0) {
-      console.log(`Reset fertilization dates for ${updated.length} plant(s) for user: ${userEmail}`);
-    }
-  } catch (error) {
-    console.error('Unexpected error during fertilization date reset:', error);
-  }
+  const { error: deleteError } = await supabase
+    .from('fertilization_records')
+    .delete()
+    .in('plant_id', (plants ?? []).map((p) => p.id));
+  if (deleteError) throw deleteError;
 };
 
 /**
@@ -368,7 +296,10 @@ export const clearFertilizationDismissals = async (userEmail: string) => {
  * Associated household_members rows are cascade-deleted by the FK constraint.
  * @param namePattern - Pattern to match household names (supports SQL LIKE syntax, e.g. 'Test Household%')
  */
-export const deleteTestHouseholds = async (namePattern: string = 'Test Household%') => {
+export const deleteTestHouseholds = async (
+  namePattern: string = 'Test Household%',
+  userEmail: string = process.env.TEST_USER_EMAIL ?? ''
+) => {
   const supabase = getSupabaseAdmin();
   if (!supabase) {
     console.warn('Skipping household cleanup - no admin client available.');
@@ -376,9 +307,21 @@ export const deleteTestHouseholds = async (namePattern: string = 'Test Household
   }
 
   try {
+    // Only the test account's households: a name pattern alone would match other users' too
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('email', userEmail)
+      .single();
+    if (profileError || !profile) {
+      console.warn(`User profile not found for email: ${userEmail}`, profileError);
+      return;
+    }
+
     const { data: deleted, error } = await supabase
       .from('households')
       .delete()
+      .eq('created_by', profile.id)
       .like('name', namePattern)
       .select();
 

@@ -3,17 +3,23 @@ import {
   getToast,
   clearFertilizationDismissals,
   resetFertilizationDates,
-  saveFertilizationDates,
-  restoreFertilizationDates,
-  type FertilizationSnapshot,
 } from './helpers';
 
 const TEST_EMAIL = process.env.TEST_USER_EMAIL!;
 
-test.use({ storageState: 'e2e/.auth/user.json' });
+/**
+ * The banner only shows in growing season (spring and summer). The app falls back to the
+ * browser's time zone for the hemisphere, so pick one where it's growing season today:
+ * March 20 – September 21 in the north, the rest of the year in the south.
+ */
+function growingSeasonTimeZone(date = new Date()) {
+  const month = date.getMonth();
+  const day = date.getDate();
+  const northernGrowing = (month === 2 && day >= 20) || (month > 2 && month < 8) || (month === 8 && day < 22);
+  return northernGrowing ? 'America/New_York' : 'Australia/Sydney';
+}
 
-// Snapshot of original fertilization dates — saved in beforeAll, restored in afterAll
-let savedSnapshot: FertilizationSnapshot[] = [];
+test.use({ storageState: 'e2e/.auth/user.json', timezoneId: growingSeasonTimeZone() });
 
 /**
  * Clear localStorage keys that could hide the fertilization banner.
@@ -29,46 +35,27 @@ async function clearBannerLocalStorage(page: import('@playwright/test').Page) {
 }
 
 /**
- * Navigate to dashboard with a clean fertilization state.
- * Clears localStorage and waits for the banner to appear.
- * Returns false if the banner doesn't show (not growing season).
+ * Navigate to the dashboard with a clean fertilization state and wait for the banner.
+ * The seeded plants have never been fertilized and it's growing season (see the time
+ * zone above), so a missing banner is a failure, not a reason to skip.
  */
-async function gotoDashboardWithBanner(page: import('@playwright/test').Page): Promise<boolean> {
+async function gotoDashboardWithBanner(page: import('@playwright/test').Page) {
   await page.goto('/');
   await clearBannerLocalStorage(page);
   await page.reload();
   await expect(page.getByTestId('dashboard')).toBeVisible({ timeout: 15000 });
-
-  // Wait for the banner to appear (or determine it won't show)
-  try {
-    await expect(page.getByTestId('fertilization-banner')).toBeVisible({ timeout: 10000 });
-    return true;
-  } catch {
-    return false;
-  }
+  await expect(page.getByTestId('fertilization-banner')).toBeVisible({ timeout: 10000 });
 }
 
 test.describe.serial('Fertilization Banner', () => {
-  // Save original dates, then reset so the banner shows
+  // The seed resets the account before each run; this also undoes a rerun of this file alone
   test.beforeAll(async () => {
-    savedSnapshot = await saveFertilizationDates(TEST_EMAIL);
     await resetFertilizationDates(TEST_EMAIL);
     await clearFertilizationDismissals(TEST_EMAIL);
   });
 
-  // Always restore original dates after tests
-  test.afterAll(async () => {
-    await restoreFertilizationDates(savedSnapshot);
-    await clearFertilizationDismissals(TEST_EMAIL);
-  });
-
   test('should display fertilization banner on dashboard', async ({ page }) => {
-    const visible = await gotoDashboardWithBanner(page);
-
-    if (!visible) {
-      test.skip(true, 'Fertilization banner not visible — not growing season or no plants');
-      return;
-    }
+    await gotoDashboardWithBanner(page);
 
     await expect(page.getByText('Time to fertilize')).toBeVisible();
     await expect(page.getByText('Growing season', { exact: true })).toBeVisible();
@@ -76,8 +63,7 @@ test.describe.serial('Fertilization Banner', () => {
   });
 
   test('should expand and collapse plant list', async ({ page }) => {
-    const visible = await gotoDashboardWithBanner(page);
-    if (!visible) { test.skip(true, 'Banner not visible'); return; }
+    await gotoDashboardWithBanner(page);
 
     // Expand
     await page.getByText('Show plants').click();
@@ -95,8 +81,7 @@ test.describe.serial('Fertilization Banner', () => {
   });
 
   test('should cancel quick-log without logging', async ({ page }) => {
-    const visible = await gotoDashboardWithBanner(page);
-    if (!visible) { test.skip(true, 'Banner not visible'); return; }
+    await gotoDashboardWithBanner(page);
 
     await page.getByText('Show plants').click();
 
@@ -119,8 +104,7 @@ test.describe.serial('Fertilization Banner', () => {
   });
 
   test('should show confirmation dialog and log fertilization', async ({ page }) => {
-    const visible = await gotoDashboardWithBanner(page);
-    if (!visible) { test.skip(true, 'Banner not visible'); return; }
+    await gotoDashboardWithBanner(page);
 
     await page.getByText('Show plants').click();
 
@@ -144,13 +128,11 @@ test.describe.serial('Fertilization Banner', () => {
   });
 
   test('should snooze banner for 1 week', async ({ page }) => {
-    // Reset dates again in case previous test logged all plants
-    // (afterAll will still restore the original snapshot)
+    // Reset dates again in case the previous test logged every plant
     await resetFertilizationDates(TEST_EMAIL);
     await clearFertilizationDismissals(TEST_EMAIL);
 
-    const visible = await gotoDashboardWithBanner(page);
-    if (!visible) { test.skip(true, 'Banner not visible'); return; }
+    await gotoDashboardWithBanner(page);
 
     await page.getByRole('button', { name: '1 week' }).click();
 
@@ -162,7 +144,7 @@ test.describe.serial('Fertilization Banner', () => {
     await expect(getToast(page, 'Reminder Snoozed')).toBeVisible({ timeout: 10000 });
     await expect(page.getByTestId('fertilization-banner')).not.toBeVisible({ timeout: 5000 });
 
-    // Cleanup dismissals (date restore happens in afterAll)
+    // Cleanup dismissals
     await clearFertilizationDismissals(TEST_EMAIL);
     await clearBannerLocalStorage(page);
   });

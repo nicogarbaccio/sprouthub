@@ -1,7 +1,42 @@
 import { test, expect, type Page } from '@playwright/test';
+import { SEED_PLANTS } from './fixtures';
 
 // Reuse authenticated state from the setup project
 test.use({ storageState: 'e2e/.auth/user.json' });
+
+const { onSchedule, overdue, dueToday, household } = SEED_PLANTS;
+
+/** The card for a seeded plant, found by its exact nickname */
+function card(page: Page, nickname: string) {
+  return page.getByTestId('plant-card').filter({
+    has: page.getByRole('heading', { name: nickname, exact: true, level: 3 }),
+  });
+}
+
+/** Plant names in one room section, top to bottom */
+function namesInRoom(page: Page, roomLabel: string) {
+  return page
+    .getByTestId('room-section')
+    .filter({ has: page.getByTestId('room-name').filter({ hasText: roomLabel }) })
+    .getByTestId('plant-card')
+    .getByRole('heading', { level: 3 })
+    .allTextContents();
+}
+
+async function chooseStatus(page: Page, label: string) {
+  await page.getByRole('combobox').filter({ hasText: 'All Plants' }).click();
+  await page.getByRole('option', { name: label, exact: true }).click();
+}
+
+async function chooseRoom(page: Page, label: string) {
+  await page.getByRole('combobox').filter({ hasText: 'All Rooms' }).click();
+  await page.getByRole('option', { name: label }).click();
+}
+
+async function chooseSort(page: Page, label: string) {
+  await page.getByRole('button', { name: 'Sort' }).click();
+  await page.getByRole('button', { name: label }).click();
+}
 
 // Search sits behind the header's Search button
 async function openSearch(page: Page) {
@@ -46,24 +81,19 @@ test.describe('My Plants - Search, Filter & Sort', () => {
 
   test('should filter plants by nickname search', async ({ page }) => {
     const searchbox = await openSearch(page);
-    const cards = page.getByTestId('plant-card');
-    await expect(cards.first()).toBeVisible();
-    const initialCount = await cards.count();
+    await searchbox.fill(onSchedule.nickname);
 
-    await searchbox.fill('Monstera');
-
-    // Only matching cards should be visible (the test user may own more than one Monstera)
-    await expect(page.getByRole('heading', { name: 'Monstera', exact: true, level: 3 })).toBeVisible();
-    await expect(cards.filter({ hasNotText: /monstera/i })).toHaveCount(0);
-    await expect.poll(() => cards.count()).toBeLessThan(initialCount);
+    await expect(card(page, onSchedule.nickname)).toBeVisible();
+    await expect(card(page, overdue.nickname)).toBeHidden();
+    await expect(card(page, dueToday.nickname)).toBeHidden();
   });
 
   test('should filter plants by species search', async ({ page }) => {
     const searchbox = await openSearch(page);
-    await searchbox.fill('Pothos');
+    await searchbox.fill(overdue.plantType);
 
-    // The Disco Pothos card should be visible (species = Pothos)
-    await expect(page.getByTestId('plant-card').filter({ hasText: 'Pothos' })).toBeVisible();
+    await expect(card(page, overdue.nickname)).toBeVisible();
+    await expect(card(page, onSchedule.nickname)).toBeHidden();
   });
 
   test('should show empty state for search with no results', async ({ page }) => {
@@ -76,15 +106,12 @@ test.describe('My Plants - Search, Filter & Sort', () => {
 
   test('should clear search and show all plants again', async ({ page }) => {
     const searchbox = await openSearch(page);
-    const cards = page.getByTestId('plant-card');
-    await expect(cards.first()).toBeVisible();
-    const initialCount = await cards.count();
-
-    await searchbox.fill('Monstera');
-    await expect.poll(() => cards.count()).toBeLessThan(initialCount);
+    await searchbox.fill(onSchedule.nickname);
+    await expect(card(page, overdue.nickname)).toBeHidden();
 
     await searchbox.clear();
-    await expect(cards).toHaveCount(initialCount);
+    await expect(card(page, overdue.nickname)).toBeVisible();
+    await expect(card(page, onSchedule.nickname)).toBeVisible();
   });
 
   // ── Filters ────────────────────────────────────────────────────────
@@ -98,34 +125,22 @@ test.describe('My Plants - Search, Filter & Sort', () => {
   });
 
   test('should filter by status', async ({ page }) => {
-    const initialCount = await page.getByTestId('plant-card').count();
-
-    // Open filters and select "On Schedule"
     await page.getByRole('button', { name: 'Filters' }).click();
-    const statusCombobox = page.getByRole('combobox').filter({ hasText: 'All Plants' });
-    await statusCombobox.click();
-    await page.getByRole('option', { name: 'On Schedule' }).click();
+    await chooseStatus(page, 'On Schedule');
 
-    // Results should be filtered (may be same or fewer)
-    const filteredCount = await page.getByTestId('plant-card').count();
-    expect(filteredCount).toBeLessThanOrEqual(initialCount);
+    await expect(card(page, onSchedule.nickname)).toBeVisible();
+    await expect(card(page, household.nickname)).toBeVisible();
+    await expect(card(page, overdue.nickname)).toBeHidden();
+    await expect(card(page, dueToday.nickname)).toBeHidden();
   });
 
   test('should filter by room', async ({ page }) => {
-    const initialRoomCount = await page.getByTestId('room-section').count();
-    expect(initialRoomCount).toBeGreaterThan(1);
-
     await page.getByRole('button', { name: 'Filters' }).click();
-    const roomCombobox = page.getByRole('combobox').filter({ hasText: 'All Rooms' });
-    await roomCombobox.click();
+    await chooseRoom(page, dueToday.roomLabel);
 
-    // Select first room option that isn't "All Rooms"
-    const roomOption = page.getByRole('option').filter({ hasNotText: 'All Rooms' }).first();
-    await roomOption.click();
-
-    // Only one room section should be visible
-    const roomSections = page.getByTestId('room-section');
-    await expect(roomSections).toHaveCount(1);
+    await expect(page.getByTestId('room-section')).toHaveCount(1);
+    await expect(card(page, dueToday.nickname)).toBeVisible();
+    await expect(card(page, onSchedule.nickname)).toBeHidden();
   });
 
   // ── Sort ───────────────────────────────────────────────────────────
@@ -140,80 +155,52 @@ test.describe('My Plants - Search, Filter & Sort', () => {
     await expect(page.getByRole('button', { name: 'Newest First' })).toBeVisible();
   });
 
+  // The Living Room holds exactly two seeded plants, so each sort has one right order
   test('should sort by Name (Z-A)', async ({ page }) => {
-    await page.getByRole('button', { name: 'Sort' }).click();
-    await page.getByRole('button', { name: 'Name (Z-A)' }).click();
-
-    // After sorting Z-A, the first plant card heading should come later alphabetically
-    const firstPlantName = await page.getByTestId('plant-card').first().getByRole('heading', { level: 3 }).textContent();
-    const lastPlantName = await page.getByTestId('plant-card').last().getByRole('heading', { level: 3 }).textContent();
-
-    expect(firstPlantName!.localeCompare(lastPlantName!)).toBeGreaterThanOrEqual(0);
+    await chooseSort(page, 'Name (Z-A)');
+    await expect.poll(() => namesInRoom(page, onSchedule.roomLabel)).toEqual([onSchedule.nickname, overdue.nickname]);
   });
 
   test('should sort by Name (A-Z) as default', async ({ page }) => {
-    // Default sort is A-Z — first plant name should come before last alphabetically
-    const firstPlantName = await page.getByTestId('plant-card').first().getByRole('heading', { level: 3 }).textContent();
-    const lastPlantName = await page.getByTestId('plant-card').last().getByRole('heading', { level: 3 }).textContent();
-
-    expect(firstPlantName!.localeCompare(lastPlantName!)).toBeLessThanOrEqual(0);
+    await expect.poll(() => namesInRoom(page, onSchedule.roomLabel)).toEqual([overdue.nickname, onSchedule.nickname]);
   });
 
   test('should sort by Recently Watered', async ({ page }) => {
-    await page.getByRole('button', { name: 'Sort' }).click();
-    await page.getByRole('button', { name: 'Recently Watered' }).click();
-
-    // Plants should still be visible after sort change
-    await expect(page.getByTestId('plant-card').first()).toBeVisible();
+    await chooseSort(page, 'Recently Watered');
+    await expect.poll(() => namesInRoom(page, onSchedule.roomLabel)).toEqual([onSchedule.nickname, overdue.nickname]);
   });
 
   test('should sort by Next Watering', async ({ page }) => {
-    await page.getByRole('button', { name: 'Sort' }).click();
-    await page.getByRole('button', { name: 'Next Watering' }).click();
-
-    await expect(page.getByTestId('plant-card').first()).toBeVisible();
+    await chooseSort(page, 'Next Watering');
+    await expect.poll(() => namesInRoom(page, onSchedule.roomLabel)).toEqual([overdue.nickname, onSchedule.nickname]);
   });
 
   test('should sort by Newest First', async ({ page }) => {
-    await page.getByRole('button', { name: 'Sort' }).click();
-    await page.getByRole('button', { name: 'Newest First' }).click();
-
-    await expect(page.getByTestId('plant-card').first()).toBeVisible();
+    // The seed adds the on-schedule plant before the overdue one
+    await chooseSort(page, 'Newest First');
+    await expect.poll(() => namesInRoom(page, onSchedule.roomLabel)).toEqual([overdue.nickname, onSchedule.nickname]);
   });
 
   // ── Combined Filters ────────────────────────────────────────────────
 
   test('should combine status and room filters', async ({ page }) => {
-    const initialCount = await page.getByTestId('plant-card').count();
-
     await page.getByRole('button', { name: 'Filters' }).click();
+    await chooseStatus(page, 'On Schedule');
+    await chooseRoom(page, onSchedule.roomLabel);
 
-    // Apply status filter
-    const statusCombobox = page.getByRole('combobox').filter({ hasText: 'All Plants' });
-    await statusCombobox.click();
-    await page.getByRole('option', { name: 'On Schedule' }).click();
-
-    // Apply room filter
-    const roomCombobox = page.getByRole('combobox').filter({ hasText: 'All Rooms' });
-    await roomCombobox.click();
-    const roomOption = page.getByRole('option').filter({ hasNotText: 'All Rooms' }).first();
-    await roomOption.click();
-
-    // Combined filters should show equal or fewer results
-    const filteredCount = await page.getByTestId('plant-card').count();
-    expect(filteredCount).toBeLessThanOrEqual(initialCount);
+    await expect(card(page, onSchedule.nickname)).toBeVisible();
+    // Same room but overdue, and on schedule but another room
+    await expect(card(page, overdue.nickname)).toBeHidden();
+    await expect(card(page, household.nickname)).toBeHidden();
   });
 
   test('should filter by Overdue status', async ({ page }) => {
-    const initialCount = await page.getByTestId('plant-card').count();
-
     await page.getByRole('button', { name: 'Filters' }).click();
-    const statusCombobox = page.getByRole('combobox').filter({ hasText: 'All Plants' });
-    await statusCombobox.click();
-    await page.getByRole('option', { name: 'Overdue' }).click();
+    await chooseStatus(page, 'Overdue');
 
-    const filteredCount = await page.getByTestId('plant-card').count();
-    expect(filteredCount).toBeLessThanOrEqual(initialCount);
+    await expect(card(page, overdue.nickname)).toBeVisible();
+    await expect(card(page, onSchedule.nickname)).toBeHidden();
+    await expect(card(page, dueToday.nickname)).toBeHidden();
   });
 
   // ── Navigation ─────────────────────────────────────────────────────

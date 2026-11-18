@@ -39,10 +39,16 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    // Setup project: logs in once and saves auth state for reuse
+    // Resets the dedicated e2e account to the data in e2e/fixtures.ts
+    {
+      name: 'seed',
+      testMatch: /seed\.setup\.ts/,
+    },
+    // Logs in once and saves auth state for reuse
     {
       name: 'setup',
-      testMatch: /.*\.setup\.ts/,
+      testMatch: /auth\.setup\.ts/,
+      dependencies: ['seed'],
     },
     {
       name: 'chromium',
