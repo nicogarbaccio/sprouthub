@@ -1,6 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
+import { format } from 'date-fns';
 import type { BlogPost } from '@/types/blogTypes';
+import { pickRotatingPosts, type RotationCandidate } from '@/lib/articleRotation';
+
+/**
+ * Score fetch-blog-posts gives category-level matches (any post saying "tree" links to
+ * every tree-like plant). Too loose to recommend from, so plant-specific lists skip them.
+ */
+const CATEGORY_MATCH_SCORE = 0.3;
+/** How many matching posts the home row rotates through */
+const MY_PLANTS_POOL_SIZE = 300;
+
+const byNewest = (a: BlogPost, b: BlogPost) =>
+  new Date(b.published_at ?? b.fetched_at).getTime() - new Date(a.published_at ?? a.fetched_at).getTime();
 
 export function usePlantBlogPosts(plantName: string | undefined) {
   return useQuery({
@@ -13,6 +26,7 @@ export function usePlantBlogPosts(plantName: string | undefined) {
         .from('blog_post_plants')
         .select('relevance_score, blog_posts(*)')
         .ilike('plant_name', `%${plantName}%`)
+        .neq('relevance_score', CATEGORY_MATCH_SCORE)
         .order('relevance_score', { ascending: false })
         .limit(6);
 
@@ -86,26 +100,37 @@ export interface BlogPostWithPlants extends BlogPost {
 }
 
 export function useMyPlantsBlogPosts(plantNames: string[]) {
+  // The row reshuffles once a day, so the day is part of the cache key
+  const day = format(new Date(), 'yyyy-MM-dd');
   return useQuery({
-    queryKey: ['blog-posts', 'my-plants', plantNames],
+    queryKey: ['blog-posts', 'my-plants', plantNames, day],
     queryFn: async (): Promise<BlogPostWithPlants[]> => {
       if (plantNames.length === 0) return [];
 
-      // First try the pre-computed junction table.
+      // The user's plant a matched name belongs to ("Marble Queen Pothos" -> "Pothos")
+      const userPlantFor = (name: string) => {
+        const lower = name.toLowerCase();
+        return (
+          plantNames.find((n) => lower.includes(n.toLowerCase()) || n.toLowerCase().includes(lower)) ??
+          name
+        );
+      };
+
+      // Pull the whole pool of real matches, not just the top few, so the row can rotate.
       // Use ilike per plant name so "Monstera" matches "Monstera Deliciosa", etc.
       const ilikeFilters = plantNames.map((n) => `plant_name.ilike.%${n}%`).join(',');
       const { data: junctionData, error: junctionError } = await supabase
         .from('blog_post_plants')
         .select('relevance_score, plant_name, blog_posts(*)')
         .or(ilikeFilters)
+        .neq('relevance_score', CATEGORY_MATCH_SCORE)
         .order('relevance_score', { ascending: false })
-        .limit(12);
+        .limit(MY_PLANTS_POOL_SIZE);
 
       if (junctionError) throw junctionError;
 
-      const seen = new Set<string>();
+      const candidates = new Map<string, RotationCandidate>();
       const plantMap = new Map<string, string[]>();
-      const posts: BlogPost[] = [];
 
       for (const row of junctionData ?? []) {
         const post = row.blog_posts as unknown as BlogPost;
@@ -116,9 +141,12 @@ export function useMyPlantsBlogPosts(plantNames: string[]) {
         if (row.plant_name) existing.push(row.plant_name);
         plantMap.set(post.id, existing);
 
-        if (!seen.has(post.id)) {
-          seen.add(post.id);
-          posts.push(post);
+        if (!candidates.has(post.id)) {
+          candidates.set(post.id, {
+            post,
+            relevance: row.relevance_score ?? 0.5,
+            plantKey: userPlantFor(row.plant_name ?? ''),
+          });
         }
       }
 
@@ -134,9 +162,8 @@ export function useMyPlantsBlogPosts(plantNames: string[]) {
         );
       });
 
-      if (unmatchedPlants.length > 0 || posts.length < 3) {
-        // Fallback: search post titles/summaries for plant names directly,
-        // plus broad indoor/houseplant terms since most user plants are houseplants.
+      if (unmatchedPlants.length > 0 || candidates.size < 3) {
+        // Fallback: search post titles/summaries for plant names directly.
         // For unmatched plants, also search by genus (first word if >= 6 chars)
         // so e.g. "Monstera Deliciosa" finds posts about any Monstera species.
         const searchPlants = unmatchedPlants.length > 0 ? unmatchedPlants : plantNames;
@@ -152,21 +179,19 @@ export function useMyPlantsBlogPosts(plantNames: string[]) {
           return filters;
         });
         const orFilters = nameFilters.join(',');
-        if (!orFilters) return posts.slice(0, 12).map((post) => ({ ...post, matchedPlants: plantMap.get(post.id) ?? [] }));
 
-        const { data: searchData, error: searchError } = await supabase
-          .from('blog_posts')
-          .select('*')
-          .or(orFilters)
-          .order('published_at', { ascending: false })
-          .limit(12);
+        if (orFilters) {
+          const { data: searchData, error: searchError } = await supabase
+            .from('blog_posts')
+            .select('*')
+            .or(orFilters)
+            .order('published_at', { ascending: false })
+            .limit(MY_PLANTS_POOL_SIZE);
 
-        if (searchError) throw searchError;
+          if (searchError) throw searchError;
 
-        for (const post of (searchData ?? []) as unknown as BlogPost[]) {
-          if (!seen.has(post.id)) {
-            posts.push(post);
-            seen.add(post.id);
+          for (const post of (searchData ?? []) as unknown as BlogPost[]) {
+            if (candidates.has(post.id)) continue;
             // Text-match fallback: check which plant names appear in content,
             // also matching by genus (first word) for multi-word plant names
             const text = `${post.title} ${post.summary ?? ''}`.toLowerCase();
@@ -176,11 +201,12 @@ export function useMyPlantsBlogPosts(plantNames: string[]) {
               return firstWord.length >= 6 && firstWord !== n && text.includes(firstWord.toLowerCase());
             });
             if (matched.length > 0) plantMap.set(post.id, matched);
+            candidates.set(post.id, { post, relevance: 0.5, plantKey: matched[0] ?? '' });
           }
         }
       }
 
-      return posts.slice(0, 12).map((post) => ({
+      return pickRotatingPosts([...candidates.values()], { limit: 12, seed: day }).map(({ post }) => ({
         ...post,
         matchedPlants: plantMap.get(post.id) ?? [],
       }));
@@ -243,6 +269,7 @@ export function useBlogPostsGrid(mode: GridMode, params: GridParams, page: numbe
           .from('blog_post_plants')
           .select('blog_posts(*)')
           .ilike('plant_name', `%${plantName}%`)
+          .neq('relevance_score', CATEGORY_MATCH_SCORE)
           .order('relevance_score', { ascending: false });
 
         if (junctionError) throw junctionError;
@@ -280,6 +307,8 @@ export function useBlogPostsGrid(mode: GridMode, params: GridParams, page: numbe
           }
         }
 
+        allPosts.sort(byNewest);
+
         return {
           posts: allPosts.slice(from, to + 1),
           totalCount: allPosts.length,
@@ -295,6 +324,7 @@ export function useBlogPostsGrid(mode: GridMode, params: GridParams, page: numbe
         .from('blog_post_plants')
         .select('blog_posts(*)')
         .or(ilikeFilters)
+        .neq('relevance_score', CATEGORY_MATCH_SCORE)
         .order('relevance_score', { ascending: false });
 
       if (junctionError) throw junctionError;
@@ -347,6 +377,8 @@ export function useBlogPostsGrid(mode: GridMode, params: GridParams, page: numbe
           }
         }
       }
+
+      allPosts.sort(byNewest);
 
       return {
         posts: allPosts.slice(from, to + 1),
