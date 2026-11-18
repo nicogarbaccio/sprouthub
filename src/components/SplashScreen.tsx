@@ -16,7 +16,7 @@ const isMobile = () =>
 const SHOW_MS = 1200;
 /** Shortest, so a fast load doesn't flash the logo */
 const MIN_SHOW_MS = 500;
-const FADE_OUT_MS = 400;
+const FADE_OUT_MS = 250;
 
 const READY_EVENT = "sprouthub:app-ready";
 let appReady = false;
