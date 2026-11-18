@@ -14,6 +14,8 @@ export const useSmartWateringPreferences = () => {
   const [preferences, setPreferences] = useState<UserWateringPreferences | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [hasPreferences, setHasPreferences] = useState(false);
+  /** False until the first load for this user finishes (isLoading starts false, so can't say this) */
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   // Ref to stabilize loadPreferences callback for event listener
   const loadPreferencesRef = useRef<() => Promise<void>>();
@@ -71,6 +73,7 @@ export const useSmartWateringPreferences = () => {
       setHasPreferences(false);
     } finally {
       setIsLoading(false);
+      setHasLoaded(true);
     }
   }, [user]);
 
@@ -263,6 +266,7 @@ export const useSmartWateringPreferences = () => {
   return {
     preferences,
     isLoading,
+    hasLoaded,
     hasPreferences,
     loadPreferences,
     savePreferences,

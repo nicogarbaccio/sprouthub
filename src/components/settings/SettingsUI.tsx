@@ -32,6 +32,8 @@ interface SettingsCardProps {
   /** Extra classes for the body under the header, e.g. to make it grow */
   bodyClassName?: string;
   testId?: string;
+  /** Marks the card aria-busy, e.g. while its saved values are still loading */
+  busy?: boolean;
 }
 
 export function SettingsCard({
@@ -44,9 +46,14 @@ export function SettingsCard({
   className,
   bodyClassName,
   testId,
+  busy,
 }: SettingsCardProps) {
   return (
-    <section className={cn("rounded-card bg-card text-card-foreground p-5 md:p-6", className)} data-testid={testId}>
+    <section
+      className={cn("rounded-card bg-card text-card-foreground p-5 md:p-6", className)}
+      data-testid={testId}
+      aria-busy={busy}
+    >
       <div className="flex items-start gap-3.5">
         {Icon && (
           <div className={cn("w-11 h-11 shrink-0 rounded-[14px] flex items-center justify-center", iconClasses)}>

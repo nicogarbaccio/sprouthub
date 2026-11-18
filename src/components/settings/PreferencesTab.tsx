@@ -25,7 +25,7 @@ import {
 import HiddenArticlesCard from "./HiddenArticlesCard";
 
 export const PreferencesTab = () => {
-  const { preferences, savePreferences, isLoading, clearPreferences } =
+  const { preferences, savePreferences, isLoading, hasLoaded, clearPreferences } =
     useSmartWateringPreferences();
   const labels = getFactorLabels();
 
@@ -69,6 +69,13 @@ export const PreferencesTab = () => {
     }
   }, [formData, preferences]);
 
+  // A choice made before the saved preferences arrive must survive their arrival, so mark
+  // the edit here rather than waiting for the unsaved-changes check, which needs them loaded
+  const editField = (patch: Partial<UserWateringPreferences>) => {
+    userEditedRef.current = true;
+    setFormData((prev) => ({ ...prev, ...patch }));
+  };
+
   const handleSave = async () => {
     await savePreferences(formData);
     setHasChanges(false);
@@ -110,7 +117,7 @@ export const PreferencesTab = () => {
           ariaLabel={title}
           options={options}
           value={value}
-          onChange={(next) => setFormData((prev) => ({ ...prev, [key]: next }))}
+          onChange={(next) => editField({ [key]: next })}
           getLabel={(option) => labelMap[option]}
         />
       </div>
@@ -123,6 +130,8 @@ export const PreferencesTab = () => {
         title="Smart Watering Preferences"
         description="Your usual home conditions. The Smart Watering Wizard starts from these."
         icon={Sprout}
+        busy={!hasLoaded}
+        testId="watering-preferences-card"
       >
         <div className="space-y-5">
           {field("Default Light Level", Lightbulb, ["low", "medium", "high"] as const, formData.default_light_level, "default_light_level", labels.lightLevel)}
@@ -143,9 +152,7 @@ export const PreferencesTab = () => {
               id="location"
               placeholder="e.g., San Francisco, CA"
               value={formData.location || ""}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, location: e.target.value }))
-              }
+              onChange={(e) => editField({ location: e.target.value })}
               className={settingsInputClasses}
             />
             <p className="text-[13px] text-muted-foreground px-1 mt-1.5">
