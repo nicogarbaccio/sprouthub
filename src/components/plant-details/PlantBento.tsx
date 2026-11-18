@@ -129,7 +129,7 @@ interface PlantCareTilesProps {
   /** Undefined while loading */
   journal?: JournalPreview;
   onWaterClick: () => void;
-  /** Shown next to Water only when given; the page passes it while the plant is due today */
+  /** Shown next to Water only when given; the page passes it while the plant is due or overdue */
   onPostponeClick?: () => void;
   onFertilizeClick: () => void;
   onSmartTipsClick: () => void;

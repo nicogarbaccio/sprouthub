@@ -306,9 +306,7 @@ const MyPlantDetails = () => {
               smartTips={getBadgeInfo()}
               onWaterClick={() => setShowWaterConfirmation(true)}
               onPostponeClick={
-                isDueToday && plant.latest_watering
-                  ? () => setShowPostponeConfirmation(true)
-                  : undefined
+                canPostpone ? () => setShowPostponeConfirmation(true) : undefined
               }
               onFertilizeClick={() =>
                 document
