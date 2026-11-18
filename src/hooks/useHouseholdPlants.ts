@@ -14,6 +14,7 @@ import { WATERING_RECORD_TYPE } from '@/utils/watering/notesPrefixes';
 import { fetchOverwateringRisks, indexOverwateringRisks } from '@/utils/plants/fetchOverwateringRisks';
 import type { OverwateringRisk } from '@/utils/plants/overwatering';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
+import { PERSISTED_QUERY_GC_TIME } from '@/lib/queryPersistence';
 import { handleApiError, getErrorMessage } from '@/utils/errorHandling';
 import { deduplicateByKey, getUniqueValues } from '@/utils/arrayUtils';
 
@@ -277,6 +278,9 @@ export const useHouseholdPlants = () => {
       }
     },
     enabled: !!user,
+    // Saved across app launches so the list shows instantly, then refreshes
+    meta: { persist: true },
+    gcTime: PERSISTED_QUERY_GC_TIME,
   });
 
   const loading = queryLoading;

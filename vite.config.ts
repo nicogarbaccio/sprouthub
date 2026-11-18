@@ -152,6 +152,9 @@ export default defineConfig(({ mode }) => {
       // Builds made anywhere else, e.g. a local `npm run build` + preview, report to Sentry
       // as "local" so testing doesn't mix with real production errors.
       "import.meta.env.VITE_SENTRY_ENVIRONMENT": JSON.stringify(process.env.CONTEXT ?? "local"),
+      // Identifies this build, so data cached by an older deploy isn't restored into newer code.
+      // Netlify sets COMMIT_REF; anywhere else each build gets its own timestamp.
+      "import.meta.env.VITE_BUILD_ID": JSON.stringify(process.env.COMMIT_REF ?? String(Date.now())),
     },
     resolve: {
     alias: {

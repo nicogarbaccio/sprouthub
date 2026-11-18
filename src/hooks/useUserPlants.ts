@@ -10,6 +10,7 @@ import { selectActivePostponement } from '@/utils/watering/postponement';
 import { fetchOverwateringRisks, indexOverwateringRisks } from '@/utils/plants/fetchOverwateringRisks';
 import type { OverwateringRisk } from '@/utils/plants/overwatering';
 import { hookLogger, trackOperation } from '@/utils/hookLogging';
+import { PERSISTED_QUERY_GC_TIME } from '@/lib/queryPersistence';
 import { getUniqueValues } from '@/utils/arrayUtils';
 import { usePlantActions } from '@/hooks/usePlantActions';
 
@@ -202,6 +203,9 @@ export const useUserPlants = () => {
       }
     },
     enabled: !!user,
+    // Saved across app launches so the list shows instantly, then refreshes
+    meta: { persist: true },
+    gcTime: PERSISTED_QUERY_GC_TIME,
   });
 
   const overwateringByPlantId = useMemo(() => indexOverwateringRisks(plants), [plants]);

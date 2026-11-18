@@ -9,6 +9,8 @@ import { hookLogger } from "@/utils/hookLogging";
 import { pushNotificationService } from "@/services/pushNotificationService";
 import { oneSignalWebService } from "@/services/oneSignalWebService";
 import { Capacitor } from "@capacitor/core";
+import { useQueryClient } from "@tanstack/react-query";
+import { clearPersistedQueries } from "@/lib/queryPersistence";
 import { setSentryUser, clearSentryUser } from "@/config/sentry";
 
 const CONTEXT_NAME = 'AuthContext';
@@ -54,6 +56,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
+
+  // Drop everything fetched for the signed-out user, in memory and the copy saved for the
+  // next launch, so the next person on this device starts clean
+  const forgetUserData = useCallback(() => {
+    queryClient.clear();
+    clearPersistedQueries();
+  }, [queryClient]);
 
   useEffect(() => {
     let isMounted = true;
@@ -84,6 +94,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       } else if (event === "SIGNED_OUT") {
         setSession(null);
         setUser(null);
+        forgetUserData();
       }
 
       // Only set loading to false if initial load is complete
@@ -176,7 +187,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       subscription.unsubscribe();
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, []);
+  }, [forgetUserData]);
 
   const signUp = useCallback(async (
     email: string,
@@ -283,6 +294,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       // Clear local state immediately
       setSession(null);
       setUser(null);
+      forgetUserData();
 
       // Try to sign out from Supabase
       await supabase.auth.signOut({ scope: "local" });
@@ -292,7 +304,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       hookLogger.warn(CONTEXT_NAME, "Sign out error (but local state cleared)", { error });
       // Local state is already cleared, so this is still a successful sign out from user perspective
     }
-  }, []);
+  }, [forgetUserData]);
 
   const resetPassword = useCallback(async (email: string) => {
     // Send OTP to email for password reset
