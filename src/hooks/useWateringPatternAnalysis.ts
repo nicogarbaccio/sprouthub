@@ -358,35 +358,49 @@ export function useBulkPatternAnalysis(plantIds: string[]) {
     setError(null);
 
     try {
+      // Three requests for all plants together, rather than three per plant
+      const [recordsResult, plantsResult, seasonalResult] = await Promise.all([
+        supabase.rpc('recent_watering_records', { p_plant_ids: plantIds, p_per_plant: 15 }),
+        supabase
+          .from('user_plants')
+          .select('id, suggested_watering_days, last_schedule_review')
+          .in('id', plantIds),
+        supabase
+          .from('plant_seasonal_schedules')
+          .select('plant_id, applied_at')
+          .in('plant_id', plantIds)
+          .not('applied_at', 'is', null)
+          .order('applied_at', { ascending: false }),
+      ]);
+      if (recordsResult.error) throw recordsResult.error;
+      if (plantsResult.error) throw plantsResult.error;
+      if (seasonalResult.error) throw seasonalResult.error;
+
+      // Newest first from the function, so each plant's list keeps that order
+      const recordsByPlant = new Map<string, { id: string; watered_at: string; notes: string | null; record_type: string | null }[]>();
+      for (const { plant_id, ...record } of recordsResult.data ?? []) {
+        const list = recordsByPlant.get(plant_id) ?? [];
+        list.push(record);
+        recordsByPlant.set(plant_id, list);
+      }
+      const plantById = new Map((plantsResult.data ?? []).map((p) => [p.id, p]));
+      // Rows are newest first, so the first one seen per plant is its latest transition
+      const latestTransitionByPlant = new Map<string, string>();
+      for (const row of seasonalResult.data ?? []) {
+        if (row.applied_at && !latestTransitionByPlant.has(row.plant_id)) {
+          latestTransitionByPlant.set(row.plant_id, row.applied_at);
+        }
+      }
+
       const results = await Promise.allSettled(
         plantIds.map(async (plantId) => {
-          const [
-            { data: records },
-            { data: plant },
-            { data: seasonalRow },
-          ] = await Promise.all([
-            supabase
-              .from('watering_records')
-              .select('id, watered_at, notes, record_type')
-              .eq('plant_id', plantId)
-              .order('watered_at', { ascending: false })
-              .limit(15),
-            supabase
-              .from('user_plants')
-              .select('suggested_watering_days, last_schedule_review')
-              .eq('id', plantId)
-              .single(),
-            supabase
-              .from('plant_seasonal_schedules')
-              .select('applied_at')
-              .eq('plant_id', plantId)
-              .not('applied_at', 'is', null)
-              .order('applied_at', { ascending: false })
-              .limit(1)
-              .maybeSingle(),
-          ]);
+          const records = recordsByPlant.get(plantId) ?? [];
+          const plant = plantById.get(plantId);
+          const seasonalRow = latestTransitionByPlant.has(plantId)
+            ? { applied_at: latestTransitionByPlant.get(plantId)! }
+            : null;
 
-          if (!records || !plant) return null;
+          if (!plant) return null;
 
           // Skip plants that had a seasonal schedule review recently (within 14 days)
           // This prevents smart suggestions from immediately contradicting seasonal adjustments

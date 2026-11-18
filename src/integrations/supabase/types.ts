@@ -936,6 +936,16 @@ export type Database = {
         Returns: string
       }
       leave_household: { Args: { household_id: string }; Returns: boolean }
+      recent_watering_records: {
+        Args: { p_per_plant?: number; p_plant_ids: string[] }
+        Returns: {
+          id: string
+          notes: string
+          plant_id: string
+          record_type: string
+          watered_at: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

@@ -151,8 +151,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       .getSession()
       .then(({ data: { session } }) => {
         if (isMounted) {
-          setSession(session);
-          setUser(session?.user ?? null);
+          // Keep the objects the auth listener may already have set: a new but identical
+          // user object would re-run every effect keyed on it (profile, preferences and
+          // acknowledgement loads were each running twice on startup)
+          setSession(prev => prev?.access_token === session?.access_token ? prev : session);
+          setUser(prev => prev?.id === session?.user?.id ? prev : session?.user ?? null);
           initialLoadComplete = true;
           setLoading(false);
           // Clear timeout since we got a response
