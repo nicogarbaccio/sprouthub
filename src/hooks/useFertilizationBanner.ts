@@ -11,8 +11,9 @@ import { supabase } from '@/integrations/supabase/client';
 import { hookLogger } from '@/utils/hookLogging';
 import { getPlantFertilizationStatus } from '@/utils/plants/fertilizationAdvice';
 import {
-  getSeasonForLocation,
+  getSeason,
   isGrowingSeason,
+  resolveHemisphereFromEnvironment,
   type HemisphereInput,
 } from '@/utils/season';
 import type { UserPlant } from '@/hooks/useUserPlants';
@@ -24,10 +25,13 @@ const HOOK_NAME = 'useFertilizationBanner';
  *
  * Hemisphere comes from the documented fallback chain rather than a hardcoded 40°N default,
  * so a southern-hemisphere user is not shown a spring fertilization banner in September.
+ * Resolved the same way as each plant's fertilization status (falling back to the browser's
+ * time zone), so the banner and the plants it lists agree. Without location access the
+ * banner used to assume the north, and never showed during a southern spring.
  */
 function inGrowingSeason(date: Date, hemisphereInput: HemisphereInput): boolean {
-  const { season } = getSeasonForLocation({ ...hemisphereInput, date });
-  return isGrowingSeason(season);
+  const { hemisphere } = resolveHemisphereFromEnvironment(hemisphereInput);
+  return isGrowingSeason(getSeason(date, hemisphere));
 }
 
 /** Unique notification key for this spring/summer period */
