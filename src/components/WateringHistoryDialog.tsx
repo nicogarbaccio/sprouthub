@@ -54,7 +54,7 @@ import {
 import type { PatternInsight } from "@/types/wateringPatternTypes";
 import type { UserPlant } from "@/data/types";
 import EditWateringRecordDialog from "@/components/EditWateringRecordDialog";
-import { plants as catalogPlants } from "@/data/plantData";
+import { plantSummaries as catalogPlants } from "@/data/plantSummaries";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 
 interface WateringHistoryDialogProps {

@@ -8,7 +8,7 @@ import {
   calculateWateringSchedule,
   formatNextWateringDate,
 } from "@/utils/watering/schedule";
-import { plants as catalogPlants } from "@/data/plantData";
+import { plantSummaries as catalogPlants } from "@/data/plantSummaries";
 import { PLANT_FALLBACK_IMAGE } from "@/lib/constants";
 import { getPlantFertilizationStatus } from "@/utils/plants/fertilizationAdvice";
 

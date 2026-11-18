@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Check, Plus, Search } from "lucide-react";
-import { plants as allPlants } from "@/data/plantData";
+import { plantSummaries as allPlants } from "@/data/plantSummaries";
 import { cn } from "@/lib/utils";
 import type { AddPlantFormData } from "./types";
 

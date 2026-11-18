@@ -6,7 +6,7 @@
  * and last fertilized date.
  */
 
-import { getCatalogPlant } from '@/data/plantData';
+import { getPlantSummary } from '@/data/plantSummaries';
 import type { CatalogPlant } from '@/data/types';
 import { getDaysSince } from '@/utils/watering/schedule';
 import {
@@ -351,7 +351,7 @@ export function getPlantFertilizationStatus(
   /** See `getFertilizationStatus` — accepts a latitude, a timezone, or nothing. */
   hemisphereInput: HemisphereInput | number = {}
 ): { advice: FertilizationAdvice; status: FertilizationStatus } {
-  const advice = getFertilizationAdvice(getCatalogPlant(plant.plant_type));
+  const advice = getFertilizationAdvice(getPlantSummary(plant.plant_type));
 
   return {
     advice,

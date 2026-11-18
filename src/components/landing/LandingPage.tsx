@@ -12,14 +12,14 @@ import {
   Users,
 } from "lucide-react";
 import PlantImage from "@/components/ui/plant-image";
-import { plants } from "@/data/plantData";
-import { homepagePlants } from "@/data/homepagePlants";
+import { plantSummaries as plants } from "@/data/plantSummaries";
+import { pickHomepagePlants } from "@/data/homepagePlants";
 import { cn } from "@/lib/utils";
 
 const SIGN_UP_PATH = "/auth?mode=sign-up";
 // Rounded down to the nearest ten ("80+"), so it stays true as the catalog grows
 const GUIDE_COUNT = `${Math.floor(plants.length / 10) * 10}+`;
-const STRIP_PLANTS = homepagePlants.slice(0, 6);
+const STRIP_PLANTS = pickHomepagePlants(plants).slice(0, 6);
 
 const plantPath = (name: string) => `/plant-details/${name.toLowerCase().replace(/\s+/g, "-")}`;
 

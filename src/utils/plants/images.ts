@@ -1,4 +1,4 @@
-import { plants as allPlants } from "@/data/plantData";
+import { plantSummaries as allPlants } from "@/data/plantSummaries";
 
 /**
  * Find a plant in the catalog by name (case-insensitive, fuzzy match)

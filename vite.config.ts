@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import { VitePWA } from 'vite-plugin-pwa';
 import { sentryVitePlugin } from "@sentry/vite-plugin";
+import { catalogSummaryPlugin } from "./vite/catalogSummaryPlugin";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -44,6 +45,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       react(),
+      catalogSummaryPlugin(path.resolve(__dirname, "./src/data/catalog")),
       sentryVitePlugin({
         org: "sprouthub",
         project: "node-express",

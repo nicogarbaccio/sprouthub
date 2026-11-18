@@ -20,7 +20,7 @@ import {
  getUniqueLightRequirements,
  Plant,
 } from "@/data/plantData";
-import { homepagePlants } from "@/data/homepagePlants";
+import { pickHomepagePlants } from "@/data/homepagePlants";
 
 interface PlantCatalogProps {
  isHomepage?: boolean;
@@ -59,7 +59,7 @@ const PlantCatalog = ({
  const { user } = useAuth();
 
  // Use lightweight plant data for homepage, full dataset for catalog
- const plantsToUse = isHomepage ? homepagePlants : plants;
+ const plantsToUse = isHomepage ? pickHomepagePlants(plants) : plants;
 
  // Get unique values for filter options
  const categories = getUniqueCategories();

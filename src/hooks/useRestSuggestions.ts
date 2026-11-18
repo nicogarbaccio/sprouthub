@@ -11,7 +11,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { getCatalogPlant } from '@/data/plantData';
+import { getPlantSummary } from '@/data/plantSummaries';
 import { resolveHemisphereFromEnvironment, type HemisphereInput } from '@/utils/season';
 import { calculateWateringSchedule } from '@/utils/watering/schedule';
 import { getActiveRestPeriod, restSuggestionKey, type ActiveRestPeriod } from '@/utils/watering/restPeriod';
@@ -42,7 +42,7 @@ export function useRestSuggestions(plants: UserPlant[], hemisphereInput: Hemisph
     () =>
       plants.flatMap((plant) => {
         const period = getActiveRestPeriod(
-          getCatalogPlant(plant.plant_type)?.care?.watering?.restPeriods,
+          getPlantSummary(plant.plant_type)?.care?.watering?.restPeriods,
           hemisphere
         );
         if (!period || calculateWateringSchedule(plant).isResting) return [];
