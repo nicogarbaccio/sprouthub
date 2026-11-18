@@ -68,6 +68,18 @@ const MAX_POST_AGE_YEARS = 5;
 // DB-hygiene window keyed on fetched_at, distinct from MAX_POST_AGE_YEARS above.
 const STALE_POST_CLEANUP_YEARS = 3;
 
+// Plant groups a post can be about as a whole, matched on word boundaries so
+// "fern" doesn't fire on "different" or "palm" on "napalm".
+const CATEGORY_PATTERNS: [RegExp, string][] = [
+  [/\b(succulents?|cactus|cacti)\b/, 'Succulents'],
+  [/\bferns?\b/, 'Ferns'],
+  [/\bpalms?\b/, 'Palms'],
+  [/\b(air plants?|tillandsias?)\b/, 'Air Plants'],
+  [/\b(prayer plants?|calatheas?|marantas?)\b/, 'Prayer Plants'],
+  [/\b(carnivorous|venus fly ?traps?|pitcher plants?)\b/, 'Carnivorous Plants'],
+];
+const HOLIDAY_CACTUS = /\b(christmas|thanksgiving|easter|holiday) cact(us|i)\b/g;
+
 const SEASONAL_KEYWORDS: Record<string, string[]> = {
   winter: ['winter', 'cold weather', 'frost', 'dormancy', 'holiday plant', 'overwintering'],
   spring: ['spring', 'growing season', 'repotting', 'new growth', 'propagation', 'spring care', 'march', 'april', 'may', 'start seeds', 'seed starting'],
@@ -380,36 +392,17 @@ function matchPlantsToPost(
     }
   }
 
-  // Category-level matching (e.g. "succulent care" matches all succulents)
+  // Category-level matching (e.g. "succulent care" matches all succulents).
+  // Only for categories that are a real plant group, where a post about the group
+  // is about each member. Loose groupings ("tree", "tropical", "hanging", "easy care")
+  // linked citrus and Christmas-tree posts to every Ficus, so they are left out, as are
+  // single-genus keywords (Pilea, Peperomia, Coleus...) that name and genus matching cover.
+  // The group has to be in the title: a passing "succulents" in a rock-garden summary
+  // doesn't make the post about every succulent. Holiday cacti aren't desert cacti.
   // Values must match the category strings in plant-names.json exactly.
-  const categoryKeywords: Record<string, string> = {
-    succulent: 'Succulents',
-    cactus: 'Succulents',
-    orchid: 'Flowering Plants',
-    fern: 'Ferns',
-    palm: 'Palms',
-    tropical: 'Tropical Plants',
-    trailing: 'Hanging & Trailing Plants',
-    hanging: 'Hanging & Trailing Plants',
-    'air plant': 'Air Plants',
-    tillandsia: 'Air Plants',
-    'prayer plant': 'Prayer Plants',
-    calathea: 'Prayer Plants',
-    maranta: 'Prayer Plants',
-    peperomia: 'Small Plants',
-    pilea: 'Small Plants',
-    coleus: 'Colorful Foliage',
-    caladium: 'Colorful Foliage',
-    'low maintenance': 'Low Maintenance',
-    'easy care': 'Low Maintenance',
-    tree: 'Trees & Large Plants',
-    carnivorous: 'Carnivorous Plants',
-    'venus fly': 'Carnivorous Plants',
-    'pitcher plant': 'Carnivorous Plants',
-  };
-
-  for (const [keyword, category] of Object.entries(categoryKeywords)) {
-    if (text.includes(keyword)) {
+  const categoryTitle = titleLower.replace(HOLIDAY_CACTUS, '');
+  for (const [pattern, category] of CATEGORY_PATTERNS) {
+    if (pattern.test(categoryTitle)) {
       for (const plant of plants) {
         const nameLower = plant.name.toLowerCase();
         if (!seen.has(nameLower) && plant.category === category) {
@@ -624,6 +617,19 @@ Deno.serve(async (req: Request) => {
         const topMatches = p.plantMatches.sort((a, b) => b.score - a.score).slice(0, 20);
         for (const m of topMatches) {
           plantRows.push({ blog_post_id: blogPostId, plant_name: m.name, relevance_score: m.score });
+        }
+      }
+
+      // Replace each post's links rather than adding to them, so a post that is
+      // re-seen in a feed drops matches the current rules no longer make
+      const batchPostIds = [...urlToId.values()];
+      if (batchPostIds.length > 0) {
+        const { error: clearError } = await supabase
+          .from('blog_post_plants')
+          .delete()
+          .in('blog_post_id', batchPostIds);
+        if (clearError) {
+          console.error(`Batch plant match clear error: ${clearError.message}`);
         }
       }
 
