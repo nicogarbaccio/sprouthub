@@ -44,6 +44,7 @@ import { useCareStreak } from "@/hooks/useCareStreak";
 import { useManualNotifications } from "@/hooks/usePlantNotifications";
 import { useNotifications } from "@/contexts/NotificationContext";
 import { openNotificationCenter } from "@/utils/appEvents";
+import { markAppReady } from "@/components/SplashScreen";
 import { getPlantFertilizationStatus } from "@/utils/plants/fertilizationAdvice";
 
 const Dashboard = () => {
@@ -228,6 +229,11 @@ const Dashboard = () => {
   // greeting which already has a fallback ("Welcome back, plant parent!").
   // This avoids keeping the skeleton visible while the profile fetch resolves.
   const isLoading = loading;
+
+  // Let the launch splash hand straight over to the loaded dashboard
+  useEffect(() => {
+    if (!isLoading) markAppReady();
+  }, [isLoading]);
 
   const firstName = profileData.first_name?.trim();
 

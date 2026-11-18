@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { PWADebugPanel, usePWADebug } from "@/components/pwa/PWADebugPanel";
 import { Skeleton } from "@/components/ui/skeleton";
 import { DelayedSkeleton } from "@/components/ui/loading-transition";
+import { markAppReady } from "@/components/SplashScreen";
 
 /**
  * Content-only marketing skeleton (no Navigation/Footer - those stay mounted at the top level).
@@ -60,6 +61,11 @@ const Index = () => {
     };
     checkSession();
   }, []);
+
+  // Signed out: the landing page needs no data, so the launch splash can go now
+  useEffect(() => {
+    if (!authLoading && !user) markAppReady();
+  }, [authLoading, user]);
 
   return (
     <div className="bg-background pb-28 lg:pb-0">

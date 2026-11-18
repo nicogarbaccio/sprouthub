@@ -106,10 +106,10 @@ export const useUserPlants = () => {
 
       try {
         // Fetch household data
-        const plantsWithHouseholds = plantsData.filter(p => p.household_id);
-        let householdData: HouseholdInfo[] = [];
+        const fetchHouseholds = async (): Promise<HouseholdInfo[]> => {
+          const plantsWithHouseholds = plantsData.filter(p => p.household_id);
+          if (plantsWithHouseholds.length === 0) return [];
 
-        if (plantsWithHouseholds.length > 0) {
           const uniqueHouseholdIds = getUniqueValues(
             plantsWithHouseholds,
             p => p.household_id
@@ -124,14 +124,17 @@ export const useUserPlants = () => {
             hookLogger.warn(HOOK_NAME, 'Could not load household data', {
               error: householdError,
             });
-          } else {
-            householdData = (households || []) as HouseholdInfo[];
+            return [];
           }
-        }
+          return (households || []) as HouseholdInfo[];
+        };
 
-        // Fetch postponement data
+        // Households and postponements are independent, so fetch them together
         const plantIds = plantsData.map(p => p.id);
-        const postponementsGrouped = await fetchPostponementsGrouped(plantIds);
+        const [householdData, postponementsGrouped] = await Promise.all([
+          fetchHouseholds(),
+          fetchPostponementsGrouped(plantIds),
+        ]);
 
         // Combine all data
         const enrichedPlants: UserPlant[] = plantsData.map(plant => {
@@ -181,8 +184,11 @@ export const useUserPlants = () => {
 
       try {
         const plantsData = await fetchUserPlants();
-        const enrichedPlants = await enrichPlantsWithData(plantsData);
-        const risks = await fetchOverwateringRisks(enrichedPlants);
+        // Both only need the plant rows, so they run side by side instead of back to back
+        const [enrichedPlants, risks] = await Promise.all([
+          enrichPlantsWithData(plantsData),
+          fetchOverwateringRisks(plantsData),
+        ]);
         mainTracker.complete({ plantCount: enrichedPlants.length });
         return enrichedPlants.map(plant => ({
           ...plant,

@@ -255,8 +255,11 @@ export const useHouseholdPlants = () => {
 
       try {
         const plantsData = await fetchAllPlants();
-        const enrichedPlants = await enrichPlantsWithData(plantsData);
-        const risks = await fetchOverwateringRisks(enrichedPlants);
+        // Both only need the plant rows, so they run side by side instead of back to back
+        const [enrichedPlants, risks] = await Promise.all([
+          enrichPlantsWithData(plantsData),
+          fetchOverwateringRisks(plantsData),
+        ]);
         mainTracker.complete({ plantCount: enrichedPlants.length });
         return enrichedPlants.map(plant => ({
           ...plant,

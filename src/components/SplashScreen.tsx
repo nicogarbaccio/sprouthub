@@ -4,15 +4,32 @@ import { Logo } from "@/components/ui/logo";
 
 /**
  * Web-based splash screen shown briefly on app launch (PWA/browser).
- * Shows the logo with a fade-in, then fades out to reveal the app.
+ * Shows the logo with a fade-in, then fades out to reveal the app — as soon as the
+ * page underneath says it's ready (see `markAppReady`), or after SHOW_MS at most.
  * Only shows once per session.
  */
 // Match Tailwind's lg breakpoint
 const isMobile = () =>
   typeof window !== "undefined" && window.innerWidth < 1024;
 
+/** Longest the splash stays up when nothing reports ready */
 const SHOW_MS = 1200;
+/** Shortest, so a fast load doesn't flash the logo */
+const MIN_SHOW_MS = 500;
 const FADE_OUT_MS = 400;
+
+const READY_EVENT = "sprouthub:app-ready";
+let appReady = false;
+
+/**
+ * Called by a page once its content can render without skeletons, so the splash
+ * hands straight over to it instead of waiting out its timer.
+ */
+export function markAppReady() {
+  if (appReady) return;
+  appReady = true;
+  window.dispatchEvent(new Event(READY_EVENT));
+}
 
 export const SplashScreen = () => {
   const [phase, setPhase] = useState<"visible" | "fading" | "gone">(() => {
@@ -25,8 +42,20 @@ export const SplashScreen = () => {
 
   useEffect(() => {
     if (phase === "visible") {
-      const timer = setTimeout(() => setPhase("fading"), SHOW_MS);
-      return () => clearTimeout(timer);
+      const shownAt = performance.now();
+      let minTimer: ReturnType<typeof setTimeout> | undefined;
+      const fade = () => setPhase("fading");
+      const onReady = () => {
+        minTimer = setTimeout(fade, Math.max(0, MIN_SHOW_MS - (performance.now() - shownAt)));
+      };
+      const maxTimer = setTimeout(fade, SHOW_MS);
+      if (appReady) onReady();
+      else window.addEventListener(READY_EVENT, onReady, { once: true });
+      return () => {
+        clearTimeout(maxTimer);
+        clearTimeout(minTimer);
+        window.removeEventListener(READY_EVENT, onReady);
+      };
     }
     if (phase === "fading") {
       const timer = setTimeout(() => setPhase("gone"), FADE_OUT_MS);
