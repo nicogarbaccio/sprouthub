@@ -53,7 +53,6 @@ function mockSupabaseChain(finalResult: { data: unknown; error: unknown }) {
   chain.ilike = vi.fn().mockReturnValue(chain);
   chain.in = vi.fn().mockReturnValue(chain);
   chain.or = vi.fn().mockReturnValue(chain);
-  chain.neq = vi.fn().mockReturnValue(chain);
   chain.order = vi.fn().mockReturnValue(chain);
   chain.limit = vi.fn().mockResolvedValue(finalResult);
 
@@ -217,7 +216,6 @@ describe('usePlantBlogPosts queryFn logic', () => {
     chain1.select = vi.fn().mockReturnValue(chain1);
     chain1.ilike = vi.fn().mockReturnValue(chain1);
     chain1.or = vi.fn().mockReturnValue(chain1);
-    chain1.neq = vi.fn().mockReturnValue(chain1);
     chain1.order = vi.fn().mockReturnValue(chain1);
     chain1.limit = vi.fn()
       .mockResolvedValueOnce(junctionResult);

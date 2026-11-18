@@ -4,11 +4,6 @@ import { format } from 'date-fns';
 import type { BlogPost } from '@/types/blogTypes';
 import { pickRotatingPosts, type RotationCandidate } from '@/lib/articleRotation';
 
-/**
- * Score fetch-blog-posts gives category-level matches (any post saying "tree" links to
- * every tree-like plant). Too loose to recommend from, so plant-specific lists skip them.
- */
-const CATEGORY_MATCH_SCORE = 0.3;
 /** How many matching posts the home row rotates through */
 const MY_PLANTS_POOL_SIZE = 300;
 
@@ -26,7 +21,6 @@ export function usePlantBlogPosts(plantName: string | undefined) {
         .from('blog_post_plants')
         .select('relevance_score, blog_posts(*)')
         .ilike('plant_name', `%${plantName}%`)
-        .neq('relevance_score', CATEGORY_MATCH_SCORE)
         .order('relevance_score', { ascending: false })
         .limit(6);
 
@@ -123,7 +117,6 @@ export function useMyPlantsBlogPosts(plantNames: string[]) {
         .from('blog_post_plants')
         .select('relevance_score, plant_name, blog_posts(*)')
         .or(ilikeFilters)
-        .neq('relevance_score', CATEGORY_MATCH_SCORE)
         .order('relevance_score', { ascending: false })
         .limit(MY_PLANTS_POOL_SIZE);
 
@@ -269,7 +262,6 @@ export function useBlogPostsGrid(mode: GridMode, params: GridParams, page: numbe
           .from('blog_post_plants')
           .select('blog_posts(*)')
           .ilike('plant_name', `%${plantName}%`)
-          .neq('relevance_score', CATEGORY_MATCH_SCORE)
           .order('relevance_score', { ascending: false });
 
         if (junctionError) throw junctionError;
@@ -324,7 +316,6 @@ export function useBlogPostsGrid(mode: GridMode, params: GridParams, page: numbe
         .from('blog_post_plants')
         .select('blog_posts(*)')
         .or(ilikeFilters)
-        .neq('relevance_score', CATEGORY_MATCH_SCORE)
         .order('relevance_score', { ascending: false });
 
       if (junctionError) throw junctionError;
