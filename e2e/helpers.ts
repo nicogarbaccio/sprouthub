@@ -87,6 +87,10 @@ export const deleteUserByEmail = async (email: string) => {
   const userId = await findAuthUserId(supabase, email);
   if (!userId) return;
 
+  // user_plants doesn't cascade from auth.users, so a user who owns plants can't be deleted first
+  const { error: plantsError } = await supabase.from('user_plants').delete().eq('user_id', userId);
+  if (plantsError) throw plantsError;
+
   const { error: deleteError } = await supabase.auth.admin.deleteUser(userId);
   if (deleteError) throw deleteError;
   console.log(`Deleted test user: ${email}`);

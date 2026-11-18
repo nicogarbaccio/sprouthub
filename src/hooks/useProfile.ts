@@ -219,19 +219,12 @@ export const useProfile = () => {
  const handleDeleteAccount = async () => {
  setIsLoading(true);
  try {
-  // Delete user plants first
-  await supabase
-  .from("user_plants")
-  .delete()
-  .eq("user_id", user?.id);
+  // Deleting the login itself needs the service role, so the server does all of it:
+  // plants and everything hanging off them, the account, and uploaded photos
+  const { data, error } = await supabase.functions.invoke("delete-account", { method: "POST" });
+  if (error || !data?.success) throw error ?? new Error("Account deletion did not complete");
 
-  // Delete profile
-  await supabase
-  .from("profiles")
-  .delete()
-  .eq("id", user?.id);
-
-  // Sign out and redirect
+  // The account is gone; clear the local session and cached data, then leave
   await signOut();
   navigate("/");
   
