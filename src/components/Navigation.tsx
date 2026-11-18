@@ -179,37 +179,34 @@ const Navigation = () => {
                       <span className="hidden xl:inline truncate">{displayName}</span>
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent side="right" align="end" className="w-56 rounded-2xl">
-                    <DropdownMenuItem onClick={() => navigate("/profile")} className="cursor-pointer">
-                      <User className="w-4 h-4 mr-2" />
+                  <DropdownMenuContent side="right" align="end">
+                    <DropdownMenuItem onClick={() => navigate("/profile")}>
+                      <User />
                       Profile
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => navigate("/households")} className="cursor-pointer">
-                      <Users className="w-4 h-4 mr-2" />
+                    <DropdownMenuItem onClick={() => navigate("/households")}>
+                      <Users />
                       Households
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => navigate("/my-articles")} className="cursor-pointer">
-                      <Bookmark className="w-4 h-4 mr-2" />
+                    <DropdownMenuItem onClick={() => navigate("/my-articles")}>
+                      <Bookmark />
                       My Articles
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => navigate("/settings")} className="cursor-pointer">
-                      <SettingsIcon className="w-4 h-4 mr-2" />
+                    <DropdownMenuItem onClick={() => navigate("/settings")}>
+                      <SettingsIcon />
                       Settings
                     </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => setTheme(actualTheme === "dark" ? "light" : "dark")}
-                      className="cursor-pointer"
-                    >
-                      {actualTheme === "dark" ? <Sun className="w-4 h-4 mr-2" /> : <Moon className="w-4 h-4 mr-2" />}
+                    <DropdownMenuItem onClick={() => setTheme(actualTheme === "dark" ? "light" : "dark")}>
+                      {actualTheme === "dark" ? <Sun /> : <Moon />}
                       {actualTheme === "dark" ? "Light Mode" : "Dark Mode"}
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={(event) => handleSignOut(event)}
-                      className="text-sprout-warning dark:text-sprout-warning cursor-pointer"
+                      className="text-sprout-warning dark:text-sprout-warning"
                       data-testid="sign-out-button"
                     >
-                      <LogOut className="w-4 h-4 mr-2" />
+                      <LogOut />
                       Sign Out
                     </DropdownMenuItem>
                   </DropdownMenuContent>

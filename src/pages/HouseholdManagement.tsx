@@ -593,24 +593,24 @@ function HouseholdPlantRow({
             <MoreHorizontal className="w-5 h-5" />
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56 rounded-2xl">
-          <DropdownMenuItem onClick={onWater} className="cursor-pointer">
-            <Droplets className="w-4 h-4 mr-2 text-sprout-water" />
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={onWater}>
+            <Droplets className="text-sprout-water" />
             Water Now
           </DropdownMenuItem>
           {calc.isOverdue && (
-            <DropdownMenuItem onClick={onPostpone} className="cursor-pointer">
-              <Clock className="w-4 h-4 mr-2" />
+            <DropdownMenuItem onClick={onPostpone}>
+              <Clock />
               Push to Tomorrow
             </DropdownMenuItem>
           )}
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={onHistory} className="cursor-pointer">
-            <History className="w-4 h-4 mr-2" />
+          <DropdownMenuItem onClick={onHistory}>
+            <History />
             View Watering History
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={onEdit} className="cursor-pointer" disabled={!plant.is_owned_by_user}>
-            <Edit className="w-4 h-4 mr-2" />
+          <DropdownMenuItem onClick={onEdit} disabled={!plant.is_owned_by_user}>
+            <Edit />
             Edit Plant
           </DropdownMenuItem>
         </DropdownMenuContent>

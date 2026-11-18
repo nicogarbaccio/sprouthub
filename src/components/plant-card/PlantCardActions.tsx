@@ -61,21 +61,15 @@ export function PlantCardActions({
             <MoreHorizontal className="w-[18px] h-[18px]" />
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuItem
-            onClick={onWaterClick}
-            className="cursor-pointer"
-          >
-            <Droplets className="w-4 h-4 mr-2 text-sprout-water" />
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={onWaterClick}>
+            <Droplets className="text-sprout-water" />
             Water Now
           </DropdownMenuItem>
 
           {isFertilizationDue && onFertilizeClick && (
-            <DropdownMenuItem
-              onClick={onFertilizeClick}
-              className="cursor-pointer"
-            >
-              <FlaskConical className="w-4 h-4 mr-2 text-sprout-success" />
+            <DropdownMenuItem onClick={onFertilizeClick}>
+              <FlaskConical className="text-sprout-success" />
               Log Fertilization
             </DropdownMenuItem>
           )}
@@ -85,11 +79,8 @@ export function PlantCardActions({
             !hasUnknownWateringDate &&
             lastWateredDate &&
             onPostpone && (
-              <DropdownMenuItem
-                onClick={onPostponeClick}
-                className="cursor-pointer"
-              >
-                <Clock className="w-4 h-4 mr-2" />
+              <DropdownMenuItem onClick={onPostponeClick}>
+                <Clock />
                 Push to Tomorrow
               </DropdownMenuItem>
             )}
@@ -104,11 +95,8 @@ export function PlantCardActions({
           ) : null}
 
           {onViewHistory && (
-            <DropdownMenuItem
-              onClick={onViewHistory}
-              className="cursor-pointer"
-            >
-              <History className="w-4 h-4 mr-2" />
+            <DropdownMenuItem onClick={onViewHistory}>
+              <History />
               {hasPendingSuggestions
                 ? "History & Insights"
                 : "View Watering History"}
@@ -119,16 +107,15 @@ export function PlantCardActions({
             onClick={onJournalClick}
             onMouseEnter={onJournalHover}
             onFocus={onJournalHover}
-            className="cursor-pointer"
           >
-            <BookOpen className="w-4 h-4 mr-2" />
+            <BookOpen />
             Plant Journal
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem onClick={onEdit} className="cursor-pointer">
-            <Edit className="w-4 h-4 mr-2" />
+          <DropdownMenuItem onClick={onEdit}>
+            <Edit />
             Edit Plant
           </DropdownMenuItem>
         </DropdownMenuContent>

@@ -118,14 +118,14 @@ export const HouseholdMembersCard: React.FC<HouseholdMembersCardProps> = ({
                           <MoreVertical className="w-4 h-4" />
                         </button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end" className="rounded-2xl">
+                      <DropdownMenuContent align="end">
                         <DropdownMenuItem
                           onClick={() =>
                             setConfirmRemoveDialog({ open: true, memberId: member.id, memberName: name })
                           }
                           className="text-sprout-warning focus:text-sprout-warning"
                         >
-                          <UserMinus className="w-4 h-4 mr-2" />
+                          <UserMinus />
                           Remove Member
                         </DropdownMenuItem>
                       </DropdownMenuContent>

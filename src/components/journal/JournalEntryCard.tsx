@@ -84,7 +84,7 @@ export function JournalEntryCard({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => onEdit?.(entry)}>
-                <Pencil className="w-4 h-4 mr-2" />
+                <Pencil />
                 Edit Entry
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -92,7 +92,7 @@ export function JournalEntryCard({
                 onClick={() => setShowDeleteDialog(true)}
                 disabled={isDeleting}
               >
-                <Trash2 className="w-4 h-4 mr-2" />
+                <Trash2 />
                 Delete Entry
               </DropdownMenuItem>
             </DropdownMenuContent>

@@ -53,45 +53,40 @@ const PlantActionsMenu = ({
           <MoreHorizontal className="w-[22px] h-[22px]" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuItem onClick={onWaterClick} className="cursor-pointer">
-          <Droplets className="w-4 h-4 mr-2 text-sprout-water" />
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={onWaterClick}>
+          <Droplets className="text-sprout-water" />
           Water Now
         </DropdownMenuItem>
 
         {canPostpone && (
-          <DropdownMenuItem
-            onClick={onPostponeClick}
-            className="cursor-pointer"
-          >
-            <Clock className="w-4 h-4 mr-2" />
+          <DropdownMenuItem onClick={onPostponeClick}>
+            <Clock />
             Push to Tomorrow
           </DropdownMenuItem>
         )}
 
         {isResting ? (
-          <DropdownMenuItem onClick={onResumeClick} className="cursor-pointer">
-            <Bell className="w-4 h-4 mr-2" />
+          <DropdownMenuItem onClick={onResumeClick}>
+            <Bell />
             Resume watering reminders
           </DropdownMenuItem>
         ) : (
-          <DropdownMenuItem onClick={onPauseClick} className="cursor-pointer">
-            <Moon className="w-4 h-4 mr-2" />
+          <DropdownMenuItem onClick={onPauseClick}>
+            <Moon />
             Pause watering reminders
           </DropdownMenuItem>
         )}
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem onClick={onViewHistory} className="cursor-pointer">
-          <History className="w-4 h-4 mr-2" />
+        <DropdownMenuItem onClick={onViewHistory}>
+          <History />
           {hasSmartTips ? "History & Tips" : "History"}
         </DropdownMenuItem>
 
-        <DropdownMenuSeparator />
-
-        <DropdownMenuItem onClick={onEditClick} className="cursor-pointer">
-          <Edit className="w-4 h-4 mr-2" />
+        <DropdownMenuItem onClick={onEditClick}>
+          <Edit />
           Edit
         </DropdownMenuItem>
 
@@ -99,9 +94,9 @@ const PlantActionsMenu = ({
 
         <DropdownMenuItem
           onClick={onDeleteClick}
-          className="cursor-pointer text-destructive focus:text-destructive"
+          className="text-destructive focus:text-destructive"
         >
-          <Trash2 className="w-4 h-4 mr-2" />
+          <Trash2 />
           Delete
         </DropdownMenuItem>
       </DropdownMenuContent>
