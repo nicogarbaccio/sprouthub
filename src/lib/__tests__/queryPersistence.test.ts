@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import type { Query } from '@tanstack/react-query';
-import { persistOptions, clearPersistedQueries } from '../queryPersistence';
+import { QueryClient, type Query } from '@tanstack/react-query';
+import { persistOptions, clearPersistedQueries, markRestoredQueriesStale } from '../queryPersistence';
 
 const fakeQuery = (meta: Record<string, unknown> | undefined, status: 'success' | 'error' | 'pending') =>
   ({ meta, state: { status } }) as unknown as Query;
@@ -23,5 +23,19 @@ describe('queryPersistence', () => {
     localStorage.setItem('sprouthub-query-cache', '{"clientState":{}}');
     clearPersistedQueries();
     expect(localStorage.getItem('sprouthub-query-cache')).toBeNull();
+  });
+
+  it('marks restored queries stale even when they were saved moments ago', async () => {
+    const client = new QueryClient({ defaultOptions: { queries: { staleTime: 30_000 } } });
+    const cache = client.getQueryCache();
+    const saved = cache.build(client, { queryKey: ['user-plants'], meta: { persist: true } });
+    const other = cache.build(client, { queryKey: ['blog-posts'] });
+    saved.setData(['restored plant']);
+    other.setData(['post']);
+
+    await markRestoredQueriesStale(client);
+
+    expect(saved.state.isInvalidated).toBe(true);
+    expect(other.state.isInvalidated).toBe(false);
   });
 });

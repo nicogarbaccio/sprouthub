@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { persistOptions } from "@/lib/queryPersistence";
+import { persistOptions, markRestoredQueriesStale } from "@/lib/queryPersistence";
 import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProfileDataProvider } from "@/contexts/ProfileDataContext";
@@ -189,7 +189,11 @@ const AppRoutes = () => {
  * can render before the network answers.
  */
 const AppProviders: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <PersistQueryClientProvider client={queryClient} persistOptions={persistOptions}>
+  <PersistQueryClientProvider
+    client={queryClient}
+    persistOptions={persistOptions}
+    onSuccess={() => markRestoredQueriesStale(queryClient)}
+  >
     <ThemeProvider defaultTheme="system" storageKey="sprouthub-ui-theme">
       <TooltipProvider>
         <Toaster />
